@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=yes" />
+<title>Packed Rabbit</title>
+<meta name="theme-color" content="#F2F3F1" />
+<meta name="description" content="Your move, on your phone. Works offline. Nothing leaves the device." />
+
+<link rel="manifest" href="./manifest.webmanifest" />
+<link rel="icon" href="./icon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="./icon-180.png" />
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="Packed Rabbit" />
+<meta name="format-detection" content="telephone=no" />
+
+<style>
+  html, body {
+    margin: 0; padding: 0; background: #F2F3F1;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior-y: none;
+  }
+  @media (prefers-color-scheme: dark) { html, body { background: #0B0D11; } }
+  #root { min-height: 100dvh; }
+  /* Shown only if the script fails to load at all. */
+  #boot {
+    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+    font: 400 15px/1.5 -apple-system, "Segoe UI", system-ui, sans-serif;
+    color: #6E7681; text-align: center; padding: 32px;
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div id="boot">Loading your move…</div>
+<script>
+  window.addEventListener("load", function () {
+    setTimeout(function () {
+      var b = document.getElementById("boot");
+      var r = document.getElementById("root");
+      if (b) { if (r && r.childNodes.length) { b.remove(); } else { b.textContent = "Couldn't start. Reload the page."; } }
+    }, 1200);
+  });
+</script>
+<script src="./app.js"></script>
+</body>
+</html>
