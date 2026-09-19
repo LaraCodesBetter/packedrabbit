@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Packed Rabbit — the moving app that actually does the job</title>
+<meta name="description" content="It knows what fits through the door, what a mover's quote is hiding, and what your deposit is worth. Free. Works offline. Nothing leaves your phone." />
+<meta property="og:title" content="The moving app that actually does the job" />
+<meta property="og:description" content="Free, works offline, and nothing ever leaves your phone." />
+<style>
+  :root {
+    --bg: #F2F3F1; --panel: #FFF; --ink: #10131A; --ink2: #5C6470; --line: #E4E6E3;
+    --teal: #07705F; --sand: #B0771A; --rose: #C0392F;
+    --serif: ui-serif, "Iowan Old Style", Palatino, Georgia, serif;
+    --lift1: 0 1px 2px rgba(16,19,26,.04), 0 2px 6px -2px rgba(16,19,26,.08);
+    --lift2: 0 2px 4px rgba(16,19,26,.05), 0 12px 28px -10px rgba(16,19,26,.20);
+    --lift3: 0 4px 8px rgba(16,19,26,.06), 0 28px 56px -18px rgba(16,19,26,.30);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0B0D11; --panel: #14181F; --ink: #F2F4F5; --ink2: #9BA3AE; --line: #232932;
+      --teal: #3FD9BA; --sand: #E0A63A; --rose: #E8776B;
+      --lift1: 0 2px 8px rgba(0,0,0,.45); --lift2: 0 14px 32px rgba(0,0,0,.6); --lift3: 0 30px 64px rgba(0,0,0,.75); }
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: -apple-system, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    line-height: 1.55; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 0 20px; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; margin: 0; }
+  h1 { font-size: clamp(2.4rem, 8vw, 4rem); }
+  h2 { font-size: clamp(1.6rem, 5vw, 2.2rem); margin-bottom: 14px; }
+  h3 { font-size: 1.12rem; letter-spacing: -0.015em; }
+  p { margin: 0 0 14px; }
+  .lead { font-size: clamp(1.05rem, 3.4vw, 1.3rem); color: var(--ink2); }
+  .muted { color: var(--ink2); font-size: 0.92rem; }
+
+  header { padding: 72px 0 56px; text-align: center; }
+  .mark {
+    width: 74px; height: 74px; border-radius: 22px; overflow: hidden; background: #03274F;
+    display: inline-flex; align-items: center; justify-content: center;
+    box-shadow: var(--lift3); margin-bottom: 26px;
+  }
+  .cta {
+    display: inline-block; background: var(--teal); color: #fff; text-decoration: none;
+    padding: 17px 34px; border-radius: 15px; font-weight: 700; font-size: 1.05rem;
+    box-shadow: var(--lift2); background-image: linear-gradient(180deg, rgba(255,255,255,.14), rgba(0,0,0,.06));
+  }
+  .cta:active { transform: scale(.97); }
+  .cta.ghost { background: transparent; background-image: none; color: var(--ink); border: 1px solid var(--line); box-shadow: none; }
+  .ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
+
+  section { padding: 46px 0; border-top: 1px solid var(--line); }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 22px; box-shadow: var(--lift1); }
+  .grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
+  @media (min-width: 620px) { .grid { grid-template-columns: 1fr 1fr; } }
+  .grid .card h3 { margin-bottom: 6px; }
+  .grid .card p { margin: 0; color: var(--ink2); font-size: 0.95rem; }
+
+  .price { display: grid; gap: 14px; grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .price { grid-template-columns: repeat(3, 1fr); } }
+  .price .card { display: flex; flex-direction: column; }
+  .price .amt { font-size: 2.3rem; font-weight: 250; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; margin: 6px 0 2px; }
+  .price .card.on { border-color: var(--teal); border-width: 2px; box-shadow: var(--lift2); }
+  .tag { display: inline-block; background: var(--teal); color: #fff; font-size: .72rem; font-weight: 700;
+    letter-spacing: .09em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; margin-bottom: 8px; }
+  ul { margin: 12px 0 0; padding-left: 18px; }
+  li { margin-bottom: 7px; color: var(--ink2); font-size: 0.95rem; }
+
+  .quiet { background: var(--panel); border-left: 4px solid var(--teal); border-radius: 16px; padding: 20px; box-shadow: var(--lift1); }
+  footer { padding: 44px 0 70px; border-top: 1px solid var(--line); color: var(--ink2); font-size: 0.88rem; }
+  footer a { color: var(--ink2); }
+  details { margin-bottom: 10px; }
+  summary { cursor: pointer; font-weight: 600; padding: 12px 0; }
+  details p { color: var(--ink2); font-size: 0.95rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="mark"><img src="./app/icon-192.png" alt="" width="74" height="74" /></div>
+    <h1>The moving app that<br />actually does the job.</h1>
+    <p class="lead" style="max-width:600px;margin:22px auto 0">
+      It knows what fits through the door, what a mover's quote is hiding, and what your deposit is worth.
+      Free to use. Works with no signal. Nothing ever leaves your phone.
+    </p>
+    <div class="ctas">
+      <a class="cta" href="./app/">Open it — it's free</a>
+      <a class="cta ghost" href="#what">See what it does</a>
+    </div>
+    <p class="muted" style="margin-top:18px">No account. No sign-up. Add it to your home screen and it works offline.</p>
+  </div>
+</header>
+
+<section id="what">
+  <div class="wrap">
+    <h2>What it does that the others don't</h2>
+    <p class="lead" style="margin-bottom:26px">Every moving app hands you an empty box list and wishes you luck. Not one of them asks what kind of move this is.</p>
+    <div class="grid">
+      <div class="card">
+        <h3>It knows whether things fit</h3>
+        <p>Doorway widths checked against real furniture dimensions. Floor coverage, turning space, and a printable sheet for the crew. Everybody has a sofa that won't go round the corner.</p>
+      </div>
+      <div class="card">
+        <h3>It plans around the day you're having</h3>
+        <p>Red, yellow, green. On a red day it shows you one thing instead of nine, and nothing is ever marked late. Everybody has bad days in the middle of a move.</p>
+      </div>
+      <div class="card">
+        <h3>It gets your deposit back</h3>
+        <p>Fourteen move-out obligations, your lease wording captured word for word, cleaning receipts and the signed walkthrough. Usually worth more than everything else here combined.</p>
+      </div>
+      <div class="card">
+        <h3>It makes quotes comparable</h3>
+        <p>One packet with real cubic feet, stairs, carry distance and parking — sent to every mover in the same format. Then it flags the quote that's too low to be true.</p>
+      </div>
+      <div class="card">
+        <h3>It moves your care with you</h3>
+        <p>Pharmacy transfers, records requests, and the Medicare Advantage window that quietly closes two months after you move. Everybody has a doctor.</p>
+      </div>
+      <div class="card">
+        <h3>It handles the garage</h3>
+        <p>Boats, cars, trailers, mowers, pianos, gun safes — with VIN decoding from the federal database and title paperwork tracked. Nobody else covers any of it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Your move, not a database</h2>
+    <div class="quiet">
+      <p><strong>There is no account and no server.</strong> Everything you enter — every box, every photograph, your medications, your money — stays on your phone. We can't see it. Nobody can.</p>
+      <p style="margin-bottom:0">Share a copy with whoever's helping and it's locked before it leaves the device, with a passphrase only you know. Seven things never go at all, whatever you tick: doctors and medicine, insurance, powers of attorney, money, documents, cards and your go-bag.</p>
+    </div>
+    <p class="muted" style="margin-top:16px">The trade, honestly: your phone is the only copy. The app nags you weekly to back it up, and backing up is free.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>What it costs</h2>
+    <div class="price">
+      <div class="card">
+        <h3>Free</h3>
+        <div class="amt">$0</div>
+        <p class="muted">Forever. No account.</p>
+        <ul>
+          <li>Unlimited boxes and photographs</li>
+          <li>Search everything you own</li>
+          <li>Rooms, labels and the timeline</li>
+          <li>Doctors and medicine</li>
+          <li>Backing up your move</li>
+        </ul>
+      </div>
+      <div class="card on">
+        <span class="tag">Founding price</span>
+        <h3>The move pack</h3>
+        <div class="amt">$14</div>
+        <p class="muted">One payment. First fifty only, then $24.</p>
+        <ul>
+          <li>Quote packets and comparison</li>
+          <li>Insurance valuation</li>
+          <li>Vehicles, boats and equipment</li>
+          <li>Move-out and deposit recovery</li>
+          <li>Calendar export and shared logins</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Keep it</h3>
+        <div class="amt">$4<span style="font-size:1rem;color:var(--ink2)">/mo</span></div>
+        <p class="muted">After the move. Optional.</p>
+        <ul>
+          <li>Your boxes become a home inventory</li>
+          <li>Insurer-ready export with values</li>
+          <li>Warranties kept with the item</li>
+          <li>What's still sealed, a year on</li>
+        </ul>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:18px">
+      <strong>No subscription for the move itself</strong> — a move is one event, so it's one payment.
+      Nothing that helps you find your own medication is ever behind a paywall.
+      Thirty days, no questions, if it doesn't help.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Built to a standard</h2>
+    <p class="lead">Touch targets nearly double the accessibility minimum. No password, no CAPTCHA, nothing to memorise. Enter your inventory once and it becomes your labels, your quote request, your calendar and your mover's sheet — you're never asked twice.</p>
+    <p class="muted">Those aren't features for a special group. They're what makes an app usable at eleven at night in your fourth week of packing.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Questions</h2>
+    <details><summary>Do I need an account?</summary><p>No. There's nothing to sign up for and no password. Open it and start.</p></details>
+    <details><summary>Does it work without signal?</summary><p>Yes. Add it to your home screen once while online, and everything after that works with no connection — a lift, a plane, a house with the power already off.</p></details>
+    <details><summary>Can two people share one move?</summary><p>Yes, two ways. Send a copy by message, or share a login — a code and a passphrase. Either way it merges rather than overwriting, and it's encrypted before it leaves your phone.</p></details>
+    <details><summary>What happens if I lose my phone?</summary><p>You lose the move, unless you've backed it up. That's the honest cost of having no server. The app reminds you weekly, and backing up takes one tap and is free.</p></details>
+    <details><summary>Is this only for a certain kind of move?</summary><p>No. It's built to the highest standard we could manage, which happens to make it work well whether you're a student with four boxes or a family with a house, a workshop and a boat.</p></details>
+    <details><summary>Can I get a refund?</summary><p>Thirty days, no questions asked. Email and it's done.</p></details>
+  </div>
+</section>
+
+<section style="text-align:center">
+  <div class="wrap">
+    <h2>It's free. Have a look.</h2>
+    <p class="lead" style="max-width:520px;margin:0 auto 26px">Nothing to sign up for. If it's not useful in ten minutes, close it.</p>
+    <a class="cta" href="./app/">Open the app</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Packed Rabbit — made by one person, for a move of her own.</p>
+    <p><a href="./terms.html">Terms</a> · <a href="./privacy.html">Privacy</a> · <a href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
