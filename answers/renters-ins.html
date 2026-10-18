@@ -120,6 +120,54 @@ a{color:var(--teal)}
   border:2px dashed var(--line); border-radius:16px; padding:18px 20px;
   color:var(--ink2); background:transparent;
 }
+
+/* ---- the app's own identity: navy, kraft, packing tape, rounded type ---- */
+:root{
+  --display:ui-rounded,"SF Pro Rounded","Nunito","Segoe UI Variable Display",system-ui,-apple-system,sans-serif;
+  --navy:#0F2742; --navy2:#17365A; --kraft:#C9A27A; --tape:#F3C44A; --tape-ink:#3A2A06;
+  --bg:#EEF0EE; --teal:#0B6B5C;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#0A0D12; --panel:#141921; --navy:#0C1C31; --navy2:#132A47; --teal:#5CC7AE; } }
+:root[data-theme="dark"]{ --bg:#0A0D12; --panel:#141921; --navy:#0C1C31; --navy2:#132A47; --teal:#5CC7AE; }
+h1,h2,h3{font-family:var(--display); font-weight:850; letter-spacing:-.02em}
+h2{font-size:clamp(1.55rem,5vw,2.1rem)}
+h3{font-weight:800}
+.brand span{font-family:var(--display); font-weight:850; color:var(--navy); font-size:1.08rem}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .brand span{color:#fff} }
+.hero{
+  position:relative; margin-top:18px; padding:46px 24px 30px; border-radius:28px;
+  background:linear-gradient(160deg,var(--navy2),var(--navy)); color:#fff; overflow:hidden;
+  box-shadow:0 18px 40px rgba(15,39,66,.28);
+}
+.hero::before{content:""; position:absolute; left:-4%; right:-4%; top:16px; height:22px; background:var(--tape); transform:rotate(-1.6deg);
+  background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.18) 0 2px,transparent 2px 22px); opacity:.95}
+.hero .tag{color:var(--tape); text-transform:none; letter-spacing:0; font-size:.95rem; margin-top:10px}
+.hero h1{color:#fff; font-size:clamp(2.4rem,9vw,3.6rem); line-height:1.02}
+.hero .lede{color:rgba(255,255,255,.86)}
+.hero .muted{color:rgba(255,255,255,.66)!important}
+.hero .btn{border-color:rgba(255,255,255,.28); background:rgba(255,255,255,.08); color:#fff; box-shadow:none}
+.hero .btn.primary{background:var(--tape); border-color:var(--tape); color:var(--tape-ink)}
+.label{
+  margin:28px 0 6px; max-width:360px; background:var(--kraft); color:#2B1E0E; border-radius:14px; padding:16px 84px 14px 18px;
+  position:relative; transform:rotate(-1.2deg); box-shadow:0 10px 24px rgba(0,0,0,.28);
+  background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.025) 0 1px,transparent 1px 4px);
+}
+.label::before{content:""; position:absolute; left:50%; top:-10px; width:70px; height:20px; margin-left:-35px; background:var(--tape); opacity:.92; transform:rotate(2deg)}
+.label .code{font-family:ui-monospace,"SF Mono",Menlo,monospace; font-weight:800; font-size:2rem; letter-spacing:.02em; line-height:1}
+.label .room{font-family:var(--display); font-weight:800; margin-top:4px}
+.label .what{font-size:.95rem; margin-top:8px}
+.label .flags{display:flex; gap:6px; margin-top:10px; flex-wrap:wrap}
+.label .flags span{font-size:.78rem; font-weight:800; border:2px solid #2B1E0E; border-radius:6px; padding:1px 7px}
+.label .qr{position:absolute; right:16px; top:16px; width:54px; height:54px;
+  background:conic-gradient(#2B1E0E 25%,transparent 0 50%,#2B1E0E 0 75%,transparent 0) 0 0/18px 18px; border:4px solid #2B1E0E; border-radius:4px; opacity:.9}
+.card{border-radius:22px; border:1px solid var(--line)}
+.card h3{font-size:1.15rem}
+#what .card{border-top:4px solid var(--kraft)}
+.card.edge{border-left:6px solid var(--tape)}
+.btn.primary{background:var(--navy); border-color:var(--navy)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .btn.primary{background:var(--tape); border-color:var(--tape); color:var(--tape-ink)} }
+.list a{font-family:var(--display)}
+.tag{color:var(--teal)}
 </style>
 <style>
 .crumb{font-size:.92rem;margin:22px 0 6px}
@@ -160,7 +208,7 @@ a{color:var(--teal)}
 </div>
 <footer><div class="wrap">
   <p><strong>The Packed Rabbit</strong> — nothing left off the truck.</p>
-  <p><a href="/answers/">Moving answers</a> · <a href="/app/">The app</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms &amp; refunds</a> · <a href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a></p>
+  <p><a href="/answers/">Moving answers</a> · <a href="/moving-to/">Moving abroad</a> · <a href="/app/">The app</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms &amp; refunds</a> · <a href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a></p>
   <p>Answers checked October 2026. Rules and prices vary by state and by mover — check anything that matters against the source named on each page.</p>
 </div></footer>
 </body>
