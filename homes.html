@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rental Ratings</title>
+<meta name="description" content="Ratings of rental homes and landlords from verified past tenants: repairs, deposits, honesty, respect for privacy. Free to read.">
+<link rel="canonical" href="https://packedrabbit.com/homes.html">
+<link rel="icon" href="/app/icon.svg" type="image/svg+xml">
+<style>
+:root{--bg:#EEF0EE;--panel:#fff;--ink:#10131A;--ink2:#525A66;--line:#E2E4E0;--navy:#0F2742;--navy2:#17365A;--tape:#F3C44A;--tape-ink:#3A2A06;--kraft:#C9A27A;--teal:#0B6B5C;
+  --display:ui-rounded,"SF Pro Rounded","Nunito","Segoe UI Variable Display",system-ui,-apple-system,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0A0D12;--panel:#141921;--ink:#ECEEF0;--ink2:#9AA3AD;--line:#272C33;--navy:#0C1C31;--navy2:#132A47;--teal:#5CC7AE}}
+:root[data-theme="dark"]{--bg:#0A0D12;--panel:#141921;--ink:#ECEEF0;--ink2:#9AA3AD;--line:#272C33;--navy:#0C1C31;--navy2:#132A47;--teal:#5CC7AE}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 -apple-system,"SF Pro Text","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:680px;margin:0 auto;padding:18px 16px 60px}
+a{color:var(--teal)}
+.top{position:relative;overflow:hidden;border-radius:26px;padding:44px 22px 24px;color:#fff;background:linear-gradient(160deg,var(--navy2),var(--navy))}
+.top::before{content:"";position:absolute;left:-4%;right:-4%;top:14px;height:20px;background:var(--tape);transform:rotate(-1.4deg)}
+h1,h2{font-family:var(--display);font-weight:850;letter-spacing:-.02em;line-height:1.08;margin:0}
+h1{font-size:clamp(2rem,8vw,2.8rem);margin-top:8px}
+h2{font-size:1.4rem;margin-bottom:8px}
+.top p{color:rgba(255,255,255,.84);margin:10px 0 0}
+.search{display:flex;gap:8px;margin-top:18px}
+.search input{flex:1;min-width:0;font:inherit;padding:14px 16px;border-radius:14px;border:0}
+.btn{font:inherit;font-weight:800;border:0;border-radius:999px;padding:0 20px;min-height:50px;cursor:pointer;background:var(--tape);color:var(--tape-ink)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px;margin-top:14px}
+.muted{color:var(--ink2);font-size:.93rem}
+.big{font-family:var(--display);font-weight:850;font-size:2.4rem;line-height:1}
+.stars{letter-spacing:2px;color:#B98A12}
+.badge{display:inline-block;font-size:.8rem;font-weight:800;border-radius:999px;padding:2px 10px;background:color-mix(in srgb,var(--teal) 16%,transparent);color:var(--teal)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chips span{font-size:.85rem;border:1px solid var(--line);border-radius:999px;padding:2px 10px}
+.reply{border-left:4px solid var(--kraft);padding:8px 12px;margin-top:10px;background:var(--bg);border-radius:8px}
+label{display:block;font-weight:700;margin:12px 0 6px}
+.f input{width:100%;font:inherit;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body><div class="wrap" id="app" data-server="https://REPLACE_ME">
+  <div class="top">
+    <h1>What it's really like to rent there.</h1>
+    <p>Ratings from people who lived there — each one checked against a lease or bill, then the proof is deleted. Repairs, deposits, honesty, privacy.</p>
+    <form class="search" id="sf"><input id="q" placeholder="Street address, city" aria-label="Address to look up" autocomplete="street-address"><button class="btn">Look up</button></form>
+  </div>
+
+  <div class="card" id="soon" hidden><p>Ratings open shortly. Lived somewhere worth warning — or praising — people about? <a href="/app/">Open the app</a>, add the home under <em>Renting with a record</em>, and rate it there.</p></div>
+  <div id="out"></div>
+
+  <div class="card">
+    <h2>How ratings work</h2>
+    <ul class="muted">
+      <li><strong>Anonymous.</strong> Reviewers' names, unit numbers and (if they choose) dates are never shown. The proof is seen once by the person checking it, then deleted.</li>
+      <li>Only someone who lived there can rate it. They show a lease page, utility bill or bank statement with their name and the address. We check it once, then delete it.</li>
+      <li>We never remove a rating for being critical. We remove one only for personal details, threats, or if the proof doesn't hold up.</li>
+      <li>Owners and managers can reply once to each rating after proving they own or manage the building.</li>
+      <li>We don't rate tenants, and never will publish ratings of people who rent.</li>
+    </ul>
+    <p class="muted">Rate a place you lived: <a href="/app/">open the app</a> → Pack and place → Renting with a record.</p>
+  </div>
+
+  <form class="card f" id="cf">
+    <h2>Own or manage a building?</h2>
+    <p class="muted">Show a deed, property tax bill or management agreement for the address. Once it's checked, you'll get a private reply code by email or text. The proof is then deleted.</p>
+    <label for="ca">Address</label><input id="ca" required>
+    <label for="cn">Your name or company, as it should appear on replies</label><input id="cn" required>
+    <label for="cc">Email or phone for your reply code</label><input id="cc" required>
+    <label for="cp">Proof</label><input id="cp" type="file" accept="image/*,application/pdf" required>
+    <button class="btn" style="margin-top:14px">Send for checking</button>
+    <p class="muted" id="cmsg"></p>
+    <label for="tk" style="margin-top:18px">Already have a reply code?</label>
+    <input id="tk" placeholder="Paste it, then look up your address" autocomplete="off">
+  </form>
+
+  <p class="muted" style="margin-top:18px"><a href="/">The Packed Rabbit</a> · <a href="/answers/">Moving answers</a> · <a href="/privacy.html">Privacy</a></p>
+</div>
+<script>
+(function () {
+  var srv = document.getElementById("app").getAttribute("data-server"), live = !/REPLACE_ME/.test(srv);
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (t) { var e = document.createElement("span"); e.textContent = t == null ? "" : t; return e.innerHTML; };
+  var LBL = { repairs: "Repairs done promptly", deposit: "Deposit handled fairly", honest: "Matched the listing", respect: "Privacy respected" };
+  if (!live) $("soon").hidden = false;
+  function show(d, q) {
+    if (!d || !d.count) { $("out").innerHTML = '<div class="card"><p>No verified ratings for <strong>' + esc(q) + '</strong> yet. If you lived there, you could be the first.</p></div>'; return; }
+    var head = '<div class="card"><div class="big">' + d.average + ' <span class="stars">★</span></div><p class="muted">' + d.count + (d.count === 1 ? " verified rating" : " verified ratings") + (d.claimed ? " · the owner or manager replies here" : "") + "</p></div>";
+    $("out").innerHTML = head + d.ratings.map(function (r) {
+      var chips = Object.keys(LBL).filter(function (k) { return r.scores && r.scores[k]; }).map(function (k) { return "<span>" + LBL[k] + ": " + esc(r.scores[k]) + "</span>"; }).join("");
+      return '<div class="card"><div class="stars" aria-label="' + r.stars + ' out of 5">' + "★★★★★".slice(0, r.stars) + '<span style="opacity:.25">' + "★★★★★".slice(r.stars) + "</span></div>" +
+        '<p style="margin:6px 0"><strong>' + esc(r.addr) + "</strong>" + (r.landlord ? " · " + esc(r.landlord) : "") + "</p>" +
+        (r.verified ? '<span class="badge">Verified tenant, anonymous' + (r.from || r.to ? " · " + esc([r.from, r.to].filter(Boolean).join("–")) : "") + "</span>" : "") +
+        (chips ? '<div class="chips">' + chips + "</div>" : "") +
+        (r.text ? "<p>" + esc(r.text) + "</p>" : "") + (r.again ? '<p class="muted">Would rent here again: ' + esc(r.again) + "</p>" : "") +
+        (r.reply ? '<div class="reply"><strong>' + esc(r.reply.by) + "</strong> replied " + esc(r.reply.at) + "<br>" + esc(r.reply.text) + "</div>" : "") +
+        (tok() && !r.reply ? '<div class="f"><label for="rp-' + r.id + '">Your reply, as the owner or manager</label><input id="rp-' + r.id + '" maxlength="1000"><button class="btn ghost" style="margin-top:8px" onclick="window.__reply(\'' + r.id + '\')">Post reply</button></div>' : "") +
+        '<p class="muted">' + esc(r.at) + "</p></div>";
+    }).join("");
+  }
+  function tok() { try { return sessionStorage.getItem("pr-owner") || ""; } catch (e) { return ""; } }
+  window.__reply = function (id) {
+    var t = $("rp-" + id).value.trim(); if (!t) return;
+    fetch(srv + "/homes/respond", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ token: tok(), id: id, text: t }) })
+      .then(function (r) { return r.json(); }).then(function (d) { if (d.ok) look($("q").value.trim()); else alert(d.why || "That didn't post."); });
+  };
+  function look(q) {
+    if (!live) return;
+    $("out").innerHTML = '<div class="card muted">Looking…</div>';
+    fetch(srv + "/homes?q=" + encodeURIComponent(q)).then(function (r) { return r.json(); }).then(function (d) {
+      if (d && d.ok === false) { $("out").innerHTML = '<div class="card">' + esc(d.why) + "</div>"; return; }
+      show(d, q); try { history.replaceState(null, "", "#q=" + encodeURIComponent(q)); } catch (e) {}
+    }).catch(function () { $("out").innerHTML = '<div class="card">Couldn’t reach the ratings just now. Try again in a minute.</div>'; });
+  }
+  $("tk").addEventListener("change", function () { try { sessionStorage.setItem("pr-owner", $("tk").value.trim()); } catch (e) {} if ($("q").value.trim()) look($("q").value.trim()); });
+  $("sf").addEventListener("submit", function (e) { e.preventDefault(); var q = $("q").value.trim(); if (q) look(q); });
+  var h = location.hash.match(/q=([^&]+)/); if (h) { $("q").value = decodeURIComponent(h[1]); look($("q").value); }
+  function read(file) {
+    return new Promise(function (res, rej) {
+      var fr = new FileReader(); fr.onerror = rej;
+      if (/pdf/.test(file.type)) { if (file.size > 3e6) return rej(new Error("big")); fr.onload = function () { res({ type: "pdf", data: fr.result }); }; return fr.readAsDataURL(file); }
+      fr.onload = function () { var img = new Image(); img.onload = function () { var sc = Math.min(1, 1600 / Math.max(img.width, img.height)), c = document.createElement("canvas"); c.width = img.width * sc; c.height = img.height * sc; var x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height); x.drawImage(img, 0, 0, c.width, c.height); res({ type: "image", data: c.toDataURL("image/jpeg", .7) }); }; img.onerror = rej; img.src = fr.result; };
+      fr.readAsDataURL(file);
+    });
+  }
+  $("cf").addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!live) { $("cmsg").textContent = "Owner replies open with the ratings, shortly."; return; }
+    var file = $("cp").files[0]; if (!file) return;
+    $("cmsg").textContent = "Sending…";
+    read(file).then(function (proof) {
+      return fetch(srv + "/homes/claim", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ addr: $("ca").value, name: $("cn").value, contact: $("cc").value, proof: proof }) });
+    }).then(function (r) { $("cmsg").textContent = r.ok ? "Received. Once it's checked you'll get your reply code, and the proof is deleted." : "That didn't go through — check the address and the file."; })
+      .catch(function () { $("cmsg").textContent = "That file couldn't be sent — a photo of the first page works."; });
+  });
+})();
+</script>
+</body>
+</html>
