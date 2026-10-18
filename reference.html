@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rental Reference</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Write a short rental reference for a tenant. It goes straight back to them — nothing is stored.">
+<link rel="icon" href="/app/icon.svg" type="image/svg+xml">
+<style>
+:root{--bg:#EEF0EE;--panel:#fff;--ink:#10131A;--ink2:#525A66;--line:#E2E4E0;--navy:#0F2742;--navy2:#17365A;--tape:#F3C44A;--tape-ink:#3A2A06;
+  --display:ui-rounded,"SF Pro Rounded","Nunito","Segoe UI Variable Display",system-ui,-apple-system,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0A0D12;--panel:#141921;--ink:#ECEEF0;--ink2:#9AA3AD;--line:#272C33;--navy:#0C1C31;--navy2:#132A47}}
+:root[data-theme="dark"]{--bg:#0A0D12;--panel:#141921;--ink:#ECEEF0;--ink2:#9AA3AD;--line:#272C33;--navy:#0C1C31;--navy2:#132A47}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 -apple-system,"SF Pro Text","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:560px;margin:0 auto;padding:18px 16px 60px}
+.top{position:relative;overflow:hidden;border-radius:24px;padding:40px 20px 22px;color:#fff;background:linear-gradient(160deg,var(--navy2),var(--navy))}
+.top::before{content:"";position:absolute;left:-4%;right:-4%;top:14px;height:18px;background:var(--tape);transform:rotate(-1.4deg)}
+h1{font-family:var(--display);font-weight:850;letter-spacing:-.02em;line-height:1.08;font-size:clamp(1.8rem,7vw,2.4rem);margin:8px 0 6px}
+.top p{margin:0;color:rgba(255,255,255,.84)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px;margin-top:14px}
+label{display:block;font-weight:700;margin:14px 0 6px}
+input,textarea{width:100%;font:inherit;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.pick{display:flex;flex-wrap:wrap;gap:8px}
+.pick button{font:inherit;font-weight:650;min-height:44px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.pick button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:52px;margin-top:12px;border-radius:999px;border:0;font:inherit;font-weight:800;cursor:pointer;text-decoration:none}
+.btn.primary{background:var(--tape);color:var(--tape-ink)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.muted{color:var(--ink2);font-size:.92rem}
+.note{border-left:4px solid var(--tape);padding:8px 12px;margin-top:10px;background:var(--bg);border-radius:8px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body><div class="wrap">
+  <div class="top">
+    <h1 id="h">A short rental reference</h1>
+    <p id="sub">About a minute. It goes straight back to the tenant — nothing is kept here.</p>
+  </div>
+
+  <div class="card" id="bad" hidden>
+    <p>This link looks incomplete. Ask the tenant to send it again from the app.</p>
+  </div>
+
+  <form class="card" id="f" hidden>
+    <label for="l">Your name</label>
+    <input id="l" autocomplete="name" required>
+    <label for="lp">A phone number or email to confirm this (optional)</label>
+    <input id="lp">
+    <label for="a">The home</label>
+    <input id="a">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div><label for="fr">From</label><input id="fr"></div>
+      <div><label for="to">To</label><input id="to"></div>
+    </div>
+    <div id="qs"></div>
+    <label for="m">Anything else, in a sentence or two (optional)</label>
+    <textarea id="m" rows="3" maxlength="400" placeholder="Quiet, looked after the place, always paid by the 1st."></textarea>
+    <p class="note muted">Please keep to the tenancy — rent, care of the home, notice. Leave out family, health, religion, national origin, disability and other personal details; fair housing law protects them, and they don't belong in a reference.</p>
+    <button class="btn primary" type="submit" id="send">Send it to them</button>
+    <button class="btn ghost" type="button" id="copy">Copy it instead</button>
+    <p class="muted" id="msg"></p>
+  </form>
+
+  <p class="muted" style="margin-top:18px">From <a href="/" style="color:inherit">The Packed Rabbit</a>, a moving app. We don't store references, sell them, or share them with anyone. The tenant decides who sees it.</p>
+</div>
+<script>
+(function () {
+  var b64d = function (t) { t = String(t).replace(/-/g, "+").replace(/_/g, "/"); return decodeURIComponent(escape(atob(t + "===".slice((t.length + 3) % 4)))); };
+  var b64e = function (s) { return btoa(unescape(encodeURIComponent(s))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); };
+  var d = null;
+  try { var m = location.hash.match(/r=([A-Za-z0-9_-]+)/); if (m) d = JSON.parse(b64d(m[1])); } catch (e) { d = null; }
+  if (!d) { document.getElementById("bad").hidden = false; return; }
+  var $ = function (id) { return document.getElementById(id); };
+  $("f").hidden = false;
+  var who = d.t || "your tenant";
+  $("h").textContent = "A rental reference for " + who;
+  $("l").value = d.l || ""; $("a").value = d.a || ""; $("fr").value = d.f || ""; $("to").value = d.u || "";
+  var Q = [["paid", "Rent was paid on time", ["Always", "Almost always", "Not usually"]],
+           ["notice", "Gave proper notice", ["Yes", "Still living there", "No"]],
+           ["cond", "Left the place in good shape", ["Yes", "Normal wear only", "Still living there", "No"]],
+           ["again", "Would rent to them again", ["Yes", "No"]]];
+  var ans = {};
+  $("qs").innerHTML = Q.map(function (q) {
+    return '<label>' + q[1] + '</label><div class="pick" role="group" aria-label="' + q[1] + '">' +
+      q[2].map(function (o) { return '<button type="button" data-k="' + q[0] + '" data-v="' + o + '" aria-pressed="false">' + o + '</button>'; }).join("") + '</div>';
+  }).join("");
+  $("qs").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    ans[b.dataset.k] = b.dataset.v;
+    [].forEach.call($("qs").querySelectorAll('[data-k="' + b.dataset.k + '"]'), function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+  });
+  function compose() {
+    var o = { l: $("l").value.trim(), lp: $("lp").value.trim(), a: $("a").value.trim(), f: $("fr").value.trim(), u: $("to").value.trim(), m: $("m").value.trim(), at: new Date().toISOString().slice(0, 10) };
+    Q.forEach(function (q) { if (ans[q[0]]) o[q[0]] = ans[q[0]]; });
+    var lines = ["Rental reference for " + who + " from " + (o.l || "their landlord") + (o.a ? ", " + o.a : "") + (o.f || o.u ? " (" + [o.f, o.u].filter(Boolean).join(" to ") + ")" : "") + "."];
+    Q.forEach(function (q) { if (o[q[0]]) lines.push(q[1] + ": " + o[q[0]]); });
+    if (o.m) lines.push("“" + o.m + "”");
+    if (o.lp) lines.push("To confirm: " + o.lp);
+    lines.push("", "Paste this whole message into The Packed Rabbit to add it to your rental resume.", "PR-REF:" + b64e(JSON.stringify(o)));
+    return lines.join("\n");
+  }
+  $("f").addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!$("l").value.trim()) { $("msg").textContent = "Add your name first."; return; }
+    var text = compose(), c = String(d.c || "").trim();
+    if (navigator.share) { navigator.share({ text: text }).catch(function () {}); }
+    else if (/@/.test(c)) location.href = "mailto:" + encodeURIComponent(c) + "?subject=" + encodeURIComponent("Your rental reference") + "&body=" + encodeURIComponent(text);
+    else if (c) location.href = "sms:" + c.replace(/[^\d+]/g, "") + "?&body=" + encodeURIComponent(text);
+    else { navigator.clipboard && navigator.clipboard.writeText(text); $("msg").textContent = "Copied. Paste it into a message to " + who + "."; }
+    $("msg").textContent = $("msg").textContent || ("Send it to " + who + (c ? " at " + c : "") + ". Thank you.");
+  });
+  $("copy").addEventListener("click", function () {
+    if (!$("l").value.trim()) { $("msg").textContent = "Add your name first."; return; }
+    var t = compose();
+    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { $("msg").textContent = "Copied. Paste it into a message to " + who + "."; })
+      .catch(function () { $("m").value = t; $("msg").textContent = "Select the text above and copy it."; });
+  });
+})();
+</script>
+</body>
+</html>
