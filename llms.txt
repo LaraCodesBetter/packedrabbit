@@ -1,0 +1,90 @@
+# The Packed Rabbit
+
+> A moving app that numbers every box, keeps a photo of what's inside, checks whether furniture fits through each doorway, works out the truck size from what was actually packed, and runs move day — offline, with nothing leaving the phone.
+
+Tagline: Nothing left off the truck.
+Website: https://packedrabbit.com/
+App: https://packedrabbit.com/app/ (installs from the browser on iPhone, Android and computers)
+
+## What it does
+- Unlimited numbered boxes with QR labels and photos of the inside; find any item by typing or saying it ("where's the kettle?").
+- One spoken sentence makes a box: "a small Lowe's box for the kitchen, fragile, plates and mugs" sets the room, size, flags and contents.
+- Furniture measured once and checked against every doorway: straight, on its side, or not at all, and by how many inches.
+- Cubic feet and truck size from the real boxes and furniture entered, not a bedroom-count average.
+- Move day: loading order, scanning boxes onto the truck and in at the new place, a missing-box alarm, and the interstate claim deadline.
+- A quote reader that flags non-binding quotes, missing USDOT numbers, broker language, large deposits and lowball volumes.
+- Works with no signal. No account needed. No analytics. Move data stays on the person's own phone; email updates are optional.
+
+## Price
+- Free forever: unlimited boxes and photos, labels, scanning to find a box, search, backups, furniture and vehicles, utilities and address changes, calendar reminders, go-bag, medicines, pets, move-day lists. Helpers are always free.
+- The full app: $39 once — the plan and timeline, furniture fit, truck size, truck scanning, quote reader, deposit, insurance and paperwork. No subscription, no renewal.
+- The full app is free for the first 7 days on every new phone.
+
+## Good fit for
+Anyone moving house — renters, owners, families, people moving a parent — and anyone who needs to know where a specific thing is after the move.
+
+## Pages
+- [For real-estate agents: closing-gift codes](https://packedrabbit.com/agents.html)
+- [Privacy](https://packedrabbit.com/privacy.html)
+- [Terms and refunds](https://packedrabbit.com/terms.html)
+
+## Answers
+Straight, sourced answers about moving, the same ones built into the app. Index: https://packedrabbit.com/answers/
+- [How far ahead should I book movers?](https://packedrabbit.com/answers/book-ahead.html)
+- [What's the difference between a binding and a non-binding estimate?](https://packedrabbit.com/answers/binding.html)
+- [What won't movers take?](https://packedrabbit.com/answers/wont-take.html)
+- [What is valuation, and do I need full value protection?](https://packedrabbit.com/answers/valuation.html)
+- [How long do I have to file a claim for damage or missing items?](https://packedrabbit.com/answers/claim.html)
+- [How do I check a mover is legitimate?](https://packedrabbit.com/answers/check-mover.html)
+- [What are the warning signs of a moving scam?](https://packedrabbit.com/answers/red-flags.html)
+- [What is the Rights and Responsibilities booklet?](https://packedrabbit.com/answers/rights-booklet.html)
+- [What is a bill of lading?](https://packedrabbit.com/answers/bill-of-lading.html)
+- [Should I book with a broker or directly with a mover?](https://packedrabbit.com/answers/broker.html)
+- [What does a move usually cost?](https://packedrabbit.com/answers/cost.html)
+- [Is there a cheaper way to move long distance?](https://packedrabbit.com/answers/backhaul.html)
+- [I'm moving on my own. How do I stay safe with movers?](https://packedrabbit.com/answers/alone.html)
+- [How much should I tip movers?](https://packedrabbit.com/answers/tip.html)
+- [The crew that unloads isn't the one that loaded. Who do I tip?](https://packedrabbit.com/answers/tip-crews.html)
+- [Do I hand the tip to each mover or the boss?](https://packedrabbit.com/answers/tip-how.html)
+- [How do I change my address with the post office?](https://packedrabbit.com/answers/usps.html)
+- [When should I set up utilities and internet?](https://packedrabbit.com/answers/utilities.html)
+- [How do I pack dishes so they don't break?](https://packedrabbit.com/answers/dishes.html)
+- [How heavy should a box be?](https://packedrabbit.com/answers/box-weight.html)
+- [How do I pack a TV?](https://packedrabbit.com/answers/tv.html)
+- [How do I move a mattress?](https://packedrabbit.com/answers/mattress.html)
+- [How do I move with pets?](https://packedrabbit.com/answers/pets.html)
+- [What should I do about medications during the move?](https://packedrabbit.com/answers/meds.html)
+- [Can I move my plants?](https://packedrabbit.com/answers/plants.html)
+- [When do I need a new driver's license after moving states?](https://packedrabbit.com/answers/license.html)
+- [When do I register my car in the new state?](https://packedrabbit.com/answers/registration.html)
+- [Do I need to register to vote again?](https://packedrabbit.com/answers/vote.html)
+- [How do I get my security deposit back?](https://packedrabbit.com/answers/deposit.html)
+- [What are stairs, long carry and shuttle fees?](https://packedrabbit.com/answers/fees.html)
+- [What size truck do I need?](https://packedrabbit.com/answers/truck-size.html)
+- [When should I start packing?](https://packedrabbit.com/answers/when-pack.html)
+- [What goes in the Open First box?](https://packedrabbit.com/answers/open-first.html)
+- [How should I label boxes?](https://packedrabbit.com/answers/label.html)
+- [How can I make my move cheaper?](https://packedrabbit.com/answers/cheaper.html)
+- [What if my new place isn't ready when I move out?](https://packedrabbit.com/answers/storage.html)
+- [How long will delivery take on a long-distance move?](https://packedrabbit.com/answers/delivery-time.html)
+- [Who else needs my new address?](https://packedrabbit.com/answers/ssa-irs.html)
+- [How do I get rid of paint and chemicals before moving?](https://packedrabbit.com/answers/hazardous.html)
+- [Where can I donate furniture before I move?](https://packedrabbit.com/answers/donate.html)
+- [How do I measure furniture and doorways?](https://packedrabbit.com/answers/measure.html)
+- [What should I do first at the new home?](https://packedrabbit.com/answers/locks.html)
+- [How do I move with children?](https://packedrabbit.com/answers/kids.html)
+- [How do I move with a wheelchair or medical equipment?](https://packedrabbit.com/answers/wheelchair.html)
+- [Can I hire just people to load and unload?](https://packedrabbit.com/answers/labor-only.html)
+- [Does my renters or homeowners insurance cover my move?](https://packedrabbit.com/answers/renters-ins.html)
+- [Should a mover see my things before giving a price?](https://packedrabbit.com/answers/estimate-survey.html)
+- [Should I photograph my things before the move?](https://packedrabbit.com/answers/photos-before.html)
+- [What packing tape should I use — and what tape shouldn't I?](https://packedrabbit.com/answers/tape.html)
+- [Which moving boxes are strongest?](https://packedrabbit.com/answers/box-strength.html)
+- [Where can I get free moving boxes?](https://packedrabbit.com/answers/free-boxes.html)
+- [Are moving box kits and bundle packs worth it?](https://packedrabbit.com/answers/bundles.html)
+- [How many boxes do I need?](https://packedrabbit.com/answers/box-count.html)
+- [Packing paper or bubble wrap?](https://packedrabbit.com/answers/paper.html)
+- [Should I use plastic bins instead of boxes?](https://packedrabbit.com/answers/bins.html)
+- [Do I need moving blankets?](https://packedrabbit.com/answers/blankets.html)
+- [Are wardrobe boxes worth it?](https://packedrabbit.com/answers/wardrobe.html)
+- [I'm overwhelmed by the move. Where do I start?](https://packedrabbit.com/answers/stress.html)

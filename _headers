@@ -1,0 +1,28 @@
+# Cloudflare Pages headers.
+# The service worker and the manifest must never be held in a CDN cache, or a
+# new build sits on the edge while every installed phone keeps the old one.
+/app/sw.js
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/app/manifest.webmanifest
+  Cache-Control: no-cache
+
+/app/index.html
+  Cache-Control: no-cache
+
+/index.html
+  Cache-Control: no-cache
+
+# The app's own service worker handles versioning for everything else.
+/app/app.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+/.well-known/assetlinks.json
+  Content-Type: application/json
+  Cache-Control: public, max-age=3600
+
+# It never loads anything from anywhere else, so say so.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN

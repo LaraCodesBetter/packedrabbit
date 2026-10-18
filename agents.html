@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>For real-estate agents — The Packed Rabbit</title>
+<meta name="description" content="Give clients the move, not another candle. A closing gift that puts your name on their phone for the whole move. From $15 a client; codes never expire.">
+<link rel="canonical" href="https://packedrabbit.com/agents.html">
+<meta name="theme-color" content="#03274F">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="The Packed Rabbit for agents — a closing gift they use every day">
+<meta property="og:description" content="Moving inventory that knows what fits through the door, what a quote is hiding, and where every box ended up.">
+<meta property="og:url" content="https://packedrabbit.com/agents.html">
+<meta property="og:image" content="https://packedrabbit.com/agents-gift.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/app/icon-180.png">
+<style>
+:root{
+  --bg:#F2F3F1; --panel:#FFFFFF; --ink:#10131A; --ink2:#525A66;
+  --teal:#07705F; --deep:#03274F; --sand:#7A5210; --line:#E2E4E0;
+  --serif:ui-serif,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --lift:0 1px 2px rgba(16,19,26,.05),0 6px 18px rgba(16,19,26,.07);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1114; --panel:#171B20; --ink:#ECEEF0; --ink2:#9AA3AD;
+    --teal:#4FBFA5; --deep:#8FB6E8; --line:#272C33;
+    --lift:inset 0 1px 0 rgba(255,255,255,.06),0 8px 22px rgba(0,0,0,.4);
+  }
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .btn.primary{color:#08110F} }
+:root[data-theme="dark"] .btn.primary{color:#08110F}
+:root[data-theme="dark"]{
+  --bg:#0E1114; --panel:#171B20; --ink:#ECEEF0; --ink2:#9AA3AD;
+  --teal:#4FBFA5; --deep:#8FB6E8; --line:#272C33;
+  --lift:inset 0 1px 0 rgba(255,255,255,.06),0 8px 22px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,"SF Pro Text","Segoe UI",system-ui,sans-serif;
+  font-size:17px; line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:720px; margin:0 auto; padding:0 16px}
+h1,h2,h3{font-family:var(--serif); line-height:1.1; letter-spacing:-.01em; margin:0}
+h1{font-size:clamp(2.1rem,7vw,3.2rem)}
+h2{font-size:clamp(1.5rem,4.4vw,2rem); margin-bottom:14px}
+h3{font-size:1.12rem; margin-bottom:6px}
+p{margin:0 0 14px}
+.muted{color:var(--ink2)}
+header{padding:16px 0 0}
+.brand{display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:-.01em}
+.brand svg{flex:none}
+.hero{padding:40px 0 34px}
+.tag{
+  display:inline-block; font-size:.78rem; font-weight:700; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--teal); margin-bottom:14px;
+}
+.lede{font-size:1.18rem; margin-top:18px; max-width:34em}
+.cta{display:flex; flex-wrap:wrap; gap:12px; margin-top:26px}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  min-height:52px; padding:0 26px; border-radius:999px; border:2px solid var(--line);
+  background:var(--panel); color:var(--ink); font:inherit; font-weight:700;
+  text-decoration:none; cursor:pointer; box-shadow:var(--lift);
+}
+.btn.primary{background:var(--teal); border-color:var(--teal); color:#fff}
+.card{
+  background:var(--panel); border-radius:18px; padding:22px;
+  box-shadow:var(--lift); margin-bottom:16px;
+}
+.card.edge{border-left:5px solid var(--teal)}
+section{padding:34px 0}
+.grid{display:grid; gap:16px}
+@media (min-width:620px){ .grid.two{grid-template-columns:1fr 1fr} }
+.shots{display:flex; gap:16px; overflow-x:auto; padding:4px 0 10px; scroll-snap-type:x mandatory}
+.shots figure{margin:0; flex:none; width:min(252px,70vw); scroll-snap-align:start}
+.shots img{width:100%; height:auto; border-radius:16px; border:1px solid var(--line); display:block; box-shadow:var(--lift)}
+.shots figcaption{font-size:.9rem; color:var(--ink2); margin-top:9px}
+table{width:100%; border-collapse:collapse; margin-top:4px}
+th,td{text-align:left; padding:12px 8px; border-bottom:1px solid var(--line); vertical-align:top}
+th{font-size:.8rem; letter-spacing:.07em; text-transform:uppercase; color:var(--ink2); font-weight:700}
+td.price{font-weight:700; white-space:nowrap}
+tbody tr td:first-child,table tr td:first-child{min-width:7.5em}
+@media (max-width:520px){
+  tbody tr td:first-child,table tr td:first-child{min-width:0}
+  /* on a phone the third column was one word per line — let it run full width under the name and price */
+  table tr:first-child{display:none}
+  table tr{display:grid; grid-template-columns:1fr auto; border-bottom:1px solid var(--line); padding:12px 0}
+  table td{border:0; padding:2px 0}
+  table td.muted{grid-column:1 / -1; padding-top:6px}
+}
+ul{margin:0 0 14px; padding-left:1.1em}
+li{margin-bottom:7px}
+footer{padding:36px 0 56px; border-top:1px solid var(--line); margin-top:26px; color:var(--ink2); font-size:.92rem}
+footer a{color:var(--ink2)}
+a{color:var(--teal)}
+.note{
+  border:2px dashed var(--line); border-radius:16px; padding:18px 20px;
+  color:var(--ink2); background:transparent;
+}
+</style>
+</head>
+<body>
+
+<header><div class="wrap">
+  <div class="brand">
+    <svg width="30" height="30" viewBox="0 0 72 72" aria-hidden="true">
+      <path d="M24 30C21 20 20 11 23 10c3-1 7 7 9 17" fill="none" stroke="var(--teal)" stroke-width="3.4" stroke-linecap="round"/>
+      <path d="M46 30c3-10 4-19 1-20-3-1-7 7-9 17" fill="none" stroke="var(--teal)" stroke-width="3.4" stroke-linecap="round"/>
+      <ellipse cx="36" cy="46" rx="20" ry="17" fill="none" stroke="var(--teal)" stroke-width="3.4"/>
+      <circle cx="43" cy="44" r="7" fill="none" stroke="var(--deep)" stroke-width="2.6"/>
+    </svg>
+    <span>The Packed Rabbit</span>
+  </div>
+</div></header>
+<main class="wrap">
+<section class="hero">
+  <span class="tag">For real-estate agents</span>
+  <h1>Give them the move, not another candle.</h1>
+  <p class="lede">The week after closing, your client is the most grateful they'll ever be — and the most overwhelmed. Give them the moving app they'll open every day of the move, with your name and number on it.</p>
+  <div class="cta">
+    <a class="btn primary" href="mailto:hello@packedrabbit.com?subject=Starter%20codes%20for%20my%20clients&body=Name%3A%0ABrokerage%3A%0ALicense%20line%3A%0APhone%3A%0AYour%20welcome%20note%20to%20clients%3A%0A">Get 3 codes free</a>
+    <a class="btn" href="#prices">See prices</a>
+  </div>
+</section>
+
+<section>
+  <div class="grid two">
+    <div>
+      <h2>What your client gets</h2>
+      <ul>
+        <li>Every box numbered, photographed and findable — "where's the coffee maker?" gets an answer.</li>
+        <li>Furniture checked against every doorway before the movers arrive.</li>
+        <li>Movers' quotes read for hidden costs, brokers and red flags.</li>
+        <li>Move day run from one screen: what goes on the truck, what rides with them, what arrived.</li>
+      </ul>
+      <h2 style="margin-top:22px">What you get</h2>
+      <ul>
+        <li>A welcome screen with your note the moment they open it.</li>
+        <li>Your name, with Call and Text, on their home screen for the whole move.</li>
+        <li>Your brokerage and license line shown with your name.</li>
+      </ul>
+    </div>
+    <figure style="margin:0"><img src="/agents-gift.png" alt="The gift screen a client sees: the agent's name, brokerage, welcome note, and Call, Text and Email buttons." style="width:100%;max-width:340px;border-radius:18px;border:1px solid var(--line);box-shadow:var(--lift)"><figcaption class="muted" style="margin-top:8px;font-size:.9rem">What your client sees when they open your gift. Example agent.</figcaption></figure>
+  </div>
+</section>
+
+<section>
+  <div class="card edge">
+    <h3>What you never get — and can tell them</h3>
+    <p style="margin:0">Anything they put in the app. Their boxes, photos and lists stay on their phone. We don't sell leads, and we never pass your client to a mover.</p>
+  </div>
+</section>
+
+<section id="prices">
+  <h2>Prices</h2>
+  <table>
+    <tr><th>&nbsp;</th><th>Price</th><th>Per client</th></tr>
+    <tr><td><strong>Starter</strong></td><td class="price">5 for $150</td><td class="muted">$30</td></tr>
+    <tr><td><strong>Agent</strong></td><td class="price">10 for $250</td><td class="muted">$25</td></tr>
+    <tr><td><strong>Team</strong></td><td class="price">50 for $1,000</td><td class="muted">$20</td></tr>
+    <tr><td><strong>Brokerage</strong></td><td class="price">250 for $3,750</td><td class="muted">$15</td></tr>
+  </table>
+  <p class="muted" style="margin-top:14px"><strong>Codes never expire.</strong> Each one comes as a personal link with your details built in — text it, email it, or print its QR code on a closing card. Your first three are free.</p>
+  <div class="cta"><a class="btn primary" href="mailto:hello@packedrabbit.com?subject=Starter%20codes%20for%20my%20clients&body=Name%3A%0ABrokerage%3A%0ALicense%20line%3A%0APhone%3A%0AYour%20welcome%20note%20to%20clients%3A%0A">Get 3 codes free</a><a class="btn" href="mailto:hello@packedrabbit.com?subject=Codes%20for%20our%20office">Codes for a whole office</a></div>
+</section>
+
+<section>
+  <h2>Questions agents ask</h2>
+  <p><strong>Is this allowed under RESPA?</strong><br><span class="muted">You're buying a gift for your own client. We never pay you for referrals, and you never pay us for any. If a lender or title company offers to pay for your codes, check with your broker first.</span></p>
+  <p><strong>My clients already get a moving service.</strong><br><span class="muted">Most cover utilities and address changes. This handles the boxes, the furniture, the truck and the movers' quotes. They work fine together.</span></p>
+  <p><strong>What if a client doesn't use it?</strong><br><span class="muted">Codes never expire. Give it to the next one.</span></p>
+  <p style="margin-bottom:0"><strong>Does it work on Android?</strong><br><span class="muted">Yes — it installs from any phone's browser, with store versions on the way.</span></p>
+</section>
+</main>
+
+<footer><div class="wrap">
+  <p><strong>The Packed Rabbit</strong> — nothing left off the truck.</p>
+  <p><a href="/">Home</a> · <a href="/answers/">Moving answers</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms &amp; refunds</a> · <a href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a></p>
+</div></footer>
+
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=yes" />
-<title>Packed Rabbit</title>
+<title>The Packed Rabbit</title>
 <meta name="theme-color" content="#F2F3F1" />
 <meta name="description" content="Your move, on your phone. Works offline. Nothing leaves the device." />
 
@@ -14,7 +14,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-<meta name="apple-mobile-web-app-title" content="Packed Rabbit" />
+<meta name="apple-mobile-web-app-title" content="The Packed Rabbit" />
 <meta name="format-detection" content="telephone=no" />
 
 <style>
@@ -25,23 +25,56 @@
   }
   @media (prefers-color-scheme: dark) { html, body { background: #0B0D11; } }
   #root { min-height: 100dvh; }
-  /* Shown only if the script fails to load at all. */
+  /* The wait is a truck filling, not a spinner. Inline, because this has to
+     draw before any script has loaded. */
   #boot {
-    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+    position: fixed; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 18px;
     font: 400 15px/1.5 -apple-system, "Segoe UI", system-ui, sans-serif;
     color: #6E7681; text-align: center; padding: 32px;
+  }
+  #boot .brand {
+    font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
+    font-weight: 700; color: #07705F;
+  }
+  @media (prefers-color-scheme: dark) { #boot .brand { color: #4FBFA8; } }
+  #boot svg { width: 200px; max-width: 62vw; height: auto; }
+  #boot .load { fill: #07705F; }
+  @media (prefers-color-scheme: dark) { #boot .load { fill: #4FBFA8; } }
+  #boot .body { fill: none; stroke: #C9CDC9; stroke-width: 2; }
+  @media (prefers-color-scheme: dark) { #boot .body { stroke: #3A4048; } }
+  #boot .load { transform-origin: 52px 14px; animation: fillup 2.4s cubic-bezier(.4,0,.2,1) infinite; }
+  @keyframes fillup {
+    0%   { transform: scaleX(0); }
+    70%  { transform: scaleX(1); }
+    100% { transform: scaleX(1); opacity: .25; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #boot .load { animation: none; transform: scaleX(.7); }
   }
 </style>
 </head>
 <body>
 <div id="root"></div>
-<div id="boot">Loading your move…</div>
+<div id="boot">
+  <div class="brand">The Packed Rabbit</div>
+  <svg viewBox="0 0 250 100" aria-hidden="true">
+    <path class="body" d="M8 34 L34 34 L50 52 L50 76 L8 76 Z" stroke-linejoin="round" />
+    <rect class="load" x="53" y="15" width="180" height="60" rx="2" />
+    <rect class="body" x="52" y="14" width="182" height="62" rx="3" />
+    <circle class="body" cx="30" cy="85" r="8" />
+    <circle class="body" cx="78" cy="85" r="8" />
+    <circle class="body" cx="208" cy="85" r="8" />
+    <line class="body" x1="2" y1="93" x2="248" y2="93" />
+  </svg>
+  <div id="bootmsg">Loading your move…</div>
+</div>
 <script>
   window.addEventListener("load", function () {
     setTimeout(function () {
       var b = document.getElementById("boot");
       var r = document.getElementById("root");
-      if (b) { if (r && r.childNodes.length) { b.remove(); } else { b.textContent = "Couldn't start. Reload the page."; } }
+      if (b) { if (r && r.childNodes.length) { b.remove(); } else { var m = document.getElementById("bootmsg"); if (m) m.textContent = "Couldn't start. Reload the page."; } }
     }, 1200);
   });
 </script>
