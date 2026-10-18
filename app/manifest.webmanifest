@@ -1,7 +1,15 @@
 {
-  "name": "Packed Rabbit",
-  "short_name": "Packed Rabbit",
+  "id": "./",
+  "name": "The Packed Rabbit",
+  "short_name": "The Packed Rabbit",
   "description": "Your move, on your phone. Works offline. Nothing leaves the device.",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": [
+    "productivity",
+    "utilities",
+    "lifestyle"
+  ],
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -32,6 +40,22 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "./shot-box.png",
+      "sizes": "1170x2532",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "One spoken sentence becomes a numbered, measured box."
+    },
+    {
+      "src": "./shot-ask.png",
+      "sizes": "1170x2532",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Ask about your own move. It answers from your data, offline."
     }
   ]
 }
