@@ -57,7 +57,7 @@ input,textarea{width:100%;font:inherit;padding:12px 14px;border-radius:12px;bord
     <div id="qs"></div>
     <label for="m">Anything else, in a sentence or two (optional)</label>
     <textarea id="m" rows="3" maxlength="400" placeholder="Quiet, looked after the place, always paid by the 1st."></textarea>
-    <p class="note muted">Please keep to the tenancy — rent, care of the home, notice. Leave out family, health, religion, national origin, disability and other personal details; fair housing law protects them, and they don't belong in a reference.</p>
+    <p class="note muted">Please keep to the rental — rent, care of the home, notice. Leave out family, health, religion, national origin, disability and other personal details; fair housing law protects them, and they don't belong in a reference.</p>
     <button class="btn primary" type="submit" id="send">Send it to them</button>
     <button class="btn ghost" type="button" id="copy">Copy it instead</button>
     <p class="muted" id="msg"></p>
@@ -92,7 +92,7 @@ input,textarea{width:100%;font:inherit;padding:12px 14px;border-radius:12px;bord
     [].forEach.call($("qs").querySelectorAll('[data-k="' + b.dataset.k + '"]'), function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
   });
   function compose() {
-    var o = { l: $("l").value.trim(), lp: $("lp").value.trim(), a: $("a").value.trim(), f: $("fr").value.trim(), u: $("to").value.trim(), m: $("m").value.trim(), at: new Date().toISOString().slice(0, 10) };
+    var o = { l: $("l").value.trim(), lp: $("lp").value.trim(), a: $("a").value.trim(), f: $("fr").value.trim(), u: $("to").value.trim(), m: $("m").value.trim(), at: (function (d) { var p = function (n) { return String(n).padStart(2, "0"); }; return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate()); })(new Date()) };
     Q.forEach(function (q) { if (ans[q[0]]) o[q[0]] = ans[q[0]]; });
     var lines = ["Rental reference for " + who + " from " + (o.l || "their landlord") + (o.a ? ", " + o.a : "") + (o.f || o.u ? " (" + [o.f, o.u].filter(Boolean).join(" to ") + ")" : "") + "."];
     Q.forEach(function (q) { if (o[q[0]]) lines.push(q[1] + ": " + o[q[0]]); });

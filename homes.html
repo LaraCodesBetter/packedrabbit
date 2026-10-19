@@ -105,7 +105,7 @@ label{display:block;font-weight:700;margin:12px 0 6px}
       .then(function (r) { return r.json(); }).then(function (d) { if (d.ok) look($("q").value.trim()); else alert(d.why || "That didn't post."); });
   };
   function look(q) {
-    if (!live) return;
+    if (!live) { $("out").innerHTML = '<div class="card">Ratings open shortly — nothing to show for <strong>' + esc(q) + '</strong> yet. If you lived there, add it in the app and it will be among the first.</div>'; return; }
     $("out").innerHTML = '<div class="card muted">Looking…</div>';
     fetch(srv + "/homes?q=" + encodeURIComponent(q)).then(function (r) { return r.json(); }).then(function (d) {
       if (d && d.ok === false) { $("out").innerHTML = '<div class="card">' + esc(d.why) + "</div>"; return; }
