@@ -1,8 +1,8 @@
 {
   "id": "./",
   "name": "The Packed Rabbit",
-  "short_name": "The Packed Rabbit",
-  "description": "Your move, on your phone. Works offline. Nothing leaves the device.",
+  "short_name": "Packed Rabbit",
+  "description": "The moving app that numbers every box, checks what fits through the door, sizes the truck from what you packed, and keeps proof for your deposit. Works offline; your list stays on your phone.",
   "lang": "en-US",
   "dir": "ltr",
   "categories": [
