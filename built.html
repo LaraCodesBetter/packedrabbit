@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You asked, we built — The Packed Rabbit</title>
+<meta name="description" content="Every change to The Packed Rabbit that came from someone moving: what they ran into, and what the app does about it now.">
+<link rel="canonical" href="https://packedrabbit.com/built.html">
+<meta name="theme-color" content="#03274F">
+<link rel="icon" href="app/icon.svg" type="image/svg+xml">
+<style>
+:root{
+  --bg:#F2F3F1; --panel:#FFFFFF; --ink:#10131A; --ink2:#525A66; --teal:#07705F; --line:#E2E4E0;
+  --serif:ui-serif,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#0E1114;--panel:#171B20;--ink:#ECEEF0;--ink2:#9AA3AD;--teal:#4FBFA5;--line:#272C33}
+}
+:root[data-theme="dark"]{--bg:#0E1114;--panel:#171B20;--ink:#ECEEF0;--ink2:#9AA3AD;--teal:#4FBFA5;--line:#272C33}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,"SF Pro Text","Segoe UI",system-ui,sans-serif;font-size:17px;line-height:1.6}
+.wrap{max-width:680px;margin:0 auto;padding:28px 16px 70px}
+h1,h2{font-family:var(--serif);line-height:1.12;margin:0 0 12px}
+h1{font-size:clamp(1.9rem,6vw,2.6rem)}
+h2{font-size:1.28rem;margin-top:34px}
+p,li{margin:0 0 13px}
+a{color:var(--teal)}
+.muted{color:var(--ink2)}
+.card{background:var(--panel);border-radius:16px;padding:20px;border-left:5px solid var(--teal);margin:22px 0}
+ul{padding-left:1.15em}
+hr{border:0;border-top:1px solid var(--line);margin:34px 0}
+/* ---- the app's own identity: navy, kraft, packing tape, rounded type ---- */
+:root{
+  --display:ui-rounded,"SF Pro Rounded","Nunito","Segoe UI Variable Display",system-ui,-apple-system,sans-serif;
+  --navy:#0F2742; --navy2:#17365A; --kraft:#C9A27A; --tape:#F3C44A; --tape-ink:#3A2A06;
+  --bg:#EEF0EE; --teal:#0B6B5C;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#0A0D12; --panel:#141921; --navy:#0C1C31; --navy2:#132A47; --teal:#5CC7AE; } }
+:root[data-theme="dark"]{ --bg:#0A0D12; --panel:#141921; --navy:#0C1C31; --navy2:#132A47; --teal:#5CC7AE; }
+h1,h2,h3{font-family:var(--display); font-weight:850; letter-spacing:-.02em}
+h2{font-size:clamp(1.55rem,5vw,2.1rem)}
+h3{font-weight:800}
+.brand span{font-family:var(--display); font-weight:850; color:var(--navy); font-size:1.08rem}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .brand span{color:#fff} }
+.hero{
+  position:relative; margin-top:18px; padding:46px 24px 30px; border-radius:28px;
+  background:linear-gradient(160deg,var(--navy2),var(--navy)); color:#fff; overflow:hidden;
+  box-shadow:0 18px 40px rgba(15,39,66,.28);
+}
+.hero::before{content:""; position:absolute; left:-4%; right:-4%; top:16px; height:22px; background:var(--tape); transform:rotate(-1.6deg);
+  background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.18) 0 2px,transparent 2px 22px); opacity:.95}
+.hero .tag{color:var(--tape); text-transform:none; letter-spacing:0; font-size:.95rem; margin-top:10px}
+.hero h1{color:#fff; font-size:clamp(2.4rem,9vw,3.6rem); line-height:1.02}
+.hero .lede{color:rgba(255,255,255,.86)}
+.hero .muted{color:rgba(255,255,255,.66)!important}
+.hero .btn{border-color:rgba(255,255,255,.28); background:rgba(255,255,255,.08); color:#fff; box-shadow:none}
+.hero .btn.primary{background:var(--tape); border-color:var(--tape); color:var(--tape-ink)}
+.label{
+  margin:28px 0 6px; max-width:360px; background:var(--kraft); color:#2B1E0E; border-radius:14px; padding:16px 18px 14px;
+  position:relative; transform:rotate(-1.2deg); box-shadow:0 10px 24px rgba(0,0,0,.28);
+  background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.025) 0 1px,transparent 1px 4px);
+}
+.label::before{content:""; position:absolute; left:50%; top:-10px; width:70px; height:20px; margin-left:-35px; background:var(--tape); opacity:.92; transform:rotate(2deg)}
+.label .code{font-family:ui-monospace,"SF Mono",Menlo,monospace; font-weight:800; font-size:2rem; letter-spacing:.02em; line-height:1}
+.label .room{font-family:var(--display); font-weight:800; margin-top:4px}
+.label .what{font-size:.95rem; margin-top:8px}
+.label .flags{display:flex; gap:6px; margin-top:10px; flex-wrap:wrap}
+.label .flags span{font-size:.78rem; font-weight:800; border:2px solid #2B1E0E; border-radius:6px; padding:1px 7px}
+.label .qr{position:absolute; right:16px; top:16px; width:54px; height:54px;
+  background:conic-gradient(#2B1E0E 25%,transparent 0 50%,#2B1E0E 0 75%,transparent 0) 0 0/18px 18px; border:4px solid #2B1E0E; border-radius:4px; opacity:.9}
+.card{border-radius:22px; border:1px solid var(--line)}
+.card h3{font-size:1.15rem}
+#what .card{border-top:4px solid var(--kraft)}
+.card.edge{border-left:6px solid var(--tape)}
+.btn.primary{background:var(--navy); border-color:var(--navy)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .btn.primary{background:var(--tape); border-color:var(--tape); color:var(--tape-ink)} }
+.list a{font-family:var(--display)}
+.tag{color:var(--teal)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="muted"><a href="./">← The Packed Rabbit</a> · <a href="privacy.html">Privacy</a></p>
+<h1>You asked, we built</h1>
+<p class="muted">The Packed Rabbit was started by someone who moved and got burned. Every change below began as something a person ran into while moving.</p>
+
+<div class="card">
+  <p class="muted" style="margin:0 0 6px">20 Oct 2026</p>
+  <p style="margin:0 0 8px"><strong>The top bar took a third of the screen.</strong></p>
+  <p style="margin:0">One slim row now, the way every other app does it.</p>
+</div>
+
+<div class="card">
+  <p class="muted" style="margin:0 0 6px">20 Oct 2026</p>
+  <p style="margin:0 0 8px"><strong>Typing in every measurement of a bed frame by hand.</strong></p>
+  <p style="margin:0">Copy the size from the maker's page and paste it. The app finds every size listed and you tap yours.</p>
+</div>
+
+<div class="card">
+  <p class="muted" style="margin:0 0 6px">20 Oct 2026</p>
+  <p style="margin:0 0 8px"><strong>A mover's price that changed once the truck was loaded.</strong></p>
+  <p style="margin:0">Move day shows what they promised next to what happened: the price, the arrival window, the delivery date. If the bill is higher, it says what you're owed under the rules, and the complaint is already written.</p>
+</div>
+
+<div class="card">
+  <p class="muted" style="margin:0 0 6px">20 Oct 2026</p>
+  <p style="margin:0 0 8px"><strong>A rental truck charge for a dent that was already there.</strong></p>
+  <p style="margin:0">A photo walk-around of the truck at pickup and return, with the date and time written into every picture.</p>
+</div>
+
+<div class="card">
+  <p class="muted" style="margin:0 0 6px">20 Oct 2026</p>
+  <p style="margin:0 0 8px"><strong>Deposits nobody sends back unless you chase them.</strong></p>
+  <p style="margin:0">Money owed to you: every deposit and refund with its due date, and a letter ready when one is late.</p>
+</div>
+
+<div class="card">
+  <p class="muted" style="margin:0 0 6px">20 Oct 2026</p>
+  <p style="margin:0 0 8px"><strong>Paying to check a quote you could paste anywhere.</strong></p>
+  <p style="margin:0">Checking a quote is free. So is exporting everything you entered.</p>
+</div>
+
+<div class="card">
+  <p class="muted" style="margin:0 0 6px">20 Oct 2026</p>
+  <p style="margin:0 0 8px"><strong>Is this $99 desk worth the truck space?</strong></p>
+  <p style="margin:0">Every piece shows what it costs to move, to replace, and what it would sell for.</p>
+</div>
+
+<div class="card">
+  <p class="muted" style="margin:0 0 6px">19 Oct 2026</p>
+  <p style="margin:0 0 8px"><strong>A quote only good while you're on the phone.</strong></p>
+  <p style="margin:0">The quote reader flags pressure to book now, round-trip charges, brokers posing as movers, and deposits that are too big.</p>
+</div>
+
+<div class="card">
+  <p class="muted" style="margin:0 0 6px">19 Oct 2026</p>
+  <p style="margin:0 0 8px"><strong>Zoom walk-throughs of your home to get a quote.</strong></p>
+  <p style="margin:0">The photo quote kit: your inventory, truck size and photos in one file you send to as many movers as you like.</p>
+</div>
+
+<h2>Ask for something</h2>
+<p>Write to <a href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a>. Say what happened on your move. If it changes the app, it goes on this page.</p>
+
+</div>
+</body>
+</html>
