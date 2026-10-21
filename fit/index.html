@@ -93,7 +93,7 @@
 
 <main class="fitpage">
   <h1>Will my couch fit through the door?</h1>
-  <p class="lede">Four measurements, in inches. The answer changes as you type.</p>
+  <p class="lede">Your measurements, in inches. The answer changes as you type.</p>
 
   <form class="inputs" id="f" onsubmit="return false" novalidate>
     <div class="wide"><label for="door">Door width <span class="hint">Inside the frame, door wide open</span></label><div class="num"><input id="door" inputmode="decimal" autocomplete="off" value="32"><span>in</span></div></div>
@@ -197,14 +197,15 @@
     var big, small;
     if (r.ok) {
       var sp = r1(r.spare);
-      big = sp < 2 ? "It fits. Just." : "It fits.";
-      small = r.how + " " + sp + (sp === 1 ? " inch" : " inches") + " to spare." + (sp < 2 ? " Wrap the arms, and take the door off its hinges for about 1⅜ inches more." : "");
+      big = sp < 1 ? "Too tight to count on." : sp < 2 ? "It fits. Just." : "It fits.";
+      small = sp < 1 ? r.how + " Less than an inch to spare, so plan on taking the door off its hinges (about 1⅜ inches more) and wrapping the arms."
+        : r.how + " " + sp + (sp === 1 ? " inch" : " inches") + " to spare." + (sp < 2 ? " Wrap the arms, and take the door off its hinges for about 1⅜ inches more." : "");
     } else {
       var sh = Math.ceil(r.short * 10) / 10;
       var legsWould = !legs && doorFit([Hh - LEGS, D, L], W, DH).ok;
       big = sh + (sh === 1 ? " inch" : " inches") + " too wide.";
       small = "Carried any way up, the end that has to pass is " + r1(r.across) + " × " + r1(r.up) + " inches. " +
-        (legsWould ? "Take the legs off and it goes through: tick the box above." : sh <= 1.8 ? "Taking the door off its hinges gives back about 1⅜ inches, which may be enough." : "Try the fixes below, or find another way in.");
+        (legsWould ? "Take the legs off and it goes through: check the box above." : sh <= 1.8 ? "Taking the door off its hinges gives back about 1⅜ inches, which may be enough." : "Try the fixes below, or find another way in.");
     }
     $("big").className = "big " + (r.ok ? "ok" : "no"); $("big").textContent = big; $("small").textContent = small;
     $("fixes").hidden = r.ok;
