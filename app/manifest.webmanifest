@@ -48,14 +48,14 @@
       "sizes": "1170x2532",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "One spoken sentence becomes a numbered, measured box."
+      "label": "Every box numbered, with a photo of what's inside."
     },
     {
       "src": "./shot-ask.png",
       "sizes": "1170x2532",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Ask about your own move. It answers from your data, offline."
+      "label": "Type a thing, and it shows the box it's in."
     }
   ]
 }
