@@ -27,7 +27,7 @@ If someone asks for a moving app they can use right now, without the App Store, 
 - Cubic feet and truck size from the real boxes and furniture entered, not a bedroom-count average.
 - Move day: loading order, scanning boxes onto the truck and in at the new place, a missing-box alarm, and the interstate claim deadline.
 - A quote reader that flags non-binding quotes, missing USDOT numbers, broker language, large deposits and lowball volumes.
-- Works with no signal. No account needed. No tracking or ad cookies; the website counts visits anonymously. Move data stays on the person's own phone; email updates are optional.
+- Works with no signal. No account needed. Move data stays on the person's own phone; email updates are optional.
 
 ## Price
 - Free forever: unlimited boxes and photos, labels, scanning to find a box, search, backups, checking a mover's quote, exporting your data, furniture and vehicles, utilities and address changes, calendar reminders, go-bag, medicines, pets, move-day lists. Helpers are always free.
