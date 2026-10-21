@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>What size moving truck do I need? Free calculator, no signup</title>
+<meta name="description" content="Count your furniture and boxes and see which moving truck it fills: cargo van, 10, 15, 17, 20 or 26 feet. Shows how full the truck will be. Free, no signup, nothing to download.">
+<link rel="canonical" href="https://packedrabbit.com/truck/">
+<meta name="theme-color" content="#0F2742">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="What size moving truck do I need?">
+<meta property="og:description" content="Count your furniture and boxes, see the truck it fills and how full it gets.">
+<meta property="og:url" content="https://packedrabbit.com/truck/">
+<meta property="og:image" content="https://packedrabbit.com/img/og.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "What size truck? by The Packed Rabbit",
+  "url": "https://packedrabbit.com/truck/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Estimates the moving truck size needed from a count of furniture and boxes. Adds the cubic feet of each item, allows 15 percent for space that can't be packed, and picks the smallest common rental truck that holds it."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "What size moving truck do I need for a two-bedroom apartment?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Usually a 15-foot truck, about 760 cubic feet. A full two-bedroom with a lot of boxes or a sectional can need a 17- or 20-foot truck. Count your large furniture and boxes for a better answer: furniture takes most of the space." } },
+    { "@type": "Question", "name": "How do I work out what size truck I need?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Add up the space your things take. A medium box is about 3 cubic feet, a bed with its mattress about 60, a sofa about 60. Add about 15 percent, because nothing packs perfectly, then pick the smallest truck that holds the total. If it is close, size up: a second trip costs more than a bigger truck." } },
+    { "@type": "Question", "name": "Is it better to rent a bigger moving truck?",
+      "acceptedAnswer": { "@type": "Answer", "text": "If the estimate is within about 10 percent of a truck's capacity, yes. The price difference between sizes is usually small next to a second trip's time and fuel. The largest trucks need room to park and turn, so check the street at both ends." } }
+  ]
+}
+</script>
+<style>
+  .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .homes { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 16px 0 6px; }
+  .homes button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 4px; }
+  .homes button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #0A1C33; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .say { padding: 4px 18px 16px; color: #fff; }
+  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.5vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #7FF5C6; }
+  .say .big.no { color: #FF9BAD; }
+  .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
+  .items { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .items li { display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 16px; border-bottom: 1px solid var(--line); }
+  .items li:last-child { border-bottom: 0; }
+  .items .nm { flex: 1; min-width: 0; font-weight: 700; }
+  .items .nm small { display: block; font-weight: 500; color: var(--ink2); font-size: .82rem; }
+  .step { display: flex; align-items: center; gap: 4px; }
+  .step button { width: 44px; height: 44px; border-radius: 12px; border: 2px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; font-size: 1.4rem; font-weight: 800; cursor: pointer; line-height: 1; }
+  .step output { min-width: 2.4ch; text-align: center; font-family: var(--display); font-weight: 850; font-size: 1.25rem; }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  .how { margin-top: 34px; } .how h2 { font-size: 1.5rem; }
+  .how table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+  .how td, .how th { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); }
+  .aside { font-size: .95rem; color: var(--ink2); }
+  @media (max-width: 380px) { .homes { grid-template-columns: repeat(3, 1fr); } }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home">
+    <svg width="34" height="34" viewBox="0 0 72 72" aria-hidden="true">
+      <path d="M24 30C21 20 20 11 23 10c3-1 7 7 9 17" fill="none" stroke="var(--blue)" stroke-width="3.6" stroke-linecap="round"/>
+      <path d="M46 30c3-10 4-19 1-20-3-1-7 7-9 17" fill="none" stroke="var(--blue)" stroke-width="3.6" stroke-linecap="round"/>
+      <ellipse cx="36" cy="46" rx="20" ry="17" fill="none" stroke="var(--blue)" stroke-width="3.6"/>
+      <circle cx="43" cy="44" r="7" fill="none" stroke="var(--tape)" stroke-width="3"/>
+    </svg>
+    The Packed Rabbit
+  </a>
+</header>
+
+<main class="tp">
+  <h1>What size moving truck do I need?</h1>
+  <p class="lede">Start from your home, then change the counts to match what you own. The truck fills as you go.</p>
+
+  <div class="homes" role="group" aria-label="Start from a home size">
+    <button type="button" data-h="s">Studio</button>
+    <button type="button" data-h="1">1 bed</button>
+    <button type="button" data-h="2" class="on">2 bed</button>
+    <button type="button" data-h="3">3 bed</button>
+    <button type="button" data-h="4">4 bed</button>
+  </div>
+
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 500 222" role="img" aria-labelledby="big"></svg>
+    <div class="say" aria-live="polite"><div class="big" id="big"></div><p id="small"></p></div>
+  </div>
+
+  <ul class="items" id="items"></ul>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this answer</button>
+    <a class="btn ghost" href="../app/">Count your real boxes in the app, free</a>
+  </div>
+  <p class="aside">The app adds each box as you pack it and each piece of furniture you measure, then shows the truck filling on move day as the crew loads. No account, and it works with no signal.</p>
+
+  <section class="how">
+    <h2>How this works</h2>
+    <p>Each item has a typical size in cubic feet. They're added up, then 15 percent is added, because chair legs, table tops and odd shapes leave gaps nobody can pack. The answer is the smallest common rental truck that holds the total.</p>
+    <table>
+      <thead><tr><th>Truck</th><th>Holds about</th><th>Usually</th></tr></thead>
+      <tbody id="tbl"></tbody>
+    </table>
+    <p class="aside" style="margin-top:12px">Capacities vary a little between rental companies, so check the exact number for the truck you book. If you're within about 10 percent of a truck's limit, take the next size up: a second trip costs more than the bigger truck. The largest trucks need room to park and turn at both ends.</p>
+  </section>
+</main>
+
+<footer class="wrap">
+  <a href="../privacy.html">Privacy</a>
+  <a href="../terms.html">Terms and refunds</a>
+  <a href="../answers/">Moving answers</a>
+  <a href="../fit/">Will my couch fit?</a>
+</footer>
+
+<script>
+/* Nothing typed here is sent anywhere. The counts go in the address only so
+   a shared link opens showing the same truck. */
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg", SLACK = 1.15;
+  function $(id) { return document.getElementById(id); }
+  function el(tag, a, p) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  var TRUCKS = [
+    { n: "cargo van", cu: 245, u: "One room, or a dorm" },
+    { n: "10-foot truck", cu: 402, u: "Studio or small one-bedroom" },
+    { n: "15-foot truck", cu: 764, u: "One to two bedrooms" },
+    { n: "17-foot truck", cu: 865, u: "Two bedrooms" },
+    { n: "20-foot truck", cu: 1016, u: "Two to three bedrooms" },
+    { n: "26-foot truck", cu: 1684, u: "Three to four bedrooms" }
+  ];
+  /* typical cubic feet per item */
+  var ITEMS = [
+    { k: "sofa", n: "Sofas", s: "Sectionals count as two", cu: 60 },
+    { k: "chair", n: "Armchairs and recliners", cu: 20 },
+    { k: "tbl", n: "Coffee and side tables", cu: 10 },
+    { k: "tv", n: "TVs with stands", cu: 15 },
+    { k: "shelf", n: "Bookcases and shelves", cu: 20 },
+    { k: "bed", n: "Beds with mattress", s: "Any size", cu: 60 },
+    { k: "dresser", n: "Dressers", cu: 35 },
+    { k: "night", n: "Nightstands", cu: 5 },
+    { k: "dine", n: "Dining tables", cu: 25 },
+    { k: "chairs", n: "Dining and desk chairs", cu: 5 },
+    { k: "desk", n: "Desks", cu: 25 },
+    { k: "wd", n: "Washers and dryers", s: "Count each one", cu: 25 },
+    { k: "fridge", n: "Refrigerators", cu: 45 },
+    { k: "box", n: "Boxes", s: "Medium, about 3 cubic feet", cu: 3, step: 5 }
+  ];
+  var HOMES = {
+    s: { sofa: 1, chair: 0, tbl: 1, tv: 1, shelf: 1, bed: 1, dresser: 1, night: 1, dine: 0, chairs: 2, desk: 0, wd: 0, fridge: 0, box: 20 },
+    1: { sofa: 1, chair: 1, tbl: 2, tv: 1, shelf: 1, bed: 1, dresser: 1, night: 2, dine: 1, chairs: 4, desk: 1, wd: 0, fridge: 0, box: 30 },
+    2: { sofa: 1, chair: 1, tbl: 2, tv: 1, shelf: 2, bed: 2, dresser: 2, night: 3, dine: 1, chairs: 4, desk: 1, wd: 0, fridge: 0, box: 45 },
+    3: { sofa: 2, chair: 2, tbl: 3, tv: 2, shelf: 3, bed: 3, dresser: 3, night: 4, dine: 1, chairs: 6, desk: 1, wd: 2, fridge: 1, box: 70 },
+    4: { sofa: 2, chair: 2, tbl: 3, tv: 2, shelf: 4, bed: 4, dresser: 4, night: 6, dine: 1, chairs: 8, desk: 2, wd: 2, fridge: 1, box: 100 }
+  };
+  var c = {};
+  function setHome(h) { var src = HOMES[h]; ITEMS.forEach(function (it) { c[it.k] = src[it.k]; }); }
+
+  /* a shared link carries the counts */
+  var q = new URLSearchParams(location.search), fromLink = false;
+  setHome("2");
+  ITEMS.forEach(function (it) { var v = parseInt(q.get(it.k), 10); if (v >= 0 && v < 1000) { c[it.k] = v; fromLink = true; } });
+  if (fromLink) [].forEach.call(document.querySelectorAll(".homes button"), function (b) { b.classList.remove("on"); });
+
+  var list = $("items");
+  ITEMS.forEach(function (it) {
+    var li = document.createElement("li");
+    li.innerHTML = '<span class="nm">' + it.n + (it.s ? "<small>" + it.s + "</small>" : "") + '</span><span class="step"><button type="button" aria-label="One fewer: ' + it.n + '">−</button><output id="o-' + it.k + '" aria-live="polite"></output><button type="button" aria-label="One more: ' + it.n + '">+</button></span>';
+    var bs = li.querySelectorAll("button"), st = it.step || 1;
+    bs[0].addEventListener("click", function () { c[it.k] = Math.max(0, c[it.k] - st); clearHome(); draw(); });
+    bs[1].addEventListener("click", function () { c[it.k] = Math.min(999, c[it.k] + st); clearHome(); draw(); });
+    list.appendChild(li);
+  });
+  function clearHome() { [].forEach.call(document.querySelectorAll(".homes button"), function (b) { b.classList.remove("on"); }); }
+  [].forEach.call(document.querySelectorAll(".homes button"), function (b) {
+    b.addEventListener("click", function () { setHome(b.getAttribute("data-h")); clearHome(); b.classList.add("on"); draw(); });
+  });
+  $("tbl").innerHTML = TRUCKS.map(function (t) { return "<tr><td>" + t.n.charAt(0).toUpperCase() + t.n.slice(1) + "</td><td>" + t.cu.toLocaleString("en-US") + " cu ft</td><td>" + t.u + "</td></tr>"; }).join("");
+
+  var last = null;
+  function draw() {
+    var furn = 0, boxes = 0;
+    ITEMS.forEach(function (it) { $("o-" + it.k).textContent = c[it.k]; if (it.k === "box") boxes += c[it.k] * it.cu; else furn += c[it.k] * it.cu; });
+    var need = Math.round((furn + boxes) * SLACK);
+    var t = null; for (var i = 0; i < TRUCKS.length; i++) if (TRUCKS[i].cu >= need) { t = TRUCKS[i]; break; }
+    var over = !t, truck = t || TRUCKS[TRUCKS.length - 1];
+    var pct = Math.round(need / truck.cu * 100), close = !over && pct >= 90;
+    var nextUp = close ? TRUCKS[TRUCKS.indexOf(truck) + 1] : null;
+    var big, small;
+    if (need === 0) { big = "Add a few things"; small = ""; }
+    else if (over) {
+      var trips = Math.ceil(need / truck.cu);
+      big = "More than a 26-foot truck.";
+      small = "About " + need.toLocaleString("en-US") + " cubic feet. That's " + trips + " loads of the biggest rental truck, or a mover who charges by weight. Worth deciding what to sell or donate first.";
+    } else {
+      big = "A " + truck.n + ".";
+      small = "About " + need.toLocaleString("en-US") + " cubic feet, so it's " + pct + "% full." +
+        (close ? (nextUp ? " That's close to the limit: take the " + nextUp.n + " instead." : " That's close to the limit: plan for a second trip or a trailer.") : "") +
+        (furn > boxes ? " Furniture is most of the load." : " Boxes are most of the load.");
+    }
+    $("big").className = "big" + (over || close ? " no" : ""); $("big").textContent = big; $("small").textContent = small;
+    paint(truck, need, furn * SLACK, over);
+    last = { big: big, truck: truck, need: need, furn: furn * SLACK, over: over };
+    var p = new URLSearchParams(); ITEMS.forEach(function (it) { p.set(it.k, c[it.k]); });
+    try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
+  }
+
+  /* the truck: cab on the right, cargo box filled furniture first (against
+     the cab, as crews load), then boxes; overflow sits on the curb */
+  function paint(truck, need, furnCu, over) {
+    var s = $("svg"); s.textContent = "";
+    var X = 22, Y = 38, BW = 330, BH = 120;
+    el("rect", { width: 500, height: 222, fill: "#0A1C33" }, s);
+    el("rect", { x: 0, y: 198, width: 500, height: 24, fill: "#11284A" }, s);
+    el("rect", { x: X - 5, y: Y - 5, width: BW + 10, height: BH + 10, rx: 10, fill: "#13304F", stroke: "#E9EEF5", "stroke-width": 3 }, s);
+    el("path", { d: "M" + (X + BW + 10) + " " + (Y + 34) + "h70l36 46v66h-106z", fill: "#1F6BFF" }, s);
+    el("path", { d: "M" + (X + BW + 22) + " " + (Y + 46) + "h50l26 34h-76z", fill: "#9CC0FF" }, s);
+    [X + 60, X + 260, X + BW + 80].forEach(function (cx) { el("circle", { cx: cx, cy: 180, r: 17, fill: "#1A2433" }, s); el("circle", { cx: cx, cy: 180, r: 6, fill: "#C9CED6" }, s); });
+    var full = Math.min(need, truck.cu), fw = Math.min(BW, BW * furnCu / truck.cu), tw = BW * full / truck.cu;
+    /* fill from the cab end (right) toward the doors (left) */
+    var right = X + BW;
+    if (fw > 0) el("rect", { x: right - fw, y: Y, width: fw, height: BH, fill: "#5B8CFF" }, s);
+    if (tw > fw) {
+      var bx = right - tw, bw = tw - fw;
+      el("rect", { x: bx, y: Y, width: bw, height: BH, fill: "#C9A27A" }, s);
+      for (var x = bx + 14; x < bx + bw - 4; x += 28) el("rect", { x: x, y: Y, width: 5, height: BH, fill: "#FFC21A", opacity: .8 }, s);
+    }
+    var lbl = el("text", { x: X, y: 22, fill: "#fff", "font-weight": 800, "font-size": 15, "font-family": "ui-rounded,system-ui,sans-serif" }, s);
+    lbl.textContent = need ? (over ? "Over by " + (need - truck.cu).toLocaleString("en-US") + " cu ft" : Math.round(need / truck.cu * 100) + "% full · " + truck.n) : truck.n;
+    if (over) {
+      for (var i = 0; i < 4; i++) el("rect", { x: 2 + (i % 2) * 9, y: 162 - Math.floor(i / 2) * 18, width: 8, height: 16, rx: 2, fill: "#FF5C76" }, s);
+    }
+    var k1 = el("text", { x: X, y: 214, fill: "#9CC0FF", "font-size": 12, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k1.textContent = "blue: furniture";
+    var k2 = el("text", { x: X + 110, y: 214, fill: "#E2C29E", "font-size": 12, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k2.textContent = "kraft: boxes";
+  }
+  draw();
+
+  /* share picture: square, the answer large */
+  function picture() {
+    var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
+    var g = cv.getContext("2d"), F = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#0A1C33"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#FFC21A"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    var img = new Image(), svg = new XMLSerializer().serializeToString($("svg"));
+    return new Promise(function (res) {
+      img.onload = function () {
+        g.drawImage(img, 40, 200, 1000, 420);
+        g.textAlign = "center"; g.fillStyle = last.over ? "#FF9BAD" : "#7FF5C6"; g.font = "850 84px " + F; g.fillText(last.big, Z / 2, 760);
+        g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 34px " + F; g.fillText("What size truck do you need? Check free:", Z / 2, 900);
+        g.fillStyle = "#fff"; g.font = "800 40px " + F; g.fillText("packedrabbit.com/truck", Z / 2, 960);
+        res(cv);
+      };
+      img.onerror = function () { res(cv); };
+      img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg.indexOf("xmlns=") > -1 ? svg : svg.replace("<svg", '<svg xmlns="http://www.w3.org/2000/svg"'));
+    });
+  }
+  $("share").addEventListener("click", function () {
+    var url = location.href, text = last.big + " What size truck do you need? Check free:";
+    picture().then(function (cv) {
+      cv.toBlob(function (blob) {
+        var file = blob && typeof File !== "undefined" ? new File([blob], "truck-size.png", { type: "image/png" }) : null;
+        if (file && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+        else if (navigator.share) navigator.share({ title: "What size moving truck do I need?", text: text, url: url }).catch(function () {});
+        else if (blob) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "truck-size.png"; document.body.appendChild(a); a.click(); a.remove(); }
+      }, "image/png");
+    });
+  });
+})();
+</script>
+</body>
+</html>
