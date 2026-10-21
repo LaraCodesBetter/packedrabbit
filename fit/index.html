@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Will my couch fit through the door? Free check, no signup</title>
+<meta name="description" content="Type four measurements and see whether your couch, sofa or sectional goes through the doorway, which way to carry it, and what to take off if it doesn't. Free, no signup, nothing to download.">
+<link rel="canonical" href="https://packedrabbit.com/fit/">
+<meta name="theme-color" content="#0F2742">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="Will my couch fit through the door?">
+<meta property="og:description" content="Four measurements, ten seconds. Which way to carry it, and what to take off if it won't go.">
+<meta property="og:url" content="https://packedrabbit.com/fit/">
+<meta property="og:image" content="https://packedrabbit.com/img/og.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Will my couch fit? by The Packed Rabbit",
+  "url": "https://packedrabbit.com/fit/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Checks whether a couch or other piece of furniture goes through a doorway. You carry furniture long end first, so the two smaller measurements are what must pass the opening. Shows which way to carry it and what to remove if it does not fit."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How do I know if my couch will fit through my door?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Measure the couch's length, depth and height, and the door's width with the door open. A couch is carried long end first, so only its two smaller measurements have to pass the opening. If the smaller of the two is no wider than the door and the other is no taller than the door, it goes through." } },
+    { "@type": "Question", "name": "What if my couch is too big for the door?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Take the legs off (usually 3 to 6 inches), take the back off if it unbolts, or take the door off its hinges for about an inch and a half more. A sofa can often be hooked through: stood on end with the seat facing the frame, it curls around the frame and passes a door narrower than its depth." } }
+  ]
+}
+</script>
+<style>
+  /* One job: four numbers in, a clear answer out, and a picture worth sending. */
+  .fitpage { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .fitpage h1 { font-size: clamp(2.2rem, 8vw, 3.4rem); margin: 12px 0 10px; }
+  .stage { background: #0A1C33; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .say { padding: 16px 18px 18px; color: #fff; font-family: var(--display); }
+  .say .big { font-size: clamp(1.7rem, 6.5vw, 2.3rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; }
+  .say .big.ok { color: #7FF5C6; } .say .big.no { color: #FF9BAD; }
+  .say p { font-family: var(--text); font-weight: 500; color: rgba(255,255,255,.82); margin: 8px 0 0; font-size: 1rem; }
+  .inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; margin: 20px 0 8px; }
+  .inputs label { display: block; font-weight: 700; font-size: .95rem; margin-bottom: 4px; }
+  .inputs .hint { display: block; font-weight: 500; font-size: .82rem; color: var(--ink2); }
+  .inputs > * { min-width: 0; }
+  .inputs .num { display: flex; align-items: center; background: var(--panel); border: 2px solid var(--line); border-radius: 14px; padding: 0 12px; min-height: 54px; }
+  .inputs .num:focus-within { border-color: var(--blue); }
+  .inputs input { flex: 1; width: 100%; min-width: 0; border: 0; background: transparent; color: var(--ink); font: inherit; font-family: var(--display); font-weight: 800; font-size: 1.35rem; padding: 10px 0; outline: none; }
+  .inputs .num span { color: var(--ink2); font-weight: 600; }
+  .inputs .wide { grid-column: 1 / -1; }
+  .legs { display: flex; gap: 12px; align-items: center; min-height: 48px; font-weight: 600; }
+  .legs input { width: 26px; height: 26px; accent-color: var(--green); }
+  .fixes { margin: 18px 0 0; padding: 16px 18px; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .fixes h2 { font-size: 1.3rem; margin: 0 0 8px; }
+  .fixes ol { margin: 0; padding-left: 22px; } .fixes li { margin: 6px 0; }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  .how { margin-top: 34px; }
+  .how h2 { font-size: 1.5rem; }
+  .measure li { margin: 8px 0; }
+  .aside { font-size: .95rem; color: var(--ink2); }
+  @media (max-width: 380px) { .inputs { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home">
+    <svg width="34" height="34" viewBox="0 0 72 72" aria-hidden="true">
+      <path d="M24 30C21 20 20 11 23 10c3-1 7 7 9 17" fill="none" stroke="var(--blue)" stroke-width="3.6" stroke-linecap="round"/>
+      <path d="M46 30c3-10 4-19 1-20-3-1-7 7-9 17" fill="none" stroke="var(--blue)" stroke-width="3.6" stroke-linecap="round"/>
+      <ellipse cx="36" cy="46" rx="20" ry="17" fill="none" stroke="var(--blue)" stroke-width="3.6"/>
+      <circle cx="43" cy="44" r="7" fill="none" stroke="var(--tape)" stroke-width="3"/>
+    </svg>
+    The Packed Rabbit
+  </a>
+</header>
+
+<main class="fitpage">
+  <h1>Will my couch fit through the door?</h1>
+  <p class="lede">Four measurements, in inches. The answer changes as you type.</p>
+
+  <form class="inputs" id="f" onsubmit="return false" novalidate>
+    <div class="wide"><label for="door">Door width <span class="hint">Inside the frame, door wide open</span></label><div class="num"><input id="door" inputmode="decimal" autocomplete="off" value="32"><span>in</span></div></div>
+    <div><label for="len">Couch length <span class="hint">End to end</span></label><div class="num"><input id="len" inputmode="decimal" autocomplete="off" value="84"><span>in</span></div></div>
+    <div><label for="dep">Depth <span class="hint">Back to front</span></label><div class="num"><input id="dep" inputmode="decimal" autocomplete="off" value="38"><span>in</span></div></div>
+    <div><label for="hgt">Height <span class="hint">Floor to top of back</span></label><div class="num"><input id="hgt" inputmode="decimal" autocomplete="off" value="34"><span>in</span></div></div>
+    <div><label for="dh">Door height <span class="hint">Most are 80</span></label><div class="num"><input id="dh" inputmode="decimal" autocomplete="off" value="80"><span>in</span></div></div>
+    <label class="legs wide"><input type="checkbox" id="legs"> The legs come off (take 4 inches off the height)</label>
+  </form>
+
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 500 400" role="img" aria-labelledby="big">
+      <defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="4" height="8" fill="rgba(255,92,118,.75)"/></pattern></defs>
+      <rect width="500" height="400" fill="#0A1C33"/>
+      <rect y="362" width="500" height="38" fill="#11284A"/>
+      <g id="frame"></g><g id="piece"></g>
+      <g id="dims" font-family="ui-monospace,Menlo,monospace" font-size="15" font-weight="700"></g>
+    </svg>
+    <div class="say" aria-live="polite"><div class="big" id="big"></div><p id="small"></p></div>
+  </div>
+
+  <div class="fixes" id="fixes" hidden>
+    <h2>Ways to make it fit, biggest gain first</h2>
+    <ol>
+      <li><strong>Take the legs off.</strong> Usually 3 to 6 inches, and the most common fix.</li>
+      <li><strong>Take the back off,</strong> if it unbolts. Many sofas and most sectionals do.</li>
+      <li><strong>Take the door off its hinges.</strong> About 1⅜ inches, and the stop molding another ½.</li>
+      <li><strong>Hook it through.</strong> Stood on end with the seat facing the frame, a sofa curls around the frame and can pass a door narrower than its depth. Ask the movers.</li>
+      <li><strong>Another way in:</strong> a patio door, a wider entrance, or a window.</li>
+    </ol>
+  </div>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this answer</button>
+    <a class="btn ghost" href="../app/?go=bigs">Check every piece against every door, free</a>
+  </div>
+  <p class="aside">The app remembers each piece and each doorway, checks the turn out of the hallway too, and tells the movers before the day. No account, and it works with no signal.</p>
+
+  <section class="how">
+    <h2>How to measure</h2>
+    <ol class="measure">
+      <li><strong>Door width:</strong> open the door all the way and measure inside the frame, from the door's face to the frame on the other side. A door that can't open fully gives you less.</li>
+      <li><strong>Length, depth, height:</strong> measure at the widest points, including the arms and the legs.</li>
+      <li><strong>Why only two numbers matter:</strong> a couch is carried long end first, so the end that has to pass the opening is its depth by its height. Turned on its side, those two swap. That's the whole check.</li>
+    </ol>
+  </section>
+</main>
+
+<footer class="wrap">
+  <a href="../privacy.html">Privacy</a>
+  <a href="../terms.html">Terms and refunds</a>
+  <a href="../answers/">Moving answers</a>
+</footer>
+
+<script>
+/* The same rule as the app (doorFit). Nothing typed here is sent anywhere;
+   the numbers go in the address only so a shared link shows the same answer. */
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg", LEGS = 4;
+  function $(id) { return document.getElementById(id); }
+  function el(tag, a, p) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  function n(id) { var v = parseFloat(String($(id).value).replace(",", ".")); return v > 0 && v < 400 ? v : 0; }
+  function r1(x) { return Math.round(x * 10) / 10; }
+  function doorFit(dims, W, H) {
+    var d = dims.slice().sort(function (x, y) { return x - y; }), a = d[0], b = d[1];
+    if (a <= W && b <= H) return { ok: true, how: "Carry it upright, long end first.", across: a, up: b, spare: W - a };
+    if (b <= W && a <= H) return { ok: true, how: "Turn it on its side and carry it long end first.", across: b, up: a, spare: W - b };
+    return { ok: false, across: a, up: b, short: a - W };
+  }
+  var ids = ["door", "len", "dep", "hgt", "dh"], keys = ["door", "l", "d", "h", "dh"];
+  /* a shared link carries the numbers */
+  var q = new URLSearchParams(location.search);
+  keys.forEach(function (k, i) { var v = parseFloat(q.get(k)); if (v > 0 && v < 400) $(ids[i]).value = v; });
+  if (q.get("legs") === "1") $("legs").checked = true;
+
+  var last = null;
+  function draw() {
+    var W = n("door"), L = n("len"), D = n("dep"), Hh = n("hgt"), DH = n("dh") || 80, legs = $("legs").checked;
+    var frame = $("frame"), piece = $("piece"), dims = $("dims");
+    frame.textContent = ""; piece.textContent = ""; dims.textContent = "";
+    if (!W || !L || !D || !Hh) { $("big").className = "big"; $("big").textContent = "Type all four measurements"; $("small").textContent = ""; $("fixes").hidden = true; last = null; return; }
+    var h = legs ? Math.max(1, Hh - LEGS) : Hh;
+    var r = doorFit([h, D, L], W, DH);
+    var S = Math.min(3.85, 300 / Math.max(DH, r.up), 440 / Math.max(W, r.across)), FLOOR = 362, CX = 250;
+    var dw = W * S, dh = DH * S, dx = CX - dw / 2, dy = FLOOR - dh;
+    el("path", { d: "M0 0H500V" + FLOOR + "H" + (dx + dw) + "V" + dy + "H" + dx + "V" + FLOOR + "H0Z", fill: "#17365E" }, frame);
+    el("rect", { x: dx, y: dy, width: dw, height: dh, fill: "#06121F" }, frame);
+    el("path", { d: "M" + (dx - 7) + " " + FLOOR + "V" + (dy - 7) + "H" + (dx + dw + 7) + "V" + FLOOR, fill: "none", stroke: "#E9EEF5", "stroke-width": 7, "stroke-linejoin": "round" }, frame);
+    var pw = r.across * S, ph = r.up * S, px = CX - pw / 2, py = FLOOR - ph, col = r.ok ? "#2EE59D" : "#FF5C76";
+    el("rect", { x: px, y: py, width: pw, height: ph, rx: 8, fill: r.ok ? "rgba(46,229,157,.28)" : "rgba(255,92,118,.22)", stroke: col, "stroke-width": 3 }, piece);
+    if (!r.ok) {
+      var over = (pw - dw) / 2;
+      el("rect", { x: px, y: py, width: over + 4, height: ph, fill: "url(#hatch)" }, piece);
+      el("rect", { x: dx + dw - 4, y: py, width: over + 4, height: ph, fill: "url(#hatch)" }, piece);
+    }
+    var t = el("text", { x: CX, y: Math.max(18, dy - 14), fill: "#FFC21A", "text-anchor": "middle" }, dims); t.textContent = "door " + r1(W) + " in";
+    var t2 = el("text", { x: CX, y: py + ph / 2 + 6, fill: "#fff", "text-anchor": "middle" }, dims); t2.textContent = r1(r.across) + " × " + r1(r.up) + " in";
+    var t3 = el("text", { x: CX, y: FLOOR + 26, fill: "rgba(255,255,255,.6)", "text-anchor": "middle", "font-size": 13 }, dims); t3.textContent = "the end of the couch, as it meets the doorway";
+
+    var big, small;
+    if (r.ok) {
+      var sp = r1(r.spare);
+      big = sp < 2 ? "It fits. Just." : "It fits.";
+      small = r.how + " " + sp + (sp === 1 ? " inch" : " inches") + " to spare." + (sp < 2 ? " Wrap the arms, and take the door off its hinges for about 1⅜ inches more." : "");
+    } else {
+      var sh = Math.ceil(r.short * 10) / 10;
+      var legsWould = !legs && doorFit([Hh - LEGS, D, L], W, DH).ok;
+      big = sh + (sh === 1 ? " inch" : " inches") + " too wide.";
+      small = "Carried any way up, the end that has to pass is " + r1(r.across) + " × " + r1(r.up) + " inches. " +
+        (legsWould ? "Take the legs off and it goes through: tick the box above." : sh <= 1.8 ? "Taking the door off its hinges gives back about 1⅜ inches, which may be enough." : "Try the fixes below, or find another way in.");
+    }
+    $("big").className = "big " + (r.ok ? "ok" : "no"); $("big").textContent = big; $("small").textContent = small;
+    $("fixes").hidden = r.ok;
+    last = { ok: r.ok, big: big, small: small, W: W, across: r.across, up: r.up, DH: DH };
+    var p = new URLSearchParams(); p.set("door", W); p.set("l", L); p.set("d", D); p.set("h", Hh); if (DH !== 80) p.set("dh", DH); if (legs) p.set("legs", "1");
+    try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
+  }
+  ids.forEach(function (id) { $(id).addEventListener("input", draw); });
+  $("legs").addEventListener("change", draw);
+  draw();
+
+  /* The share picture: square, readable on a phone, the answer large. */
+  function picture() {
+    var c = document.createElement("canvas"), Z = 1080; c.width = Z; c.height = Z;
+    var g = c.getContext("2d"), F = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#0A1C33"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#FFC21A"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    var FLOOR = 700, S = Math.min(5, 430 / Math.max(last.DH, last.up), 640 / Math.max(last.W, last.across)), CX = Z / 2;
+    var dw = last.W * S, dh = last.DH * S, dx = CX - dw / 2, dy = FLOOR - dh;
+    g.fillStyle = "#17365E"; g.fillRect(0, 150, Z, FLOOR - 150); g.fillStyle = "#06121F"; g.fillRect(dx, dy, dw, dh);
+    g.fillStyle = "#11284A"; g.fillRect(0, FLOOR, Z, 40);
+    g.strokeStyle = "#E9EEF5"; g.lineWidth = 9; g.beginPath(); g.moveTo(dx - 9, FLOOR); g.lineTo(dx - 9, dy - 9); g.lineTo(dx + dw + 9, dy - 9); g.lineTo(dx + dw + 9, FLOOR); g.stroke();
+    var pw = last.across * S, ph = last.up * S;
+    g.fillStyle = last.ok ? "rgba(46,229,157,.30)" : "rgba(255,92,118,.26)"; g.strokeStyle = last.ok ? "#2EE59D" : "#FF5C76"; g.lineWidth = 5;
+    g.beginPath(); if (g.roundRect) g.roundRect(CX - pw / 2, FLOOR - ph, pw, ph, 12); else g.rect(CX - pw / 2, FLOOR - ph, pw, ph); g.fill(); g.stroke();
+    g.textAlign = "center"; g.fillStyle = "#FFC21A"; g.font = "700 30px ui-monospace,Menlo,monospace"; g.fillText("door " + r1(last.W) + " in", CX, Math.max(190, dy - 22));
+    g.fillStyle = last.ok ? "#7FF5C6" : "#FF9BAD"; g.font = "850 92px " + F; g.fillText(last.big, CX, 840);
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 34px " + F; g.fillText("Will my couch fit? Check yours free:", CX, 930);
+    g.fillStyle = "#FFFFFF"; g.font = "800 40px " + F; g.fillText("packedrabbit.com/fit", CX, 990);
+    return c;
+  }
+  $("share").addEventListener("click", function () {
+    if (!last) { draw(); if (!last) return; }
+    var url = location.href, text = last.big + " Will your couch fit? Check it free:";
+    picture().toBlob(function (blob) {
+      var file = blob && typeof File !== "undefined" ? new File([blob], "will-it-fit.png", { type: "image/png" }) : null;
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+      } else if (navigator.share) {
+        navigator.share({ title: "Will my couch fit?", text: text, url: url }).catch(function () {});
+      } else if (blob) {
+        var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "will-it-fit.png"; document.body.appendChild(a); a.click(); a.remove();
+      }
+    }, "image/png");
+  });
+})();
+</script>
+</body>
+</html>
