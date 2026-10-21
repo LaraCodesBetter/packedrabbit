@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Check your mover before you pay: free mover and contract check</title>
+<meta name="description" content="Look up any interstate mover's federal record by USDOT or MC number, then answer ten questions about your estimate and contract. See the red flags in plain English before you pay a deposit. Free, no signup.">
+<link rel="canonical" href="https://packedrabbit.com/mover-check/">
+<meta name="theme-color" content="#0F2742">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="Check your mover before you pay">
+<meta property="og:description" content="The federal record, and ten questions about your contract. Red flags in plain English.">
+<meta property="og:url" content="https://packedrabbit.com/mover-check/">
+<meta property="og:image" content="https://packedrabbit.com/img/og.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Check your mover, by The Packed Rabbit",
+  "url": "https://packedrabbit.com/mover-check/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Opens an interstate mover's official federal record from its USDOT or MC number and walks through ten questions about the estimate and bill of lading, flagging the terms that cost people money: no written delivery date, cash-only payment, released-value coverage, large deposits, estimates given sight unseen, and brokers who don't own trucks."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How do I check if a moving company is legitimate?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Interstate movers must be registered with the Federal Motor Carrier Safety Administration. Look up the company's USDOT or MC number on the FMCSA's SAFER site: the USDOT status should be Active, and its authority should include Motor Carrier of Household Goods. A company listed only as a broker doesn't own trucks and will hand your move to another company. Then check the federal complaint history for household goods movers." } },
+    { "@type": "Question", "name": "What are the red flags in a moving contract?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No delivery date written on the bill of lading, payment in cash or money order only, a large deposit that becomes non-refundable after a few days, an estimate given without seeing your things, coverage at 60 cents per pound instead of Full Value Protection, and no name or USDOT number for the company that will actually drive the truck." } }
+  ]
+}
+</script>
+<style>
+  .mc { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .mc h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .look { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0 6px; }
+  .look select, .look input { min-height: 54px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 700; padding: 0 12px; width: 100%; box-sizing: border-box; }
+  .look input { font-family: var(--display); font-size: 1.25rem; }
+  .look .wide { grid-column: 1 / -1; }
+  .look .btn { width: 100%; }
+  .card2 { margin: 16px 0; padding: 16px 18px; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .card2 h2 { font-size: 1.3rem; margin: 0 0 8px; }
+  .card2 li { margin: 6px 0; }
+  .qs { list-style: none; margin: 0; padding: 0; }
+  .qs li { padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .qs li:last-child { border-bottom: 0; }
+  .qs .q { font-weight: 700; display: block; margin-bottom: 8px; }
+  .yn { display: flex; gap: 8px; }
+  .yn button { flex: 1; min-height: 48px; border-radius: 12px; border: 2px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; font-weight: 800; cursor: pointer; }
+  .yn button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #0A1C33; color: #fff; border-radius: 22px; padding: 16px 18px; box-shadow: var(--lift2); margin: 16px 0; }
+  .stage .big { font-family: var(--display); font-size: clamp(1.5rem, 6vw, 2.1rem); font-weight: 850; line-height: 1.1; color: #7FF5C6; }
+  .stage .big.amber { color: #FFC21A; } .stage .big.red { color: #FF9BAD; }
+  .stage p { margin: 6px 0 0; color: rgba(255,255,255,.85); }
+  .flags { margin: 0; padding-left: 20px; }
+  .flags li { margin: 10px 0; }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  .aside { font-size: .95rem; color: var(--ink2); }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home">
+    <svg width="34" height="34" viewBox="0 0 72 72" aria-hidden="true">
+      <path d="M24 30C21 20 20 11 23 10c3-1 7 7 9 17" fill="none" stroke="var(--blue)" stroke-width="3.6" stroke-linecap="round"/>
+      <path d="M46 30c3-10 4-19 1-20-3-1-7 7-9 17" fill="none" stroke="var(--blue)" stroke-width="3.6" stroke-linecap="round"/>
+      <ellipse cx="36" cy="46" rx="20" ry="17" fill="none" stroke="var(--blue)" stroke-width="3.6"/>
+      <circle cx="43" cy="44" r="7" fill="none" stroke="var(--tape)" stroke-width="3"/>
+    </svg>
+    The Packed Rabbit
+  </a>
+</header>
+
+<main class="mc">
+  <h1>Check your mover before you pay.</h1>
+  <p class="lede">Two steps: the mover's federal record, then ten questions about your estimate and contract. It takes about five minutes and can save thousands.</p>
+
+  <h2 style="margin-top:22px">1. The federal record</h2>
+  <p>Every interstate mover must have a USDOT number. It's usually printed on the estimate, the website and the truck.</p>
+  <form class="look" id="lf" onsubmit="return false" novalidate>
+    <select id="kind" aria-label="Number type"><option value="USDOT">USDOT number</option><option value="MC_MX">MC number</option></select>
+    <input id="num" inputmode="numeric" autocomplete="off" placeholder="e.g. 1234567" aria-label="The number">
+    <a class="btn tape wide" id="open" href="#" rel="noopener" target="_blank">Open the official record</a>
+  </form>
+  <p class="aside" id="hint">Opens the Federal Motor Carrier Safety Administration's own page. We don't see what you look up.</p>
+
+  <div class="card2">
+    <h2>On that page, check three things</h2>
+    <ol>
+      <li><strong>USDOT Status says ACTIVE,</strong> and "Out of Service Date" says None.</li>
+      <li><strong>Operating authority includes "Motor Carrier of Household Goods."</strong> If it says only "Broker of Household Goods," the company doesn't own trucks. It sells your move to another company, so ask in writing which one.</li>
+      <li><strong>The name matches your paperwork.</strong> A different legal name can be fine (many movers use a trade name), but it should be listed there as the "DBA name."</li>
+    </ol>
+    <p>Then look up the mover's complaint history through the federal <a href="https://www.fmcsa.dot.gov/protect-your-move" rel="noopener">Protect Your Move</a> site (choose "Search Movers"), and keep the federal booklet <a href="https://www.fmcsa.dot.gov/protect-your-move/consumer-rights" rel="noopener">Your Rights and Responsibilities When You Move</a> handy. Your mover must give it to you.</p>
+  </div>
+
+  <h2 style="margin-top:22px">2. Your estimate and contract</h2>
+  <p>Answer from your paperwork, not from what someone said on the phone.</p>
+
+  <div class="stage" aria-live="polite"><div class="big" id="big">Answer the questions below</div><p id="small"></p></div>
+
+  <ul class="qs" id="qs"></ul>
+
+  <div class="card2" id="flagbox" hidden>
+    <h2>What to do about each flag</h2>
+    <ol class="flags" id="flags"></ol>
+  </div>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this check</button>
+    <a class="btn ghost" href="../app/">Keep your quotes and contract in the app, free</a>
+  </div>
+  <p class="aside">The app keeps every quote side by side, your bill of lading and inventory, and the dates that matter, such as the last day to cancel for a refund. It stays on your phone.</p>
+
+  <section style="margin-top:30px">
+    <h2>Where this comes from</h2>
+    <p class="aside">The red flags follow the federal government's own guidance for people moving between states: <a href="https://www.fmcsa.dot.gov/protect-your-move" rel="noopener">Protect Your Move (FMCSA)</a> and <a href="https://www.fmcsa.dot.gov/protect-your-move/consumer-rights" rel="noopener">Your Rights and Responsibilities When You Move</a>. Moves within one state follow that state's rules. This is a checklist, not legal advice.</p>
+  </section>
+</main>
+
+<footer class="wrap">
+  <a href="../privacy.html">Privacy</a>
+  <a href="../terms.html">Terms and refunds</a>
+  <a href="../answers/">Moving answers</a>
+  <a href="../fit/">Will my couch fit?</a>
+  <a href="../truck/">What size truck?</a>
+  <a href="../states/">Moving to a new state</a>
+</footer>
+
+<script>
+/* Nothing is sent anywhere. Answers go in the address only so a shared link
+   shows the same check. The lookup opens the government's own page. */
+(function () {
+  "use strict";
+  function $(id) { return document.getElementById(id); }
+  /* bad = the answer that is a red flag */
+  var Q = [
+    { k: "survey", t: "Priced sight unseen", q: "Did they see your things, in person or on a video call, before pricing the move?", bad: "n", sev: 2,
+      fix: "An estimate made sight unseen is the easiest kind to raise on moving day. Ask for a video walk-through, and make sure every item you're moving is on the written inventory." },
+    { k: "binding", t: "Not a binding estimate", q: "Does the estimate say it is binding (or binding not to exceed)?", bad: "n", sev: 2,
+      fix: "With a non-binding estimate, the final bill can be higher. Under federal rules the mover can only demand the estimate plus 10% at delivery, and must bill the rest later. Ask for a binding estimate in writing." },
+    { k: "deliv", t: "No delivery date in writing", q: "Is a delivery date or delivery window written on your bill of lading?", bad: "n", sev: 3,
+      fix: "If it's blank, a promise on the phone isn't enforceable. Ask for the delivery dates in writing on a revised bill of lading before your refund window closes." },
+    { k: "deposit", t: "Large or short-window deposit", q: "Is the deposit more than about a quarter of the total, or non-refundable within a few days?", bad: "y", sev: 2,
+      fix: "Write down the exact last day you can cancel for a refund and put it on your calendar. If you have doubts, decide before that day." },
+    { k: "cash", t: "Cash or money order only", q: "Must you pay in cash or money order only, at pickup or delivery?", bad: "y", sev: 2,
+      fix: "Cash and money orders can't be disputed. Ask whether a card is accepted at delivery, and get a receipt for every payment, signed by the driver." },
+    { k: "fvp", t: "No Full Value Protection", q: "Does the paperwork offer Full Value Protection (not just 60 cents a pound)?", bad: "n", sev: 2,
+      fix: "Under 60 cents a pound, a 150 lb bed is covered for about $90. Movers must offer Full Value Protection. Ask for it in writing, and never initial the 60-cent waiver unless you mean to." },
+    { k: "carrier", t: "You don't know who drives the truck", q: "Do you know the name and USDOT number of the company that will drive the truck?", bad: "n", sev: 2,
+      fix: "Brokers often hand your move to another mover. Ask in writing who will carry it, then check that company's record too." },
+    { k: "booklet", t: "No federal booklet", q: "Did they give you the federal booklet \"Your Rights and Responsibilities When You Move\"?", bad: "n", sev: 1,
+      fix: "Interstate movers must give it to you. If they didn't, ask for it, or read it on the FMCSA site linked above." },
+    { k: "price", t: "Price far below the rest", q: "Is their price far below every other quote you got?", bad: "y", sev: 2,
+      fix: "A price far below the rest often comes back on moving day as \"extra cubic feet\" or added fees. Compare what each quote includes, item by item." },
+    { k: "address", t: "No address or USDOT number", q: "Do they list a real street address and their USDOT number on their website and paperwork?", bad: "n", sev: 1,
+      fix: "A mover with no address and no USDOT number on its paperwork is hard to hold to anything. Look it up above before paying anything more." }
+  ];
+  var a = {};
+  var q = new URLSearchParams(location.search);
+  Q.forEach(function (x) { var v = q.get(x.k); if (v === "y" || v === "n") a[x.k] = v; });
+  var k0 = q.get("dot"); if (k0 && /^\d{1,8}$/.test(k0)) $("num").value = k0;
+  if (q.get("t") === "MC_MX") $("kind").value = "MC_MX";
+
+  var list = $("qs");
+  Q.forEach(function (x) {
+    var li = document.createElement("li");
+    li.innerHTML = '<span class="q">' + x.q + '</span><span class="yn" role="group"><button type="button" data-v="y">Yes</button><button type="button" data-v="n">No</button></span>';
+    [].forEach.call(li.querySelectorAll("button"), function (b) {
+      b.setAttribute("aria-pressed", "false");
+      b.addEventListener("click", function () { a[x.k] = a[x.k] === b.getAttribute("data-v") ? undefined : b.getAttribute("data-v"); draw(); });
+    });
+    x.li = li; list.appendChild(li);
+  });
+
+  function lookUrl() {
+    var n = String($("num").value || "").replace(/\D/g, "");
+    if (!n) return "";
+    return "https://safer.fmcsa.dot.gov/query.asp?query_param=" + $("kind").value + "&query_string=" + n + "&query_type=queryCarrierSnapshot";
+  }
+  function syncLook() {
+    var u = lookUrl(), o = $("open");
+    if (u) { o.href = u; o.removeAttribute("aria-disabled"); o.style.opacity = ""; } else { o.href = "#"; o.setAttribute("aria-disabled", "true"); o.style.opacity = ".55"; }
+    save();
+  }
+  $("num").addEventListener("input", syncLook); $("kind").addEventListener("change", syncLook);
+  $("open").addEventListener("click", function (e) { if (!lookUrl()) { e.preventDefault(); $("num").focus(); } });
+
+  function save() {
+    var p = new URLSearchParams();
+    var n = String($("num").value || "").replace(/\D/g, ""); if (n) { p.set("dot", n); if ($("kind").value === "MC_MX") p.set("t", "MC_MX"); }
+    Q.forEach(function (x) { if (a[x.k]) p.set(x.k, a[x.k]); });
+    try { history.replaceState(null, "", p.toString() ? "?" + p.toString() : location.pathname); } catch (e) {}
+  }
+  var last = "";
+  function draw() {
+    var done = 0, flags = [], weight = 0;
+    Q.forEach(function (x) {
+      [].forEach.call(x.li.querySelectorAll("button"), function (b) { var on = a[x.k] === b.getAttribute("data-v"); b.classList.toggle("on", on); b.setAttribute("aria-pressed", on ? "true" : "false"); });
+      if (a[x.k]) { done++; if (a[x.k] === x.bad) { flags.push(x); weight += x.sev; } }
+    });
+    var big = $("big"), small = $("small");
+    if (!done) { big.className = "big"; big.textContent = "Answer the questions below"; small.textContent = "Each one is a place movers commonly cost people money."; }
+    else {
+      var cls = weight >= 5 || flags.some(function (f) { return f.sev >= 3; }) ? "red" : flags.length ? "amber" : "";
+      big.className = "big " + cls;
+      big.textContent = flags.length === 0 ? "No red flags so far." : flags.length === 1 ? "1 red flag." : flags.length + " red flags.";
+      small.textContent = (done < Q.length ? done + " of " + Q.length + " answered. " : "All " + Q.length + " answered. ") +
+        (flags.length ? "Fix these in writing before you pay any more, and before your refund window closes." : "Keep every promise in writing, and keep the paperwork with you on moving day.");
+    }
+    $("flagbox").hidden = !flags.length;
+    $("flags").innerHTML = flags.map(function (f) { return "<li><strong>" + f.t + ".</strong> " + f.fix + "</li>"; }).join("");
+    last = big.textContent;
+    save();
+  }
+  syncLook(); draw();
+
+  $("share").addEventListener("click", function () {
+    var url = location.href, text = "Check your mover before you pay a deposit. Free:";
+    if (navigator.share) navigator.share({ title: "Check your mover before you pay", text: text, url: url }).catch(function () {});
+    else if (navigator.clipboard) navigator.clipboard.writeText(url).then(function () { $("share").textContent = "Link copied"; setTimeout(function () { $("share").textContent = "Share this check"; }, 2000); });
+  });
+})();
+</script>
+</body>
+</html>
