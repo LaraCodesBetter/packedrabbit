@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How many moving boxes do I need? Free calculator, no signup</title>
+<meta name="description" content="Count your rooms and see how many moving boxes you need, split into small, medium, large, dish-pack and wardrobe boxes, plus rolls of tape. Free, no signup, nothing to download.">
+<link rel="canonical" href="https://packedrabbit.com/boxes/">
+<meta name="theme-color" content="#0F2742">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="How many moving boxes do I need?">
+<meta property="og:description" content="Count your rooms, see how many boxes of each size and how much tape.">
+<meta property="og:url" content="https://packedrabbit.com/boxes/">
+<meta property="og:image" content="https://packedrabbit.com/img/og.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "How many boxes? by The Packed Rabbit",
+  "url": "https://packedrabbit.com/boxes/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Estimates how many moving boxes a home needs from a count of rooms and how full they are, split into small, medium, large, dish-pack and wardrobe boxes, with an estimate of packing tape. Every number is an estimate."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How many moving boxes do I need for a two-bedroom apartment?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Usually somewhere around 40 to 60. A two-bedroom with two bathrooms, a kitchen, a living room and a dining area comes to about 47 at an average fill. Books, kitchenware and a garage push it up. It is an estimate: count your own rooms for a better one, and get a few spare." } },
+    { "@type": "Question", "name": "What size moving boxes should I get?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Mostly small and medium. Pack heavy things such as books, tins and tools in small boxes and light, bulky things such as pillows and lampshades in large ones. A university facilities moving guide gives the rule as light items in large boxes, heavy items in small boxes." } },
+    { "@type": "Question", "name": "How heavy should a moving box be?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Light enough to lift without straining. The SUNY Fredonia facilities moving guide says no more than 30 to 40 pounds per carton. If a box is hard to lift, move some of it into a second box." } }
+  ]
+}
+</script>
+<style>
+  .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .homes, .fill { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 16px 0 6px; }
+  .fill { grid-template-columns: repeat(3, 1fr); margin: 8px 0 0; }
+  .homes button, .fill button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 4px; }
+  .homes button.on, .fill button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .lbl { font-weight: 800; margin: 20px 0 0; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #0A1C33; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .say { padding: 4px 18px 16px; color: #fff; }
+  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.5vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #7FF5C6; }
+  .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
+  .items { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .items li { display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 16px; border-bottom: 1px solid var(--line); }
+  .items li:last-child { border-bottom: 0; }
+  .items .nm { flex: 1; min-width: 0; font-weight: 700; }
+  .items .nm small { display: block; font-weight: 500; color: var(--ink2); font-size: .82rem; }
+  .step { display: flex; align-items: center; gap: 4px; }
+  .step button { width: 44px; height: 44px; border-radius: 12px; border: 2px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; font-size: 1.4rem; font-weight: 800; cursor: pointer; line-height: 1; }
+  .step output { min-width: 2.4ch; text-align: center; font-family: var(--display); font-weight: 850; font-size: 1.25rem; }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  .how { margin-top: 34px; } .how h2 { font-size: 1.5rem; }
+  .how table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+  .how td, .how th { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .aside { font-size: .95rem; color: var(--ink2); }
+  .src { font-size: .9rem; color: var(--ink2); border-top: 1px solid var(--line); padding-top: 12px; margin-top: 22px; }
+  .src a { color: var(--ink2); overflow-wrap: anywhere; }
+  @media (max-width: 380px) { .homes { grid-template-columns: repeat(3, 1fr); } }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home">
+    <svg width="34" height="34" viewBox="0 0 72 72" aria-hidden="true">
+      <path d="M24 30C21 20 20 11 23 10c3-1 7 7 9 17" fill="none" stroke="var(--blue)" stroke-width="3.6" stroke-linecap="round"/>
+      <path d="M46 30c3-10 4-19 1-20-3-1-7 7-9 17" fill="none" stroke="var(--blue)" stroke-width="3.6" stroke-linecap="round"/>
+      <ellipse cx="36" cy="46" rx="20" ry="17" fill="none" stroke="var(--blue)" stroke-width="3.6"/>
+      <circle cx="43" cy="44" r="7" fill="none" stroke="var(--tape)" stroke-width="3"/>
+    </svg>
+    The Packed Rabbit
+  </a>
+</header>
+
+<main class="tp">
+  <h1>How many moving boxes do I need?</h1>
+  <p class="lede">Start from your home, then change the rooms to match. The boxes stack up as you go.</p>
+
+  <div class="homes" role="group" aria-label="Start from a home size">
+    <button type="button" data-h="s">Studio</button>
+    <button type="button" data-h="1">1 bed</button>
+    <button type="button" data-h="2" class="on">2 bed</button>
+    <button type="button" data-h="3">3 bed</button>
+    <button type="button" data-h="4">4 bed</button>
+  </div>
+
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 500 222" role="img" aria-labelledby="big"></svg>
+    <div class="say" aria-live="polite"><div class="big" id="big"></div><p id="small"></p></div>
+  </div>
+
+  <ul class="items" id="items"></ul>
+
+  <p class="lbl" id="fill-l">How full are your cupboards and closets?</p>
+  <div class="fill" role="group" aria-labelledby="fill-l">
+    <button type="button" data-f="l">Sparse</button>
+    <button type="button" data-f="a" class="on">Average</button>
+    <button type="button" data-f="f">Packed</button>
+  </div>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this answer</button>
+    <a class="btn ghost" href="../app/">Number every box in the app, free</a>
+  </div>
+  <p class="aside">The app gives each box a number and a photo of what's inside as you pack it, so you can find the kettle later by typing "kettle". No account, and it works with no signal.</p>
+
+  <section class="how">
+    <h2>How this works</h2>
+    <p>Each room gets a typical mix of boxes. The mix is multiplied by how full your home is (Sparse is 0.7 times, Packed is 1.4 times), then added up. These are estimates, not a published standard: a room of books needs far more small boxes than a room of clothes.</p>
+    <table>
+      <thead><tr><th>Room</th><th>Typical boxes at an average fill</th></tr></thead>
+      <tbody id="tbl"></tbody>
+    </table>
+    <h2 style="margin-top:26px">Which size for what</h2>
+    <table>
+      <tbody>
+        <tr><td><strong>Small</strong></td><td>Heavy things: books, tins, tools, records, files</td></tr>
+        <tr><td><strong>Medium</strong></td><td>Most things: kitchen tools, shoes, toys, electronics</td></tr>
+        <tr><td><strong>Large</strong></td><td>Light, bulky things only: pillows, bedding, lampshades</td></tr>
+        <tr><td><strong>Dish pack</strong></td><td>Thick-walled box for plates and glasses, often with dividers</td></tr>
+        <tr><td><strong>Wardrobe</strong></td><td>Tall box with a rail, so clothes go straight from the closet on hangers</td></tr>
+      </tbody>
+    </table>
+    <p class="aside" style="margin-top:12px">Never put heavy things in a large box: it gets too heavy to lift safely and the bottom can give way. Keep each box light enough to lift without straining. One university moving guide puts the limit at 30 to 40 pounds a box. Fill boxes to the top so they don't crush when stacked.</p>
+    <p class="aside">Tape is estimated at about 12 feet a box (an H across the top and the bottom) and 55 yards a roll. Check the length printed on the rolls you buy.</p>
+  </section>
+
+  <p class="src">Sources: packing rules (light items in large boxes, heavy items in small boxes, no more than 30 to 40 pounds a carton, fill to the top, get more boxes than you think you'll need) from <a href="https://www.fredonia.edu/sites/default/files/section/about/offices/facilities/_files/MOVING-2014.pdf">State University of New York at Fredonia, Facilities Services moving guide</a>. Boxes per room and tape per box are our own typical figures and will vary with what you own. Checked October 2026.</p>
+</main>
+
+<footer class="wrap">
+  <a href="../privacy.html">Privacy</a>
+  <a href="../terms.html">Terms and refunds</a>
+  <a href="../answers/">Moving answers</a>
+  <a href="../fit/">Will my couch fit?</a>
+  <a href="../truck/">What size truck?</a>
+  <a href="../mover-check/">Check your mover</a>
+</footer>
+
+<script>
+/* Nothing typed here is sent anywhere. The counts go in the address only so
+   a shared link opens showing the same answer. */
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  function $(id) { return document.getElementById(id); }
+  function el(tag, a, p) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  var SIZES = ["small", "medium", "large", "dish pack", "wardrobe"];
+  /* typical boxes per room at an average fill: small, medium, large, dish, wardrobe */
+  var ROOMS = [
+    { k: "kit", t: "Kitchen", n: "Kitchens", s: "Dishes, pans, pantry", mix: [4, 4, 1, 1, 0], max: 3 },
+    { k: "bed", t: "Bedroom", n: "Bedrooms", s: "Clothes, bedding, shelves", mix: [3, 4, 2, 0, 1] },
+    { k: "bath", t: "Bathroom", n: "Bathrooms", s: "Include the linen closet", mix: [2, 1, 0, 0, 0] },
+    { k: "liv", t: "Living or family room", n: "Living and family rooms", mix: [2, 3, 2, 0, 0] },
+    { k: "din", t: "Dining room", n: "Dining rooms or areas", mix: [1, 1, 1, 1, 0] },
+    { k: "off", t: "Office", n: "Offices", s: "More if you have lots of books", mix: [4, 2, 1, 0, 0] },
+    { k: "gar", t: "Garage or storage", n: "Garages, basements, storage", s: "Count each one", mix: [3, 4, 3, 0, 0] }
+  ];
+  var HOMES = {
+    s: { kit: 1, bed: 1, bath: 1, liv: 0, din: 0, off: 0, gar: 0 },
+    1: { kit: 1, bed: 1, bath: 1, liv: 1, din: 0, off: 0, gar: 0 },
+    2: { kit: 1, bed: 2, bath: 2, liv: 1, din: 1, off: 0, gar: 0 },
+    3: { kit: 1, bed: 3, bath: 2, liv: 1, din: 1, off: 1, gar: 1 },
+    4: { kit: 1, bed: 4, bath: 3, liv: 2, din: 1, off: 1, gar: 1 }
+  };
+  var FILL = { l: 0.7, a: 1, f: 1.4 }, FILLNAME = { l: "a sparse home", a: "an average home", f: "a packed home" };
+  var c = {}, fill = "a";
+  function setHome(h) { var src = HOMES[h]; ROOMS.forEach(function (r) { c[r.k] = src[r.k]; }); }
+
+  /* a shared link carries the counts */
+  var q = new URLSearchParams(location.search), fromLink = false;
+  setHome("2");
+  ROOMS.forEach(function (r) { var v = parseInt(q.get(r.k), 10); if (v >= 0 && v <= (r.max || 20)) { c[r.k] = v; fromLink = true; } });
+  if (FILL[q.get("f")]) { fill = q.get("f"); }
+
+  function clear(sel) { [].forEach.call(document.querySelectorAll(sel), function (b) { b.classList.remove("on"); }); }
+  if (fromLink) clear(".homes button");
+  [].forEach.call(document.querySelectorAll(".fill button"), function (b) { b.classList.toggle("on", b.getAttribute("data-f") === fill); });
+
+  var list = $("items");
+  ROOMS.forEach(function (r) {
+    var li = document.createElement("li"), mx = r.max || 20;
+    li.innerHTML = '<span class="nm">' + r.n + (r.s ? "<small>" + r.s + "</small>" : "") + '</span><span class="step"><button type="button" aria-label="One fewer: ' + r.n + '">−</button><output id="o-' + r.k + '" aria-live="polite"></output><button type="button" aria-label="One more: ' + r.n + '">+</button></span>';
+    var bs = li.querySelectorAll("button");
+    bs[0].addEventListener("click", function () { c[r.k] = Math.max(0, c[r.k] - 1); clear(".homes button"); draw(); });
+    bs[1].addEventListener("click", function () { c[r.k] = Math.min(mx, c[r.k] + 1); clear(".homes button"); draw(); });
+    list.appendChild(li);
+  });
+  [].forEach.call(document.querySelectorAll(".homes button"), function (b) {
+    b.addEventListener("click", function () { setHome(b.getAttribute("data-h")); clear(".homes button"); b.classList.add("on"); draw(); });
+  });
+  [].forEach.call(document.querySelectorAll(".fill button"), function (b) {
+    b.addEventListener("click", function () { fill = b.getAttribute("data-f"); clear(".fill button"); b.classList.add("on"); draw(); });
+  });
+  $("tbl").innerHTML = ROOMS.map(function (r) {
+    var parts = []; r.mix.forEach(function (n, i) { if (n) parts.push(n + " " + SIZES[i]); });
+    var tot = r.mix.reduce(function (a, b) { return a + b; }, 0);
+    return "<tr><td>" + r.t + "</td><td>" + tot + ": " + parts.join(", ") + "</td></tr>";
+  }).join("");
+
+  var last = null;
+  function draw() {
+    var raw = [0, 0, 0, 0, 0], m = FILL[fill];
+    ROOMS.forEach(function (r) { $("o-" + r.k).textContent = c[r.k]; r.mix.forEach(function (n, i) { raw[i] += n * c[r.k]; }); });
+    var by = raw.map(function (n) { return n ? Math.max(1, Math.round(n * m)) : 0; });
+    var total = by.reduce(function (a, b) { return a + b; }, 0);
+    var spare = total ? Math.ceil(total * 1.1) : 0;
+    var tape = total ? Math.ceil(total * 12 / 165) : 0;
+    var big, small;
+    if (!total) { big = "Add a room or two"; small = ""; }
+    else {
+      big = "About " + total.toLocaleString("en-US") + " box" + (total === 1 ? "" : "es") + ".";
+      var parts = []; by.forEach(function (n, i) { if (n) parts.push(n + " " + SIZES[i]); });
+      small = parts.join(", ") + ". Get about " + spare.toLocaleString("en-US") + " so you don't run short, and about " + tape + " roll" + (tape === 1 ? "" : "s") + " of tape. An estimate for " + FILLNAME[fill] + "; yours will vary.";
+    }
+    $("big").textContent = big; $("small").textContent = small;
+    paint(by);
+    last = { big: big, by: by, total: total };
+    var p = new URLSearchParams(); ROOMS.forEach(function (r) { p.set(r.k, c[r.k]); }); p.set("f", fill);
+    try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
+  }
+
+  /* five stacks of boxes, one per size, scaled so the tallest fits */
+  function paint(by) {
+    var s = $("svg"); s.textContent = "";
+    el("rect", { width: 500, height: 222, fill: "#0A1C33" }, s);
+    el("rect", { x: 0, y: 186, width: 500, height: 36, fill: "#11284A" }, s);
+    var W = [52, 66, 80, 66, 46], H = [12, 16, 20, 16, 30], F = "ui-rounded,system-ui,sans-serif";
+    var room = 140, x = 22, gap = (500 - 44 - W.reduce(function (a, b) { return a + b; }, 0)) / 4;
+    for (var i = 0; i < 5; i++) {
+      var n = by[i], h = H[i], w = W[i];
+      var scale = n * h > room ? room / (n * h) : 1, bh = h * scale, y = 186;
+      if (scale < 0.25) {
+        /* too many to draw singly: one tall stack with a seam every few boxes */
+        el("rect", { x: x, y: y - room, width: w, height: room, rx: 3, fill: "#C9A27A" }, s);
+        el("rect", { x: x + w / 2 - 3, y: y - room, width: 6, height: room, fill: "#FFC21A", opacity: .85 }, s);
+        for (var yy = y - room + 10; yy < y; yy += 10) el("rect", { x: x, y: yy, width: w, height: 1.5, fill: "#9C7A55" }, s);
+      } else {
+        for (var j = 0; j < n; j++) {
+          var by0 = y - (j + 1) * bh;
+          el("rect", { x: x, y: by0 + 0.6, width: w, height: Math.max(1, bh - 1.2), rx: 2, fill: j % 2 ? "#BF976E" : "#C9A27A" }, s);
+          el("rect", { x: x + w / 2 - 3, y: by0 + 0.6, width: 6, height: Math.max(1, bh - 1.2), fill: "#FFC21A", opacity: .85 }, s);
+        }
+      }
+      var top = n ? y - Math.min(room, n * bh) : y;
+      var t = el("text", { x: x + w / 2, y: top - 8, fill: "#fff", "font-weight": 850, "font-size": 18, "text-anchor": "middle", "font-family": F }, s); t.textContent = n;
+      var l = el("text", { x: x + w / 2, y: 208, fill: "#E2C29E", "font-weight": 700, "font-size": 12, "text-anchor": "middle", "font-family": "system-ui,sans-serif" }, s); l.textContent = SIZES[i];
+      x += w + gap;
+    }
+  }
+  draw();
+
+  /* share picture: square, the answer large */
+  function picture() {
+    var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
+    var g = cv.getContext("2d"), F = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#0A1C33"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#FFC21A"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    var img = new Image(), svg = new XMLSerializer().serializeToString($("svg"));
+    return new Promise(function (res) {
+      function words() {
+        g.textAlign = "center"; g.fillStyle = "#7FF5C6"; g.font = "850 84px " + F; g.fillText(last.big, Z / 2, 760);
+        g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 34px " + F; g.fillText("How many boxes do you need? Check free:", Z / 2, 900);
+        g.fillStyle = "#fff"; g.font = "800 40px " + F; g.fillText("packedrabbit.com/boxes", Z / 2, 960);
+        res(cv);
+      }
+      img.onload = function () { g.drawImage(img, 40, 200, 1000, 444); words(); };
+      img.onerror = words;
+      img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg.indexOf("xmlns=") > -1 ? svg : svg.replace("<svg", '<svg xmlns="http://www.w3.org/2000/svg"'));
+    });
+  }
+  $("share").addEventListener("click", function () {
+    var url = location.href, text = last.big + " How many boxes do you need? Check free:";
+    picture().then(function (cv) {
+      cv.toBlob(function (blob) {
+        var file = blob && typeof File !== "undefined" ? new File([blob], "moving-boxes.png", { type: "image/png" }) : null;
+        if (file && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+        else if (navigator.share) navigator.share({ title: "How many moving boxes do I need?", text: text, url: url }).catch(function () {});
+        else if (blob) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "moving-boxes.png"; document.body.appendChild(a); a.click(); a.remove(); }
+      }, "image/png");
+    });
+  });
+})();
+</script>
+</body>
+</html>
