@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How much does it cost to move yourself? Free DIY moving cost calculator</title>
+<meta name="description" content="Add up a do-it-yourself move: truck rental and mileage, fuel, damage waiver, boxes and supplies, paid help, and hotels on the road. Type your own quotes and see the total. Free, no signup.">
+<link rel="canonical" href="https://packedrabbit.com/diy-cost/">
+<meta name="theme-color" content="#0F2742">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="How much does it cost to move yourself?">
+<meta property="og:description" content="Truck, fuel, supplies, help and the road, added up from your own quotes.">
+<meta property="og:url" content="https://packedrabbit.com/diy-cost/">
+<meta property="og:image" content="https://packedrabbit.com/img/og.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "What will a DIY move cost? by The Packed Rabbit",
+  "url": "https://packedrabbit.com/diy-cost/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Adds up the cost of moving yourself with a rental truck: the daily rate and mileage or a one-way quoted price, the damage waiver, fuel from miles, miles per gallon and the pump price, boxes and supplies, paid loading help, and hotels, meals and tolls on the road. Every starting number is an estimate to replace with your own quotes."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How much does it cost to move yourself?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Add up six things: the truck (a daily rate plus a charge per mile for an in-town rental, or one quoted price for a one-way rental), the damage waiver if you buy it, fuel, boxes and supplies, any paid help to load and unload, and hotels, meals and tolls if the drive takes more than a day. Rates vary a lot by city, date and truck size, so use the numbers from your own quotes rather than an average." } },
+    { "@type": "Question", "name": "How do I work out fuel for a moving truck?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Divide the miles you will drive by the truck's miles per gallon, then multiply by the pump price. A loaded box truck uses far more fuel than a car, so ask the rental counter for the figure for your truck. For the pump price, the U.S. Energy Information Administration publishes a weekly national average: regular gasoline was $4.28 a gallon and diesel $6.28 for the week of October 19, 2026. Prices differ by region and change every week." } },
+    { "@type": "Question", "name": "How many miles can I drive a moving truck in a day?",
+      "acceptedAnswer": { "@type": "Answer", "text": "There is no legal limit for a private driver. For comparison, federal rules let a professional truck driver drive at most 11 hours after 10 hours off duty. Plan well under that in a truck you are not used to. This calculator plans about 400 miles a driving day, which is our own estimate, not a rule." } },
+    { "@type": "Question", "name": "Do I need the damage waiver on a rental truck?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Maybe. The National Association of Insurance Commissioners says some personal auto policies cover a rented truck and many do not, and some exclude larger trucks. Call your insurer before you rent and ask about damage to the truck and liability to others." } }
+  ]
+}
+</script>
+<style>
+  .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0 6px; }
+  .seg button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 6px 8px; line-height: 1.2; }
+  .seg button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .lbl { font-weight: 800; margin: 22px 0 0; font-size: 1.1rem; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #0A1C33; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .say { padding: 14px 18px 4px; color: #fff; }
+  .say .big { font-family: var(--display); font-size: clamp(1.8rem, 7vw, 2.4rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #7FF5C6; }
+  .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
+  .items { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .items li { display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 16px; border-bottom: 1px solid var(--line); }
+  .items li:last-child { border-bottom: 0; }
+  .items li[hidden] { display: none; }
+  .items label { flex: 1; min-width: 0; font-weight: 700; }
+  .items label small { display: block; font-weight: 500; color: var(--ink2); font-size: .82rem; }
+  .items label small a { color: var(--ink2); }
+  .num { display: flex; align-items: center; gap: 4px; flex: 0 0 auto; }
+  .num span { font-weight: 800; color: var(--ink2); min-width: 1ch; text-align: right; }
+  .num input { width: 6.6rem; min-height: 46px; border-radius: 12px; border: 2px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; font-family: var(--display); font-weight: 800; font-size: 1.15rem; padding: 4px 10px; text-align: right; }
+  .num input:focus { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+  .hint { font-size: .95rem; color: var(--ink2); margin: 8px 2px 0; }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  .how { margin-top: 34px; } .how h2 { font-size: 1.5rem; }
+  .aside { font-size: .95rem; color: var(--ink2); }
+  .src { font-size: .9rem; color: var(--ink2); border-top: 1px solid var(--line); padding-top: 12px; margin-top: 22px; }
+  .src a { color: var(--ink2); overflow-wrap: anywhere; }
+  @media (max-width: 370px) { .num input { width: 5.6rem; } }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home">
+    <svg width="34" height="34" viewBox="0 0 72 72" aria-hidden="true">
+      <path d="M24 30C21 20 20 11 23 10c3-1 7 7 9 17" fill="none" stroke="var(--blue)" stroke-width="3.6" stroke-linecap="round"/>
+      <path d="M46 30c3-10 4-19 1-20-3-1-7 7-9 17" fill="none" stroke="var(--blue)" stroke-width="3.6" stroke-linecap="round"/>
+      <ellipse cx="36" cy="46" rx="20" ry="17" fill="none" stroke="var(--blue)" stroke-width="3.6"/>
+      <circle cx="43" cy="44" r="7" fill="none" stroke="var(--tape)" stroke-width="3"/>
+    </svg>
+    The Packed Rabbit
+  </a>
+</header>
+
+<main class="tp">
+  <h1>How much will it cost to move myself?</h1>
+  <p class="lede">The starting numbers are only examples. Replace them with your own quotes and the total adds itself up.</p>
+
+  <div class="stage">
+    <div class="say" aria-live="polite"><div class="big" id="big"></div><p id="small"></p></div>
+    <svg id="svg" viewBox="0 0 500 150" role="img" aria-label="What makes up the total"></svg>
+  </div>
+
+  <p class="lbl" id="mode-l">How is the truck priced?</p>
+  <div class="seg" role="group" aria-labelledby="mode-l">
+    <button type="button" data-mode="d" class="on">By the day, plus miles</button>
+    <button type="button" data-mode="f">One price, miles included</button>
+  </div>
+
+  <p class="lbl">The truck</p>
+  <ul class="items" id="g-truck"></ul>
+  <p class="hint" id="days-hint"></p>
+
+  <p class="lbl" id="fuel-l">Fuel</p>
+  <div class="seg" role="group" aria-labelledby="fuel-l">
+    <button type="button" data-fuel="g" class="on">Gasoline</button>
+    <button type="button" data-fuel="d">Diesel</button>
+  </div>
+  <ul class="items" id="g-fuel"></ul>
+
+  <p class="lbl">Boxes, supplies and help</p>
+  <ul class="items" id="g-more"></ul>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this answer</button>
+    <button class="btn ghost" id="reset" type="button">Start again with the examples</button>
+    <a class="btn ghost" href="../app/">Keep the budget and receipts in the app, free</a>
+  </div>
+  <p class="aside">The app keeps a moving budget with what you expected to pay and what you actually paid, and numbers every box as you pack it. No account, and it works with no signal.</p>
+
+  <section class="how">
+    <h2>How this works</h2>
+    <p><strong>Truck.</strong> For an in-town rental it is the daily rate times the days, plus the charge per mile times the miles. One-way rentals are usually quoted as one price with a set number of miles and days included; type that price and add any extra miles or days your quote charges into it.</p>
+    <p><strong>Fuel.</strong> Miles divided by miles per gallon, times the pump price. The pump price starts at the U.S. weekly average from the Energy Information Administration: regular gasoline $4.28 a gallon and diesel $6.28, week of October 19, 2026. Prices differ by region and change every week. The 10 miles per gallon is our own placeholder: a loaded box truck uses far more fuel than a car, so ask the rental counter for your truck's figure. Many rentals also expect the tank back as full as you got it.</p>
+    <p><strong>Damage waiver.</strong> Optional. Some personal auto policies cover a rented truck and many don't, and some exclude larger trucks, according to the National Association of Insurance Commissioners. Call your insurer first; if you're covered, set this to 0. See <a href="../answers/rental-truck-insurance.html">does my car insurance cover a rented truck</a>.</p>
+    <p><strong>Days on the road.</strong> There is no limit for a private driver. Federal rules let a professional truck driver drive at most 11 hours after 10 hours off. The hint above plans about 400 miles a driving day, which is our own estimate for an unfamiliar truck, not a rule. See <a href="../answers/drive-hours.html">how many hours a day should I drive</a>.</p>
+    <p><strong>Cushion.</strong> We suggest keeping about a tenth of the total spare for things nobody quotes: an extra day, a parking permit, a second trip to the store. That is our suggestion, not a published figure.</p>
+    <p class="aside">Every number on this page is an estimate. Rental rates, box prices and help vary a lot by city, season and day of the week, so the total is only as good as the quotes you type in. Need a box count? Try <a href="../boxes/">how many boxes do I need</a>. Not sure of the truck size? Try <a href="../truck/">what size truck do I need</a>.</p>
+  </section>
+
+  <p class="src">Sources: weekly U.S. retail gasoline and diesel prices from the <a href="https://www.eia.gov/petroleum/gasdiesel/">U.S. Energy Information Administration, Gasoline and Diesel Fuel Update</a> (week of October 19, 2026); professional driving limits from <a href="https://www.fmcsa.dot.gov/regulations/hours-service/summary-hours-service-regulations">Federal Motor Carrier Safety Administration, Summary of Hours of Service Regulations</a>; rental truck coverage from <a href="https://content.naic.org/article/consumer-insight-leaving-home-insurance-considerations-move">National Association of Insurance Commissioners, Leaving Home: Insurance Considerations for a Move</a>. The example rates, miles per gallon, box price, 400 miles a day and the cushion are our own placeholders. Checked October 2026.</p>
+  <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Made by someone moving, for people moving. Not a moving company, broker or lead site: we never sell your details and never take a commission from movers, and nothing you type here is sent to us.</p>
+</main>
+
+<footer class="wrap">
+  <a href="../privacy.html">Privacy</a>
+  <a href="../terms.html">Terms and refunds</a>
+  <a href="../answers/">Moving answers</a>
+  <a href="../fit/">Will my couch fit?</a>
+  <a href="../truck/">What size truck?</a>
+  <a href="../boxes/">How many boxes?</a>
+  <a href="../mover-check/">Check your mover</a>
+</footer>
+
+<script>
+/* Nothing typed here is sent anywhere. The numbers go in the address only so
+   a shared link opens showing the same answer. */
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  function $(id) { return document.getElementById(id); }
+  function el(tag, a, p) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  /* weekly U.S. average, EIA, week of Oct 19 2026 */
+  var PUMP = { g: 4.28, d: 6.28 };
+  var MILES_A_DAY = 400;
+  /* k: key in the address; money fields carry a $ sign */
+  var F = [
+    { k: "mi", g: "truck", t: "Miles you'll drive the truck", s: "Door to door, plus getting the truck and returning it", v: 40, max: 6000, step: 1 },
+    { k: "dy", g: "truck", t: "Days with the truck", s: "Count the loading and unloading days", v: 1, max: 30, step: 1, only: "d" },
+    { k: "rt", g: "truck", t: "Daily rate", s: "From your quote", v: 40, max: 5000, step: 1, money: 1, only: "d" },
+    { k: "pm", g: "truck", t: "Charge per mile", s: "From your quote", v: 1, max: 20, step: 0.01, money: 1, only: "d" },
+    { k: "fp", g: "truck", t: "Quoted price", s: "Including any extra miles or days", v: 1200, max: 50000, step: 1, money: 1, only: "f" },
+    { k: "wv", g: "truck", t: "Damage waiver, per day", s: "0 if your own insurance covers it", v: 20, max: 500, step: 1, money: 1 },
+    { k: "td", g: "truck", t: "Days for the waiver", s: "Usually the days you have the truck", v: 1, max: 30, step: 1, only: "f" },
+    { k: "mpg", g: "fuel", t: "Truck miles per gallon", s: "Ask the counter for your truck's figure", v: 10, max: 40, step: 0.5 },
+    { k: "pp", g: "fuel", t: "Price per gallon", s: "Starts at this week's U.S. average", v: PUMP.g, max: 20, step: 0.01, money: 1 },
+    { k: "bx", g: "more", t: "Boxes to buy", s: 'Not sure? <a href="../boxes/">Count them here</a>', v: 40, max: 1000, step: 1 },
+    { k: "bp", g: "more", t: "Price per box", s: "An average across sizes", v: 2.5, max: 100, step: 0.01, money: 1 },
+    { k: "sp", g: "more", t: "Tape, pads, dolly, other", s: "Rented or bought", v: 60, max: 10000, step: 1, money: 1 },
+    { k: "hp", g: "more", t: "Paid help, total", s: "Loading and unloading crews, or 0", v: 0, max: 50000, step: 1, money: 1 },
+    { k: "rd", g: "more", t: "Hotels, meals, tolls, parking", s: "For the whole trip", v: 0, max: 50000, step: 1, money: 1 }
+  ];
+  var val = {}, mode = "d", fuel = "g";
+  function defaults() { F.forEach(function (f) { val[f.k] = f.v; }); mode = "d"; fuel = "g"; }
+  defaults();
+
+  /* a shared link carries the numbers */
+  var q = new URLSearchParams(location.search);
+  if (q.get("m") === "f" || q.get("m") === "d") mode = q.get("m");
+  if (q.get("fu") === "g" || q.get("fu") === "d") { fuel = q.get("fu"); val.pp = PUMP[fuel]; }
+  F.forEach(function (f) { if (!q.has(f.k)) return; var v = parseFloat(q.get(f.k)); if (isFinite(v) && v >= 0 && v <= f.max) val[f.k] = v; });
+
+  var inputs = {};
+  F.forEach(function (f) {
+    var li = document.createElement("li"), id = "f-" + f.k;
+    li.setAttribute("data-k", f.k);
+    li.innerHTML = '<label for="' + id + '">' + f.t + (f.s ? "<small>" + f.s + "</small>" : "") + '</label><span class="num"><span aria-hidden="true">' + (f.money ? "$" : "") + '</span><input id="' + id + '" type="number" inputmode="decimal" min="0" max="' + f.max + '" step="' + f.step + '"></span>';
+    $("g-" + f.g).appendChild(li);
+    var inp = li.querySelector("input");
+    inp.value = show(val[f.k]);
+    inp.addEventListener("input", function () {
+      var v = parseFloat(inp.value);
+      val[f.k] = isFinite(v) && v > 0 ? Math.min(v, f.max) : 0;
+      draw();
+    });
+    inp.addEventListener("blur", function () { if (inp.value !== "" && inp.value !== show(val[f.k])) inp.value = show(val[f.k]); });
+    inputs[f.k] = inp;
+  });
+  function show(v) { return String(Math.round(v * 100) / 100); }
+  function sync() {
+    F.forEach(function (f) { inputs[f.k].closest("li").hidden = !!f.only && f.only !== mode; });
+    [].forEach.call(document.querySelectorAll("[data-mode]"), function (b) { var on = b.getAttribute("data-mode") === mode; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+    [].forEach.call(document.querySelectorAll("[data-fuel]"), function (b) { var on = b.getAttribute("data-fuel") === fuel; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+  }
+  [].forEach.call(document.querySelectorAll("[data-mode]"), function (b) {
+    b.addEventListener("click", function () { mode = b.getAttribute("data-mode"); sync(); draw(); });
+  });
+  [].forEach.call(document.querySelectorAll("[data-fuel]"), function (b) {
+    b.addEventListener("click", function () { fuel = b.getAttribute("data-fuel"); val.pp = PUMP[fuel]; inputs.pp.value = show(val.pp); sync(); draw(); });
+  });
+  $("reset").addEventListener("click", function () { defaults(); F.forEach(function (f) { inputs[f.k].value = show(val[f.k]); }); sync(); draw(); });
+
+  var PARTS = [
+    { k: "truck", t: "Truck", c: "#5B8CFF" },
+    { k: "waiver", t: "Waiver", c: "#A57BFF" },
+    { k: "fuel", t: "Fuel", c: "#FF9A3D" },
+    { k: "supplies", t: "Supplies", c: "#C9A27A" },
+    { k: "help", t: "Help", c: "#2EE59D" },
+    { k: "road", t: "Road", c: "#FF5C86" }
+  ];
+  function usd(n) { return "$" + Math.round(n).toLocaleString("en-US"); }
+  var last = null;
+  function draw() {
+    var v = val, mi = v.mi;
+    var truck = mode === "d" ? v.rt * v.dy + v.pm * mi : v.fp;
+    var wdays = mode === "d" ? v.dy : v.td;
+    var cost = {
+      truck: truck,
+      waiver: v.wv * wdays,
+      fuel: v.mpg > 0 ? mi / v.mpg * v.pp : 0,
+      supplies: v.bx * v.bp + v.sp,
+      help: v.hp,
+      road: v.rd
+    };
+    var total = 0; PARTS.forEach(function (p) { total += cost[p.k]; });
+    var big, small;
+    if (total < 0.5) { big = "Type a number or two"; small = "Start with the miles and the truck price from your quote."; }
+    else {
+      big = "About " + usd(total) + ".";
+      small = "Keep about " + usd(Math.max(10, total * 0.1)) + " spare for surprises. An estimate from the numbers you typed; rates vary.";
+      if (mi > 0 && v.mpg <= 0) small += " Add the miles per gallon to count fuel.";
+    }
+    $("big").textContent = big; $("small").textContent = small;
+    var dd = Math.ceil(mi / MILES_A_DAY);
+    $("days-hint").textContent = mi > MILES_A_DAY
+      ? "At about " + MILES_A_DAY + " miles a driving day (our estimate), " + mi.toLocaleString("en-US") + " miles is about " + dd + " days of driving, plus loading and unloading. Allow " + (dd - 1) + " night" + (dd - 1 === 1 ? "" : "s") + " of hotels."
+      : "";
+    paint(cost, total);
+    last = { big: big, cost: cost, total: total };
+    var p = new URLSearchParams(); p.set("m", mode); p.set("fu", fuel);
+    F.forEach(function (f) { if (!f.only || f.only === mode) p.set(f.k, show(val[f.k])); });
+    try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
+  }
+
+  /* one bar split into the parts, with a key underneath */
+  function paint(cost, total) {
+    var s = $("svg"); s.textContent = "";
+    el("rect", { width: 500, height: 150, fill: "#0A1C33" }, s);
+    var x0 = 18, W = 464, x = x0, FN = "system-ui,sans-serif";
+    el("rect", { x: x0, y: 12, width: W, height: 34, rx: 10, fill: "#11284A" }, s);
+    if (total >= 0.5) {
+      PARTS.forEach(function (p) {
+        var w = cost[p.k] / total * W; if (w < 0.5) return;
+        el("rect", { x: x, y: 12, width: Math.max(1, w - 1), height: 34, fill: p.c }, s); x += w;
+      });
+    }
+    PARTS.forEach(function (p, i) {
+      var cx = x0 + (i % 2) * 240, cy = 62 + Math.floor(i / 2) * 30;
+      el("rect", { x: cx, y: cy, width: 16, height: 16, rx: 3, fill: p.c }, s);
+      var t = el("text", { x: cx + 24, y: cy + 14, fill: "#E7EEF8", "font-size": 18, "font-weight": 700, "font-family": FN }, s);
+      t.textContent = p.t + " " + usd(cost[p.k]);
+    });
+  }
+  sync(); draw();
+
+  /* share picture: square, the answer large */
+  function picture() {
+    var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
+    var g = cv.getContext("2d"), FN = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#0A1C33"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#FFC21A"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.textAlign = "center"; g.fillStyle = "rgba(255,255,255,.85)"; g.font = "700 40px " + FN; g.fillText("Our do-it-yourself move", Z / 2, 230);
+    g.fillStyle = "#7FF5C6"; g.font = "850 120px " + FN; g.fillText(last.total >= 0.5 ? usd(last.total) : "$0", Z / 2, 370);
+    var y = 460, x0 = 120, W = 840;
+    PARTS.forEach(function (p) {
+      var c = last.cost[p.k], w = last.total >= 0.5 ? c / last.total * W : 0;
+      g.textAlign = "left"; g.fillStyle = "#E7EEF8"; g.font = "700 30px " + FN; g.fillText(p.t, x0, y + 30);
+      g.textAlign = "right"; g.fillText(usd(c), x0 + W, y + 30);
+      g.fillStyle = "#11284A"; g.fillRect(x0, y + 44, W, 12);
+      g.fillStyle = p.c; g.fillRect(x0, y + 44, w, 12);
+      y += 66;
+    });
+    g.textAlign = "center"; g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 32px " + FN; g.fillText("What will your move cost? Add it up free:", Z / 2, 920);
+    g.fillStyle = "#fff"; g.font = "800 40px " + FN; g.fillText("packedrabbit.com/diy-cost", Z / 2, 975);
+    return cv;
+  }
+  $("share").addEventListener("click", function () {
+    var url = location.href, text = last.big + " What will your move cost? Add it up free:";
+    picture().toBlob(function (blob) {
+      var file = blob && typeof File !== "undefined" ? new File([blob], "moving-cost.png", { type: "image/png" }) : null;
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+      else if (navigator.share) navigator.share({ title: "How much does it cost to move yourself?", text: text, url: url }).catch(function () {});
+      else if (blob) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "moving-cost.png"; document.body.appendChild(a); a.click(); a.remove(); }
+    }, "image/png");
+  });
+})();
+</script>
+</body>
+</html>
