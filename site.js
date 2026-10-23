@@ -130,5 +130,59 @@
     }).catch(function () {});
   }
 
-  fitInit(); truckInit(); reviewsInit();
+  /* owner, 23 Oct (homepage review): "your move in one line". Worked out
+     here, on the page; nothing typed is sent anywhere. */
+  function oneLineInit() {
+    var inp = $("ol-date"), out = $("ol-out");
+    if (!inp || !out) return;
+    var PH = [
+      [57, "More than 8 weeks out", ["Get written estimates from three movers", "Measure every doorway and the big pieces of furniture", "Decide what's going, and what gets donated or sold"]],
+      [29, "6 to 8 weeks out", ["Book your mover, and get it in writing", "Book donation pickup one to two weeks ahead", "Start packing the rooms you don't use"]],
+      [8, "2 to 4 weeks out", ["Set up internet and utilities at the new place", "Ask the mover for the arrival window in writing", "Pack everything except what you use every day"]],
+      [1, "The final week", ["Get the bill of lading at least 3 days before loading", "Pack what stays with you: medicines, documents, chargers", "Photograph every room before the truck comes"]],
+      [0, "It's moving day", ["Keep your medicines and documents with you", "Check every box onto the truck", "Read the inventory before you sign anything"]]
+    ];
+    var esc = function (s) { var e = document.createElement("span"); e.textContent = s; return e.innerHTML; };
+    function show() {
+      var v = inp.value; if (!/^\d{4}-\d{2}-\d{2}$/.test(v)) { out.hidden = true; return; }
+      var t0 = new Date(); t0.setHours(12, 0, 0, 0);
+      var d = new Date(v + "T12:00:00");
+      var days = Math.round((d - t0) / 86400000);
+      out.hidden = false;
+      if (days < 0) { out.innerHTML = '<p class="ol-phase">That date has passed. Pick the day the truck comes.</p>'; return; }
+      var ph = PH.filter(function (p) { return days >= p[0]; })[0] || PH[PH.length - 1];
+      out.innerHTML = '<div class="ol-days">' + (days === 0 ? "Today" : days + '<small>' + (days === 1 ? "day to go" : "days to go") + '</small>') + '</div>' +
+        '<p class="ol-phase">' + esc(ph[1]) + '. Do these first:</p>' +
+        '<ol>' + ph[2].map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + '</ol>' +
+        '<a class="btn tape" href="app/?date=' + v + '">Start my move with this date</a>';
+    }
+    inp.addEventListener("change", show); inp.addEventListener("input", show);
+  }
+
+  /* the oven mitt film plays, silently, while it's on screen; with reduce
+     motion it waits for a tap */
+  function mittsInit() {
+    var v = $("mitts"), b = $("mitts-play");
+    if (!v || !b) return;
+    var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var label = function () { b.textContent = v.paused ? "Play" : "Pause"; };
+    b.addEventListener("click", function () { if (v.paused) v.play(); else v.pause(); });
+    v.addEventListener("play", label); v.addEventListener("pause", label);
+    if (still || !("IntersectionObserver" in window)) return;
+    new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { v.play().catch(function () {}); } else v.pause(); }); }, { threshold: 0.5 }).observe(v);
+  }
+
+  /* on a phone, "Start my move" stays reachable once the top has scrolled away */
+  function stickyInit() {
+    var s = $("stickycta"), hero = document.querySelector(".hero"), foot = document.querySelector("footer");
+    if (!s || !hero || !("IntersectionObserver" in window)) return;
+    var heroOn = true, footOn = false;
+    var upd = function () { s.hidden = heroOn || footOn; document.body.classList.toggle("has-sticky", !s.hidden); };
+    new IntersectionObserver(function (es) { heroOn = es[0].isIntersecting; upd(); }).observe(hero);
+    if (foot) new IntersectionObserver(function (es) { footOn = es[0].isIntersecting; upd(); }).observe(foot);
+  }
+
+  /* the sofa sliders start open on a big screen, folded on a phone */
+  (function () { var f = $("knobsfold"); if (f && window.matchMedia && window.matchMedia("(min-width: 860px)").matches) f.open = true; })();
+  fitInit(); truckInit(); reviewsInit(); oneLineInit(); mittsInit(); stickyInit();
 })();

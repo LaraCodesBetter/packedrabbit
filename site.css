@@ -191,3 +191,60 @@ footer .cols{display:grid; gap:22px; grid-template-columns:repeat(auto-fit,minma
 footer b{color:var(--ink); font-family:var(--display)}
 footer a{color:var(--ink2); display:block; padding:6px 0; text-decoration:none}
 footer a:hover{color:var(--ink); text-decoration:underline}
+
+/* ---- homepage, 23 Oct review ---- */
+/* the real app, in a phone */
+.phone{margin:0 auto; max-width:300px; text-align:center}
+.phone img{display:block; width:100%; height:auto; border-radius:38px; border:10px solid #0A1424; box-shadow:0 0 0 2px rgba(255,255,255,.18),0 30px 60px rgba(0,0,0,.45); background:#0A1424}
+.phone figcaption{color:rgba(255,255,255,.72); font-size:.92rem; margin-top:14px}
+@media (min-width:920px){ .phone{max-width:340px} }
+/* your move in one line */
+.oneline .ol-form{display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-top:16px; font-family:var(--display); font-weight:800; font-size:clamp(1.3rem,4.5vw,1.8rem)}
+.oneline input[type=date]{font:inherit; font-size:1.1rem; min-height:52px; padding:8px 14px; border-radius:14px; border:2px solid var(--line); background:var(--panel); color:var(--ink)}
+.oneline input[type=date]:focus-visible{outline:3px solid var(--blue); outline-offset:2px}
+.ol-out{margin-top:20px; background:var(--panel); border:1px solid var(--line); border-radius:22px; padding:22px; box-shadow:var(--lift1)}
+.ol-out .ol-days{font-family:var(--display); font-weight:900; font-size:clamp(2.6rem,10vw,4rem); line-height:1; letter-spacing:-.02em}
+.ol-out .ol-days small{font-size:1.1rem; font-weight:800; color:var(--ink2); margin-left:8px; letter-spacing:0}
+.ol-out .ol-phase{margin-top:6px; color:var(--ink2); font-weight:700}
+.ol-out ol{margin:14px 0 0; padding-left:1.3em}
+.ol-out li{margin:6px 0}
+.ol-out .btn{margin-top:16px}
+.ol-note{font-size:.92rem; margin-top:12px}
+/* sofa demo on its own band */
+.sofa .fit{background:var(--navy); max-width:600px; margin:0 auto}
+/* the oven mitt film */
+.vidphone{position:relative; margin:0 auto; max-width:300px}
+.vidphone video{display:block; width:100%; height:auto; border-radius:30px; border:8px solid #0A1424; background:#0A1424}
+.vidphone .vplay{position:absolute; left:50%; bottom:22px; transform:translateX(-50%); background:rgba(10,20,36,.82); color:#fff; border-color:rgba(255,255,255,.5); min-height:44px}
+/* how much time today: one calm color, not three alarms */
+.days .day{background:var(--panel); color:var(--ink); border:2px solid var(--line)}
+.days .day:nth-child(2){border-color:var(--tape)}
+.days .day small{color:var(--ink2); opacity:1}
+/* for business: one quiet list */
+.bizlist{list-style:none; padding:0; margin:16px 0 0; display:grid; gap:0 28px}
+@media (min-width:760px){ .bizlist{grid-template-columns:repeat(2,1fr)} }
+@media (min-width:1040px){ .bizlist{grid-template-columns:repeat(3,1fr)} }
+.bizlist a{display:flex; align-items:center; min-height:52px; border-bottom:1px solid var(--line); color:var(--ink); font-weight:700; text-decoration:none}
+.bizlist a::after{content:"›"; margin-left:auto; color:var(--ink2); font-size:1.3rem}
+.bizlist a:hover,.bizlist a:focus-visible{color:var(--blue)}
+.center{text-align:center} .center .lead{margin-left:auto; margin-right:auto}
+/* start button that stays on screen on phones, once the hero has scrolled away */
+.stickycta{position:fixed; left:0; right:0; bottom:0; z-index:50; padding:12px 16px calc(12px + env(safe-area-inset-bottom)); background:linear-gradient(transparent, var(--bg) 35%); display:flex; justify-content:center}
+.stickycta .btn{width:100%; max-width:420px; justify-content:center; box-shadow:var(--lift2)}
+@media (min-width:860px){ .stickycta{display:none !important} }
+@media (max-width:859px){ body.has-sticky footer{padding-bottom:84px} }
+.knobsfold > summary{list-style:none; cursor:pointer; margin-top:12px; color:#fff; border-color:rgba(255,255,255,.5); min-height:44px}
+.knobsfold > summary::-webkit-details-marker{display:none}
+.knobsfold[open] > summary{display:none}
+@media (max-width:640px){
+  footer .cols{grid-template-columns:1fr 1fr !important; gap:18px 16px}
+  section.band{padding-top:54px}
+}
+@media (max-width:640px){
+  .phone{max-width:230px} .phone img{border-width:8px; border-radius:30px}
+  .vidphone{max-width:220px}
+  .flagrow:nth-child(n+3){display:none}
+  .hero{padding:48px 22px 26px}
+  .hero .lede{font-size:1.08rem}
+  .label{transform:none}
+}

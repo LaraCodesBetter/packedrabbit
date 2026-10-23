@@ -83,7 +83,6 @@
     The Packed Rabbit
   </a>
   <nav aria-label="Main">
-    <a class="opt" href="#price">Price</a>
     <a class="opt" href="business/">For business</a>
     <a class="opt" href="answers/">Moving answers</a>
     <a class="opt" href="use/">No App Store? Use it here</a>
@@ -104,12 +103,34 @@
           <a class="btn ghost" href="#how">See how it works</a>
         </div>
         <p class="maker" style="margin:14px 0 0;padding:12px 14px;border-left:4px solid var(--tape);background:rgba(255,255,255,.08);color:#fff;border-radius:12px;font-size:1rem;font-weight:600;max-width:34em">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>
-        <p class="fine">Unlimited boxes, free forever. The whole app free for your first 7 days. Works with the wifi off.</p>
+        <p class="fine">Free during early access, with no card and no account. Unlimited boxes stay free forever. Works with the wifi off.</p>
       </div>
 
+      <figure class="phone" aria-label="The app, twelve days before a move">
+        <img src="img/app-home.webp" width="390" height="844" alt="The Packed Rabbit on a phone: a countdown to loading day, a truck 59% full showing furniture and boxes, and 31 of 38 boxes packed" loading="eager">
+        <figcaption>The real app, twelve days out. The truck fills as you pack.</figcaption>
+      </figure>
+    </div>
+  </div>
+</div>
+
+<section class="band oneline" id="oneline" aria-labelledby="ol-h">
+  <div class="wrap narrow">
+    <h2 id="ol-h">Your move, in one line.</h2>
+    <form class="ol-form" id="ol-form" onsubmit="return false">
+      <label for="ol-date">I'm moving on</label>
+      <input id="ol-date" type="date" required>
+    </form>
+    <div class="ol-out" id="ol-out" aria-live="polite" hidden></div>
+    <p class="muted ol-note">Worked out on this page. Nothing you type here is sent anywhere.</p>
+  </div>
+</section>
+
+<section class="band sofa">
+  <div class="wrap">
       <div class="fit" id="fit" aria-labelledby="fit-h">
         <h2 id="fit-h">Will your sofa go through?</h2>
-        <p class="sub">Move the sliders. This is the same check the app runs on every piece against every doorway you measure.</p>
+        <p class="sub">Found a place? Check before you sign the lease. This is the same check the app runs on every piece against every doorway you measure.</p>
         <div class="fit-stage">
           <svg id="fit-svg" viewBox="0 0 500 400" role="img" aria-labelledby="fit-says">
             <defs>
@@ -124,6 +145,7 @@
           </svg>
         </div>
         <div class="verdict" id="fit-says" aria-live="polite"></div>
+        <details class="knobsfold" id="knobsfold"><summary class="btn ghost">Try your own numbers</summary>
         <div class="knobs">
           <div class="knob"><label for="k-door">Doorway width <b id="v-door"></b></label><input id="k-door" type="range" min="26" max="42" step="1" value="32"></div>
           <div class="knob"><label for="k-h">Sofa height <b id="v-h"></b></label><input id="k-h" type="range" min="26" max="44" step="1" value="34"></div>
@@ -131,17 +153,16 @@
           <div class="knob"><label for="k-l">Sofa length <b id="v-l"></b></label><input id="k-l" type="range" min="60" max="110" step="1" value="84"></div>
           <label class="toggle"><input type="checkbox" id="k-legs"> Take the legs off (they're usually 4 inches)</label>
         </div>
+        </details>
         <p class="sub" style="margin-top:12px"><a href="fit/" style="color:#FFC21A;font-weight:700">Type your own couch's measurements</a></p>
         <p class="sub" style="margin-top:6px"><a href="truck/" style="color:#FFC21A;font-weight:700">What size truck do I need?</a></p>
       </div>
-    </div>
   </div>
-</div>
+</section>
 
 <section class="band" id="how">
   <div class="wrap row2">
     <div class="swatch" style="--c:var(--blue)">
-      <div class="kicker"><i></i>Boxes</div>
       <h2>Say the box. It's filed.</h2>
       <p class="lead muted">One sentence while both hands are still on the box. It comes back numbered, sized, weighed and labeled, with a photo of what's inside. Later, "where's the kettle?" gets you the box number and the room it went to.</p>
       <p class="muted">Unlimited boxes, free, forever. You have to be able to enter everything you own, or it isn't an inventory.</p>
@@ -159,13 +180,26 @@
   </div>
 </section>
 
+<section class="band watch">
+  <div class="wrap row2">
+    <div>
+      <h2>Never open a box to find the oven mitt.</h2>
+      <p class="lead muted">The first night in the new place. Say what you need, and it tells you the box and the room. 25 seconds, no sound needed.</p>
+    </div>
+    <figure class="vidphone">
+      <video id="mitts" muted playsinline loop preload="none" poster="video/oven-mitts-web.jpg" width="540" height="960" aria-label="A short film: finding the oven mitts on the first night by searching the app">
+        <source src="video/oven-mitts-web.mp4" type="video/mp4">
+      </video>
+      <button class="btn ghost vplay" id="mitts-play" type="button">Play</button>
+    </figure>
+  </div>
+</section>
+
 <section class="band">
   <div class="wrap row2 flip">
     <div class="swatch" style="--c:var(--violet)">
-      <div class="kicker"><i></i>The truck</div>
       <h2>The truck, worked out from what you packed.</h2>
       <p class="lead muted">Not a guess from how many bedrooms you have. Every box and every piece of furniture you entered, in real cubic feet, with room to pack. You see it fill as you go, and the quote has to match what's actually there.</p>
-      <p class="muted">Say "a king bed from Restoration Hardware" or pick it from pictures, and it already knows the size and roughly what it weighs. Two matching nightstands? Pick 2.</p>
     </div>
     <div class="panel">
       <svg class="truck" id="truck" viewBox="0 0 560 250" role="img" aria-label="A 20-foot truck about seven tenths full: furniture loaded first at the front, boxes behind it"></svg>
@@ -178,10 +212,8 @@
 <section class="band">
   <div class="wrap row2">
     <div class="swatch" style="--c:var(--orange)">
-      <div class="kicker"><i></i>Movers</div>
       <h2>It reads the quote before you sign it.</h2>
-      <p class="lead muted">Paste the estimate or photograph it. It checks the company's federal registration, says whether you're dealing with the mover or a broker, and points out the lines that grow on moving day.</p>
-      <p class="muted">Then it holds on to the paperwork that matters: the bill of lading, the inventory, the valuation you chose, the claims deadline. It won't call the move finished while a box is still missing.</p>
+      <p class="lead muted">Once you know the place and what's going, photograph the estimate. It checks the company's federal registration, says whether it's a mover or a broker, and points out the lines that grow on moving day.</p>
     </div>
     <div class="panel" aria-label="An example of what the quote reader says">
       <div class="flagrow"><div class="ic" style="background:var(--rose)">!</div><div><b>This is a broker, not a mover</b><span>The number on the quote is registered to a company that arranges moves. Ask who will actually show up with the truck.</span></div></div>
@@ -195,83 +227,45 @@
 <section class="band">
   <div class="wrap row2 flip">
     <div class="swatch" style="--c:var(--green)">
-      <div class="kicker"><i></i>Your days</div>
-      <h2>A bad day doesn't count against you.</h2>
-      <p class="lead muted">Week four of packing is real. Tell it how today is going and the list shrinks to what genuinely can't wait. Nothing gets marked late, and tomorrow picks up where you left off.</p>
+      <h2>Week four of packing? The list fits your day.</h2>
+      <p class="lead muted">Tell it how much time you have and the list shrinks to what can't wait. Nothing gets marked late, and tomorrow picks up where you left off.</p>
     </div>
     <div>
-      <div class="days">
-        <div class="day" style="background:#E0263F">Red<small>Only what can't wait. One thing at a time.</small></div>
-        <div class="day" style="background:#F26B00">Yellow<small>One or two light jobs, sitting down.</small></div>
-        <div class="day" style="background:#00995F">Green<small>The plan as it was. Go get it.</small></div>
+      <div class="days" role="list" aria-label="How much time today?">
+        <div class="day" role="listitem">A few minutes<small>Just the one thing.</small></div>
+        <div class="day" role="listitem">An hour or two<small>Two things.</small></div>
+        <div class="day" role="listitem">All day<small>Three things. Go get it.</small></div>
       </div>
-      <p class="muted" style="margin-top:14px">Plus the things that must never go on the truck: medicines, documents, chargers, keys, the pets' bag. A go-bag list rides with you, and move day has its own screen.</p>
     </div>
   </div>
 </section>
 
-<section class="band" id="price">
-  <div class="wrap">
-    <h2>One payment. Nothing renews.</h2>
-    <p class="lead muted">Everything about your own things is free. The full app is everything that thinks for you. Nothing you entered is ever locked away from you.</p>
-    <div class="prices">
-      <div class="price">
-        <h3>Free</h3>
-        <div class="amt">$0 <small>forever</small></div>
-        <ul><li>Unlimited boxes and photos</li><li>QR labels, and scanning to find a box</li><li>Search, and "where is…?"</li><li>Checking a mover's quote</li><li>Exporting everything, and backups</li><li>Go-bag, medicines, pets, move day's lists</li></ul>
-      </div>
-      <div class="price main">
-        <h3>The full app</h3>
-        <div class="amt">$39 <small>once</small></div>
-        <p class="muted" style="margin:-4px 0 12px">One payment, yours to keep. No subscription, nothing renews.</p>
-        <ul><li>Your whole plan in order, by date</li><li>Furniture checked against every doorway</li><li>The truck size from what you packed</li><li>Boxes scanned on and off the truck</li><li>The deposit, insurance and paperwork</li><li>A running tally of the money it saved you, with the proof</li><li>Every device</li></ul>
-        <p class="muted" style="margin:14px 0 0"><b>Free for your first 7 days.</b> After that, what you entered stays yours and searchable.</p>
-      </div>
-      <div class="price">
-        <h3>Everyone helping</h3>
-        <div class="amt">$0 <small>always</small></div>
-        <ul><li>Your brother, your friends, the crew</li><li>Every helper is another phone with the app</li><li>Nobody pays to help you move</li></ul>
-      </div>
-    </div>
-    <div class="note" style="margin-top:18px"><strong>Early access: the full app is free right now.</strong> Everything above, on every phone, with no card and no account. When paid plans open, your phone gets 7 more free days first, then it's $39 once.</div>
+<section class="band">
+  <div class="wrap narrow center">
+    <h2>Free while we open.</h2>
+    <p class="lead muted">The whole app, every device, no card and no account. Unlimited boxes stay free forever. When paid plans open: one payment, nothing renews. <a href="price.html">The details</a></p>
     <p style="margin-top:16px"><a class="btn tape" href="app/">Start my move, free</a></p>
   </div>
 </section>
 
 <section class="band">
-  <div class="wrap">
+  <div class="wrap narrow">
     <h2>For business</h2>
-    <p class="lead muted">Give the people you move the whole app, with your name on it. You buy codes; we never send you anyone and never sell anyone's move.</p>
-    <div class="doors">
-      <a class="door" style="--c:#1F6BFF" href="agents.html"><b>Real estate agents</b><span>A closing gift they open every day of the move.</span><em>From $15 a client</em></a>
-      <a class="door" style="--c:#00995F" href="business/property-managers.html"><b>Property managers</b><span>Move-ins that arrive organized. Move-outs with a photo record.</span><em>For every unit</em></a>
-      <a class="door" style="--c:#7A3CFF" href="business/relocation.html"><b>Relocation and HR</b><span>A benefit every transferee uses, with nothing to integrate.</span><em>Per move</em></a>
-      <a class="door" style="--c:#F0245A" href="business/military.html"><b>Military families</b><span>PCS moves and DIY moves, with weight tickets and a full inventory.</span><em>Built for PCS season</em></a>
-      <a class="door" style="--c:#F26B00" href="business/services.html"><b>Movers, storage and cleaning</b><span>Crews on the app, and a fair listing with no commission.</span><em>Flat fee, never commission</em></a>
-      <a class="door" style="--c:#0F2742" href="business/"><b>Move managers and coordinators</b><span>Run many moves at once. Clients and crew on their own phones.</span><em>Pro</em></a>
-    </div>
+    <p class="lead muted">Real estate agents, property managers, relocation teams, military families, movers and move managers can give people the whole app with their name on it. We never send you anyone and never sell anyone's move.</p>
+    <p style="margin-top:14px"><a class="btn ghost dark" href="business/">See how it works for business</a></p>
   </div>
 </section>
 
 <section class="band">
   <div class="wrap narrow">
     <h2>Your things stay yours.</h2>
-    <p class="lead">No account needed. Everything lives on your own phone: your medicines, your documents, your inventory, your money. We can't read it because we never receive it.</p>
-    <p class="muted">We never sell or share anyone's data, and nothing about your move ever leaves your phone. Account numbers are kept as the last four digits only. Share a move with someone and the medical, insurance, money and document categories never go with it, whatever else you tick.</p>
-  </div>
-</section>
-
-<section class="band">
-  <div class="wrap narrow">
-    <h2>Getting it</h2>
-    <p class="lead muted">It installs from this site. No store, no account, no waiting.</p>
+    <p class="lead">No account and no store. Everything lives on your own phone, so we can't read it: we never receive it. We never sell or share anyone's data.</p>
     <ol class="steps">
       <li><b>iPhone and iPad:</b> open <a href="app/">the app</a> in Safari, tap Share, then Add to Home Screen.</li>
       <li><b>Android:</b> open <a href="app/">the app</a> in Chrome and tap Install when it offers.</li>
       <li><b>Computer:</b> it just runs in the browser.</li>
     </ol>
     <p class="muted">Once it's on your home screen, it works with the wifi off: on a plane, in a basement, in the back of a truck.</p>
-    <p style="margin-top:22px"><a class="btn navy" href="app/">Open the app</a></p>
   </div>
 </section>
 
@@ -289,9 +283,10 @@
   <div><b>The Packed Rabbit</b><p style="margin-top:8px">Nothing left off the truck.</p></div>
   <div><b>Moving</b><a href="app/">Open the app</a><a href="answers/">Moving answers</a><a href="moving-to/">Moving abroad</a><a href="homes.html">Rental ratings</a></div>
   <div><b>Business</b><a href="agents.html">Real estate agents</a><a href="business/property-managers.html">Property managers</a><a href="business/relocation.html">Relocation and HR</a><a href="business/military.html">Military families</a><a href="business/services.html">Movers, storage, cleaning</a></div>
-  <div><b>The fine print</b><a href="built.html">You asked, we built</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms and refunds</a><a href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a></div>
+  <div><b>The fine print</b><a href="price.html">Price</a><a href="built.html">You asked, we built</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms and refunds</a><a href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a></div>
 </div></footer>
 
+<div class="stickycta" id="stickycta" hidden><a class="btn tape" href="app/">Start my move, free</a></div>
 <script src="site.js"></script>
 </body>
 </html>
