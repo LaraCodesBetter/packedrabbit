@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How much should I tip movers? Free moving tip calculator</title>
+<meta name="description" content="Work out a tip for your movers: by the day for a local or long-distance move, by the hour, or as a share of the bill. See the amount for each mover and for the whole crew. Free, no signup.">
+<link rel="canonical" href="https://packedrabbit.com/tip/">
+<meta name="theme-color" content="#0F2742">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="How much should I tip movers?">
+<meta property="og:description" content="The common range for each mover and for the whole crew, worked out from your move.">
+<meta property="og:url" content="https://packedrabbit.com/tip/">
+<meta property="og:image" content="https://packedrabbit.com/img/og.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "How much should I tip movers? by The Packed Rabbit",
+  "url": "https://packedrabbit.com/tip/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Works out a tip for movers from the commonly cited ranges: $20 to $50 a mover a day on a local move, $50 to $100 a mover a day on a long-distance move, $4 to $15 a mover an hour, or 10% to 20% of the bill. Shows the amount for each mover and for the whole crew. Tipping is optional and customs vary."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How much should I tip movers?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Tipping is optional. Commonly cited ranges are $20 to $50 for each mover for a day's work on a local move, $50 to $100 for each mover a day on a long-distance move, $4 to $15 for each mover an hour, or 10% to 20% of the total bill. People tip toward the top of the range for stairs, heavy or fragile items, bad weather, extra stops or extra help such as putting furniture together." } },
+    { "@type": "Question", "name": "Do I tip each mover or the crew leader?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Handing each mover their own tip makes sure everyone gets a share. If different crews pack, load and unload, each crew gets its own tip. On a job that runs over several days, tip at the end of each day." } },
+    { "@type": "Question", "name": "Should I tip movers in cash?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Cash is the most common way and the easiest to split between movers. A card, check or payment app can work, but ask the company first, because a card tip may not reach each mover separately and some methods take longer to arrive." } },
+    { "@type": "Question", "name": "Does buying lunch count as the tip?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Food and drinks are a kind gesture but not expected, and they are not part of the tip. If you offer food, ask about allergies first." } }
+  ]
+}
+</script>
+<style>
+  .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0 6px; }
+  .seg.three { grid-template-columns: 1fr 1fr 1fr; }
+  .seg button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 6px 8px; line-height: 1.2; }
+  .seg button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .lbl { font-weight: 800; margin: 22px 0 0; font-size: 1.1rem; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #0A1C33; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .say { padding: 14px 18px 4px; color: #fff; }
+  .say .big { font-family: var(--display); font-size: clamp(1.8rem, 7vw, 2.4rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #7FF5C6; }
+  .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
+  .items { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .items li { display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 16px; border-bottom: 1px solid var(--line); }
+  .items li:last-child { border-bottom: 0; }
+  .items li[hidden] { display: none; }
+  .items label { flex: 1; min-width: 0; font-weight: 700; }
+  .items label small { display: block; font-weight: 500; color: var(--ink2); font-size: .82rem; }
+  .num { display: flex; align-items: center; gap: 4px; flex: 0 0 auto; }
+  .num span { font-weight: 800; color: var(--ink2); min-width: 1ch; text-align: right; }
+  .num input { width: 6.6rem; min-height: 46px; border-radius: 12px; border: 2px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; font-family: var(--display); font-weight: 800; font-size: 1.15rem; padding: 4px 10px; text-align: right; }
+  .num input:focus { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+  .hint { font-size: .95rem; color: var(--ink2); margin: 8px 2px 0; }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  .how { margin-top: 34px; } .how h2 { font-size: 1.5rem; }
+  .aside { font-size: .95rem; color: var(--ink2); }
+  .src { font-size: .9rem; color: var(--ink2); border-top: 1px solid var(--line); padding-top: 12px; margin-top: 22px; }
+  .src a { color: var(--ink2); overflow-wrap: anywhere; }
+  @media (max-width: 370px) { .num input { width: 5.6rem; } .seg button { font-size: .88rem; } }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home">
+    <svg width="34" height="34" viewBox="0 0 72 72" aria-hidden="true">
+      <path d="M24 30C21 20 20 11 23 10c3-1 7 7 9 17" fill="none" stroke="var(--blue)" stroke-width="3.6" stroke-linecap="round"/>
+      <path d="M46 30c3-10 4-19 1-20-3-1-7 7-9 17" fill="none" stroke="var(--blue)" stroke-width="3.6" stroke-linecap="round"/>
+      <ellipse cx="36" cy="46" rx="20" ry="17" fill="none" stroke="var(--blue)" stroke-width="3.6"/>
+      <circle cx="43" cy="44" r="7" fill="none" stroke="var(--tape)" stroke-width="3"/>
+    </svg>
+    The Packed Rabbit
+  </a>
+</header>
+
+<main class="tp">
+  <h1>How much should I tip movers?</h1>
+  <p class="lede">Tipping is optional. Here is the range most people use, worked out for your crew.</p>
+
+  <div class="stage">
+    <div class="say" aria-live="polite"><div class="big" id="big"></div><p id="small"></p></div>
+    <svg id="svg" viewBox="0 0 500 150" role="img" aria-label="Where your tip sits in the common range"></svg>
+  </div>
+
+  <p class="lbl" id="mode-l">How do you want to work it out?</p>
+  <div class="seg" role="group" aria-labelledby="mode-l">
+    <button type="button" data-mode="ld" class="on">Local move, by the day</button>
+    <button type="button" data-mode="dd">Long distance, by the day</button>
+    <button type="button" data-mode="h">By the hour</button>
+    <button type="button" data-mode="b">Share of the bill</button>
+  </div>
+
+  <p class="lbl">Your move</p>
+  <ul class="items" id="g-move"></ul>
+
+  <p class="lbl" id="job-l">How did it go?</p>
+  <div class="seg three" role="group" aria-labelledby="job-l">
+    <button type="button" data-s="1">Fine</button>
+    <button type="button" data-s="2" class="on">Good</button>
+    <button type="button" data-s="3">Above and beyond</button>
+  </div>
+  <p class="hint">People tip toward the top for stairs, heavy or fragile pieces, bad weather, extra stops, or help putting furniture together.</p>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this answer</button>
+    <button class="btn ghost" id="reset" type="button">Start again</button>
+    <a class="btn ghost" href="../app/">Plan move day in the app, free</a>
+  </div>
+  <p class="aside">On move day the app keeps the crew's names, the arrival window and the tip in one place, and numbers every box as it goes on the truck. No account, and it works with no signal.</p>
+
+  <section class="how">
+    <h2>How this works</h2>
+    <p><strong>The ranges.</strong> These are the commonly cited amounts for each mover: $20 to $50 for a day's work on a local move, $50 to $100 a day on a long-distance move, $4 to $15 an hour, or 10% to 20% of the total bill shared across the crew. "Fine" uses the bottom of the range, "Good" the middle, and "Above and beyond" the top. Customs vary by place and by job, and none of these is a rule.</p>
+    <p><strong>Rounding.</strong> Each mover's amount is rounded to the nearest $5 (or the nearest dollar under $10) so it is easy to hand over in cash.</p>
+    <p><strong>Who gets it.</strong> Hand each mover their own tip, so everyone gets a share. If one crew loads and another unloads, each crew gets its own tip. On a job that runs over several days, tip at the end of each day.</p>
+    <p><strong>Cash or card.</strong> Cash is the most common way and the easiest to split. If you want to tip by card, check or app, ask the company first: a card tip may not reach each mover separately.</p>
+    <p><strong>Food and drinks.</strong> Kind, not expected, and not part of the tip. Ask about allergies before you order.</p>
+    <p class="aside">Not paying a crew yet? Try <a href="../mover-check/">check your mover before you pay</a>, or if you are moving yourself, <a href="../diy-cost/">what a do-it-yourself move costs</a>.</p>
+  </section>
+
+  <p class="src">Source: tipping ranges, timing, cash and food from <a href="https://www.nerdwallet.com/home-ownership/moving/learn/how-much-to-tip-movers">NerdWallet, How Much to Tip Movers</a> (updated June 9, 2025). The "Fine, Good, Above and beyond" points and the rounding are our own. Checked October 2026.</p>
+  <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Made by someone moving, for people moving. Not a moving company, broker or lead site: we never sell your details and never take a commission from movers, and nothing you type here is sent to us.</p>
+</main>
+
+<footer class="wrap">
+  <a href="../privacy.html">Privacy</a>
+  <a href="../terms.html">Terms and refunds</a>
+  <a href="../answers/">Moving answers</a>
+  <a href="../fit/">Will my couch fit?</a>
+  <a href="../truck/">What size truck?</a>
+  <a href="../boxes/">How many boxes?</a>
+  <a href="../diy-cost/">Cost to move yourself</a>
+  <a href="../mover-check/">Check your mover</a>
+</footer>
+
+<script>
+/* Nothing typed here is sent anywhere. The numbers go in the address only so
+   a shared link opens showing the same answer. */
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  function $(id) { return document.getElementById(id); }
+  function el(tag, a, p) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  /* commonly cited ranges, NerdWallet (updated Jun 9 2025) */
+  var RANGE = {
+    ld: { lo: 20, hi: 50, unit: "a day", what: "a local move, by the day" },
+    dd: { lo: 50, hi: 100, unit: "a day", what: "a long-distance move, by the day" },
+    h: { lo: 4, hi: 15, unit: "an hour", what: "paying by the hour" },
+    b: { lo: 0.10, hi: 0.20, unit: "of the bill", what: "a share of the bill" }
+  };
+  var F = [
+    { k: "n", t: "Movers on the crew", s: "Count everyone who worked", v: 3, max: 20, step: 1 },
+    { k: "d", t: "Days they worked", s: "Count each working day", v: 1, max: 30, step: 1, only: ["ld", "dd"] },
+    { k: "h", t: "Hours they worked", s: "From arrival to the last box", v: 6, max: 200, step: 0.5, only: ["h"] },
+    { k: "b", t: "The bill, before the tip", s: "From your invoice", v: 1200, max: 200000, step: 1, money: 1, only: ["b"] }
+  ];
+  var val = {}, mode = "ld", lvl = 2;
+  function defaults() { F.forEach(function (f) { val[f.k] = f.v; }); mode = "ld"; lvl = 2; }
+  defaults();
+
+  var q = new URLSearchParams(location.search);
+  if (RANGE[q.get("m")]) mode = q.get("m");
+  if (/^[123]$/.test(q.get("s") || "")) lvl = +q.get("s");
+  F.forEach(function (f) { if (!q.has(f.k)) return; var v = parseFloat(q.get(f.k)); if (isFinite(v) && v >= 0 && v <= f.max) val[f.k] = f.k === "n" || f.k === "d" ? Math.floor(v) : v; });
+
+  var inputs = {};
+  F.forEach(function (f) {
+    var li = document.createElement("li"), id = "f-" + f.k;
+    li.innerHTML = '<label for="' + id + '">' + f.t + "<small>" + f.s + '</small></label><span class="num"><span aria-hidden="true">' + (f.money ? "$" : "") + '</span><input id="' + id + '" type="number" inputmode="' + (f.step < 1 ? "decimal" : "numeric") + '" min="0" max="' + f.max + '" step="' + f.step + '"></span>';
+    $("g-move").appendChild(li);
+    var inp = li.querySelector("input");
+    inp.value = show(val[f.k]);
+    inp.addEventListener("input", function () {
+      var v = parseFloat(inp.value);
+      v = isFinite(v) && v > 0 ? Math.min(v, f.max) : 0;
+      if (f.k === "n" || f.k === "d") v = Math.floor(v);
+      val[f.k] = v; draw();
+    });
+    inp.addEventListener("blur", function () { if (inp.value !== "" && inp.value !== show(val[f.k])) inp.value = show(val[f.k]); });
+    inputs[f.k] = inp;
+  });
+  function show(v) { return String(Math.round(v * 100) / 100); }
+  function sync() {
+    F.forEach(function (f) { inputs[f.k].closest("li").hidden = !!f.only && f.only.indexOf(mode) < 0; });
+    [].forEach.call(document.querySelectorAll("[data-mode]"), function (b) { var on = b.getAttribute("data-mode") === mode; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+    [].forEach.call(document.querySelectorAll("[data-s]"), function (b) { var on = +b.getAttribute("data-s") === lvl; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+  }
+  [].forEach.call(document.querySelectorAll("[data-mode]"), function (b) { b.addEventListener("click", function () { mode = b.getAttribute("data-mode"); sync(); draw(); }); });
+  [].forEach.call(document.querySelectorAll("[data-s]"), function (b) { b.addEventListener("click", function () { lvl = +b.getAttribute("data-s"); sync(); draw(); }); });
+  $("reset").addEventListener("click", function () { defaults(); F.forEach(function (f) { inputs[f.k].value = show(val[f.k]); }); sync(); draw(); });
+
+  function usd(n) { return "$" + Math.round(n).toLocaleString("en-US"); }
+  function cash(n) { if (n <= 0) return 0; if (n < 10) return Math.max(1, Math.round(n)); return Math.round(n / 5) * 5; }
+  /* each mover's tip at a given rate */
+  function each(rate) {
+    var n = val.n;
+    if (mode === "b") return n > 0 ? val.b * rate / n : 0;
+    if (mode === "h") return rate * val.h;
+    return rate * val.d;
+  }
+  var last = null;
+  function draw() {
+    var r = RANGE[mode], n = val.n;
+    var rate = lvl === 1 ? r.lo : lvl === 3 ? r.hi : (r.lo + r.hi) / 2;
+    var lo = cash(each(r.lo)), hi = cash(each(r.hi)), per = cash(each(rate));
+    var missing = n <= 0 ? "Type how many movers there were."
+      : mode === "b" && val.b <= 0 ? "Type the bill from your invoice."
+      : mode === "h" && val.h <= 0 ? "Type how many hours they worked."
+      : (mode === "ld" || mode === "dd") && val.d <= 0 ? "Type how many days they worked." : "";
+    var big, small;
+    if (missing) { big = "Tell us about the crew"; small = missing; per = lo = hi = 0; }
+    else {
+      big = usd(per) + " each, " + usd(per * n) + " in all.";
+      small = "The common range is " + usd(lo) + " to " + usd(hi) + " a mover (" + usd(lo * n) + " to " + usd(hi * n) + " for " + n + (n === 1 ? " mover" : " movers") + "). Optional, and customs vary.";
+    }
+    $("big").textContent = big; $("small").textContent = small;
+    paint(lo, hi, per, n, missing);
+    last = { big: big, per: per, lo: lo, hi: hi, n: n, missing: missing };
+    var p = new URLSearchParams(); p.set("m", mode); p.set("s", lvl);
+    F.forEach(function (f) { if (!f.only || f.only.indexOf(mode) >= 0) p.set(f.k, show(val[f.k])); });
+    try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
+  }
+
+  /* the range as a bar, your point on it, and one envelope per mover */
+  function paint(lo, hi, per, n, missing) {
+    var s = $("svg"); s.textContent = "";
+    var FN = "system-ui,sans-serif";
+    el("rect", { width: 500, height: 150, fill: "#0A1C33" }, s);
+    var x0 = 30, W = 440, y = 26;
+    el("rect", { x: x0, y: y, width: W, height: 14, rx: 7, fill: "#11284A" }, s);
+    if (!missing) {
+      el("rect", { x: x0, y: y, width: W, height: 14, rx: 7, fill: "#1F6BFF", opacity: .55 }, s);
+      var t = hi > lo ? (per - lo) / (hi - lo) : .5, mx = x0 + Math.max(0, Math.min(1, t)) * W;
+      el("circle", { cx: mx, cy: y + 7, r: 13, fill: "#7FF5C6", stroke: "#0A1C33", "stroke-width": 4 }, s);
+      var a = el("text", { x: x0, y: y + 40, fill: "#E7EEF8", "font-size": 17, "font-weight": 700, "font-family": FN }, s); a.textContent = usd(lo);
+      var b = el("text", { x: x0 + W, y: y + 40, fill: "#E7EEF8", "font-size": 17, "font-weight": 700, "font-family": FN, "text-anchor": "end" }, s); b.textContent = usd(hi);
+      var c = el("text", { x: 250, y: y + 40, fill: "rgba(255,255,255,.6)", "font-size": 15, "font-weight": 600, "font-family": FN, "text-anchor": "middle" }, s); c.textContent = "each mover";
+    }
+    var cnt = n > 10 ? 9 : n, gap = 44, ex = 250 - (cnt * gap - 8 + (n > cnt ? 48 : 0)) / 2, ey = 92;
+    for (var i = 0; i < cnt; i++) {
+      var gx = ex + i * gap;
+      el("rect", { x: gx, y: ey, width: 36, height: 24, rx: 4, fill: missing ? "#11284A" : "#C9A27A" }, s);
+      el("path", { d: "M" + gx + " " + ey + " l18 13 l18 -13", fill: "none", stroke: "#0A1C33", "stroke-width": 2 }, s);
+    }
+    if (n > cnt) { var m = el("text", { x: ex + cnt * gap + 4, y: ey + 18, fill: "#E7EEF8", "font-size": 16, "font-weight": 700, "font-family": FN }, s); m.textContent = "+" + (n - cnt); }
+    if (!missing && per > 0) { var e = el("text", { x: 250, y: ey + 46, fill: "rgba(255,255,255,.82)", "font-size": 15, "font-weight": 600, "font-family": FN, "text-anchor": "middle" }, s); e.textContent = n + (n === 1 ? " envelope" : " envelopes") + " of " + usd(per); }
+  }
+  sync(); draw();
+
+  function picture() {
+    var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
+    var g = cv.getContext("2d"), FN = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#0A1C33"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#FFC21A"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.textAlign = "center"; g.fillStyle = "rgba(255,255,255,.85)"; g.font = "700 40px " + FN; g.fillText("Tip for our movers", Z / 2, 250);
+    g.fillStyle = "#7FF5C6"; g.font = "850 130px " + FN; g.fillText(last.missing ? "$0" : usd(last.per) + " each", Z / 2, 410);
+    g.fillStyle = "#fff"; g.font = "800 54px " + FN;
+    if (!last.missing) g.fillText(usd(last.per * last.n) + " for a crew of " + last.n, Z / 2, 510);
+    g.fillStyle = "rgba(255,255,255,.8)"; g.font = "600 34px " + FN;
+    if (!last.missing) { g.fillText("Common range " + usd(last.lo) + " to " + usd(last.hi) + " a mover,", Z / 2, 600); g.fillText("for " + RANGE[mode].what + ".", Z / 2, 648); }
+    g.fillText("Tipping is optional and customs vary.", Z / 2, 720);
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 32px " + FN; g.fillText("Work out yours free:", Z / 2, 920);
+    g.fillStyle = "#fff"; g.font = "800 40px " + FN; g.fillText("packedrabbit.com/tip", Z / 2, 975);
+    return cv;
+  }
+  $("share").addEventListener("click", function () {
+    var url = location.href, text = last.big + " How much to tip movers, worked out free:";
+    picture().toBlob(function (blob) {
+      var file = blob && typeof File !== "undefined" ? new File([blob], "mover-tip.png", { type: "image/png" }) : null;
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+      else if (navigator.share) navigator.share({ title: "How much should I tip movers?", text: text, url: url }).catch(function () {});
+      else if (blob) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "mover-tip.png"; document.body.appendChild(a); a.click(); a.remove(); }
+    }, "image/png");
+  });
+})();
+</script>
+</body>
+</html>
