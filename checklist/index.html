@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Moving checklist by date: what to do each week before you move</title>
+<meta name="description" content="Type your moving date and get a dated moving checklist: what to do this week, every week until the move, on moving day and after. Add it to your calendar. Free, no signup.">
+<link rel="canonical" href="https://packedrabbit.com/checklist/">
+<meta name="theme-color" content="#0F2742">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="Moving checklist by date">
+<meta property="og:description" content="Your moving date in, a dated checklist out: this week, every week until the move, moving day and after.">
+<meta property="og:url" content="https://packedrabbit.com/checklist/">
+<meta property="og:image" content="https://packedrabbit.com/img/og.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Moving checklist by date, by The Packed Rabbit",
+  "url": "https://packedrabbit.com/checklist/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Builds a dated moving checklist from a moving date: what to do this week, each week before the move, on moving day, on delivery day and after, for a move with hired movers or a move you do yourself, with extra steps for renters, pets and moves across state lines. Tasks that would already be late move to the top instead of being marked missed. Can be saved to a calendar."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "When should I file a change of address with the post office?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The U.S. Postal Service accepts a change of address up to 90 days before your move and up to 30 days after it. Mail starts arriving at the new address within 7 to 10 postal business days of the start date, so filing about two weeks ahead is a sensible target. Filing online has a $1.25 identity check fee." } },
+    { "@type": "Question", "name": "How many movers should I get estimates from?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The Federal Motor Carrier Safety Administration suggests getting estimates from at least three movers or brokers and comparing the cost and the services. For a move across state lines, check that the mover is registered with FMCSA and has a USDOT number." } },
+    { "@type": "Question", "name": "What should I check on moving day?",
+      "acceptedAnswer": { "@type": "Answer", "text": "FMCSA advises reading the estimate, order for service, bill of lading and inventory before you sign them, going with the movers while they inventory your things, staying until they finish, and walking through the home before the truck leaves. Keep the bill of lading until everything is delivered, paid and any claims are settled." } },
+    { "@type": "Question", "name": "How long do I have to file a claim with an interstate mover?",
+      "acceptedAnswer": { "@type": "Answer", "text": "For an interstate move, FMCSA says you must file a written claim with the mover within 9 months of delivery. Note damaged or missing items on the inventory before you sign at delivery." } },
+    { "@type": "Question", "name": "Do I need to tell the IRS I moved?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The IRS says to notify the post office and also notify the IRS directly, because not all post offices forward government checks. You can use Form 8822, a signed letter, or your next tax return. Changes generally take about 45 days to process." } },
+    { "@type": "Question", "name": "What do I need to move a pet to another state?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The receiving state sets the rules, according to the U.S. Department of Agriculture. Some states ask for a health certificate or updated vaccinations. Check with the state animal health official for the state you are moving to, and talk to your veterinarian early." } }
+  ]
+}
+</script>
+<style>
+  .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0 6px; }
+  .seg button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 6px 8px; line-height: 1.2; }
+  .seg button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .lbl { font-weight: 800; margin: 22px 0 0; font-size: 1.1rem; display: block; }
+  .date { display: block; width: 100%; box-sizing: border-box; min-height: 56px; margin-top: 10px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-family: var(--display); font-weight: 800; font-size: 1.2rem; padding: 6px 14px; }
+  .date:focus { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+  .stage { background: #0A1C33; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .say { padding: 16px 18px 16px; color: #fff; }
+  .say .big { font-family: var(--display); font-size: clamp(1.8rem, 7vw, 2.4rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #7FF5C6; }
+  .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
+  .bar { height: 12px; border-radius: 6px; background: #11284A; margin: 14px 0 0; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: #FFC21A; border-radius: 6px; }
+  .opts { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .opts li { padding: 10px 12px 12px 16px; border-bottom: 1px solid var(--line); }
+  .opts li:last-child { border-bottom: 0; }
+  .opts .q { font-weight: 700; }
+  .opts .seg { margin: 8px 0 0; }
+  .opts .seg button { min-height: 46px; }
+  .wk { margin: 26px 0 0; }
+  .wk h3 { font-size: 1.15rem; margin: 0 0 2px; }
+  .wk .when { color: var(--ink2); font-size: .92rem; margin: 0 0 8px; }
+  .wk.now h3 { color: var(--ink); }
+  .tasks { list-style: none; margin: 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .wk.now .tasks { border-left: 5px solid var(--tape); }
+  .tasks li { display: flex; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--line); align-items: flex-start; }
+  .tasks li:last-child { border-bottom: 0; }
+  .tasks .d { flex: 0 0 auto; min-width: 3.4rem; text-align: center; font-weight: 800; font-size: .82rem; line-height: 1.15; color: var(--ink2); padding-top: 2px; }
+  .tasks .d b { display: block; font-family: var(--display); font-size: 1.3rem; color: var(--ink); }
+  .tasks .t { flex: 1; min-width: 0; }
+  .tasks .t strong { display: block; }
+  .tasks .t small { display: block; color: var(--ink2); font-size: .88rem; margin-top: 2px; }
+  .tasks .t a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  .how { margin-top: 34px; } .how h2 { font-size: 1.5rem; }
+  .aside { font-size: .95rem; color: var(--ink2); }
+  .src { font-size: .9rem; color: var(--ink2); border-top: 1px solid var(--line); padding-top: 12px; margin-top: 22px; }
+  .src a { color: var(--ink2); overflow-wrap: anywhere; }
+  .src li { margin: 4px 0; }
+  @media (max-width: 370px) { .seg button { font-size: .88rem; } }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home">
+    <svg width="34" height="34" viewBox="0 0 72 72" aria-hidden="true">
+      <path d="M24 30C21 20 20 11 23 10c3-1 7 7 9 17" fill="none" stroke="var(--blue)" stroke-width="3.6" stroke-linecap="round"/>
+      <path d="M46 30c3-10 4-19 1-20-3-1-7 7-9 17" fill="none" stroke="var(--blue)" stroke-width="3.6" stroke-linecap="round"/>
+      <ellipse cx="36" cy="46" rx="20" ry="17" fill="none" stroke="var(--blue)" stroke-width="3.6"/>
+      <circle cx="43" cy="44" r="7" fill="none" stroke="var(--tape)" stroke-width="3"/>
+    </svg>
+    The Packed Rabbit
+  </a>
+</header>
+
+<main class="tp">
+  <h1>Moving checklist by date</h1>
+  <p class="lede">Type your moving date. You get what to do this week, every week until the move, on the day and after, with real dates on each step.</p>
+
+  <label class="lbl" for="f-date">When are you moving?</label>
+  <input class="date" id="f-date" type="date">
+
+  <div class="stage">
+    <div class="say" aria-live="polite"><div class="big" id="big"></div><p id="small"></p><div class="bar" aria-hidden="true"><i id="bar"></i></div></div>
+  </div>
+
+  <p class="lbl">Your move</p>
+  <ul class="opts">
+    <li><div class="q" id="q-w">Who is doing the heavy lifting?</div>
+      <div class="seg" role="group" aria-labelledby="q-w"><button type="button" data-k="w" data-v="m">Hiring movers</button><button type="button" data-k="w" data-v="s">Moving myself</button></div></li>
+    <li><div class="q" id="q-x">Crossing a state line?</div>
+      <div class="seg" role="group" aria-labelledby="q-x"><button type="button" data-k="x" data-v="1">Yes</button><button type="button" data-k="x" data-v="0">No</button></div></li>
+    <li><div class="q" id="q-r">Renting the place you are leaving?</div>
+      <div class="seg" role="group" aria-labelledby="q-r"><button type="button" data-k="r" data-v="1">Yes</button><button type="button" data-k="r" data-v="0">No</button></div></li>
+    <li><div class="q" id="q-p">Moving with pets?</div>
+      <div class="seg" role="group" aria-labelledby="q-p"><button type="button" data-k="p" data-v="1">Yes</button><button type="button" data-k="p" data-v="0">No</button></div></li>
+  </ul>
+
+  <div id="list"></div>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this answer</button>
+    <button class="btn ghost" id="ics" type="button">Add these dates to my calendar</button>
+    <button class="btn ghost" id="reset" type="button">Start again</button>
+    <a class="btn ghost" href="../app/">Keep the plan in the app, free</a>
+  </div>
+  <p class="aside">The calendar button saves a file your phone or computer opens in its own calendar. The app goes further: it moves a task to another day without calling it missed, numbers every box, and works with no signal.</p>
+
+  <section class="how">
+    <h2>How this works</h2>
+    <p><strong>The dates.</strong> Each step sits a set number of days before or after your moving date. The spacing is our own suggestion, not a rule: start earlier if you can, and move steps around to fit your life.</p>
+    <p><strong>Starting late.</strong> If a step's date has already passed, it goes to the top under "Start with these" with the rest of this week's steps. Nothing is marked missed. A short run-up just means doing the most useful things first.</p>
+    <p><strong>The post office.</strong> The U.S. Postal Service takes a change of address up to 90 days before the move and up to 30 days after. Mail starts arriving within 7 to 10 postal business days of the start date, so this page puts it two weeks out.</p>
+    <p><strong>Movers.</strong> The federal moving regulator suggests estimates from at least three movers or brokers, and for a move across state lines, a mover registered with it that has a USDOT number. On moving day, read every paper before you sign. A written claim on an interstate move must reach the mover within 9 months of delivery.</p>
+    <p><strong>Pets.</strong> When you move a pet to another state, the state you are moving to sets the rules. Ask that state's animal health official and your veterinarian early.</p>
+    <p class="aside">Moving furniture? Try <a href="../fit/">will my couch fit through the door</a>, <a href="../boxes/">how many boxes</a> or <a href="../truck/">what size truck</a>.</p>
+  </section>
+
+  <div class="src">Sources:
+    <ul>
+      <li><a href="https://faq.usps.com/articles/Knowledge/Change-of-Address-The-Basics">USPS, Change of Address: The Basics</a> (90 days before, 30 days after, 7 to 10 postal business days, $1.25 online fee)</li>
+      <li><a href="https://www.fmcsa.dot.gov/sites/fmcsa.dot.gov/files/2023-05/PYM-Moving-Checklist.pdf">FMCSA, Protect Your Move moving checklist</a> and <a href="https://www.fmcsa.dot.gov/sites/fmcsa.dot.gov/files/ReadytoMoveBrochure_2022Update.pdf">Ready to Move brochure</a> (estimates, registration, paperwork, moving and delivery day, 9-month claim)</li>
+      <li><a href="https://www.irs.gov/taxtopics/tc157">IRS, Topic 157: Change your address</a> (tell the IRS directly, Form 8822, about 45 days)</li>
+      <li><a href="https://www.aphis.usda.gov/ht/node/3507">USDA APHIS, Take a pet from one U.S. state or territory to another</a> (the receiving state sets the rules)</li>
+    </ul>
+    The number of days before each step is our own suggestion. Checked October 2026. Rules change, so check current guidance.
+  </div>
+  <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Made by someone moving, for people moving. Not a moving company, broker or lead site: we never sell your details and never take a commission from movers, and nothing you type here is sent to us.</p>
+</main>
+
+<footer class="wrap">
+  <a href="../privacy.html">Privacy</a>
+  <a href="../terms.html">Terms and refunds</a>
+  <a href="../answers/">Moving answers</a>
+  <a href="../fit/">Will my couch fit?</a>
+  <a href="../truck/">What size truck?</a>
+  <a href="../boxes/">How many boxes?</a>
+  <a href="../diy-cost/">Cost to move yourself</a>
+  <a href="../tip/">How much to tip movers?</a>
+  <a href="../mover-check/">Check your mover</a>
+</footer>
+
+<script>
+/* Nothing typed here is sent anywhere. The date and answers go in the address
+   only so a shared link opens showing the same checklist. */
+(function () {
+  "use strict";
+  function $(id) { return document.getElementById(id); }
+  /* o: days from moving day. w: m movers, s self. x/r/p: only when that answer is yes. */
+  var T = [
+    { o: -56, t: "Get written estimates from at least three movers", s: "Compare the cost and every service, not just the total.", w: "m" },
+    { o: -56, t: "Check the mover is registered for interstate moves", s: "It should have a USDOT number with the federal regulator.", w: "m", x: 1, a: ["../mover-check/", "Check your mover"] },
+    { o: -56, t: "Get quotes for a truck or van", s: "Ask for the daily rate, the charge per mile and what fuel it takes.", w: "s", a: ["../truck/", "What size truck do I need?"] },
+    { o: -52, t: "Decide what to keep, sell, donate or throw out", s: "Everything you let go is a box you don't pack or pay to move." },
+    { o: -49, t: "Read your lease for the notice you must give", s: "Give notice in writing, and keep a copy.", r: 1 },
+    { o: -45, t: "Ask your vet about the move", s: "The state you are moving to sets the rules for pets. Some ask for a health certificate or updated shots.", p: 1, x: 1 },
+    { o: -42, t: "Ask each mover how they handle damage", s: "Ask about their dispute settlement program, and get the booklet Your Rights and Responsibilities When You Move.", w: "m", x: 1 },
+    { o: -42, t: "Ask each mover how they handle damage", s: "Ask what they pay if something breaks, and get it in writing.", w: "m", x: 0 },
+    { o: -40, t: "Work out what it will cost", s: "Truck, miles, fuel, boxes, helpers and food on the road.", w: "s", a: ["../diy-cost/", "Cost to move yourself"] },
+    { o: -38, t: "Measure big furniture and the doors it must pass", s: "Find out now, not on the stairs.", a: ["../fit/", "Will my couch fit?"] },
+    { o: -35, t: "Book your mover", s: "Get the pickup and delivery dates or windows in writing.", w: "m" },
+    { o: -35, t: "Reserve the truck and line up helpers", s: "Weekends and month-ends book up first.", w: "s" },
+    { o: -33, t: "Check your insurance covers the move", s: "Ask your insurer what is covered in transit and at the new place." },
+    { o: -30, t: "Get boxes, tape and packing paper", s: "Heavy things go in small boxes.", a: ["../boxes/", "How many boxes do I need?"] },
+    { o: -28, t: "Start packing the rooms you use least", s: "Number each box and write the room it goes to." },
+    { o: -21, t: "Set up utilities and internet at the new place", s: "And book the shutoff at the old place for the day after you leave." },
+    { o: -17, t: "Find out the pet rules at your new home", s: "Building rules, licenses and a safe room for moving day.", p: 1 },
+    { o: -14, t: "File your change of address with the post office", s: "Mail starts arriving within 7 to 10 postal business days of the start date." },
+    { o: -14, t: "Tell the IRS your new address", s: "Form 8822 or a signed letter. It takes about 45 days to process." },
+    { o: -12, t: "Update your address with banks, insurers, doctors and work", s: "The post office does not tell them for you." },
+    { o: -10, t: "Refill prescriptions", s: "Enough to cover the move and the first week after." },
+    { o: -7, t: "Confirm the pickup and delivery dates with your mover", s: "Ask how to reach the mover and the driver during the move.", w: "m" },
+    { o: -7, t: "Confirm the truck and your helpers", s: "Times, pickup place and who brings what.", w: "s" },
+    { o: -5, t: "Book a time to hand back the keys", s: "Ask the landlord to walk through with you if you can.", r: 1 },
+    { o: -3, t: "Pack a bag that travels with you", s: "Medicine, papers, chargers, keys, a change of clothes and anything you can't replace." },
+    { o: -3, t: "Pack the pet bag", s: "Food, water, bowls, leash, medicine, bedding and records.", p: 1 },
+    { o: -2, t: "Empty and defrost the fridge and freezer", s: "Leave the door open so it dries." },
+    { o: -1, t: "Get cash for tips, if you plan to tip", s: "Optional. Hand each mover their own.", w: "m", a: ["../tip/", "How much to tip movers?"] },
+    { o: -1, t: "Keep pets in a closed room for the day", s: "Away from open doors and moving traffic.", p: 1 },
+    { o: 0, t: "Read every paper before you sign", s: "The estimate, order for service, bill of lading and inventory. Go with the movers while they list your things.", w: "m" },
+    { o: 0, t: "Stay until the movers finish, then walk through", s: "Check every room before the truck leaves. Keep the bill of lading until everything is delivered, paid and settled.", w: "m" },
+    { o: 0, t: "Walk through every room before you drive off", s: "Check cupboards, closets and outside.", w: "s" },
+    { o: 0, t: "Photograph the empty rooms", s: "Walls, floors and appliances, with the date. Leave your new address in writing.", r: 1, a: ["../answers/deposit-deadline.html", "When is my deposit due back?"] },
+    { o: 1, t: "Delivery day: pay as your written estimate says, before unloading", s: "Then note every damaged or missing box on the inventory before you sign.", w: "m" },
+    { o: 1, t: "Set up the bed, bathroom and kitchen first", s: "Then unpack box by box." },
+    { o: 10, t: "Update the address on your driver's license, car registration and voter registration", s: "Deadlines vary by state, so check your state's motor vehicle office and election office." },
+    { o: 14, t: "Check your mail is arriving at the new address", s: "You can still file with the post office up to 30 days after the move." },
+    { o: 30, t: "Last day to file a change of address after the move", s: "If you have not filed yet." },
+    { o: 250, t: "File any damage claim with your interstate mover", s: "In writing, within 9 months of delivery. This date counts from moving day; count from the day your things actually arrived.", w: "m", x: 1, due: 1 }
+  ];
+  var D = 864e5, opt, day;
+  function today() { var n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); }
+  function iso(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+  function parse(s) { var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || ""); if (!m) return null; var d = new Date(+m[1], +m[2] - 1, +m[3]); return d.getMonth() === +m[2] - 1 && +m[1] > 1999 && +m[1] < 2101 ? d : null; }
+  function add(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
+  function diff(a, b) { return Math.round((a - b) / D); }
+  var MO = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  var DOW = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  function nice(d, y) { return DOW[d.getDay()] + ", " + MO[d.getMonth()] + " " + d.getDate() + (y ? ", " + d.getFullYear() : ""); }
+  function defaults() { opt = { w: "m", x: "0", r: "1", p: "0" }; day = add(today(), 56); }
+  defaults();
+  var q = new URLSearchParams(location.search);
+  if (parse(q.get("d"))) day = parse(q.get("d"));
+  if (/^[ms]$/.test(q.get("w") || "")) opt.w = q.get("w");
+  ["x", "r", "p"].forEach(function (k) { if (/^[01]$/.test(q.get(k) || "")) opt[k] = q.get(k); });
+
+  var inp = $("f-date");
+  inp.value = iso(day);
+  inp.addEventListener("input", function () { day = parse(inp.value); draw(); });
+  [].forEach.call(document.querySelectorAll("[data-k]"), function (b) {
+    b.addEventListener("click", function () { opt[b.getAttribute("data-k")] = b.getAttribute("data-v"); sync(); draw(); });
+  });
+  $("reset").addEventListener("click", function () { defaults(); inp.value = iso(day); sync(); draw(); });
+  function sync() {
+    [].forEach.call(document.querySelectorAll("[data-k]"), function (b) { var on = opt[b.getAttribute("data-k")] === b.getAttribute("data-v"); b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+  }
+  function fits(t) {
+    if (t.w && t.w !== opt.w) return false;
+    if (t.x !== undefined && String(t.x) !== opt.x) return false;
+    if (t.r && opt.r !== "1") return false;
+    if (t.p && opt.p !== "1") return false;
+    return true;
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+  var last = null;
+  function plan() {
+    var now = today(), out = [];
+    /* the 9-month claim is a deadline, 9 calendar months on from moving day */
+    T.forEach(function (t) { if (!fits(t)) return; out.push(t.due ? { t: t, at: new Date(day.getFullYear(), day.getMonth() + 9, day.getDate()), deadline: 1 } : { t: t, at: add(day, t.o) }); });
+    out.sort(function (a, b) { return a.at - b.at; });
+    var groups = [], cut = add(now, 7 - ((now.getDay() + 6) % 7)); /* next Monday */
+    var start = { k: "now", h: "Start with these", w: "This week", items: [] };
+    out.forEach(function (e) {
+      if (e.deadline) { if (e.at >= now) push(e); return; }
+      if (e.at < cut && diff(e.at, now) < 0 && diff(day, now) >= 0) start.items.push(e);
+      else if (e.at < now) { /* past, after the move: drop quietly */ }
+      else push(e);
+    });
+    function push(e) {
+      var key, h, w, rel = diff(e.at, day);
+      if (rel === 0) { key = "day"; h = "Moving day"; w = nice(e.at, 1); }
+      else if (rel > 0) { key = e.deadline ? "dl" : "after"; h = e.deadline ? "Deadline" : "After the move"; w = e.deadline ? "Only if something was damaged or lost" : "From " + nice(add(day, 1)); }
+      else if (e.at < cut) { key = "now"; }
+      else {
+        var mon = add(e.at, -((e.at.getDay() + 6) % 7));
+        key = "w" + iso(mon); h = "Week of " + MO[mon.getMonth()] + " " + mon.getDate() + (mon.getFullYear() !== now.getFullYear() ? ", " + mon.getFullYear() : "");
+        var wk = Math.ceil(-rel / 7); w = wk + (wk === 1 ? " week" : " weeks") + " before the move";
+      }
+      if (key === "now") { start.items.push(e); return; }
+      var g = groups.filter(function (x) { return x.k === key; })[0];
+      if (!g) { g = { k: key, h: h, w: w, items: [] }; groups.push(g); }
+      g.items.push(e);
+    }
+    if (start.items.length) groups.unshift(start);
+    return { groups: groups, all: out };
+  }
+
+  function draw() {
+    var list = $("list");
+    if (!day) {
+      $("big").textContent = "Pick your moving date";
+      $("small").textContent = "Type it or choose it above, and the checklist fills in.";
+      $("bar").style.width = "0";
+      list.innerHTML = ""; last = null; try { history.replaceState(null, "", location.pathname); } catch (e) {}
+      return;
+    }
+    var now = today(), left = diff(day, now), P = plan(), first = P.groups[0], big, small;
+    var nowN = first && first.k === "now" ? first.items.length : 0;
+    if (left > 0) {
+      big = left.toLocaleString("en-US") + (left === 1 ? " day to go" : " days to go");
+      small = "Moving " + nice(day, 1) + ". " + (nowN > 3 ? nowN + " things to fit into this week. Take them one at a time, from the top." : nowN ? nowN + (nowN === 1 ? " thing" : " things") + " to start this week." : "Nothing is due this week. The first step is on " + nice(P.groups[0] ? P.groups[0].items[0].at : day, (P.groups[0] ? P.groups[0].items[0].at : day).getFullYear() !== now.getFullYear()) + ".");
+      if (left > 400) small += " That is a long way off: these steps are easier to time once you are within a few months.";
+    } else if (left === 0) {
+      big = "It's moving day";
+      small = "Read every paper before you sign, and keep the bag that travels with you close.";
+    } else {
+      big = "Moved " + (-left).toLocaleString("en-US") + (left === -1 ? " day ago" : " days ago");
+      small = P.groups.length ? "Here is what is still useful to do." : "Nothing left on this list. Well done.";
+    }
+    $("big").textContent = big; $("small").textContent = small;
+    var span = 56, pct = left >= span ? 4 : left <= 0 ? 100 : Math.round(100 - left / span * 96);
+    $("bar").style.width = pct + "%";
+    var h = "";
+    P.groups.forEach(function (g) {
+      h += '<section class="wk' + (g.k === "now" ? " now" : "") + '"><h3>' + esc(g.h) + '</h3><p class="when">' + esc(g.w) + '</p><ul class="tasks">';
+      g.items.forEach(function (e) {
+        var late = g.k === "now" && e.at < now;
+        h += '<li><div class="d">' + (late ? "<b>Now</b>" : DOW[e.at.getDay()] + "<b>" + e.at.getDate() + "</b>" + MO[e.at.getMonth()]) + '</div><div class="t"><strong>' + esc(e.t.t) + "</strong><small>" + esc(e.t.s) + (e.deadline ? " Last day: " + esc(nice(e.at, 1)) + "." : "") + "</small>" + (e.t.a ? '<a href="' + e.t.a[0] + '">' + esc(e.t.a[1]) + "</a>" : "") + "</div></li>";
+      });
+      h += "</ul></section>";
+    });
+    list.innerHTML = h;
+    last = { big: big, day: day, left: left, next: [] };
+    P.groups.forEach(function (g) { g.items.forEach(function (e) { if (last.next.length < 3) last.next.push(e.t.t); }); });
+    last.all = P.all.filter(function (e) { return e.at >= now; });
+    var p = new URLSearchParams(); p.set("d", iso(day)); p.set("w", opt.w); p.set("x", opt.x); p.set("r", opt.r); p.set("p", opt.p);
+    try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
+  }
+  sync(); draw();
+
+  function wrap(g, text, x, y, max, lh) {
+    var words = text.split(" "), line = "", n = 0;
+    for (var i = 0; i < words.length; i++) {
+      var tryL = line ? line + " " + words[i] : words[i];
+      if (g.measureText(tryL).width > max && line) { g.fillText(line, x, y + n * lh); n++; line = words[i]; } else line = tryL;
+    }
+    g.fillText(line, x, y + n * lh); return n + 1;
+  }
+  function picture() {
+    var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
+    var g = cv.getContext("2d"), FN = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#0A1C33"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#FFC21A"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.textAlign = "left"; var X = 90;
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "700 40px " + FN;
+    g.fillText(last ? (last.left < 0 ? "Moved " : "Moving ") + nice(last.day, 1) : "My moving checklist", X, 220);
+    g.fillStyle = "#7FF5C6"; var fs = 110, bigT = last ? last.big : "Pick a date"; do { g.font = "850 " + fs + "px " + FN; fs -= 4; } while (g.measureText(bigT).width > Z - X * 2 && fs > 40); g.fillText(bigT, X, 350);
+    g.fillStyle = "#fff"; g.font = "800 42px " + FN; g.fillText(last && last.next.length ? "Next up" : "", X, 470);
+    g.font = "600 36px " + FN; g.fillStyle = "rgba(255,255,255,.88)";
+    var y = 535;
+    (last ? last.next : []).forEach(function (t, i) {
+      g.fillStyle = "#FFC21A"; g.beginPath(); g.arc(X + 14, y - 12, 14, 0, 7); g.fill();
+      g.fillStyle = "#0A1C33"; g.font = "800 22px " + FN; g.textAlign = "center"; g.fillText(String(i + 1), X + 14, y - 4);
+      g.textAlign = "left"; g.fillStyle = "rgba(255,255,255,.88)"; g.font = "600 36px " + FN;
+      y += wrap(g, t, X + 50, y, Z - X * 2 - 50, 46) * 46 + 22;
+    });
+    g.textAlign = "center";
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 32px " + FN; g.fillText("Get yours with real dates, free:", Z / 2, 940);
+    g.fillStyle = "#fff"; g.font = "800 40px " + FN; g.fillText("packedrabbit.com/checklist", Z / 2, 995);
+    return cv;
+  }
+  $("share").addEventListener("click", function () {
+    var url = location.href, text = (last ? last.big + ". " : "") + "My moving checklist, with dates, made free:";
+    picture().toBlob(function (blob) {
+      var file = blob && typeof File !== "undefined" ? new File([blob], "moving-checklist.png", { type: "image/png" }) : null;
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+      else if (navigator.share) navigator.share({ title: "Moving checklist by date", text: text, url: url }).catch(function () {});
+      else if (blob) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "moving-checklist.png"; document.body.appendChild(a); a.click(); a.remove(); }
+    }, "image/png");
+  });
+
+  /* a calendar file built here, on the device: one all-day event per step */
+  function icsText(s) { return String(s).replace(/\\/g, "\\\\").replace(/[,;]/g, "\\$&").replace(/\n/g, "\\n"); }
+  function fold(line) { var o = ""; while (line.length > 74) { o += line.slice(0, 74) + "\r\n "; line = line.slice(74); } return o + line; }
+  $("ics").addEventListener("click", function () {
+    if (!last || !last.all.length) return;
+    var stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
+    var L = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//The Packed Rabbit//Moving checklist//EN", "CALSCALE:GREGORIAN"];
+    last.all.forEach(function (e, i) {
+      var a = iso(e.at).replace(/-/g, ""), b = iso(add(e.at, 1)).replace(/-/g, "");
+      L.push("BEGIN:VEVENT", "UID:pr-checklist-" + a + "-" + i + "@packedrabbit.com", "DTSTAMP:" + stamp, "DTSTART;VALUE=DATE:" + a, "DTEND;VALUE=DATE:" + b, fold("SUMMARY:" + icsText(e.t.t)), fold("DESCRIPTION:" + icsText(e.t.s)), "TRANSP:TRANSPARENT", "END:VEVENT");
+    });
+    L.push("END:VCALENDAR");
+    var blob = new Blob([L.join("\r\n") + "\r\n"], { type: "text/calendar" });
+    var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "moving-checklist.ics"; document.body.appendChild(a); a.click(); a.remove();
+  });
+})();
+</script>
+</body>
+</html>
