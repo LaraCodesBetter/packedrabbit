@@ -19,6 +19,8 @@
 <link rel="icon" href="../app/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../app/icon-180.png">
 <link rel="stylesheet" href="../site.css">
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -158,6 +160,7 @@
   <a href="../diy-cost/">Cost to move yourself</a>
   <a href="../tip/">How much to tip movers?</a>
   <a href="../mover-check/">Check your mover</a>
+  <a href="../embed/">Put these tools on your site</a>
 </footer>
 
 <script>
@@ -303,6 +306,23 @@
       }, "image/png");
     });
   });
+})();
+</script>
+<script>
+/* Embedded on someone else's page: no site header or footer, links open in a
+   new tab, a credit line at the end, and the height told to the host page. */
+(function () {
+  if (!document.documentElement.classList.contains("embed")) return;
+  document.querySelectorAll("a[href]").forEach(function (a) { a.target = "_blank"; a.rel = "noopener"; });
+  var m = document.querySelector("main") || document.body;
+  var c = document.createElement("a");
+  c.className = "embed-credit"; c.target = "_blank"; c.rel = "noopener";
+  c.href = "https://packedrabbit.com" + location.pathname;
+  c.textContent = "Free tool by The Packed Rabbit";
+  m.appendChild(c);
+  function tell() { try { parent.postMessage({ prEmbedHeight: Math.ceil(document.documentElement.scrollHeight) }, "*"); } catch (e) {} }
+  tell(); addEventListener("load", tell); addEventListener("resize", tell);
+  if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
 })();
 </script>
 </body>
