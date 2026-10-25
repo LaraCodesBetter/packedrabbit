@@ -250,3 +250,11 @@ footer a:hover{color:var(--ink); text-decoration:underline}
 }
 
 .stickycta[hidden]{display:none !important}
+
+/* free tools embedded on other sites (?embed) */
+html.embed body{background:transparent}
+html.embed body > header, html.embed body > footer, html.embed .how, html.embed .aside, html.embed .maker, html.embed .lede + .crumbs, html.embed nav{display:none !important}
+html.embed main{padding-top:0 !important; padding-bottom:12px !important}
+html.embed h1{font-size:clamp(1.5rem,5vw,2.1rem) !important; margin-top:4px !important}
+.embed-credit{display:block; margin:18px 0 4px; font-weight:700; font-size:.92rem; color:var(--ink2); text-decoration:none}
+.embed-credit:hover{text-decoration:underline}
