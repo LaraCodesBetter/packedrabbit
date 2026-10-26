@@ -63,7 +63,7 @@
           (tight ? " Tight: wrap the arms, and take the door off its hinges for about 1⅜ inches more." : "") + "</small></span>";
       } else {
         var legsWould = !k.legs.checked && doorFit([h - LEGS, d, l], W, DOOR_H).ok;
-        var hint = legsWould ? "Take the legs off and it goes through. Try the switch below."
+        var hint = legsWould ? "Take the legs off and it goes through. See it under \"Try your own numbers.\""
           : r.short <= 1 ? "Take the door off its hinges: that gives back about 1⅜ inches."
           : "Not through this doorway, any way up. Measure another way in, or ask the movers about a window or a hoist.";
         html = '<span class="dot" aria-hidden="true">✕</span><span>' + r.short + (r.short === 1 ? " inch" : " inches") + " too wide." +
@@ -154,7 +154,7 @@
       out.innerHTML = '<div class="ol-days">' + (days === 0 ? "Today" : days + '<small>' + (days === 1 ? "day to go" : "days to go") + '</small>') + '</div>' +
         '<p class="ol-phase">' + esc(ph[1]) + '. Do these first:</p>' +
         '<ol>' + ph[2].map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + '</ol>' +
-        '<a class="btn tape" href="app/?date=' + v + '">Start my move with this date</a>';
+        '<a class="btn tape" href="app/?date=' + v + '">Start managing my move with this date</a>';
     }
     inp.addEventListener("change", show); inp.addEventListener("input", show);
   }
