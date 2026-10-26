@@ -258,3 +258,78 @@ html.embed main{padding-top:0 !important; padding-bottom:12px !important}
 html.embed h1{font-size:clamp(1.5rem,5vw,2.1rem) !important; margin-top:4px !important}
 .embed-credit{display:block; margin:18px 0 4px; font-weight:700; font-size:.92rem; color:var(--ink2); text-decoration:none}
 .embed-credit:hover{text-decoration:underline}
+
+/* site notch, 26 Oct 2026 */
+.phone{position:relative}
+.mono-peek{position:absolute; top:-70px; right:-14px; width:130px; z-index:2; filter:drop-shadow(0 10px 18px rgba(0,0,0,.35))}
+.mono-peek .mono{width:100%; height:auto; display:block; overflow:visible}
+@media (prefers-reduced-motion:no-preference){ .mono-peek{animation:peek 3.6s ease-in-out infinite} .mono-peek .ears{transform-origin:50px 40px; animation:ears 4.2s ease-in-out infinite} }
+@keyframes peek{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes ears{0%,90%,100%{transform:rotate(0)}94%{transform:rotate(-6deg)}97%{transform:rotate(5deg)}}
+.promise{padding-top:56px}
+.promise h2{max-width:22ch}
+.promises{list-style:none; padding:0; margin:24px 0 0; display:grid; gap:14px}
+@media (min-width:860px){.promises{grid-template-columns:repeat(3,1fr)}}
+.promises li{padding:22px 22px 24px; border-radius:22px; background:var(--panel); box-shadow:var(--lift1); border-top:6px solid var(--tape)}
+.promises b{display:block; font-family:var(--display); font-size:1.45rem; line-height:1.15; letter-spacing:-.01em}
+.promises span{display:block; margin-top:8px; color:var(--ink2)}
+.tricks{display:grid; gap:12px; margin-top:20px}
+@media (min-width:860px){.tricks{grid-template-columns:repeat(3,1fr)}}
+.trickc{padding:18px 20px; border-radius:20px; background:var(--panel); box-shadow:var(--lift1); border-left:5px solid var(--rose)}
+.trickc b{display:block; font-size:1.12rem}
+.trickc span{display:block; margin-top:6px; color:var(--ink2)}
+.cta2{display:flex; flex-wrap:wrap; gap:12px; margin-top:20px}
+.shortrow{display:flex; gap:14px; overflow-x:auto; padding:14px 2px 18px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch}
+.shortrow figure{flex:none; width:min(62vw,240px); margin:0; scroll-snap-align:start}
+.shortrow video{width:100%; aspect-ratio:9/16; border-radius:20px; background:#0F2742; display:block; box-shadow:var(--lift2)}
+.shortrow figcaption{margin-top:8px; font-weight:700}
+.tipgrid{display:grid; gap:14px; margin-top:20px}
+@media (min-width:700px){.tipgrid{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1040px){.tipgrid{grid-template-columns:repeat(3,1fr)}}
+.tipc{position:relative; padding:28px 20px 18px; border-radius:20px; background:linear-gradient(140deg, color-mix(in srgb, var(--tape) 20%, var(--panel)) 0%, var(--panel) 60%); border:1.5px solid color-mix(in srgb, var(--tape) 65%, transparent); box-shadow:var(--lift1)}
+.tipc::before{content:"Did you know?"; position:absolute; top:-13px; left:14px; background:var(--tape); color:var(--tape-ink); font-weight:850; padding:4px 12px; transform:rotate(-2deg); box-shadow:0 3px 8px rgba(0,0,0,.18)}
+.tipc p{font-size:1.1rem; line-height:1.45; margin:0 0 12px}
+.tshare{min-height:44px}
+
+@media (max-width:699px){
+  .tipgrid{display:flex; overflow-x:auto; scroll-snap-type:x mandatory; padding:18px 2px 14px; gap:12px}
+  .tipc{flex:none; width:78vw; scroll-snap-align:start}
+  .promises li{padding:16px 18px 18px}
+  .promises b{font-size:1.25rem}
+  .trickc{padding:14px 16px}
+}
+
+.hero h1{max-width:15ch; font-size:clamp(2.3rem,6.4vw,4.6rem)}
+@media (max-width:919px){ .hero .phone{margin-top:64px} }
+
+/* one orchestrated entrance, a rabbit you can tap, a truck that fills (26 Oct) */
+.mono-peek{border:0; background:none; padding:0; cursor:pointer; min-width:44px; min-height:44px}
+.trust{list-style:none; padding:0; margin:18px 0 0; display:flex; flex-wrap:wrap; gap:10px 18px; justify-content:center}
+.trust li{display:inline-flex; align-items:center; gap:8px; font-weight:700; color:var(--ink2)}
+.trust svg{width:22px; height:22px; color:var(--blue)}
+.invitebox{display:flex; flex-wrap:wrap; gap:24px; align-items:center; padding:30px 28px; border-radius:28px; background:var(--navy); color:#fff; position:relative; overflow:hidden}
+.invitebox::before{content:""; position:absolute; left:-3%; right:-3%; top:14px; height:18px; background:var(--tape); transform:rotate(-1.2deg)}
+.invitebox h2{color:#fff; margin-top:10px}
+.invitebox .lead{color:rgba(255,255,255,.85); max-width:30em}
+.inv-rabbit{border:0; background:none; padding:0; cursor:pointer; flex:none; margin-top:14px}
+.inv-rabbit img{display:block; width:150px; height:150px}
+@media (prefers-reduced-motion:no-preference){
+  .hero::before{transform-origin:left center; animation:tapeon .6s .1s cubic-bezier(.2,1,.3,1) both}
+  .hero h1{animation:riseup .6s .25s cubic-bezier(.2,1,.3,1) both}
+  .hero .hero-2{animation:riseup .6s .4s cubic-bezier(.2,1,.3,1) both}
+  .hero .lede,.hero .cta{animation:riseup .6s .55s cubic-bezier(.2,1,.3,1) both}
+  .hero .mono-peek{animation:hopin .9s .9s cubic-bezier(.3,1.5,.5,1) both, peek 3.6s 2s ease-in-out infinite}
+  .hopping{animation:hop .55s cubic-bezier(.3,1.6,.5,1) !important}
+  #truck.pre rect{opacity:0}
+  #truck.go rect{animation:boxin .35s both}
+  #truck.go rect:nth-of-type(3n){animation-delay:.25s} #truck.go rect:nth-of-type(3n+1){animation-delay:.5s} #truck.go rect:nth-of-type(3n+2){animation-delay:.75s}
+}
+@keyframes tapeon{from{transform:rotate(-1.4deg) scaleX(0)}to{transform:rotate(-1.4deg) scaleX(1)}}
+@keyframes riseup{from{opacity:0; transform:translateY(16px)}to{opacity:1; transform:none}}
+@keyframes hopin{0%{opacity:0; transform:translateY(-120px) rotate(-12deg)}60%{opacity:1; transform:translateY(8px)}100%{transform:none}}
+@keyframes hop{0%,100%{transform:none}40%{transform:translateY(-34px) rotate(-6deg)}70%{transform:translateY(4px)}}
+@keyframes boxin{from{opacity:0; transform:translateY(-10px)}to{opacity:1; transform:none}}
+
+.social{display:flex; gap:8px; margin-top:12px}
+.social a{display:grid; place-items:center; width:44px; height:44px; border-radius:12px; border:1px solid var(--line); color:var(--ink)}
+.social svg{width:22px; height:22px}
