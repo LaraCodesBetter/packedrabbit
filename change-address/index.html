@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Change of address checklist: who to tell when you move</title>
+<meta name="description" content="Answer a few yes or no questions and get your own change-of-address list: the post office, IRS, motor vehicles, voter registration, Social Security and the rest, with legal deadlines first and dates from your move. Free, no signup.">
+<link rel="canonical" href="https://packedrabbit.com/change-address/">
+<meta name="theme-color" content="#0F2742">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="Change of address checklist: who to tell when you move">
+<meta property="og:description" content="Your own list of who needs your new address, with the legal deadlines first and real dates from your move.">
+<meta property="og:url" content="https://packedrabbit.com/change-address/">
+<meta property="og:image" content="https://packedrabbit.com/img/og.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Change of address checklist, by The Packed Rabbit",
+  "url": "https://packedrabbit.com/change-address/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Builds a personal change-of-address checklist from a few yes or no questions: the post office, IRS, driver's license and vehicle registration, voter registration, Social Security and Medicare, VA, USCIS, Selective Service, Marketplace health coverage, banks, insurance, utilities, doctors, schools and subscriptions. Items with a legal deadline come first, with dates worked out from the moving date. Items can be checked off, and the list can be shared or printed."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Who do I need to notify when I change my address?",
+      "acceptedAnswer": { "@type": "Answer", "text": "USA.gov lists the U.S. Postal Service, the IRS, Social Security if you get benefits or Medicare, the VA if you get veterans benefits, USCIS if you are not a U.S. citizen, your state motor vehicle agency for your license and vehicle registration, and your election office for voter registration. After those come banks, credit cards, your employer, insurance, utilities, doctors and pharmacies, schools, subscriptions and the people who send you mail." } },
+    { "@type": "Question", "name": "Does a post office change of address update everything?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. It forwards mail, but it does not tell agencies or companies your new address. The IRS says to notify it directly because not all post offices forward government checks, and USCIS says a change of address with the post office does not update your address with USCIS." } },
+    { "@type": "Question", "name": "How long does the post office forward mail?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Standard mail forwarding lasts 12 months. Magazines and newsletters are forwarded for 60 days, and only if the sender fully prepaid postage, so change subscriptions directly. Marketing mail is not forwarded unless the sender pays for it. You can file up to 90 days before your move, and it takes 7 to 10 business days to start." } },
+    { "@type": "Question", "name": "Which address changes have a legal deadline?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Noncitizens in the U.S. must report a move to USCIS within 10 days, with some exceptions. Men aged 18 to 25 must tell Selective Service within 10 days. States set their own deadlines for updating a driver's license and vehicle registration, and voter registration has to be updated before your state's registration deadline for the next election. If you have Marketplace health coverage and move to a new ZIP code or county, you generally have 60 days to change plans." } },
+    { "@type": "Question", "name": "Do I need to tell Social Security I moved?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Only if you get Social Security benefits, SSI or Medicare. Benefits and Medicare addresses can be changed in a my Social Security account. SSI recipients contact their local Social Security office. You do not need to report a change of address for your Social Security card." } },
+    { "@type": "Question", "name": "Do I need to re-register to vote when I move?",
+      "acceptedAnswer": { "@type": "Answer", "text": "If you move to a new state, you must register in the new state. If you move within your state, you must update your registration, and some states make you re-register. Vote.gov shows each state's method and deadline." } }
+  ]
+}
+</script>
+<style>
+  .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0 0; }
+  .seg button { min-height: 46px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 6px 8px; line-height: 1.2; }
+  .seg button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .lbl { font-weight: 800; margin: 22px 0 0; font-size: 1.1rem; display: block; }
+  .date { display: block; width: 100%; box-sizing: border-box; min-height: 56px; margin-top: 10px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-family: var(--display); font-weight: 800; font-size: 1.2rem; padding: 6px 14px; }
+  .date:focus { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+  .hint { font-size: .95rem; color: var(--ink2); margin: 8px 2px 0; }
+  .stage { background: #0A1C33; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .say { padding: 16px 18px 16px; color: #fff; }
+  .say .big { font-family: var(--display); font-size: clamp(1.8rem, 7vw, 2.4rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #7FF5C6; }
+  .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
+  .bar { height: 12px; border-radius: 6px; background: #11284A; margin: 14px 0 0; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: #FFC21A; border-radius: 6px; }
+  .opts { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .opts li { padding: 10px 12px 12px 16px; border-bottom: 1px solid var(--line); }
+  .opts li:last-child { border-bottom: 0; }
+  .opts .q { font-weight: 700; }
+  .opts .q small { display: block; font-weight: 500; color: var(--ink2); font-size: .85rem; }
+  .grp { margin: 26px 0 0; }
+  .grp h3 { font-size: 1.15rem; margin: 0 0 2px; }
+  .grp .when { color: var(--ink2); font-size: .92rem; margin: 0 0 8px; }
+  .tasks { list-style: none; margin: 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .grp.law .tasks { border-left: 5px solid var(--tape); }
+  .tasks li { display: flex; gap: 12px; padding: 10px 14px 10px 10px; border-bottom: 1px solid var(--line); align-items: flex-start; }
+  .tasks li:last-child { border-bottom: 0; }
+  .tick { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 12px; border: 2px solid var(--line); background: var(--bg); cursor: pointer; padding: 0; display: grid; place-items: center; }
+  .tick svg { width: 24px; height: 24px; opacity: 0; }
+  .tick[aria-pressed="true"] { background: var(--blue); border-color: var(--blue); }
+  .tick[aria-pressed="true"] svg { opacity: 1; }
+  .tick:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+  .tasks .t { flex: 1; min-width: 0; padding-top: 2px; }
+  .tasks .t strong { display: block; }
+  .tasks .t .due { display: inline-block; margin: 4px 0 0; font-weight: 800; font-size: .85rem; color: var(--ink); background: color-mix(in srgb, var(--tape) 28%, transparent); border-radius: 8px; padding: 2px 8px; }
+  .tasks .t small { display: block; color: var(--ink2); font-size: .88rem; margin-top: 3px; }
+  .tasks .t a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; overflow-wrap: anywhere; }
+  .tasks li.done .t strong { text-decoration: line-through; color: var(--ink2); }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  .how { margin-top: 34px; } .how h2 { font-size: 1.5rem; }
+  .aside { font-size: .95rem; color: var(--ink2); }
+  .src { font-size: .9rem; color: var(--ink2); border-top: 1px solid var(--line); padding-top: 12px; margin-top: 22px; }
+  .src a { color: var(--ink2); overflow-wrap: anywhere; }
+  .src li { margin: 4px 0; }
+  @media (max-width: 370px) { .seg button { font-size: .88rem; } }
+  @media print {
+    header.top, footer, .acts, .aside, .opts, #f-date, .lbl, .hint, .maker, .how, .stage { display: none !important; }
+    .tasks, .opts { box-shadow: none; border: 1px solid #999; }
+    .tasks .t a { min-height: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home">
+    <svg width="34" height="34" viewBox="0 0 72 72" aria-hidden="true">
+      <path d="M24 30C21 20 20 11 23 10c3-1 7 7 9 17" fill="none" stroke="var(--blue)" stroke-width="3.6" stroke-linecap="round"/>
+      <path d="M46 30c3-10 4-19 1-20-3-1-7 7-9 17" fill="none" stroke="var(--blue)" stroke-width="3.6" stroke-linecap="round"/>
+      <ellipse cx="36" cy="46" rx="20" ry="17" fill="none" stroke="var(--blue)" stroke-width="3.6"/>
+      <circle cx="43" cy="44" r="7" fill="none" stroke="var(--tape)" stroke-width="3"/>
+    </svg>
+    The Packed Rabbit
+  </a>
+</header>
+
+<main class="tp">
+  <h1>Change of address checklist</h1>
+  <p class="lede">Answer a few yes or no questions. You get your own list of who needs your new address, with the ones that have a legal deadline first.</p>
+
+  <label class="lbl" for="f-date">When do you move in? <span style="font-weight:500;color:var(--ink2)">(optional)</span></label>
+  <input class="date" id="f-date" type="date">
+  <p class="hint">With a date, each deadline shows the day it falls on.</p>
+
+  <div class="stage">
+    <div class="say" aria-live="polite"><div class="big" id="big"></div><p id="small"></p><div class="bar" aria-hidden="true"><i id="bar"></i></div></div>
+  </div>
+
+  <p class="lbl">About you</p>
+  <ul class="opts" id="opts"></ul>
+
+  <div id="list"></div>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this answer</button>
+    <button class="btn ghost" id="print" type="button">Print this list</button>
+    <button class="btn ghost" id="reset" type="button">Start again</button>
+    <a class="btn ghost" href="../app/">Keep every address change in the app, free</a>
+  </div>
+  <p class="aside">Ticks are kept in this page's address, so bookmark it or share the link to pick up where you left off. The app keeps the same list with each account's confirmation number, shows only the last 4 digits of account numbers, and works with no signal.</p>
+
+  <section class="how">
+    <h2>How this works</h2>
+    <p><strong>Deadlines first.</strong> A few address changes are required by law within a set time. Noncitizens in the U.S. must tell USCIS within 10 days of moving, with some exceptions. Men aged 18 to 25 must tell Selective Service within 10 days. With Marketplace health coverage, a move to a new ZIP code or county generally gives you 60 days to change plans, if you had qualifying coverage in the 60 days before. States set their own deadlines for a driver's license, vehicle registration and voter registration, so check yours.</p>
+    <p><strong>The post office is not enough.</strong> Forwarding moves your mail, not your records. The IRS says to tell it directly because not all post offices forward government checks, and USCIS says a post office change does not update USCIS. Standard forwarding lasts 12 months. Magazines are forwarded for 60 days only if the sender prepaid, so change subscriptions directly.</p>
+    <p><strong>Dates.</strong> With a move-in date, the 10-day and 60-day deadlines are counted from it. The post office date is two weeks before, because forwarding takes 7 to 10 business days to start. That date is our own suggestion: you can file up to 90 days ahead.</p>
+    <p><strong>Everything else.</strong> Banks, insurance, utilities, doctors and the rest have no legal deadline. They are on the list because a missed letter there is the one that costs you later. Skip any that are not yours.</p>
+    <p class="aside">Still planning the move itself? Try the <a href="../checklist/">moving checklist by date</a>, or for a new state, <a href="../states/">which utilities serve the new address</a>.</p>
+  </section>
+
+  <div class="src">Sources:
+    <ul>
+      <li><a href="https://www.usa.gov/moving">USA.gov, How to change your address</a> (the post office, IRS, Social Security, VA, USCIS, motor vehicles and election offices)</li>
+      <li><a href="https://www.usps.com/manage/forward.htm">USPS, Standard Forward Mail and Change of Address</a> (12 months, magazines 60 days if prepaid, marketing mail, 7 to 10 business days) and <a href="https://faq.usps.com/articles/Knowledge/Change-of-Address-The-Basics">Change of Address: The Basics</a> (up to 90 days before)</li>
+      <li><a href="https://www.irs.gov/taxtopics/tc157">IRS, Topic 157: Change your address</a> (tell the IRS directly, Form 8822, about 45 days)</li>
+      <li><a href="https://www.ssa.gov/faqs/en/questions/KA-01711.html">Social Security, How can I change my address</a> and <a href="https://www.ssa.gov/faqs/en/questions/KA-02244.html">address on my card</a> (benefits and Medicare online, SSI through a local office, no need to report for the card alone)</li>
+      <li><a href="https://www.uscis.gov/addresschange">USCIS, How to Change Your Address</a> (noncitizens within 10 days, exceptions, online account or Form AR-11)</li>
+      <li><a href="https://www.sss.gov/verify/update-info/">Selective Service System, Update Your Information</a> (men 18 to 25, within 10 days)</li>
+      <li><a href="https://www.usa.gov/change-voter-registration">USA.gov, How to update or change your voter registration</a> (register in a new state, update within your state)</li>
+      <li><a href="https://www.cms.gov/files/document/special-enrollment-periods-march-2026.pdf">CMS, Special Enrollment Periods Available to Consumers</a> (a move to a new ZIP code or county, 60 days, prior coverage)</li>
+    </ul>
+    Which everyday accounts to list, and the two-week post office date, are our own suggestions. Checked October 2026. Rules change, so check current guidance.
+  </div>
+  <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Made by someone moving, for people moving. Not a moving company, broker or lead site: we never sell your details and never take a commission from movers, and nothing you type here is sent to us.</p>
+</main>
+
+<footer class="wrap">
+  <a href="../privacy.html">Privacy</a>
+  <a href="../terms.html">Terms and refunds</a>
+  <a href="../answers/">Moving answers</a>
+  <a href="../fit/">Will my couch fit?</a>
+  <a href="../truck/">What size truck?</a>
+  <a href="../boxes/">How many boxes?</a>
+  <a href="../diy-cost/">Cost to move yourself</a>
+  <a href="../tip/">How much to tip movers?</a>
+  <a href="../checklist/">Moving checklist by date</a>
+  <a href="../mover-check/">Check your mover</a>
+  <a href="../embed/">Put these tools on your site</a>
+</footer>
+
+<script>
+/* Nothing typed here is sent anywhere. The answers and ticks go in the
+   address only so a shared or bookmarked link opens showing the same list. */
+(function () {
+  "use strict";
+  function $(id) { return document.getElementById(id); }
+
+  /* yes or no questions; v is the starting answer */
+  var Q = [
+    { k: "x", t: "Moving to a different state?", v: 0 },
+    { k: "c", t: "Do you have a car or other vehicle?", v: 1 },
+    { k: "s", t: "Do you get Social Security, SSI, Medicare, Medicaid or other benefits?", v: 0 },
+    { k: "h", t: "Is your health plan from HealthCare.gov or a state marketplace?", v: 0 },
+    { k: "v", t: "Do you get benefits from the VA?", v: 0 },
+    { k: "u", t: "Is everyone moving a U.S. citizen?", v: 1, s: "If not, USCIS has a 10-day rule." },
+    { k: "g", t: "Is anyone moving a man aged 18 to 25?", v: 0, s: "Selective Service has a 10-day rule." },
+    { k: "k", t: "Children in school or child care?", v: 0 },
+    { k: "p", t: "Moving with pets?", v: 0 }
+  ];
+  var GROUPS = [
+    { k: "law", t: "Has a deadline", w: "Set by law. Do these first." },
+    { k: "gov", t: "Government", w: "No fixed deadline, but these stop the letters that matter most going astray." },
+    { k: "money", t: "Money, work and insurance", w: "Statements, tax forms and cards go to the address on file." },
+    { k: "home", t: "Home and health", w: "Stop service at the old place, start it at the new one." },
+    { k: "life", t: "Everything else", w: "Skip any that are not yours." }
+  ];
+  /* o = days from the move-in date; by = "by" a date or "within" days of it */
+  var ITEMS = [
+    { id: "uc", g: "law", t: "USCIS", s: "Noncitizens must report a move within 10 days, with some exceptions (A and G visa holders, visa waiver visitors). Use a USCIS online account or Form AR-11. A post office change does not update USCIS.", o: 10, d: "Within 10 days", a: ["https://www.uscis.gov/addresschange", "uscis.gov/addresschange"], if: function (A) { return !A.u; } },
+    { id: "ss", g: "law", t: "Selective Service", s: "Men aged 18 to 25 must report a new address within 10 days, until January 1 of the year they turn 26.", o: 10, d: "Within 10 days", a: ["https://www.sss.gov/verify/update-info/", "sss.gov, update your information"], if: function (A) { return A.g; } },
+    { id: "mk", g: "law", t: "Marketplace health plan", s: "Report the move. A move to a new ZIP code or county generally gives you 60 days to change plans, if you had qualifying coverage for at least a day in the 60 days before.", o: 60, d: "Within 60 days", if: function (A) { return A.h; } },
+    { id: "dl", g: "law", t: "Driver's license or state ID", s: function (A) { return A.x ? "Your new state sets how soon you must get its license. Check its motor vehicle agency." : "Your state sets how soon you must update the address. Check its motor vehicle agency."; }, d: "Your state's deadline", sh: "state deadline", a: ["https://www.usa.gov/state-motor-vehicle-services", "Find your state motor vehicle agency"] },
+    { id: "vr", g: "law", t: "Vehicle registration and title", s: function (A) { return A.x ? "Register the vehicle in the new state. It sets the deadline, and may ask for an inspection." : "Update the address on the registration. Your state sets the deadline."; }, d: "Your state's deadline", sh: "state deadline", a: ["https://www.usa.gov/state-motor-vehicle-services", "Find your state motor vehicle agency"], if: function (A) { return A.c; } },
+    { id: "vo", g: "law", t: "Voter registration", s: function (A) { return A.x ? "You must register in your new state. Do it before its deadline for the next election." : "You must update your registration. Some states ask you to register again. Do it before the next election's deadline."; }, d: "Before the next registration deadline", sh: "before the election deadline", a: ["https://vote.gov", "vote.gov"] },
+
+    { id: "po", g: "gov", t: "Post office mail forwarding", s: "Forwarding lasts 12 months and takes 7 to 10 business days to start. You can file up to 90 days ahead. Use the official site, USPS.com/move, or the Mover's Guide at a post office.", o: -14, d: "File by", a: ["https://www.usa.gov/moving", "USA.gov, change your address"] },
+    { id: "ir", g: "gov", t: "IRS", s: "Tell the IRS directly with Form 8822, a signed letter, or your next tax return. It takes about 45 days.", a: ["https://www.irs.gov/taxtopics/tc157", "irs.gov, Topic 157"] },
+    { id: "sa", g: "gov", t: "Social Security or Medicare", s: "Benefits and Medicare: change it in your my Social Security account. SSI: contact your local Social Security office. If you get none of these, Social Security does not need your address.", a: ["https://www.ssa.gov/faqs/en/questions/KA-01711.html", "ssa.gov, change my address"], if: function (A) { return A.s; } },
+    { id: "sb", g: "gov", t: "Medicaid, SNAP or other state benefits", s: function (A) { return A.x ? "Tell the agency that pays them, and ask the new state how to apply there." : "Tell the agency that pays them, so notices and renewals reach you."; }, if: function (A) { return A.s; } },
+    { id: "va", g: "gov", t: "Veterans Affairs", s: "Update the address on file for benefits and VA health care.", a: ["https://www.va.gov/resources/change-your-address-on-file-with-va/", "va.gov, change your address"], if: function (A) { return A.v; } },
+    { id: "st", g: "gov", t: "State tax agency", s: function (A) { return A.x ? "The year you move, you may need to file in both states. Tell the old state where to send letters." : "If your state has an income tax, it sends letters too."; } },
+
+    { id: "bk", g: "money", t: "Banks and credit unions", s: "Including any checks with the old address printed on them." },
+    { id: "cc", g: "money", t: "Credit cards", s: "A billing address that does not match can decline a card online." },
+    { id: "jb", g: "money", t: "Employer and payroll", s: "Your W-2 goes to the address payroll has." },
+    { id: "rt", g: "money", t: "Retirement, investment and loan accounts", s: "Including student loans and any car loan." },
+    { id: "ci", g: "money", t: "Car insurance", s: "Rates can depend on where the car is kept. Tell the insurer before you move.", if: function (A) { return A.c; } },
+    { id: "ri", g: "money", t: "Renters or homeowners insurance", s: "Start the new policy on the day you get the keys, not the day you move in." },
+    { id: "li", g: "money", t: "Health, life and other insurance", s: "Include any dental, vision or disability policies." },
+
+    { id: "ut", g: "home", t: "Electric, gas and water", s: "Set a stop date at the old place and a start date at the new one." },
+    { id: "nt", g: "home", t: "Internet and phone", s: "Installs can book up, so ask early." },
+    { id: "tr", g: "home", t: "Trash and recycling", s: "Sometimes billed separately from water." },
+    { id: "dr", g: "home", t: "Doctors, dentist and pharmacy", s: "Ask the pharmacy to move your prescriptions, and get copies of records if you are changing doctors." },
+    { id: "vt", g: "home", t: "Veterinarian", s: "Get copies of records and vaccinations before you go.", if: function (A) { return A.p; } },
+    { id: "mc", g: "home", t: "Pet microchip registry", s: "The chip is only useful if the registry has your new address and phone.", if: function (A) { return A.p; } },
+
+    { id: "sc", g: "life", t: "School or child care", s: "Ask for records and the steps to enroll at the new place.", if: function (A) { return A.k; } },
+    { id: "sub", g: "life", t: "Subscriptions and regular deliveries", s: "Magazines are only forwarded for 60 days, so change them directly." },
+    { id: "sh", g: "life", t: "Shopping accounts", s: "Change the saved shipping address so orders do not go to the old place." },
+    { id: "mb", g: "life", t: "Memberships and loyalty programs", s: "Gyms, warehouse clubs, libraries, professional groups." },
+    { id: "fr", g: "life", t: "Friends and family", s: "Anyone who sends cards or might need to find you." }
+  ];
+
+  var A = {}, day = "", done = {};
+  function defaults() { Q.forEach(function (q) { A[q.k] = q.v; }); day = ""; done = {}; }
+  defaults();
+
+  var q = new URLSearchParams(location.search);
+  Q.forEach(function (x) { var v = q.get(x.k); if (v === "1" || v === "0") A[x.k] = +v; });
+  if (/^\d{4}-\d{2}-\d{2}$/.test(q.get("d") || "") && !isNaN(parse(q.get("d")))) day = q.get("d");
+  (q.get("t") || "").split(".").forEach(function (id) { if (ITEMS.some(function (i) { return i.id === id; })) done[id] = 1; });
+
+  function parse(s) { var p = s.split("-"); var d = new Date(+p[0], +p[1] - 1, +p[2]); return d.getFullYear() === +p[0] && d.getMonth() === +p[1] - 1 ? d : NaN; }
+  function add(d, n) { var x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() + n); return x; }
+  function fmt(d) { return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: d.getFullYear() !== new Date().getFullYear() ? "numeric" : undefined }); }
+  function text(v) { return typeof v === "function" ? v(A) : v; }
+  /* a dated deadline, or "as soon as you can" once it has passed */
+  function when(i, D, lower) {
+    var dt = add(D, i.o), now = new Date(); now.setHours(0, 0, 0, 0);
+    var s = dt < now ? "As soon as you can (" + (i.o < 0 ? "target was " : "was due ") + fmt(dt) + ")" : (i.o < 0 ? "File by " : "By ") + fmt(dt);
+    return lower ? s.charAt(0).toLowerCase() + s.slice(1) : s;
+  }
+
+  /* questions */
+  Q.forEach(function (x) {
+    var li = document.createElement("li");
+    li.innerHTML = '<div class="q" id="q-' + x.k + '">' + x.t + (x.s ? "<small>" + x.s + "</small>" : "") + '</div><div class="seg" role="group" aria-labelledby="q-' + x.k + '"><button type="button" data-k="' + x.k + '" data-v="1">Yes</button><button type="button" data-k="' + x.k + '" data-v="0">No</button></div>';
+    $("opts").appendChild(li);
+  });
+  [].forEach.call(document.querySelectorAll("[data-k]"), function (b) {
+    b.addEventListener("click", function () { A[b.getAttribute("data-k")] = +b.getAttribute("data-v"); draw(); });
+  });
+  var di = $("f-date");
+  di.value = day;
+  di.addEventListener("input", function () { var v = di.value; day = /^\d{4}-\d{2}-\d{2}$/.test(v) && !isNaN(parse(v)) ? v : ""; draw(); });
+  $("reset").addEventListener("click", function () { defaults(); di.value = ""; draw(); });
+  $("print").addEventListener("click", function () { window.print(); });
+
+  var TICK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var last = null;
+
+  function list() { return ITEMS.filter(function (i) { return !i.if || i.if(A); }); }
+
+  function draw() {
+    [].forEach.call(document.querySelectorAll("[data-k]"), function (b) { var on = A[b.getAttribute("data-k")] === +b.getAttribute("data-v"); b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+    var L = list(), D = day ? parse(day) : null, box = $("list");
+    var focusId = document.activeElement && document.activeElement.getAttribute("data-id");
+    box.textContent = "";
+    GROUPS.forEach(function (G) {
+      var its = L.filter(function (i) { return i.g === G.k; });
+      if (!its.length) return;
+      var sec = document.createElement("section"); sec.className = "grp " + G.k;
+      var h = document.createElement("h3"); h.textContent = G.t; sec.appendChild(h);
+      var w = document.createElement("p"); w.className = "when"; w.textContent = G.w; sec.appendChild(w);
+      var ul = document.createElement("ul"); ul.className = "tasks";
+      its.forEach(function (i) {
+        var li = document.createElement("li"); if (done[i.id]) li.className = "done";
+        var b = document.createElement("button"); b.type = "button"; b.className = "tick"; b.innerHTML = TICK;
+        b.setAttribute("data-id", i.id); b.setAttribute("aria-pressed", done[i.id] ? "true" : "false"); b.setAttribute("aria-label", "Done: " + i.t);
+        b.addEventListener("click", function () { if (done[i.id]) delete done[i.id]; else done[i.id] = 1; draw(); });
+        li.appendChild(b);
+        var t = document.createElement("div"); t.className = "t";
+        var s = document.createElement("strong"); s.textContent = i.t; t.appendChild(s);
+        if (i.d) {
+          var due = document.createElement("span"); due.className = "due";
+          due.textContent = D && typeof i.o === "number" ? when(i, D) : (i.d === "File by" ? "About 2 weeks before you move" : i.d);
+          t.appendChild(due);
+        }
+        var sm = document.createElement("small"); sm.textContent = text(i.s); t.appendChild(sm);
+        if (i.a) { var a = document.createElement("a"); a.href = i.a[0]; a.textContent = i.a[1]; a.rel = "noopener"; t.appendChild(a); }
+        li.appendChild(t); ul.appendChild(li);
+      });
+      sec.appendChild(ul); box.appendChild(sec);
+    });
+    if (focusId) { var f = box.querySelector('[data-id="' + focusId + '"]'); if (f) f.focus(); }
+
+    var n = L.length, k = L.filter(function (i) { return done[i.id]; }).length;
+    var law = L.filter(function (i) { return i.g === "law" && !done[i.id]; });
+    var dated = D ? L.filter(function (i) { return !done[i.id] && typeof i.o === "number"; }).sort(function (a, b) { return a.o - b.o; }) : [];
+    var big = k === 0 ? n + " places to tell" : k === n ? "All " + n + " done" : k + " of " + n + " done";
+    var small;
+    if (k === n) small = "Every address on your list is changed. Keep the confirmation numbers somewhere you can find them.";
+    else {
+      small = law.length ? law.length + (law.length === 1 ? " has" : " have") + " a deadline set by law. " : "The ones with legal deadlines are done. ";
+      if (dated.length) small += "Next date: " + dated[0].t + ", " + when(dated[0], D, 1) + ".";
+      else if (!D) small += "Add your move-in date to see the day each one falls on.";
+      else small += "Work down the list in any order.";
+    }
+    $("big").textContent = big; $("small").textContent = small;
+    $("bar").style.width = (n ? Math.round(k / n * 100) : 0) + "%";
+    last = { big: big, n: n, k: k, law: law, D: D };
+
+    var p = new URLSearchParams();
+    Q.forEach(function (x) { p.set(x.k, A[x.k]); });
+    if (day) p.set("d", day);
+    var ids = L.filter(function (i) { return done[i.id]; }).map(function (i) { return i.id; });
+    if (ids.length) p.set("t", ids.join("."));
+    try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
+  }
+  draw();
+
+  function picture() {
+    var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
+    var g = cv.getContext("2d"), FN = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#0A1C33"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#FFC21A"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.textAlign = "center"; g.fillStyle = "rgba(255,255,255,.85)"; g.font = "700 40px " + FN; g.fillText("Our change of address list", Z / 2, 220);
+    g.fillStyle = "#7FF5C6"; g.font = "850 104px " + FN; g.fillText(last.big, Z / 2, 350);
+    g.fillStyle = "#11284A"; g.fillRect(140, 395, 800, 22);
+    g.fillStyle = "#FFC21A"; g.fillRect(140, 395, last.n ? 800 * last.k / last.n : 0, 22);
+    g.textAlign = "left"; g.fillStyle = "#fff"; g.font = "800 38px " + FN;
+    var y = 490, show = last.law.slice(0, 5);
+    if (show.length) { g.fillText("Deadlines set by law:", 140, y); y += 58; }
+    g.font = "600 34px " + FN; g.fillStyle = "rgba(255,255,255,.85)";
+    show.forEach(function (i) {
+      var w = last.D && typeof i.o === "number" ? when(i, last.D, 1) : i.sh || i.d.toLowerCase();
+      g.fillText(i.t + ", " + w, 140, y, 800); y += 52;
+    });
+    if (!show.length) g.fillText("Every legal deadline is done.", 140, y);
+    g.textAlign = "center";
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 32px " + FN; g.fillText("Make yours free:", Z / 2, 920);
+    g.fillStyle = "#fff"; g.font = "800 40px " + FN; g.fillText("packedrabbit.com/change-address", Z / 2, 975);
+    return cv;
+  }
+  $("share").addEventListener("click", function () {
+    var url = location.href, text = "Change of address list: " + last.big + ". Make yours free:";
+    picture().toBlob(function (blob) {
+      var file = blob && typeof File !== "undefined" ? new File([blob], "change-of-address.png", { type: "image/png" }) : null;
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+      else if (navigator.share) navigator.share({ title: "Change of address checklist", text: text, url: url }).catch(function () {});
+      else if (blob) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "change-of-address.png"; document.body.appendChild(a); a.click(); a.remove(); }
+    }, "image/png");
+  });
+})();
+</script>
+<script>
+/* Embedded on someone else's page: no site header or footer, links open in a
+   new tab, a credit line at the end, and the height told to the host page. */
+(function () {
+  if (!document.documentElement.classList.contains("embed")) return;
+  document.querySelectorAll("a[href]").forEach(function (a) { a.target = "_blank"; a.rel = "noopener"; });
+  var m = document.querySelector("main") || document.body;
+  var c = document.createElement("a");
+  c.className = "embed-credit"; c.target = "_blank"; c.rel = "noopener";
+  c.href = "https://packedrabbit.com" + location.pathname;
+  c.textContent = "Free tool by The Packed Rabbit";
+  m.appendChild(c);
+  function tell() { try { parent.postMessage({ prEmbedHeight: Math.ceil(document.documentElement.scrollHeight) }, "*"); } catch (e) {} }
+  tell(); addEventListener("load", tell); addEventListener("resize", tell);
+  if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
+})();
+</script>
+</body>
+</html>
