@@ -368,3 +368,9 @@ html.embed h1{font-size:clamp(1.5rem,5vw,2.1rem) !important; margin-top:4px !imp
 .rc .why{display:block; font-style:normal; margin-top:10px; padding:10px 12px; border-left:4px solid #D7142E; background:#FDECEE; border-radius:0 10px 10px 0; color:#5A0D17; font-size:.92rem}
 .rc .why strong{color:#B0102A}
 .rc span.rflag{color:#fff; flex:none; font-size:.82rem; line-height:1.2}
+
+.shortrow figure{position:relative}
+.soundbtn{position:absolute;left:50%;top:58%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:10px 18px;border-radius:999px;border:2px solid #fff;background:rgba(15,39,66,.82);color:#fff;font:inherit;font-weight:800;font-size:1rem;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.35);white-space:nowrap}
+.soundbtn svg{flex:none;width:22px;height:22px;fill:#fff;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.soundbtn:focus-visible{outline:3px solid #FFC21A;outline-offset:2px}
+.soundbtn[hidden]{display:none}

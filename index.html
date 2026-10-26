@@ -167,7 +167,7 @@
 
 <section class="band shorts" aria-labelledby="sh-h">
   <div class="wrap">
-    <h2 id="sh-h">Twenty seconds each.</h2>
+    <h2 id="sh-h">Half a minute each.</h2>
     <p class="lead muted">What we learned the hard way, so you don't have to. Tap one for sound.</p>
     <div class="shortrow">
       <figure><video muted playsinline loop controls preload="none" poster="social/one-quote-forty-calls.jpg?v=250" aria-label="One moving quote, forty phone calls"><source src="social/one-quote-forty-calls.mp4?v=250" type="video/mp4"></video><figcaption>One quote, forty calls</figcaption></figure>
@@ -341,6 +341,15 @@
     new IntersectionObserver(function(es,o){es.forEach(function(e){if(e.isIntersecting){tr.classList.add("go");o.disconnect();}});},{threshold:.5}).observe(tr);}
   if(!still&&"IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting){v.preload="auto";v.play().catch(function(){});}else v.pause();});},{threshold:.6});
     document.querySelectorAll(".shortrow video").forEach(function(v){io.observe(v)});}
+  /* owner, 26 Oct: one obvious button for sound; it starts that video over with sound and quiets the others */
+  document.querySelectorAll(".shortrow figure").forEach(function(f){var v=f.querySelector("video");if(!v)return;
+    var b=document.createElement("button");b.type="button";b.className="soundbtn";
+    b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" fill="none"/></svg><span>Tap for sound</span>';
+    b.addEventListener("click",function(){document.querySelectorAll(".shortrow video").forEach(function(o){if(o!==v){o.muted=true;}});
+      document.querySelectorAll(".shortrow .soundbtn").forEach(function(o){o.hidden=false;});
+      v.muted=false;v.currentTime=0;v.play().catch(function(){});b.hidden=true;});
+    v.addEventListener("volumechange",function(){b.hidden=!v.muted;});
+    f.appendChild(b);});
 })();
 </script>
 <script src="nav.js" defer></script>
