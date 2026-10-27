@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>The Packed Rabbit: plan your whole move without the phone calls</title>
-<meta name="description" content="Plan your whole move without getting 40 phone calls. Number every box, check what fits through the door, and read a mover's quote for what it's hiding. No account, nothing leaves your phone. Free.">
+<title>The Packed Rabbit: the moving app that's on your side</title>
+<meta name="description" content="Paste a mover's quote and see what it's hiding before you pay: hidden fees, a deposit that's too big, weak coverage, a broker posing as a mover. Then plan the whole move. Free, no account, nobody calls you.">
 <link rel="canonical" href="https://packedrabbit.com/">
 <meta name="theme-color" content="#0F2742">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Packed Rabbit">
-<meta property="og:title" content="The Packed Rabbit — it knows what fits through the door">
-<meta property="og:description" content="Moving inventory that knows what fits through the door, what a quote is hiding, and where every box ended up.">
+<meta property="og:title" content="The moving app that's on your side">
+<meta property="og:description" content="Paste a mover's quote. See what it's hiding before you pay. Free, no account, nobody calls you.">
 <meta property="og:url" content="https://packedrabbit.com/">
-<meta property="og:image" content="https://packedrabbit.com/img/og-card.png">
+<meta property="og:image" content="https://packedrabbit.com/img/og-quote.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <meta property="og:locale" content="en_US">
@@ -44,7 +44,7 @@
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "iOS, Android, Web",
   "url": "https://packedrabbit.com/",
-  "description": "Moving inventory that numbers every box, measures every piece of furniture, checks what fits through the door, and works entirely offline.",
+  "description": "A moving app that reads a mover's quote for hidden fees, big deposits, weak coverage and broker signs, then numbers every box, checks what fits through the door, and works offline.",
   "offers": [
     { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "USD",
       "description": "Free forever with no limit: unlimited boxes and photos, QR labels, scanning to find a box, search, backups, checking a mover's quote, exporting your data, go-bag, medicines, pets, move-day lists. Helpers always free. The full app free for the first 7 days." },
@@ -58,6 +58,20 @@
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
+    { "@type": "Question", "name": "How do I check a moving quote for hidden fees?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Paste the quote's text into the checker at the top of this page. It flags paperwork fees like a \"binding estimate fee\", a deposit that's too big, the weakest coverage already ticked, a missing USDOT number, pressure to book today, and signs you're dealing with a broker instead of a mover. It runs in your browser and nothing you paste is sent anywhere." } },
+    { "@type": "Question", "name": "Is it really free?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. During early access the whole app is free, with no card and no account. Unlimited boxes, photos, labels and the quote checker stay free for good. When paid plans open, the full app is $39 once, with nothing that renews, and you get 7 free days first." } },
+    { "@type": "Question", "name": "How do you make money if it's free?",
+      "acceptedAnswer": { "@type": "Answer", "text": "From the one-time price of the full app, and from plans for businesses that help people move. Never from movers: we don't take a commission or a referral fee, and we never sell anyone's number." } },
+    { "@type": "Question", "name": "Will moving companies call me?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. We never ask for your phone number, and there's nothing to sell to a mover. That's the whole point." } },
+    { "@type": "Question", "name": "Do I need an account?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Open it and start. Everything you enter stays on your own phone." } },
+    { "@type": "Question", "name": "Who made this?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Someone who was moving, not a moving company. Every warning sign on this site came from a real move this fall." } },
+    { "@type": "Question", "name": "Where do the answers come from?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Federal and consumer sources: the FMCSA, the FTC and the CFPB, plus state law where it matters. Each answer names its source." } },
     { "@type": "Question", "name": "What's the best app to keep track of boxes when moving?",
       "acceptedAnswer": { "@type": "Answer", "text": "The Packed Rabbit numbers every box, prints a QR label for it, keeps a photo of what's inside, and finds any item by typing or saying its name. Boxes are unlimited and free forever, and it works offline with nothing leaving the phone." } },
     { "@type": "Question", "name": "How do I know if my sofa will fit through the door?",
@@ -74,12 +88,7 @@
 
 <header class="wrap top">
   <a class="brand" href="./" aria-label="The Packed Rabbit, home">
-    <svg width="34" height="34" viewBox="0 0 72 72" aria-hidden="true">
-      <path d="M24 30C21 20 20 11 23 10c3-1 7 7 9 17" fill="none" stroke="var(--blue)" stroke-width="3.6" stroke-linecap="round"/>
-      <path d="M46 30c3-10 4-19 1-20-3-1-7 7-9 17" fill="none" stroke="var(--blue)" stroke-width="3.6" stroke-linecap="round"/>
-      <ellipse cx="36" cy="46" rx="20" ry="17" fill="none" stroke="var(--blue)" stroke-width="3.6"/>
-      <circle cx="43" cy="44" r="7" fill="none" stroke="var(--tape)" stroke-width="3"/>
-    </svg>
+    <img src="img/rabbit.svg" alt="" width="34" height="34">
     The Packed Rabbit
   </a>
   <nav aria-label="Main">
@@ -95,22 +104,26 @@
   <div class="hero">
     <div class="hero-grid">
       <div>
-        <h1>Plan your whole move without getting 40 phone calls.</h1>
-        <p class="hero-2">No account. No sign-up. Nobody calls you.</p>
-        <p class="lede">Number every box, check what fits through the door, and read a mover's quote for what it's hiding. Free, and it works with the wifi off.</p>
-        <div class="cta">
-          <a class="btn tape" href="app/">Start managing my move, free</a>
-          <a class="btn ghost" href="#how">See how it works</a>
-        </div>
-        <p class="fine">Free during early access, with no card and no account. Unlimited boxes stay free forever. <a href="price.html" style="color:#FFC21A">The details</a> · <a href="business/" style="color:#FFC21A">For business</a></p>
+        <h1>The moving app that's on your side.</h1>
+        <p class="hero-2">Paste a mover's quote. See what it's hiding before you pay.</p>
+        <p class="lede">Hidden fees, a deposit that's too big, the weakest coverage already ticked, a broker posing as a mover. It reads the fine print the way a friend who's been burned would.</p>
+        <p class="fine">Free, no account, and nobody calls you. <a href="price.html" style="color:#FFC21A">The details</a> · <a href="business/" style="color:#FFC21A">For business</a></p>
       </div>
 
-      <figure class="phone" aria-label="The app, twelve days before a move">
+      <div class="qcheck" id="check">
         <button class="mono-peek" type="button" aria-label="Tap the rabbit"><svg class="mono" viewBox="0 0 100 100" aria-hidden="true"><g class="ears"><path d="M36 42C32 30 30 16 34 9c4-6 9-1 10 7 1 7 1 18 0 25" fill="#FFFFFF" stroke="#0F2742" stroke-width="2.6" stroke-linejoin="round"/><path d="M58 41c3-12 7-24 12-29 5-4 8 2 6 10-2 8-7 17-11 22" fill="#FFFFFF" stroke="#0F2742" stroke-width="2.6" stroke-linejoin="round"/><path d="M37 36c-2-8-3-16-1-20" stroke="#F0245A" stroke-width="2" stroke-linecap="round" opacity=".45" fill="none"/><path d="M63 34c2-7 4-14 7-17" stroke="#F0245A" stroke-width="2" stroke-linecap="round" opacity=".45" fill="none"/></g><ellipse cx="50" cy="62" rx="26" ry="23" fill="#FFFFFF" stroke="#0F2742" stroke-width="2.8"/><circle cx="39" cy="58" r="10.5" fill="#07705F" opacity=".07"/><circle cx="39" cy="58" r="10.5" fill="none" stroke="#07705F" stroke-width="2.6"/><path d="M30 65c-4 6-5 13-3 19" stroke="#07705F" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="39" cy="58" r="3.2" fill="#0F2742"/><circle cx="62" cy="58" r="3.2" fill="#0F2742"/><path d="M47 69h6l-3 3.5z" fill="#F0245A" stroke="#0F2742" stroke-width="1.4" stroke-linejoin="round"/><path d="M44 71H30M44 74H32M56 71h14M56 74h12" stroke="#4A5568" stroke-width="1.5" stroke-linecap="round"/></svg></button>
-        <picture><source media="(prefers-color-scheme: dark)" srcset="img/app-home-dark.webp">
-        <img src="img/app-home.webp" width="390" height="844" alt="The Packed Rabbit on a phone: a countdown to loading day, a truck 59% full showing furniture and boxes, and 31 of 38 boxes packed" loading="eager"></picture>
-        <figcaption>The real app, twelve days out. The truck fills as you pack.</figcaption>
-      </figure>
+        <form class="qpaper" id="qform" aria-labelledby="qc-h">
+          <h2 id="qc-h" class="qtitle">Check a moving quote, free</h2>
+          <label class="sr" for="qtext">Paste the quote's text</label>
+          <textarea id="qtext" rows="7" placeholder="Paste the text of a mover's quote or estimate here. Copy it from the email or PDF."></textarea>
+          <div class="qbtns">
+            <button class="btn tape" type="submit">Check this quote</button>
+            <button class="btn ghost dark" type="button" id="qsample">Try a sample quote</button>
+          </div>
+          <p class="qprivate">Read right here on this page. Nothing you paste is sent anywhere.</p>
+          <div id="qout" aria-live="polite"></div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
@@ -152,19 +165,6 @@
   </div>
 </section>
 
-<section class="band beforepay" aria-labelledby="bp-h">
-  <div class="wrap">
-    <h2 id="bp-h">Before you pay a mover.</h2>
-    <p class="lead muted">Every one of these came from one real move this fall. Real movers don't need any of them. Paste a quote into the app and it reads the fine print for you: fees, deposit, coverage, and whether it's a broker.</p>
-    <div class="tricks">
-      <div class="trickc"><b>"Stay on the line while you read it."</b><span>A real mover lets you hang up, read the contract, and call back tomorrow.</span></div>
-      <div class="trickc"><b>A $2,001.99 "binding estimate fee."</b><span>A charge for promising the price won't change. Add up every line yourself.</span></div>
-      <div class="trickc"><b>"Your deposit is gone."</b><span>After a weekend of unanswered calls. Put every request in writing, and pay deposits by card.</span></div>
-    </div>
-    <div class="cta2"><a class="btn tape" href="mover-check/">Check a mover before you pay</a><a class="btn ghost dark" href="movers-vs-brokers/">All the warning signs</a></div>
-  </div>
-</section>
-
 <section class="band shorts" aria-labelledby="sh-h">
   <div class="wrap">
     <h2 id="sh-h">Half a minute each.</h2>
@@ -177,18 +177,8 @@
       <figure><video muted playsinline loop controls preload="none" poster="social/nobody-called-back.jpg?v=250" aria-label="Nobody called back"><source src="social/nobody-called-back.mp4?v=250" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/nobody-called-back.vtt?v=252"></video><figcaption>Nobody called back</figcaption></figure>
       <figure><video muted playsinline loop controls preload="none" poster="social/mover-or-broker.jpg?v=250" aria-label="Mover or broker?"><source src="social/mover-or-broker.mp4?v=250" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/mover-or-broker.vtt?v=252"></video><figcaption>Mover or broker?</figcaption></figure>
     </div>
-  </div>
-</section>
-
-<section class="band oneline" id="oneline" aria-labelledby="ol-h">
-  <div class="wrap narrow">
-    <h2 id="ol-h">Your move, in one line.</h2>
-    <form class="ol-form" id="ol-form" onsubmit="return false">
-      <label for="ol-date">I'm moving on</label>
-      <input id="ol-date" type="date" required>
-    </form>
-    <div class="ol-out" id="ol-out" aria-live="polite" hidden></div>
-    <p class="muted ol-note">Worked out on this page. Nothing you type here is sent anywhere.</p>
+    <div class="cta2"><a class="btn tape" href="mover-check/">Check a mover before you pay</a><a class="btn ghost dark" href="movers-vs-brokers/">All the warning signs</a></div>
+    <p class="muted" style="margin-top:14px">Plus <a href="tips/">45 short moving tips</a>, each with its own page to share.</p>
   </div>
 </section>
 
@@ -226,6 +216,24 @@
   </div>
 </section>
 
+<section class="band appshot" aria-labelledby="as-h">
+  <div class="wrap row2">
+    <div>
+      <h2 id="as-h">Then it runs the rest of the move.</h2>
+      <p class="lead muted">Every box numbered and photographed, every piece of furniture checked against the doorway, the truck filled from what you actually packed, and one clear thing to do today. It works with the wifi off.</p>
+      <div class="cta2"><a class="btn tape" href="app/">Start managing my move, free</a><a class="btn ghost dark" href="#how">See how it works</a></div>
+    </div>
+    <div class="appshot-fig">
+      <figure class="phone" aria-label="The app, twelve days before a move">
+        
+        <picture><source media="(prefers-color-scheme: dark)" srcset="img/app-home-dark.webp">
+        <img src="img/app-home.webp" width="390" height="844" alt="The Packed Rabbit on a phone: a countdown to loading day, a truck 59% full showing furniture and boxes, and 31 of 38 boxes packed" loading="eager"></picture>
+        <figcaption>The real app, twelve days out. The truck fills as you pack.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
 <section class="band" id="how">
   <div class="wrap row2">
     <div class="swatch" style="--c:var(--blue)">
@@ -252,38 +260,10 @@
       <p class="lead muted">Not a guess from how many bedrooms you have. Every box and every piece of furniture you entered, in real cubic feet, with room to pack. You see it fill as you go, and the quote has to match what's actually there.</p>
     </div>
     <div class="panel">
-      <div class="truckplate"><svg class="truck apptruck" viewBox="0 0 340 142" role="img" aria-label="A 15-foot truck, 59 percent full: furniture loaded first by the cab, boxes behind it, and room left at the back"><path d="M58 34 H34 Q26 34 22 44 L10 66 Q8 70 8 74 V98 H58 Z" fill="rgba(255, 255, 255, 0.9)" stroke="none"></path><path d="M50 42 H36 Q31 42 28 48 L20 64 H50 Z" fill="rgb(19, 42, 71)" stroke="none"></path><image href="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%3E%3Cg%20class%3D'ears'%3E%3Cpath%20d%3D'M36%2042C32%2030%2030%2016%2034%209c4-6%209-1%2010%207%201%207%201%2018%200%2025'%20fill%3D'%23FFFFFF'%20stroke%3D'%230F2742'%20stroke-width%3D'2.6'%20stroke-linejoin%3D'round'%2F%3E%3Cpath%20d%3D'M58%2041c3-12%207-24%2012-29%205-4%208%202%206%2010-2%208-7%2017-11%2022'%20fill%3D'%23FFFFFF'%20stroke%3D'%230F2742'%20stroke-width%3D'2.6'%20stroke-linejoin%3D'round'%2F%3E%3Cpath%20d%3D'M37%2036c-2-8-3-16-1-20'%20stroke%3D'%23F0245A'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20opacity%3D'.45'%20fill%3D'none'%2F%3E%3Cpath%20d%3D'M63%2034c2-7%204-14%207-17'%20stroke%3D'%23F0245A'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20opacity%3D'.45'%20fill%3D'none'%2F%3E%3C%2Fg%3E%3Cellipse%20cx%3D'50'%20cy%3D'62'%20rx%3D'26'%20ry%3D'23'%20fill%3D'%23FFFFFF'%20stroke%3D'%230F2742'%20stroke-width%3D'2.8'%2F%3E%3Ccircle%20cx%3D'39'%20cy%3D'58'%20r%3D'10.5'%20fill%3D'%2307705F'%20opacity%3D'.07'%2F%3E%3Ccircle%20cx%3D'39'%20cy%3D'58'%20r%3D'10.5'%20fill%3D'none'%20stroke%3D'%2307705F'%20stroke-width%3D'2.6'%2F%3E%3Cpath%20d%3D'M30%2065c-4%206-5%2013-3%2019'%20stroke%3D'%2307705F'%20stroke-width%3D'2'%20fill%3D'none'%20stroke-linecap%3D'round'%2F%3E%3Ccircle%20cx%3D'39'%20cy%3D'58'%20r%3D'3.2'%20fill%3D'%230F2742'%2F%3E%3Ccircle%20cx%3D'62'%20cy%3D'58'%20r%3D'3.2'%20fill%3D'%230F2742'%2F%3E%3Cpath%20d%3D'M47%2069h6l-3%203.5z'%20fill%3D'%23F0245A'%20stroke%3D'%230F2742'%20stroke-width%3D'1.4'%20stroke-linejoin%3D'round'%2F%3E%3Cpath%20d%3D'M44%2071H30M44%2074H32M56%2071h14M56%2074h12'%20stroke%3D'%234A5568'%20stroke-width%3D'1.5'%20stroke-linecap%3D'round'%2F%3E%3C%2Fsvg%3E" x="26" y="66" width="30" height="30" aria-hidden="true" fill="rgb(0, 0, 0)" stroke="none"></image><rect x="62" y="12" width="224" height="86" rx="5" fill="rgba(255, 255, 255, 0.07)" stroke="none"></rect><g fill="rgb(0, 0, 0)" stroke="none"><rect x="66.6" y="54.703302155826925" width="38.69669784417307" height="38.69669784417307" rx="3" fill="rgb(127, 184, 196)" stroke="none"></rect><svg x="68.5" y="56.603302155826924" width="34.896697844173076" height="34.896697844173076" viewBox="0 0 24 24" aria-hidden="true" fill="rgb(0, 0, 0)" stroke="none"><path d="M4 11V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3M3 11h18v6H3zM6 17v2M18 17v2" fill="none" stroke-width="1.7px" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(11, 37, 48)"></path></svg></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="66.6" y="17.557075346062774" width="35.94622680976415" height="35.94622680976415" rx="3" fill="rgb(169, 210, 218)" stroke="none"></rect><svg x="68.5" y="19.45707534606277" width="32.14622680976415" height="32.14622680976415" viewBox="0 0 24 24" aria-hidden="true" fill="rgb(0, 0, 0)" stroke="none"><path d="M3 18V8M3 12h11a4 4 0 0 1 4 4v2M3 18h18M6.5 10.5h.01" fill="none" stroke-width="1.7px" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(11, 37, 48)"></path></svg></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="106.49669784417307" y="59.0022193196038" width="34.397780680396195" height="34.397780680396195" rx="3" fill="rgb(127, 184, 196)" stroke="none"></rect><svg x="108.39669784417308" y="60.9022193196038" width="30.5977806803962" height="30.5977806803962" viewBox="0 0 24 24" aria-hidden="true" fill="rgb(0, 0, 0)" stroke="none"><path d="M5 18v-4M19 18v-4M3 14h18M6 14v-3a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3" fill="none" stroke-width="1.7px" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(11, 37, 48)"></path></svg></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="106.49669784417307" y="30.859702670306195" width="26.94251664929761" height="26.94251664929761" rx="3" fill="rgb(169, 210, 218)" stroke="none"></rect><svg x="108.39669784417308" y="32.7597026703062" width="23.142516649297608" height="23.142516649297608" viewBox="0 0 24 24" aria-hidden="true" fill="rgb(0, 0, 0)" stroke="none"><path d="M5 18v-4M19 18v-4M3 14h18M6 14v-3a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3" fill="none" stroke-width="1.7px" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(11, 37, 48)"></path></svg></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="142.09447852456927" y="66.45748335070239" width="26.94251664929761" height="26.94251664929761" rx="3" fill="rgb(127, 184, 196)" stroke="none"></rect><svg x="143.99447852456927" y="68.3574833507024" width="23.142516649297608" height="23.142516649297608" viewBox="0 0 24 24" aria-hidden="true" fill="rgb(0, 0, 0)" stroke="none"><path d="M5 18v-4M19 18v-4M3 14h18M6 14v-3a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3" fill="none" stroke-width="1.7px" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(11, 37, 48)"></path></svg></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="142.09447852456927" y="42.61464601003966" width="22.642837340662744" height="22.642837340662744" rx="3" fill="rgb(169, 210, 218)" stroke="none"></rect><svg x="143.99447852456927" y="44.514646010039655" width="18.842837340662744" height="18.842837340662744" viewBox="0 0 24 24" aria-hidden="true" fill="rgb(0, 0, 0)" stroke="none"><path d="M4 3h16v18H4zM15 12h.01M4 3v18" fill="none" stroke-width="1.7px" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(11, 37, 48)"></path></svg></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="142.09447852456927" y="21.255977601801938" width="20.15866840823772" height="20.15866840823772" rx="3" fill="rgb(127, 184, 196)" stroke="none"></rect><svg x="143.99447852456927" y="23.155977601801936" width="16.35866840823772" height="16.35866840823772" viewBox="0 0 24 24" aria-hidden="true" fill="rgb(0, 0, 0)" stroke="none"><path d="M4 3h16v18H4zM15 12h.01M4 3v18" fill="none" stroke-width="2.2px" stroke-linecap="round" stroke-linejoin="round" stroke="rgb(11, 37, 48)"></path></svg></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="170.2369951738669" y="81.765037646411" width="11.634962353588987" height="11.634962353588987" rx="3" fill="rgb(169, 210, 218)" stroke="none"></rect></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="170.2369951738669" y="68.93007529282201" width="11.634962353588987" height="11.634962353588987" rx="3" fill="rgb(127, 184, 196)" stroke="none"></rect></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="183.17195752745587" y="62.2" width="31.1" height="31.1" rx="2" fill="rgb(180, 141, 99)" stroke="none"></rect><rect x="195.79695752745587" y="62.2" width="5.85" height="31.1" fill="rgb(255, 201, 60)" stroke="none"></rect></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="215.67195752745587" y="68.7" width="24.6" height="24.6" rx="2" fill="rgb(180, 141, 99)" stroke="none"></rect><rect x="225.63195752745588" y="68.7" width="4.68" height="24.6" fill="rgb(255, 201, 60)" stroke="none"></rect></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="241.67195752745587" y="75.2" width="18.1" height="18.1" rx="2" fill="rgb(180, 141, 99)" stroke="none"></rect><rect x="248.9669575274559" y="75.2" width="3.51" height="18.1" fill="rgb(255, 201, 60)" stroke="none"></rect></g><rect x="62" y="12" width="224" height="86" rx="5" fill="none" stroke="rgba(255, 255, 255, 0.9)" stroke-width="3px"></rect><rect x="8" y="98" width="278" height="6" rx="3" fill="rgba(255, 255, 255, 0.9)" stroke="none"></rect><g fill="rgb(0, 0, 0)" stroke="none"><circle cx="30" cy="110" r="10" fill="rgb(30, 36, 44)" stroke="none"></circle><circle cx="30" cy="110" r="3.5" fill="rgb(201, 205, 201)" stroke="none"></circle></g><g fill="rgb(0, 0, 0)" stroke="none"><circle cx="96" cy="110" r="10" fill="rgb(30, 36, 44)" stroke="none"></circle><circle cx="96" cy="110" r="3.5" fill="rgb(201, 205, 201)" stroke="none"></circle></g><g fill="rgb(0, 0, 0)" stroke="none"><circle cx="246" cy="110" r="10" fill="rgb(30, 36, 44)" stroke="none"></circle><circle cx="246" cy="110" r="3.5" fill="rgb(201, 205, 201)" stroke="none"></circle></g><g fill="rgb(0, 0, 0)" stroke="none"><circle cx="270" cy="110" r="10" fill="rgb(30, 36, 44)" stroke="none"></circle><circle cx="270" cy="110" r="3.5" fill="rgb(201, 205, 201)" stroke="none"></circle></g><line x1="0" y1="121" x2="340" y2="121" fill="rgb(0, 0, 0)" stroke="rgba(255, 255, 255, 0.2)" stroke-width="2px"></line><text x="174" y="137" text-anchor="middle" fill="rgba(255, 255, 255, 0.75)" stroke="none" font-size="10.5px" font-weight="650" font-family="-apple-system, &quot;SF Pro Text&quot;, &quot;Segoe UI&quot;, system-ui, sans-serif">15 ft · holds 764 cu ft</text></svg></div>
+      <div class="truckplate"><svg class="truck apptruck" viewBox="0 0 340 142" role="img" aria-label="A 15-foot truck, 59 percent full: furniture loaded first by the cab, boxes behind it, and room left at the back"><path d="M58 34 H34 Q26 34 22 44 L10 66 Q8 70 8 74 V98 H58 Z" fill="rgba(255, 255, 255, 0.9)" stroke="none"></path><path d="M50 42 H36 Q31 42 28 48 L20 64 H50 Z" fill="rgb(19, 42, 71)" stroke="none"></path><image href="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%3E%3Cg%20class%3D'ears'%3E%3Cpath%20d%3D'M36%2042C32%2030%2030%2016%2034%209c4-6%209-1%2010%207%201%207%201%2018%200%2025'%20fill%3D'%23FFFFFF'%20stroke%3D'%230F2742'%20stroke-width%3D'2.6'%20stroke-linejoin%3D'round'%2F%3E%3Cpath%20d%3D'M58%2041c3-12%207-24%2012-29%205-4%208%202%206%2010-2%208-7%2017-11%2022'%20fill%3D'%23FFFFFF'%20stroke%3D'%230F2742'%20stroke-width%3D'2.6'%20stroke-linejoin%3D'round'%2F%3E%3Cpath%20d%3D'M37%2036c-2-8-3-16-1-20'%20stroke%3D'%23F0245A'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20opacity%3D'.45'%20fill%3D'none'%2F%3E%3Cpath%20d%3D'M63%2034c2-7%204-14%207-17'%20stroke%3D'%23F0245A'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20opacity%3D'.45'%20fill%3D'none'%2F%3E%3C%2Fg%3E%3Cellipse%20cx%3D'50'%20cy%3D'62'%20rx%3D'26'%20ry%3D'23'%20fill%3D'%23FFFFFF'%20stroke%3D'%230F2742'%20stroke-width%3D'2.8'%2F%3E%3Ccircle%20cx%3D'39'%20cy%3D'58'%20r%3D'10.5'%20fill%3D'%2307705F'%20opacity%3D'.07'%2F%3E%3Ccircle%20cx%3D'39'%20cy%3D'58'%20r%3D'10.5'%20fill%3D'none'%20stroke%3D'%2307705F'%20stroke-width%3D'2.6'%2F%3E%3Cpath%20d%3D'M30%2065c-4%206-5%2013-3%2019'%20stroke%3D'%2307705F'%20stroke-width%3D'2'%20fill%3D'none'%20stroke-linecap%3D'round'%2F%3E%3Ccircle%20cx%3D'39'%20cy%3D'58'%20r%3D'3.2'%20fill%3D'%230F2742'%2F%3E%3Ccircle%20cx%3D'62'%20cy%3D'58'%20r%3D'3.2'%20fill%3D'%230F2742'%2F%3E%3Cpath%20d%3D'M47%2069h6l-3%203.5z'%20fill%3D'%23F0245A'%20stroke%3D'%230F2742'%20stroke-width%3D'1.4'%20stroke-linejoin%3D'round'%2F%3E%3Cpath%20d%3D'M44%2071H30M44%2074H32M56%2071h14M56%2074h12'%20stroke%3D'%234A5568'%20stroke-width%3D'1.5'%20stroke-linecap%3D'round'%2F%3E%3C%2Fsvg%3E" x="26" y="66" width="30" height="30" aria-hidden="true" fill="rgb(0, 0, 0)" stroke="none"></image><rect x="62" y="12" width="224" height="86" rx="5" fill="rgba(255, 255, 255, 0.07)" stroke="none"></rect><g fill="rgb(0, 0, 0)" stroke="none"><rect x="66.6" y="54.703302155826925" width="38.69669784417307" height="38.69669784417307" rx="3" fill="rgb(127, 184, 196)" stroke="none"></rect></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="66.6" y="17.557075346062774" width="35.94622680976415" height="35.94622680976415" rx="3" fill="rgb(169, 210, 218)" stroke="none"></rect></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="106.49669784417307" y="59.0022193196038" width="34.397780680396195" height="34.397780680396195" rx="3" fill="rgb(127, 184, 196)" stroke="none"></rect></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="106.49669784417307" y="30.859702670306195" width="26.94251664929761" height="26.94251664929761" rx="3" fill="rgb(169, 210, 218)" stroke="none"></rect></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="142.09447852456927" y="66.45748335070239" width="26.94251664929761" height="26.94251664929761" rx="3" fill="rgb(127, 184, 196)" stroke="none"></rect></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="142.09447852456927" y="42.61464601003966" width="22.642837340662744" height="22.642837340662744" rx="3" fill="rgb(169, 210, 218)" stroke="none"></rect></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="142.09447852456927" y="21.255977601801938" width="20.15866840823772" height="20.15866840823772" rx="3" fill="rgb(127, 184, 196)" stroke="none"></rect></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="170.2369951738669" y="81.765037646411" width="11.634962353588987" height="11.634962353588987" rx="3" fill="rgb(169, 210, 218)" stroke="none"></rect></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="170.2369951738669" y="68.93007529282201" width="11.634962353588987" height="11.634962353588987" rx="3" fill="rgb(127, 184, 196)" stroke="none"></rect></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="183.17195752745587" y="62.2" width="31.1" height="31.1" rx="2" fill="rgb(180, 141, 99)" stroke="none"></rect><rect x="195.79695752745587" y="62.2" width="5.85" height="31.1" fill="rgb(255, 201, 60)" stroke="none"></rect></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="215.67195752745587" y="68.7" width="24.6" height="24.6" rx="2" fill="rgb(180, 141, 99)" stroke="none"></rect><rect x="225.63195752745588" y="68.7" width="4.68" height="24.6" fill="rgb(255, 201, 60)" stroke="none"></rect></g><g fill="rgb(0, 0, 0)" stroke="none"><rect x="241.67195752745587" y="75.2" width="18.1" height="18.1" rx="2" fill="rgb(180, 141, 99)" stroke="none"></rect><rect x="248.9669575274559" y="75.2" width="3.51" height="18.1" fill="rgb(255, 201, 60)" stroke="none"></rect></g><rect x="62" y="12" width="224" height="86" rx="5" fill="none" stroke="rgba(255, 255, 255, 0.9)" stroke-width="3px"></rect><rect x="8" y="98" width="278" height="6" rx="3" fill="rgba(255, 255, 255, 0.9)" stroke="none"></rect><g fill="rgb(0, 0, 0)" stroke="none"><circle cx="30" cy="110" r="10" fill="rgb(30, 36, 44)" stroke="none"></circle><circle cx="30" cy="110" r="3.5" fill="rgb(201, 205, 201)" stroke="none"></circle></g><g fill="rgb(0, 0, 0)" stroke="none"><circle cx="96" cy="110" r="10" fill="rgb(30, 36, 44)" stroke="none"></circle><circle cx="96" cy="110" r="3.5" fill="rgb(201, 205, 201)" stroke="none"></circle></g><g fill="rgb(0, 0, 0)" stroke="none"><circle cx="246" cy="110" r="10" fill="rgb(30, 36, 44)" stroke="none"></circle><circle cx="246" cy="110" r="3.5" fill="rgb(201, 205, 201)" stroke="none"></circle></g><g fill="rgb(0, 0, 0)" stroke="none"><circle cx="270" cy="110" r="10" fill="rgb(30, 36, 44)" stroke="none"></circle><circle cx="270" cy="110" r="3.5" fill="rgb(201, 205, 201)" stroke="none"></circle></g><line x1="0" y1="121" x2="340" y2="121" fill="rgb(0, 0, 0)" stroke="rgba(255, 255, 255, 0.2)" stroke-width="2px"></line><text x="174" y="137" text-anchor="middle" fill="rgba(255, 255, 255, 0.75)" stroke="none" font-size="10.5px" font-weight="650" font-family="-apple-system, &quot;SF Pro Text&quot;, &quot;Segoe UI&quot;, system-ui, sans-serif">15 ft · holds 764 cu ft</text></svg></div>
       <div class="legend"><span><i style="background:#7FC4CF"></i>Furniture</span><span><i style="background:var(--kraft)"></i>Boxes</span><span><i style="background:#1D3352;border:1px solid var(--line)"></i>Still room</span></div>
       <p class="muted" style="margin:10px 0 0; font-size:.95rem">The same truck the app shows: 9 pieces of furniture and 38 boxes fill 59% of a 15-foot truck, with room for about 104 more medium boxes.</p>
     </div>
-  </div>
-</section>
-
-<section class="band tipswall" aria-labelledby="tw-h">
-  <div class="wrap">
-    <h2 id="tw-h">Did you know?</h2>
-    <p class="lead muted">Six of the tips inside the app. Share any of them with someone who's moving, or <a href="tips/">see all of them</a>.</p>
-    <div class="tipgrid">
-      <div class="tipc"><p>Heavy things go in small boxes. Books in a big box won't lift, and the bottom gives out.</p><button class="btn ghost dark tshare" type="button">Share</button></div>
-      <div class="tipc"><p>Photograph the inside of a box before you tape it. Then you never open five boxes to find one thing.</p><button class="btn ghost dark tshare" type="button">Share</button></div>
-      <div class="tipc"><p>Measure a sofa's depth, not its length. It goes through the door on its side.</p><button class="btn ghost dark tshare" type="button">Share</button></div>
-      <div class="tipc"><p>Pack an Open First box and keep it with you: sheets, chargers, medicine, toilet paper.</p><button class="btn ghost dark tshare" type="button">Share</button></div>
-      <div class="tipc"><p>On a move between states, you have at least 9 months after delivery to file a written damage claim.</p><button class="btn ghost dark tshare" type="button">Share</button></div>
-      <div class="tipc"><p>Photograph every room of the old place, empty, before you hand back the keys. It's your proof for the deposit.</p><button class="btn ghost dark tshare" type="button">Share</button></div>
-    </div>
-  </div>
-</section>
-
-<section class="band">
-  <div class="wrap narrow">
-    <h2>Your things stay yours.</h2>
-    <p class="lead">No account and no store. Everything lives on your own phone, so we can't read it: we never receive it. We never sell or share anyone's data.</p>
-    <ol class="steps">
-      <li><b>iPhone and iPad:</b> open <a href="app/">the app</a> in Safari, tap Share, then Add to Home Screen.</li>
-      <li><b>Android:</b> open <a href="app/">the app</a> in Chrome and tap Install when it offers.</li>
-      <li><b>Computer:</b> it just runs in the browser.</li>
-    </ol>
-    <p class="muted">Once it's on your home screen, it works with the wifi off: on a plane, in a basement, in the back of a truck.</p>
   </div>
 </section>
 
@@ -295,6 +275,14 @@
     <p class="muted" style="font-size:.9rem">Every review comes from someone who used the app and chose to share it. We take down only personal details and abuse, never a review for being critical.</p>
   </div>
 </section>
+<section class="band faq" aria-labelledby="fq-h">
+  <div class="wrap narrow">
+    <h2 id="fq-h">Questions people ask first</h2>
+    <details><summary>How do I check a moving quote for hidden fees?</summary><p>Paste the quote&#x27;s text into the checker at the top of this page. It flags paperwork fees like a &quot;binding estimate fee&quot;, a deposit that&#x27;s too big, the weakest coverage already ticked, a missing USDOT number, pressure to book today, and signs you&#x27;re dealing with a broker instead of a mover. It runs in your browser and nothing you paste is sent anywhere.</p></details><details><summary>Is it really free?</summary><p>Yes. During early access the whole app is free, with no card and no account. Unlimited boxes, photos, labels and the quote checker stay free for good. When paid plans open, the full app is $39 once, with nothing that renews, and you get 7 free days first.</p></details><details><summary>How do you make money if it&#x27;s free?</summary><p>From the one-time price of the full app, and from plans for businesses that help people move. Never from movers: we don&#x27;t take a commission or a referral fee, and we never sell anyone&#x27;s number.</p></details><details><summary>Will moving companies call me?</summary><p>No. We never ask for your phone number, and there&#x27;s nothing to sell to a mover. That&#x27;s the whole point.</p></details><details><summary>Do I need an account?</summary><p>No. Open it and start. Everything you enter stays on your own phone.</p></details><details><summary>How do I put it on my phone?</summary><p>iPhone and iPad: open <a href="app/">the app</a> in Safari, tap Share, then Add to Home Screen. Android: open it in Chrome and tap Install. On a computer it just runs in the browser. Once it is on your home screen it works with the wifi off.</p></details><details><summary>Who made this?</summary><p>Someone who was moving, not a moving company. Every warning sign on this site came from a real move this fall.</p></details><details><summary>Where do the answers come from?</summary><p>Federal and consumer sources: the FMCSA, the FTC and the CFPB, plus state law where it matters. Each answer names its source.</p></details>
+    <div class="cta2"><a class="btn tape" href="#check">Check a quote now</a><a class="btn ghost dark" href="app/">Start managing my move, free</a></div>
+  </div>
+</section>
+
 <section class="band invite" aria-labelledby="inv-h">
   <div class="wrap">
     <div class="invitebox">
@@ -302,7 +290,7 @@
       <div>
         <h2 id="inv-h">Ready when you are.</h2>
         <p class="lead">Start with one box. The rest of the plan builds itself around your date.</p>
-        <a class="btn tape" href="app/">Start managing my move, free</a>
+        <div class="cta2" style="margin-top:0"><a class="btn tape" href="app/">Start managing my move, free</a><a class="btn ghost" href="#check" style="color:#fff">Check a quote first</a></div>
       </div>
     </div>
   </div>
@@ -321,7 +309,7 @@
   <div><b>The fine print</b><a href="price.html">Price</a><a href="built.html">You asked, we built</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms and refunds</a><a href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a></div>
 </div></footer>
 
-<div class="stickycta" id="stickycta" hidden><a class="btn tape" href="app/">Start managing my move, free</a></div>
+<div class="stickycta" id="stickycta" hidden><a class="btn tape" href="#check">Check a quote, free</a></div>
 <script src="site.js"></script>
 <script>
 (function(){
@@ -353,6 +341,38 @@
       v.muted=false;v.currentTime=0;v.play().catch(function(){});b.hidden=true;});
     v.addEventListener("volumechange",function(){b.hidden=!v.muted;});
     f.appendChild(b);});
+})();
+</script>
+<script src="quote-check.js" defer></script>
+<script>
+/* owner, 27 Oct: the homepage quote checker. The reader is the app's own
+   (quote-check.js, generated from it). Nothing leaves this page. */
+(function(){
+  var SAMPLE="ESTIMATE AND ORDER FOR SERVICE\nSample Moving Co. (a made-up company, built from real quotes)\nWe arrange your move through our nationwide network of carriers.\nPickup window: 72 hours. Survey waived.\nEstimated weight: 4,200 lbs\nLine haul $2,769.00\nFuel surcharge $415.35\nAdmin / dispatch $200.00\nBinding estimate fee $2,001.99\nAvailability discount -$615.35\nTotal Moving Estimate $4,770.99\nDeposit 30% due at booking, non-refundable.\nValuation: [X] Basic Value Protection ($0.60 per lb)\nDelivery: up to 30 business days from pickup.\nThis price is valid today only.";
+  var f=document.getElementById("qform"), ta=document.getElementById("qtext"), out=document.getElementById("qout");
+  if(!f) return;
+  function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
+  function run(){
+    var t=ta.value.trim();
+    if(!t){out.innerHTML='<p class="qfine">Paste a quote first, or try the sample.</p>';ta.focus();return;}
+    if(!window.prReadQuote){out.innerHTML='<p class="qfine">One moment, the reader is still loading. Try again.</p>';return;}
+    var r=window.prReadQuote(t), fl=r.flags||[];
+    var order={bad:0,warn:1,good:2}; fl=fl.slice().sort(function(a,b){return order[a.tone]-order[b.tone];});
+    var n={bad:0,warn:0,good:0}; fl.forEach(function(x){n[x.tone]++;});
+    var lab={bad:"Red flag",warn:"Ask",good:"Good"};
+    var h='<div class="qsum">'+(n.bad?'<span class="b">'+n.bad+' red flag'+(n.bad>1?'s':'')+'</span>':'')+(n.warn?'<span class="w">'+n.warn+' to ask about</span>':'')+(n.good?'<span class="g">'+n.good+' good sign'+(n.good>1?'s':'')+'</span>':'')+'</div>';
+    var row=function(x){return '<div class="qflag '+x.tone+'"><i>'+lab[x.tone]+'</i><span>'+esc(x.text)+'</span></div>';};
+    var first=fl.filter(function(x){return x.tone==="bad";}); if(first.length<3) first=fl.slice(0,3);
+    var rest=fl.slice(first.length);
+    h+=first.map(row).join("");
+    if(rest.length) h+='<details class="qmore"><summary>Show '+rest.length+' more</summary>'+rest.map(row).join("")+'</details>';
+    h+='<div class="qnext"><p>Keep every quote side by side, give each mover stars for facts, and log every call. All in the app, free.</p><a class="btn tape" href="app/">Start managing my move, free</a></div>';
+    h+='<p class="qfine">This checks the words on the quote against federal moving rules and the tricks we have seen. It isn\'t legal advice. <a href="movers-vs-brokers/">How each trick works</a></p>';
+    out.innerHTML=h;
+    try{out.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"nearest"});}catch(e){}
+  }
+  f.addEventListener("submit",function(e){e.preventDefault();run();});
+  document.getElementById("qsample").addEventListener("click",function(){ta.value=SAMPLE;run();});
 })();
 </script>
 <script src="nav.js" defer></script>
