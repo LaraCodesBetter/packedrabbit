@@ -107,16 +107,17 @@
     <p class="sub">The moving app that's on your side. It shows you what a mover's quote is hiding, then keeps every box, date and dollar organized.</p>
   </div>
   <div class="desk">
-    <div class="quote" id="lensq" tabindex="0" role="img" aria-label="A sample mover's quote with six red flags. Drag the lens, or use the arrow keys, to read each line.">
+    <div class="quote" id="lensq" tabindex="0" role="img" aria-label="A sample mover's quote with six red flags. Tap a line, or use the arrow keys, to read it.">
       <div class="doc base" id="lbase"></div>
       <div class="doc read" id="lread" aria-hidden="true"></div>
       <div class="lens" id="lens"></div>
     </div>
     <div class="reading" id="reading" aria-live="off"><span class="dot"></span><div><b>Move the lens over the quote.</b><span>It shows what each line is really saying.</span></div></div>
     <div class="deskbar">
-      <span>A made-up quote, built from real ones. <span class="count" id="lcount"></span></span>
-      <button class="linkbtn" id="lall" type="button">Show everything it found</button>
+      <button class="btn ghost small" id="lnext" type="button">Next red flag</button>
+      <button class="linkbtn" id="lall" type="button">Show all 6</button>
     </div>
+    <p class="deskfine">A made-up quote, built from real ones. <span class="count" id="lcount"></span></p>
   </div>
   <div class="do">
     <div class="acts">
