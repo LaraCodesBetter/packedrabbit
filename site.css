@@ -374,3 +374,41 @@ html.embed h1{font-size:clamp(1.5rem,5vw,2.1rem) !important; margin-top:4px !imp
 .soundbtn svg{flex:none;width:22px;height:22px;fill:#fff;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .soundbtn:focus-visible{outline:3px solid #FFC21A;outline-offset:2px}
 .soundbtn[hidden]{display:none}
+
+/* owner, 27 Oct: the quote checker is the main draw, so it is the hero */
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+.qcheck{position:relative; margin-top:40px}
+@media (min-width:920px){ .qcheck{margin-top:0} }
+.qcheck .mono-peek{top:-74px; right:6px; width:112px}
+.qpaper{background:#fff; color:#0F2742; border-radius:18px 18px 4px 4px; padding:22px 20px 26px; box-shadow:0 26px 60px rgba(0,0,0,.4); position:relative}
+.qtitle{font-size:1.35rem; margin:0 0 12px; color:#0F2742; max-width:16ch}
+.qpaper textarea{width:100%; box-sizing:border-box; font:inherit; font-size:1rem; line-height:1.45; color:#0F2742; background:#F6F7FA; border:2px dashed #C9D1DE; border-radius:12px; padding:12px 14px; resize:vertical; min-height:150px}
+.qpaper textarea:focus{outline:3px solid #FFC21A; outline-offset:1px; border-color:transparent}
+.qbtns{display:flex; flex-wrap:wrap; gap:10px; margin-top:12px}
+.qbtns .btn{min-height:48px}
+.qprivate{font-size:.88rem; color:#5B6578; margin:10px 0 0}
+#qout:empty{display:none}
+#qout{margin-top:16px; border-top:2px dashed #D5DBE6; padding-top:14px}
+.qsum{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 12px}
+.qsum span{font-weight:800; font-size:.9rem; padding:6px 12px; border-radius:999px}
+.qsum .b{background:#D7142E; color:#fff} .qsum .w{background:#FFE6A8; color:#5A3B00} .qsum .g{background:#DDF5EA; color:#0A6A45}
+.qflag{display:flex; gap:10px; align-items:flex-start; padding:10px 0; border-bottom:1px solid #EEF1F5; font-size:.97rem; line-height:1.4}
+.qflag:last-of-type{border-bottom:0}
+.qflag i{flex:none; font-style:normal; font-weight:900; font-size:.75rem; padding:4px 8px; border-radius:6px; margin-top:1px; white-space:nowrap}
+.qflag.bad i{background:#D7142E; color:#fff} .qflag.warn i{background:#FFC21A; color:#2E2203} .qflag.good i{background:#0A7A52; color:#fff}
+.qnext{margin-top:14px; padding:14px; background:#F6F7FA; border-radius:12px}
+.qnext p{margin:0 0 10px; font-weight:650}
+.qnext .btn{min-height:48px}
+.qfine{font-size:.82rem; color:#5B6578; margin:10px 0 0}
+.appshot .phone figcaption{color:var(--ink2)}
+.appshot-fig{padding-top:20px}
+/* questions people ask before they trust a free app */
+.faq details{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:0 18px; margin:10px 0}
+.faq summary{cursor:pointer; font-weight:800; padding:16px 0; min-height:44px; list-style:none; display:flex; justify-content:space-between; gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+"; font-weight:900; color:var(--ink2)}
+.faq details[open] summary::after{content:"\2212"}
+.faq details p{margin:0 0 16px; color:var(--ink2)}
+.qcta{border-left:4px solid var(--rose)}
+.qmore summary{cursor:pointer; font-weight:800; min-height:44px; display:flex; align-items:center; color:#0F2742; text-decoration:underline; text-underline-offset:3px}
+@media (max-width:600px){ .hero .lede{display:none} .hero .fine{margin-top:12px} .qcheck{margin-top:78px} .hero{padding-top:48px} }
