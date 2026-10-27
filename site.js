@@ -33,13 +33,13 @@
       frame.textContent = ""; piece.textContent = ""; dims.textContent = "";
       var dw = W * S, dh = DOOR_H * S, dx = CX - dw / 2, dy = FLOOR - dh;
       /* wall with the opening cut out */
-      el("path", { d: "M0 0H500V" + FLOOR + "H" + (dx + dw) + "V" + dy + "H" + dx + "V" + FLOOR + "H0Z", fill: "#17365E" }, frame);
-      el("rect", { x: dx, y: dy, width: dw, height: dh, fill: "#06121F" }, frame);
-      el("path", { d: "M" + (dx - 7) + " " + FLOOR + "V" + (dy - 7) + "H" + (dx + dw + 7) + "V" + FLOOR, fill: "none", stroke: "#E9EEF5", "stroke-width": 7, "stroke-linejoin": "round" }, frame);
+      el("path", { d: "M0 0H500V" + FLOOR + "H" + (dx + dw) + "V" + dy + "H" + dx + "V" + FLOOR + "H0Z", style: "fill:var(--mist)" }, frame);
+      el("rect", { x: dx, y: dy, width: dw, height: dh, style: "fill:var(--bg)" }, frame);
+      el("path", { d: "M" + (dx - 7) + " " + FLOOR + "V" + (dy - 7) + "H" + (dx + dw + 7) + "V" + FLOOR, fill: "none", style: "stroke:var(--ink)", "stroke-width": 5, "stroke-linejoin": "round" }, frame);
       /* the face that has to pass */
       var pw = r.across * S, ph = r.up * S, px = CX - pw / 2, py = FLOOR - ph;
-      var col = r.ok ? "#2EE59D" : "#FF5C76";
-      el("rect", { class: "piece", x: px, y: py, width: pw, height: ph, rx: 8, fill: r.ok ? "rgba(46,229,157,.28)" : "rgba(255,92,118,.22)", stroke: col, "stroke-width": 3 }, piece);
+      var col = r.ok ? "var(--ok)" : "var(--flag)";
+      el("rect", { class: "piece", x: px, y: py, width: pw, height: ph, rx: 8, style: "fill:" + (r.ok ? "color-mix(in srgb,var(--ok) 14%,var(--bg))" : "var(--flagbg)") + ";stroke:" + col, "stroke-width": 3 }, piece);
       if (!r.ok) {
         var over = (pw - dw) / 2;
         el("rect", { x: px, y: py, width: over + 4, height: ph, fill: "url(#hatch)" }, piece);
@@ -47,12 +47,12 @@
       }
       /* sofa arms drawn on the face so it reads as a sofa end */
       var arm = Math.min(pw, ph) * 0.18;
-      el("path", { d: "M" + (px + arm) + " " + (py + ph * .45) + "H" + (px + pw - arm), stroke: col, "stroke-width": 2, opacity: .6, fill: "none", "stroke-dasharray": "6 6" }, piece);
+      el("path", { d: "M" + (px + arm) + " " + (py + ph * .45) + "H" + (px + pw - arm), style: "stroke:" + col, "stroke-width": 2, opacity: .6, fill: "none", "stroke-dasharray": "6 6" }, piece);
       /* measurements */
-      var t = el("text", { x: CX, y: dy - 14, fill: "#FFC21A", "text-anchor": "middle" }, dims); t.textContent = "door " + W + " in";
-      el("path", { d: "M" + dx + " " + (dy - 30) + "H" + (dx + dw), stroke: "#FFC21A", "stroke-width": 2, "marker-start": "", fill: "none" }, dims);
-      var t2 = el("text", { x: CX, y: py + ph / 2 + 22, fill: "#fff", "text-anchor": "middle" }, dims); t2.textContent = r.across + " × " + r.up + " in";
-      var t3 = el("text", { x: CX, y: FLOOR + 26, fill: "rgba(255,255,255,.6)", "text-anchor": "middle", "font-size": 13 }, dims);
+      var t = el("text", { x: CX, y: dy - 14, style: "fill:var(--ink)", "text-anchor": "middle" }, dims); t.textContent = "door " + W + " in";
+      el("path", { d: "M" + dx + " " + (dy - 30) + "H" + (dx + dw), style: "stroke:var(--ink)", "stroke-width": 2, fill: "none" }, dims);
+      var t2 = el("text", { x: CX, y: py + ph / 2 + 22, style: "fill:var(--ink)", "text-anchor": "middle" }, dims); t2.textContent = r.across + " × " + r.up + " in";
+      var t3 = el("text", { x: CX, y: FLOOR + 26, style: "fill:var(--ink2)", "text-anchor": "middle", "font-size": 13 }, dims);
       t3.textContent = "the end of the sofa, as it meets the doorway";
       /* what to say */
       var html;

@@ -566,3 +566,20 @@ main > section.band:first-of-type{border-top:0}
   .doc.read{clip-path:none !important; transform:none !important; background:transparent !important}
   .shortrow,.soundbtn{display:none !important}
 }
+/* the sofa check, in the new look: a line drawing on paper */
+.sofa .fit,.fit{background:var(--panel); border:1px solid var(--line); color:var(--ink); backdrop-filter:none; padding:24px}
+.sofa .fit{max-width:640px; margin:0}
+.fit h2{color:var(--ink); font-size:clamp(1.9rem,4.4vw,3rem); margin-bottom:8px}
+.fit .sub{color:var(--ink2); font-size:1rem}
+.fit .sub a{color:var(--ink) !important}
+.fit-stage{background:var(--mist); border-radius:16px}
+.verdict{font-family:var(--text)}
+.verdict.ok{background:color-mix(in srgb,var(--ok) 12%,var(--bg)); color:var(--ink)}
+.verdict.no{background:var(--flagbg); color:var(--ink)}
+.verdict small{color:var(--ink2)}
+.verdict.ok .dot{background:var(--ok); color:var(--bg)} .verdict.no .dot{background:var(--flag); color:#fff}
+.knob label{color:var(--ink2)} .knob label b{color:var(--ink)}
+.knob input[type=range]{accent-color:var(--ink)}
+.toggle{background:var(--mist); color:var(--ink)}
+.toggle input{accent-color:var(--ink)}
+.knobsfold > summary.btn.ghost{color:var(--ink); border-color:var(--ink)}
