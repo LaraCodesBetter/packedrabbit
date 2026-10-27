@@ -554,3 +554,15 @@ main > section.band:first-of-type{border-top:0}
 .hero .tag{color:var(--ink2); font-weight:600}
 .hero .btn.ghost{color:var(--ink)}
 .page .hero,.wrap .hero{padding-left:0; padding-right:0}
+/* owner's printout, 27 Oct: the receipt and the box label came out solid black.
+   The receipt's torn-edge mask and the heavy shadows are the likely cause, so the
+   receipt now has a plain edge, and printing drops every shadow. */
+.receipt{-webkit-mask:none; mask:none; border-radius:18px; border:1px solid var(--line); box-shadow:none}
+.lens::after{display:none}
+@media print{
+  *{box-shadow:none !important; text-shadow:none !important}
+  .receipt,.label,.qflag i,.rflag,.btn.navy,.btn.tape{-webkit-print-color-adjust:exact; print-color-adjust:exact}
+  .lens,.stickycta,.prnav,#prnav{display:none !important}
+  .doc.read{clip-path:none !important; transform:none !important; background:transparent !important}
+  .shortrow,.soundbtn{display:none !important}
+}
