@@ -174,7 +174,7 @@
 
   /* on a phone, "Start my move" stays reachable once the top has scrolled away */
   function stickyInit() {
-    var s = $("stickycta"), hero = document.querySelector(".hero"), foot = document.querySelector("footer");
+    var s = $("stickycta"), hero = document.querySelector(".hero,.lhero"), foot = document.querySelector("footer");
     if (!s || !hero || !("IntersectionObserver" in window)) return;
     var heroOn = true, footOn = false;
     var upd = function () { s.hidden = heroOn || footOn; document.body.classList.toggle("has-sticky", !s.hidden); };

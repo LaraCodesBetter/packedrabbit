@@ -428,3 +428,129 @@ html.embed h1{font-size:clamp(1.5rem,5vw,2.1rem) !important; margin-top:4px !imp
 .wholelist h3{margin:0 0 4px; font-size:1.15rem}
 .wholelist p{margin:0 0 6px; color:var(--ink2)}
 .wholelist a{font-weight:800; display:inline-flex; align-items:center; min-height:44px}
+
+/* ===== The new look (owner, 27 Oct 2026): white paper, quiet, one thing that moves.
+   Atkinson Hyperlegible Next for everything people read, its Mono for quotes and
+   box codes. Both are served from this site; nothing is loaded from anyone else. */
+@font-face{font-family:"Atkinson Next"; src:url("/fonts/atkinson-next.woff") format("woff"); font-weight:200 800; font-display:swap}
+@font-face{font-family:"Atkinson Mono"; src:url("/fonts/atkinson-mono.woff") format("woff"); font-weight:200 800; font-display:swap}
+:root{
+  --bg:#FFFFFF; --panel:#FFFFFF; --mist:#F3F5F8; --ink:#0F2742; --ink2:#5A6678; --line:#E4E8EE;
+  --flag:#D7193C; --flagbg:#FFF0F2;
+  --blue:#1F5FD6; --rose:#D7193C; --green:#00875A; --ok:#00875A; --no:#D7193C;
+  --display:"Atkinson Next",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --text:"Atkinson Next",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Atkinson Mono",ui-monospace,Menlo,Consolas,monospace;
+  --lift1:none; --lift2:0 18px 40px -18px rgba(15,39,66,.22);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0B1626; --panel:#0E1B2E; --mist:#122036; --ink:#EEF2F7; --ink2:#A3AFBF; --line:#22314A;
+  --flag:#FF5C76; --flagbg:#3A1220; --blue:#7FA6FF; --rose:#FF5C76; --green:#2EE59D; --ok:#2EE59D; --no:#FF5C76;
+  --lift1:none; --lift2:inset 0 1px 0 rgba(255,255,255,.06);
+}}
+:root[data-theme="dark"]{
+  --bg:#0B1626; --panel:#0E1B2E; --mist:#122036; --ink:#EEF2F7; --ink2:#A3AFBF; --line:#22314A;
+  --flag:#FF5C76; --flagbg:#3A1220; --blue:#7FA6FF; --rose:#FF5C76; --green:#2EE59D; --ok:#2EE59D; --no:#FF5C76;
+  --lift1:none; --lift2:inset 0 1px 0 rgba(255,255,255,.06);
+}
+body{font-size:19px}
+h1,h2,h3{font-weight:800; letter-spacing:-.03em; text-wrap:balance}
+h1{font-size:clamp(2.5rem,7vw,4.6rem); line-height:.98; letter-spacing:-.035em}
+h2{font-size:clamp(1.9rem,4.4vw,3rem); line-height:1.04}
+a{color:var(--ink)}
+.wrap{padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px))}
+@media (min-width:700px){ .wrap{padding-left:max(40px, env(safe-area-inset-left, 0px)); padding-right:max(40px, env(safe-area-inset-right, 0px))} }
+.top{min-height:76px}
+.brand{font-weight:800; font-size:1.05rem}
+.brand img{width:36px; height:36px}
+
+/* buttons: ink pills; yellow is kept for tape, not for every button */
+.btn{font-family:var(--text); font-weight:700; font-size:1rem; min-height:52px; padding:0 22px; border-width:1.5px}
+.btn.tape,.btn.navy{background:var(--ink); color:var(--bg); border-color:var(--ink); box-shadow:none}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .btn.navy{background:var(--ink); color:var(--bg)} }
+:root[data-theme="dark"] .btn.navy{background:var(--ink); color:var(--bg)}
+.btn.ghost{border-color:var(--ink); color:var(--ink)}
+
+/* surfaces: hairline, no shadow; a card only where something is its own object */
+.panel,.price,.fact,.said,.faq details,.promises li,.trickc,.ol-out{box-shadow:none; border:1px solid var(--line)}
+.trickc{border-left:3px solid var(--flag)}
+.promises li{border-top:3px solid var(--tape)}
+.price.main{border:2px solid var(--ink)}
+.door{background:var(--panel); color:var(--ink); border:1px solid var(--line); box-shadow:none; background-image:none}
+.door em{color:var(--ink)}
+.door b::before{content:""; display:inline-block; width:10px; height:10px; border-radius:50%; background:var(--c); margin-right:10px; vertical-align:middle}
+.ask,.invitebox{background:var(--mist); color:var(--ink)}
+.ask h2,.ask p,.invitebox h2,.invitebox .lead{color:var(--ink)}
+.invitebox .btn.ghost{color:var(--ink) !important}
+.invitebox::before{left:28px; right:auto; width:84px; height:14px; top:22px; transform:rotate(-2deg)}
+.tipc{background:var(--panel); border:1px solid var(--line); box-shadow:none}
+.trust svg{color:var(--ink)}
+.shots img,.phone img{box-shadow:none}
+.stickycta{background:linear-gradient(transparent, var(--bg) 35%)}
+.steps li::before{background:var(--ink); color:var(--bg)}
+section.band{border-top:1px solid var(--line); padding-top:72px; padding-bottom:16px}
+main > section.band:first-of-type{border-top:0}
+
+/* ---- the lens hero ---- */
+.lhero{display:grid; gap:28px; padding-top:28px; padding-bottom:64px; grid-template-areas:"say" "desk" "do"}
+.lhero .say{grid-area:say} .lhero .desk{grid-area:desk; position:relative; overflow-x:clip; min-width:0} .lhero .do{grid-area:do}
+@media (min-width:980px){ .lhero{grid-template-columns:5fr 6fr; grid-template-areas:"say desk" "do desk"; column-gap:64px; row-gap:0; align-items:end; padding-top:64px; padding-bottom:88px} .lhero .do{align-self:start} }
+.lhero h1{max-width:11ch}
+.lhero .sub{font-size:clamp(1.15rem,2.2vw,1.35rem); color:var(--ink2); margin:22px 0 0; max-width:30ch}
+.lhero .acts{display:flex; flex-wrap:wrap; gap:12px; margin-top:30px}
+.lhero .terms{font-size:.95rem; color:var(--ink2); margin:18px 0 0}
+.lhero .terms a{color:var(--ink2)}
+.quote{position:relative; background:var(--panel); border:1px solid var(--line); border-radius:22px; padding:26px 22px 22px; font-family:var(--mono); font-size:.83rem; line-height:1.7; touch-action:none; user-select:none; -webkit-user-select:none; cursor:grab}
+@media (min-width:700px){ .quote{padding:34px 34px 28px; font-size:.9rem} }
+.doc .l{display:block; white-space:pre-wrap}
+.doc .l.h{font-weight:600; letter-spacing:.02em}
+.doc.base{color:var(--ink2)}
+.doc.read{position:absolute; inset:26px 22px 22px; color:var(--ink); background:var(--panel); clip-path:circle(calc(var(--r,86px)/1.22) at var(--x,50%) var(--y,30%)); transform-origin:var(--x,50%) var(--y,30%); transform:scale(1.22); pointer-events:none}
+@media (min-width:700px){ .doc.read{inset:34px 34px 28px} }
+.doc.read .l.f{color:var(--flag); background:var(--flagbg); border-radius:4px; box-shadow:-6px 0 0 var(--flagbg),6px 0 0 var(--flagbg)}
+.quote.all .doc.read{clip-path:none; transform:none; background:transparent}
+.lens{position:absolute; left:0; top:0; width:calc(var(--r,86px)*2); height:calc(var(--r,86px)*2); margin:calc(var(--r,86px)*-1) 0 0 calc(var(--r,86px)*-1); border-radius:50%; border:3px solid var(--ink); pointer-events:none; transform:translate(var(--px,0px),var(--py,0px)); box-shadow:0 18px 40px rgba(15,39,66,.16)}
+.lens::after{content:""; position:absolute; right:-40px; bottom:-58px; width:60px; height:70px; border-right:2px solid var(--ink); border-bottom:2px solid var(--ink); border-radius:0 0 40px 0; opacity:.5}
+.quote.all .lens{display:none}
+.reading{margin-top:14px; min-height:84px; border-radius:18px; background:var(--mist); padding:14px 18px; display:flex; gap:14px; align-items:flex-start}
+.reading .dot{flex:none; width:12px; height:12px; border-radius:50%; background:var(--line); margin-top:8px}
+.reading.hit .dot{background:var(--flag)}
+.reading b{display:block; font-weight:800; letter-spacing:-.01em}
+.reading span{color:var(--ink2); font-size:.98rem}
+.reading.list{display:block}
+.reading.list p{margin:0; padding:8px 0; border-bottom:1px solid var(--line)} .reading.list p:last-child{border:0}
+.reading.list b{color:var(--flag)}
+.deskbar{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; margin-top:12px; font-size:.95rem; color:var(--ink2)}
+.deskbar .count{font-weight:700; color:var(--flag)}
+.linkbtn{background:none; border:0; font:inherit; color:var(--ink); text-decoration:underline; text-underline-offset:4px; cursor:pointer; min-height:44px; padding:0 4px}
+
+/* ---- check your own ---- */
+.own{display:grid; gap:28px}
+@media (min-width:980px){ .own{grid-template-columns:5fr 6fr; gap:64px} }
+.own .lead{color:var(--ink2); max-width:34ch}
+.own .diy{margin-top:22px; padding:0; border:0; color:var(--ink)}
+.own .diy p{color:var(--ink2)} .own .diy b{color:var(--ink)}
+.own .diybtns .btn.ghost{color:var(--ink)}
+.qpaper{background:transparent; color:var(--ink); padding:0; box-shadow:none; border-radius:0}
+.qpaper textarea{font-family:var(--mono); font-size:.95rem; background:var(--mist); color:var(--ink); border:1px solid var(--line); border-radius:18px; padding:18px; min-height:180px}
+.qpaper textarea:focus{outline:3px solid var(--tape); outline-offset:2px; border-color:var(--line)}
+.qprivate,.qfine{color:var(--ink2)}
+#qout{border-top:1px solid var(--line)}
+.qflag{border-bottom:1px solid var(--line)}
+.qflag.bad i{background:var(--flag)}
+.qnext{background:var(--mist)}
+.qmore summary{color:var(--ink)}
+.qsum .b{background:var(--flag)}
+.receipt{animation:none !important}
+.trust{justify-content:flex-start; margin-top:28px}
+.trust li{font-weight:600; font-size:.95rem}
+.promises li{border-top:1px solid var(--line)}
+.wholelist li{border-left:0; border-top:1px solid var(--line); padding:18px 0 8px; margin:0}
+/* the old navy hero, now quiet paper on every page that still uses it */
+.hero{background:transparent; background-image:none; color:var(--ink); border-radius:0; padding:32px 0 8px; overflow:visible}
+.hero::before{display:none}
+.hero h1,.hero .hero-2{color:var(--ink)}
+.hero .lede,.hero .fine,.hero p{color:var(--ink2)}
+.hero .tag{color:var(--ink2); font-weight:600}
+.hero .btn.ghost{color:var(--ink)}
+.page .hero,.wrap .hero{padding-left:0; padding-right:0}
