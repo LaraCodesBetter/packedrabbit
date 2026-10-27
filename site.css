@@ -583,3 +583,18 @@ main > section.band:first-of-type{border-top:0}
 .toggle{background:var(--mist); color:var(--ink)}
 .toggle input{accent-color:var(--ink)}
 .knobsfold > summary.btn.ghost{color:var(--ink); border-color:var(--ink)}
+/* owner on an iPhone, 27 Oct: the magnifier didn't make sense. No more zoom; the
+   line the lens is on turns red end to end, and the page scrolls under a finger. */
+.quote{touch-action:pan-y; cursor:pointer}
+.doc.read{transform:none; clip-path:circle(var(--r,86px) at var(--x,50%) var(--y,30%))}
+.doc.base .l.on{color:var(--flag); background:var(--flagbg); border-radius:4px; box-shadow:-6px 0 0 var(--flagbg),6px 0 0 var(--flagbg)}
+.doc.read .l.f{background:transparent; box-shadow:none}
+.doc.read .l.f.on{background:var(--flagbg); box-shadow:-6px 0 0 var(--flagbg),6px 0 0 var(--flagbg)}
+.quote.all .doc.base .l.f{color:var(--flag); background:var(--flagbg)}
+@media (prefers-reduced-motion:no-preference){ .quote:not(.still) .lens{transition:transform .55s cubic-bezier(.2,.8,.2,1)} .doc.read{transition:none} }
+.reading small{display:block; font-size:.82rem; font-weight:700; color:var(--flag); margin-bottom:2px}
+.deskbar .btn.small{min-height:44px}
+.deskfine{font-size:.92rem; color:var(--ink2); margin:10px 0 0}
+.deskfine .count{font-weight:700; color:var(--flag)}
+.doc.read .l.f{color:var(--ink)} .doc.read .l.f.on{color:var(--flag)}
+/* no zoom, so the lens is just the monocle ring over the line it is reading */ .doc.read{display:none}

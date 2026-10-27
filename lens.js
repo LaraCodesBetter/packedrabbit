@@ -1,6 +1,8 @@
-/* The homepage lens (owner, 27 Oct 2026). A made-up quote built from real ones;
-   the monocle reads down it once, then anyone can drag it over any line.
-   Nothing here is sent anywhere. */
+/* The homepage lens (owner, 27 Oct 2026). A made-up quote built from real ones.
+   Owner, 27 Oct, on an iPhone: "not making sense". The lens no longer magnifies
+   (enlarged words landed on the wrong lines), it steps from one red flag to the
+   next on its own, and on a phone you tap a line instead of dragging, so the
+   page still scrolls. Nothing here is sent anywhere. */
 (function () {
   var Q = [
     ["ESTIMATE AND ORDER FOR SERVICE", "", 1],
@@ -10,7 +12,7 @@
     ["Estimated weight: 4,200 lbs", ""],
     ["Line haul                 $2,769.00", ""],
     ["Fuel surcharge              $415.35", ""],
-    ["Binding estimate fee      $2,001.99", "A fee bigger than the move. Ask what it's for."],
+    ["Binding estimate fee      $2,001.99", "A fee almost as big as the move. Ask what it's for."],
     ["Availability discount     -$615.35", ""],
     ["Total                     $4,770.99", ""],
     ["Deposit 30% at booking, non-refundable.", "Too much up front, and you can't get it back."],
@@ -19,68 +21,69 @@
   ];
   var quote = document.getElementById("lensq");
   if (!quote) return;
-  var base = document.getElementById("lbase"), read = document.getElementById("lread"), reading = document.getElementById("reading"), all = document.getElementById("lall");
+  var base = document.getElementById("lbase"), read = document.getElementById("lread"), reading = document.getElementById("reading"), all = document.getElementById("lall"), nextBtn = document.getElementById("lnext");
   function esc(x) { return String(x).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" }[c]; }); }
   function plain(x) { return x.replace(/\s{2,}/g, " "); }
   var html = Q.map(function (q) { return '<span class="l' + (q[2] ? " h" : "") + (q[1] ? " f" : "") + '">' + esc(q[0]) + "</span>"; }).join("");
   base.innerHTML = html; read.innerHTML = html;
-  var flags = Q.filter(function (q) { return q[1]; }).length;
+  var flagIdx = []; Q.forEach(function (q, i) { if (q[1]) flagIdx.push(i); });
+  var flags = flagIdx.length;
   document.getElementById("lcount").textContent = flags + " red flags.";
-  var lines = [].slice.call(base.querySelectorAll(".l")), fls = [].slice.call(base.querySelectorAll(".l.f"));
-  var R = 96, pos = { x: 0, y: 0 }, last = -2;
-  function size() { R = window.innerWidth < 700 ? 84 : 112; quote.style.setProperty("--r", R + "px"); }
-  function say(x, y) {
-    var q = quote.getBoundingClientRect(), hit = -1, best = 1e9;
-    lines.forEach(function (el, i) { var r = el.getBoundingClientRect(), d = Math.abs(r.top - q.top + r.height / 2 - y); if (d < best) { best = d; hit = i; } });
-    var on = best < R * 0.55 && Q[hit][1] ? hit : -1;
-    if (on === last) return; last = on;
-    reading.className = "reading" + (on >= 0 ? " hit" : "");
-    reading.innerHTML = on >= 0
-      ? '<span class="dot"></span><div><b>' + esc(Q[on][1]) + "</b><span>" + esc(plain(Q[on][0])) + "</span></div>"
-      : '<span class="dot"></span><div><b>Nothing wrong with this line.</b><span>Keep moving the lens. There are ' + flags + " red flags on this quote.</span></div>";
+  var lines = [].slice.call(base.querySelectorAll(".l"));
+  var R = 96, pos = { x: 0, y: 0 }, last = -2, cur = 0;
+  function size() { R = window.innerWidth < 700 ? 70 : 96; quote.style.setProperty("--r", R + "px"); }
+  function box(i) { var r = lines[i].getBoundingClientRect(), q = quote.getBoundingClientRect(); return { top: r.top - q.top, h: r.height, left: r.left - q.left, w: r.width }; }
+  function lineAt(y) {
+    var hit = 0, best = 1e9;
+    lines.forEach(function (el, i) { var b = box(i), d = Math.abs(b.top + b.h / 2 - y); if (d < best) { best = d; hit = i; } });
+    return hit;
   }
-  function place(x, y) {
-    var w = quote.clientWidth, h = quote.clientHeight;
-    x = Math.max(R * 0.4, Math.min(w - R * 0.4, x)); y = Math.max(R * 0.4, Math.min(h - R * 0.4, y)); pos = { x: x, y: y };
+  function say(i) {
+    if (i === last) return; last = i;
+    var n = flagIdx.indexOf(i);
+    if (n >= 0) { cur = n; reading.className = "reading hit"; reading.innerHTML = '<span class="dot"></span><div><small>Red flag ' + (n + 1) + " of " + flags + "</small><b>" + esc(Q[i][1]) + "</b><span>" + esc(plain(Q[i][0])) + "</span></div>"; }
+    else { reading.className = "reading"; reading.innerHTML = '<span class="dot"></span><div><b>Nothing wrong with this line.</b><span>Tap Next red flag, or tap another line.</span></div>'; }
+  }
+  /* the lens sits on one line, centered on its words */
+  function show(i) {
+    var b = box(i), x = b.left + Math.min(b.w, quote.clientWidth - b.left - 20) / 2, y = b.top + b.h / 2;
+    x = Math.max(R * 0.6, Math.min(quote.clientWidth - R * 0.6, x));
+    pos = { x: x, y: y };
     quote.style.setProperty("--px", x + "px"); quote.style.setProperty("--py", y + "px");
     read.style.setProperty("--x", (x - read.offsetLeft) + "px"); read.style.setProperty("--y", (y - read.offsetTop) + "px");
-    if (!quote.classList.contains("all")) say(x, y);
+    lines.forEach(function (el, k) { el.classList.toggle("on", k === i && !!Q[k][1]); });
+    if (!quote.classList.contains("all")) say(i);
   }
-  function at(el) { var r = el.getBoundingClientRect(), q = quote.getBoundingClientRect(); return { x: r.left - q.left + Math.min(r.width, 260) / 2 + 40, y: r.top - q.top + r.height / 2 }; }
   size();
   var still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var rest = at(fls[2]); place(rest.x, rest.y);
-  var moved = false;
-  /* one sweep on load: the lens reads down the quote and rests on the big fee */
-  if (!still) {
-    var path = [at(fls[0]), at(fls[1]), at(fls[2])], i = 0, from = { x: pos.x, y: 30 }, t0 = null, dur = 650;
-    place(from.x, from.y);
-    var step = function (ts) {
-      if (moved) return;
-      if (!t0) t0 = ts;
-      var k = Math.min(1, (ts - t0) / dur), e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2, to = path[i];
-      place(from.x + (to.x - from.x) * e, from.y + (to.y - from.y) * e);
-      if (k < 1) return requestAnimationFrame(step);
-      i++; if (i < path.length) { from = { x: pos.x, y: pos.y }; t0 = null; setTimeout(function () { requestAnimationFrame(step); }, 380); }
-    };
-    setTimeout(function () { requestAnimationFrame(step); }, 500);
-  }
+  if (still) quote.classList.add("still");
+  show(flagIdx[2]);
+  /* on its own: one red flag after another, until someone takes over */
+  var auto = null;
+  function stop() { if (auto) { clearInterval(auto); auto = null; } }
+  function next() { show(flagIdx[(cur + 1) % flags]); }
+  if (!still) { show(flagIdx[0]); auto = setInterval(next, 3200); }
+  nextBtn.addEventListener("click", function () { stop(); if (quote.classList.contains("all")) toggleAll(); next(); });
+  /* a mouse can drag; a finger taps a line, so the page still scrolls */
   var drag = false;
   function pt(e) { var q = quote.getBoundingClientRect(); return { x: e.clientX - q.left, y: e.clientY - q.top }; }
-  quote.addEventListener("pointerdown", function (e) { moved = true; drag = true; try { quote.setPointerCapture(e.pointerId); } catch (x) { /* fine */ } var p = pt(e); place(p.x, p.y); });
-  quote.addEventListener("pointermove", function (e) { if (drag || e.pointerType === "mouse") { moved = true; var p = pt(e); place(p.x, p.y); } });
-  quote.addEventListener("pointerup", function () { drag = false; });
+  quote.addEventListener("pointerdown", function (e) { if (e.pointerType === "mouse") { stop(); drag = true; show(lineAt(pt(e).y)); } });
+  quote.addEventListener("pointermove", function (e) { if (drag) show(lineAt(pt(e).y)); });
+  window.addEventListener("pointerup", function () { drag = false; });
+  quote.addEventListener("click", function (e) { stop(); show(lineAt(pt(e).y)); });
   quote.addEventListener("keydown", function (e) {
-    var d = 24, m = { ArrowUp: [0, -d], ArrowDown: [0, d], ArrowLeft: [-d, 0], ArrowRight: [d, 0] }[e.key];
-    if (m) { e.preventDefault(); moved = true; place(pos.x + m[0], pos.y + m[1]); }
+    var m = { ArrowUp: -1, ArrowDown: 1 }[e.key];
+    if (m) { e.preventDefault(); stop(); show(Math.max(0, Math.min(lines.length - 1, lineAt(pos.y) + m))); }
   });
-  window.addEventListener("resize", function () { size(); place(pos.x, pos.y); });
-  all.addEventListener("click", function () {
+  window.addEventListener("resize", function () { size(); show(lineAt(pos.y)); });
+  function toggleAll() {
     var on = quote.classList.toggle("all");
-    all.textContent = on ? "Use the lens again" : "Show everything it found";
+    all.textContent = on ? "Use the lens again" : "Show all " + flags;
     if (on) {
+      stop();
       reading.className = "reading list";
-      reading.innerHTML = Q.filter(function (q) { return q[1]; }).map(function (q) { return "<p><b>" + esc(q[1]) + "</b> <span>" + esc(plain(q[0])) + "</span></p>"; }).join("");
-    } else { last = -2; say(pos.x, pos.y); }
-  });
+      reading.innerHTML = flagIdx.map(function (i) { return "<p><b>" + esc(Q[i][1]) + "</b> <span>" + esc(plain(Q[i][0])) + "</span></p>"; }).join("");
+    } else { last = -2; show(flagIdx[cur]); }
+  }
+  all.addEventListener("click", toggleAll);
 })();
