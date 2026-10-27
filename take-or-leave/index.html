@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Take it or leave it? Is furniture worth moving: free calculator</title>
+<meta name="description" content="Is it worth paying to move a piece of furniture, or cheaper to replace it? Put in your moving quote and what each piece would cost to replace, and see what moving each one really costs. Free, no signup.">
+<link rel="canonical" href="https://packedrabbit.com/take-or-leave/">
+<meta name="theme-color" content="#0F2742">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="Take it or leave it? Know what each piece is worth before you pay to move it">
+<meta property="og:description" content="Two desks you'd replace for $200 may cost more than that to move. A $9,000 bed is worth moving, and worth insuring.">
+<meta property="og:url" content="https://packedrabbit.com/take-or-leave/">
+<meta property="og:image" content="https://packedrabbit.com/img/og-card.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Take it or leave it? by The Packed Rabbit",
+  "url": "https://packedrabbit.com/take-or-leave/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Works out what moving each piece of furniture costs as its share of your moving quote, by the space it takes, and compares it with what replacing it would cost."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Is it worth moving old furniture?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Compare what it costs to move with what it would cost to replace. A piece's share of the moving price is roughly its share of the truck. If replacing it costs less than moving it, and you don't love it, leave it: sell it or donate it before the move." } },
+    { "@type": "Question", "name": "What does basic moving coverage pay if furniture is damaged?",
+      "acceptedAnswer": { "@type": "Answer", "text": "On a move between states, released-value coverage pays 60 cents a pound, not what the piece is worth. For anything valuable, ask the price of Full Value Protection. Source: FMCSA, Your Rights and Responsibilities When You Move." } }
+  ]
+}
+</script>
+<style>
+  .tp { max-width: 680px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .box { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 18px; margin: 16px 0; }
+  .box h2 { font-size: 1.2rem; margin: 0 0 4px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+  .tp label { display: block; font-weight: 700; font-size: .92rem; margin-bottom: 4px; color: var(--ink2); }
+  .tp input, .tp select { width: 100%; box-sizing: border-box; font: inherit; font-size: 1.05rem; min-height: 48px; padding: 8px 12px; border-radius: 12px; border: 2px solid var(--line); background: var(--bg); color: var(--ink); }
+  .rate { margin: 12px 0 0; font-weight: 700; }
+  .piece { border-top: 1px solid var(--line); padding: 14px 0 6px; }
+  .piece:first-of-type { border-top: 0; }
+  .prow { display: grid; grid-template-columns: 1.6fr .7fr 1fr; gap: 10px; align-items: end; }
+  @media (max-width: 520px) { .prow { grid-template-columns: 1fr 1fr; } .prow > div:first-child, .prow .w { grid-column: 1 / -1; } }
+  .tlv { margin: 10px 0 0; padding: 12px 14px; border-radius: 12px; font-size: 1rem; line-height: 1.45; }
+  .tlv b { display: block; font-family: var(--display); font-size: 1.25rem; letter-spacing: -.01em; margin-bottom: 2px; }
+  .tlv.leave { background: #FDECEE; color: #5A0D17; border-left: 5px solid #D7142E; }
+  .tlv.take { background: #E6F6EF; color: #0B4A33; border-left: 5px solid #0A7A52; }
+  .tlv.close { background: #FFF4D6; color: #4A3300; border-left: 5px solid #FFC21A; }
+  .cover { display: block; margin-top: 8px; font-weight: 600; }
+  .rm { min-height: 44px; margin-top: 8px; }
+  .add { min-height: 48px; margin-top: 10px; }
+  .tot { font-size: 1.05rem; margin: 6px 0 0; }
+  .fine2 { font-size: .9rem; color: var(--ink2); }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home">
+    <img src="../img/rabbit.svg" alt="" width="34" height="34">
+    The Packed Rabbit
+  </a>
+</header>
+
+<main class="tp">
+  <h1>Take it or leave it?</h1>
+  <p class="lead">Know what each piece is worth before you pay to move it. Two desks you'd replace for $200 can cost more than that to move. A $9,000 bed is worth moving, and worth insuring.</p>
+
+  <section class="box" aria-labelledby="q-h">
+    <h2 id="q-h">1. Your moving price</h2>
+    <p class="fine2">From your quote. Don't have one yet? Leave the example in, or use <a href="../truck/">What size truck?</a> for the cubic feet.</p>
+    <div class="two">
+      <div><label for="qt">Quote total ($)</label><input id="qt" inputmode="decimal" value="4500"></div>
+      <div><label for="qc">Cubic feet it covers</label><input id="qc" inputmode="decimal" value="760"></div>
+    </div>
+    <p class="rate" id="rate" aria-live="polite"></p>
+  </section>
+
+  <section class="box" aria-labelledby="p-h">
+    <h2 id="p-h">2. The pieces you're not sure about</h2>
+    <p class="fine2">What would it cost to replace, used or new, the way you'd really buy it?</p>
+    <div id="pieces"></div>
+    <button class="btn ghost dark add" type="button" id="addp">Add another piece</button>
+    <p class="tot" id="tot" aria-live="polite"></p>
+  </section>
+
+  <div class="box" style="border-left:4px solid var(--rose)">
+    <h2>Before you pay to move anything valuable</h2>
+    <p>On a move between states, basic coverage (released value) pays 60 cents a pound, not what a piece is worth. For anything you'd hate to lose, ask the price of Full Value Protection, in writing. <span class="fine2">Source: FMCSA, Your Rights and Responsibilities When You Move.</span></p>
+    <a class="btn tape" href="../#check">Check your quote's coverage, free</a>
+  </div>
+
+  <p class="fine2">How this works: a piece's share of your moving price is its share of the space you're paying for. Moves between states are often priced by weight, not space, so heavy pieces can cost more than shown. It's a guide to help you decide, not a quote.</p>
+
+  <div class="box edge" style="border-left:4px solid var(--tape)">
+    <h2>Leaving it? The app helps it go.</h2>
+    <p class="muted">Mark each piece to sell, donate or move, track what you got for it, and see the money it saved you. Free, no account.</p>
+    <a class="btn tape" href="../app/">Start managing my move, free</a>
+  </div>
+
+  <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Made by someone moving, for people moving. Not a moving company, broker or lead site: we never sell your details and never take a commission from movers, and nothing you type here is sent to us.</p>
+</main>
+
+<footer class="wrap">
+  <a href="../privacy.html">Privacy</a>
+  <a href="../terms.html">Terms and refunds</a>
+  <a href="../answers/">What I wish I'd known</a>
+  <a href="../fit/">Will my couch fit?</a>
+  <a href="../truck/">What size truck?</a>
+  <a href="../boxes/">How many boxes?</a>
+  <a href="../diy-cost/">Cost to move yourself</a>
+  <a href="../mover-check/">Check your mover</a>
+  <a href="../movers-vs-brokers/">Mover or broker?</a>
+</footer>
+
+<script>
+(function(){
+  /* owner, 27 Oct: "Take it or leave it. Know its worth. Pay to move two desks
+     or one bed? The two are replaced for $200, the bed $9,000."
+     Space per piece matches the truck tool. Nothing leaves this page. */
+  var KINDS=[["bed","Bed with mattress",60],["sofa","Sofa",60],["sectional","Sectional sofa",120],["chair","Armchair or recliner",20],["dresser","Dresser",35],["desk","Desk",25],["dine","Dining table",25],["chairs","Dining or desk chair",5],["shelf","Bookcase or shelves",20],["tbl","Coffee or side table",10],["night","Nightstand",5],["tv","TV with stand",15],["fridge","Refrigerator",45],["wd","Washer or dryer",25],["other","Something else (about 20 cu ft)",20]];
+  var list=[{k:"desk",n:2,r:200},{k:"bed",n:1,r:9000}];
+  var $=function(id){return document.getElementById(id);};
+  var num=function(v){return parseFloat(String(v).replace(/[$,\s]/g,""))||0;};
+  var money=function(n){return "$"+Math.round(n).toLocaleString("en-US");};
+  var esc=function(x){return String(x).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});};
+  function rate(){var t=num($("qt").value),c=num($("qc").value);return t>0&&c>0?t/c:0;}
+  function draw(){
+    var r=rate();
+    $("rate").textContent=r?("That's about "+money(r*10)+" for every 10 cubic feet you move."):"Put in your quote total and its cubic feet.";
+    var html="", save=0, moveAll=0;
+    list.forEach(function(p,i){
+      var k=KINDS.filter(function(x){return x[0]===p.k;})[0]||KINDS[KINDS.length-1];
+      var cu=k[2]*(p.n||1), cost=r*cu, rep=num(p.r);
+      var v="";
+      if(r&&rep>0){
+        if(rep<cost){ v='<div class="tlv leave"><b>Leave it</b>Moving '+(p.n>1?"them":"it")+' costs about '+money(cost)+'. Replacing costs '+money(rep)+'. Sell or donate '+(p.n>1?"them":"it")+' and keep about '+money(cost-rep)+'.</div>'; save+=cost-rep; }
+        else if(rep<cost*1.5){ v='<div class="tlv close"><b>Close call</b>Moving costs about '+money(cost)+'; replacing, '+money(rep)+'. Count the time to shop and set up, and what you could sell '+(p.n>1?"them":"it")+' for.</div>'; }
+        else { v='<div class="tlv take"><b>Take it</b>Moving costs about '+money(cost)+', far less than the '+money(rep)+' to replace.'+(rep>=1000?'<span class="cover">Basic coverage pays 60 cents a pound, not '+money(rep)+'. Ask the price of Full Value Protection.</span>':'')+'</div>'; }
+        moveAll+=cost;
+      }
+      html+='<div class="piece"><div class="prow">'+
+        '<div><label for="k'+i+'">Piece</label><select id="k'+i+'" data-i="'+i+'" data-f="k">'+KINDS.map(function(x){return '<option value="'+x[0]+'"'+(x[0]===p.k?" selected":"")+'>'+esc(x[1])+'</option>';}).join("")+'</select></div>'+
+        '<div><label for="n'+i+'">How many</label><input id="n'+i+'" data-i="'+i+'" data-f="n" inputmode="numeric" value="'+(p.n||1)+'"></div>'+
+        '<div class="w"><label for="r'+i+'">To replace, all of them ($)</label><input id="r'+i+'" data-i="'+i+'" data-f="r" inputmode="decimal" value="'+(p.r||"")+'" placeholder="$"></div>'+
+        '</div>'+v+(list.length>1?'<button class="btn ghost dark rm" type="button" data-rm="'+i+'">Remove this piece</button>':'')+'</div>';
+    });
+    $("pieces").innerHTML=html;
+    $("tot").textContent=save>0?("Leaving what's marked Leave it keeps about "+money(save)+" in your pocket."):"";
+  }
+  $("pieces").addEventListener("change",function(e){var t=e.target,i=+t.getAttribute("data-i"),f=t.getAttribute("data-f");if(!f)return;list[i][f]=f==="k"?t.value:num(t.value);draw();var el=$(t.id);if(el)el.focus();});
+  $("pieces").addEventListener("click",function(e){var i=e.target.getAttribute("data-rm");if(i===null)return;list.splice(+i,1);draw();});
+  $("addp").addEventListener("click",function(){list.push({k:"dresser",n:1,r:0});draw();var s=$("k"+(list.length-1));if(s)s.focus();});
+  ["qt","qc"].forEach(function(id){$(id).addEventListener("input",draw);});
+  draw();
+})();
+</script>
+<script src="../nav.js" defer></script>
+</body>
+</html>
