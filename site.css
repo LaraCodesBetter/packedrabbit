@@ -412,3 +412,11 @@ html.embed h1{font-size:clamp(1.5rem,5vw,2.1rem) !important; margin-top:4px !imp
 .qcta{border-left:4px solid var(--rose)}
 .qmore summary{cursor:pointer; font-weight:800; min-height:44px; display:flex; align-items:center; color:#0F2742; text-decoration:underline; text-underline-offset:3px}
 @media (max-width:600px){ .hero .lede{display:none} .hero .fine{margin-top:12px} .qcheck{margin-top:78px} .hero{padding-top:48px} }
+.qsub{margin:-6px 0 12px; color:#4A5468; font-weight:600}
+.qtitle{max-width:22ch}
+.diy{margin-top:14px; padding:16px 18px; border:2px solid rgba(255,255,255,.35); border-radius:16px; color:#fff}
+.diy p{margin:0 0 12px; color:rgba(255,255,255,.9)}
+.diy b{color:#fff}
+.diybtns{display:flex; flex-wrap:wrap; gap:10px}
+.diybtns .btn{min-height:48px}
+.diybtns .btn.ghost{color:#fff}
