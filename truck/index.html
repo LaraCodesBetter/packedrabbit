@@ -53,8 +53,8 @@
   .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
   .homes { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 16px 0 6px; }
   .homes button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 4px; }
-  .homes button.on { border-color: var(--ink); background: var(--ink); color: var(--bg); }
-  .stage { position: sticky; top: 0; z-index: 2; background: #0F2742; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .homes button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #0A1C33; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
   .stage svg { display: block; width: 100%; height: auto; }
   .say { padding: 4px 18px 16px; color: #fff; }
   .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.5vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #7FF5C6; }
@@ -236,16 +236,16 @@
   function paint(truck, need, furnCu, over) {
     var s = $("svg"); s.textContent = "";
     var X = 22, Y = 38, BW = 330, BH = 120;
-    el("rect", { width: 500, height: 222, fill: "#0F2742" }, s);
-    el("rect", { x: 0, y: 198, width: 500, height: 24, fill: "#132A47" }, s);
+    el("rect", { width: 500, height: 222, fill: "#0A1C33" }, s);
+    el("rect", { x: 0, y: 198, width: 500, height: 24, fill: "#11284A" }, s);
     el("rect", { x: X - 5, y: Y - 5, width: BW + 10, height: BH + 10, rx: 10, fill: "#13304F", stroke: "#E9EEF5", "stroke-width": 3 }, s);
-    el("path", { d: "M" + (X + BW + 10) + " " + (Y + 34) + "h70l36 46v66h-106z", fill: "#E9EEF5" }, s);
-    el("path", { d: "M" + (X + BW + 22) + " " + (Y + 46) + "h50l26 34h-76z", fill: "#0F2742" }, s);
+    el("path", { d: "M" + (X + BW + 10) + " " + (Y + 34) + "h70l36 46v66h-106z", fill: "#1F6BFF" }, s);
+    el("path", { d: "M" + (X + BW + 22) + " " + (Y + 46) + "h50l26 34h-76z", fill: "#9CC0FF" }, s);
     [X + 60, X + 260, X + BW + 80].forEach(function (cx) { el("circle", { cx: cx, cy: 180, r: 17, fill: "#1A2433" }, s); el("circle", { cx: cx, cy: 180, r: 6, fill: "#C9CED6" }, s); });
     var full = Math.min(need, truck.cu), fw = Math.min(BW, BW * furnCu / truck.cu), tw = BW * full / truck.cu;
     /* fill from the cab end (right) toward the doors (left) */
     var right = X + BW;
-    if (fw > 0) el("rect", { x: right - fw, y: Y, width: fw, height: BH, fill: "#8CC8D4" }, s);
+    if (fw > 0) el("rect", { x: right - fw, y: Y, width: fw, height: BH, fill: "#5B8CFF" }, s);
     if (tw > fw) {
       var bx = right - tw, bw = tw - fw;
       el("rect", { x: bx, y: Y, width: bw, height: BH, fill: "#C9A27A" }, s);
@@ -256,7 +256,7 @@
     if (over) {
       for (var i = 0; i < 4; i++) el("rect", { x: 2 + (i % 2) * 9, y: 162 - Math.floor(i / 2) * 18, width: 8, height: 16, rx: 2, fill: "#FF5C76" }, s);
     }
-    var k1 = el("text", { x: X, y: 214, fill: "#8CC8D4", "font-size": 12, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k1.textContent = "teal: furniture";
+    var k1 = el("text", { x: X, y: 214, fill: "#9CC0FF", "font-size": 12, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k1.textContent = "blue: furniture";
     var k2 = el("text", { x: X + 110, y: 214, fill: "#E2C29E", "font-size": 12, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k2.textContent = "kraft: boxes";
   }
   draw();
