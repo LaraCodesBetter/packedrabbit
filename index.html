@@ -122,9 +122,23 @@
   <div class="do">
     <div class="acts">
       <a class="btn navy" href="#check">Check my quote</a>
-      <a class="btn ghost" href="app/">Start managing my move</a>
+      <a class="btn ghost" href="#guide">Show me where to start</a>
     </div>
     <p class="terms">Plan your move without the spam calls. Free, no account. <a href="price.html">The details</a></p>
+  </div>
+</section>
+
+<section class="band" id="guide" aria-labelledby="gd-h">
+  <div class="wrap">
+    <h2 id="gd-h">Where are you in your move?</h2>
+    <p class="lead">Pick one. You'll see the next three steps, and the button that does each one.</p>
+    <div class="gchips" role="group" aria-label="Where you are in your move"></div>
+    <ol class="gsteps">
+      <li><div><b>Put in your moving date</b><span>Everything counts back from that one day: what to do this week, and when to book.</span></div><a class="btn ghost small" href="app/?stage=new">Start my plan</a></li>
+      <li><div><b>Measure the big pieces</b><span>The sofa, the bed, the dresser. Find out now what won't fit through the new door.</span></div><a class="btn ghost small" href="fit/">Will it fit?</a></li>
+      <li><div><b>Decide: movers or a truck</b><span>See what each would cost for your home, and which pieces are worth moving at all.</span></div><a class="btn ghost small" href="diy-cost/">Compare the costs</a></li>
+    </ol>
+    <div class="gend"><a class="btn navy gcta" href="app/?stage=new">Do all of this in the app, free</a><span>No account. It stays on your phone.</span></div>
   </div>
 </section>
 
@@ -376,6 +390,7 @@
 </script>
 <script src="quote-check.js" defer></script>
 <script src="lens.js" defer></script>
+<script src="guide.js" defer></script>
 <script>
 /* owner, 27 Oct: the homepage quote checker. The reader is the app's own
    (quote-check.js, generated from it). Nothing leaves this page. */

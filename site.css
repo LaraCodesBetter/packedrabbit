@@ -598,3 +598,17 @@ main > section.band:first-of-type{border-top:0}
 .deskfine .count{font-weight:700; color:var(--flag)}
 .doc.read .l.f{color:var(--ink)} .doc.read .l.f.on{color:var(--flag)}
 /* no zoom, so the lens is just the monocle ring over the line it is reading */ .doc.read{display:none}
+/* "Where are you in your move?" (owner, 27 Oct): take people by the hand */
+.gchips{display:flex; flex-wrap:wrap; gap:10px; margin:22px 0 8px}
+.gchips button{min-height:48px; padding:0 18px; border-radius:999px; border:1.5px solid var(--line); background:var(--panel); color:var(--ink); font:inherit; font-weight:700; font-size:1rem; cursor:pointer}
+.gchips button[aria-pressed="true"]{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.gsteps{list-style:none; counter-reset:g; padding:0; margin:18px 0 0; display:grid; gap:0}
+.gsteps li{counter-increment:g; display:grid; grid-template-columns:44px 1fr; gap:6px 16px; align-items:start; padding:20px 0; border-top:1px solid var(--line)}
+.gsteps li::before{content:counter(g); width:40px; height:40px; border-radius:50%; background:var(--ink); color:var(--bg); display:grid; place-items:center; font-weight:800}
+.gsteps li > div{min-width:0}
+.gsteps b{display:block; font-size:1.15rem; letter-spacing:-.01em}
+.gsteps span{display:block; color:var(--ink2); margin-top:2px}
+.gsteps .btn{grid-column:2; justify-self:start; margin-top:8px}
+@media (min-width:860px){ .gsteps li{grid-template-columns:44px 1fr auto; align-items:center} .gsteps .btn{grid-column:3; margin-top:0} }
+.gend{display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; margin-top:22px; padding-top:22px; border-top:1px solid var(--line)}
+.gend span{color:var(--ink2); font-size:.95rem}
