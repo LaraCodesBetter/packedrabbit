@@ -420,3 +420,11 @@ html.embed h1{font-size:clamp(1.5rem,5vw,2.1rem) !important; margin-top:4px !imp
 .diybtns{display:flex; flex-wrap:wrap; gap:10px}
 .diybtns .btn{min-height:48px}
 .diybtns .btn.ghost{color:#fff}
+
+/* owner, 27 Oct: "it offers so much more" */
+.wholelist{list-style:none; padding:0; margin:22px 0 0; display:grid; gap:2px 28px}
+@media (min-width:760px){ .wholelist{grid-template-columns:1fr 1fr} }
+.wholelist li{padding:16px 0 16px 18px; border-left:4px solid var(--tape); margin:6px 0}
+.wholelist h3{margin:0 0 4px; font-size:1.15rem}
+.wholelist p{margin:0 0 6px; color:var(--ink2)}
+.wholelist a{font-weight:800; display:inline-flex; align-items:center; min-height:44px}
