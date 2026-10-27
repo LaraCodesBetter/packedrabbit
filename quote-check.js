@@ -15,7 +15,11 @@ function parseQuote(raw, myCube) {
 
   /* the most specific total wins: a quote can list a "Total Tariff" before
      the "Total Moving Estimate" you'd actually pay (owner's broker quote did) */
-  out.total = near(/total\s+(?:moving\s+|binding\s+)?(?:estimate|move\s+cost|price)\b/i, 120)
+  /* owner's bill of lading, 27 Oct: "TOTAL CHARGES: $3778.40" sat below a
+     $35,784 coverage amount; a labelled total with a colon wins */
+  const labelled = t.match(/total\s+(?:estimated\s+)?(?:charges?|cost|price|due)\s*:\s*\$\s?(\d[\d,]*(?:\.\d{2})?)/i);
+  out.total = (labelled ? num(labelled[1]) : 0)
+    || near(/total\s+(?:moving\s+|binding\s+)?(?:estimate|move\s+cost|price)\b/i, 120)
     || near(/(grand\s+total|total\s+(?:estimate|cost|price|charges?|due)|estimated\s+total|total)\b/i, 120)
     || near(/(estimate|quote|price)\b/i, 60)
     || (dollars.length ? Math.max(...dollars.map((d) => d.v)) : 0);
@@ -32,6 +36,8 @@ function parseQuote(raw, myCube) {
   out.broker = /\bbroker(age)?\b|not a motor carrier|carrier (will be|is) assigned|network of (carriers|movers)|we (arrange|coordinate) (your|the) (move|carrier)|third[\s-]party carrier/i.test(t);
   const dep = t.match(/deposit[^$%\n]{0,40}?(?:\$\s?(\d[\d,]*(?:\.\d{2})?)|\b(\d{1,3})\s?%)/i);
   if (dep) { if (dep[1]) out.deposit = num(dep[1]); if (dep[2]) out.depositPct = num(dep[2]); }
+  const depBefore = t.match(/(\d{1,3})(?:\s*(?:-|to)\s*(\d{1,3}))?\s?%\s+deposit(?!\s*(?:refund|return|back))/i);
+  if (depBefore && !out.depositPct) out.depositPct = num(depBefore[2] || depBefore[1]);
   const pay = t.match(/(?:customer\s+payment|due\s+(?:at|upon)\s+booking|payment\s+(?:due\s+)?today)[^$\n]{0,40}\$\s?(\d[\d,]*(?:\.\d{2})?)/i);
   if (pay && !out.deposit) out.deposit = num(pay[1]);
   if (out.deposit && out.total) out.depositPct = Math.round((out.deposit / out.total) * 100);
@@ -78,7 +84,7 @@ function parseQuote(raw, myCube) {
   if (out.rights) F("good", "Mentions the Rights and Responsibilities booklet — interstate movers are required to give it to you.");
 
   /* owner, 19–20 Oct: what a real broker quote hid. Each of these was on it. */
-  const feeLine = t.match(/((?:binding\s+estimate|estimate|booking|reservation|administrative|admin|processing|service|dispatch|coordination)\s+fee)[^$\n]{0,40}\$\s?(\d[\d,]*(?:\.\d{2})?)/i);
+  const feeLine = [...t.matchAll(/((?:binding\s+estimate|estimate|booking|reservation|administrative|admin|processing|service|dispatch|coordination)\s+fee)[^$\n]{0,90}\$\s?(\d[\d,]*(?:\.\d{2})?)/gi)].find((m) => num(m[2]) > 0);
   if (feeLine) F("bad", `A "${feeLine[1].replace(/\s+/g, " ")}" of $${num(feeLine[2]).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}. That's a charge for paperwork, not for moving anything. Ask what it is for. If it's wrong, have it corrected. If you don't agree with it, ask them to waive it.`);
   if (/discount/i.test(t) && dollars.length > 3) F("warn", "Discounts are listed. Add every line up yourself: a fee hidden between discounts can cancel them out.");
   const days = t.match(/(\d{1,2}|thirty|twenty|fifteen|ten)\s+business\s+(?:week)?days?/i);
