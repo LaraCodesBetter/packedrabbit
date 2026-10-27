@@ -4,14 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>The Packed Rabbit: the moving app that's on your side</title>
-<meta name="description" content="Moving yourself or hiring a pro, The Packed Rabbit keeps every box, date and dollar organized, and reads any mover's quote for hidden fees, big deposits, weak coverage and broker signs before you pay. Free, no account, and no spam calls.">
+<meta name="description" content="Moving yourself or hiring a pro, The Packed Rabbit keeps every box, date and dollar organized, and reads any mover's quote for hidden fees, big deposits, weak coverage and broker signs before you pay. Free, no account, nobody calls you.">
 <link rel="canonical" href="https://packedrabbit.com/">
-<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0B1626" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#0F2742">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Packed Rabbit">
 <meta property="og:title" content="The moving app that's on your side">
-<meta property="og:description" content="Paste a mover's quote. See what it's hiding before you pay. Free, no account, and no spam calls.">
+<meta property="og:description" content="Paste a mover's quote. See what it's hiding before you pay. Free, no account, nobody calls you.">
 <meta property="og:url" content="https://packedrabbit.com/">
 <meta property="og:image" content="https://packedrabbit.com/img/og-quote.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -101,69 +100,38 @@
 </header>
 
 <main>
-<section class="wrap lhero" aria-labelledby="h1">
-  <div class="say">
-    <h1 id="h1">Read the quote before you sign it.</h1>
-    <p class="sub">The moving app that's on your side. It shows you what a mover's quote is hiding, then keeps every box, date and dollar organized.</p>
-  </div>
-  <div class="desk">
-    <div class="quote" id="lensq" tabindex="0" role="img" aria-label="A sample mover's quote with six red flags. Tap a line, or use the arrow keys, to read it.">
-      <div class="doc base" id="lbase"></div>
-      <div class="doc read" id="lread" aria-hidden="true"></div>
-      <div class="lens" id="lens"></div>
-    </div>
-    <div class="reading" id="reading" aria-live="off"><span class="dot"></span><div><b>Move the lens over the quote.</b><span>It shows what each line is really saying.</span></div></div>
-    <div class="deskbar">
-      <button class="btn ghost small" id="lnext" type="button">Next red flag</button>
-      <button class="linkbtn" id="lall" type="button">Show all 6</button>
-    </div>
-    <p class="deskfine">A made-up quote, built from real ones. <span class="count" id="lcount"></span></p>
-  </div>
-  <div class="do">
-    <div class="acts">
-      <a class="btn navy" href="#check">Check my quote</a>
-      <a class="btn ghost" href="#guide">Show me where to start</a>
-    </div>
-    <p class="terms">Plan your move without the spam calls. Free, no account. <a href="price.html">The details</a></p>
-  </div>
-</section>
+<div class="wrap">
+  <div class="hero">
+    <div class="hero-grid">
+      <div>
+        <h1>The moving app that's on your side.</h1>
+        <p class="hero-2">Moving yourself or hiring a pro, it keeps every box, date and dollar organized.</p>
+        <p class="lede">And before you pay anyone, it reads their quote for what it's hiding: hidden fees, a deposit that's too big, the weakest coverage already ticked, a broker posing as a mover.</p>
+        <p class="fine">Free, no account, and nobody calls you. <a href="price.html" style="color:#FFC21A">The details</a> · <a href="business/" style="color:#FFC21A">For business</a></p>
+      </div>
 
-<section class="band" id="guide" aria-labelledby="gd-h">
-  <div class="wrap">
-    <h2 id="gd-h">Where are you in your move?</h2>
-    <p class="lead">Pick one. You'll see the next three steps, and the button that does each one.</p>
-    <div class="gchips" role="group" aria-label="Where you are in your move"></div>
-    <ol class="gsteps">
-      <li><div><b>Put in your moving date</b><span>Everything counts back from that one day: what to do this week, and when to book.</span></div><a class="btn ghost small" href="app/?stage=new">Start my plan</a></li>
-      <li><div><b>Measure the big pieces</b><span>The sofa, the bed, the dresser. Find out now what won't fit through the new door.</span></div><a class="btn ghost small" href="fit/">Will it fit?</a></li>
-      <li><div><b>Decide: movers or a truck</b><span>See what each would cost for your home, and which pieces are worth moving at all.</span></div><a class="btn ghost small" href="diy-cost/">Compare the costs</a></li>
-    </ol>
-    <div class="gend"><a class="btn navy gcta" href="app/?stage=new">Do all of this in the app, free</a><span>No account. It stays on your phone.</span></div>
-    <p class="gpro">Move people for a living? Agents, move managers and relocation teams: <a href="business/">see the pro version</a>.</p>
-  </div>
-</section>
-
-<section class="band" id="check" aria-labelledby="qc-h">
-  <div class="wrap own">
-    <div>
-      <h2 id="qc-h">Now try yours.</h2>
-      <p class="lead">Copy the text from the email or PDF and paste it here. It's read on this page. Nothing you paste is sent anywhere.</p>
-      <div class="diy">
-        <p><b>Moving yourself?</b> Start with your boxes, the truck size and what fits through the door.</p>
-        <div class="diybtns"><a class="btn ghost" href="truck/">What size truck?</a></div>
+      <div class="qcheck" id="check">
+        <button class="mono-peek" type="button" aria-label="Tap the rabbit"><svg class="mono" viewBox="0 0 100 100" aria-hidden="true"><g class="ears"><path d="M36 42C32 30 30 16 34 9c4-6 9-1 10 7 1 7 1 18 0 25" fill="#FFFFFF" stroke="#0F2742" stroke-width="2.6" stroke-linejoin="round"/><path d="M58 41c3-12 7-24 12-29 5-4 8 2 6 10-2 8-7 17-11 22" fill="#FFFFFF" stroke="#0F2742" stroke-width="2.6" stroke-linejoin="round"/><path d="M37 36c-2-8-3-16-1-20" stroke="#F0245A" stroke-width="2" stroke-linecap="round" opacity=".45" fill="none"/><path d="M63 34c2-7 4-14 7-17" stroke="#F0245A" stroke-width="2" stroke-linecap="round" opacity=".45" fill="none"/></g><ellipse cx="50" cy="62" rx="26" ry="23" fill="#FFFFFF" stroke="#0F2742" stroke-width="2.8"/><circle cx="39" cy="58" r="10.5" fill="#07705F" opacity=".07"/><circle cx="39" cy="58" r="10.5" fill="none" stroke="#07705F" stroke-width="2.6"/><path d="M30 65c-4 6-5 13-3 19" stroke="#07705F" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="39" cy="58" r="3.2" fill="#0F2742"/><circle cx="62" cy="58" r="3.2" fill="#0F2742"/><path d="M47 69h6l-3 3.5z" fill="#F0245A" stroke="#0F2742" stroke-width="1.4" stroke-linejoin="round"/><path d="M44 71H30M44 74H32M56 71h14M56 74h12" stroke="#4A5568" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+        <form class="qpaper" id="qform" aria-labelledby="qc-h">
+          <h2 id="qc-h" class="qtitle">Hiring a mover? Check the quote, free</h2>
+          <p class="qsub">Paste it. See what it's hiding before you pay.</p>
+          <label class="sr" for="qtext">Paste the quote's text</label>
+          <textarea id="qtext" rows="7" placeholder="Paste the text of a mover's quote or estimate here. Copy it from the email or PDF."></textarea>
+          <div class="qbtns">
+            <button class="btn tape" type="submit">Check this quote</button>
+            <button class="btn ghost dark" type="button" id="qsample">Try a sample quote</button>
+          </div>
+          <p class="qprivate">Read right here on this page. Nothing you paste is sent anywhere.</p>
+          <div id="qout" aria-live="polite"></div>
+        </form>
+        <div class="diy">
+          <p><b>Moving yourself?</b> Start with your boxes, the truck size and what fits through the door.</p>
+          <div class="diybtns"><a class="btn tape" href="app/">Start managing my move, free</a><a class="btn ghost" href="truck/">What size truck?</a></div>
+        </div>
       </div>
     </div>
-    <form class="qpaper" id="qform" aria-labelledby="qc-h">
-      <label class="sr" for="qtext">Paste the quote's text</label>
-      <textarea id="qtext" rows="7" placeholder="Paste a mover's quote or estimate"></textarea>
-      <div class="qbtns">
-        <button class="btn navy" type="submit">Check this quote</button>
-        <button class="btn ghost" type="button" id="qsample">Try the sample</button>
-      </div>
-      <div id="qout" aria-live="polite"></div>
-    </form>
   </div>
-</section>
+</div>
 
 <div class="wrap"><ul class="trust" aria-label="What you get">
   <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>No account</li>
@@ -176,7 +144,7 @@
   <div class="wrap">
     <h2 id="pr-h">Made by someone who was moving, not by a moving company.</h2>
     <ul class="promises">
-      <li><b>We don't sell your number,</b><span>so you can plan your move without the spam calls.</span></li>
+      <li><b>We don't sell your number,</b><span>so nobody calls you about your move.</span></li>
       <li><b>we don't take a cut from movers,</b><span>so we work for you, not for them.</span></li>
       <li><b>and your list stays on your phone.</b><span>No account. We never receive it.</span></li>
     </ul>
@@ -207,13 +175,13 @@
     <h2 id="sh-h">Half a minute each.</h2>
     <p class="lead muted">What we learned the hard way, so you don't have to. Tap one for sound.</p>
     <div class="shortrow">
-      <figure><video muted playsinline loop controls preload="none" poster="social/one-quote-forty-calls.jpg?v=265" aria-label="One moving quote, forty phone calls"><source src="social/one-quote-forty-calls.mp4?v=265" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/one-quote-forty-calls.vtt?v=265"></video><figcaption>One quote, forty calls</figcaption></figure>
-      <figure><video muted playsinline loop controls preload="none" poster="social/he-wouldnt-let-me-hang-up.jpg?v=265" aria-label="The mover wouldn't let me hang up"><source src="social/he-wouldnt-let-me-hang-up.mp4?v=265" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/he-wouldnt-let-me-hang-up.vtt?v=265"></video><figcaption>He wouldn't let me hang up</figcaption></figure>
-      <figure><video muted playsinline loop controls preload="none" poster="social/the-2000-fee-for-nothing.jpg?v=265" aria-label="The $2,000 fee for nothing"><source src="social/the-2000-fee-for-nothing.mp4?v=265" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/the-2000-fee-for-nothing.vtt?v=265"></video><figcaption>The $2,000 fee for nothing</figcaption></figure>
-      <figure><video muted playsinline loop controls preload="none" poster="social/things-they-said-on-the-phone.jpg?v=265" aria-label="Things moving brokers said on the phone"><source src="social/things-they-said-on-the-phone.mp4?v=265" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/things-they-said-on-the-phone.vtt?v=265"></video><figcaption>Things they said on the phone</figcaption></figure>
-      <figure><video muted playsinline loop controls preload="none" poster="social/nobody-called-back.jpg?v=265" aria-label="Nobody called back"><source src="social/nobody-called-back.mp4?v=265" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/nobody-called-back.vtt?v=265"></video><figcaption>Nobody called back</figcaption></figure>
-      <figure><video muted playsinline loop controls preload="none" poster="social/mover-or-broker.jpg?v=265" aria-label="Mover or broker?"><source src="social/mover-or-broker.mp4?v=265" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/mover-or-broker.vtt?v=265"></video><figcaption>Mover or broker?</figcaption></figure>
-      <figure><video muted playsinline loop controls preload="none" poster="social/the-truck-is-two-days-early.jpg?v=265" aria-label="The truck is two days early"><source src="social/the-truck-is-two-days-early.mp4?v=265" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/the-truck-is-two-days-early.vtt?v=265"></video><figcaption>The truck is two days early</figcaption></figure>
+      <figure><video muted playsinline loop controls preload="none" poster="social/one-quote-forty-calls.jpg?v=258" aria-label="One moving quote, forty phone calls"><source src="social/one-quote-forty-calls.mp4?v=258" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/one-quote-forty-calls.vtt?v=258"></video><figcaption>One quote, forty calls</figcaption></figure>
+      <figure><video muted playsinline loop controls preload="none" poster="social/he-wouldnt-let-me-hang-up.jpg?v=258" aria-label="The mover wouldn't let me hang up"><source src="social/he-wouldnt-let-me-hang-up.mp4?v=258" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/he-wouldnt-let-me-hang-up.vtt?v=258"></video><figcaption>He wouldn't let me hang up</figcaption></figure>
+      <figure><video muted playsinline loop controls preload="none" poster="social/the-2000-fee-for-nothing.jpg?v=258" aria-label="The $2,000 fee for nothing"><source src="social/the-2000-fee-for-nothing.mp4?v=258" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/the-2000-fee-for-nothing.vtt?v=258"></video><figcaption>The $2,000 fee for nothing</figcaption></figure>
+      <figure><video muted playsinline loop controls preload="none" poster="social/things-they-said-on-the-phone.jpg?v=258" aria-label="Things moving brokers said on the phone"><source src="social/things-they-said-on-the-phone.mp4?v=258" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/things-they-said-on-the-phone.vtt?v=258"></video><figcaption>Things they said on the phone</figcaption></figure>
+      <figure><video muted playsinline loop controls preload="none" poster="social/nobody-called-back.jpg?v=258" aria-label="Nobody called back"><source src="social/nobody-called-back.mp4?v=258" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/nobody-called-back.vtt?v=258"></video><figcaption>Nobody called back</figcaption></figure>
+      <figure><video muted playsinline loop controls preload="none" poster="social/mover-or-broker.jpg?v=258" aria-label="Mover or broker?"><source src="social/mover-or-broker.mp4?v=258" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/mover-or-broker.vtt?v=258"></video><figcaption>Mover or broker?</figcaption></figure>
+      <figure><video muted playsinline loop controls preload="none" poster="social/the-truck-is-two-days-early.jpg?v=258" aria-label="The truck is two days early"><source src="social/the-truck-is-two-days-early.mp4?v=258" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/the-truck-is-two-days-early.vtt?v=258"></video><figcaption>The truck is two days early</figcaption></figure>
     </div>
     <div class="cta2"><a class="btn tape" href="mover-check/">Check a mover before you pay</a><a class="btn ghost dark" href="movers-vs-brokers/">All the warning signs</a></div>
     <p class="muted" style="margin-top:14px">Plus <a href="tips/">46 short moving tips</a>, each with its own page to share.</p>
@@ -228,14 +196,14 @@
         <div class="fit-stage">
           <svg id="fit-svg" viewBox="0 0 500 400" role="img" aria-labelledby="fit-says">
             <defs>
-              <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="4" height="8" fill="rgba(215,25,60,.45)"/></pattern>
+              <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="4" height="8" fill="rgba(255,92,118,.75)"/></pattern>
               <clipPath id="outside"><path id="outside-path" d=""/></clipPath>
             </defs>
-            <rect x="0" y="0" width="500" height="400" style="fill:var(--mist)"/>
-            <rect x="0" y="362" width="500" height="38" style="fill:var(--line)"/>
+            <rect x="0" y="0" width="500" height="400" fill="#0A1C33"/>
+            <rect x="0" y="362" width="500" height="38" fill="#11284A"/>
             <g id="frame"></g>
             <g id="piece"></g>
-            <g id="dims" font-family="Atkinson Mono,ui-monospace,Menlo,monospace" font-size="15" font-weight="700"></g>
+            <g id="dims" font-family="ui-monospace,Menlo,monospace" font-size="15" font-weight="700"></g>
           </svg>
         </div>
         <div class="verdict" id="fit-says" aria-live="polite"></div>
@@ -390,8 +358,6 @@
 })();
 </script>
 <script src="quote-check.js" defer></script>
-<script src="lens.js" defer></script>
-<script src="guide.js" defer></script>
 <script>
 /* owner, 27 Oct: the homepage quote checker. The reader is the app's own
    (quote-check.js, generated from it). Nothing leaves this page. */
