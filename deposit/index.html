@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>When is my security deposit due back? Deadline by state, free</title>
+<meta name="description" content="Pick your state and the day you moved out, and see the date your landlord has to return your security deposit or send a list of what they kept. Every state and D.C., with the law cited. Free, no signup.">
+<link rel="canonical" href="https://packedrabbit.com/deposit/">
+<meta name="theme-color" content="#0F2742">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="When is my security deposit due back?">
+<meta property="og:description" content="The exact date your landlord has to return your deposit, for every state, with the law cited.">
+<meta property="og:url" content="https://packedrabbit.com/deposit/">
+<meta property="og:image" content="https://packedrabbit.com/img/og-card.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "When is my security deposit due back? by The Packed Rabbit",
+  "url": "https://packedrabbit.com/deposit/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Works out the date a landlord must return a residential security deposit, or send an itemized list of deductions, from the state and the move-out date. Covers every state and the District of Columbia, each with its statute cited and linked to an official government source. Also writes a short letter asking for the deposit. Not legal advice; laws change."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How long does a landlord have to return a security deposit?",
+      "acceptedAnswer": { "@type": "Answer", "text": "It depends on the state. Most states set between 14 and 45 days, a few allow up to 60, and Louisiana says one month. For example: New York, Hawaii, Nebraska and Vermont 14 days; California, Minnesota and South Dakota 21 days; Texas, Washington, Ohio and Pennsylvania 30 days; Virginia, Maryland and Indiana 45 days; Arkansas and West Virginia 60 days. Laws change, so check the current law cited for your state." } },
+    { "@type": "Question", "name": "When does the deposit clock start?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Usually when the lease ends and you hand back the home and keys, not when you move your things out. Some states start it only once the landlord has your forwarding address in writing (for example Texas, Minnesota, Iowa and South Dakota), and a few only once you ask for the deposit (for example Arizona, Kansas and Oklahoma)." } },
+    { "@type": "Question", "name": "What if my landlord misses the deadline?",
+      "acceptedAnswer": { "@type": "Answer", "text": "In many states a landlord who misses the deadline loses the right to keep any of the deposit, and a landlord who keeps it in bad faith can owe two or three times the amount wrongly kept. Send a short letter asking for the deposit or the itemized list, keep a copy, and if that doesn't work, small claims court is the usual next step." } },
+    { "@type": "Question", "name": "Do I have to give my landlord a forwarding address?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Give it in writing either way, and keep a copy. In several states the deadline or your right to extra damages depends on it, including Texas, Michigan, Ohio, Pennsylvania, Connecticut, Rhode Island and Wyoming." } }
+  ]
+}
+</script>
+<style>
+  .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .lbl { display: block; font-weight: 800; margin: 22px 0 8px; font-size: 1.1rem; }
+  .lbl small { display: block; font-weight: 500; color: var(--ink2); font-size: .9rem; margin-top: 2px; }
+  .fld { width: 100%; box-sizing: border-box; min-height: 54px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 700; font-size: 1.1rem; padding: 8px 14px; }
+  .fld:focus { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+  select.fld { appearance: auto; }
+  input[type=date].fld { min-width: 0; -webkit-appearance: none; appearance: none; display: block; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 0 6px; }
+  .seg button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 6px 8px; line-height: 1.2; }
+  .seg button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #0A1C33; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .say { padding: 14px 18px 4px; color: #fff; }
+  .say .k { color: rgba(255,255,255,.72); font-weight: 700; font-size: .95rem; margin: 0; }
+  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.6vw, 2.3rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.08; color: #7FF5C6; margin-top: 2px; }
+  .say .big.warn { color: #FFC21A; }
+  .say p { color: rgba(255,255,255,.84); margin: 6px 0 0; font-size: 1rem; }
+  .facts { list-style: none; margin: 20px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .facts li { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .facts li:last-child { border-bottom: 0; }
+  .facts li[hidden] { display: none; }
+  .facts b { display: block; font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink2); margin-bottom: 2px; }
+  .facts a { overflow-wrap: anywhere; }
+  .hint { font-size: .95rem; color: var(--ink2); margin: 8px 2px 0; }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  textarea.fld { min-height: 220px; font-weight: 500; font-size: 1rem; line-height: 1.45; resize: vertical; }
+  .how { margin-top: 34px; } .how h2 { font-size: 1.5rem; }
+  .aside { font-size: .95rem; color: var(--ink2); }
+  .tbl { width: 100%; border-collapse: collapse; font-size: .95rem; background: var(--panel); border-radius: 14px; overflow: hidden; box-shadow: var(--lift1); }
+  .tbl th, .tbl td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .tbl th { font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink2); }
+  .tbl td:first-child { font-weight: 700; }
+  .tbl td small { display: block; font-size: .85rem; color: var(--ink2); margin-top: 2px; }
+  .tbl td a { overflow-wrap: anywhere; color: var(--ink2); }
+  .tbl td:first-child { width: 38%; }
+  .src { font-size: .9rem; color: var(--ink2); border-top: 1px solid var(--line); padding-top: 12px; margin-top: 22px; }
+  .src a { color: var(--ink2); overflow-wrap: anywhere; }
+  @media (max-width: 370px) { .seg button { font-size: .88rem; } .tbl { font-size: .88rem; } }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home">
+    <img src="../img/rabbit.svg" alt="" width="34" height="34">
+    The Packed Rabbit
+  </a>
+</header>
+
+<main class="tp">
+  <h1>When is my security deposit due back?</h1>
+  <p class="lede">Every state sets a deadline for your landlord to return the deposit, or tell you in writing what they kept. Pick yours and see the date.</p>
+
+  <div class="stage">
+    <div class="say" aria-live="polite"><p class="k" id="kick"></p><div class="big" id="big"></div><p id="small"></p></div>
+    <svg id="svg" viewBox="0 0 500 120" role="img" aria-label="Days from move-out to the deadline"></svg>
+  </div>
+
+  <label class="lbl" for="st">Which state is the rental in?</label>
+  <select class="fld" id="st">
+    <option value="">Choose a state</option>
+    <option value="AL">Alabama</option>
+    <option value="AK">Alaska</option>
+    <option value="AZ">Arizona</option>
+    <option value="AR">Arkansas</option>
+    <option value="CA">California</option>
+    <option value="CO">Colorado</option>
+    <option value="CT">Connecticut</option>
+    <option value="DE">Delaware</option>
+    <option value="DC">District of Columbia</option>
+    <option value="FL">Florida</option>
+    <option value="GA">Georgia</option>
+    <option value="HI">Hawaii</option>
+    <option value="ID">Idaho</option>
+    <option value="IL">Illinois</option>
+    <option value="IN">Indiana</option>
+    <option value="IA">Iowa</option>
+    <option value="KS">Kansas</option>
+    <option value="KY">Kentucky</option>
+    <option value="LA">Louisiana</option>
+    <option value="ME">Maine</option>
+    <option value="MD">Maryland</option>
+    <option value="MA">Massachusetts</option>
+    <option value="MI">Michigan</option>
+    <option value="MN">Minnesota</option>
+    <option value="MS">Mississippi</option>
+    <option value="MO">Missouri</option>
+    <option value="MT">Montana</option>
+    <option value="NE">Nebraska</option>
+    <option value="NV">Nevada</option>
+    <option value="NH">New Hampshire</option>
+    <option value="NJ">New Jersey</option>
+    <option value="NM">New Mexico</option>
+    <option value="NY">New York</option>
+    <option value="NC">North Carolina</option>
+    <option value="ND">North Dakota</option>
+    <option value="OH">Ohio</option>
+    <option value="OK">Oklahoma</option>
+    <option value="OR">Oregon</option>
+    <option value="PA">Pennsylvania</option>
+    <option value="RI">Rhode Island</option>
+    <option value="SC">South Carolina</option>
+    <option value="SD">South Dakota</option>
+    <option value="TN">Tennessee</option>
+    <option value="TX">Texas</option>
+    <option value="UT">Utah</option>
+    <option value="VT">Vermont</option>
+    <option value="VA">Virginia</option>
+    <option value="WA">Washington</option>
+    <option value="WV">West Virginia</option>
+    <option value="WI">Wisconsin</option>
+    <option value="WY">Wyoming</option>
+  </select>
+
+  <label class="lbl" for="dt">The day you moved out and gave back the keys<small>If the lease ended later than that, use the later date.</small></label>
+  <input class="fld" id="dt" type="date">
+
+  <div id="kept-w" hidden>
+    <p class="lbl" id="kept-l">Is the landlord keeping any of it?</p>
+    <div class="seg" role="group" aria-labelledby="kept-l">
+      <button type="button" data-k="0">No, all of it back</button>
+      <button type="button" data-k="1" class="on">Yes, or not sure</button>
+    </div>
+    <p class="hint" id="kept-h"></p>
+  </div>
+
+  <ul class="facts" id="facts" hidden>
+    <li id="f-clock"><b>What starts the clock</b><span></span></li>
+    <li id="f-list"><b>A list of what was kept</b><span></span></li>
+    <li id="f-pen"><b>If it's kept wrongly</b><span></span></li>
+    <li id="f-note"><b>Good to know</b><span></span></li>
+    <li id="f-law"><b>The law</b><span></span></li>
+  </ul>
+
+  <div id="letter-w" hidden>
+    <label class="lbl" for="letter">A short letter asking for it<small>Fill in the brackets, send it in writing, and keep a copy. Nothing here is sent anywhere.</small></label>
+    <textarea class="fld" id="letter" spellcheck="false"></textarea>
+  </div>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this answer</button>
+    <button class="btn ghost" id="copy" type="button" hidden>Copy the letter</button>
+    <button class="btn ghost" id="reset" type="button">Start again</button>
+    <a class="btn ghost" href="../app/">Keep move-out photos in the app</a>
+  </div>
+  <p class="aside">The app keeps dated move-out photos of every room, the landlord's address and the deposit deadline together, on your phone. No account, and it works with no signal.</p>
+
+  <section class="how">
+    <h2>How this works</h2>
+    <p><strong>The date.</strong> We add your state's deadline to the day you moved out and handed back the keys. In most states the clock starts when the lease ends and you give back the home. Some start only once the landlord has your forwarding address, or once you ask for the deposit, so check "What starts the clock" for your state.</p>
+    <p><strong>Money or a list.</strong> By the deadline, the landlord has to send your deposit back, or send a written list of what they kept and why, with the rest of the money. In many states a landlord who misses the deadline loses the right to keep any of it.</p>
+    <p><strong>Before you go.</strong> Take dated photos of every room, give your forwarding address in writing, and keep a copy of both. Put the due date in your calendar.</p>
+    <p><strong>If it's late.</strong> Send the letter above. If that doesn't work, small claims court is the usual next step, and many states let you recover more than the deposit when it was kept in bad faith. A local legal aid office can help for free if you qualify.</p>
+    <p><strong>Not legal advice.</strong> Laws change, and some cities add their own rules. Each state below links to the official source we used. Check the current law before you count on a date.</p>
+    <p class="aside">More on this: <a href="../answers/deposit.html">how to get your deposit back</a>, <a href="../answers/move-out-photos.html">what photos to take when you move out</a>, and <a href="../answers/wear-and-tear.html">what counts as normal wear and tear</a>.</p>
+  </section>
+
+  <section class="how">
+    <h2>Every state at a glance</h2>
+    <table class="tbl">
+      <thead><tr><th scope="col">State</th><th scope="col">Deadline and law</th></tr></thead>
+      <tbody>
+        <tr><td>Alabama</td><td>Not confirmed on an official page<small><a href="https://alison.legislature.state.al.us/code-of-alabama" rel="noopener">Ala. Code § 35-9A-201</a></small></td></tr>
+        <tr><td>Alaska</td><td>14 days if nothing is kept, 30 to send a list<small><a href="https://law.alaska.gov/pdf/consumer/LandlordTenant_web.pdf" rel="noopener">AS 34.03.070</a></small></td></tr>
+        <tr><td>Arizona</td><td>14 business days<small><a href="https://www.azleg.gov/ars/33/01321.htm" rel="noopener">A.R.S. § 33-1321</a></small></td></tr>
+        <tr><td>Arkansas</td><td>60 days<small><a href="https://arkansasag.gov/divisions/public-protection/homes/landlord-and-tenant-rights/" rel="noopener">Ark. Code § 18-16-305</a></small></td></tr>
+        <tr><td>California</td><td>21 days<small><a href="https://oag.ca.gov/system/files/media/Know-Your-Rights-Security-Deposits-English.pdf" rel="noopener">Cal. Civ. Code § 1950.5</a></small></td></tr>
+        <tr><td>Colorado</td><td>30 days<small><a href="https://dre.colorado.gov/hb25-1249-summary" rel="noopener">C.R.S. § 38-12-103</a></small></td></tr>
+        <tr><td>Connecticut</td><td>21 days<small><a href="https://www.cga.ct.gov/2025/pub/chap_831.htm" rel="noopener">Conn. Gen. Stat. § 47a-21</a></small></td></tr>
+        <tr><td>Delaware</td><td>20 days<small><a href="https://attorneygeneral.delaware.gov/wp-content/uploads/sites/50/2026/04/LL-T-Code-Summary-Oct-2024.pdf" rel="noopener">25 Del. C. § 5514</a></small></td></tr>
+        <tr><td>District of Columbia</td><td>45 days<small><a href="https://code.dccouncil.gov/us/dc/council/code/sections/42-3502.17" rel="noopener">D.C. Code § 42-3502.17</a></small></td></tr>
+        <tr><td>Florida</td><td>15 days if nothing is kept, 30 to send a list<small><a href="https://m.flsenate.gov/statutes/83.49" rel="noopener">Fla. Stat. § 83.49(3)</a></small></td></tr>
+        <tr><td>Georgia</td><td>30 days<small><a href="https://dca.georgia.gov/document/manuals/georgia-landlord-tenant-handbook-english/download" rel="noopener">O.C.G.A. § 44-7-34</a></small></td></tr>
+        <tr><td>Hawaii</td><td>14 days<small><a href="https://data.capitol.hawaii.gov/hrscurrent/Vol12_Ch0501-0588/HRS0521/HRS_0521-0044.htm" rel="noopener">HRS § 521-44</a></small></td></tr>
+        <tr><td>Idaho</td><td>21 days<small><a href="https://legislature.idaho.gov/?p=67418" rel="noopener">Idaho Code § 6-321</a></small></td></tr>
+        <tr><td>Illinois</td><td>30 days to send a list, 45 to return the rest<small><a href="https://www.ilga.gov/legislation/ilcs/ilcs3.asp?ActID=2202" rel="noopener">765 ILCS 710/1</a></small></td></tr>
+        <tr><td>Indiana</td><td>45 days<small><a href="https://bloomington.in.gov/sites/default/files/2024-10/ILS%20-%20Renter%20Rights%20and%20Responsibilities.pdf" rel="noopener">Ind. Code § 32-31-3-12</a></small></td></tr>
+        <tr><td>Iowa</td><td>30 days<small><a href="https://www.legis.iowa.gov/docs/code/2026/562A.12.pdf" rel="noopener">Iowa Code § 562A.12</a></small></td></tr>
+        <tr><td>Kansas</td><td>30 days<small><a href="https://www.ksrevisor.gov/statutes/chapters/ch58/058_025_0050.html" rel="noopener">K.S.A. 58-2550</a></small></td></tr>
+        <tr><td>Kentucky</td><td>No single date<small><a href="https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=35733" rel="noopener">KRS 383.580</a></small></td></tr>
+        <tr><td>Louisiana</td><td>One month<small><a href="https://legis.la.gov/Legis/Law.aspx?d=107468" rel="noopener">La. R.S. 9:3251</a></small></td></tr>
+        <tr><td>Maine</td><td>30 days<small><a href="https://www.legislature.maine.gov/statutes/14/title14sec6033.pdf" rel="noopener">14 M.R.S. § 6033</a></small></td></tr>
+        <tr><td>Maryland</td><td>45 days<small><a href="https://mgaleg.maryland.gov/2026RS/Statute_Web/grp/8-203.pdf" rel="noopener">Md. Code, Real Prop. § 8-203</a></small></td></tr>
+        <tr><td>Massachusetts</td><td>30 days<small><a href="https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section15b" rel="noopener">Mass. Gen. Laws c. 186, § 15B</a></small></td></tr>
+        <tr><td>Michigan</td><td>30 days<small><a href="https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-554-609" rel="noopener">MCL 554.609</a></small></td></tr>
+        <tr><td>Minnesota</td><td>21 days<small><a href="https://www.revisor.mn.gov/statutes/cite/504B.178" rel="noopener">Minn. Stat. § 504B.178</a></small></td></tr>
+        <tr><td>Mississippi</td><td>45 days<small><a href="https://msdh.ms.gov/page/resources/8715.pdf" rel="noopener">Miss. Code Ann. § 89-8-21</a></small></td></tr>
+        <tr><td>Missouri</td><td>30 days<small><a href="https://revisor.mo.gov/main/OneSection.aspx?section=535.300" rel="noopener">Mo. Rev. Stat. § 535.300</a></small></td></tr>
+        <tr><td>Montana</td><td>10 days if nothing is kept, 30 to send a list<small><a href="https://mca.legmt.gov/bills/mca/title_0700/chapter_0250/part_0020/section_0020/0700-0250-0020-0020.html" rel="noopener">Mont. Code Ann. § 70-25-202</a></small></td></tr>
+        <tr><td>Nebraska</td><td>14 days<small><a href="https://nebraskalegislature.gov/laws/statutes.php?statute=76-1416" rel="noopener">Neb. Rev. Stat. § 76-1416</a></small></td></tr>
+        <tr><td>Nevada</td><td>30 days<small><a href="https://www.leg.state.nv.us/nrs/nrs-118a.html" rel="noopener">NRS 118A.242</a></small></td></tr>
+        <tr><td>New Hampshire</td><td>30 days<small><a href="https://gc.nh.gov/rsa/html/LV/540-A/540-A-7.htm" rel="noopener">RSA 540-A:7</a></small></td></tr>
+        <tr><td>New Jersey</td><td>30 days<small><a href="https://www.nj.gov/dca/codes/publications/pdf_lti/sdepsit_law.pdf" rel="noopener">N.J.S.A. 46:8-21.1</a></small></td></tr>
+        <tr><td>New Mexico</td><td>30 days<small><a href="https://www.nmlegis.gov/Sessions/22%20Regular/bills/house/HB0065.HTML" rel="noopener">NMSA 1978, § 47-8-18</a></small></td></tr>
+        <tr><td>New York</td><td>14 days<small><a href="https://www.nysenate.gov/legislation/laws/GOB/7-108" rel="noopener">N.Y. Gen. Oblig. Law § 7-108</a></small></td></tr>
+        <tr><td>North Carolina</td><td>30 days<small><a href="https://www.ncleg.gov/enactedlegislation/statutes/pdf/bysection/chapter_42/gs_42-52.pdf" rel="noopener">N.C.G.S. § 42-52</a></small></td></tr>
+        <tr><td>North Dakota</td><td>30 days<small><a href="https://ndlegis.gov/cencode/t47c16.pdf" rel="noopener">N.D.C.C. § 47-16-07.1</a></small></td></tr>
+        <tr><td>Ohio</td><td>30 days<small><a href="https://codes.ohio.gov/ohio-revised-code/section-5321.16" rel="noopener">Ohio Rev. Code § 5321.16</a></small></td></tr>
+        <tr><td>Oklahoma</td><td>45 days<small><a href="https://oksenate.gov/sites/default/files/2019-12/os41.pdf" rel="noopener">41 O.S. § 115</a></small></td></tr>
+        <tr><td>Oregon</td><td>31 days<small><a href="https://www.oregonlegislature.gov/bills_laws/ors/ors090.html" rel="noopener">ORS 90.300</a></small></td></tr>
+        <tr><td>Pennsylvania</td><td>30 days<small><a href="https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1951/0/0020.005.000.012.000..HTM" rel="noopener">68 P.S. § 250.512</a></small></td></tr>
+        <tr><td>Rhode Island</td><td>20 days<small><a href="https://webserver.rilegislature.gov/statutes/title34/34-18/34-18-19.HTM" rel="noopener">R.I. Gen. Laws § 34-18-19</a></small></td></tr>
+        <tr><td>South Carolina</td><td>30 days<small><a href="https://www.scstatehouse.gov/code/t27c040.php" rel="noopener">S.C. Code § 27-40-410</a></small></td></tr>
+        <tr><td>South Dakota</td><td>21 days<small><a href="https://sdlegislature.gov/Statutes/43-32-24" rel="noopener">SDCL 43-32-24</a></small></td></tr>
+        <tr><td>Tennessee</td><td>Not confirmed on an official page<small>Tenn. Code Ann. § 66-28-301</small></td></tr>
+        <tr><td>Texas</td><td>30 days<small><a href="https://guides.sll.texas.gov/landlord-tenant-law/security-deposits" rel="noopener">Tex. Prop. Code § 92.103</a></small></td></tr>
+        <tr><td>Utah</td><td>30 days<small><a href="https://le.utah.gov/xcode/Title57/Chapter17/C57-17-S3_2025050720250507.html" rel="noopener">Utah Code § 57-17-3</a></small></td></tr>
+        <tr><td>Vermont</td><td>14 days<small><a href="https://legislature.vermont.gov/statutes/section/09/137/04461" rel="noopener">9 V.S.A. § 4461</a></small></td></tr>
+        <tr><td>Virginia</td><td>45 days<small><a href="https://law.lis.virginia.gov/vacode/title55.1/chapter12/section55.1-1226/" rel="noopener">Va. Code § 55.1-1226</a></small></td></tr>
+        <tr><td>Washington</td><td>30 days<small><a href="https://app.leg.wa.gov/rcw/default.aspx?cite=59.18.280" rel="noopener">RCW 59.18.280</a></small></td></tr>
+        <tr><td>West Virginia</td><td>60 days<small><a href="https://code.wvlegislature.gov/37-6A-2/" rel="noopener">W. Va. Code § 37-6A-2</a></small></td></tr>
+        <tr><td>Wisconsin</td><td>21 days<small><a href="https://docs.legis.wisconsin.gov/code/admin_code/atcp/090/134/06" rel="noopener">Wis. Admin. Code ATCP 134.06</a></small></td></tr>
+        <tr><td>Wyoming</td><td>30 days<small><a href="https://wyoleg.gov/LSOResearch/2005/05RM051.pdf" rel="noopener">Wyo. Stat. § 1-21-1208</a></small></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <p class="src">Sources: each state's own statute, read on the official legislature or code site where it could be opened, or else on the state attorney general's, state agency's or city government's page named in the table. Alabama and Tennessee could not be confirmed on an official page, so no date is shown for them. Checked October 2026. Not legal advice.</p>
+  <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Made by someone moving, for people moving. Not a moving company, broker or lead site: we never sell your details and never take a commission from movers, and nothing you type here is sent to us.</p>
+</main>
+
+<footer class="wrap">
+  <a href="../privacy.html">Privacy</a>
+  <a href="../terms.html">Terms and refunds</a>
+  <a href="../answers/">What I wish I'd known</a>
+  <a href="../fit/">Will my couch fit?</a>
+  <a href="../truck/">What size truck?</a>
+  <a href="../boxes/">How many boxes?</a>
+  <a href="../diy-cost/">Cost to move yourself</a>
+  <a href="../tip/">How much to tip movers?</a>
+  <a href="../mover-check/">Check your mover</a>
+  <a href="../checklist/">Moving checklist by date</a>
+  <a href="../change-address/">Change of address checklist</a>
+  <a href="../embed/">Put these tools on your site</a>
+</footer>
+
+<script>
+/* Nothing typed here is sent anywhere. The state and date go in the address
+   only so a shared link opens showing the same answer. */
+(function () {
+  "use strict";
+  /* [code, name, days, kind, daysIfNothingKept, clock, penalty, cite, url, source, note]
+     kind: c calendar days, b business days, m months, x no single date, u not confirmed */
+  var S = [["AL", "Alabama", 0, "u", 0, "", "", "Ala. Code § 35-9A-201", "https://alison.legislature.state.al.us/code-of-alabama", "Code of Alabama (Alabama Legislature)", "We could not confirm the current deadline on an official page. Older official copies of the law say 35 days, and a later change is reported to have made it longer, so read the current section before you count on a date."], ["AK", "Alaska", 30, "c", 14, "14 days after the lease ends and you hand back the home, if you gave proper notice and nothing is kept. Otherwise 30 days after you move out.", "Up to twice the amount wrongly kept, if the landlord willfully breaks the rule.", "AS 34.03.070", "https://law.alaska.gov/pdf/consumer/LandlordTenant_web.pdf", "Alaska Department of Law, Landlord and Tenant guide", ""], ["AZ", "Arizona", 14, "b", 0, "After the lease ends, you hand back the home, and you ask for the deposit.", "The amount owed plus twice the amount wrongly kept.", "A.R.S. § 33-1321", "https://www.azleg.gov/ars/33/01321.htm", "Arizona Revised Statutes (Arizona Legislature)", "The law counts business days, so weekends and holidays don't count. This page skips weekends but not holidays."], ["AR", "Arkansas", 60, "c", 0, "After you move out.", "", "Ark. Code § 18-16-305", "https://arkansasag.gov/divisions/public-protection/homes/landlord-and-tenant-rights/", "Arkansas Attorney General, Landlord and Tenant Rights", "The Attorney General says this rule covers landlords with six or more units."], ["CA", "California", 21, "c", 0, "After you move out.", "If the landlord acted in bad faith, up to twice the deposit on top of what you lost.", "Cal. Civ. Code § 1950.5", "https://oag.ca.gov/system/files/media/Know-Your-Rights-Security-Deposits-English.pdf", "California Attorney General, Know Your Rights: Security Deposits", "Deductions over $125 need receipts or invoices."], ["CO", "Colorado", 30, "c", 0, "After the lease ends or you hand back the keys.", "Three times the amount wrongly kept, plus costs and attorney fees. You must give the landlord 7 days' written notice first.", "C.R.S. § 38-12-103", "https://dre.colorado.gov/hb25-1249-summary", "Colorado Division of Real Estate, HB25-1249 summary", "30 days since January 1, 2026. A lease can allow up to 60 days."], ["CT", "Connecticut", 21, "c", 0, "21 days after the lease ends, or 15 days after the landlord gets your forwarding address in writing, whichever is later.", "Twice the deposit.", "Conn. Gen. Stat. § 47a-21", "https://www.cga.ct.gov/2025/pub/chap_831.htm", "General Statutes of Connecticut (Connecticut General Assembly)", "Cut from 30 days to 21 in 2023."], ["DE", "Delaware", 20, "c", 0, "After the lease ends.", "Twice the amount wrongly kept.", "25 Del. C. § 5514", "https://attorneygeneral.delaware.gov/wp-content/uploads/sites/50/2026/04/LL-T-Code-Summary-Oct-2024.pdf", "Delaware Department of Justice, Landlord-Tenant Code summary", "Give your forwarding address in writing before you leave."], ["DC", "District of Columbia", 45, "c", 0, "After the lease ends.", "", "D.C. Code § 42-3502.17", "https://code.dccouncil.gov/us/dc/council/code/sections/42-3502.17", "Code of the District of Columbia (D.C. Council)", "Within 45 days the landlord returns it with interest, or tells you in writing what they plan to keep. The rest is due within 30 days after that."], ["FL", "Florida", 30, "c", 15, "After the lease ends and you move out.", "A landlord who misses the 30-day notice loses the right to keep any of it.", "Fla. Stat. § 83.49(3)", "https://m.flsenate.gov/statutes/83.49", "Florida Statutes (Florida Senate)", "15 days if nothing is kept. To keep any of it, the landlord must send notice by certified mail within 30 days. You then have 15 days to object in writing."], ["GA", "Georgia", 30, "c", 0, "After the lease ends or you move out, whichever is later.", "Three times the amount wrongly kept plus attorney fees, for most larger landlords. Good-faith mistakes are excepted.", "O.C.G.A. § 44-7-34", "https://dca.georgia.gov/document/manuals/georgia-landlord-tenant-handbook-english/download", "Georgia Department of Community Affairs, Georgia Landlord Tenant Handbook", ""], ["HI", "Hawaii", 14, "c", 0, "After the lease ends.", "Up to three times the deposit if kept on purpose, plus costs.", "HRS § 521-44", "https://data.capitol.hawaii.gov/hrscurrent/Vol12_Ch0501-0588/HRS0521/HRS_0521-0044.htm", "Hawaii Revised Statutes (Hawaii State Legislature)", "A landlord who misses it loses the right to keep any of it."], ["ID", "Idaho", 21, "c", 0, "After you hand back the home.", "", "Idaho Code § 6-321", "https://legislature.idaho.gov/?p=67418", "Idaho Statutes (Idaho Legislature)", "Your lease can set a longer time, up to 30 days."], ["IL", "Illinois", 30, "c", 45, "After you move out.", "Twice the deposit plus costs and attorney fees, if the landlord acts in bad faith or sends no statement.", "765 ILCS 710/1", "https://www.ilga.gov/legislation/ilcs/ilcs3.asp?ActID=2202", "Illinois Compiled Statutes (Illinois General Assembly)", "45 days if nothing is kept. If anything is kept, the itemized statement with receipts is due in 30 days and the rest of the money within 45. Covers all landlords since 2024."], ["IN", "Indiana", 45, "c", 0, "After the lease ends and you hand back the home. Give a forwarding address in writing.", "", "Ind. Code § 32-31-3-12", "https://bloomington.in.gov/sites/default/files/2024-10/ILS%20-%20Renter%20Rights%20and%20Responsibilities.pdf", "City of Bloomington, Indiana, Renter Rights and Responsibilities", ""], ["IA", "Iowa", 30, "c", 0, "After the lease ends and the landlord has your mailing address.", "If kept in bad faith, actual damages plus up to twice the monthly rent.", "Iowa Code § 562A.12", "https://www.legis.iowa.gov/docs/code/2026/562A.12.pdf", "Iowa Code 2026 (Iowa Legislature)", "A landlord who sends no written reasons in 30 days loses the right to keep any of it."], ["KS", "Kansas", 30, "c", 0, "After the lease ends, you hand back the home, and you ask for it. Due 14 days after the landlord works out what to keep, and no later than 30 days.", "The amount owed plus one and a half times the amount wrongly kept.", "K.S.A. 58-2550", "https://www.ksrevisor.gov/statutes/chapters/ch58/058_025_0050.html", "Kansas Statutes (Kansas Revisor of Statutes)", ""], ["KY", "Kentucky", 0, "x", 0, "", "", "KRS 383.580", "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=35733", "Kentucky Revised Statutes (Kentucky General Assembly)", "Kentucky's law doesn't set one return date. It sets rules for move-in and move-out inspections, and lets a landlord keep a deposit you don't claim within 60 days of their notice. It applies where the city or county has adopted the state's Uniform Residential Landlord and Tenant Act."], ["LA", "Louisiana", 1, "m", 0, "After the lease ends. Give a forwarding address.", "The amount wrongly kept plus $300 or twice that amount, whichever is more, if it isn't paid within 30 days of your written demand.", "La. R.S. 9:3251", "https://legis.la.gov/Legis/Law.aspx?d=107468", "Louisiana Revised Statutes (Louisiana State Legislature)", "The law says one month, not a number of days. A 2026 change may allow a little extra time for the itemized list."], ["ME", "Maine", 30, "c", 0, "After the lease ends or you hand back the home.", "", "14 M.R.S. § 6033", "https://www.legislature.maine.gov/statutes/14/title14sec6033.pdf", "Maine Revised Statutes (Maine Legislature)", "With a written lease, 30 days unless the lease says sooner. With no written lease (a tenancy at will), 21 days. A landlord who misses it loses the right to keep any of it."], ["MD", "Maryland", 45, "c", 0, "After the lease ends.", "Up to three times the amount kept without a reasonable basis, plus attorney fees.", "Md. Code, Real Prop. § 8-203", "https://mgaleg.maryland.gov/2026RS/Statute_Web/grp/8-203.pdf", "Annotated Code of Maryland (Maryland General Assembly)", "Returned with interest."], ["MA", "Massachusetts", 30, "c", 0, "After the lease ends.", "Three times the deposit plus interest, costs and attorney fees.", "Mass. Gen. Laws c. 186, § 15B", "https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section15b", "General Laws of Massachusetts (Massachusetts Legislature)", "The list of damage must be signed under penalty of perjury, with estimates or receipts."], ["MI", "Michigan", 30, "c", 0, "After you move out. Give a forwarding address in writing within 4 days of moving out.", "Twice the amount wrongly kept.", "MCL 554.609", "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-554-609", "Michigan Compiled Laws (Michigan Legislature)", "You have 7 days to answer the landlord's list of damage in writing."], ["MN", "Minnesota", 21, "c", 0, "After the lease ends and the landlord has your mailing address, whichever is later.", "The amount wrongly kept plus the same amount again, and interest. Up to $500 more for bad faith.", "Minn. Stat. § 504B.178", "https://www.revisor.mn.gov/statutes/cite/504B.178", "Minnesota Statutes (Minnesota Revisor of Statutes)", "The law says three weeks."], ["MS", "Mississippi", 45, "c", 0, "After the lease ends, you hand back the home, and you ask for the deposit.", "", "Miss. Code Ann. § 89-8-21", "https://msdh.ms.gov/page/resources/8715.pdf", "Mississippi State Department of Health guide", ""], ["MO", "Missouri", 30, "c", 0, "After the lease ends.", "Twice the amount wrongly kept.", "Mo. Rev. Stat. § 535.300", "https://revisor.mo.gov/main/OneSection.aspx?section=535.300", "Missouri Revised Statutes (Missouri Revisor of Statutes)", ""], ["MT", "Montana", 30, "c", 10, "After the lease ends or the landlord accepts the keys, whichever is first.", "The amount wrongly kept. A landlord who sends no list loses the right to keep any of it.", "Mont. Code Ann. § 70-25-202", "https://mca.legmt.gov/bills/mca/title_0700/chapter_0250/part_0020/section_0020/0700-0250-0020-0020.html", "Montana Code Annotated (Montana Legislature)", "10 days if nothing is owed for damage, cleaning, rent or utilities."], ["NE", "Nebraska", 14, "c", 0, "After the lease ends.", "For bad faith, one month's rent or twice the deposit, whichever is less, plus costs and fees.", "Neb. Rev. Stat. § 76-1416", "https://nebraskalegislature.gov/laws/statutes.php?statute=76-1416", "Nebraska Revised Statutes (Nebraska Legislature)", ""], ["NV", "Nevada", 30, "c", 0, "After the lease ends.", "The deposit plus up to the same amount again, at the court's discretion.", "NRS 118A.242", "https://www.leg.state.nv.us/nrs/nrs-118a.html", "Nevada Revised Statutes (Nevada Legislature)", ""], ["NH", "New Hampshire", 30, "c", 0, "After the lease ends.", "Twice the deposit plus interest, less valid charges.", "RSA 540-A:7", "https://gc.nh.gov/rsa/html/LV/540-A/540-A-7.htm", "New Hampshire Revised Statutes (New Hampshire General Court)", "Deductions need receipts or estimates."], ["NJ", "New Jersey", 30, "c", 0, "After the lease ends.", "Twice the amount owed, plus costs.", "N.J.S.A. 46:8-21.1", "https://www.nj.gov/dca/codes/publications/pdf_lti/sdepsit_law.pdf", "New Jersey Department of Community Affairs, Security Deposit Law", "Sent by hand, or registered or certified mail. 5 business days if you had to leave because of a fire, flood, condemnation or evacuation."], ["NM", "New Mexico", 30, "c", 0, "After the lease ends or you move out, whichever is later.", "A landlord who misses it loses the right to keep any of it and pays court costs and fees. $250 more for bad faith.", "NMSA 1978, § 47-8-18", "https://www.nmlegis.gov/Sessions/22%20Regular/bills/house/HB0065.HTML", "New Mexico Legislature (current text, as shown in 2022 House Bill 65)", ""], ["NY", "New York", 14, "c", 0, "After you move out.", "A landlord who misses it loses the right to keep any of it. Up to twice the deposit if the violation was willful.", "N.Y. Gen. Oblig. Law § 7-108", "https://www.nysenate.gov/legislation/laws/GOB/7-108", "New York General Obligations Law (New York State Senate)", "Rent-stabilized leases follow the same 14-day rule under § 7-107."], ["NC", "North Carolina", 30, "c", 0, "After the lease ends and you hand back the home.", "A willful violation means the landlord can't keep any of it.", "N.C.G.S. § 42-52", "https://www.ncleg.gov/enactedlegislation/statutes/pdf/bysection/chapter_42/gs_42-52.pdf", "North Carolina General Statutes (North Carolina General Assembly)", "If damage can't be worked out in 30 days, an interim list is due then and a final one within 60."], ["ND", "North Dakota", 30, "c", 0, "After the lease ends and you hand back the home.", "Three times any amount kept without reasonable cause.", "N.D.C.C. § 47-16-07.1", "https://ndlegis.gov/cencode/t47c16.pdf", "North Dakota Century Code (North Dakota Legislature)", ""], ["OH", "Ohio", 30, "c", 0, "After the lease ends and you hand back the home.", "The amount wrongly kept plus the same amount again, and attorney fees, if you gave a forwarding address in writing.", "Ohio Rev. Code § 5321.16", "https://codes.ohio.gov/ohio-revised-code/section-5321.16", "Ohio Revised Code (Ohio Legislative Service Commission)", ""], ["OK", "Oklahoma", 45, "c", 0, "After the lease ends, you hand back the home, and you ask for it in writing.", "", "41 O.S. § 115", "https://oksenate.gov/sites/default/files/2019-12/os41.pdf", "Oklahoma Statutes, Title 41 (Oklahoma Senate)", "Ask in writing within 6 months, or the landlord may keep it."], ["OR", "Oregon", 31, "c", 0, "After the lease ends and you hand back the home.", "Twice the amount kept without a written accounting, or in bad faith.", "ORS 90.300", "https://www.oregonlegislature.gov/bills_laws/ors/ors090.html", "Oregon Revised Statutes (Oregon Legislature)", "31 days, not 30."], ["PA", "Pennsylvania", 30, "c", 0, "After the lease ends or the landlord accepts the keys, whichever is first.", "Twice the amount wrongly kept.", "68 P.S. § 250.512", "https://www.legis.state.pa.us/WU01/LI/LI/US/HTM/1951/0/0020.005.000.012.000..HTM", "Pennsylvania Landlord and Tenant Act (Pennsylvania General Assembly)", "Give a forwarding address in writing, or these protections may not apply."], ["RI", "Rhode Island", 20, "c", 0, "After the lease ends, you hand back the home, and you give a forwarding address, whichever is latest.", "The amount owed plus twice the amount wrongly kept, plus attorney fees.", "R.I. Gen. Laws § 34-18-19", "https://webserver.rilegislature.gov/statutes/title34/34-18/34-18-19.HTM", "Rhode Island General Laws (Rhode Island General Assembly)", ""], ["SC", "South Carolina", 30, "c", 0, "After you move out or ask for the deposit, whichever is later.", "Three times the amount wrongly kept, plus attorney fees.", "S.C. Code § 27-40-410", "https://www.scstatehouse.gov/code/t27c040.php", "South Carolina Code of Laws (South Carolina Legislature)", ""], ["SD", "South Dakota", 21, "c", 0, "After the lease ends and the landlord has your mailing address, whichever is later.", "For bad faith, the deposit plus up to $200.", "SDCL 43-32-24", "https://sdlegislature.gov/Statutes/43-32-24", "South Dakota Codified Laws (South Dakota Legislature)", "Changed from two weeks to 21 days in 2026. Older guides still say two weeks."], ["TN", "Tennessee", 0, "u", 0, "", "", "Tenn. Code Ann. § 66-28-301", "", "", "We could not open Tennessee's official code to confirm the deadline, and its deposit rules apply only in some counties. Ask a local legal aid office or read the current section."], ["TX", "Texas", 30, "c", 0, "After you move out. The landlord doesn't have to pay until you give a forwarding address in writing.", "For bad faith, three times the amount wrongly kept, plus attorney fees.", "Tex. Prop. Code § 92.103", "https://guides.sll.texas.gov/landlord-tenant-law/security-deposits", "Texas State Law Library, Security Deposits", ""], ["UT", "Utah", 30, "c", 0, "After you move out and hand back the home.", "The full deposit plus a $100 penalty.", "Utah Code § 57-17-3", "https://le.utah.gov/xcode/Title57/Chapter17/C57-17-S3_2025050720250507.html", "Utah Code (Utah Legislature)", ""], ["VT", "Vermont", 14, "c", 0, "After you move out.", "A landlord who misses it loses the right to keep any of it. Twice the amount for keeping it willfully.", "9 V.S.A. § 4461", "https://legislature.vermont.gov/statutes/section/09/137/04461", "Vermont Statutes (Vermont General Assembly)", "60 days for seasonal rentals."], ["VA", "Virginia", 45, "c", 0, "After the lease ends or you move out, whichever is later.", "The deposit plus damages and attorney fees, if the landlord kept it willfully.", "Va. Code § 55.1-1226", "https://law.lis.virginia.gov/vacode/title55.1/chapter12/section55.1-1226/", "Code of Virginia (Virginia General Assembly)", "You can ask in writing to be at the move-out inspection."], ["WA", "Washington", 30, "c", 0, "After the lease ends and you move out.", "The full deposit if it's late. Up to twice the deposit if refused on purpose.", "RCW 59.18.280", "https://app.leg.wa.gov/rcw/default.aspx?cite=59.18.280", "Revised Code of Washington (Washington State Legislature)", "Raised from 21 days to 30 in 2023."], ["WV", "West Virginia", 60, "c", 0, "After the lease ends, or 45 days after a new tenant moves in, whichever is sooner.", "For bad faith, the deposit plus one and a half times the amount wrongly kept.", "W. Va. Code § 37-6A-2", "https://code.wvlegislature.gov/37-6A-2/", "West Virginia Code (West Virginia Legislature)", ""], ["WI", "Wisconsin", 21, "c", 0, "After the lease ends. If you leave early, the end date or a new tenant's start, if that is sooner.", "", "Wis. Admin. Code ATCP 134.06", "https://docs.legis.wisconsin.gov/code/admin_code/atcp/090/134/06", "Wisconsin Administrative Code (Wisconsin Legislature)", "The statement must list each item and the amount kept for it."], ["WY", "Wyoming", 30, "c", 0, "30 days after the lease ends, or 15 days after the landlord gets your new address, whichever is later.", "The full deposit plus court costs, for an unreasonable failure.", "Wyo. Stat. § 1-21-1208", "https://wyoleg.gov/LSOResearch/2005/05RM051.pdf", "Wyoming Legislative Service Office memo (2005)", "Checked only against a 2005 official memo, so read the current law. Up to 60 days if there is damage."]];
+  var BY = {}; S.forEach(function (r) { BY[r[0]] = r; });
+  var NS = "http://www.w3.org/2000/svg";
+  function $(id) { return document.getElementById(id); }
+  function el(tag, a, p) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  var st = "", dt = "", kept = 1;
+
+  var q = new URLSearchParams(location.search);
+  if (BY[(q.get("s") || "").toUpperCase()]) st = q.get("s").toUpperCase();
+  if (okDate(q.get("d"))) dt = q.get("d");
+  if (q.get("k") === "0") kept = 0;
+  $("st").value = st; $("dt").value = dt;
+
+  function okDate(s) { if (!/^\d{4}-\d{2}-\d{2}$/.test(s || "")) return false; var d = parse(s); return d && d.getFullYear() >= 1990 && d.getFullYear() <= 2100; }
+  function parse(s) { var p = s.split("-"), d = new Date(+p[0], +p[1] - 1, +p[2]); return d.getMonth() === +p[1] - 1 ? d : null; }
+  function today() { var n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); }
+  function addDays(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
+  function addBiz(d, n) { var x = d; while (n > 0) { x = addDays(x, 1); var w = x.getDay(); if (w !== 0 && w !== 6) n--; } return x; }
+  function addMonths(d, n) { var y = d.getFullYear(), m = d.getMonth() + n, last = new Date(y, m + 1, 0).getDate(); return new Date(y, m, Math.min(d.getDate(), last)); }
+  function between(a, b) { return Math.round((b - a) / 86400000); }
+  function long(d) { return d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" }); }
+  function short(d) { return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }); }
+  function plural(n, w) { return n + " " + w + (n === 1 ? "" : "s"); }
+
+  function rule(r) {
+    var n = r[4] && !kept ? r[4] : r[2];
+    if (r[3] === "m") return { n: n, words: n === 1 ? "one month" : n + " months", due: function (d) { return addMonths(d, n); } };
+    if (r[3] === "b") return { n: n, words: plural(n, "business day"), due: function (d) { return addBiz(d, n); } };
+    return { n: n, words: plural(n, "day"), due: function (d) { return addDays(d, n); } };
+  }
+
+  function fact(id, html) { var li = $(id); li.hidden = !html; li.querySelector("span").innerHTML = html || ""; }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+  var last = null;
+  function draw() {
+    var r = BY[st], kick = "", big = "", small = "", warn = false, due = null, start = dt ? parse(dt) : null;
+    $("kept-w").hidden = !(r && r[4]);
+    [].forEach.call(document.querySelectorAll("[data-k]"), function (b) { var on = +b.getAttribute("data-k") === kept; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+    if (r && r[4]) $("kept-h").textContent = r[1] + " allows " + plural(r[4], "day") + " when nothing is kept, and " + plural(r[2], "day") + " to send a list of what is.";
+    if (!r) {
+      kick = "Your deadline"; big = "Choose your state"; small = "Then add the day you moved out to see the date.";
+    } else if (r[3] === "u" || r[3] === "x") {
+      kick = r[1]; warn = true;
+      big = r[3] === "u" ? "We couldn't confirm this one" : "No single date in the law";
+      small = r[10];
+    } else {
+      var R = rule(r);
+      kick = r[1] + ": " + R.words;
+      if (start) {
+        due = R.due(start);
+        var left = between(today(), due);
+        big = "Due by " + long(due);
+        if (left < 0) { warn = true; small = "That was " + plural(-left, "day") + " ago. Your deposit, or a written list of what was kept, should have reached you by then. If you have nothing yet, send the letter below."; }
+        else small = (left > 1 ? "That's " + left + " days from today." : left === 1 ? "That's tomorrow." : "That's today.") + " Your deposit, or a written list of what was kept, should reach you by then.";
+      } else {
+        big = R.words.charAt(0).toUpperCase() + R.words.slice(1);
+        small = "Add the day you moved out to see the exact date.";
+      }
+    }
+    $("kick").textContent = kick; $("big").textContent = big; $("small").textContent = small;
+    $("big").classList.toggle("warn", warn);
+
+    $("facts").hidden = !r;
+    if (r) {
+      fact("f-clock", r[5] ? esc(r[5]) : "");
+      fact("f-list", r[3] === "u" || r[3] === "x" ? "" : "Required. The landlord has to tell you in writing what was kept and why.");
+      fact("f-pen", r[6] ? esc(r[6]) : "");
+      fact("f-note", r[3] === "u" || r[3] === "x" ? "" : esc(r[10]));
+      fact("f-law", esc(r[7]) + (r[8] ? '. Read it at <a href="' + esc(r[8]) + '" rel="noopener">' + esc(r[9]) + "</a>." : ". " + "Read the current section in the state's official code."));
+    }
+
+    var showLetter = r && r[3] !== "u";
+    $("letter-w").hidden = !showLetter; $("copy").hidden = !showLetter;
+    if (showLetter) $("letter").value = letter(r, start, due);
+
+    paint(start, due);
+    last = { r: r, due: due, kick: kick, big: big };
+    var p = new URLSearchParams();
+    if (st) p.set("s", st); if (dt) p.set("d", dt); if (r && r[4]) p.set("k", kept);
+    try { history.replaceState(null, "", p.toString() ? "?" + p.toString() : location.pathname); } catch (e) {}
+  }
+
+  function letter(r, start, due) {
+    var lines = [
+      "[Today's date]", "",
+      "To [landlord or property manager's name]",
+      "[Their address]", "",
+      "Re: Security deposit for [rental address]", "",
+      "I moved out and returned the keys on " + (start ? long(start) : "[move-out date]") + "."
+    ];
+    if (r[3] === "x") lines.push("Please return my security deposit, or send me a written list of anything you are keeping and why, as " + r[7] + " provides.");
+    else lines.push("Under " + r[7] + ", my security deposit, or a written list of anything kept and why, was due by " + (due ? long(due) : "[the deadline]") + ".");
+    lines.push("", "Please send it to my forwarding address:", "[Your new address]", "", "If I don't hear from you within 10 days, I plan to take the next steps the law allows.", "", "Thank you,", "[Your name]", "[Phone or email]");
+    return lines.join("\n");
+  }
+
+  /* move-out, today and the deadline on one line */
+  function paint(start, due) {
+    var s = $("svg"); s.textContent = "";
+    var FN = "system-ui,sans-serif", x0 = 30, W = 440, y = 34;
+    el("rect", { width: 500, height: 120, fill: "#0A1C33" }, s);
+    el("rect", { x: x0, y: y, width: W, height: 14, rx: 7, fill: "#11284A" }, s);
+    if (!start || !due) return;
+    var t = today(), total = Math.max(1, between(start, due)), gone = between(start, t);
+    var f = Math.max(0, Math.min(1, gone / total));
+    el("rect", { x: x0, y: y, width: Math.max(14, f * W), height: 14, rx: 7, fill: gone > total ? "#FFC21A" : "#1F6BFF", opacity: .8 }, s);
+    el("circle", { cx: x0, cy: y + 7, r: 9, fill: "#E7EEF8" }, s);
+    el("circle", { cx: x0 + W, cy: y + 7, r: 11, fill: "#7FF5C6", stroke: "#0A1C33", "stroke-width": 3 }, s);
+    if (gone >= 0 && gone <= total) {
+      var mx = x0 + f * W;
+      el("rect", { x: mx - 2, y: y - 12, width: 4, height: 38, rx: 2, fill: "#FFC21A" }, s);
+      var tt = el("text", { x: Math.max(70, Math.min(430, mx)), y: y - 18, fill: "#FFC21A", "font-size": 15, "font-weight": 800, "font-family": FN, "text-anchor": "middle" }, s); tt.textContent = "Today";
+    }
+    var a = el("text", { x: x0 - 4, y: y + 44, fill: "rgba(255,255,255,.75)", "font-size": 15, "font-weight": 700, "font-family": FN }, s); a.textContent = "Moved out " + short(start);
+    var b = el("text", { x: x0 + W + 4, y: y + 70, fill: "#7FF5C6", "font-size": 15, "font-weight": 800, "font-family": FN, "text-anchor": "end" }, s); b.textContent = "Due " + short(due);
+  }
+
+  $("st").addEventListener("change", function () { st = $("st").value; draw(); });
+  $("dt").addEventListener("input", function () { dt = okDate($("dt").value) ? $("dt").value : ""; draw(); });
+  $("dt").addEventListener("change", function () { dt = okDate($("dt").value) ? $("dt").value : ""; draw(); });
+  [].forEach.call(document.querySelectorAll("[data-k]"), function (b) { b.addEventListener("click", function () { kept = +b.getAttribute("data-k"); draw(); }); });
+  $("reset").addEventListener("click", function () { st = ""; dt = ""; kept = 1; $("st").value = ""; $("dt").value = ""; draw(); });
+  $("copy").addEventListener("click", function () {
+    var ta = $("letter"), b = $("copy");
+    function done() { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy the letter"; }, 2000); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(done, function () { ta.select(); });
+    else { ta.select(); try { document.execCommand("copy"); done(); } catch (e) {} }
+  });
+  draw();
+
+  function wrap(g, text, x, y, max, lh) {
+    var words = text.split(" "), line = "";
+    words.forEach(function (w) { var t = line ? line + " " + w : w; if (g.measureText(t).width > max && line) { g.fillText(line, x, y); y += lh; line = w; } else line = t; });
+    if (line) g.fillText(line, x, y); return y + lh;
+  }
+  function picture() {
+    var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
+    var g = cv.getContext("2d"), FN = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#0A1C33"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#FFC21A"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.textAlign = "center";
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "700 42px " + FN; g.fillText("Security deposit due back", Z / 2, 250);
+    var r = last.r;
+    if (last.due) {
+      g.fillStyle = "#7FF5C6"; g.font = "850 104px " + FN; g.fillText(last.due.toLocaleDateString("en-US", { month: "long", day: "numeric" }), Z / 2, 400);
+      g.fillStyle = "#fff"; g.font = "800 56px " + FN; g.fillText(last.due.toLocaleDateString("en-US", { weekday: "long" }) + ", " + last.due.getFullYear(), Z / 2, 480);
+    } else {
+      g.fillStyle = "#7FF5C6"; g.font = "850 84px " + FN; wrap(g, last.big, Z / 2, 400, 940, 96);
+    }
+    g.fillStyle = "rgba(255,255,255,.82)"; g.font = "600 36px " + FN;
+    var y = wrap(g, last.kick || "Every state, with the law cited", Z / 2, 600, 940, 48);
+    if (r && r[7]) wrap(g, r[7], Z / 2, y + 4, 940, 48);
+    g.fillText("Not legal advice. Check the current law.", Z / 2, 790);
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 32px " + FN; g.fillText("Find your date free:", Z / 2, 920);
+    g.fillStyle = "#fff"; g.font = "800 40px " + FN; g.fillText("packedrabbit.com/deposit", Z / 2, 975);
+    return cv;
+  }
+  $("share").addEventListener("click", function () {
+    var url = location.href, text = (last.due ? "My security deposit is due back by " + long(last.due) + "." : "When a security deposit is due back, by state.") + " Worked out free:";
+    picture().toBlob(function (blob) {
+      var file = blob && typeof File !== "undefined" ? new File([blob], "deposit-deadline.png", { type: "image/png" }) : null;
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+      else if (navigator.share) navigator.share({ title: "When is my security deposit due back?", text: text, url: url }).catch(function () {});
+      else if (blob) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "deposit-deadline.png"; document.body.appendChild(a); a.click(); a.remove(); }
+    }, "image/png");
+  });
+})();
+</script>
+<script>
+/* Embedded on someone else's page: no site header or footer, links open in a
+   new tab, a credit line at the end, and the height told to the host page. */
+(function () {
+  if (!document.documentElement.classList.contains("embed")) return;
+  document.querySelectorAll("a[href]").forEach(function (a) { a.target = "_blank"; a.rel = "noopener"; });
+  var m = document.querySelector("main") || document.body;
+  var c = document.createElement("a");
+  c.className = "embed-credit"; c.target = "_blank"; c.rel = "noopener";
+  c.href = "https://packedrabbit.com" + location.pathname;
+  c.textContent = "Free tool by The Packed Rabbit";
+  m.appendChild(c);
+  function tell() { try { parent.postMessage({ prEmbedHeight: Math.ceil(document.documentElement.scrollHeight) }, "*"); } catch (e) {} }
+  tell(); addEventListener("load", tell); addEventListener("resize", tell);
+  if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
+})();
+</script>
+<script src="../nav.js" defer></script>
+</body>
+</html>
