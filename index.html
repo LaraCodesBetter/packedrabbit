@@ -170,12 +170,12 @@
     <h2 id="sh-h">Half a minute each.</h2>
     <p class="lead muted">What we learned the hard way, so you don't have to. Tap one for sound.</p>
     <div class="shortrow">
-      <figure><video muted playsinline loop controls preload="none" poster="social/one-quote-forty-calls.jpg?v=250" aria-label="One moving quote, forty phone calls"><source src="social/one-quote-forty-calls.mp4?v=250" type="video/mp4"></video><figcaption>One quote, forty calls</figcaption></figure>
-      <figure><video muted playsinline loop controls preload="none" poster="social/he-wouldnt-let-me-hang-up.jpg?v=250" aria-label="The mover wouldn't let me hang up"><source src="social/he-wouldnt-let-me-hang-up.mp4?v=250" type="video/mp4"></video><figcaption>He wouldn't let me hang up</figcaption></figure>
-      <figure><video muted playsinline loop controls preload="none" poster="social/the-2000-fee-for-nothing.jpg?v=250" aria-label="The $2,000 fee for nothing"><source src="social/the-2000-fee-for-nothing.mp4?v=250" type="video/mp4"></video><figcaption>The $2,000 fee for nothing</figcaption></figure>
-      <figure><video muted playsinline loop controls preload="none" poster="social/things-they-said-on-the-phone.jpg?v=250" aria-label="Things moving brokers said on the phone"><source src="social/things-they-said-on-the-phone.mp4?v=250" type="video/mp4"></video><figcaption>Things they said on the phone</figcaption></figure>
-      <figure><video muted playsinline loop controls preload="none" poster="social/nobody-called-back.jpg?v=250" aria-label="Nobody called back"><source src="social/nobody-called-back.mp4?v=250" type="video/mp4"></video><figcaption>Nobody called back</figcaption></figure>
-      <figure><video muted playsinline loop controls preload="none" poster="social/mover-or-broker.jpg?v=250" aria-label="Mover or broker?"><source src="social/mover-or-broker.mp4?v=250" type="video/mp4"></video><figcaption>Mover or broker?</figcaption></figure>
+      <figure><video muted playsinline loop controls preload="none" poster="social/one-quote-forty-calls.jpg?v=250" aria-label="One moving quote, forty phone calls"><source src="social/one-quote-forty-calls.mp4?v=250" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/one-quote-forty-calls.vtt?v=252"></video><figcaption>One quote, forty calls</figcaption></figure>
+      <figure><video muted playsinline loop controls preload="none" poster="social/he-wouldnt-let-me-hang-up.jpg?v=250" aria-label="The mover wouldn't let me hang up"><source src="social/he-wouldnt-let-me-hang-up.mp4?v=250" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/he-wouldnt-let-me-hang-up.vtt?v=252"></video><figcaption>He wouldn't let me hang up</figcaption></figure>
+      <figure><video muted playsinline loop controls preload="none" poster="social/the-2000-fee-for-nothing.jpg?v=250" aria-label="The $2,000 fee for nothing"><source src="social/the-2000-fee-for-nothing.mp4?v=250" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/the-2000-fee-for-nothing.vtt?v=252"></video><figcaption>The $2,000 fee for nothing</figcaption></figure>
+      <figure><video muted playsinline loop controls preload="none" poster="social/things-they-said-on-the-phone.jpg?v=250" aria-label="Things moving brokers said on the phone"><source src="social/things-they-said-on-the-phone.mp4?v=250" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/things-they-said-on-the-phone.vtt?v=252"></video><figcaption>Things they said on the phone</figcaption></figure>
+      <figure><video muted playsinline loop controls preload="none" poster="social/nobody-called-back.jpg?v=250" aria-label="Nobody called back"><source src="social/nobody-called-back.mp4?v=250" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/nobody-called-back.vtt?v=252"></video><figcaption>Nobody called back</figcaption></figure>
+      <figure><video muted playsinline loop controls preload="none" poster="social/mover-or-broker.jpg?v=250" aria-label="Mover or broker?"><source src="social/mover-or-broker.mp4?v=250" type="video/mp4"><track kind="captions" srclang="en" label="English" src="social/mover-or-broker.vtt?v=252"></video><figcaption>Mover or broker?</figcaption></figure>
     </div>
   </div>
 </section>
@@ -262,7 +262,7 @@
 <section class="band tipswall" aria-labelledby="tw-h">
   <div class="wrap">
     <h2 id="tw-h">Did you know?</h2>
-    <p class="lead muted">Six of the tips inside the app. Share any of them with someone who's moving.</p>
+    <p class="lead muted">Six of the tips inside the app. Share any of them with someone who's moving, or <a href="tips/">see all of them</a>.</p>
     <div class="tipgrid">
       <div class="tipc"><p>Heavy things go in small boxes. Books in a big box won't lift, and the bottom gives out.</p><button class="btn ghost dark tshare" type="button">Share</button></div>
       <div class="tipc"><p>Photograph the inside of a box before you tape it. Then you never open five boxes to find one thing.</p><button class="btn ghost dark tshare" type="button">Share</button></div>
@@ -325,9 +325,12 @@
 <script src="site.js"></script>
 <script>
 (function(){
+  /* same as slug() in make-tips.py */
+  function tipSlug(x){var s=String(x).toLowerCase().replace(/\u2019/g,"'").replace(/['"]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+    s=s.split("-").slice(0,10).join("-"); if(s.length>72){var c=s.slice(0,72);s=c.lastIndexOf("-")>0?c.slice(0,c.lastIndexOf("-")):c;} return s;}
   document.querySelectorAll(".tshare").forEach(function(b){b.addEventListener("click",function(){
-    var t=b.parentNode.querySelector("p").textContent+"\n\nFree moving help, no account: packedrabbit.com";
-    if(navigator.share){navigator.share({text:t}).catch(function(){});}
+    var tx=b.parentNode.querySelector("p").textContent, u="https://packedrabbit.com/tips/"+tipSlug(tx)+"/", t=tx+"\n\n"+u;
+    if(navigator.share){navigator.share({text:tx,url:u}).catch(function(){});}
     else if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){b.textContent="Copied";setTimeout(function(){b.textContent="Share"},1800)});}
   });});
   var still=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
