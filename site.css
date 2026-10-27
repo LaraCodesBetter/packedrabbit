@@ -612,3 +612,4 @@ main > section.band:first-of-type{border-top:0}
 @media (min-width:860px){ .gsteps li{grid-template-columns:44px 1fr auto; align-items:center} .gsteps .btn{grid-column:3; margin-top:0} }
 .gend{display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; margin-top:22px; padding-top:22px; border-top:1px solid var(--line)}
 .gend span{color:var(--ink2); font-size:.95rem}
+.gpro{margin:16px 0 0; color:var(--ink2); font-size:.95rem}
