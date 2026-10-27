@@ -6,7 +6,8 @@
 <title>The Packed Rabbit: the moving app that's on your side</title>
 <meta name="description" content="Moving yourself or hiring a pro, The Packed Rabbit keeps every box, date and dollar organized, and reads any mover's quote for hidden fees, big deposits, weak coverage and broker signs before you pay. Free, no account, nobody calls you.">
 <link rel="canonical" href="https://packedrabbit.com/">
-<meta name="theme-color" content="#0F2742">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1626" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Packed Rabbit">
 <meta property="og:title" content="The moving app that's on your side">
@@ -100,38 +101,53 @@
 </header>
 
 <main>
-<div class="wrap">
-  <div class="hero">
-    <div class="hero-grid">
-      <div>
-        <h1>The moving app that's on your side.</h1>
-        <p class="hero-2">Moving yourself or hiring a pro, it keeps every box, date and dollar organized.</p>
-        <p class="lede">And before you pay anyone, it reads their quote for what it's hiding: hidden fees, a deposit that's too big, the weakest coverage already ticked, a broker posing as a mover.</p>
-        <p class="fine">Free, no account, and nobody calls you. <a href="price.html" style="color:#FFC21A">The details</a> · <a href="business/" style="color:#FFC21A">For business</a></p>
-      </div>
-
-      <div class="qcheck" id="check">
-        <button class="mono-peek" type="button" aria-label="Tap the rabbit"><svg class="mono" viewBox="0 0 100 100" aria-hidden="true"><g class="ears"><path d="M36 42C32 30 30 16 34 9c4-6 9-1 10 7 1 7 1 18 0 25" fill="#FFFFFF" stroke="#0F2742" stroke-width="2.6" stroke-linejoin="round"/><path d="M58 41c3-12 7-24 12-29 5-4 8 2 6 10-2 8-7 17-11 22" fill="#FFFFFF" stroke="#0F2742" stroke-width="2.6" stroke-linejoin="round"/><path d="M37 36c-2-8-3-16-1-20" stroke="#F0245A" stroke-width="2" stroke-linecap="round" opacity=".45" fill="none"/><path d="M63 34c2-7 4-14 7-17" stroke="#F0245A" stroke-width="2" stroke-linecap="round" opacity=".45" fill="none"/></g><ellipse cx="50" cy="62" rx="26" ry="23" fill="#FFFFFF" stroke="#0F2742" stroke-width="2.8"/><circle cx="39" cy="58" r="10.5" fill="#07705F" opacity=".07"/><circle cx="39" cy="58" r="10.5" fill="none" stroke="#07705F" stroke-width="2.6"/><path d="M30 65c-4 6-5 13-3 19" stroke="#07705F" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="39" cy="58" r="3.2" fill="#0F2742"/><circle cx="62" cy="58" r="3.2" fill="#0F2742"/><path d="M47 69h6l-3 3.5z" fill="#F0245A" stroke="#0F2742" stroke-width="1.4" stroke-linejoin="round"/><path d="M44 71H30M44 74H32M56 71h14M56 74h12" stroke="#4A5568" stroke-width="1.5" stroke-linecap="round"/></svg></button>
-        <form class="qpaper" id="qform" aria-labelledby="qc-h">
-          <h2 id="qc-h" class="qtitle">Hiring a mover? Check the quote, free</h2>
-          <p class="qsub">Paste it. See what it's hiding before you pay.</p>
-          <label class="sr" for="qtext">Paste the quote's text</label>
-          <textarea id="qtext" rows="7" placeholder="Paste the text of a mover's quote or estimate here. Copy it from the email or PDF."></textarea>
-          <div class="qbtns">
-            <button class="btn tape" type="submit">Check this quote</button>
-            <button class="btn ghost dark" type="button" id="qsample">Try a sample quote</button>
-          </div>
-          <p class="qprivate">Read right here on this page. Nothing you paste is sent anywhere.</p>
-          <div id="qout" aria-live="polite"></div>
-        </form>
-        <div class="diy">
-          <p><b>Moving yourself?</b> Start with your boxes, the truck size and what fits through the door.</p>
-          <div class="diybtns"><a class="btn tape" href="app/">Start managing my move, free</a><a class="btn ghost" href="truck/">What size truck?</a></div>
-        </div>
-      </div>
+<section class="wrap lhero" aria-labelledby="h1">
+  <div class="say">
+    <h1 id="h1">Read the quote before you sign it.</h1>
+    <p class="sub">The moving app that's on your side. It shows you what a mover's quote is hiding, then keeps every box, date and dollar organized.</p>
+  </div>
+  <div class="desk">
+    <div class="quote" id="lensq" tabindex="0" role="img" aria-label="A sample mover's quote with six red flags. Drag the lens, or use the arrow keys, to read each line.">
+      <div class="doc base" id="lbase"></div>
+      <div class="doc read" id="lread" aria-hidden="true"></div>
+      <div class="lens" id="lens"></div>
+    </div>
+    <div class="reading" id="reading" aria-live="off"><span class="dot"></span><div><b>Move the lens over the quote.</b><span>It shows what each line is really saying.</span></div></div>
+    <div class="deskbar">
+      <span>A made-up quote, built from real ones. <span class="count" id="lcount"></span></span>
+      <button class="linkbtn" id="lall" type="button">Show everything it found</button>
     </div>
   </div>
-</div>
+  <div class="do">
+    <div class="acts">
+      <a class="btn navy" href="#check">Check my quote</a>
+      <a class="btn ghost" href="app/">Start managing my move</a>
+    </div>
+    <p class="terms">Free. No account. Nobody calls you. <a href="price.html">The details</a></p>
+  </div>
+</section>
+
+<section class="band" id="check" aria-labelledby="qc-h">
+  <div class="wrap own">
+    <div>
+      <h2 id="qc-h">Now try yours.</h2>
+      <p class="lead">Copy the text from the email or PDF and paste it here. It's read on this page. Nothing you paste is sent anywhere.</p>
+      <div class="diy">
+        <p><b>Moving yourself?</b> Start with your boxes, the truck size and what fits through the door.</p>
+        <div class="diybtns"><a class="btn ghost" href="truck/">What size truck?</a></div>
+      </div>
+    </div>
+    <form class="qpaper" id="qform" aria-labelledby="qc-h">
+      <label class="sr" for="qtext">Paste the quote's text</label>
+      <textarea id="qtext" rows="7" placeholder="Paste a mover's quote or estimate"></textarea>
+      <div class="qbtns">
+        <button class="btn navy" type="submit">Check this quote</button>
+        <button class="btn ghost" type="button" id="qsample">Try the sample</button>
+      </div>
+      <div id="qout" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
 
 <div class="wrap"><ul class="trust" aria-label="What you get">
   <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>No account</li>
@@ -358,6 +374,7 @@
 })();
 </script>
 <script src="quote-check.js" defer></script>
+<script src="lens.js" defer></script>
 <script>
 /* owner, 27 Oct: the homepage quote checker. The reader is the app's own
    (quote-check.js, generated from it). Nothing leaves this page. */
