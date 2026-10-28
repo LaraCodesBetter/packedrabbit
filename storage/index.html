@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>What size storage unit do I need? Free calculator, no signup</title>
+<meta name="description" content="Count your furniture and boxes and see which storage unit holds them: 5x5, 5x10, 10x10, 10x15, 10x20 or 10x30. Shows how full it will be, with or without a walkway. Free, no signup.">
+<link rel="canonical" href="https://packedrabbit.com/storage/">
+<meta name="theme-color" content="#0F2742">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="What size storage unit do I need?">
+<meta property="og:description" content="Count your furniture and boxes, see the storage unit it fills and how full it gets.">
+<meta property="og:url" content="https://packedrabbit.com/storage/">
+<meta property="og:image" content="https://packedrabbit.com/img/og-card.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "What size storage unit? by The Packed Rabbit",
+  "url": "https://packedrabbit.com/storage/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Estimates the self-storage unit size needed from a count of furniture and boxes. Adds the cubic feet of each item, allows 15 percent for gaps, takes the unit's floor area times a safe stacking height, keeps room for a walkway if asked, and picks the smallest common unit that holds it."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "What size storage unit do I need for a two-bedroom apartment?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Often a 10x15, packed to about 7 feet high. A 10x10 can hold a lightly furnished two-bedroom with nothing to reach, but if you want a walkway to get at things, plan on a 10x15 or 10x20. Count your large furniture and boxes for a better answer: furniture takes most of the space." } },
+    { "@type": "Question", "name": "How do I work out what size storage unit I need?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Add up the space your things take: a medium box is about 3 cubic feet, a bed with its mattress about 60, a sofa about 60. Add about 15 percent for gaps. Then multiply the unit's floor (for example 10 by 10 feet) by how high you can safely stack, about a foot under the ceiling. If you'll need to reach things, keep about a fifth of the floor clear for a walkway. Sizes and ceiling heights vary, so measure the unit you are offered." } },
+    { "@type": "Question", "name": "What happens if I miss a storage unit payment?",
+      "acceptedAnswer": { "@type": "Answer", "text": "State law sets the steps, and they vary. In many states the facility holds a lien on what's stored from the start of the rental, can lock you out after a short grace period, and can sell the contents after sending written notices. In Wisconsin, for example, a renter can be in default five days after payment is due, and can get the property back any time before the sale by paying what's overdue. Keep your address current with the facility in writing so the notices reach you." } }
+  ]
+}
+</script>
+<style>
+  .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .homes { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 16px 0 6px; }
+  .homes button, .seg button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 4px; }
+  .homes button.on, .seg button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #0A1C33; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .say { padding: 4px 18px 16px; color: #fff; }
+  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.5vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #7FF5C6; }
+  .say .big.no { color: #FF9BAD; }
+  .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
+  .opts { background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); padding: 14px 16px; margin: 8px 0 12px; display: grid; gap: 14px; }
+  .opts .lab { display: block; font-weight: 700; margin-bottom: 6px; }
+  .opts .lab small { display: block; font-weight: 500; color: var(--ink2); font-size: .82rem; }
+  .seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .seg.two { grid-template-columns: 1fr 1fr; }
+  .num { display: flex; align-items: center; background: var(--bg); border: 2px solid var(--line); border-radius: 14px; padding: 0 12px; min-height: 52px; max-width: 220px; }
+  .num:focus-within { border-color: var(--blue); }
+  .num input { flex: 1; width: 100%; min-width: 0; border: 0; background: transparent; color: var(--ink); font: inherit; font-family: var(--display); font-weight: 800; font-size: 1.3rem; padding: 10px 0; outline: none; }
+  .num span { color: var(--ink2); font-weight: 600; }
+  .items { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .items li { display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 16px; border-bottom: 1px solid var(--line); }
+  .items li:last-child { border-bottom: 0; }
+  .items .nm { flex: 1; min-width: 0; font-weight: 700; }
+  .items .nm small { display: block; font-weight: 500; color: var(--ink2); font-size: .82rem; }
+  .step { display: flex; align-items: center; gap: 4px; }
+  .step button { width: 44px; height: 44px; border-radius: 12px; border: 2px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; font-size: 1.4rem; font-weight: 800; cursor: pointer; line-height: 1; }
+  .step output { min-width: 2.4ch; text-align: center; font-family: var(--display); font-weight: 850; font-size: 1.25rem; }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  .how { margin-top: 34px; } .how h2 { font-size: 1.5rem; }
+  .how table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+  .how td, .how th { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); }
+  .how ul { padding-left: 1.2em; } .how li { margin: 6px 0; }
+  .aside, .src { font-size: .95rem; color: var(--ink2); }
+  @media (max-width: 380px) { .homes { grid-template-columns: repeat(3, 1fr); } }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home">
+    <img src="../img/rabbit.svg" alt="" width="34" height="34">
+    The Packed Rabbit
+  </a>
+</header>
+
+<main class="tp">
+  <h1>What size storage unit do I need?</h1>
+  <p class="lede">Start from your home, then change the counts to match what's going into storage. The unit fills as you go.</p>
+
+  <div class="homes" role="group" aria-label="Start from a home size">
+    <button type="button" data-h="s">Studio</button>
+    <button type="button" data-h="1">1 bed</button>
+    <button type="button" data-h="2" class="on">2 bed</button>
+    <button type="button" data-h="3">3 bed</button>
+    <button type="button" data-h="4">4 bed</button>
+  </div>
+
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 500 222" role="img" aria-labelledby="big"></svg>
+    <div class="say" aria-live="polite"><div class="big" id="big"></div><p id="small"></p></div>
+  </div>
+
+  <div class="opts">
+    <div>
+      <span class="lab" id="l-aisle">Will you need to get things out before the move is over?<small>A walkway down the middle uses about a fifth of the floor.</small></span>
+      <div class="seg two" role="group" aria-labelledby="l-aisle">
+        <button type="button" data-a="0">No, pack it full</button>
+        <button type="button" data-a="1" class="on">Yes, keep a walkway</button>
+      </div>
+    </div>
+    <div>
+      <span class="lab" id="l-ceil">Ceiling height<small>Stack to about a foot under it. Check the unit you're offered.</small></span>
+      <div class="seg" role="group" aria-labelledby="l-ceil">
+        <button type="button" data-c="8" class="on">8 feet</button>
+        <button type="button" data-c="10">10 feet</button>
+        <button type="button" data-c="12">12 feet</button>
+      </div>
+    </div>
+    <div>
+      <label class="lab" for="len">Longest piece, if you know it<small>A sofa or table that has to lie flat. Leave empty to skip.</small></label>
+      <span class="num"><input id="len" type="number" inputmode="decimal" min="0" max="600" step="1" placeholder="84"><span>inches</span></span>
+    </div>
+  </div>
+
+  <ul class="items" id="items"></ul>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this answer</button>
+    <a class="btn ghost" href="../app/">Keep a list of what's in storage, free</a>
+  </div>
+  <p class="aside">The app numbers each box with a photo of what's inside and can mark it as going to storage, so months later you know which box the winter coats are in without opening the unit. No account, and it works with no signal.</p>
+
+  <section class="how">
+    <h2>How this works</h2>
+    <p>Each item has a typical size in cubic feet. They're added up, then 15 percent is added, because chair legs, table tops and odd shapes leave gaps. A unit holds its floor area times how high you can safely stack, about a foot under the ceiling. Keeping a walkway takes about a fifth of that. The answer is the smallest common unit that holds the total.</p>
+    <table>
+      <thead><tr><th>Unit</th><th>Floor</th><th id="th-cu">Holds about</th></tr></thead>
+      <tbody id="tbl"></tbody>
+    </table>
+    <p class="aside" style="margin-top:12px">These are common sizes, not a standard: the same name can mean a slightly different room at another facility, and ceilings vary. Measure the unit before you sign. If you're within about 10 percent of a unit's limit, take the next size up. The cubic feet per item, the 15 percent, the foot of headroom and the walkway share are our own estimates.</p>
+
+    <h2 style="margin-top:28px">Before you sign</h2>
+    <ul>
+      <li><strong>Get the agreement in writing and read it.</strong> It sets what you can store, what the facility is responsible for, and what happens if a payment is late.</li>
+      <li><strong>You're responsible for what's inside.</strong> In Wisconsin, for example, the facility isn't liable for mold, mildew or pests unless the agreement says it is. Look for protection from theft, pests and water.</li>
+      <li><strong>Ask about insurance.</strong> Ask whether the facility offers coverage, and ask your renters or homeowners insurer whether your policy covers things in storage, and up to how much.</li>
+      <li><strong>Keep a list and photos,</strong> and keep the agreement and receipts somewhere other than the unit.</li>
+      <li><strong>A missed payment can end in a sale.</strong> In many states the facility holds a lien on what's stored from the start, can lock you out after a short grace period, and can sell the contents after written notices. The days differ by state: in Wisconsin a renter can be in default five days after payment is due; in Nevada, access can be denied after 10 days late and a lien notice can follow after 14. Paying what's overdue before the sale gets your things back.</li>
+      <li><strong>Tell the facility in writing if your address, email or phone changes,</strong> so those notices reach you. That's easy to forget in the middle of a move.</li>
+      <li><strong>A storage unit isn't a place to live.</strong> In Nevada it's against the law.</li>
+    </ul>
+  </section>
+  <p class="src">Sources: renting, insurance and late-payment rules from the <a href="https://datcp.wi.gov/Pages/Publications/SelfServiceStorage174.aspx">Wisconsin Department of Agriculture, Trade and Consumer Protection, Self-Service Storage</a> and the <a href="https://lacsn.org/practice-areas/consumer-rights-project/self-storage-units">Legal Aid Center of Southern Nevada, Self-Storage Units</a>. Each state has its own self-storage law; check yours. Item sizes, unit sizes, headroom and the walkway share are our own typical figures. Not legal advice. Checked October 2026.</p>
+  <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Made by someone moving, for people moving. Not a moving company, broker or lead site: we never sell your details and never take a commission from movers, and nothing you type here is sent to us.</p>
+</main>
+
+<footer class="wrap">
+  <a href="../privacy.html">Privacy</a>
+  <a href="../terms.html">Terms and refunds</a>
+  <a href="../answers/">What I wish I'd known</a>
+  <a href="../fit/">Will my couch fit?</a>
+  <a href="../truck/">What size truck?</a>
+  <a href="../boxes/">How many boxes?</a>
+  <a href="../diy-cost/">Cost to move yourself</a>
+  <a href="../tip/">How much to tip movers?</a>
+  <a href="../take-or-leave/">Take it or leave it?</a>
+  <a href="../mover-check/">Check your mover</a>
+  <a href="../checklist/">Moving checklist by date</a>
+  <a href="../change-address/">Change of address checklist</a>
+  <a href="../deposit/">When is my deposit due back?</a>
+  <a href="../embed/">Put these tools on your site</a>
+</footer>
+
+<script>
+/* Nothing typed here is sent anywhere. The counts go in the address only so
+   a shared link opens showing the same unit. */
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg", SLACK = 1.15, AISLE = 0.8;
+  function $(id) { return document.getElementById(id); }
+  function el(tag, a, p) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  function fmt(n) { return Math.round(n).toLocaleString("en-US"); }
+  /* common unit footprints, feet */
+  var UNITS = [
+    { w: 5, l: 5, u: "Boxes, a chair, seasonal things" },
+    { w: 5, l: 10, u: "A studio's furniture, or lots of boxes" },
+    { w: 5, l: 15, u: "A small one-bedroom" },
+    { w: 10, l: 10, u: "One to two bedrooms" },
+    { w: 10, l: 15, u: "Two bedrooms" },
+    { w: 10, l: 20, u: "Two to three bedrooms" },
+    { w: 10, l: 25, u: "Three to four bedrooms" },
+    { w: 10, l: 30, u: "Four bedrooms or more" }
+  ];
+  UNITS.forEach(function (u) { u.n = u.w + "x" + u.l; u.ft = u.w * u.l; });
+  /* typical cubic feet per item (the same figures as the truck calculator) */
+  var ITEMS = [
+    { k: "sofa", n: "Sofas", s: "Sectionals count as two", cu: 60 },
+    { k: "chair", n: "Armchairs and recliners", cu: 20 },
+    { k: "tbl", n: "Coffee and side tables", cu: 10 },
+    { k: "tv", n: "TVs with stands", cu: 15 },
+    { k: "shelf", n: "Bookcases and shelves", cu: 20 },
+    { k: "bed", n: "Beds with mattress", s: "Any size", cu: 60 },
+    { k: "dresser", n: "Dressers", cu: 35 },
+    { k: "night", n: "Nightstands", cu: 5 },
+    { k: "dine", n: "Dining tables", cu: 25 },
+    { k: "chairs", n: "Dining and desk chairs", cu: 5 },
+    { k: "desk", n: "Desks", cu: 25 },
+    { k: "wd", n: "Washers and dryers", s: "Count each one", cu: 25 },
+    { k: "fridge", n: "Refrigerators", cu: 45 },
+    { k: "bike", n: "Bikes and outdoor gear", s: "Grills, mowers, kayaks", cu: 15 },
+    { k: "box", n: "Boxes", s: "Medium, about 3 cubic feet", cu: 3, step: 5 }
+  ];
+  var HOMES = {
+    s: { sofa: 1, chair: 0, tbl: 1, tv: 1, shelf: 1, bed: 1, dresser: 1, night: 1, dine: 0, chairs: 2, desk: 0, wd: 0, fridge: 0, bike: 0, box: 20 },
+    1: { sofa: 1, chair: 1, tbl: 2, tv: 1, shelf: 1, bed: 1, dresser: 1, night: 2, dine: 1, chairs: 4, desk: 1, wd: 0, fridge: 0, bike: 1, box: 30 },
+    2: { sofa: 1, chair: 1, tbl: 2, tv: 1, shelf: 2, bed: 2, dresser: 2, night: 3, dine: 1, chairs: 4, desk: 1, wd: 0, fridge: 0, bike: 1, box: 45 },
+    3: { sofa: 2, chair: 2, tbl: 3, tv: 2, shelf: 3, bed: 3, dresser: 3, night: 4, dine: 1, chairs: 6, desk: 1, wd: 2, fridge: 1, bike: 2, box: 70 },
+    4: { sofa: 2, chair: 2, tbl: 3, tv: 2, shelf: 4, bed: 4, dresser: 4, night: 6, dine: 1, chairs: 8, desk: 2, wd: 2, fridge: 1, bike: 3, box: 100 }
+  };
+  var c = {}, aisle = 1, ceil = 8, len = 0;
+  function setHome(h) { var src = HOMES[h]; ITEMS.forEach(function (it) { c[it.k] = src[it.k]; }); }
+
+  /* a shared link carries the counts and choices */
+  var q = new URLSearchParams(location.search), fromLink = false;
+  setHome("2");
+  ITEMS.forEach(function (it) { var v = parseInt(q.get(it.k), 10); if (v >= 0 && v < 1000) { c[it.k] = v; fromLink = true; } });
+  if (q.get("a") === "0" || q.get("a") === "1") aisle = +q.get("a");
+  if (["8", "10", "12"].indexOf(q.get("c")) > -1) ceil = +q.get("c");
+  var lv = parseFloat(q.get("len")); if (lv > 0 && lv <= 600) { len = Math.round(lv); $("len").value = len; }
+  function clearHome() { [].forEach.call(document.querySelectorAll(".homes button"), function (b) { b.classList.remove("on"); }); }
+  if (fromLink) clearHome();
+  function segs() {
+    [].forEach.call(document.querySelectorAll("[data-a]"), function (b) { var on = +b.getAttribute("data-a") === aisle; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+    [].forEach.call(document.querySelectorAll("[data-c]"), function (b) { var on = +b.getAttribute("data-c") === ceil; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+  }
+  [].forEach.call(document.querySelectorAll("[data-a]"), function (b) { b.addEventListener("click", function () { aisle = +b.getAttribute("data-a"); segs(); draw(); }); });
+  [].forEach.call(document.querySelectorAll("[data-c]"), function (b) { b.addEventListener("click", function () { ceil = +b.getAttribute("data-c"); segs(); draw(); }); });
+  $("len").addEventListener("input", function () { var v = parseFloat(this.value); len = v > 0 && v <= 600 ? Math.round(v) : 0; draw(); });
+
+  var list = $("items");
+  ITEMS.forEach(function (it) {
+    var li = document.createElement("li");
+    li.innerHTML = '<span class="nm">' + it.n + (it.s ? "<small>" + it.s + "</small>" : "") + '</span><span class="step"><button type="button" aria-label="One fewer: ' + it.n + '">−</button><output id="o-' + it.k + '" aria-live="polite"></output><button type="button" aria-label="One more: ' + it.n + '">+</button></span>';
+    var bs = li.querySelectorAll("button"), st = it.step || 1;
+    bs[0].addEventListener("click", function () { c[it.k] = Math.max(0, c[it.k] - st); clearHome(); draw(); });
+    bs[1].addEventListener("click", function () { c[it.k] = Math.min(999, c[it.k] + st); clearHome(); draw(); });
+    list.appendChild(li);
+  });
+  [].forEach.call(document.querySelectorAll(".homes button"), function (b) {
+    b.addEventListener("click", function () { setHome(b.getAttribute("data-h")); clearHome(); b.classList.add("on"); draw(); });
+  });
+
+  function cap(u) { return u.ft * (ceil - 1) * (aisle ? AISLE : 1); }
+  function table() {
+    $("th-cu").textContent = "Holds about" + (aisle ? ", with a walkway" : "");
+    $("tbl").innerHTML = UNITS.map(function (u) { return "<tr><td><strong>" + u.n + "</strong><br><small>" + u.u + "</small></td><td>" + u.ft + " sq ft</td><td>" + fmt(cap(u)) + " cu ft</td></tr>"; }).join("");
+  }
+
+  var last = null;
+  function draw() {
+    var furn = 0, boxes = 0;
+    ITEMS.forEach(function (it) { $("o-" + it.k).textContent = c[it.k]; if (it.k === "box") boxes += c[it.k] * it.cu; else furn += c[it.k] * it.cu; });
+    var need = Math.round((furn + boxes) * SLACK);
+    /* smallest unit that holds it and whose long side takes the longest piece */
+    var u = null, i;
+    for (i = 0; i < UNITS.length; i++) if (cap(UNITS[i]) >= need && (!len || UNITS[i].l * 12 >= len)) { u = UNITS[i]; break; }
+    var over = !u, unit = u || UNITS[UNITS.length - 1];
+    var pct = Math.round(need / cap(unit) * 100), close = !over && pct >= 90;
+    var nextUp = close ? UNITS[UNITS.indexOf(unit) + 1] : null;
+    var lenNote = "";
+    if (len && !over) {
+      if (unit.w * 12 >= len) lenNote = "";
+      else lenNote = " Your " + len + "-inch piece fits lying along the " + unit.l + "-foot side.";
+    }
+    var big, small;
+    if (need === 0) { big = "Add a few things"; small = ""; }
+    else if (over) {
+      if (len > UNITS[UNITS.length - 1].l * 12) {
+        big = "Nothing common is that long.";
+        small = "A " + len + "-inch piece is longer than a 10x30 unit. Check the number, or ask about a vehicle or parking space.";
+      } else {
+        var n = Math.ceil(need / cap(unit));
+        big = "More than a 10x30.";
+        small = "About " + fmt(need) + " cubic feet. That's " + n + " units of 10x30, or a bigger space. Worth deciding what to sell or donate first.";
+      }
+    } else {
+      big = "A " + unit.n + " unit.";
+      small = "About " + fmt(need) + " cubic feet, so it's " + pct + "% full" + (aisle ? " with a walkway." : ", with no walkway.") +
+        (close ? (nextUp ? " That's close to the limit: take the " + nextUp.n + " instead." : " That's close to the limit: plan for a second unit.") : "") +
+        lenNote;
+    }
+    $("big").className = "big" + (over || close ? " no" : ""); $("big").textContent = big; $("small").textContent = small;
+    paint(unit, need, furn * SLACK, over);
+    table();
+    last = { big: big, over: over || close };
+    var p = new URLSearchParams(); ITEMS.forEach(function (it) { p.set(it.k, c[it.k]); });
+    p.set("a", aisle); p.set("c", ceil); if (len) p.set("len", len);
+    try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
+  }
+
+  /* the unit seen from above: roll-up door on the left, filled from the back
+     wall, furniture first then boxes; the walkway is a clear strip */
+  function paint(unit, need, furnCu, over) {
+    var s = $("svg"); s.textContent = "";
+    el("rect", { width: 500, height: 222, fill: "#0A1C33" }, s);
+    var maxW = 440, maxH = 136, sc = Math.min(maxW / unit.l, maxH / unit.w);
+    var BW = unit.l * sc, BH = unit.w * sc, X = (500 - BW) / 2 + 6, Y = 40 + (maxH - BH) / 2;
+    el("rect", { x: X - 4, y: Y - 4, width: BW + 8, height: BH + 8, rx: 6, fill: "#13304F", stroke: "#E9EEF5", "stroke-width": 3 }, s);
+    /* door */
+    el("rect", { x: X - 10, y: Y + BH * 0.1, width: 8, height: BH * 0.8, rx: 2, fill: "#FFC21A" }, s);
+    var C = cap(unit), full = Math.min(need, C), fw = BW * Math.min(furnCu, C) / C, tw = BW * full / C;
+    var right = X + BW;
+    function band(y, h) {
+      if (fw > 0) el("rect", { x: right - fw, y: y, width: fw, height: h, fill: "#5B8CFF" }, s);
+      if (tw > fw) {
+        var bx = right - tw, bw = tw - fw;
+        el("rect", { x: bx, y: y, width: bw, height: h, fill: "#C9A27A" }, s);
+        for (var x = bx + 12; x < bx + bw - 4; x += 24) el("rect", { x: x, y: y, width: 4, height: h, fill: "#FFC21A", opacity: .8 }, s);
+      }
+    }
+    if (aisle) {
+      /* a walkway down the middle, from the door toward the back */
+      var gap = BH * 0.2, h = (BH - gap) / 2;
+      band(Y, h); band(Y + h + gap, h);
+      var wk = el("text", { x: X + 8, y: Y + BH / 2 + 4, fill: "#9CC0FF", "font-size": 15, "font-weight": 800, "font-family": "system-ui,sans-serif" }, s);
+      wk.textContent = BH > 40 ? "walkway" : "";
+    } else band(Y, BH);
+    var lbl = el("text", { x: 22, y: 26, fill: "#fff", "font-weight": 800, "font-size": 19, "font-family": "ui-rounded,system-ui,sans-serif" }, s);
+    lbl.textContent = need ? (over ? "Over by " + fmt(need - C) + " cu ft · " + unit.n : Math.round(need / C * 100) + "% full · " + unit.n + " unit") : unit.n + " unit";
+    var k1 = el("text", { x: 22, y: 210, fill: "#9CC0FF", "font-size": 16, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k1.textContent = "blue: furniture";
+    var k2 = el("text", { x: 170, y: 210, fill: "#E2C29E", "font-size": 16, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k2.textContent = "kraft: boxes";
+    var k3 = el("text", { x: 310, y: 210, fill: "#FFC21A", "font-size": 16, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k3.textContent = "yellow: door";
+  }
+  segs(); draw();
+
+  /* share picture: square, the answer large */
+  function picture() {
+    var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
+    var g = cv.getContext("2d"), F = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#0A1C33"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#FFC21A"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    var img = new Image(), svg = new XMLSerializer().serializeToString($("svg"));
+    return new Promise(function (res) {
+      function words() {
+        g.textAlign = "center"; g.fillStyle = last.over ? "#FF9BAD" : "#7FF5C6"; g.font = "850 84px " + F; g.fillText(last.big, Z / 2, 760, Z - 80);
+        g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 34px " + F; g.fillText("What size storage unit do you need? Check free:", Z / 2, 900, Z - 80);
+        g.fillStyle = "#fff"; g.font = "800 40px " + F; g.fillText("packedrabbit.com/storage", Z / 2, 960);
+        res(cv);
+      }
+      img.onload = function () { g.drawImage(img, 40, 200, 1000, 444); words(); };
+      img.onerror = words;
+      img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg.indexOf("xmlns=") > -1 ? svg : svg.replace("<svg", '<svg xmlns="http://www.w3.org/2000/svg"'));
+    });
+  }
+  $("share").addEventListener("click", function () {
+    var url = location.href, text = last.big + " What size storage unit do you need? Check free:";
+    picture().then(function (cv) {
+      cv.toBlob(function (blob) {
+        var file = blob && typeof File !== "undefined" ? new File([blob], "storage-unit-size.png", { type: "image/png" }) : null;
+        if (file && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+        else if (navigator.share) navigator.share({ title: "What size storage unit do I need?", text: text, url: url }).catch(function () {});
+        else if (blob) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "storage-unit-size.png"; document.body.appendChild(a); a.click(); a.remove(); }
+      }, "image/png");
+    });
+  });
+})();
+</script>
+<script>
+/* Embedded on someone else's page: no site header or footer, links open in a
+   new tab, a credit line at the end, and the height told to the host page. */
+(function () {
+  if (!document.documentElement.classList.contains("embed")) return;
+  document.querySelectorAll("a[href]").forEach(function (a) { a.target = "_blank"; a.rel = "noopener"; });
+  var m = document.querySelector("main") || document.body;
+  var c = document.createElement("a");
+  c.className = "embed-credit"; c.target = "_blank"; c.rel = "noopener";
+  c.href = "https://packedrabbit.com" + location.pathname;
+  c.textContent = "Free tool by The Packed Rabbit";
+  m.appendChild(c);
+  function tell() { try { parent.postMessage({ prEmbedHeight: Math.ceil(document.documentElement.scrollHeight) }, "*"); } catch (e) {} }
+  tell(); addEventListener("load", tell); addEventListener("resize", tell);
+  if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
+})();
+</script>
+<script src="../nav.js" defer></script>
+</body>
+</html>
