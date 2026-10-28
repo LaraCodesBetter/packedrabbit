@@ -321,6 +321,7 @@ html.embed h1{font-size:clamp(1.5rem,5vw,2.1rem) !important; margin-top:4px !imp
   .hero .mono-peek{animation:hopin .9s .9s cubic-bezier(.3,1.5,.5,1) both, peek 3.6s 2s ease-in-out infinite}
   .hopping{animation:hop .55s cubic-bezier(.3,1.6,.5,1) !important}
   #truck.pre rect{opacity:0}
+  #truck rect{transform-box:fill-box}
   #truck.go rect{animation:boxin .35s both}
   #truck.go rect:nth-of-type(3n){animation-delay:.25s} #truck.go rect:nth-of-type(3n+1){animation-delay:.5s} #truck.go rect:nth-of-type(3n+2){animation-delay:.75s}
 }
@@ -360,7 +361,7 @@ html.embed h1{font-size:clamp(1.5rem,5vw,2.1rem) !important; margin-top:4px !imp
 .rc.app .amt small{max-width:16ch}
 .saved .cta2{margin-top:26px}
 @media (max-width:859px){.savedcta{order:3}.savedgrid>div:first-child{display:contents}.savedgrid h2,.savedgrid .lead,.savedfine{order:0}.receipt{order:2}}
-@media (prefers-reduced-motion:no-preference){.receipt{animation:printin .9s cubic-bezier(.2,.8,.2,1) both; animation-timeline:view(); animation-range:entry 0% entry 60%}}
+/* v282 (owner, 28 Oct: pictures near the bottom looked distorted while scrolling on her phone): the receipt's scroll-linked "printing" wipe is gone; it simply shows. */
 @keyframes printin{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
 
 .rflag{display:inline-flex; align-items:center; gap:6px; background:#D7142E; color:#fff; font-weight:900; font-size:.82rem; letter-spacing:.01em; padding:5px 11px 5px 8px; border-radius:999px; margin:0 0 8px; box-shadow:0 2px 0 #8E0B1D}
