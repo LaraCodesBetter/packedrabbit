@@ -428,3 +428,22 @@ html.embed h1{font-size:clamp(1.5rem,5vw,2.1rem) !important; margin-top:4px !imp
 .wholelist h3{margin:0 0 4px; font-size:1.15rem}
 .wholelist p{margin:0 0 6px; color:var(--ink2)}
 .wholelist a{font-weight:800; display:inline-flex; align-items:center; min-height:44px}
+
+/* "Where are you in your move?" in the homepage's own style (preview, 27 Oct) */
+.hero .tagk{display:inline-block; background:var(--tape); color:var(--tape-ink); font-family:var(--display); font-weight:850; font-size:1rem; padding:6px 14px; border-radius:8px; margin:0 0 18px; transform:rotate(-1deg)}
+.guide2 .gchips{display:flex; flex-wrap:wrap; gap:10px; margin:20px 0 6px}
+.guide2 .gchips button{min-height:48px; padding:0 18px; border-radius:999px; border:2px solid var(--line); background:var(--panel); color:var(--ink); font:inherit; font-family:var(--display); font-weight:800; font-size:1rem; cursor:pointer}
+.guide2 .gchips button[aria-pressed="true"]{background:var(--navy); color:#fff; border-color:var(--navy)}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .guide2 .gchips button[aria-pressed="true"]{background:var(--tape); color:var(--tape-ink); border-color:var(--tape)} }
+:root[data-theme="dark"] .guide2 .gchips button[aria-pressed="true"]{background:var(--tape); color:var(--tape-ink); border-color:var(--tape)}
+.guide2 .gsteps{list-style:none; counter-reset:g; padding:0; margin:16px 0 0; display:grid; gap:12px}
+.guide2 .gsteps li{counter-increment:g; display:grid; grid-template-columns:44px 1fr; gap:6px 16px; align-items:start; padding:18px; background:var(--panel); border:1px solid var(--line); border-radius:20px; box-shadow:var(--lift1)}
+.guide2 .gsteps li::before{content:counter(g); width:40px; height:40px; border-radius:50%; background:var(--tape); color:var(--tape-ink); display:grid; place-items:center; font-family:var(--display); font-weight:900}
+.guide2 .gsteps li > div{min-width:0}
+.guide2 .gsteps b{display:block; font-family:var(--display); font-size:1.15rem}
+.guide2 .gsteps span{display:block; color:var(--ink2); margin-top:2px}
+.guide2 .gsteps .btn{grid-column:2; justify-self:start; margin-top:10px; min-height:48px}
+@media (min-width:860px){ .guide2 .gsteps li{grid-template-columns:44px 1fr auto; align-items:center} .guide2 .gsteps .btn{grid-column:3; margin-top:0} }
+.guide2 .gend{display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; margin-top:20px}
+.guide2 .gend span{color:var(--ink2); font-size:.95rem}
+.guide2 .gpro{margin:14px 0 0; color:var(--ink2); font-size:.95rem}
