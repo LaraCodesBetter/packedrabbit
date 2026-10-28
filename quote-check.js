@@ -25,7 +25,7 @@ function parseQuote(raw, myCube) {
     || (dollars.length ? Math.max(...dollars.map((d) => d.v)) : 0);
   /* whichever the quote says first is what it is; the fine print usually
      explains the other kind further down */
-  const iNon = low.search(/non[\s-]*binding/), iBind = low.search(/(?:^|[^-\w])binding\b/);
+  const iNon = low.search(/non[\s-]*binding/), iBind = low.search(/(?:^|[^-\w])binding\b(?![\s"'\u201d]+(?:estimate[\s"'\u201d]+)?(?:fee|charge))/); /* panel review, 28 Oct: a "Binding estimate fee" line is a fee, not the kind of estimate */
   if (/not[\s-]+to[\s-]+exceed/i.test(t)) out.binding = "not-to-exceed";
   else if (iNon >= 0 && (iBind < 0 || iNon <= iBind)) out.binding = "non-binding";
   else if (iBind >= 0) out.binding = "binding";
