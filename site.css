@@ -447,3 +447,5 @@ html.embed h1{font-size:clamp(1.5rem,5vw,2.1rem) !important; margin-top:4px !imp
 .guide2 .gend{display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; margin-top:20px}
 .guide2 .gend span{color:var(--ink2); font-size:.95rem}
 .guide2 .gpro{margin:14px 0 0; color:var(--ink2); font-size:.95rem}
+.qshare{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin-top:14px;padding:14px;background:#FFF8E1;border-radius:12px}.qshare span{font-size:.9rem;color:#5B4A1A;flex:1 1 200px}.qshare .btn{min-height:48px}
+.receipt .appwhy{display:block;font-weight:500;font-size:.95rem;line-height:1.45;margin-top:6px;color:inherit;opacity:.85}
