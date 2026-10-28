@@ -67,6 +67,15 @@ function parseQuote(raw, myCube) {
   else F("bad", "No USDOT number. Any mover crossing state lines must have one. Ask for it before anything else.");
   if (out.broker && out.binding && out.binding !== "non-binding") F("warn", "A broker's \"binding\" estimate only holds if the mover they hand your job to honors it. Ask for the carrier's own binding estimate before pickup.");
   if (out.broker) F("bad", "This reads like a broker — someone who sells your move to a different company. You may not know who turns up. Ask who the actual carrier is.");
+  /* owner, 28 Oct 2026: a quote asked for 50% down at booking, then 70% more
+     before the crew arrived: your money and everything you own, both in their
+     hands before anything moves. */
+  const pre = t.match(/(\d{1,3})\s?%[^.\n]{0,60}?\b(?:before|prior to|ahead of|no later than)\b[^.\n]{0,30}?\b(?:pick\s?-?up|loading|load(?:ing)? date|the move|move date|moving day|arrival|crew arrives|movers arrive|service date)/i)
+    || t.match(/\b(?:before|prior to)\b[^.\n]{0,30}?\b(?:pick\s?-?up|loading|the move|move date|arrival)[^.\n]{0,40}?(\d{1,3})\s?%/i);
+  if (pre) {
+    const pct = num(pre[1]);
+    if (pct >= 25 && pct <= 100) F("bad", `${pct}% due before your things are even loaded${out.depositPct ? `, on top of a ${out.depositPct}% deposit` : ""}. They'd have your money and everything you own before anything moves. On a move between states the balance is normally paid at delivery, before unloading. Ask why they want it early, and pay by credit card.`);
+  }
   if (out.depositPct >= 20) F("bad", `A ${out.depositPct}% deposit. Reputable movers usually take little or nothing up front — a big deposit is one of the federal warning signs.`);
   else if (out.deposit || out.depositPct) F("warn", `Deposit${out.deposit ? ` of ${money(out.deposit)}` : ""}${out.depositPct ? ` (${out.depositPct}%)` : ""}. Pay it by card, never cash.`);
   if (out.cashOnly) F("bad", "It asks for cash, a money order, a wire or an app payment. Pay by credit card so you can dispute it, and never pay the balance before your things are off the truck and checked.");

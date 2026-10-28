@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Is my moving quote a scam? Free moving quote checker</title>
+<meta name="description" content="Paste a mover's quote and see the red flags: hidden fees, a big deposit, money due before pickup, weak coverage, broker signs and a missing USDOT number. Free, no signup, nothing you paste is sent anywhere.">
+<link rel="canonical" href="https://packedrabbit.com/quote-check/">
+<meta name="theme-color" content="#0F2742">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="Is my moving quote a scam? Check it free">
+<meta property="og:description" content="Paste a mover's quote. See the hidden fees, the big deposit and the broker signs before you sign.">
+<meta property="og:url" content="https://packedrabbit.com/quote-check/">
+<meta property="og:image" content="https://packedrabbit.com/img/og-quote.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Moving quote checker","url":"https://packedrabbit.com/quote-check/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (runs in the browser)","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Reads a mover's quote on your own device and flags hidden fees, large deposits, money due before pickup, weak coverage, broker signs and a missing USDOT number. Nothing pasted is sent anywhere."}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"How do I know if a moving quote is a scam?","acceptedAnswer":{"@type":"Answer","text":"Warning signs the federal moving regulator (FMCSA) lists include a large deposit before the move, a price given over the phone without seeing your things, no USDOT number, and pressure to sign today. Paste the quote into the checker on this page to see which of these it shows."}},
+{"@type":"Question","name":"How much deposit should a mover ask for?","acceptedAnswer":{"@type":"Answer","text":"Reputable movers usually ask for little or nothing up front. The FMCSA lists a large deposit before the move as a red flag. Pay any deposit by credit card so it can be disputed."}},
+{"@type":"Question","name":"Should I pay the movers before they load my things?","acceptedAnswer":{"@type":"Answer","text":"On a move between states the balance is normally paid at delivery, before unloading. A quote that wants most of the money before pickup leaves the company holding both your money and everything you own. Ask why, and pay by credit card."}},
+{"@type":"Question","name":"Is anything I paste sent to you?","acceptedAnswer":{"@type":"Answer","text":"No. The quote is read by code running on your own device. Nothing is uploaded, stored or sent."}}
+]}
+</script>
+<style>
+  .tp { max-width: 680px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .tp .lede { font-size: 1.12rem; margin: 0 0 18px; }
+  .qc-page .qcheck { margin: 0; }
+  .qc-page .aside ul { padding-left: 1.2em; }
+  .qc-page .aside li { margin: 4px 0; }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home">
+    <img src="../img/rabbit.svg" alt="" width="34" height="34">
+    The Packed Rabbit
+  </a>
+</header>
+
+<main class="tp qc-page">
+  <h1>Is my moving quote a scam?</h1>
+  <p class="lede">Paste the quote. In a second you'll see the hidden fees, the big deposit, money due before pickup, weak coverage and the signs of a broker, each with what to ask.</p>
+  <div class="qcheck" id="check">
+    <form class="qpaper" id="qform" aria-labelledby="qc-h">
+      <h2 id="qc-h" class="qtitle">Check a moving quote</h2>
+      <p class="qsub">Copy the text from the email or PDF and paste it here.</p>
+      <label class="sr" for="qtext">Paste the quote's text</label>
+      <textarea id="qtext" rows="9" placeholder="Paste the text of a mover's quote or estimate here."></textarea>
+      <div class="qbtns">
+        <button class="btn tape" type="submit">Check this quote</button>
+        <button class="btn ghost dark" type="button" id="qsample">Try a sample quote</button>
+      </div>
+      <p class="qprivate">Read right here on this page. Nothing you paste is sent anywhere.</p>
+      <div id="qout" aria-live="polite"></div>
+    </form>
+  </div>
+  <section class="aside" style="margin-top:28px">
+    <h2 style="font-size:1.25rem">What it looks for</h2>
+    <ul>
+      <li>Paperwork fees, like a "binding estimate fee"</li>
+      <li>A deposit that's too big, and money due before your things are even loaded</li>
+      <li>The weakest coverage already ticked for you</li>
+      <li>No USDOT number, or signs you're dealing with a broker instead of a mover</li>
+      <li>Pressure to book today, and a pickup window measured in days</li>
+    </ul>
+    <p>Sources: the Federal Motor Carrier Safety Administration's <a href="https://www.fmcsa.dot.gov/protect-your-move" rel="noopener">Protect Your Move</a> and its rules for household goods movers (49 CFR Part 375). This isn't legal advice.</p>
+  </section>
+  <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Made by someone moving, for people moving. Not a moving company, broker or lead site: we never sell your details and never take a commission from movers, and nothing you type here is sent to us.</p>
+</main>
+
+<footer class="wrap">
+  <a href="../privacy.html">Privacy</a>
+  <a href="../terms.html">Terms and refunds</a>
+  <a href="../answers/">What I wish I'd known</a>
+  <a href="../fit/">Will my couch fit?</a>
+  <a href="../boxes/">How many boxes?</a>
+  <a href="../diy-cost/">Cost to move yourself</a>
+  <a href="../tip/">How much to tip movers?</a>
+  <a href="../take-or-leave/">Take it or leave it?</a>
+  <a href="../mover-check/">Check your mover</a>
+  <a href="../quote-check/">Check a moving quote</a>
+  <a href="../checklist/">Moving checklist by date</a>
+  <a href="../change-address/">Change of address checklist</a>
+  <a href="../deposit/">When is my deposit due back?</a>
+  <a href="../storage/">What size storage unit?</a>
+  <a href="../embed/">Put these tools on your site</a>
+</footer>
+
+<script src="../quote-check.js" defer></script>
+<script src="../share-result.js" defer></script>
+<script src="../quote-ui.js" data-base="../" defer></script>
+<script>
+/* Embedded on someone else's page: no site header or footer, links open in a
+   new tab, a credit line at the end, and the height told to the host page. */
+(function () {
+  if (!document.documentElement.classList.contains("embed")) return;
+  document.querySelectorAll("a[href]").forEach(function (a) { a.target = "_blank"; a.rel = "noopener"; });
+  var m = document.querySelector("main") || document.body;
+  var c = document.createElement("a");
+  c.className = "embed-credit"; c.target = "_blank"; c.rel = "noopener";
+  c.href = "https://packedrabbit.com" + location.pathname;
+  c.textContent = "Free tool by The Packed Rabbit";
+  m.appendChild(c);
+  function tell() { try { parent.postMessage({ prEmbedHeight: Math.ceil(document.documentElement.scrollHeight) }, "*"); } catch (e) {} }
+  tell(); addEventListener("load", tell); addEventListener("resize", tell);
+  if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
+})();
+</script>
+<script src="../nav.js" defer></script>
+<script src="../halloween.js"></script>
+</body>
+</html>
