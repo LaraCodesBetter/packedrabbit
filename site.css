@@ -454,3 +454,12 @@ html.embed h1{font-size:clamp(1.5rem,5vw,2.1rem) !important; margin-top:4px !imp
 .spook-in p{margin:0;flex:1 1 220px;font-size:.98rem;line-height:1.4}
 .spook-btn{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;background:#1B1430;color:#FFE07A;font-weight:800;text-decoration:none}
 .spook-btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
+/* v281: product tour, real screens in a swipeable strip */
+.tour .tour-strip{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px max(16px,calc((100vw - 1120px)/2)) 22px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.tour .tour-strip:focus-visible{outline:3px solid #FFC21A;outline-offset:-3px}
+.tour figure{flex:0 0 auto;width:min(66vw,260px);margin:0;scroll-snap-align:center}
+.tour figure:first-child{margin-left:max(16px,calc((100vw - 1120px)/2 + 16px))}
+.tour figure:last-child{margin-right:16px}
+.tour figure img{width:100%;height:auto;display:block;border-radius:22px;box-shadow:var(--lift2,0 10px 30px rgba(0,0,0,.18))}
+.tour figcaption{margin-top:10px;font-weight:800;font-size:1rem;line-height:1.3}
+.tour .cta2{margin-top:6px}

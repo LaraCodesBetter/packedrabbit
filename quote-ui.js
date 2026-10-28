@@ -23,7 +23,7 @@
     h+=first.map(row).join("");
     if(rest.length) h+='<details class="qmore"><summary>Show '+rest.length+' more</summary>'+rest.map(row).join("")+'</details>';
     h+='<div class="qshare"><button type="button" class="btn tape" id="qsharebtn">Share my result</button><span>A picture of your red flags, with no amounts or company names. Made on this page.</span></div>';
-    h+='<div class="qnext"><p>Keep every quote side by side, give each mover stars for facts, and log every call. The founder&#x27;s own move caught $3,566 in these same tricks. The full app is $9.99 a month, '+['less than a drive-through with your family','less than the boxes for one room','about what a move spends on tape'][Math.floor(Math.random()*3)]+'.</p><a class="btn tape" href="'+B+'app/">Start managing my move</a></div>';
+    h+='<div class="qnext"><p>Keep every quote side by side, give each mover stars for facts, and log every call. Then it runs the rest of the move: every box, the truck, move day and the deposit.</p><a class="btn tape" href="'+B+'app/">Start managing my move</a></div>';
     h+='<p class="qfine">This checks the words on the quote against federal moving rules and the tricks we have seen. It isn\'t legal advice. <a href="'+B+'movers-vs-brokers/">How each trick works</a></p>';
     out.innerHTML=h;
     var sb=document.getElementById('qsharebtn'); if(sb&&t===SAMPLE.trim()){sb.parentNode.style.display='none';} else if(sb&&window.prShareResult) sb.addEventListener('click',function(){window.prShareResult(fl,sb);});
