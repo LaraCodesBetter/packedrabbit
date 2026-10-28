@@ -34,7 +34,7 @@
     var bad = flags.filter(function (f) { return f.tone === "bad"; }), ask = flags.filter(function (f) { return f.tone === "warn"; });
     g.fillStyle = "#0F2742"; g.fillRect(0, 0, W, H);
     g.save(); g.translate(0, 70); g.rotate(-0.02); g.fillStyle = "#FFC21A"; g.fillRect(-20, 0, W + 40, 36); g.restore();
-    g.fillStyle = "#FFC21A"; g.font = "800 40px " + F; g.fillText("I checked my mover's quote.", 80, 210);
+    g.fillStyle = window.prSpooky ? "#FF8A1F" : "#FFC21A"; g.font = "800 40px " + F; g.fillText(window.prSpooky && bad.length ? "The scariest part of my mover's quote:" : "I checked my mover's quote.", 80, 210);
     g.fillStyle = "#FFFFFF"; g.font = "900 104px " + F;
     var head = bad.length ? bad.length + (bad.length === 1 ? " red flag." : " red flags.") : ask.length ? ask.length + (ask.length === 1 ? " thing to ask." : " things to ask.") : "It looks clean.";
     g.fillText(head, 80, 340);
@@ -54,7 +54,7 @@
   window.prShareResult = function (flags, btn) {
     var c = draw(flags || []);
     var bad = (flags || []).filter(function (f) { return f.tone === "bad"; }).length;
-    var text = bad ? "My mover's quote had " + bad + (bad === 1 ? " red flag" : " red flags") + ". Check yours before you sign: https://packedrabbit.com/#check" : "Check your mover's quote before you sign: https://packedrabbit.com/#check";
+    var text = bad ? "My mover's quote had " + bad + (bad === 1 ? " red flag" : " red flags") + ". Check yours before you sign: https://packedrabbit.com/quote-check/" : "Check your mover's quote before you sign: https://packedrabbit.com/quote-check/";
     c.toBlob(function (blob) {
       var file = new File([blob], "my-quote-check.png", { type: "image/png" });
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
