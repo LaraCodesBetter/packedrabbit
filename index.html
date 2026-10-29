@@ -63,7 +63,7 @@
     { "@type": "Question", "name": "Is it really free?",
       "acceptedAnswer": { "@type": "Answer", "text": "Unlimited boxes, photos, labels, search and the quote checker are free for good, with no card and no account. The full app (the plan and timeline, furniture fit, truck size, move day, the deposit and the paperwork) is $9.99 a month for up to 12 months, then billing stops by itself. Cancel anytime." } },
     { "@type": "Question", "name": "How do you make money if it's free?",
-      "acceptedAnswer": { "@type": "Answer", "text": "From the one-time price of the full app, and from plans for businesses that help people move. Never from movers: we don't take a commission or a referral fee, and we never sell anyone's number." } },
+      "acceptedAnswer": { "@type": "Answer", "text": "From the monthly plan for the full app, and from plans for businesses that help people move. Never from movers: we don't take a commission or a referral fee, and we never sell anyone's number." } },
     { "@type": "Question", "name": "Will moving companies call me?",
       "acceptedAnswer": { "@type": "Answer", "text": "No. We never ask for your phone number, and there's nothing to sell to a mover. That's the whole point." } },
     { "@type": "Question", "name": "Do I need an account?",
@@ -105,15 +105,14 @@
     <div class="hero-grid">
       <div>
         <p class="tagk">A moving app made by a consumer, for consumers.</p>
-        <h1>The moving app that's on your side.</h1>
-        <p class="hero-2">Moving yourself or hiring a pro, it keeps every box, date and detail of your move in one place.</p>
-        <p class="lede">And before you pay anyone, it reads their quote for what it's hiding: hidden fees, a deposit that's too big, the weakest coverage already ticked, a broker posing as a mover.</p>
+        <h1>See what your mover's quote is hiding.</h1>
+        <p class="hero-2">Hidden fees, a deposit that&#x27;s too big, a broker posing as a mover. Then it keeps every box, date and detail of your move in one place.</p>
         <p class="fine">No account, and nobody calls you. <a href="price.html" style="color:#FFC21A">The details</a> · <a href="business/" style="color:#FFC21A">For business</a></p>
       </div>
 
       <div class="qcheck" id="check">
         <button class="mono-peek" type="button" aria-label="Tap the rabbit"><svg class="mono" viewBox="0 0 100 100" aria-hidden="true"><g class="ears"><path d="M36 42C32 30 30 16 34 9c4-6 9-1 10 7 1 7 1 18 0 25" fill="#FFFFFF" stroke="#0F2742" stroke-width="2.6" stroke-linejoin="round"/><path d="M58 41c3-12 7-24 12-29 5-4 8 2 6 10-2 8-7 17-11 22" fill="#FFFFFF" stroke="#0F2742" stroke-width="2.6" stroke-linejoin="round"/><path d="M37 36c-2-8-3-16-1-20" stroke="#F0245A" stroke-width="2" stroke-linecap="round" opacity=".45" fill="none"/><path d="M63 34c2-7 4-14 7-17" stroke="#F0245A" stroke-width="2" stroke-linecap="round" opacity=".45" fill="none"/></g><ellipse cx="50" cy="62" rx="26" ry="23" fill="#FFFFFF" stroke="#0F2742" stroke-width="2.8"/><circle cx="39" cy="58" r="10.5" fill="#07705F" opacity=".07"/><circle cx="39" cy="58" r="10.5" fill="none" stroke="#07705F" stroke-width="2.6"/><path d="M30 65c-4 6-5 13-3 19" stroke="#07705F" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="39" cy="58" r="3.2" fill="#0F2742"/><circle cx="62" cy="58" r="3.2" fill="#0F2742"/><path d="M47 69h6l-3 3.5z" fill="#F0245A" stroke="#0F2742" stroke-width="1.4" stroke-linejoin="round"/><path d="M44 71H30M44 74H32M56 71h14M56 74h12" stroke="#4A5568" stroke-width="1.5" stroke-linecap="round"/></svg></button>
-        <form class="qpaper" id="qform" aria-labelledby="qc-h">
+        <form class="qpaper" id="qform" data-preview aria-labelledby="qc-h">
           <h2 id="qc-h" class="qtitle">Hiring a mover? Check the quote</h2>
           <p class="qsub">Paste it. See what it's hiding before you pay.</p>
           <label class="sr" for="qtext">Paste the quote's text</label>
@@ -141,20 +140,25 @@
   <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h10l4 4v12H5z M14 4v5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Answers from FMCSA, FTC and CFPB</li>
 </ul></div>
 
-<section class="band guide2" id="guide" aria-labelledby="gd-h">
-  <div class="wrap">
-    <h2 id="gd-h">Where are you in your move?</h2>
-    <p class="lead">Pick one. You'll see the next three steps, and the button that does each one.</p>
-    <div class="gchips" role="group" aria-label="Where you are in your move"></div>
-    <ol class="gsteps">
-      <li><div><b>Put in your moving date</b><span>Everything counts back from that one day: what to do this week, and when to book.</span></div><a class="btn ghost" href="app/?stage=new">Start my plan</a></li>
-      <li><div><b>Measure the big pieces</b><span>The sofa, the bed, the dresser. Find out now what won't fit through the new door.</span></div><a class="btn ghost" href="fit/">Will it fit?</a></li>
-      <li><div><b>Decide: movers or a truck</b><span>See what each would cost for your home, and which pieces are worth moving at all.</span></div><a class="btn ghost" href="diy-cost/">Compare the costs</a></li>
-    </ol>
-    <div class="gend"><a class="btn tape gcta" href="app/?stage=new">Do all of this in the app, free</a><span>No account. It stays on your phone.</span></div>
-    <p class="gpro">Move people for a living? Agents, move managers and relocation teams: <a href="business/">see the pro version</a>.</p>
+<section class="band saved" aria-labelledby="sv-h">
+  <div class="wrap savedgrid">
+    <div>
+      <h2 id="sv-h">What knowing saved one move this fall.</h2>
+      <p class="lead muted">The founder's own move, packed with this app. Every number is from that move's own quotes, texts and card statement. No company names.</p>
+      <p class="muted savedfine">Your move will have different numbers. The tricks are the same ones.</p>
+      <div class="cta2 savedcta"><a class="btn tape" href="app/">Start managing my move</a><a class="btn ghost dark" href="movers-vs-brokers/">How each one was caught</a></div>
+    </div>
+    <div class="receipt" role="table" aria-label="What one move saved">
+      <div class="rc-h" role="row"><span role="columnheader">What happened</span><span role="columnheader">Kept</span></div>
+      <div class="rc" role="row"><span role="cell"><span class="rflag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>Red flag</span><b>A $2,001.99 "binding estimate fee"</b>Spotted on a broker's quote before signing. Walked away.<em class="why"><strong>Why:</strong> a binding estimate is a promise to hold the price. It shouldn't cost almost as much as the move. Ask what every fee is for before you sign.</em></span><span role="cell" class="amt">$2,001.99</span></div>
+      <div class="rc" role="row"><span role="cell"><span class="rflag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>Red flag</span><b>A deposit declared "gone"</b>After a weekend of unanswered calls. Every request was in writing and paid by card, so it was disputed and credited back.<em class="why"><strong>Why:</strong> a mover that stops answering before pickup won't answer when something breaks. Keeping the whole deposit, with no change fee offered, is the pattern to watch for.</em></span><span role="cell" class="amt">$1,564.26</span></div>
+      <div class="rc tot" role="row"><span role="cell">Saved</span><span role="cell" class="amt">$3,566.25</span></div>
+      <div class="rc risk" role="row"><span role="cell"><span class="rflag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>Red flag</span><b>$5,000 down, asked on the phone</b>Booked a mover with its own trucks instead, for $100 down.<em class="why"><strong>Why:</strong> the federal moving regulator (FMCSA) lists a large deposit before the move as a red flag. A real mover asks for little up front.</em></span><span role="cell" class="amt">$4,900 <small>never put at risk</small></span></div>
+    </div>
   </div>
 </section>
+
+
 
 <section class="band tour" aria-labelledby="tr-h">
   <div class="wrap">
@@ -171,7 +175,6 @@
     <figure><img src="img/shots/07-plan.webp" width="600" height="1304" loading="lazy" alt="The whole plan by phase, worked out from the move dates"></figure>
     <figure><img src="img/shots/08-private.webp" width="600" height="1304" loading="lazy" alt="Move day screen with what stays with you and the loading order"></figure>
   </div>
-  <div class="wrap"><div class="cta2"><a class="btn tape" href="app/">Start managing my move</a></div></div>
 </section>
 
 <section class="band promise" aria-labelledby="pr-h">
@@ -257,13 +260,7 @@
   </div>
 </section>
 
-<section class="band whole" aria-labelledby="wh-h">
-  <div class="wrap">
-    <h2 id="wh-h">Not just a box tracker. The whole move.</h2>
-    <p class="lead muted">Whichever way you move, it keeps track of the parts people forget, and gives you peace of mind: what stays with you instead of going on the truck, a named contact on the sheet the crew gets if you're moving alone, and everything kept on your own phone.</p>
-    <ul class="wholelist"><li><h3>Moving yourself</h3><p>Box counts, the truck size from what you actually packed, and whether the sofa fits through the door.</p><a href="truck/">What size truck?</a></li><li><h3>Hiring movers</h3><p>Check any quote, give each mover stars for facts, log every call, and know a mover from a broker.</p><a href="#check">Check a quote</a></li><li><h3>Moving abroad</h3><p>Shipping container or air freight, the customs list, and the papers for 13 countries.</p><a href="moving-to/">Moving abroad</a></li><li><h3>The journey</h3><p>The drive or the flight, the stops, and what rides with you, not on the truck.</p><a href="app/">Plan it in the app</a></li><li><h3>Your new town</h3><p>Coffee, pizza, parks, trails and gyms near the new place, before you've unpacked a box.</p><a href="app/">Open the app</a></li><li><h3>A new state</h3><p>Driver's license, car registration, voter registration, insurance and care, with each state's deadlines.</p><a href="states/">New state guides</a></li><li><h3>Pets and medicine</h3><p>The pet plan, doctors and prescriptions moved over, and nothing important on the truck.</p><a href="app/">Open the app</a></li><li><h3>Money and the deposit</h3><p>What each piece is worth moving, your deposit back on time, and every receipt kept.</p><a href="take-or-leave/">Take it or leave it?</a></li></ul>
-  </div>
-</section>
+
 
 <section class="band" id="how">
   <div class="wrap row2">
@@ -306,28 +303,12 @@
     <p class="muted" style="font-size:.9rem">Every review comes from someone who used the app and chose to share it. We take down only personal details and abuse, never a review for being critical.</p>
   </div>
 </section>
-<section class="band saved" aria-labelledby="sv-h">
-  <div class="wrap savedgrid">
-    <div>
-      <h2 id="sv-h">What knowing saved one move this fall.</h2>
-      <p class="lead muted">The founder's own move, packed with this app. Every number is from that move's own quotes, texts and card statement. No company names.</p>
-      <p class="muted savedfine">Your move will have different numbers. The tricks are the same ones.</p>
-      <div class="cta2 savedcta"><a class="btn tape" href="app/">Start managing my move</a><a class="btn ghost dark" href="movers-vs-brokers/">How each one was caught</a></div>
-    </div>
-    <div class="receipt" role="table" aria-label="What one move saved">
-      <div class="rc-h" role="row"><span role="columnheader">What happened</span><span role="columnheader">Kept</span></div>
-      <div class="rc" role="row"><span role="cell"><span class="rflag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>Red flag</span><b>A $2,001.99 "binding estimate fee"</b>Spotted on a broker's quote before signing. Walked away.<em class="why"><strong>Why:</strong> a binding estimate is a promise to hold the price. It shouldn't cost almost as much as the move. Ask what every fee is for before you sign.</em></span><span role="cell" class="amt">$2,001.99</span></div>
-      <div class="rc" role="row"><span role="cell"><span class="rflag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>Red flag</span><b>A deposit declared "gone"</b>After a weekend of unanswered calls. Every request was in writing and paid by card, so it was disputed and credited back.<em class="why"><strong>Why:</strong> a mover that stops answering before pickup won't answer when something breaks. Keeping the whole deposit, with no change fee offered, is the pattern to watch for.</em></span><span role="cell" class="amt">$1,564.26</span></div>
-      <div class="rc tot" role="row"><span role="cell">Saved</span><span role="cell" class="amt">$3,566.25</span></div>
-      <div class="rc risk" role="row"><span role="cell"><span class="rflag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>Red flag</span><b>$5,000 down, asked on the phone</b>Booked a mover with its own trucks instead, for $100 down.<em class="why"><strong>Why:</strong> the federal moving regulator (FMCSA) lists a large deposit before the move as a red flag. A real mover asks for little up front.</em></span><span role="cell" class="amt">$4,900 <small>never put at risk</small></span></div>
-    </div>
-  </div>
-</section>
+
 
 <section class="band faq" aria-labelledby="fq-h">
   <div class="wrap narrow">
     <h2 id="fq-h">Questions people ask first</h2>
-    <details><summary>How do I check a moving quote for hidden fees?</summary><p>Paste the quote&#x27;s text into the checker at the top of this page. It flags paperwork fees like a &quot;binding estimate fee&quot;, a deposit that&#x27;s too big, the weakest coverage already ticked, a missing USDOT number, pressure to book today, and signs you&#x27;re dealing with a broker instead of a mover. It runs in your browser and nothing you paste is sent anywhere.</p></details><details><summary>What does it cost?</summary><p>Unlimited boxes, photos, labels, search and the quote checker are free for good, with no card and no account. The full app (the plan and timeline, furniture fit, truck size, move day, the deposit and the paperwork) is $9.99 a month for up to 12 months, then billing stops by itself. Cancel anytime.</p></details><details><summary>How do you make money?</summary><p>From the one-time price of the full app, and from plans for businesses that help people move. Never from movers: we don&#x27;t take a commission or a referral fee, and we never sell anyone&#x27;s number.</p></details><details><summary>Will moving companies call me?</summary><p>No. We never ask for your phone number, and there&#x27;s nothing to sell to a mover. That&#x27;s the whole point.</p></details><details><summary>Do I need an account?</summary><p>No. Open it and start. Everything you enter stays on your own phone.</p></details><details><summary>How do I put it on my phone?</summary><p>iPhone and iPad: open <a href="app/">the app</a> in Safari, tap Share, then Add to Home Screen. Android: open it in Chrome and tap Install. On a computer it just runs in the browser. Once it is on your home screen it works with the wifi off.</p></details><details><summary>Who made this?</summary><p>Someone who was moving, not a moving company. Every warning sign on this site came from a real move this fall.</p></details><details><summary>Where do the answers come from?</summary><p>Federal and consumer sources: the FMCSA, the FTC and the CFPB, plus state law where it matters. Each answer names its source.</p></details>
+    <details><summary>How do I check a moving quote for hidden fees?</summary><p>Paste the quote&#x27;s text into the checker at the top of this page. It flags paperwork fees like a &quot;binding estimate fee&quot;, a deposit that&#x27;s too big, the weakest coverage already ticked, a missing USDOT number, pressure to book today, and signs you&#x27;re dealing with a broker instead of a mover. It runs in your browser and nothing you paste is sent anywhere.</p></details><details><summary>What does it cost?</summary><p>Unlimited boxes, photos, labels, search and the quote checker are free for good, with no card and no account. The full app (the plan and timeline, furniture fit, truck size, move day, the deposit and the paperwork) is $9.99 a month for up to 12 months, then billing stops by itself. Cancel anytime.</p></details><details><summary>How do you make money?</summary><p>From the monthly plan for the full app, and from plans for businesses that help people move. Never from movers: we don&#x27;t take a commission or a referral fee, and we never sell anyone&#x27;s number.</p></details><details><summary>Will moving companies call me?</summary><p>No. We never ask for your phone number, and there&#x27;s nothing to sell to a mover. That&#x27;s the whole point.</p></details><details><summary>Do I need an account?</summary><p>No. Open it and start. Everything you enter stays on your own phone.</p></details><details><summary>How do I put it on my phone?</summary><p>iPhone and iPad: open <a href="app/">the app</a> in Safari, tap Share, then Add to Home Screen. Android: open it in Chrome and tap Install. On a computer it just runs in the browser. Once it is on your home screen it works with the wifi off.</p></details><details><summary>Who made this?</summary><p>Someone who was moving, not a moving company. Every warning sign on this site came from a real move this fall.</p></details><details><summary>Where do the answers come from?</summary><p>Federal and consumer sources: the FMCSA, the FTC and the CFPB, plus state law where it matters. Each answer names its source.</p></details>
     <div class="cta2"><a class="btn tape" href="#check">Check a quote now</a><a class="btn ghost dark" href="app/">Start managing my move</a></div>
   </div>
 </section>
