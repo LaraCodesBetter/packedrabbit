@@ -10,7 +10,7 @@
   function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
   function run(t0,quiet){
     var t=(t0!=null?t0:ta.value).trim();
-    if(!t){out.innerHTML='<p class="qfine">Paste a quote first, or try the sample.</p>';ta.focus();return;}
+    if(!t){out.innerHTML='<p class="qfine">'+(document.getElementById("qsample")?'Paste a quote first, or try the sample.':'Paste the text of a quote first.')+'</p>';ta.focus();return;}
     if(!window.prReadQuote){out.innerHTML='<p class="qfine">One moment, the reader is still loading. Try again.</p>';return;}
     var r=window.prReadQuote(t), fl=r.flags||[];
     var order={bad:0,warn:1,good:2}; fl=fl.slice().sort(function(a,b){return order[a.tone]-order[b.tone];});
@@ -38,5 +38,5 @@
      after # is never sent to any server, so the quote stays on the phone. */
   function fromHash(){var m=/^#q=([\s\S]+)$/.exec(location.hash||"");if(!m)return;var q="";try{q=decodeURIComponent(m[1].replace(/\+/g," "));}catch(e){return;}if(!q.trim())return;ta.value=q.slice(0,20000);var go=function(){if(window.prReadQuote)run();else setTimeout(go,120);};go();}
   fromHash(); addEventListener("hashchange",fromHash);
-  document.getElementById("qsample").addEventListener("click",function(){ta.value=SAMPLE;run();});
+  var qs=document.getElementById("qsample"); if(qs) qs.addEventListener("click",function(){ta.value=SAMPLE;run();});
 })();
