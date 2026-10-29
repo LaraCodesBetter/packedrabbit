@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>When should I start packing to move? Free packing schedule by date</title>
+<meta name="description" content="Type your moving date and rooms and see the day to start packing, which room to pack on which day, and how many boxes a day. Free, no signup, nothing to download.">
+<link rel="canonical" href="https://packedrabbit.com/packing-schedule/">
+<meta name="theme-color" content="#0F2742">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="When should I start packing?">
+<meta property="og:description" content="Your moving date in, a day-by-day packing schedule out: the start date, the room for each day and how many boxes.">
+<meta property="og:url" content="https://packedrabbit.com/packing-schedule/">
+<meta property="og:image" content="https://packedrabbit.com/img/og-card.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Packing schedule by The Packed Rabbit",
+  "url": "https://packedrabbit.com/packing-schedule/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Builds a day-by-day packing schedule from a moving date, the rooms in a home, how many boxes a person can pack in a day and how many days a week they can pack. Works backward from the day before the move, packs the least-used rooms first and the kitchen last, and leaves a spare day. Every number is an estimate."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "When should I start packing to move?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Work backward from your moving date. Estimate how many boxes your home needs, divide by how many you can pack on a packing day, and count back that many packing days from the day before the move, plus a spare day. A two-bedroom home of about 47 boxes, packed 6 boxes a day on 4 days a week, needs about 8 packing days plus a spare day, so start roughly two and a half weeks before. These are estimates: your pace and your things will differ." } },
+    { "@type": "Question", "name": "What room should I pack first when moving?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The one you use least: a garage, basement or storage space, then an office or shelves of books, then dining and living rooms, then bedrooms, then bathrooms, and the kitchen last. Keep a box of things you will need on the first night packed separately, and pack it last." } },
+    { "@type": "Question", "name": "How many boxes can I pack in a day?",
+      "acceptedAnswer": { "@type": "Answer", "text": "It varies a lot with what is going in them. A shelf of books packs quickly; a cabinet of glasses takes much longer. Try a short session, count what you packed, and use that number. This tool starts at 6 a day and lets you change it." } }
+  ]
+}
+</script>
+<style>
+  .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .homes, .fill { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 10px 0 6px; }
+  .fill { grid-template-columns: repeat(3, 1fr); margin: 8px 0 0; }
+  .homes button, .fill button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 4px; }
+  .homes button.on, .fill button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .lbl { font-weight: 800; margin: 22px 0 0; font-size: 1.1rem; display: block; }
+  .date { display: block; width: 100%; box-sizing: border-box; min-height: 56px; margin-top: 10px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-family: var(--display); font-weight: 800; font-size: 1.2rem; padding: 6px 14px; }
+  .date:focus { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+  .stage { background: #0A1C33; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .say { padding: 16px 18px 6px; color: #fff; }
+  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.5vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #7FF5C6; }
+  .say .big.no { color: #FF9BAD; }
+  .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
+  .items { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .items li { display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 16px; border-bottom: 1px solid var(--line); }
+  .items li:last-child { border-bottom: 0; }
+  .items .nm { flex: 1; min-width: 0; font-weight: 700; }
+  .items .nm small { display: block; font-weight: 500; color: var(--ink2); font-size: .82rem; }
+  .step { display: flex; align-items: center; gap: 4px; }
+  .step button { width: 44px; height: 44px; border-radius: 12px; border: 2px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; font-size: 1.4rem; font-weight: 800; cursor: pointer; line-height: 1; }
+  .step output { min-width: 2.4ch; text-align: center; font-family: var(--display); font-weight: 850; font-size: 1.25rem; }
+  .wk { margin: 22px 0 0; }
+  .wk h3 { font-size: 1.1rem; margin: 0 0 8px; }
+  .pdays { list-style: none; margin: 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .pdays li { display: flex; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--line); align-items: flex-start; }
+  .pdays li:last-child { border-bottom: 0; }
+  .pdays .d { flex: 0 0 auto; min-width: 3.4rem; text-align: center; font-weight: 800; font-size: .82rem; line-height: 1.15; color: var(--ink2); padding-top: 2px; }
+  .pdays .d b { display: block; font-family: var(--display); font-size: 1.3rem; color: var(--ink); }
+  .pdays .t { flex: 1; min-width: 0; }
+  .pdays .t strong { display: block; }
+  .pdays .t small { display: block; color: var(--ink2); font-size: .88rem; margin-top: 2px; }
+  .pdays .sw { flex: 0 0 auto; width: 10px; align-self: stretch; border-radius: 5px; }
+  .more { color: var(--ink2); font-size: .95rem; margin: 10px 0 0; }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  .how { margin-top: 34px; } .how h2 { font-size: 1.5rem; }
+  .how table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+  .how td, .how th { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .aside { font-size: .95rem; color: var(--ink2); }
+  .src { font-size: .9rem; color: var(--ink2); border-top: 1px solid var(--line); padding-top: 12px; margin-top: 22px; }
+  .src a { color: var(--ink2); overflow-wrap: anywhere; }
+  @media (max-width: 380px) { .homes { grid-template-columns: repeat(3, 1fr); } }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home">
+    <img src="../img/rabbit.svg" alt="" width="34" height="34">
+    The Packed Rabbit
+  </a>
+</header>
+
+<main class="tp">
+  <h1>When should I start packing?</h1>
+  <p class="lede">Type your moving date and set your rooms. You get the day to start, the room for each packing day and how many boxes.</p>
+
+  <label class="lbl" for="f-date">When are you moving?</label>
+  <input class="date" id="f-date" type="date">
+
+  <div class="stage">
+    <div class="say" aria-live="polite"><div class="big" id="big"></div><p id="small"></p></div>
+    <svg id="svg" viewBox="0 0 500 120" role="img" aria-label="Packing days on a calendar, colored by room"></svg>
+  </div>
+
+  <p class="lbl">Your pace</p>
+  <ul class="items">
+    <li><span class="nm">Boxes on a packing day<small>Try one session and count</small></span><span class="step"><button type="button" id="p-" aria-label="One fewer box a day">−</button><output id="o-p" aria-live="polite"></output><button type="button" id="p+" aria-label="One more box a day">+</button></span></li>
+    <li><span class="nm">Packing days a week<small>Weekends are used first</small></span><span class="step"><button type="button" id="w-" aria-label="One fewer packing day a week">−</button><output id="o-w" aria-live="polite"></output><button type="button" id="w+" aria-label="One more packing day a week">+</button></span></li>
+  </ul>
+
+  <p class="lbl" id="home-l">Your home</p>
+  <div class="homes" role="group" aria-labelledby="home-l">
+    <button type="button" data-h="s">Studio</button>
+    <button type="button" data-h="1">1 bed</button>
+    <button type="button" data-h="2" class="on">2 bed</button>
+    <button type="button" data-h="3">3 bed</button>
+    <button type="button" data-h="4">4 bed</button>
+  </div>
+  <ul class="items" id="items"></ul>
+  <p class="lbl" id="fill-l">How full are your cupboards and closets?</p>
+  <div class="fill" role="group" aria-labelledby="fill-l">
+    <button type="button" data-f="l">Sparse</button>
+    <button type="button" data-f="a" class="on">Average</button>
+    <button type="button" data-f="f">Packed</button>
+  </div>
+
+  <h2 style="margin-top:30px;font-size:1.5rem">Your packing days</h2>
+  <div id="plan"></div>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this answer</button>
+    <button class="btn ghost" id="ics" type="button">Add these days to my calendar</button>
+    <a class="btn ghost" href="../app/">Pack room by room in the app, free</a>
+  </div>
+  <p class="aside">The app numbers each box as you pack it and keeps a photo of what's inside, so the schedule turns into a list you can search later. No account, and it works with no signal.</p>
+
+  <section class="how">
+    <h2>How this works</h2>
+    <p>Your rooms give a box count, the same way as the <a href="../boxes/">boxes calculator</a>. That count is divided by the boxes you pack on a packing day to get the number of packing days. Those days are counted back from the day before the move, on the days of the week you pack, with one spare day added for whatever runs over. The day before the move is kept for the last things.</p>
+    <p>Rooms go in order from least used to most used, so the home keeps working while you pack:</p>
+    <table>
+      <tbody>
+        <tr><td><strong>1. Garage and storage</strong></td><td>Things you won't need before the move</td></tr>
+        <tr><td><strong>2. Office</strong></td><td>Books and files, in small boxes</td></tr>
+        <tr><td><strong>3. Dining</strong></td><td>Serving dishes, table linens, decor</td></tr>
+        <tr><td><strong>4. Living room</strong></td><td>Books, decor, games. The TV goes last</td></tr>
+        <tr><td><strong>5. Bedrooms</strong></td><td>Out-of-season clothes first. Keep a week's worth out</td></tr>
+        <tr><td><strong>6. Bathrooms</strong></td><td>Spares first. Daily things go in the first-night box</td></tr>
+        <tr><td><strong>7. Kitchen</strong></td><td>Rarely used things first. Keep a plate, cup and pan each</td></tr>
+      </tbody>
+    </table>
+    <p class="aside" style="margin-top:12px">Pack heavy things such as books, tins and tools in small boxes and light, bulky things in large ones, and keep every box light enough to lift without straining. Keep medicine, documents, chargers and keys with you, not in a box.</p>
+    <p class="aside">Every number here is an estimate. Box counts per room, the 6-a-day starting pace, the spare day and the room order are our own suggestions, not a published standard. If you are short on time, adding a packing day a week usually helps more than packing more boxes a day.</p>
+  </section>
+  <p class="src">Sources: packing rules (light items in large boxes, heavy items in small boxes, no more than 30 to 40 pounds a carton) from <a href="https://www.fredonia.edu/sites/default/files/section/about/offices/facilities/_files/MOVING-2014.pdf">State University of New York at Fredonia, Facilities Services moving guide</a>. Boxes per room, packing pace, room order and the spare day are our own estimates and will vary with what you own. Checked October 2026.</p>
+  <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Made by someone moving, for people moving. Not a moving company, broker or lead site: we never sell your details and never take a commission from movers, and nothing you type here is sent to us.</p>
+</main>
+
+<footer class="wrap">
+  <a href="../privacy.html">Privacy</a>
+  <a href="../terms.html">Terms and refunds</a>
+  <a href="../answers/">What I wish I'd known</a>
+  <a href="../fit/">Will my couch fit?</a>
+  <a href="../truck/">What size truck?</a>
+  <a href="../boxes/">How many boxes?</a>
+  <a href="../diy-cost/">Cost to move yourself</a>
+  <a href="../tip/">How much to tip movers?</a>
+  <a href="../take-or-leave/">Take it or leave it?</a>
+  <a href="../mover-check/">Check your mover</a>
+  <a href="../checklist/">Moving checklist by date</a>
+  <a href="../change-address/">Change of address checklist</a>
+  <a href="../deposit/">When is my deposit due back?</a>
+  <a href="../storage/">What size storage unit?</a>
+  <a href="../embed/">Put these tools on your site</a>
+</footer>
+
+<script>
+/* Nothing typed here is sent anywhere. The date and counts go in the address
+   only so a shared link opens showing the same schedule. */
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  function $(id) { return document.getElementById(id); }
+  function el(tag, a, p) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+  /* in packing order, least used first; box totals match /boxes/ at an average fill */
+  var ROOMS = [
+    { k: "gar", n: "Garages, basements, storage", t: "Garage and storage", tip: "Things you won't need before the move", bx: 10, col: "#8FA3BF" },
+    { k: "off", n: "Offices", t: "Office", tip: "Books and files, in small boxes", bx: 7, col: "#A57BFF" },
+    { k: "din", n: "Dining rooms or areas", t: "Dining", tip: "Serving dishes, table linens, decor", bx: 4, col: "#FF9A3D" },
+    { k: "liv", n: "Living and family rooms", t: "Living room", tip: "Books, decor and games. The TV goes last", bx: 7, col: "#5B8CFF" },
+    { k: "bed", n: "Bedrooms", t: "Bedrooms", tip: "Out-of-season clothes first. Keep a week's worth out", bx: 10, col: "#2EE59D" },
+    { k: "bath", n: "Bathrooms", t: "Bathrooms", tip: "Spares first. Daily things go in the first-night box", bx: 3, col: "#5CD6FF" },
+    { k: "kit", n: "Kitchens", t: "Kitchen", tip: "Rarely used things first. Keep a plate, cup and pan each", bx: 10, col: "#FF5C86", max: 3 }
+  ];
+  var HOMES = {
+    s: { kit: 1, bed: 1, bath: 1, liv: 0, din: 0, off: 0, gar: 0 },
+    1: { kit: 1, bed: 1, bath: 1, liv: 1, din: 0, off: 0, gar: 0 },
+    2: { kit: 1, bed: 2, bath: 2, liv: 1, din: 1, off: 0, gar: 0 },
+    3: { kit: 1, bed: 3, bath: 2, liv: 1, din: 1, off: 1, gar: 1 },
+    4: { kit: 1, bed: 4, bath: 3, liv: 2, din: 1, off: 1, gar: 1 }
+  };
+  var FILL = { l: 0.7, a: 1, f: 1.4 };
+  /* which days of the week (0 is Sunday) get used for each number of packing days */
+  var PAT = { 1: [6], 2: [6, 0], 3: [2, 6, 0], 4: [1, 3, 6, 0], 5: [1, 2, 4, 6, 0], 6: [1, 2, 3, 4, 6, 0], 7: [0, 1, 2, 3, 4, 5, 6] };
+  var SHOW = 70; /* packing days listed before "and more" */
+
+  function noon(d) { var x = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12); return x; }
+  function add(d, n) { var x = new Date(d.getFullYear(), d.getMonth(), d.getDate() + n, 12); return x; }
+  function iso(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+  function parse(s) { var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || ""); if (!m) return null; var d = new Date(+m[1], +m[2] - 1, +m[3], 12); return d.getMonth() === +m[2] - 1 ? d : null; }
+  function fmt(d) { return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }); }
+  function fmtY(d) { return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" }); }
+  function days(a, b) { return Math.round((noon(b) - noon(a)) / 864e5); }
+
+  var today = noon(new Date());
+  var c = {}, fill = "a", per = 6, wk = 4, move = add(today, 28);
+  function setHome(h) { var src = HOMES[h]; ROOMS.forEach(function (r) { c[r.k] = src[r.k]; }); }
+
+  /* a shared link carries the date and counts */
+  var q = new URLSearchParams(location.search), fromLink = false;
+  setHome("2");
+  ROOMS.forEach(function (r) { var v = parseInt(q.get(r.k), 10); if (v >= 0 && v <= (r.max || 20)) { c[r.k] = v; fromLink = true; } });
+  if (FILL[q.get("f")]) fill = q.get("f");
+  var qp = parseInt(q.get("p"), 10); if (qp >= 1 && qp <= 40) per = qp;
+  var qw = parseInt(q.get("w"), 10); if (qw >= 1 && qw <= 7) wk = qw;
+  var qd = q.get("d");
+  if (qd !== null) move = parse(qd);
+  $("f-date").value = move ? iso(move) : "";
+
+  function clear(sel) { [].forEach.call(document.querySelectorAll(sel), function (b) { b.classList.remove("on"); }); }
+  if (fromLink) clear(".homes button");
+  [].forEach.call(document.querySelectorAll(".fill button"), function (b) { b.classList.toggle("on", b.getAttribute("data-f") === fill); });
+
+  var list = $("items");
+  ROOMS.forEach(function (r) {
+    var li = document.createElement("li"), mx = r.max || 20;
+    li.innerHTML = '<span class="nm">' + r.n + '</span><span class="step"><button type="button" aria-label="One fewer: ' + r.n + '">−</button><output id="o-' + r.k + '" aria-live="polite"></output><button type="button" aria-label="One more: ' + r.n + '">+</button></span>';
+    var bs = li.querySelectorAll("button");
+    bs[0].addEventListener("click", function () { c[r.k] = Math.max(0, c[r.k] - 1); clear(".homes button"); draw(); });
+    bs[1].addEventListener("click", function () { c[r.k] = Math.min(mx, c[r.k] + 1); clear(".homes button"); draw(); });
+    list.appendChild(li);
+  });
+  [].forEach.call(document.querySelectorAll(".homes button"), function (b) {
+    b.addEventListener("click", function () { setHome(b.getAttribute("data-h")); clear(".homes button"); b.classList.add("on"); draw(); });
+  });
+  [].forEach.call(document.querySelectorAll(".fill button"), function (b) {
+    b.addEventListener("click", function () { fill = b.getAttribute("data-f"); clear(".fill button"); b.classList.add("on"); draw(); });
+  });
+  $("p-").addEventListener("click", function () { per = Math.max(1, per - 1); draw(); });
+  $("p+").addEventListener("click", function () { per = Math.min(40, per + 1); draw(); });
+  $("w-").addEventListener("click", function () { wk = Math.max(1, wk - 1); draw(); });
+  $("w+").addEventListener("click", function () { wk = Math.min(7, wk + 1); draw(); });
+  $("f-date").addEventListener("input", function () { move = parse(this.value); draw(); });
+  $("f-date").addEventListener("change", function () { move = parse(this.value); draw(); });
+
+  /* the schedule: packing days counted back from the day before the move */
+  function build() {
+    var rooms = [], total = 0;
+    ROOMS.forEach(function (r) { if (c[r.k]) { var n = Math.max(1, Math.round(r.bx * c[r.k] * FILL[fill])); rooms.push({ r: r, n: n }); total += n; } });
+    var out = { total: total, rooms: rooms, list: [], start: null, short: false, need: total ? Math.ceil(total / per) : 0 };
+    if (!move) { out.state = "nodate"; return out; }
+    var gap = days(today, move);
+    if (gap < 0) { out.state = "past"; return out; }
+    if (gap === 0) { out.state = "today"; return out; }
+    if (gap === 1 && total) { out.state = "tomorrow"; return out; }
+    if (!total) { out.state = "empty"; return out; }
+    var last = add(move, -1), want = out.need + 1;
+    /* walk back from two days before the move, never before today */
+    function pick(ok) { var got = []; for (var d = add(last, -1); days(today, d) >= 0 && got.length < want; d = add(d, -1)) if (ok.indexOf(d.getDay()) > -1) got.unshift(d); return got; }
+    var picked = pick(PAT[wk]), perDay = per;
+    if (picked.length < want && wk < 7) { picked = pick(PAT[7]); out.allDays = picked.length >= want; }
+    if (picked.length < want) {
+      out.short = true; out.allDays = false;
+      /* not enough days even packing daily: every day from today, no spare */
+      picked = []; for (var d = today; days(d, last) > 0; d = add(d, 1)) picked.push(d);
+      perDay = picked.length ? Math.ceil(total / picked.length) : total;
+    }
+    out.perDay = perDay;
+    var spare = out.short ? null : picked.pop();
+    /* fill days in room order */
+    var ri = 0, left = rooms.length ? rooms[0].n : 0;
+    var n = picked.length;
+    picked.forEach(function (day, i) {
+      /* when short, spread the boxes evenly over every day */
+      var cap = out.short ? Math.floor((i + 1) * total / n) - Math.floor(i * total / n) : perDay, parts = [];
+      while (cap > 0 && ri < rooms.length) {
+        var take = Math.min(cap, left);
+        if (take > 0) { var p = parts.length && parts[parts.length - 1].r === rooms[ri].r ? parts[parts.length - 1] : null; if (p) p.n += take; else parts.push({ r: rooms[ri].r, n: take }); }
+        cap -= take; left -= take;
+        if (left <= 0) { ri++; left = ri < rooms.length ? rooms[ri].n : 0; }
+      }
+      if (parts.length) out.list.push({ d: day, parts: parts });
+    });
+    if (spare) out.list.push({ d: spare, spare: true });
+    out.list.push({ d: last, last: true });
+    out.start = out.list[0].d;
+    out.state = "ok";
+    return out;
+  }
+
+  var last = null;
+  function draw() {
+    ROOMS.forEach(function (r) { $("o-" + r.k).textContent = c[r.k]; });
+    $("o-p").textContent = per; $("o-w").textContent = wk;
+    var s = build(), big = "", small = "", bad = false;
+    if (s.state === "nodate") { big = "Pick your moving date"; small = "Then the schedule fills in below."; }
+    else if (s.state === "past") { big = "That date has passed"; small = "Pick the day you're moving."; bad = true; }
+    else if (s.state === "today") { big = "Moving today"; small = "Pack what's left by room, and keep medicine, documents, chargers and keys with you."; bad = true; }
+    else if (s.state === "tomorrow") { big = "Moving tomorrow"; small = "Today is the last day. Pack a first-night box first: bedding, medicine, chargers, toiletries, a change of clothes, snacks. Then the rest, room by room."; bad = true; }
+    else if (s.state === "empty") { big = "Add a room or two"; small = ""; }
+    else {
+      var lead = days(today, s.start);
+      var pdays = s.list.filter(function (x) { return x.parts; }).length;
+      if (s.short) {
+        bad = true;
+        var gap = days(today, move), near = gap <= 21;
+        big = "Start today: about " + s.perDay + " boxes a day.";
+        small = "About " + s.total + " boxes is more than fits at " + per + " a packing day before the move, even packing every day, so this spreads them over every day from today" + (pdays > 1 ? " (" + pdays + " days)" : "") + ". More hands, more boxes a day or fewer things will help" + (near ? ", and needing help this close to a move is normal." : ".");
+      } else {
+        big = lead === 0 ? "Start packing today." : "Start packing " + fmt(s.start) + ".";
+        small = "About " + s.total + " boxes, " + per + " a packing day: " + pdays + " packing day" + (pdays === 1 ? "" : "s") + (s.allDays ? ", which needs every day of the week to fit before the move," : " on " + wk + " day" + (wk === 1 ? "" : "s") + " a week,") + " a spare day, and the day before the move for the last things." + (lead > 0 ? " That's " + (lead === 1 ? "tomorrow" : lead + " days from today") + "." : "");
+      }
+    }
+    $("big").className = "big" + (bad ? " no" : ""); $("big").textContent = big; $("small").textContent = small;
+    paint(s); plan(s);
+    last = { big: big, s: s };
+    var p = new URLSearchParams(); if (move) p.set("d", iso(move)); else p.set("d", "");
+    ROOMS.forEach(function (r) { p.set(r.k, c[r.k]); }); p.set("f", fill); p.set("p", per); p.set("w", wk);
+    try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
+    $("ics").disabled = s.state !== "ok";
+  }
+
+  function label(x) {
+    if (x.last) return { t: "Last things", s: "A first-night box: bedding, medicine, chargers, toiletries, a change of clothes, snacks. Then the last kitchen things.", col: "#C9A27A" };
+    if (x.spare) return { t: "Spare day", s: "Catch up on anything that ran over, or rest.", col: "#33496B" };
+    var t = x.parts.map(function (p) { return p.r.t + ": " + p.n + " box" + (p.n === 1 ? "" : "es"); }).join(", ");
+    return { t: t, s: x.parts[0].r.tip, col: x.parts[0].r.col };
+  }
+
+  function plan(s) {
+    var box = $("plan");
+    if (s.state !== "ok") { box.innerHTML = '<p class="aside">' + (s.state === "empty" ? "Add a room and the days appear here." : s.state === "today" || s.state === "tomorrow" ? "Nothing left to schedule." : "Pick your moving date and the days appear here.") + "</p>"; return; }
+    var html = "", wkStart = null, shown = 0, packDays = s.list.filter(function (x) { return x.parts; }).length, hidden = 0;
+    s.list.forEach(function (x) {
+      if (x.parts) { shown++; if (shown > SHOW) { hidden++; return; } }
+      var ws = add(x.d, -x.d.getDay());
+      if (!wkStart || days(wkStart, ws) !== 0) {
+        if (wkStart) html += "</ul></div>";
+        wkStart = ws;
+        html += '<div class="wk"><h3>Week of ' + esc(fmt(ws)) + "</h3><ul class=\"pdays\">";
+      }
+      var L = label(x);
+      html += '<li><span class="sw" style="background:' + L.col + '"></span><span class="d">' + esc(x.d.toLocaleDateString("en-US", { weekday: "short" })) + "<b>" + x.d.getDate() + "</b>" + esc(x.d.toLocaleDateString("en-US", { month: "short" })) + '</span><span class="t"><strong>' + esc(L.t) + "</strong><small>" + esc(L.s) + "</small></span></li>";
+    });
+    html += "</ul></div>";
+    html += '<div class="wk"><h3>Moving day: ' + esc(fmtY(move)) + '</h3></div>';
+    if (hidden) html = html.replace('<div class="wk"><h3>Moving day', '<p class="more">And ' + hidden + " more packing days. That's a long stretch: more boxes a day or more days a week will shorten it.</p>" + '<div class="wk"><h3>Moving day');
+    box.innerHTML = html;
+  }
+
+  /* a calendar of the weeks from the start to the move, colored by room */
+  function paint(s) {
+    var svg = $("svg"); svg.textContent = "";
+    var F = "ui-rounded,system-ui,sans-serif";
+    if (s.state !== "ok") { svg.setAttribute("viewBox", "0 0 500 14"); el("rect", { width: 500, height: 14, fill: "#0A1C33" }, svg); return; }
+    var first = add(s.start, -s.start.getDay()), rows = Math.floor(days(first, move) / 7) + 1;
+    /* a very long plan shows its last 12 weeks */
+    if (rows > 12) { first = add(move, -move.getDay() - 77); rows = 12; }
+    var cw = 64, gap = 4, ch = 30, top = 26, X = (500 - (cw * 7 + gap * 6)) / 2;
+    var H = top + rows * (ch + gap) + 14;
+    svg.setAttribute("viewBox", "0 0 500 " + H);
+    el("rect", { width: 500, height: H, fill: "#0A1C33" }, svg);
+    "SMTWTFS".split("").forEach(function (l, i) { var t = el("text", { x: X + i * (cw + gap) + cw / 2, y: 18, fill: "#9CC0FF", "font-size": 12, "font-weight": 800, "text-anchor": "middle", "font-family": F }, svg); t.textContent = l; });
+    var map = {}; s.list.forEach(function (x) { map[iso(x.d)] = x; });
+    for (var i = 0, d = first; days(d, move) >= 0; i++, d = add(d, 1)) {
+      var row = Math.floor(i / 7), col = i % 7, x = X + col * (cw + gap), y = top + row * (ch + gap);
+      var it = map[iso(d)], isMove = days(d, move) === 0, before = days(s.start, d) < 0;
+      var fillc = isMove ? "#FFC21A" : it ? label(it).col : "#13304F";
+      el("rect", { x: x, y: y, width: cw, height: ch, rx: Math.min(8, ch / 3), fill: fillc, opacity: before ? 0.35 : 1 }, svg);
+      if (ch >= 22) { var t = el("text", { x: x + 8, y: y + ch / 2 + 5, fill: isMove || (it && !it.spare) ? "#0A1C33" : it ? "#E9EEF5" : "#9CC0FF", "font-size": 13, "font-weight": 800, "font-family": F }, svg); t.textContent = isMove ? d.getDate() + " move" : d.getDate(); }
+      if (it && it.spare) el("rect", { x: x + 1.5, y: y + 1.5, width: cw - 3, height: ch - 3, rx: Math.min(7, ch / 3), fill: "none", stroke: "#9CC0FF", "stroke-width": 2, "stroke-dasharray": "4 3" }, svg);
+    }
+  }
+
+  draw();
+
+  /* share picture: square, the answer large */
+  function wrapText(g, text, maxW) { var w = text.split(" "), lines = [], line = ""; w.forEach(function (x) { var t = line ? line + " " + x : x; if (g.measureText(t).width > maxW && line) { lines.push(line); line = x; } else line = t; }); if (line) lines.push(line); return lines; }
+  function picture() {
+    var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
+    var g = cv.getContext("2d"), F = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#0A1C33"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#FFC21A"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    var svgEl = $("svg"), vb = svgEl.getAttribute("viewBox").split(" "), vw = +vb[2], vh = +vb[3];
+    var img = new Image(), svg = new XMLSerializer().serializeToString(svgEl);
+    return new Promise(function (res) {
+      function words(bottom) {
+        g.textAlign = "center"; g.fillStyle = last.s.short ? "#FF9BAD" : "#7FF5C6"; g.font = "850 72px " + F;
+        var lines = wrapText(g, last.big, 960), y = Math.max(bottom + 90, 600);
+        lines.forEach(function (l, i) { g.fillText(l, Z / 2, y + i * 80); });
+        g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 34px " + F; g.fillText("When should you start packing? Check free:", Z / 2, 900);
+        g.fillStyle = "#fff"; g.font = "800 40px " + F; g.fillText("packedrabbit.com/packing-schedule", Z / 2, 960);
+        res(cv);
+      }
+      img.onload = function () { var w = 1000, h = Math.min(420, w * vh / vw); w = h * vw / vh; g.drawImage(img, (Z - w) / 2, 140, w, h); words(140 + h); };
+      img.onerror = function () { words(300); };
+      img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg.indexOf("xmlns=") > -1 ? svg : svg.replace("<svg", '<svg xmlns="http://www.w3.org/2000/svg"'));
+    });
+  }
+  $("share").addEventListener("click", function () {
+    var url = location.href, text = last.big + " When should you start packing? Check free:";
+    picture().then(function (cv) {
+      cv.toBlob(function (blob) {
+        var file = blob && typeof File !== "undefined" ? new File([blob], "packing-schedule.png", { type: "image/png" }) : null;
+        if (file && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+        else if (navigator.share) navigator.share({ title: "When should I start packing?", text: text, url: url }).catch(function () {});
+        else if (blob) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "packing-schedule.png"; document.body.appendChild(a); a.click(); a.remove(); }
+      }, "image/png");
+    });
+  });
+
+  /* a calendar file built here, on the device: one all-day event per day */
+  function icsText(s) { return String(s).replace(/\\/g, "\\\\").replace(/[,;]/g, "\\$&").replace(/\n/g, "\\n"); }
+  function fold(line) { var o = ""; while (line.length > 74) { o += line.slice(0, 74) + "\r\n "; line = line.slice(74); } return o + line; }
+  $("ics").addEventListener("click", function () {
+    if (!last || last.s.state !== "ok") return;
+    var stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
+    var L = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//The Packed Rabbit//Packing schedule//EN", "CALSCALE:GREGORIAN"];
+    last.s.list.forEach(function (x, i) {
+      var a = iso(x.d).replace(/-/g, ""), b = iso(add(x.d, 1)).replace(/-/g, ""), lb = label(x);
+      L.push("BEGIN:VEVENT", "UID:pr-packing-" + a + "-" + i + "@packedrabbit.com", "DTSTAMP:" + stamp, "DTSTART;VALUE=DATE:" + a, "DTEND;VALUE=DATE:" + b, fold("SUMMARY:" + icsText("Pack: " + lb.t)), fold("DESCRIPTION:" + icsText(lb.s)), "TRANSP:TRANSPARENT", "END:VEVENT");
+    });
+    L.push("END:VCALENDAR");
+    var blob = new Blob([L.join("\r\n") + "\r\n"], { type: "text/calendar" });
+    var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "packing-schedule.ics"; document.body.appendChild(a); a.click(); a.remove();
+  });
+})();
+</script>
+<script>
+/* Embedded on someone else's page: no site header or footer, links open in a
+   new tab, a credit line at the end, and the height told to the host page. */
+(function () {
+  if (!document.documentElement.classList.contains("embed")) return;
+  document.querySelectorAll("a[href]").forEach(function (a) { a.target = "_blank"; a.rel = "noopener"; });
+  var m = document.querySelector("main") || document.body;
+  var c = document.createElement("a");
+  c.className = "embed-credit"; c.target = "_blank"; c.rel = "noopener";
+  c.href = "https://packedrabbit.com" + location.pathname;
+  c.textContent = "Free tool by The Packed Rabbit";
+  m.appendChild(c);
+  function tell() { try { parent.postMessage({ prEmbedHeight: Math.ceil(document.documentElement.scrollHeight) }, "*"); } catch (e) {} }
+  tell(); addEventListener("load", tell); addEventListener("resize", tell);
+  if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
+})();
+</script>
+<script src="../nav.js" defer></script>
+</body>
+</html>
