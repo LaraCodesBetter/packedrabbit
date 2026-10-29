@@ -8,8 +8,8 @@
   var f=document.getElementById("qform"), ta=document.getElementById("qtext"), out=document.getElementById("qout");
   if(!f) return;
   function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
-  function run(){
-    var t=ta.value.trim();
+  function run(t0,quiet){
+    var t=(t0!=null?t0:ta.value).trim();
     if(!t){out.innerHTML='<p class="qfine">Paste a quote first, or try the sample.</p>';ta.focus();return;}
     if(!window.prReadQuote){out.innerHTML='<p class="qfine">One moment, the reader is still loading. Try again.</p>';return;}
     var r=window.prReadQuote(t), fl=r.flags||[];
@@ -18,18 +18,22 @@
     var lab={bad:"Red flag",warn:"Ask",good:"Good"};
     var h='<div class="qsum">'+(n.bad?'<span class="b">'+n.bad+' red flag'+(n.bad>1?'s':'')+'</span>':'')+(n.warn?'<span class="w">'+n.warn+' to ask about</span>':'')+(n.good?'<span class="g">'+n.good+' good sign'+(n.good>1?'s':'')+'</span>':'')+'</div>';
     var row=function(x){return '<div class="qflag '+x.tone+'"><i>'+lab[x.tone]+'</i><span>'+esc(x.text)+'</span></div>';};
-    var first=fl.filter(function(x){return x.tone==="bad";}); if(first.length<3) first=fl.slice(0,3);
+    var first=fl.filter(function(x){return x.tone==="bad";}); if(first.length<3) first=fl.slice(0,3); if(quiet) first=first.slice(0,3);
     var rest=fl.slice(first.length);
     h+=first.map(row).join("");
     if(rest.length) h+='<details class="qmore"><summary>Show '+rest.length+' more</summary>'+rest.map(row).join("")+'</details>';
     h+='<div class="qshare"><button type="button" class="btn tape" id="qsharebtn">Share my result</button><span>A picture of your red flags, with no amounts or company names. Made on this page.</span></div>';
     h+='<div class="qnext"><p>Keep every quote side by side, give each mover stars for facts, and log every call. Then it runs the rest of the move: every box, the truck, move day and the deposit.</p><a class="btn tape" href="'+B+'app/">Start managing my move</a></div>';
     h+='<p class="qfine">This checks the words on the quote against federal moving rules and the tricks we have seen. It isn\'t legal advice. <a href="'+B+'movers-vs-brokers/">How each trick works</a></p>';
+    if(quiet) h='<p class="qsamplehead">A sample result, from a made-up quote built from real ones. Paste yours above to check it.</p>'+h;
     out.innerHTML=h;
     var sb=document.getElementById('qsharebtn'); if(sb&&t===SAMPLE.trim()){sb.parentNode.style.display='none';} else if(sb&&window.prShareResult) sb.addEventListener('click',function(){window.prShareResult(fl,sb);});
+    if(quiet) return;
     try{out.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"nearest"});}catch(e){}
   }
   f.addEventListener("submit",function(e){e.preventDefault();run();});
+  /* Research 28 Oct: show a finished result before anyone pastes anything (homepage only, data-preview). */
+  if(f.hasAttribute("data-preview")&&!/^#q=/.test(location.hash||"")){var pv=function(){if(window.prReadQuote)run(SAMPLE,true);else setTimeout(pv,120);};pv();}
   /* #q=<the quote's text>: opens already checked. The part of a web address
      after # is never sent to any server, so the quote stays on the phone. */
   function fromHash(){var m=/^#q=([\s\S]+)$/.exec(location.hash||"");if(!m)return;var q="";try{q=decodeURIComponent(m[1].replace(/\+/g," "));}catch(e){return;}if(!q.trim())return;ta.value=q.slice(0,20000);var go=function(){if(window.prReadQuote)run();else setTimeout(go,120);};go();}
