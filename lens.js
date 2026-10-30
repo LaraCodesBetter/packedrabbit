@@ -16,7 +16,7 @@
     ["Availability discount     -$615.35", ""],
     ["Total                     $4,770.99", ""],
     ["Deposit 30% at booking, non-refundable.", "Too much up front, and you can't get it back."],
-    ["Valuation: [X] $0.60 per lb", "The weakest coverage, already ticked."],
+    ["Valuation: [X] $0.60 per lb", "The weakest coverage, already checked."],
     ["This price is valid today only.", "Pressure. A real price lasts more than a day."]
   ];
   var quote = document.getElementById("lensq");

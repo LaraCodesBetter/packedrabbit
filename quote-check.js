@@ -103,7 +103,8 @@ function parseQuote(raw, myCube) {
     if (n >= 10) F("bad", `Delivery can take up to ${n} business days — about ${Math.round(n / 5)} weeks. Ask for a delivery date in writing on the bill of lading, not a window.`);
   }
   if (/first\s+(?:date\s+)?available\s+for\s+delivery|not\s+guaranteed|delivery\s+window/i.test(t)) F("warn", "Delivery isn't guaranteed. The window can start on a date they pick. Get a latest delivery date in writing.");
-  if (/(?:72|48)\s*hour|pick[\s-]?up\s+window/i.test(t)) F("warn", "A pickup window, not a pickup time. Plan to be ready on every day of it.");
+  /* Fix list: "Delivery spread … 72 hours" was read as a pickup window. Only near "pickup". */
+  if (/pick[\s-]?up[^.\n]{0,40}(?:72|48)\s*hour|(?:72|48)\s*hour[^.\n]{0,40}pick[\s-]?up|pick[\s-]?up\s+(?:window|spread)/i.test(t)) F("warn", "A pickup window, not a pickup time. Plan to be ready on every day of it.");
   if (/(?:only|valid)\s+(?:good\s+)?(?:today|while|for\s+24)|book\s+now|availability\s+discount|expires?\s+(?:today|tonight|in\s+24)/i.test(t)) F("bad", "Pressure to decide now. A real price is still there tomorrow. Don't book or pay on the first call.");
   if (/non[\s-]?refundable|not\s+refundable/i.test(t)) F("bad", "Part of what you pay can't be refunded. Find out exactly when you could still cancel and get the deposit back.");
   if (/waive[sd]?\s+(?:a\s+|the\s+)?(?:physical|in[\s-]home|virtual)?\s*survey|survey[^.\n]{0,30}waived/i.test(t)) F("warn", "The in-home or video survey is waived. The price is only as good as the list you gave them; anything missing can mean a new, higher estimate on pickup day.");
@@ -116,7 +117,7 @@ function parseQuote(raw, myCube) {
     F("bad", `Payments go to "${payee[1].trim()}", not the company on the quote. Ask who that is before you pay anyone.`);
   const claimDays = t.match(/(?:claim|notice of claim)[^.\n]{0,80}?within\s+(\d{1,3})\s+days/i);
   if (claimDays && parseInt(claimDays[1], 10) < 270) F("bad", `It gives you ${claimDays[1]} days to file a damage claim. On a move between states, federal law gives you at least 9 months (49 U.S.C. 14706). Ask them to change it.`);
-  if (/\bX\s+Basic\s+Value\s+Protection|\[x\]\s*(?:basic|released)/i.test(t)) F("bad", "The weakest coverage is already ticked for you. Full value protection is the default on a move between states unless you choose otherwise in writing. Ask its price.");
+  if (/\bX\s+Basic\s+Value\s+Protection|\[x\]\s*(?:basic|released)/i.test(t)) F("bad", "The weakest coverage is already checked for you. Full value protection is the default on a move between states unless you choose otherwise in writing. Ask its price.");
   if (/grand\s+total\s*(?:-{1,2}|—|\$?0\.00)(?:\s|$)/i.test(t)) F("bad", "The total on the contract is blank or $0. A binding price must be written on it before you sign.");
   return out;
 }
