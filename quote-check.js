@@ -21,8 +21,10 @@ function parseQuote(raw, myCube) {
   out.total = (labelled ? num(labelled[1]) : 0)
     || near(/total\s+(?:moving\s+|binding\s+)?(?:estimate|move\s+cost|price)\b/i, 120)
     || near(/(grand\s+total|total\s+(?:estimate|cost|price|charges?|due)|estimated\s+total|total)\b/i, 120)
-    || near(/(estimate|quote|price)\b/i, 60)
-    || (dollars.length ? Math.max(...dollars.map((d) => d.v)) : 0);
+    /* panel round 3: "Binding estimate fee $450" was read as the total */
+    || near(/(estimate|quote|price)\b(?![\s"'\u201d]+(?:fee|charge|deposit))/i, 60);
+  /* no labelled total: the largest amount is only a guess, and nothing is worked out from it */
+  if (!out.total && dollars.length) { out.total = Math.max(...dollars.map((d) => d.v)); out.totalGuess = true; }
   /* whichever the quote says first is what it is; the fine print usually
      explains the other kind further down */
   const iNon = low.search(/non[\s-]*binding/), iBind = low.search(/(?:^|[^-\w])binding\b(?![\s"'\u201d]+(?:estimate[\s"'\u201d]+)?(?:fee|charge))/); /* panel review, 28 Oct: a "Binding estimate fee" line is a fee, not the kind of estimate */
@@ -38,9 +40,12 @@ function parseQuote(raw, myCube) {
   if (dep) { if (dep[1]) out.deposit = num(dep[1]); if (dep[2]) out.depositPct = num(dep[2]); }
   const depBefore = t.match(/(\d{1,3})(?:\s*(?:-|to)\s*(\d{1,3}))?\s?%\s+deposit(?!\s*(?:refund|return|back))/i);
   if (depBefore && !out.depositPct) out.depositPct = num(depBefore[2] || depBefore[1]);
+  const depAfter = t.match(/deposit[^\n%]{0,60}?\(?\s?(\d{1,3})\s?%/i);
+  if (depAfter && !out.depositPct) out.depositPct = num(depAfter[1]);
   const pay = t.match(/(?:customer\s+payment|due\s+(?:at|upon)\s+booking|payment\s+(?:due\s+)?today)[^$\n]{0,40}\$\s?(\d[\d,]*(?:\.\d{2})?)/i);
   if (pay && !out.deposit) out.deposit = num(pay[1]);
-  if (out.deposit && out.total) out.depositPct = Math.round((out.deposit / out.total) * 100);
+  if (out.deposit && out.total && !out.depositPct && !out.totalGuess) out.depositPct = Math.round((out.deposit / out.total) * 100);
+  if (out.depositPct > 100) out.depositPct = 0;
   const hr = t.match(/\$\s?(\d+(?:\.\d{2})?)\s*(?:\/|per|an?)\s*(?:hour|hr)\b/i);
   if (hr) out.hourly = num(hr[1]);
   const cu = t.match(/(\d[\d,]*(?:\.\d+)?)\s*(?:cu\.?\s*ft|cubic\s+f(?:ee|oo)t|cf)\b/i);
@@ -58,7 +63,7 @@ function parseQuote(raw, myCube) {
   if (nm) out.name = nm.replace(/^(from|company)\s*:\s*/i, "");
 
   const F = (tone, text) => out.flags.push({ tone, text });
-  if (!out.total) F("warn", "No total found. Ask for one figure, in writing, that includes everything.");
+  if (!out.total || out.totalGuess) F("warn", "No total found. Ask for one figure, in writing, that includes everything.");
   if (out.binding === "not-to-exceed") F("good", "Binding not-to-exceed — the strongest kind. The bill can go down, not up.");
   else if (out.binding === "binding") F("good", "Binding — the price is fixed unless you add things.");
   else if (out.binding === "non-binding") F("warn", "Non-binding — the final bill can legally be higher. On a move between states it can't be more than 10% over at delivery, and the rest gets billed later.");
