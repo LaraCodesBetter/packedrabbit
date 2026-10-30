@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Will my mattress fit up the stairs? Free check, no signup</title>
+<meta name="description" content="Pick the mattress or box spring size, type the stair width and headroom, and see whether it goes up the stairs and around the landing, which way to carry it, and what to do if it won't. Free, no signup.">
+<link rel="canonical" href="https://packedrabbit.com/mattress/">
+<meta name="theme-color" content="#0F2742">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="Will my mattress fit up the stairs?">
+<meta property="og:description" content="Mattress or box spring, straight stairs or a turn at a landing. Which way to carry it, and what to do if it won't go.">
+<meta property="og:url" content="https://packedrabbit.com/mattress/">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Will my mattress fit up the stairs? by The Packed Rabbit",
+  "url": "https://packedrabbit.com/mattress/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Checks whether a mattress or box spring goes up a staircase and around a turn at a landing, from the mattress size, the stair width and the headroom. Shows which way to carry it, how much room is left, and what to do if it does not fit. Nothing typed is sent anywhere."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Will a queen or king mattress fit up my stairs?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Measure the narrowest width of the stairs and the headroom, straight up from the edge of a step to the lowest point of the ceiling above. A mattress usually goes up on its side, so its width has to fit under the headroom, which is less than it looks because the stairs slope. Worked out that way, on 36-inch stairs with 80 inches of headroom a queen goes up on its side and a rigid king base does not. A turn at a landing is often the hardest part: the mattress is stood on end there, so the ceiling over the landing has to be taller than the mattress is long." } },
+    { "@type": "Question", "name": "What if my box spring won't fit up the stairs?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A box spring can't bend, so if it doesn't fit, look for another way: a split foundation (two halves that sit side by side under one mattress), a foundation that comes flat and is put together in the bedroom, a platform frame that needs no box spring, or another way in, such as a wider stair or a window. A mattress that bends may still go where a box spring won't, but check the maker's instructions before bending it." } }
+  ]
+}
+</script>
+<style>
+  .mp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .mp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .lbl { display: block; font-weight: 800; margin: 18px 0 8px; font-size: 1.05rem; }
+  .lbl small { display: block; font-weight: 500; color: var(--ink2); font-size: .88rem; margin-top: 2px; }
+  .fld { width: 100%; box-sizing: border-box; min-height: 54px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 700; font-size: 1.1rem; padding: 8px 14px; }
+  .fld:focus { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+  select.fld { appearance: auto; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .seg.three { grid-template-columns: repeat(3, 1fr); }
+  .seg button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 6px 8px; line-height: 1.2; }
+  .seg button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; margin: 14px 0 4px; }
+  .inputs.three { grid-template-columns: repeat(3, 1fr); }
+  .inputs label { display: block; font-weight: 700; font-size: .95rem; margin-bottom: 4px; }
+  .inputs .hint { display: block; font-weight: 500; font-size: .82rem; color: var(--ink2); }
+  .inputs > * { min-width: 0; }
+  .inputs > div { display: flex; flex-direction: column; } .inputs > div > label { flex: 1; }
+  #landing[hidden] { display: none; }
+  .num { display: flex; align-items: center; background: var(--panel); border: 2px solid var(--line); border-radius: 14px; padding: 0 12px; min-height: 54px; }
+  .num:focus-within { border-color: var(--blue); }
+  .num input { flex: 1; width: 100%; min-width: 0; border: 0; background: transparent; color: var(--ink); font: inherit; font-family: var(--display); font-weight: 800; font-size: 1.3rem; padding: 10px 0; outline: none; }
+  .num span { color: var(--ink2); font-weight: 600; }
+  .stage { background: #0A1C33; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin-top: 20px; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .say { padding: 16px 18px 18px; color: #fff; font-family: var(--display); }
+  .say .big { font-size: clamp(1.6rem, 6.3vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.08; }
+  .say .big.ok { color: #7FF5C6; } .say .big.no { color: #FF9BAD; } .say .big.tight { color: #FFD66B; }
+  .say p { font-family: var(--text); font-weight: 500; color: rgba(255,255,255,.85); margin: 8px 0 0; font-size: 1rem; }
+  .steps { margin: 12px 0 0; padding: 0; list-style: none; }
+  .steps li { font-family: var(--text); font-weight: 600; color: #fff; font-size: .98rem; padding: 8px 0 8px 30px; position: relative; border-top: 1px solid rgba(255,255,255,.12); }
+  .steps li::before { content: ""; position: absolute; left: 4px; top: 13px; width: 14px; height: 14px; border-radius: 50%; }
+  .steps li.ok::before { background: #2EE59D; } .steps li.no::before { background: #FF5C76; } .steps li.tight::before { background: #FFC21A; }
+  .fixes { margin: 18px 0 0; padding: 16px 18px; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .fixes h2 { font-size: 1.3rem; margin: 0 0 8px; }
+  .fixes ol { margin: 0; padding-left: 22px; } .fixes li { margin: 6px 0; }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  .how { margin-top: 34px; }
+  .how h2 { font-size: 1.5rem; }
+  .how li { margin: 8px 0; }
+  .aside { font-size: .95rem; color: var(--ink2); }
+  @media (max-width: 380px) { .inputs.three { grid-template-columns: 1fr 1fr; } .seg button { font-size: .88rem; } }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home">
+    <img src="../img/rabbit.svg" alt="" width="34" height="34">
+    The Packed Rabbit
+  </a>
+</header>
+
+<main class="mp">
+  <h1>Will my mattress fit up the stairs?</h1>
+  <p class="lede">Measurements in inches. The answer changes as you type.</p>
+
+  <span class="lbl" id="q-k">What are you carrying?</span>
+  <div class="seg" role="group" aria-labelledby="q-k">
+    <button type="button" data-k="m">A mattress<br><small style="font-weight:600">bends a little</small></button>
+    <button type="button" data-k="b">A box spring<br><small style="font-weight:600">or another rigid base</small></button>
+  </div>
+
+  <label class="lbl" for="sz">Size <small>Common U.S. sizes. Measure yours if you can; they vary by an inch or two.</small></label>
+  <select class="fld" id="sz">
+    <option value="tw">Twin (about 38 by 75)</option>
+    <option value="txl">Twin XL (about 38 by 80)</option>
+    <option value="fu">Full (about 54 by 75)</option>
+    <option value="qu" selected>Queen (about 60 by 80)</option>
+    <option value="ki">King (about 76 by 80)</option>
+    <option value="ck">California king (about 72 by 84)</option>
+    <option value="cu">My own measurements</option>
+  </select>
+  <div class="inputs three">
+    <div><label for="w">Width</label><div class="num"><input id="w" inputmode="decimal" autocomplete="off" value="60"><span>in</span></div></div>
+    <div><label for="l">Length</label><div class="num"><input id="l" inputmode="decimal" autocomplete="off" value="80"><span>in</span></div></div>
+    <div><label for="t">Thickness</label><div class="num"><input id="t" inputmode="decimal" autocomplete="off" value="12"><span>in</span></div></div>
+  </div>
+
+  <span class="lbl">The stairs</span>
+  <div class="inputs">
+    <div><label for="sw">Width <span class="hint">Narrowest point, rail to wall</span></label><div class="num"><input id="sw" inputmode="decimal" autocomplete="off" value="36"><span>in</span></div></div>
+    <div><label for="hr">Headroom <span class="hint">Step edge straight up to the lowest ceiling</span></label><div class="num"><input id="hr" inputmode="decimal" autocomplete="off" value="80"><span>in</span></div></div>
+  </div>
+
+  <span class="lbl" id="q-turn">Do the stairs turn?</span>
+  <div class="seg three" role="group" aria-labelledby="q-turn">
+    <button type="button" data-turn="0">Straight</button>
+    <button type="button" data-turn="1">One turn at a landing</button>
+    <button type="button" data-turn="2">Turn back at a landing</button>
+  </div>
+  <div class="inputs" id="landing" hidden>
+    <div class="wide" style="grid-column:1/-1"><label for="lc">Ceiling over the landing <span class="hint">Landing floor straight up to the lowest point above it</span></label><div class="num"><input id="lc" inputmode="decimal" autocomplete="off" value="96"><span>in</span></div></div>
+  </div>
+
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 500 380" role="img" aria-labelledby="big">
+      <rect width="500" height="380" fill="#0A1C33"/>
+      <g id="well"></g><g id="piece"></g>
+      <g id="dims" font-family="ui-monospace,Menlo,monospace" font-size="15" font-weight="700"></g>
+    </svg>
+    <div class="say" aria-live="polite"><div class="big" id="big"></div><p id="small"></p><ul class="steps" id="steps"></ul></div>
+  </div>
+
+  <div class="fixes" id="fixes" hidden>
+    <h2 id="fixh">If it won't go</h2>
+    <ol id="fixl"></ol>
+  </div>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this answer</button>
+    <a class="btn ghost" href="../app/?go=bigs">Check every big piece against every door, free</a>
+  </div>
+  <p class="aside">Getting it up the stairs is half of it. The bedroom door is the other half: <a href="../fit/">check a doorway here</a>.</p>
+
+  <section class="how">
+    <h2>How to measure</h2>
+    <ol>
+      <li><strong>Stair width:</strong> the narrowest point you'll carry through, usually from the handrail to the opposite wall.</li>
+      <li><strong>Headroom:</strong> stand a tape on the front edge of a step and measure straight up to the ceiling. Do it where the ceiling is lowest, which is often a beam or the edge of the floor above, near the bottom of the stairs.</li>
+      <li><strong>Ceiling over the landing:</strong> from the landing floor straight up to the lowest point above it.</li>
+      <li><strong>The mattress:</strong> the label usually gives the size; a tape across the widest point is better. Thickness is the height of the mattress lying flat.</li>
+    </ol>
+    <h2>How the check works</h2>
+    <ol>
+      <li><strong>Going up:</strong> a mattress goes up long end first, so only its width and thickness have to pass. On its side, the width has to fit under the ceiling. Because the stairs slope, the room square to the stairs is less than the headroom you measured: about 0.8 of it on stairs of ordinary steepness (about 37 degrees). The check also tries it flat and leaned over at every angle in between, and picks the one with the most room.</li>
+      <li><strong>A turn at a landing:</strong> it can be stood on its end, which needs a ceiling over the landing taller than the mattress is long, or pivoted on its side around the corner. Both are worked out from the stair width, taking the landing to be as deep as the stairs are wide. A turn back is two of these turns.</li>
+      <li><strong>Room to spare:</strong> with less than an inch left over, it's marked too tight to count on, because hands and walls take room too.</li>
+      <li><strong>What it can't see:</strong> a light fixture, a newel post, a low beam halfway up, or stairs steeper than usual. If your stairs are steep, expect less room than shown. A mattress that bends can often go where this says no, and a box spring can't.</li>
+    </ol>
+    <p class="aside">Sources: no outside facts. This is geometry from your measurements. The mattress sizes are common U.S. sizes, given as a starting point, and the stair steepness is a typical figure, not a rule.</p>
+  </section>
+  <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Made by someone moving, for people moving. Not a moving company, broker or lead site: we never sell your details and never take a commission from movers, and nothing you type here is sent to us.</p>
+</main>
+
+<footer class="wrap">
+  <a href="../privacy.html">Privacy</a>
+  <a href="../terms.html">Terms and refunds</a>
+  <a href="../answers/">What I wish I'd known</a>
+  <a href="../fit/">Will my couch fit?</a>
+  <a href="../truck/">What size truck?</a>
+  <a href="../boxes/">How many boxes?</a>
+  <a href="../diy-cost/">Cost to move yourself</a>
+  <a href="../tip/">How much to tip movers?</a>
+  <a href="../take-or-leave/">Take it or leave it?</a>
+  <a href="../quote-check/">Check a moving quote</a>
+  <a href="../mover-check/">Check your mover</a>
+  <a href="../checklist/">Moving checklist by date</a>
+  <a href="../change-address/">Change of address checklist</a>
+  <a href="../deposit/">When is my deposit due back?</a>
+  <a href="../storage/">What size storage unit?</a>
+  <a href="../packing-schedule/">When should I start packing?</a>
+  <a href="../embed/">Put these tools on your site</a>
+</footer>
+
+<script>
+/* Geometry only. Nothing typed here is sent anywhere; the numbers go in the
+   address only so a shared link shows the same answer. */
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  var PITCH = 37 * Math.PI / 180, COS = Math.cos(PITCH);   // ordinary stair steepness, labeled on the page
+  var SIZES = { tw: [38, 75], txl: [38, 80], fu: [54, 75], qu: [60, 80], ki: [76, 80], ck: [72, 84] };
+  var NAMES = { tw: "twin", txl: "twin XL", fu: "full", qu: "queen", ki: "king", ck: "California king", cu: "" };
+  var THICK = { m: 12, b: 9 };
+  function $(id) { return document.getElementById(id); }
+  function el(tag, a, p) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  function n(id) { var v = parseFloat(String($(id).value).replace(",", ".")); return v > 0 && v < 400 ? v : 0; }
+  function r1(x) { return Math.round(x * 10) / 10; }
+  function inch(x) { var v = r1(Math.abs(x)); return v + (v === 1 ? " inch" : " inches"); }
+
+  /* The end of the mattress (width b by thickness t) inside the stairwell's
+     cross-section (W wide by H of room square to the slope). Tries every lean
+     from flat (0) to on its side (90) and keeps the one with the most room. */
+  function flight(b, t, W, H) {
+    var best = -1e9, ang = 90;
+    for (var i = 0; i <= 180; i++) {
+      var p = (90 - i / 2) * Math.PI / 180, c = Math.cos(p), s = Math.sin(p);
+      var spare = Math.min(W - (b * c + t * s), H - (b * s + t * c));
+      if (spare > best + 1e-9) { best = spare; ang = 90 - i / 2; }
+    }
+    return { spare: best, ang: ang };
+  }
+  /* Longest thin piece of width w that pivots around a right-angled corner
+     between two passages a and b wide (the hallway-corner rule). */
+  function corner(a, b, w) {
+    var m = 1e9;
+    for (var i = 1; i < 900; i++) {
+      var th = i / 900 * Math.PI / 2, s = Math.sin(th), c = Math.cos(th);
+      var L = a / s + b / c - w / (s * c); if (L < m) m = L;
+    }
+    return m;
+  }
+  function check(B, A, T, S, HR, turn, LC) {
+    var f = flight(B, T, S, HR * COS), r = { flight: f, turn: null };
+    if (turn) {
+      var room = corner(S, S, T);
+      var onEnd = Math.min(LC - A, room - B);     // stand it up on its end, then turn it
+      var pivot = room - A;                         // pivot it on its side, long way round
+      r.turn = onEnd >= pivot ? { spare: onEnd, how: "end", lc: LC - A, room: room - B } : { spare: pivot, how: "pivot", lc: LC - A, room: room - B };
+    }
+    r.spare = Math.min(f.spare, r.turn ? r.turn.spare : 1e9);
+    return r;
+  }
+  function carry(ang) {
+    if (ang >= 80) return "on its side, standing on its long edge";
+    if (ang <= 10) return "flat, face up";
+    return "on its side, leaned over about " + Math.round(90 - ang) + " degrees";
+  }
+  function tone(s) { return s < 0 ? "no" : s < 1 ? "tight" : "ok"; }
+
+  var kind = "m", turn = 0;
+  var q = new URLSearchParams(location.search);
+  if (q.get("k") === "b") kind = "b";
+  if (/^[012]$/.test(q.get("turn") || "")) turn = +q.get("turn");
+  if (q.get("sz") && (SIZES[q.get("sz")] || q.get("sz") === "cu")) $("sz").value = q.get("sz");
+  if (SIZES[$("sz").value]) { $("w").value = SIZES[$("sz").value][0]; $("l").value = SIZES[$("sz").value][1]; }
+  $("t").value = THICK[kind];
+  ["w", "l", "t", "sw", "hr", "lc"].forEach(function (k) { var v = parseFloat(q.get(k)); if (v > 0 && v < 400) $(k).value = v; });
+
+  function segs() {
+    [].forEach.call(document.querySelectorAll("[data-k]"), function (b) { var on = b.getAttribute("data-k") === kind; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+    [].forEach.call(document.querySelectorAll("[data-turn]"), function (b) { var on = +b.getAttribute("data-turn") === turn; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+    $("landing").hidden = !turn;
+  }
+
+  var last = null;
+  function draw() {
+    var w = n("w"), l = n("l"), T = n("t"), S = n("sw"), HR = n("hr"), LC = n("lc");
+    var well = $("well"), piece = $("piece"), dims = $("dims");
+    well.textContent = ""; piece.textContent = ""; dims.textContent = ""; $("steps").textContent = "";
+    if (!w || !l || !T || !S || !HR || (turn && !LC)) {
+      $("big").className = "big"; $("big").textContent = "Type all the measurements"; $("small").textContent = "Each one in inches, more than zero."; $("fixes").hidden = true; last = null; return;
+    }
+    var B = Math.min(w, l), A = Math.max(w, l), H = HR * COS;
+    var r = check(B, A, T, S, HR, turn, LC), t = tone(r.spare);
+    var szName = NAMES[$("sz").value], thing = (szName ? szName + " " : "") + (kind === "m" ? "mattress" : "box spring");
+
+    /* The picture: looking up the stairs at the end of the mattress. */
+    var SC = Math.min(3.4, 300 / Math.max(H, B, 1), 420 / Math.max(S, B, 1)), CX = 250, CY = 178;
+    var ww = S * SC, wh = H * SC;
+    el("rect", { x: 0, y: 0, width: 500, height: 380, fill: "#17365E" }, well);
+    el("rect", { x: CX - ww / 2, y: CY - wh / 2, width: ww, height: wh, fill: "#06121F" }, well);
+    el("rect", { x: CX - ww / 2 - 3, y: CY - wh / 2 - 3, width: ww + 6, height: wh + 6, fill: "none", stroke: "#E9EEF5", "stroke-width": 5, "stroke-linejoin": "round" }, well);
+    var ang = r.flight.ang, col = r.flight.spare < 0 ? "#FF5C76" : r.flight.spare < 1 ? "#FFC21A" : "#2EE59D";
+    var g = el("g", { transform: "translate(" + CX + " " + CY + ") rotate(" + (-ang) + ")" }, piece);
+    el("rect", { x: -B * SC / 2, y: -T * SC / 2, width: B * SC, height: T * SC, rx: Math.min(10, T * SC / 3), fill: r.flight.spare < 0 ? "rgba(255,92,118,.3)" : r.flight.spare < 1 ? "rgba(255,194,26,.28)" : "rgba(46,229,157,.28)", stroke: col, "stroke-width": 3 }, g);
+    var t1 = el("text", { x: CX, y: Math.max(18, CY - wh / 2 - 14), fill: "#FFC21A", "text-anchor": "middle" }, dims); t1.textContent = "stairs " + r1(S) + " in wide";
+    var t2 = el("text", { x: CX, y: Math.min(338, CY + wh / 2 + 26), fill: "#FFC21A", "text-anchor": "middle" }, dims); t2.textContent = r1(H) + " in of room square to the stairs";
+    var t3 = el("text", { x: CX, y: 366, fill: "rgba(255,255,255,.6)", "text-anchor": "middle", "font-size": 13 }, dims); t3.textContent = "looking up the stairs at the end of the " + (kind === "m" ? "mattress" : "box spring");
+
+    /* The words. */
+    var steps = [], big, small;
+    var fs = r.flight.spare;
+    steps.push([tone(fs), fs < 0 ? "Up the stairs: " + inch(fs) + " too big, carried any way up." : "Up the stairs: carry it " + carry(ang) + ", " + inch(fs) + " to spare."]);
+    if (r.turn) {
+      var ts = r.turn.spare, word = turn === 2 ? "Turning back at the landing" : "Around the landing";
+      if (ts >= 0) steps.push([tone(ts), word + ": " + (r.turn.how === "end" ? "stand it up on its end and turn it" : "pivot it on its side, long way round") + ", " + inch(ts) + " to spare."]);
+      else steps.push(["no", word + ": " + inch(ts) + " short. " + (r.turn.lc < 0 ? "Stood on end it needs " + inch(r.turn.lc) + " more ceiling over the landing." : "Stood on end it's " + inch(r.turn.room) + " too wide to turn.")]);
+    }
+    if (t === "ok") { big = r.spare < 3 ? "It goes up. Just." : "It goes up."; small = "A " + thing + ", " + r1(B) + " by " + r1(A) + " by " + r1(T) + " inches, on " + r1(S) + "-inch stairs."; }
+    else if (t === "tight") { big = "Too tight to count on."; small = "Less than an inch to spare at the tightest point. Walls, rails and hands take room too."; }
+    else {
+      big = fs < 0 ? inch(r.spare) + " too big for the stairs." : "Up the stairs, but not around the turn.";
+      small = kind === "m" ? "As a flat, stiff piece it won't go. A mattress that bends may still make it." : "A box spring can't bend, so this one needs another way. See below.";
+    }
+    $("big").className = "big " + t; $("big").textContent = big; $("small").textContent = small;
+    steps.forEach(function (s) { var li = document.createElement("li"); li.className = s[0]; li.textContent = s[1]; $("steps").appendChild(li); });
+
+    /* What to do if it won't go, with a split base worked out. */
+    var fixl = $("fixl"); fixl.textContent = "";
+    if (t !== "ok") {
+      var half = check(B / 2, A, T, S, HR, turn, LC), items = [];
+      if (kind === "m") {
+        items.push(["Bend it, if the maker allows it.", " Many foam and hybrid mattresses bend into a U for a short carry; some with springs shouldn't be folded. Check the label or the maker's instructions first, and strap it so it can't spring open on the stairs."]);
+        items.push(["Wrap it first.", " A mattress bag keeps it clean if it rubs the walls, and gives you something to hold."]);
+      } else {
+        items.push(["A split base:", " two halves side by side under one mattress, each about " + r1(B / 2) + " by " + r1(A) + " inches. " + (half.spare >= 1 ? "Each half of this size would go up these stairs." : half.spare >= 0 ? "Each half would just go, with under an inch to spare." : "Even a half wouldn't go here, so look further down this list.")]);
+        items.push(["A base that comes flat:", " foundations that are put together in the bedroom, or a platform frame that needs no box spring."]);
+      }
+      items.push(["Take the handrail off, if it unbolts.", " Measure wall to wall to see what that gives you."]);
+      items.push(["Another way in:", " a wider staircase, an outside stair, a balcony or a window. Ask the movers before the day."]);
+      items.forEach(function (it) { var li = document.createElement("li"); var s = document.createElement("strong"); s.textContent = it[0]; li.appendChild(s); li.appendChild(document.createTextNode(it[1])); fixl.appendChild(li); });
+    }
+    $("fixes").hidden = t === "ok";
+
+    last = { label: thing.charAt(0).toUpperCase() + thing.slice(1) + ", stairs " + r1(S) + " in wide", t: t, big: big, B: B, T: T, S: S, H: H, ang: ang, fs: fs };
+    var p = new URLSearchParams(); p.set("k", kind); p.set("sz", $("sz").value);
+    if (!SIZES[$("sz").value]) { p.set("w", w); p.set("l", l); }
+    if (T !== THICK[kind]) p.set("t", T);
+    p.set("sw", S); p.set("hr", HR); if (turn) { p.set("turn", turn); p.set("lc", LC); }
+    try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
+  }
+
+  $("sz").addEventListener("change", function () { var s = SIZES[$("sz").value]; if (s) { $("w").value = s[0]; $("l").value = s[1]; } draw(); });
+  ["w", "l"].forEach(function (id) { $(id).addEventListener("input", function () {
+    var w = n("w"), l = n("l"), m = "cu";
+    for (var k in SIZES) if (SIZES[k][0] === Math.min(w, l) && SIZES[k][1] === Math.max(w, l)) m = k;
+    $("sz").value = m; draw(); }); });
+  ["t", "sw", "hr", "lc"].forEach(function (id) { $(id).addEventListener("input", draw); });
+  [].forEach.call(document.querySelectorAll("[data-k]"), function (b) { b.addEventListener("click", function () {
+    var was = kind; kind = b.getAttribute("data-k"); if (n("t") === THICK[was]) $("t").value = THICK[kind]; segs(); draw(); }); });
+  [].forEach.call(document.querySelectorAll("[data-turn]"), function (b) { b.addEventListener("click", function () { turn = +b.getAttribute("data-turn"); segs(); draw(); }); });
+  segs(); draw();
+
+  /* The share picture: square, readable on a phone, the answer large. */
+  function picture() {
+    var c = document.createElement("canvas"), Z = 1080; c.width = Z; c.height = Z;
+    var g = c.getContext("2d"), F = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#0A1C33"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#FFC21A"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    var SC = Math.min(7, 470 / Math.max(last.H, last.B), 700 / Math.max(last.S, last.B)), CX = Z / 2, CY = 440;
+    var ww = last.S * SC, wh = last.H * SC;
+    g.fillStyle = "#17365E"; g.fillRect(0, 150, Z, 600); g.fillStyle = "#06121F"; g.fillRect(CX - ww / 2, CY - wh / 2, ww, wh);
+    g.strokeStyle = "#E9EEF5"; g.lineWidth = 8; g.strokeRect(CX - ww / 2 - 4, CY - wh / 2 - 4, ww + 8, wh + 8);
+    g.save(); g.translate(CX, CY); g.rotate(-last.ang * Math.PI / 180);
+    var col = last.fs < 0 ? "#FF5C76" : last.fs < 1 ? "#FFC21A" : "#2EE59D";
+    g.fillStyle = last.fs < 0 ? "rgba(255,92,118,.3)" : last.fs < 1 ? "rgba(255,194,26,.28)" : "rgba(46,229,157,.3)"; g.strokeStyle = col; g.lineWidth = 5;
+    g.beginPath(); var bw = last.B * SC, bt = last.T * SC; if (g.roundRect) g.roundRect(-bw / 2, -bt / 2, bw, bt, Math.min(14, bt / 3)); else g.rect(-bw / 2, -bt / 2, bw, bt); g.fill(); g.stroke(); g.restore();
+    g.textAlign = "center"; g.fillStyle = "#FFC21A"; g.font = "700 30px ui-monospace,Menlo,monospace"; g.fillText(last.label, CX, 735);
+    g.fillStyle = last.t === "ok" ? "#7FF5C6" : last.t === "tight" ? "#FFD66B" : "#FF9BAD";
+    var size = 84; g.font = "850 " + size + "px " + F; while (g.measureText(last.big).width > Z - 100 && size > 44) { size -= 4; g.font = "850 " + size + "px " + F; }
+    g.fillText(last.big, CX, 850);
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 34px " + F; g.fillText("Will my mattress fit up the stairs? Check yours free:", CX, 935);
+    g.fillStyle = "#FFFFFF"; g.font = "800 40px " + F; g.fillText("packedrabbit.com/mattress", CX, 995);
+    return c;
+  }
+  $("share").addEventListener("click", function () {
+    if (!last) { draw(); if (!last) return; }
+    var url = location.href, text = last.big + " Will your mattress fit up the stairs? Check it free:";
+    picture().toBlob(function (blob) {
+      var file = blob && typeof File !== "undefined" ? new File([blob], "mattress-stairs.png", { type: "image/png" }) : null;
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+      } else if (navigator.share) {
+        navigator.share({ title: "Will my mattress fit up the stairs?", text: text, url: url }).catch(function () {});
+      } else if (blob) {
+        var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "mattress-stairs.png"; document.body.appendChild(a); a.click(); a.remove();
+      }
+    }, "image/png");
+  });
+})();
+</script>
+<script>
+/* Embedded on someone else's page: no site header or footer, links open in a
+   new tab, a credit line at the end, and the height told to the host page. */
+(function () {
+  if (!document.documentElement.classList.contains("embed")) return;
+  document.querySelectorAll("a[href]").forEach(function (a) { a.target = "_blank"; a.rel = "noopener"; });
+  var m = document.querySelector("main") || document.body;
+  var c = document.createElement("a");
+  c.className = "embed-credit"; c.target = "_blank"; c.rel = "noopener";
+  c.href = "https://packedrabbit.com" + location.pathname;
+  c.textContent = "Free tool by The Packed Rabbit";
+  m.appendChild(c);
+  function tell() { try { parent.postMessage({ prEmbedHeight: Math.ceil(document.documentElement.scrollHeight) }, "*"); } catch (e) {} }
+  tell(); addEventListener("load", tell); addEventListener("resize", tell);
+  if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
+})();
+</script>
+<script src="../nav.js" defer></script>
+</body>
+</html>
