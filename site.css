@@ -189,7 +189,7 @@ table.plain td.n{font-family:var(--display); font-weight:850; white-space:nowrap
 footer{padding:56px 0 64px; margin-top:72px; border-top:1px solid var(--line); color:var(--ink2); font-size:.95rem}
 footer .cols{display:grid; gap:22px; grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
 footer b{color:var(--ink); font-family:var(--display)}
-footer a{color:var(--ink2); display:block; padding:6px 0; text-decoration:none}
+footer a{color:var(--ink2); display:flex; align-items:center; min-height:44px; padding:0; text-decoration:none}
 footer a:hover{color:var(--ink); text-decoration:underline}
 
 /* ---- homepage, 23 Oct review ---- */
@@ -467,3 +467,7 @@ html.embed h1{font-size:clamp(1.5rem,5vw,2.1rem) !important; margin-top:4px !imp
 /* Research 28 Oct: the sample result shown before anyone pastes */
 .qsamplehead{margin:14px 0 8px; font-weight:700; color:#0F2742}
 @media (min-width:900px){.hero-grid{align-items:start}}
+/* owner, 28 Oct: a printed homepage showed black blocks. Keep the colors when printing. */
+@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact} .mono-peek,.totop,#halloween{display:none!important}}
+/* panel round 3: on phones the rabbit sat over "Check the quote" */
+@media (max-width:520px){ .qcheck .mono-peek{top:-62px; right:4px; width:84px} .qcheck .qtitle{padding-right:72px} }

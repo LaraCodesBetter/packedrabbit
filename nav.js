@@ -32,7 +32,8 @@
   function sync() {
     var y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
     up.hidden = y < 500;
-    down.hidden = max < 300 || y > max - 200;
+    /* panel round 3: on phones the down button sat over forms and prices */
+    down.hidden = innerWidth < 700 || max < 300 || y > max - 200;
   }
   function start() { document.body.appendChild(wrap); sync(); addEventListener("scroll", sync, { passive: true }); addEventListener("resize", sync); }
   if (document.body) start(); else document.addEventListener("DOMContentLoaded", start);
