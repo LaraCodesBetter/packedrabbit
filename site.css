@@ -471,3 +471,13 @@ html.embed h1{font-size:clamp(1.5rem,5vw,2.1rem) !important; margin-top:4px !imp
 @media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact} .mono-peek,.totop,#halloween{display:none!important}}
 /* panel round 3: on phones the rabbit sat over "Check the quote" */
 @media (max-width:520px){ .qcheck .mono-peek{top:-62px; right:4px; width:84px} .qcheck .qtitle{padding-right:72px} }
+/* owner, 31 Oct 2026: the homepage leads with what the app remembers; the quote checker has its own band */
+.hero-shot{margin:0; display:flex; justify-content:center}
+.hero-shot img{width:min(330px,64%); height:auto; display:block}
+.hero .lede{max-width:34em}
+.hero-check h2{font-size:clamp(1.7rem,5vw,2.6rem); max-width:16ch}
+.does{display:grid; gap:18px; margin-top:22px}
+@media (min-width:760px){ .does{grid-template-columns:1fr 1fr} }
+.does > div{background:var(--panel,#fff); border:1px solid var(--line,#E3E7EE); border-radius:22px; padding:22px 22px 18px}
+.does h3{margin:0 0 6px; font-size:1.25rem}
+.does p{margin:0}
