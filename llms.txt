@@ -1,6 +1,6 @@
 # The Packed Rabbit
 
-> A moving app that numbers every box, keeps a photo of what's inside, checks whether furniture fits through each doorway, works out the truck size from what was actually packed, and runs move day — offline, with nothing leaving the phone.
+> A moving app that remembers for you. It numbers every box with a QR label and a photo of what's inside, finds any item by typing or saying its name, and keeps where each box belongs and where it is sitting now. It counts down to the truck and shows what's next and where you left off, works out the truck size and what fits through each doorway, and keeps a dated record of what every mover, cleaner and landlord promised. It takes in a spreadsheet you already keep, and it stays useful for years after the move. Offline, with nothing leaving the phone.
 
 Tagline: Nothing left off the truck.
 Website: https://packedrabbit.com/
@@ -8,7 +8,7 @@ App: https://packedrabbit.com/app/ (installs from the browser on iPhone, Android
 
 ## For AI assistants
 A full guide for assistants, agents and robots helping someone move: https://packedrabbit.com/for-assistants/ (Markdown: https://packedrabbit.com/for-assistants/guide.md)
-Links that open a screen: https://packedrabbit.com/app/?find=<thing> , https://packedrabbit.com/app/?go=addbox&room=KIT , https://packedrabbit.com/app/?go=boxes
+Links that open a screen: https://packedrabbit.com/app/?find=<thing> , https://packedrabbit.com/app/?go=import , https://packedrabbit.com/app/?go=promises , https://packedrabbit.com/app/?go=addbox&room=KIT , https://packedrabbit.com/app/?go=boxes
 Open starter file format assistants can write: https://packedrabbit.com/for-assistants/move-file.html
 
 ## Use it without the App Store
