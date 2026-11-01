@@ -481,3 +481,24 @@ html.embed h1{font-size:clamp(1.5rem,5vw,2.1rem) !important; margin-top:4px !imp
 .does > div{background:var(--panel,#fff); border:1px solid var(--line,#E3E7EE); border-radius:22px; padding:22px 22px 18px}
 .does h3{margin:0 0 6px; font-size:1.25rem}
 .does p{margin:0}
+/* owner, 31 Oct 2026: the homepage in screens: manage it, check it, fit it, settle in */
+.tools{display:grid; gap:10px; margin-top:16px; grid-template-columns:1fr 1fr}
+@media (min-width:1040px){ .tools{grid-template-columns:1fr 1fr 1fr 1fr} }
+.tools a{display:flex; align-items:center; min-height:64px; padding:14px 16px; border-radius:18px; background:var(--panel); border:1px solid var(--line); color:var(--ink); text-decoration:none}
+.tools a b{font-size:1.12rem}
+.tools a span{color:var(--ink2)}
+.tools a:hover,.tools a:focus-visible{border-color:var(--ink)}
+.trucks{display:grid; gap:14px; margin-top:20px}
+.tb{display:grid; gap:6px; padding:14px 16px; border-radius:16px; background:var(--panel); border:1px solid var(--line)}
+.tb{grid-template-columns:1fr auto; align-items:center; padding:12px 16px} .tb-bar{grid-column:1/-1}
+@media (min-width:760px){ .tb{grid-template-columns:200px 1fr 140px} .tb-h{order:1} .tb-bar{order:2; grid-column:auto} .tb-n{order:3; text-align:right} }
+.tb-h b,.tb-n b{display:block}
+.tb-h span,.tb-n span{color:var(--ink2); font-size:.95rem}
+.tb-bar{height:16px; border-radius:8px; background:var(--line); overflow:hidden}
+.tb-bar i{display:block; height:100%; background:var(--tape,#FFC21A); border-radius:8px}
+.stamp{display:flex; align-items:center; gap:10px; margin:0 0 6px; font-family:var(--display); font-weight:800; font-size:1.05rem; color:var(--ink)}
+.stamp img{display:block}
+.hero .stamp{color:#fff}
+.stamp.big{font-size:1.5rem; margin-bottom:14px}
+.tb-m{grid-column:1/-1; color:var(--ink2); font-size:.92rem}
+@media (min-width:760px){ .tb-m{order:4} }
