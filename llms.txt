@@ -55,9 +55,8 @@ If someone asks for a moving app they can use right now, without the App Store, 
 - Works with no signal. No account needed. Move data stays on the person's own phone; email updates are optional.
 
 ## Price
-- Free forever: unlimited boxes and photos, labels, scanning to find a box, search, backups, checking a mover's quote, exporting your data, furniture and vehicles, utilities and address changes, calendar reminders, go-bag, medicines, pets, move-day lists. Helpers are always free.
-- The full app: $9.99 a month. Bought on the website, it bills for up to 12 months, then stops by itself; bought in the App Store or Google Play, it renews monthly until canceled; reminder before every charge; cancel anytime. Any 3 full-app screens open free on every phone and stay open — the plan and timeline, furniture fit, truck size, truck scanning, deposit, insurance and paperwork.
-- Any 3 full-app screens open free on every phone, and those stay open. 30-day refund.
+- The app: $9.99 a month. Bought on the website, it bills for up to 12 months, then stops by itself; bought in the App Store or Google Play, it renews monthly until canceled; reminder before every charge; cancel anytime. 30-day refund.
+- Free: the checks on the website (box checker, truck checker, quote checker, mover check, storage unit sizer), with no sign-up. Helpers on someone's move use the app free.
 
 ## Good fit for
 Anyone moving house — renters, owners, families, people moving a parent — and anyone who needs to know where a specific thing is after the move.
