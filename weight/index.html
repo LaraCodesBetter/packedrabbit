@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How much does my stuff weigh? Moving weight estimator, free</title>
+<meta name="description" content="Count your furniture and boxes and see about how many pounds your move weighs, from the federal 7-pounds-per-cubic-foot rule. Compare it with a mover's estimate. Free, no signup, nothing sent anywhere.">
+<link rel="canonical" href="https://packedrabbit.com/weight/">
+<meta name="theme-color" content="#22341A">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="How much does my stuff weigh?">
+<meta property="og:description" content="Count your furniture and boxes, see about how many pounds your move weighs, and check a mover's number against it.">
+<meta property="og:url" content="https://packedrabbit.com/weight/">
+<meta property="og:image" content="https://packedrabbit.com/img/og-card.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "How much does my stuff weigh? by The Packed Rabbit",
+  "url": "https://packedrabbit.com/weight/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Estimates the weight of a household move from a count of furniture and boxes. Adds the cubic feet of each item, allows 15 percent for space that can't be packed, and multiplies by 7 pounds a cubic foot, the constructive weight the Federal Travel Regulation uses when a load can't be weighed. Compares the result with a mover's estimated weight."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How much does a two-bedroom move weigh?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Often around 4,600 pounds, using a typical two-bedroom's furniture and about 45 boxes, roughly 650 cubic feet of truck space at 7 pounds a cubic foot. A home with more boxes, books or a sectional can weigh much more. Count your own things for a better number." } },
+    { "@type": "Question", "name": "How do I estimate how much my household goods weigh?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Add up the space your things take in a truck (a medium box is about 3 cubic feet, a bed with its mattress about 60, a sofa about 60), add about 15 percent for gaps, then multiply by 7. The Federal Travel Regulation (41 CFR 302-7.13) uses 7 pounds per cubic foot of properly loaded van space as a constructive weight when a load can't be weighed. Real loads vary: books and tools weigh more, light furniture less." } },
+    { "@type": "Question", "name": "Why does the weight of my move matter?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Long-distance moves are often priced by weight, so the pounds on an estimate drive the price. If a mover's estimated weight is far below what your things are likely to weigh, ask how they got the number and whether the estimate is binding, because the final bill may follow the real weight." } },
+    { "@type": "Question", "name": "How much household goods can a federal employee ship?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Under the Federal Travel Regulation, 41 CFR 302-7.2, the most a relocating federal civilian employee may ship or store at government expense is 18,000 pounds net weight, with 2,000 pounds added for packing on uncrated or van line shipments, and no shipment over 20,000 gross pounds. Overweight costs are the employee's to repay. Military moves follow separate rules." } }
+  ]
+}
+</script>
+<style>
+  .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .homes { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 16px 0 6px; }
+  .homes button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 4px; }
+  .homes button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #1A3214; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .say { padding: 2px 18px 16px; color: #fff; }
+  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.5vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #D5DF4D; }
+  .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
+  .items { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .items li { display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 16px; border-bottom: 1px solid var(--line); }
+  .items li:last-child { border-bottom: 0; }
+  .items .nm { flex: 1; min-width: 0; font-weight: 700; }
+  .items .nm small { display: block; font-weight: 500; color: var(--ink2); font-size: .82rem; }
+  .step { display: flex; align-items: center; gap: 4px; }
+  .step button { width: 44px; height: 44px; border-radius: 12px; border: 2px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; font-size: 1.4rem; font-weight: 800; cursor: pointer; line-height: 1; }
+  .step output { min-width: 2.4ch; text-align: center; font-family: var(--display); font-weight: 850; font-size: 1.25rem; }
+  .cmp { margin-top: 22px; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); padding: 16px; }
+  .cmp h2 { font-size: 1.3rem; margin: 0 0 6px; }
+  .cmp .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .cmp label { flex: 1 1 12rem; font-weight: 700; }
+  .cmp label small { display: block; font-weight: 500; color: var(--ink2); font-size: .82rem; }
+  .num { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; }
+  .num span { font-weight: 700; color: var(--ink2); }
+  .num input { width: 7.4rem; min-height: 46px; border-radius: 12px; border: 2px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; font-family: var(--display); font-weight: 800; font-size: 1.15rem; padding: 4px 10px; text-align: right; }
+  .num input:focus { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+  #verdict { margin: 12px 0 0; padding: 12px 14px; border-radius: 12px; background: var(--bg); border-left: 4px solid var(--line); }
+  #verdict.lo { border-left-color: var(--no); }
+  #verdict.ok { border-left-color: var(--ok); }
+  #verdict.hi { border-left-color: var(--orange); }
+  #verdict:empty { display: none; }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  .how { margin-top: 34px; } .how h2 { font-size: 1.5rem; }
+  .how h3 { margin-top: 18px; }
+  .how ul { padding-left: 1.2em; }
+  .how li { margin-bottom: 8px; }
+  .aside { font-size: .95rem; color: var(--ink2); }
+  @media (max-width: 380px) { .homes { grid-template-columns: repeat(3, 1fr); } }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home">
+    <img src="../img/rabbit.svg" alt="" width="34" height="34">
+    The Packed Rabbit
+  </a>
+</header>
+
+<main class="tp">
+  <h1>How much does my stuff weigh?</h1>
+  <p class="lede">Start from your home, then change the counts to match what you own. The weight updates as you go.</p>
+
+  <div class="homes" role="group" aria-label="Start from a home size">
+    <button type="button" data-h="s">Studio</button>
+    <button type="button" data-h="1">1 bed</button>
+    <button type="button" data-h="2" class="on">2 bed</button>
+    <button type="button" data-h="3">3 bed</button>
+    <button type="button" data-h="4">4 bed</button>
+  </div>
+
+  <div class="stage">
+    <svg id="svg" viewBox="0 0 500 120" role="img" aria-labelledby="big"></svg>
+    <div class="say" aria-live="polite"><div class="big" id="big"></div><p id="small"></p></div>
+  </div>
+
+  <ul class="items" id="items"></ul>
+
+  <section class="cmp">
+    <h2>Got a mover's estimate?</h2>
+    <div class="row">
+      <label for="est">Weight on the estimate<small>Leave empty if you don't have one</small></label>
+      <span class="num"><input id="est" type="number" inputmode="numeric" min="0" max="99999" step="100" placeholder="0"><span>lb</span></span>
+    </div>
+    <p id="verdict" aria-live="polite"></p>
+  </section>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this answer</button>
+    <a class="btn ghost" href="../app/">Count your real boxes in the app, free</a>
+  </div>
+  <p class="aside">The app adds each box as you pack it and each piece of furniture you measure, so the count behind this number is your own. No account, and it works with no signal.</p>
+
+  <section class="how">
+    <h2>How this works</h2>
+    <p>Each item has a typical size in cubic feet, the same sizes our <a href="../truck/">truck size calculator</a> uses. They're added up, then 15 percent is added for the gaps nobody can pack, which gives the truck space your things take.</p>
+    <p>That space is multiplied by 7 pounds a cubic foot. The Federal Travel Regulation uses exactly that figure, "7 pounds per cubic foot of properly loaded van space," as a constructive weight when a household load can't be put on a scale (41 CFR 302-7.13). It's a rule for federal relocations, not a law about what any mover must charge, but it's the published federal yardstick for turning space into pounds.</p>
+    <p>The range shown, 6 to 8 pounds a cubic foot, is our own estimate of how far real homes stray from it: a home full of books, tools or solid wood runs heavy, one of light modern furniture runs light. Every number here is an estimate, not a weight.</p>
+
+    <h3>What to do with the number</h3>
+    <ul>
+      <li>Long-distance moves are often priced by weight, so the pounds on an estimate drive the price. Compare the mover's number with yours.</li>
+      <li>If their weight is well below your range, ask how they worked it out and whether the estimate is binding. A low weight can make a quote look cheaper than the final bill. Our <a href="../quote-check/">quote checker</a> reads a quote for other warning signs.</li>
+      <li>Before you book an interstate mover, look up its federal record with our <a href="../mover-check/">mover check</a>, and read the federal consumer guide, <a href="https://www.fmcsa.dot.gov/protect-your-move">Protect Your Move</a>.</li>
+      <li>The fastest way to lower the number is to leave things behind. Our <a href="../take-or-leave/">take it or leave it</a> check helps decide piece by piece.</li>
+    </ul>
+
+    <h3>Moving for the federal government?</h3>
+    <p>The Federal Travel Regulation caps what a relocating federal civilian employee may ship or store at government expense at 18,000 pounds net, with 2,000 pounds added for packing on uncrated or van line shipments and no shipment over 20,000 gross pounds; overweight costs are the employee's to repay (41 CFR 302-7.2). Military moves follow separate rules, so check with your transportation office.</p>
+
+    <h3>Sources</h3>
+    <ul class="aside">
+      <li><a href="https://www.law.cornell.edu/cfr/text/41/302-7.13">41 CFR 302-7.13</a>, Federal Travel Regulation: constructive weight of 7 pounds per cubic foot of properly loaded van space when scales aren't available (Legal Information Institute, Cornell Law School).</li>
+      <li><a href="https://www.law.cornell.edu/cfr/text/41/302-7.2">41 CFR 302-7.2</a>, Federal Travel Regulation: maximum household goods weight at government expense (Legal Information Institute, Cornell Law School).</li>
+      <li><a href="https://www.fmcsa.dot.gov/protect-your-move">Protect Your Move</a>, Federal Motor Carrier Safety Administration: consumer guide to interstate moves.</li>
+      <li>Item sizes, the 15 percent for gaps and the 6 to 8 pound range are our own labeled estimates. Check the law and your own paperwork before relying on any number here.</li>
+    </ul>
+  </section>
+  <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Made by someone moving, for people moving. Not a moving company, broker or lead site: we never sell your details and never take a commission from movers, and nothing you type here is sent to us.</p>
+</main>
+
+<footer class="wrap">
+  <a href="../privacy.html">Privacy</a>
+  <a href="../terms.html">Terms and refunds</a>
+  <a href="../answers/">What I wish I'd known</a>
+  <a href="../fit/">Will my couch fit?</a>
+  <a href="../truck/">What size truck?</a>
+  <a href="../boxes/">How many boxes?</a>
+  <a href="../diy-cost/">Cost to move yourself</a>
+  <a href="../tip/">How much to tip movers?</a>
+  <a href="../take-or-leave/">Take it or leave it?</a>
+  <a href="../quote-check/">Check a moving quote</a>
+  <a href="../mover-check/">Check your mover</a>
+  <a href="../checklist/">Moving checklist by date</a>
+  <a href="../change-address/">Change of address checklist</a>
+  <a href="../deposit/">When is my deposit due back?</a>
+  <a href="../storage/">What size storage unit?</a>
+  <a href="../packing-schedule/">When should I start packing?</a>
+  <a href="../mattress/">Will my mattress fit up the stairs?</a>
+  <a href="../move-day/">How long will moving day take?</a>
+  <a href="../moving-tax/">Can I deduct my moving expenses?</a>
+  <a href="../embed/">Put these tools on your site</a>
+</footer>
+
+<script>
+/* Nothing typed here is sent anywhere. The counts go in the address only so
+   a shared link opens showing the same weight. */
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg", SLACK = 1.15, LB = 7, LO = 6, HI = 8;
+  function $(id) { return document.getElementById(id); }
+  function el(tag, a, p) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  function fmt(n) { return Math.round(n).toLocaleString("en-US"); }
+  function r100(n) { return Math.round(n / 100) * 100; }
+  /* typical cubic feet per item, the same as /truck/ */
+  var ITEMS = [
+    { k: "sofa", n: "Sofas", s: "Sectionals count as two", cu: 60 },
+    { k: "chair", n: "Armchairs and recliners", cu: 20 },
+    { k: "tbl", n: "Coffee and side tables", cu: 10 },
+    { k: "tv", n: "TVs with stands", cu: 15 },
+    { k: "shelf", n: "Bookcases and shelves", cu: 20 },
+    { k: "bed", n: "Beds with mattress", s: "Any size", cu: 60 },
+    { k: "dresser", n: "Dressers", cu: 35 },
+    { k: "night", n: "Nightstands", cu: 5 },
+    { k: "dine", n: "Dining tables", cu: 25 },
+    { k: "chairs", n: "Dining and desk chairs", cu: 5 },
+    { k: "desk", n: "Desks", cu: 25 },
+    { k: "wd", n: "Washers and dryers", s: "Count each one", cu: 25 },
+    { k: "fridge", n: "Refrigerators", cu: 45 },
+    { k: "box", n: "Boxes", s: "Medium, about 3 cubic feet", cu: 3, step: 5 }
+  ];
+  var HOMES = {
+    s: { sofa: 1, chair: 0, tbl: 1, tv: 1, shelf: 1, bed: 1, dresser: 1, night: 1, dine: 0, chairs: 2, desk: 0, wd: 0, fridge: 0, box: 20 },
+    1: { sofa: 1, chair: 1, tbl: 2, tv: 1, shelf: 1, bed: 1, dresser: 1, night: 2, dine: 1, chairs: 4, desk: 1, wd: 0, fridge: 0, box: 30 },
+    2: { sofa: 1, chair: 1, tbl: 2, tv: 1, shelf: 2, bed: 2, dresser: 2, night: 3, dine: 1, chairs: 4, desk: 1, wd: 0, fridge: 0, box: 45 },
+    3: { sofa: 2, chair: 2, tbl: 3, tv: 2, shelf: 3, bed: 3, dresser: 3, night: 4, dine: 1, chairs: 6, desk: 1, wd: 2, fridge: 1, box: 70 },
+    4: { sofa: 2, chair: 2, tbl: 3, tv: 2, shelf: 4, bed: 4, dresser: 4, night: 6, dine: 1, chairs: 8, desk: 2, wd: 2, fridge: 1, box: 100 }
+  };
+  var c = {};
+  function setHome(h) { var src = HOMES[h]; ITEMS.forEach(function (it) { c[it.k] = src[it.k]; }); }
+
+  /* a shared link carries the counts and the mover's number */
+  var q = new URLSearchParams(location.search), fromLink = false;
+  setHome("2");
+  ITEMS.forEach(function (it) { var v = parseInt(q.get(it.k), 10); if (v >= 0 && v < 1000) { c[it.k] = v; fromLink = true; } });
+  var e0 = parseInt(q.get("est"), 10); if (e0 > 0 && e0 < 100000) $("est").value = e0;
+  function clearHome() { [].forEach.call(document.querySelectorAll(".homes button"), function (b) { b.classList.remove("on"); }); }
+  if (fromLink) clearHome();
+
+  var list = $("items");
+  ITEMS.forEach(function (it) {
+    var li = document.createElement("li");
+    li.innerHTML = '<span class="nm">' + it.n + (it.s ? "<small>" + it.s + "</small>" : "") + '</span><span class="step"><button type="button" aria-label="One fewer: ' + it.n + '">−</button><output id="o-' + it.k + '" aria-live="polite"></output><button type="button" aria-label="One more: ' + it.n + '">+</button></span>';
+    var bs = li.querySelectorAll("button"), st = it.step || 1;
+    bs[0].addEventListener("click", function () { c[it.k] = Math.max(0, c[it.k] - st); clearHome(); draw(); });
+    bs[1].addEventListener("click", function () { c[it.k] = Math.min(999, c[it.k] + st); clearHome(); draw(); });
+    list.appendChild(li);
+  });
+  [].forEach.call(document.querySelectorAll(".homes button"), function (b) {
+    b.addEventListener("click", function () { setHome(b.getAttribute("data-h")); clearHome(); b.classList.add("on"); draw(); });
+  });
+  $("est").addEventListener("input", draw);
+
+  var last = null;
+  function draw() {
+    var cu = 0;
+    ITEMS.forEach(function (it) { $("o-" + it.k).textContent = c[it.k]; cu += c[it.k] * it.cu; });
+    cu = Math.round(cu * SLACK);
+    var lb = r100(cu * LB), lo = r100(cu * LO), hi = r100(cu * HI);
+    var ev = parseInt($("est").value, 10); if (!(ev > 0)) ev = 0; if (ev > 99999) ev = 99999;
+    var big, small;
+    if (cu === 0) { big = "Add a few things"; small = ""; }
+    else {
+      big = "About " + fmt(lb) + " pounds.";
+      small = "Likely between " + fmt(lo) + " and " + fmt(hi) + " pounds, from about " + fmt(cu) + " cubic feet of truck space." +
+        (hi > 18000 ? " That's past the 18,000-pound federal employee allowance, if you're relocating for the federal government." : "");
+    }
+    $("big").textContent = big; $("small").textContent = small;
+
+    var v = $("verdict"), vt = "", vc = "";
+    if (ev && cu) {
+      if (ev < lo) { vc = "lo"; vt = "Their " + fmt(ev) + " pounds is " + Math.round((1 - ev / lb) * 100) + "% below this estimate and under the low end of the range. Ask how they got that number and whether the estimate is binding: if the price is by weight, the final bill may follow the real weight."; }
+      else if (ev > hi) { vc = "hi"; vt = "Their " + fmt(ev) + " pounds is " + Math.round((ev / lb - 1) * 100) + "% above this estimate. Check the counts above match what you own, then ask what they counted that you didn't."; }
+      else { vc = "ok"; vt = "Their " + fmt(ev) + " pounds is inside the likely range for what you counted."; }
+    } else if (ev && !cu) { vt = "Add your furniture and boxes above to compare."; }
+    v.className = vc; v.textContent = vt;
+
+    paint(cu, lb, lo, hi, ev);
+    last = { big: big, lb: lb, cu: cu };
+    var p = new URLSearchParams(); ITEMS.forEach(function (it) { p.set(it.k, c[it.k]); }); if (ev) p.set("est", ev);
+    try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
+  }
+
+  /* a scale: the likely range as a band, the estimate as a marker, the
+     mover's number as a second marker */
+  function paint(cu, lb, lo, hi, ev) {
+    var s = $("svg"); s.textContent = "";
+    var X = 24, W = 452, Y = 54, H = 22;
+    var top = Math.max(hi, ev || 0, 2000);
+    var stepv = top <= 6000 ? 1000 : top <= 15000 ? 2500 : top <= 40000 ? 5000 : 10000;
+    var max = Math.ceil(top * 1.08 / stepv) * stepv;
+    function xp(w) { return X + W * Math.min(w, max) / max; }
+    el("rect", { width: 500, height: 120, fill: "#1A3214" }, s);
+    el("rect", { x: X, y: Y, width: W, height: H, rx: 11, fill: "#2C4A20" }, s);
+    if (cu) {
+      el("rect", { x: xp(lo), y: Y, width: Math.max(4, xp(hi) - xp(lo)), height: H, rx: 11, fill: "#9DC447" }, s);
+      el("rect", { x: xp(lb) - 3, y: Y - 10, width: 6, height: H + 20, rx: 3, fill: "#D5DF4D" }, s);
+      var t = el("text", { x: Math.min(Math.max(xp(lb), X + 40), X + W - 40), y: Y - 16, fill: "#D5DF4D", "font-weight": 800, "font-size": 15, "text-anchor": "middle", "font-family": "ui-rounded,system-ui,sans-serif" }, s);
+      t.textContent = "about " + fmt(lb) + " lb";
+    }
+    if (ev) {
+      el("path", { d: "M" + xp(ev) + " " + (Y + H + 4) + "l-8 12h16z", fill: "#FFB37A" }, s);
+      var m = el("text", { x: Math.min(Math.max(xp(ev), X + 44), X + W - 44), y: Y + H + 32, fill: "#FFB37A", "font-weight": 800, "font-size": 13, "text-anchor": "middle", "font-family": "system-ui,sans-serif" }, s);
+      m.textContent = "mover: " + fmt(ev) + " lb";
+    }
+    for (var w = 0; w <= max; w += stepv) {
+      var tx = el("text", { x: xp(w), y: ev ? 22 : Y + H + 26, fill: "rgba(255,255,255,.6)", "font-size": 12, "text-anchor": w === 0 ? "start" : w === max ? "end" : "middle", "font-family": "system-ui,sans-serif" }, s);
+      tx.textContent = w >= 1000 ? (w / 1000) + "k" : String(w);
+      if (ev) tx.setAttribute("opacity", "0");
+    }
+  }
+  draw();
+
+  /* share picture: square, the answer large */
+  function picture() {
+    var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
+    var g = cv.getContext("2d"), F = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#1A3214"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#C9E35C"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    var img = new Image(), svg = new XMLSerializer().serializeToString($("svg"));
+    return new Promise(function (res) {
+      function words() {
+        g.textAlign = "center"; g.fillStyle = "#D5DF4D"; g.font = "850 80px " + F; g.fillText(last.big, Z / 2, 640);
+        g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 36px " + F;
+        if (last.cu) g.fillText("from about " + fmt(last.cu) + " cubic feet, at 7 lb a cubic foot", Z / 2, 710);
+        g.fillText("How much does your move weigh? Check free:", Z / 2, 880);
+        g.fillStyle = "#fff"; g.font = "800 40px " + F; g.fillText("packedrabbit.com/weight", Z / 2, 940);
+        res(cv);
+      }
+      img.onload = function () { g.drawImage(img, 40, 200, 1000, 240); words(); };
+      img.onerror = words;
+      img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg.indexOf("xmlns=") > -1 ? svg : svg.replace("<svg", '<svg xmlns="http://www.w3.org/2000/svg"'));
+    });
+  }
+  $("share").addEventListener("click", function () {
+    var url = location.href, text = last.big + " How much does your move weigh? Check free:";
+    picture().then(function (cv) {
+      cv.toBlob(function (blob) {
+        var file = blob && typeof File !== "undefined" ? new File([blob], "move-weight.png", { type: "image/png" }) : null;
+        if (file && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+        else if (navigator.share) navigator.share({ title: "How much does my stuff weigh?", text: text, url: url }).catch(function () {});
+        else if (blob) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "move-weight.png"; document.body.appendChild(a); a.click(); a.remove(); }
+      }, "image/png");
+    });
+  });
+})();
+</script>
+<script>
+/* Embedded on someone else's page: no site header or footer, links open in a
+   new tab, a credit line at the end, and the height told to the host page. */
+(function () {
+  if (!document.documentElement.classList.contains("embed")) return;
+  document.querySelectorAll("a[href]").forEach(function (a) { a.target = "_blank"; a.rel = "noopener"; });
+  var m = document.querySelector("main") || document.body;
+  var c = document.createElement("a");
+  c.className = "embed-credit"; c.target = "_blank"; c.rel = "noopener";
+  c.href = "https://packedrabbit.com" + location.pathname;
+  c.textContent = "Free tool by The Packed Rabbit";
+  m.appendChild(c);
+  function tell() { try { parent.postMessage({ prEmbedHeight: Math.ceil(document.documentElement.scrollHeight) }, "*"); } catch (e) {} }
+  tell(); addEventListener("load", tell); addEventListener("resize", tell);
+  if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
+})();
+</script>
+<script src="../nav.js" defer></script>
+</body>
+</html>
