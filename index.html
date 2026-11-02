@@ -60,7 +60,7 @@
     { "@type": "Question", "name": "How do I check a moving quote for hidden fees?",
       "acceptedAnswer": { "@type": "Answer", "text": "Paste the quote's text into the free quote checker. It flags paperwork fees like a \"binding estimate fee\", a deposit that's too big, the weakest coverage already checked, a missing USDOT number, pressure to book today, and signs you're dealing with a broker instead of a mover. It runs in your browser and nothing you paste is sent anywhere." } },
     { "@type": "Question", "name": "Is it really free?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Unlimited boxes, photos, labels, search and the quote checker are free for good, with no card and no account. The full app (the plan and timeline, furniture fit, truck size, move day, the deposit and the paperwork) is $9.99 a month for up to 12 months, then billing stops by itself. Cancel anytime." } },
+      "acceptedAnswer": { "@type": "Answer", "text": "Unlimited boxes, photos, labels, search and the quote checker are free for good, with no card and no account. The full app does it for your own move: the plan and timeline, fit for your own furniture, the truck for what you actually packed, move day, the deposit and the paperwork. It is $9.99 a month for up to 12 months, then billing stops by itself. Cancel anytime." } },
     { "@type": "Question", "name": "How do you make money if it's free?",
       "acceptedAnswer": { "@type": "Answer", "text": "From the monthly plan for the full app, and from plans for businesses that help people move. Never from movers: we don't take a commission or a referral fee, and we never sell anyone's number." } },
     { "@type": "Question", "name": "Will moving companies call me?",
@@ -239,6 +239,27 @@ footer b{color:var(--ink);display:block;margin-bottom:4px}
 /* dark mode: buttons in the deep part of the green, white text, a lit top edge so they glow on the dark */
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.go,:root:not([data-theme="light"]) .biz .btn.go{background:linear-gradient(160deg,#5E9128,#3F6E1C 50%,#22341A);color:#FFFFFF;box-shadow:inset 0 1px 0 rgba(213,223,77,.45),0 10px 24px rgba(0,0,0,.35)}}
 :root[data-theme="dark"] .btn.go,:root[data-theme="dark"] .biz .btn.go{background:linear-gradient(160deg,#5E9128,#3F6E1C 50%,#22341A);color:#FFFFFF;box-shadow:inset 0 1px 0 rgba(213,223,77,.45),0 10px 24px rgba(0,0,0,.35)}
+
+/* owner, 2 Nov: more change between bright and light. Sunlit sections glow,
+   calm white sections rest the eye, and each fades into the next. */
+section.sun{background:
+  radial-gradient(70% 60% at 88% 18%,rgba(213,223,77,.62),transparent 70%),
+  radial-gradient(60% 55% at 4% 92%,rgba(157,196,71,.34),transparent 70%),
+  linear-gradient(180deg,rgba(234,245,190,0) 0%,#EAF5BE 14%,#E2F1AE 50%,#EAF5BE 86%,rgba(234,245,190,0) 100%)}
+section.sun .glass{background:linear-gradient(140deg,rgba(255,255,255,.92),rgba(255,255,255,.62));border-color:#fff}
+section.calm{background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.75) 18%,rgba(255,255,255,.75) 82%,rgba(255,255,255,0))}
+@media (prefers-color-scheme: dark){
+ :root:not([data-theme="light"]) section.sun{background:
+   radial-gradient(70% 60% at 88% 18%,rgba(184,221,78,.20),transparent 70%),
+   radial-gradient(60% 55% at 4% 92%,rgba(157,196,71,.12),transparent 70%),
+   linear-gradient(180deg,rgba(28,44,16,0),#1C2C10 14%,#203414 50%,#1C2C10 86%,rgba(28,44,16,0))}
+ :root:not([data-theme="light"]) section.sun .glass{background:linear-gradient(140deg,rgba(40,64,22,.75),rgba(20,30,12,.6));border-color:rgba(213,223,77,.18)}
+ :root:not([data-theme="light"]) section.calm{background:none}}
+
+.reasons li.glass,.reasons li{background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding:4px 14px 4px 0;font-size:1.12rem;display:flex;align-items:center;gap:8px}
+.reasons li::before{content:"";width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#D5DF4D,#3F6E1C);flex:none}
+.reasons{gap:4px 10px}
+.fine.lead-msg{max-width:42ch;font-size:1rem;line-height:1.5}
 </style>
 <style>
 .faq-s details{border-radius:20px;padding:4px 20px;margin-top:10px}
@@ -278,7 +299,7 @@ footer p{margin:0}
     <h1>Forget about it. <span>The Packed Rabbit won't.</span></h1>
     <p class="sub">Every box, every date, every promise, remembered.</p>
     <div class="ctas"><a class="btn go" href="app/">Open the app</a><a class="btn soft" href="#tools">What it checks</a></div>
-    <p class="fine">Made by a consumer, for consumers. No account. Nobody calls you.</p>
+    <p class="fine lead-msg">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>
   </div>
   <div class="demo glass" aria-label="Example: ask for something and the app shows the box it's in, with the photo taken inside the box">
     <div class="ask"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2.2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span class="q" id="q">frame mount kit</span><span class="caret" aria-hidden="true"></span></div>
@@ -293,13 +314,13 @@ footer p{margin:0}
           <li>Right now <b id="now">bottom of the stack</b></li>
         </ul>
       </div>
-      <p class="picnote">The photo was taken inside the box before it was sealed.</p>
+      <p class="picnote">In the app, this is your own photo, taken inside the box before it was sealed.</p>
     </div>
     <img class="rabbit" src="img/rabbit.svg" alt="">
   </div>
 </div></section>
 
-<section class="reasons-s"><div class="wrap">
+<section class="reasons-s sun"><div class="wrap">
   <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
   <h2>Every move has a reason.</h2>
   <ul class="reasons">
@@ -308,7 +329,7 @@ footer p{margin:0}
   <p class="tag">The Packed Rabbit handles the boxes so you can handle the rest.</p>
 </div></section>
 
-<section><div class="wrap">
+<section class="calm"><div class="wrap">
   <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
   <h2>Your things, even when you can't be with them.</h2>
   <p class="lede">A photo inside every box, its number, its size and where it is. See it, prove it, find it.</p>
@@ -319,24 +340,24 @@ footer p{margin:0}
   </ul>
 </div></section>
 
-<section id="tools"><div class="wrap">
+<section id="tools" class="sun"><div class="wrap">
   <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
   <h2>Moving is hard. Getting taken shouldn't be part of it.</h2>
   <p class="lede">Free. No sign-up.</p>
   <nav class="tools" aria-label="Free checks">
-    <a class="glass" href="quote-check/">Quote checker <span>Free</span></a>
-    <a class="glass" href="boxes/">Box checker <span>Free</span></a>
-    <a class="glass" href="mover-check/">Is the mover real? <span>Free</span></a>
-    <a class="glass" href="truck/">Truck checker <span>Free</span></a>
-    <a class="glass" href="storage/">Storage unit size <span>Free</span></a>
-    <a class="glass" href="diy-cost/">Cost to move yourself <span>Free</span></a>
-    <a class="glass" href="move-day/">How long moving day takes <span>Free</span></a>
-    <a class="glass" href="answers/clean-from-away.html">Move-out cleaning <span>Free</span></a>
-    <a class="glass" href="take-or-leave/">Take it or leave it <span>Free</span></a>
+    <a class="glass" href="quote-check/">Quote checker</a>
+    <a class="glass" href="boxes/">Box checker</a>
+    <a class="glass" href="mover-check/">Is the mover real?</a>
+    <a class="glass" href="truck/">Truck checker</a>
+    <a class="glass" href="storage/">Storage unit size</a>
+    <a class="glass" href="diy-cost/">Cost to move yourself</a>
+    <a class="glass" href="move-day/">How long moving day takes</a>
+    <a class="glass" href="answers/clean-from-away.html">Move-out cleaning</a>
+    <a class="glass" href="take-or-leave/">Take it or leave it</a>
   </nav>
 </div></section>
 
-<section><div class="wrap">
+<section class="calm"><div class="wrap">
   <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
   <h2>It knows what fits.</h2>
   <div class="fit">
@@ -363,7 +384,7 @@ footer p{margin:0}
   <div class="ctas"><a class="btn go" href="truck/">Size my truck</a><a class="btn soft" href="storage/">Size my unit</a></div>
 </div></section>
 
-<section><div class="wrap">
+<section class="sun"><div class="wrap">
   <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
   <h2>Then it welcomes you home.</h2>
   <ul class="home">
@@ -374,6 +395,17 @@ footer p{margin:0}
   </ul>
 </div></section>
 
+
+<section class="promise calm"><div class="wrap">
+  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
+  <div class="card glass"><blockquote>Start with one box. The Packed Rabbit remembers the rest.</blockquote>
+  <div class="ctas"><a class="btn go" href="app/">Start with one box</a></div></div>
+</div></section>
+<section class="faq-s sun"><div class="wrap">
+  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
+  <h2 id="fq-h">Questions people ask first</h2>
+  <details class="glass"><summary>What does it do?</summary><p>It remembers your move for you. Every box gets a number, a photo and a QR label, and you can find anything by typing or saying its name. It keeps where each box belongs and where it actually is, counts down to the truck, shows what&#x27;s next and where you left off, works out the truck size and what fits through the door, and keeps a dated record of what every mover, cleaner and landlord promised. It still works long after the move.</p></details><details class="glass"><summary>How do I check a moving quote for hidden fees?</summary><p>Paste the quote&#x27;s text into the free quote checker. It flags paperwork fees like a &quot;binding estimate fee&quot;, a deposit that&#x27;s too big, the weakest coverage already checked, a missing USDOT number, pressure to book today, and signs you&#x27;re dealing with a broker instead of a mover. It runs in your browser and nothing you paste is sent anywhere.</p></details><details class="glass"><summary>What does it cost?</summary><p>Unlimited boxes, photos, labels, search and the quote checker are free for good, with no card and no account. The full app does it for your own move: the plan and timeline, fit for your own furniture, the truck for what you actually packed, move day, the deposit and the paperwork. It is $9.99 a month for up to 12 months, then billing stops by itself. Cancel anytime.</p></details><details class="glass"><summary>How do you make money?</summary><p>From the monthly plan for the full app, and from plans for businesses that help people move. Never from movers: we don&#x27;t take a commission or a referral fee, and we never sell anyone&#x27;s number.</p></details><details class="glass"><summary>Will moving companies call me?</summary><p>No. We never ask for your phone number, and there&#x27;s nothing to sell to a mover. That&#x27;s the whole point.</p></details><details class="glass"><summary>Do I need an account?</summary><p>No. Open it and start. Everything you enter stays on your own phone.</p></details><details class="glass"><summary>How do I put it on my phone?</summary><p>iPhone and iPad: open <a href="app/">the app</a> in Safari, tap Share, then Add to Home Screen. Android: open it in Chrome and tap Install. On a computer it just runs in the browser. Once it is on your home screen it works with the wifi off.</p></details><details class="glass"><summary>Who made this?</summary><p>Someone who was moving, not a moving company. Every warning sign on this site came from a real move this fall.</p></details><details class="glass"><summary>Where do the answers come from?</summary><p>Federal and consumer sources: the FMCSA, the FTC and the CFPB, plus state law where it matters. Each answer names its source.</p></details>
+</div></section>
 <section class="biz"><div class="wrap">
   <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit for business</div>
   <h2>Hand it to everyone you move.</h2>
@@ -387,17 +419,6 @@ footer p{margin:0}
     <a href="business/services.html">Storage and cleaning <span>Flat listing</span></a>
   </nav>
   <div class="ctas"><a class="btn go" href="business/">See business plans</a><a class="btn soft" href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a></div>
-</div></section>
-
-<section class="promise"><div class="wrap">
-  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
-  <div class="card glass"><blockquote>Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</blockquote>
-  <div class="ctas"><a class="btn go" href="app/">Start with one box</a></div></div>
-</div></section>
-<section class="faq-s"><div class="wrap">
-  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
-  <h2 id="fq-h">Questions people ask first</h2>
-  <details class="glass"><summary>What does it do?</summary><p>It remembers your move for you. Every box gets a number, a photo and a QR label, and you can find anything by typing or saying its name. It keeps where each box belongs and where it actually is, counts down to the truck, shows what&#x27;s next and where you left off, works out the truck size and what fits through the door, and keeps a dated record of what every mover, cleaner and landlord promised. It still works long after the move.</p></details><details class="glass"><summary>How do I check a moving quote for hidden fees?</summary><p>Paste the quote&#x27;s text into the free quote checker. It flags paperwork fees like a &quot;binding estimate fee&quot;, a deposit that&#x27;s too big, the weakest coverage already checked, a missing USDOT number, pressure to book today, and signs you&#x27;re dealing with a broker instead of a mover. It runs in your browser and nothing you paste is sent anywhere.</p></details><details class="glass"><summary>What does it cost?</summary><p>Unlimited boxes, photos, labels, search and the quote checker are free for good, with no card and no account. The full app (the plan and timeline, furniture fit, truck size, move day, the deposit and the paperwork) is $9.99 a month for up to 12 months, then billing stops by itself. Cancel anytime.</p></details><details class="glass"><summary>How do you make money?</summary><p>From the monthly plan for the full app, and from plans for businesses that help people move. Never from movers: we don&#x27;t take a commission or a referral fee, and we never sell anyone&#x27;s number.</p></details><details class="glass"><summary>Will moving companies call me?</summary><p>No. We never ask for your phone number, and there&#x27;s nothing to sell to a mover. That&#x27;s the whole point.</p></details><details class="glass"><summary>Do I need an account?</summary><p>No. Open it and start. Everything you enter stays on your own phone.</p></details><details class="glass"><summary>How do I put it on my phone?</summary><p>iPhone and iPad: open <a href="app/">the app</a> in Safari, tap Share, then Add to Home Screen. Android: open it in Chrome and tap Install. On a computer it just runs in the browser. Once it is on your home screen it works with the wifi off.</p></details><details class="glass"><summary>Who made this?</summary><p>Someone who was moving, not a moving company. Every warning sign on this site came from a real move this fall.</p></details><details class="glass"><summary>Where do the answers come from?</summary><p>Federal and consumer sources: the FMCSA, the FTC and the CFPB, plus state law where it matters. Each answer names its source.</p></details>
 </div></section>
 </main>
 
