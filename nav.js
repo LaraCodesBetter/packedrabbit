@@ -3,8 +3,8 @@
   if (window.__prNav) return; window.__prNav = 1;
   var css = ".prnav{position:fixed;right:14px;bottom:calc(24px + env(safe-area-inset-bottom));z-index:60;display:flex;flex-direction:column;gap:10px}" +
     "@media (max-width:859px){body.has-sticky .prnav{bottom:calc(92px + env(safe-area-inset-bottom))}}" +
-    ".prnav button{width:48px;height:48px;border-radius:50%;border:2px solid rgba(255,255,255,.85);background:#0F2742;color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 18px rgba(15,39,66,.28);padding:0}" +
-    ".prnav button:focus-visible{outline:3px solid #FFC21A;outline-offset:2px}" +
+    ".prnav button{width:48px;height:48px;border-radius:50%;border:2px solid rgba(255,255,255,.85);background:#22341A;color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 18px rgba(34,52,26,.28);padding:0}" +
+    ".prnav button:focus-visible{outline:3px solid #C9E35C;outline-offset:2px}" +
     ".prnav button[hidden]{display:none}" +
     ".prnav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}" +
     "@media print{.prnav{display:none}}";

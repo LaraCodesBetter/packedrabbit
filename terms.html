@@ -6,17 +6,17 @@
 <title>Terms and refunds — The Packed Rabbit</title>
 <meta name="description" content="The terms for using The Packed Rabbit, and the refund policy.">
 <link rel="canonical" href="https://packedrabbit.com/terms.html">
-<meta name="theme-color" content="#03274F">
+<meta name="theme-color" content="#22341A">
 <link rel="icon" href="app/icon.svg" type="image/svg+xml">
 <style>
 :root{
-  --bg:#F2F3F1; --panel:#FFFFFF; --ink:#10131A; --ink2:#525A66; --teal:#07705F; --line:#E2E4E0;
+  --bg:#F8FBF2; --panel:#FFFFFF; --ink:#141C0D; --ink2:#4F5E3E; --teal:#07705F; --line:#DDE8C8;
   --serif:ui-serif,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
 }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){--bg:#0E1114;--panel:#171B20;--ink:#ECEEF0;--ink2:#9AA3AD;--teal:#4FBFA5;--line:#272C33}
+  :root:not([data-theme="light"]){--bg:#10150C;--panel:#1A2410;--ink:#EEF4DE;--ink2:#A9B79A;--teal:#9DC447;--line:#2A3820}
 }
-:root[data-theme="dark"]{--bg:#0E1114;--panel:#171B20;--ink:#ECEEF0;--ink2:#9AA3AD;--teal:#4FBFA5;--line:#272C33}
+:root[data-theme="dark"]{--bg:#10150C;--panel:#1A2410;--ink:#EEF4DE;--ink2:#A9B79A;--teal:#9DC447;--line:#2A3820}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);
   font-family:-apple-system,"SF Pro Text","Segoe UI",system-ui,sans-serif;font-size:17px;line-height:1.6}
@@ -33,11 +33,11 @@ hr{border:0;border-top:1px solid var(--line);margin:34px 0}
 /* ---- the app's own identity: navy, kraft, packing tape, rounded type ---- */
 :root{
   --display:ui-rounded,"SF Pro Rounded","Nunito","Segoe UI Variable Display",system-ui,-apple-system,sans-serif;
-  --navy:#0F2742; --navy2:#17365A; --kraft:#C9A27A; --tape:#F3C44A; --tape-ink:#3A2A06;
-  --bg:#EEF0EE; --teal:#0B6B5C;
+  --navy:#22341A; --navy2:#25451A; --kraft:#C9A27A; --tape:#C9E35C; --tape-ink:#1C2A12;
+  --bg:#F3F8E8; --teal:#3F6E1C;
 }
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#0A0D12; --panel:#141921; --navy:#0C1C31; --navy2:#132A47; --teal:#5CC7AE; } }
-:root[data-theme="dark"]{ --bg:#0A0D12; --panel:#141921; --navy:#0C1C31; --navy2:#132A47; --teal:#5CC7AE; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#0C1208; --panel:#18220F; --navy:#1A3214; --navy2:#25451A; --teal:#B8DD4E; } }
+:root[data-theme="dark"]{ --bg:#0C1208; --panel:#18220F; --navy:#1A3214; --navy2:#25451A; --teal:#B8DD4E; }
 h1,h2,h3{font-family:var(--display); font-weight:850; letter-spacing:-.02em}
 h2{font-size:clamp(1.55rem,5vw,2.1rem)}
 h3{font-weight:800}
@@ -46,7 +46,7 @@ h3{font-weight:800}
 .hero{
   position:relative; margin-top:18px; padding:46px 24px 30px; border-radius:28px;
   background:linear-gradient(160deg,var(--navy2),var(--navy)); color:#fff; overflow:hidden;
-  box-shadow:0 18px 40px rgba(15,39,66,.28);
+  box-shadow:0 18px 40px rgba(34,52,26,.28);
 }
 .hero::before{content:""; position:absolute; left:-4%; right:-4%; top:16px; height:22px; background:var(--tape); transform:rotate(-1.6deg);
   background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.18) 0 2px,transparent 2px 22px); opacity:.95}
@@ -57,7 +57,7 @@ h3{font-weight:800}
 .hero .btn{border-color:rgba(255,255,255,.28); background:rgba(255,255,255,.08); color:#fff; box-shadow:none}
 .hero .btn.primary{background:var(--tape); border-color:var(--tape); color:var(--tape-ink)}
 .label{
-  margin:28px 0 6px; max-width:360px; background:var(--kraft); color:#2B1E0E; border-radius:14px; padding:16px 18px 14px;
+  margin:28px 0 6px; max-width:360px; background:var(--kraft); color:#1C2A12; border-radius:14px; padding:16px 18px 14px;
   position:relative; transform:rotate(-1.2deg); box-shadow:0 10px 24px rgba(0,0,0,.28);
   background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.025) 0 1px,transparent 1px 4px);
 }
@@ -66,9 +66,9 @@ h3{font-weight:800}
 .label .room{font-family:var(--display); font-weight:800; margin-top:4px}
 .label .what{font-size:.95rem; margin-top:8px}
 .label .flags{display:flex; gap:6px; margin-top:10px; flex-wrap:wrap}
-.label .flags span{font-size:.78rem; font-weight:800; border:2px solid #2B1E0E; border-radius:6px; padding:1px 7px}
+.label .flags span{font-size:.78rem; font-weight:800; border:2px solid #1C2A12; border-radius:6px; padding:1px 7px}
 .label .qr{position:absolute; right:16px; top:16px; width:54px; height:54px;
-  background:conic-gradient(#2B1E0E 25%,transparent 0 50%,#2B1E0E 0 75%,transparent 0) 0 0/18px 18px; border:4px solid #2B1E0E; border-radius:4px; opacity:.9}
+  background:conic-gradient(#1C2A12 25%,transparent 0 50%,#1C2A12 0 75%,transparent 0) 0 0/18px 18px; border:4px solid #1C2A12; border-radius:4px; opacity:.9}
 .card{border-radius:22px; border:1px solid var(--line)}
 .card h3{font-size:1.15rem}
 #what .card{border-top:4px solid var(--kraft)}

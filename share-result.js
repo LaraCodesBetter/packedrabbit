@@ -32,19 +32,19 @@
     var W = 1080, H = 1350, c = document.createElement("canvas"); c.width = W; c.height = H;
     var g = c.getContext("2d"), F = '-apple-system, "SF Pro Display", "Segoe UI", system-ui, sans-serif';
     var bad = flags.filter(function (f) { return f.tone === "bad"; }), ask = flags.filter(function (f) { return f.tone === "warn"; });
-    g.fillStyle = "#0F2742"; g.fillRect(0, 0, W, H);
-    g.save(); g.translate(0, 70); g.rotate(-0.02); g.fillStyle = "#FFC21A"; g.fillRect(-20, 0, W + 40, 36); g.restore();
-    g.fillStyle = window.prSpooky ? "#FF8A1F" : "#FFC21A"; g.font = "800 40px " + F; g.fillText(window.prSpooky && bad.length ? "The scariest part of my mover's quote:" : "I checked my mover's quote.", 80, 210);
+    g.fillStyle = "#22341A"; g.fillRect(0, 0, W, H);
+    g.save(); g.translate(0, 70); g.rotate(-0.02); g.fillStyle = "#C9E35C"; g.fillRect(-20, 0, W + 40, 36); g.restore();
+    g.fillStyle = window.prSpooky ? "#FF8A1F" : "#C9E35C"; g.font = "800 40px " + F; g.fillText(window.prSpooky && bad.length ? "The scariest part of my mover's quote:" : "I checked my mover's quote.", 80, 210);
     g.fillStyle = "#FFFFFF"; g.font = "900 104px " + F;
     var head = bad.length ? bad.length + (bad.length === 1 ? " red flag." : " red flags.") : ask.length ? ask.length + (ask.length === 1 ? " thing to ask." : " things to ask.") : "It looks clean.";
     g.fillText(head, 80, 340);
     var y = 450, list = (bad.length ? bad : ask).slice(0, 4);
     list.forEach(function (f) {
-      g.fillStyle = bad.length ? "#D7142E" : "#FFC21A"; g.beginPath(); g.arc(98, y - 14, 14, 0, Math.PI * 2); g.fill();
+      g.fillStyle = bad.length ? "#D7142E" : "#C9E35C"; g.beginPath(); g.arc(98, y - 14, 14, 0, Math.PI * 2); g.fill();
       g.fillStyle = "#FFFFFF"; g.font = "600 44px " + F; y = wrap(g, short(f.text), 136, y, W - 220, 56, 2) + 30;
     });
     if ((bad.length ? bad : ask).length > 4) { g.fillStyle = "rgba(255,255,255,.75)"; g.font = "600 36px " + F; g.fillText("and " + ((bad.length ? bad : ask).length - 4) + " more", 136, y); }
-    g.fillStyle = "#FFC21A"; roundRect(g, 80, H - 300, 620, 104, 52); g.fill();
+    g.fillStyle = "#C9E35C"; roundRect(g, 80, H - 300, 620, 104, 52); g.fill();
     g.fillStyle = "#2E2203"; g.font = "900 54px " + F; g.fillText("packedrabbit.com", 120, H - 230);
     g.fillStyle = "rgba(255,255,255,.88)"; g.font = "600 38px " + F; g.fillText("Check yours before you sign.", 80, H - 130);
     g.fillStyle = "rgba(255,255,255,.6)"; g.font = "500 30px " + F; g.fillText("A moving app made by a consumer, for consumers.", 80, H - 80);

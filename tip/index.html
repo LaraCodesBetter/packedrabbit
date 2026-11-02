@@ -6,7 +6,7 @@
 <title>How much should I tip movers? Free moving tip calculator</title>
 <meta name="description" content="Work out a tip for your movers: by the day for a local or long-distance move, by the hour, or as a share of the bill. See the amount for each mover and for the whole crew. Free, no signup.">
 <link rel="canonical" href="https://packedrabbit.com/tip/">
-<meta name="theme-color" content="#0F2742">
+<meta name="theme-color" content="#22341A">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Packed Rabbit">
 <meta property="og:title" content="How much should I tip movers?">
@@ -58,10 +58,10 @@
   .seg button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 6px 8px; line-height: 1.2; }
   .seg button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
   .lbl { font-weight: 800; margin: 22px 0 0; font-size: 1.1rem; }
-  .stage { position: sticky; top: 0; z-index: 2; background: #0A1C33; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #1A3214; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
   .stage svg { display: block; width: 100%; height: auto; }
   .say { padding: 14px 18px 4px; color: #fff; }
-  .say .big { font-family: var(--display); font-size: clamp(1.8rem, 7vw, 2.4rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #7FF5C6; }
+  .say .big { font-family: var(--display); font-size: clamp(1.8rem, 7vw, 2.4rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #D5DF4D; }
   .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
   .items { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
   .items li { display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 16px; border-bottom: 1px solid var(--line); }
@@ -249,13 +249,13 @@
   function paint(lo, hi, per, n, missing) {
     var s = $("svg"); s.textContent = "";
     var FN = "system-ui,sans-serif";
-    el("rect", { width: 500, height: 150, fill: "#0A1C33" }, s);
+    el("rect", { width: 500, height: 150, fill: "#1A3214" }, s);
     var x0 = 30, W = 440, y = 26;
-    el("rect", { x: x0, y: y, width: W, height: 14, rx: 7, fill: "#11284A" }, s);
+    el("rect", { x: x0, y: y, width: W, height: 14, rx: 7, fill: "#25451A" }, s);
     if (!missing) {
-      el("rect", { x: x0, y: y, width: W, height: 14, rx: 7, fill: "#1F6BFF", opacity: .55 }, s);
+      el("rect", { x: x0, y: y, width: W, height: 14, rx: 7, fill: "#3F6E1C", opacity: .55 }, s);
       var t = hi > lo ? (per - lo) / (hi - lo) : .5, mx = x0 + Math.max(0, Math.min(1, t)) * W;
-      el("circle", { cx: mx, cy: y + 7, r: 13, fill: "#7FF5C6", stroke: "#0A1C33", "stroke-width": 4 }, s);
+      el("circle", { cx: mx, cy: y + 7, r: 13, fill: "#D5DF4D", stroke: "#1A3214", "stroke-width": 4 }, s);
       var a = el("text", { x: x0, y: y + 40, fill: "#E7EEF8", "font-size": 17, "font-weight": 700, "font-family": FN }, s); a.textContent = usd(lo);
       var b = el("text", { x: x0 + W, y: y + 40, fill: "#E7EEF8", "font-size": 17, "font-weight": 700, "font-family": FN, "text-anchor": "end" }, s); b.textContent = usd(hi);
       var c = el("text", { x: 250, y: y + 40, fill: "rgba(255,255,255,.6)", "font-size": 15, "font-weight": 600, "font-family": FN, "text-anchor": "middle" }, s); c.textContent = "each mover";
@@ -263,8 +263,8 @@
     var cnt = n > 10 ? 9 : n, gap = 44, ex = 250 - (cnt * gap - 8 + (n > cnt ? 48 : 0)) / 2, ey = 92;
     for (var i = 0; i < cnt; i++) {
       var gx = ex + i * gap;
-      el("rect", { x: gx, y: ey, width: 36, height: 24, rx: 4, fill: missing ? "#11284A" : "#C9A27A" }, s);
-      el("path", { d: "M" + gx + " " + ey + " l18 13 l18 -13", fill: "none", stroke: "#0A1C33", "stroke-width": 2 }, s);
+      el("rect", { x: gx, y: ey, width: 36, height: 24, rx: 4, fill: missing ? "#25451A" : "#C9A27A" }, s);
+      el("path", { d: "M" + gx + " " + ey + " l18 13 l18 -13", fill: "none", stroke: "#1A3214", "stroke-width": 2 }, s);
     }
     if (n > cnt) { var m = el("text", { x: ex + cnt * gap + 4, y: ey + 18, fill: "#E7EEF8", "font-size": 16, "font-weight": 700, "font-family": FN }, s); m.textContent = "+" + (n - cnt); }
     if (!missing && per > 0) { var e = el("text", { x: 250, y: ey + 46, fill: "rgba(255,255,255,.82)", "font-size": 15, "font-weight": 600, "font-family": FN, "text-anchor": "middle" }, s); e.textContent = n + (n === 1 ? " envelope" : " envelopes") + " of " + usd(per); }
@@ -274,10 +274,10 @@
   function picture() {
     var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
     var g = cv.getContext("2d"), FN = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
-    g.fillStyle = "#0A1C33"; g.fillRect(0, 0, Z, Z);
-    g.fillStyle = "#FFC21A"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.fillStyle = "#1A3214"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#C9E35C"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
     g.textAlign = "center"; g.fillStyle = "rgba(255,255,255,.85)"; g.font = "700 40px " + FN; g.fillText("Tip for our movers", Z / 2, 250);
-    g.fillStyle = "#7FF5C6"; g.font = "850 130px " + FN; g.fillText(last.missing ? "$0" : usd(last.per) + " each", Z / 2, 410);
+    g.fillStyle = "#D5DF4D"; g.font = "850 130px " + FN; g.fillText(last.missing ? "$0" : usd(last.per) + " each", Z / 2, 410);
     g.fillStyle = "#fff"; g.font = "800 54px " + FN;
     if (!last.missing) g.fillText(usd(last.per * last.n) + " for a crew of " + last.n, Z / 2, 510);
     g.fillStyle = "rgba(255,255,255,.8)"; g.font = "600 34px " + FN;

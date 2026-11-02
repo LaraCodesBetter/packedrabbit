@@ -6,7 +6,7 @@
 <title>Can I deduct my moving expenses? Free 2026 moving tax deduction check</title>
 <meta name="description" content="Find out in a few taps whether your move is tax deductible in 2026, and if it is, add up what goes on Form 3903. From IRS guidance. Free, no signup, nothing sent anywhere.">
 <link rel="canonical" href="https://packedrabbit.com/moving-tax/">
-<meta name="theme-color" content="#0F2742">
+<meta name="theme-color" content="#22341A">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Packed Rabbit">
 <meta property="og:title" content="Can I deduct my moving expenses?">
@@ -70,19 +70,19 @@
   .num span { color: var(--ink2); font-weight: 600; }
   .note { font-size: .92rem; color: var(--ink2); margin: 8px 0 0; }
   [hidden] { display: none !important; }
-  .stage { background: #0A1C33; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin-top: 22px; }
+  .stage { background: #1A3214; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin-top: 22px; }
   .stage svg { display: block; width: 100%; height: auto; }
   .say { padding: 16px 18px 18px; color: #fff; font-family: var(--display); }
-  .say .big { font-size: clamp(1.6rem, 6.3vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.08; color: #7FF5C6; }
-  .say .big.tight { color: #FFD66B; } .say .big.no { color: #FF9BAD; }
+  .say .big { font-size: clamp(1.6rem, 6.3vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.08; color: #D5DF4D; }
+  .say .big.tight { color: #E4F08E; } .say .big.no { color: #FF9BAD; }
   .say p { font-family: var(--text); font-weight: 500; color: rgba(255,255,255,.85); margin: 8px 0 0; font-size: 1rem; }
   .lines { margin: 14px 0 0; padding: 0; list-style: none; }
   .lines li { font-family: var(--text); color: #fff; padding: 10px 0; border-top: 1px solid rgba(255,255,255,.12); display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
   .lines li b { font-weight: 700; font-size: 1rem; line-height: 1.3; }
   .lines li b span { display: block; font-weight: 500; font-size: .88rem; color: rgba(255,255,255,.72); margin-top: 2px; }
-  .lines li em { font-style: normal; font-family: var(--mono); font-weight: 700; color: #FFC21A; white-space: nowrap; }
-  .lines li.tot b, .lines li.tot em { color: #7FF5C6; font-size: 1.08rem; }
-  .warn { margin: 12px 0 0; padding: 10px 12px; border-radius: 12px; background: rgba(255,194,26,.14); color: #FFE29A; font-family: var(--text); font-weight: 600; font-size: .95rem; }
+  .lines li em { font-style: normal; font-family: var(--mono); font-weight: 700; color: #C9E35C; white-space: nowrap; }
+  .lines li.tot b, .lines li.tot em { color: #D5DF4D; font-size: 1.08rem; }
+  .warn { margin: 12px 0 0; padding: 10px 12px; border-radius: 12px; background: rgba(201,227,92,.14); color: #EEF6B8; font-family: var(--text); font-weight: 600; font-size: .95rem; }
   .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
   .acts .btn { width: 100%; text-align: center; }
   .how { margin-top: 34px; }
@@ -161,7 +161,7 @@
 
   <div class="stage">
     <svg id="svg" viewBox="0 0 500 96" role="img" aria-labelledby="big">
-      <rect width="500" height="96" fill="#0A1C33"/>
+      <rect width="500" height="96" fill="#1A3214"/>
       <g id="bar"></g>
     </svg>
     <div class="say" aria-live="polite">
@@ -320,7 +320,7 @@
     row("You can deduct", "Form 3903, line 5, and Schedule 1, line 14", usd(ded), true);
     if (v.ml) row("Meals", "Never deductible, left out", usd(v.ml));
 
-    var parts = [[line1, "#2EE59D", "Things"], [line2, "#5B8CFF", "Travel"]];
+    var parts = [[line1, "#B8DD4E", "Things"], [line2, "#9DC447", "Travel"]];
     var sum = Math.max(tot, v.rb) || 0, x = 20;
     if (sum > 0) {
       parts.forEach(function (p) { if (!p[0]) return; var w = Math.max(6, 460 * p[0] / sum); el("rect", { x: x, y: 18, width: Math.max(2, w - 4), height: 30, rx: 8, fill: p[1] }, bar); if (w > 70) { var t = el("text", { x: x + 4, y: 72, fill: "rgba(255,255,255,.85)", "font-family": "ui-monospace,Menlo,monospace", "font-size": 15, "font-weight": 700 }, bar); t.textContent = p[2]; } x += w; });
@@ -354,10 +354,10 @@
   function picture() {
     var c = document.createElement("canvas"), Z = 1080; c.width = Z; c.height = Z;
     var g = c.getContext("2d"), F = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
-    g.fillStyle = "#0A1C33"; g.fillRect(0, 0, Z, Z);
-    g.fillStyle = "#FFC21A"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.fillStyle = "#1A3214"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#C9E35C"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
     g.textAlign = "center"; g.fillStyle = "rgba(255,255,255,.85)"; g.font = "700 50px " + F; g.fillText("Can I deduct my moving expenses?", Z / 2, 250);
-    g.fillStyle = last.tone === "no" ? "#FF9BAD" : last.tone === "tight" ? "#FFD66B" : "#7FF5C6";
+    g.fillStyle = last.tone === "no" ? "#FF9BAD" : last.tone === "tight" ? "#E4F08E" : "#D5DF4D";
     var size = 96; g.font = "850 " + size + "px " + F; while (g.measureText(last.big).width > Z - 100 && size > 48) { size -= 4; g.font = "850 " + size + "px " + F; }
     g.fillText(last.big, Z / 2, 520);
     g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 40px " + F;
