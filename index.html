@@ -235,6 +235,10 @@ footer b{color:var(--ink);display:block;margin-bottom:4px}
 
 @media (prefers-reduced-motion: reduce){.light{animation:none}.leaves{animation:none}.found.in{animation:none}.caret{animation:none}}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.glass{background:color-mix(in srgb,var(--bg) 92%,white)}}
+
+/* dark mode: buttons in the deep part of the green, white text, a lit top edge so they glow on the dark */
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.go,:root:not([data-theme="light"]) .biz .btn.go{background:linear-gradient(160deg,#5E9128,#3F6E1C 50%,#22341A);color:#FFFFFF;box-shadow:inset 0 1px 0 rgba(213,223,77,.45),0 10px 24px rgba(0,0,0,.35)}}
+:root[data-theme="dark"] .btn.go,:root[data-theme="dark"] .biz .btn.go{background:linear-gradient(160deg,#5E9128,#3F6E1C 50%,#22341A);color:#FFFFFF;box-shadow:inset 0 1px 0 rgba(213,223,77,.45),0 10px 24px rgba(0,0,0,.35)}
 </style>
 <style>
 .faq-s details{border-radius:20px;padding:4px 20px;margin-top:10px}
