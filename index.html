@@ -6,7 +6,7 @@
 <title>The Packed Rabbit: forget about it, the rabbit won&#x27;t</title>
 <meta name="description" content="The Packed Rabbit remembers what's in every box and where that box is now, what's coming next, what fits through the door, and what every mover and cleaner promised. Free, no account, nobody calls you.">
 <link rel="canonical" href="https://packedrabbit.com/">
-<meta name="theme-color" content="#0F2742">
+<meta name="theme-color" content="#F8FBF2">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Packed Rabbit">
 <meta property="og:title" content="Forget about it. The Packed Rabbit won't.">
@@ -35,7 +35,6 @@
 </script>
 <link rel="icon" href="app/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="app/icon-180.png">
-<link rel="stylesheet" href="site.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -83,160 +82,318 @@
   ]
 }
 </script>
+<style>
+@font-face{font-family:"Atkinson Next";src:url(fonts/atkinson-next.woff) format("woff");font-weight:200 800;font-display:swap}
+@font-face{font-family:"Atkinson Mono";src:url(fonts/atkinson-mono.woff) format("woff");font-weight:200 800;font-display:swap}
+:root{
+  --bg:#F8FBF2; --mist:#EAF3D2; --bamboo:#D6EA8A; --sage:#9DC447;
+  --ink:#1C2A12; --ink2:#4F5E3E; --line:rgba(28,42,18,.13);
+  --green:#3F6E1C; --green-ink:#FFFFFF; --deep:#22341A; --bark:#2B241D; --lit:#C9E35C;
+  --glass:linear-gradient(140deg,rgba(255,255,255,.86),rgba(234,246,186,.42)); --glass-edge:rgba(255,255,255,.85);
+  --sans:"Atkinson Next",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Atkinson Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10150C; --mist:#1A2410; --bamboo:#2D4314; --sage:#4E7A1E;
+    --ink:#EEF4DE; --ink2:#B4C39A; --line:rgba(238,244,222,.14);
+    --green:#B8DD4E; --green-ink:#15200A; --deep:#0C1208; --bark:#1A1510; --lit:#C9E35C;
+    --glass:linear-gradient(140deg,rgba(60,90,25,.45),rgba(20,30,12,.55)); --glass-edge:rgba(214,234,138,.16);
+  }
+}
+:root[data-theme="dark"]{
+    --bg:#10150C; --mist:#132219; --bamboo:#1D3527; --sage:#2D5440;
+  --ink:#E8F2EC; --ink2:#A7BBAF; --line:rgba(232,242,236,.14);
+  --green:#6FD3A0; --green-ink:#0B2117; --deep:#0A1C14;
+  --glass:rgba(24,44,34,.55); --glass-edge:rgba(255,255,255,.12);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 18px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--green);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px;position:relative}
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.025em;line-height:1.05}
+h2{font-size:clamp(2rem,6.2vw,3.2rem);max-width:17ch}
+.lede{font-size:clamp(1.1rem,3.1vw,1.3rem);color:var(--ink2);max-width:36ch;margin:14px 0 0}
+section{padding:56px 0;position:relative}
+@media(min-width:900px){section{padding:84px 0}}
+.brandrow{display:flex;white-space:nowrap;align-items:center;gap:10px;font-weight:700;font-size:1.08rem;text-decoration:none}
+.brandrow img{width:40px;height:40px}
+.mark{display:flex;align-items:center;gap:8px;font-weight:700;font-size:.98rem;margin-bottom:16px;color:var(--ink2)}
+.mark img{width:26px;height:26px}
+.glass{background:var(--glass);background-color:transparent;border:1px solid var(--glass-edge);border-radius:28px;-webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);box-shadow:0 1px 0 var(--glass-edge) inset,0 24px 60px rgba(24,59,44,.12)}
+
+/* the fluid light behind everything: soft bamboo and mist, slow */
+.light{position:fixed;inset:-20vmax;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(30vmax 24vmax at 20% 10%,color-mix(in srgb,var(--lit) 70%,transparent),transparent 70%),
+    radial-gradient(26vmax 22vmax at 82% 26%,var(--bamboo),transparent 70%),
+    radial-gradient(36vmax 30vmax at 55% 85%,color-mix(in srgb,var(--sage) 40%,transparent),transparent 70%),
+    radial-gradient(20vmax 16vmax at 92% 70%,color-mix(in srgb,var(--deep) 14%,transparent),transparent 70%);
+  animation:drift 40s ease-in-out infinite alternate}
+/* leaf shadows, like sun through maples: soft, layered, slow */
+.leaves{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.09;filter:blur(5px);mix-blend-mode:multiply;animation:sway 26s ease-in-out infinite alternate}
+.leaves svg{position:absolute;fill:#3F6E1C}
+@keyframes sway{to{transform:translate3d(-14px,10px,0) rotate(.6deg)}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .leaves{opacity:.22}:root:not([data-theme="light"]) .leaves svg{fill:#000}}
+@keyframes drift{to{transform:translate3d(3vmax,-2vmax,0) scale(1.06)}}
+/* bamboo: a few quiet stalks at the edge of the hero */
+.stalks{position:absolute;right:0;top:0;height:100%;width:180px;opacity:.5;pointer-events:none;z-index:-1}
+@media(max-width:899px){.stalks{display:none}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 26px;border-radius:999px;font:700 1.05rem var(--sans);text-decoration:none;border:1.5px solid transparent;cursor:pointer}
+.btn.go{background:linear-gradient(160deg,color-mix(in srgb,var(--green) 80%,var(--lit)),var(--green) 55%,var(--deep));color:var(--green-ink);box-shadow:0 10px 24px color-mix(in srgb,var(--green) 30%,transparent)}
+.btn.soft{background:var(--glass);border-color:var(--glass-edge);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+
+header{padding:14px 0;position:sticky;top:0;z-index:5}
+header .bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 8px 8px 14px;border-radius:999px}
+header .btn{min-height:44px;padding:0 18px;font-size:.98rem;white-space:nowrap}
+@media(max-width:420px){header .brandrow{font-size:1rem}header .brandrow img{width:34px;height:34px}header .btn{padding:0 14px}}
+
+.hero{padding:30px 0 70px}
+.hello{font-size:1.15rem;color:var(--green);font-weight:700;margin:0 0 10px}
+.hero h1{font-size:clamp(2.6rem,10vw,4.9rem);max-width:13ch}
+.hero h1 span{display:block;color:var(--green)}
+.hero .sub{font-size:clamp(1.15rem,3.4vw,1.4rem);margin:18px 0 0;max-width:28ch;color:var(--ink2)}
+.fine{color:var(--ink2);font-size:.95rem;margin-top:16px}
+.hero-grid{display:grid;gap:44px}
+@media(min-width:900px){.hero h1{max-width:none;font-size:clamp(3.4rem,5.4vw,4.6rem)}.hero-grid{grid-template-columns:1.1fr 1fr;align-items:center}.hero{padding:60px 0 100px}}
+
+.demo{position:relative;max-width:470px;padding:18px}
+.ask{display:flex;align-items:center;gap:12px;border-radius:999px;padding:0 20px;min-height:58px;font-size:1.12rem;background:rgba(255,255,255,.7);border:1px solid var(--line)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ask{background:rgba(255,255,255,.06)}}
+.ask svg{flex:none;color:var(--ink2)}
+.ask .q{font-weight:700}
+.caret{display:inline-block;width:2px;height:1.15em;background:var(--green);vertical-align:-3px;margin-left:1px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.found{margin-top:16px;display:grid;grid-template-columns:118px 1fr;gap:16px;align-items:start}
+.found.in{animation:rise .6s cubic-bezier(.2,.8,.2,1)}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.pic{width:118px;height:118px;border-radius:18px;overflow:hidden;background:var(--mist);border:1px solid var(--line)}
+.pic svg{width:100%;height:100%;display:block}
+.code{display:inline-block;font:700 1.5rem/1 var(--mono);letter-spacing:.03em;color:var(--green)}
+.what{font-size:1.15rem;font-weight:700;margin-top:6px;line-height:1.3}
+.facts{margin:12px 0 0;padding:0;list-style:none;font-size:.98rem;color:var(--ink2)}
+.facts li{padding:3px 0}
+.facts b{color:var(--ink);font-weight:700}
+.picnote{grid-column:1/-1;font-size:.9rem;color:var(--ink2);margin:0}
+.rabbit{position:absolute;right:-12px;bottom:-40px;width:86px;height:86px}
+
+.reasons{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px;padding:0;list-style:none}
+.reasons li{padding:10px 18px;border-radius:999px;font-weight:700}
+.tag{font-size:clamp(1.3rem,4vw,1.75rem);font-weight:700;margin-top:28px;max-width:26ch;line-height:1.25}
+
+.carry{display:grid;gap:14px;margin-top:30px;padding:0;list-style:none}
+@media(min-width:760px){.carry{grid-template-columns:repeat(3,1fr)}}
+.carry li{padding:22px;border-radius:24px}
+.carry b{display:block;font-size:1.2rem;margin-bottom:6px}
+.carry span{color:var(--ink2)}
+
+.tools{display:grid;grid-template-columns:1fr;gap:10px;margin-top:30px}
+.tools a{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:62px;padding:12px 20px;border-radius:20px;text-decoration:none;font-size:1.12rem;font-weight:700}
+.tools a span{font:700 .8rem var(--mono);color:var(--green);letter-spacing:.05em}
+@media(min-width:760px){.tools{grid-template-columns:1fr 1fr}}
+
+.fit{margin-top:30px;display:grid;gap:18px}
+@media(min-width:900px){.fit{grid-template-columns:1fr 1fr}}
+.fit>div{padding:22px;border-radius:24px}
+.fit h3{font-size:1.05rem;color:var(--ink2);font-weight:700;margin-bottom:8px}
+.bar{display:grid;grid-template-columns:6.6em 1fr auto;align-items:center;gap:12px;padding:8px 0}
+.bar b{font-weight:700}
+.bar i{display:block;height:10px;border-radius:999px;background:linear-gradient(90deg,var(--lit),var(--sage) 45%,var(--green))}
+.bar span{font:700 .95rem var(--mono);white-space:nowrap}
+.note{color:var(--ink2);margin-top:14px;font-size:.98rem}
+
+.home{display:grid;gap:14px;margin-top:30px;padding:0;list-style:none}
+@media(min-width:760px){.home{grid-template-columns:repeat(4,1fr)}}
+.home li{padding:20px;border-radius:24px;font-weight:700;font-size:1.1rem}
+.home li small{display:block;font-weight:400;color:var(--ink2);font-size:.95rem;margin-top:6px}
+
+.biz{color:#EEF4DE;background:radial-gradient(55% 45% at 85% 0%,rgba(213,223,77,.34),transparent 70%),radial-gradient(40% 40% at 10% 100%,rgba(157,196,71,.18),transparent 70%),linear-gradient(165deg,#3E6B1C,#25451A 50%,#1A3214)}
+.biz h2{color:#fff}
+.biz .lede{color:#C9D9A8}
+.biz .mark{color:#C9D9A8}
+.who{display:grid;gap:10px;margin-top:30px}
+.who a{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:60px;padding:10px 20px;border-radius:20px;text-decoration:none;font-weight:700;font-size:1.1rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14)}
+.who a span{font:700 .8rem var(--mono);color:#C9E35C;letter-spacing:.05em}
+@media(min-width:760px){.who{grid-template-columns:1fr 1fr}}
+.biz .btn.go{background:linear-gradient(160deg,#DDF08A,#B5D63F);color:#1C2A12;box-shadow:none}
+.biz .btn.soft{color:#fff;background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25)}
+
+.promise .card{padding:30px;border-radius:32px}
+.promise blockquote{margin:0;font-size:clamp(1.45rem,4.4vw,2.2rem);font-weight:700;line-height:1.25;letter-spacing:-.02em;max-width:28ch}
+.promise .price{margin-top:24px;font-size:1.08rem;max-width:46ch;color:var(--ink2)}
+.promise .price b{color:var(--ink)}
+
+footer{padding:30px 0 60px;color:var(--ink2);font-size:.95rem}
+footer .cols{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-top:20px}
+footer a{display:block;text-decoration:none;padding:6px 0}
+footer b{color:var(--ink);display:block;margin-bottom:4px}
+
+@media (prefers-reduced-motion: reduce){.light{animation:none}.leaves{animation:none}.found.in{animation:none}.caret{animation:none}}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.glass{background:color-mix(in srgb,var(--bg) 92%,white)}}
+</style>
+<style>
+.faq-s details{border-radius:20px;padding:4px 20px;margin-top:10px}
+.faq-s summary{cursor:pointer;min-height:56px;display:flex;align-items:center;font-weight:700;font-size:1.1rem;list-style:none}
+.faq-s summary::-webkit-details-marker{display:none}
+.faq-s summary::after{content:"+";margin-left:auto;font-weight:400;font-size:1.5rem;color:var(--green)}
+.faq-s details[open] summary::after{content:"\2212"}
+.faq-s details p{margin:0 0 16px;color:var(--ink2)}
+.faq-s details a{color:var(--green)}
+footer .social{display:flex;gap:6px;margin-top:8px}
+footer .social a{display:inline-flex;width:44px;height:44px;align-items:center;justify-content:center;padding:0}
+footer .social svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8}
+footer p{margin:0}
+.prnav button{background:#3F6E1C!important}
+</style>
 </head>
 <body>
 
-<header class="wrap top">
-  <a class="brand" href="./" aria-label="The Packed Rabbit, home">
-    <img src="img/rabbit.svg" alt="" width="34" height="34">
-    The Packed Rabbit
-  </a>
-  <nav aria-label="Main">
-    <a class="opt" href="business/">For business</a>
-    <a class="opt" href="answers/">What I wish I'd known</a>
-    <a class="opt" href="use/">No App Store? Use it here</a>
-    <a class="btn navy" href="app/">Open the app</a>
-  </nav>
-</header>
+<div class="light" aria-hidden="true"></div>
+<div class="leaves" aria-hidden="true"><svg viewBox="0 0 100 100" style="left:-60px;top:4%;width:260px;transform:rotate(-18deg)"><path d="M50 96L52 76C60 79 70 80 78 76L74 70C82 66 90 60 94 52L84 50C88 42 90 34 88 26L78 32C76 22 70 14 62 8L60 20C56 14 52 8 50 2C48 8 44 14 40 20L38 8C30 14 24 22 22 32L12 26C10 34 12 42 16 50L6 52C10 60 18 66 26 70L22 76C30 80 40 79 48 76Z"/></svg><svg viewBox="0 0 100 100" style="right:-80px;top:18%;width:320px;transform:rotate(22deg)"><path d="M50 96L52 76C60 79 70 80 78 76L74 70C82 66 90 60 94 52L84 50C88 42 90 34 88 26L78 32C76 22 70 14 62 8L60 20C56 14 52 8 50 2C48 8 44 14 40 20L38 8C30 14 24 22 22 32L12 26C10 34 12 42 16 50L6 52C10 60 18 66 26 70L22 76C30 80 40 79 48 76Z"/></svg><svg viewBox="0 0 100 100" style="left:30%;top:46%;width:180px;transform:rotate(8deg)"><path d="M50 96L52 76C60 79 70 80 78 76L74 70C82 66 90 60 94 52L84 50C88 42 90 34 88 26L78 32C76 22 70 14 62 8L60 20C56 14 52 8 50 2C48 8 44 14 40 20L38 8C30 14 24 22 22 32L12 26C10 34 12 42 16 50L6 52C10 60 18 66 26 70L22 76C30 80 40 79 48 76Z"/></svg><svg viewBox="0 0 100 100" style="right:6%;top:64%;width:240px;transform:rotate(-30deg)"><path d="M50 96L52 76C60 79 70 80 78 76L74 70C82 66 90 60 94 52L84 50C88 42 90 34 88 26L78 32C76 22 70 14 62 8L60 20C56 14 52 8 50 2C48 8 44 14 40 20L38 8C30 14 24 22 22 32L12 26C10 34 12 42 16 50L6 52C10 60 18 66 26 70L22 76C30 80 40 79 48 76Z"/></svg><svg viewBox="0 0 100 100" style="left:-40px;top:78%;width:300px;transform:rotate(40deg)"><path d="M50 96L52 76C60 79 70 80 78 76L74 70C82 66 90 60 94 52L84 50C88 42 90 34 88 26L78 32C76 22 70 14 62 8L60 20C56 14 52 8 50 2C48 8 44 14 40 20L38 8C30 14 24 22 22 32L12 26C10 34 12 42 16 50L6 52C10 60 18 66 26 70L22 76C30 80 40 79 48 76Z"/></svg></div>
+<header><div class="wrap"><div class="bar glass">
+  <a class="brandrow" href="./"><img src="img/rabbit.svg" alt="">The Packed Rabbit</a>
+  <a class="btn go" href="app/">Open the app</a>
+</div></div></header>
 
 <main>
-<div class="wrap">
-  <div class="hero">
-    <div class="hero-grid">
+<section class="hero"><div class="wrap hero-grid">
+  <svg class="stalks" viewBox="0 0 180 600" preserveAspectRatio="none" aria-hidden="true">
+    <g fill="none" stroke="var(--sage)" stroke-linecap="round">
+      <path d="M120 600V0" stroke-width="10"/><path d="M150 600V60" stroke-width="7"/><path d="M95 600V140" stroke-width="5"/>
+      <path d="M112 140h16M112 300h16M112 460h16M144 210h12M144 380h12M90 260h10M90 420h10" stroke="var(--bg)" stroke-width="4"/>
+      <path d="M120 140c-30-10-48-30-56-52M150 210c20-14 26-34 26-52M95 260c-24-6-40-22-46-40" stroke-width="3"/>
+    </g>
+  </svg>
+  <div>
+    <p class="hello">Welcome. Take a breath.</p>
+    <h1>Forget about it. <span>The Packed Rabbit won't.</span></h1>
+    <p class="sub">Every box, every date, every promise, remembered.</p>
+    <div class="ctas"><a class="btn go" href="app/">Open the app</a><a class="btn soft" href="#tools">What it checks</a></div>
+    <p class="fine">Made by a consumer, for consumers. No account. Nobody calls you.</p>
+  </div>
+  <div class="demo glass" aria-label="Example: ask for something and the app shows the box it's in, with the photo taken inside the box">
+    <div class="ask"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2.2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><span class="q" id="q">frame mount kit</span><span class="caret" aria-hidden="true"></span></div>
+    <div class="found" id="found">
+      <div class="pic" id="pic"></div>
       <div>
-        <p class="stamp big"><img src="img/rabbit.svg" alt="" width="46" height="46">The Packed Rabbit</p>
-        <h1>Forget about it. The Packed Rabbit won&rsquo;t.</h1>
-        <p class="hero-2">Every box, every date, every promise, remembered.</p>
-        <div class="cta"><a class="btn tape" href="app/">Open the app</a><a class="btn ghost" href="#tools" style="color:#fff">What it checks</a></div>
-        <p class="fine">Made by a consumer, for consumers. No account. Nobody calls you.</p>
+        <div class="code" id="code">FAM-021</div>
+        <div class="what" id="what">Frame mount kit, picture wire, level</div>
+        <ul class="facts">
+          <li><b id="size">Medium box</b></li>
+          <li>Goes to <b id="goes">Family room</b></li>
+          <li>Right now <b id="now">bottom of the stack</b></li>
+        </ul>
       </div>
-      <figure class="hero-shot"><img src="img/shots/01-find.webp" width="600" height="1304" alt="Searching for kettle in the app finds box KIT-07, with its photo, room and status"></figure>
+      <p class="picnote">The photo was taken inside the box before it was sealed.</p>
+    </div>
+    <img class="rabbit" src="img/rabbit.svg" alt="">
+  </div>
+</div></section>
+
+<section class="reasons-s"><div class="wrap">
+  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
+  <h2>Every move has a reason.</h2>
+  <ul class="reasons">
+    <li class="glass">A first home</li><li class="glass">Off to college</li><li class="glass">A new job</li><li class="glass">Moving in together</li><li class="glass">More room</li><li class="glass">Downsizing</li><li class="glass">A parent moving in</li><li class="glass">A divorce</li><li class="glass">A loss</li><li class="glass">A move gone wrong</li>
+  </ul>
+  <p class="tag">The Packed Rabbit handles the boxes so you can handle the rest.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
+  <h2>Your things, even when you can't be with them.</h2>
+  <p class="lede">A photo inside every box, its number, its size and where it is. See it, prove it, find it.</p>
+  <ul class="carry">
+    <li class="glass"><b>Years in storage</b><span>A military move can mean four years apart from everything you own. Carry it all in your pocket.</span></li>
+    <li class="glass"><b>Someone else moved you</b><span>A hospital stay, an emergency, a family member packing up. Every box is still yours, and you can see where it went.</span></li>
+    <li class="glass"><b>Proof for insurance</b><span>The photo inside the box, taken before it was sealed. If something breaks or goes missing, you have it.</span></li>
+  </ul>
+</div></section>
+
+<section id="tools"><div class="wrap">
+  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
+  <h2>Moving is hard. Getting taken shouldn't be part of it.</h2>
+  <p class="lede">Free. No sign-up.</p>
+  <nav class="tools" aria-label="Free checks">
+    <a class="glass" href="quote-check/">Mover's quote <span>Free</span></a>
+    <a class="glass" href="mover-check/">Is the mover real? <span>Free</span></a>
+    <a class="glass" href="truck/">Truck size <span>Free</span></a>
+    <a class="glass" href="storage/">Storage unit size <span>Free</span></a>
+    <a class="glass" href="diy-cost/">Cost to move yourself <span>Free</span></a>
+    <a class="glass" href="move-day/">How long moving day takes <span>Free</span></a>
+    <a class="glass" href="answers/clean-from-away.html">Move-out cleaning <span>Free</span></a>
+    <a class="glass" href="take-or-leave/">Take it or leave it <span>Free</span></a>
+  </nav>
+</div></section>
+
+<section><div class="wrap">
+  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
+  <h2>It knows what fits.</h2>
+  <div class="fit">
+    <div class="glass">
+      <h3>Trucks, in medium boxes</h3>
+      <div class="bar"><b>Cargo van</b><i style="width:15%"></i><span>71</span></div>
+      <div class="bar"><b>10-foot</b><i style="width:24%"></i><span>116</span></div>
+      <div class="bar"><b>15-foot</b><i style="width:45%"></i><span>221</span></div>
+      <div class="bar"><b>17-foot</b><i style="width:51%"></i><span>250</span></div>
+      <div class="bar"><b>20-foot</b><i style="width:60%"></i><span>294</span></div>
+      <div class="bar"><b>26-foot</b><i style="width:100%"></i><span>488</span></div>
+    </div>
+    <div class="glass">
+      <h3>Storage units, in medium boxes</h3>
+      <div class="bar"><b>5 × 5</b><i style="width:8%"></i><span>43</span></div>
+      <div class="bar"><b>5 × 10</b><i style="width:17%"></i><span>86</span></div>
+      <div class="bar"><b>10 × 10</b><i style="width:33%"></i><span>173</span></div>
+      <div class="bar"><b>10 × 15</b><i style="width:50%"></i><span>260</span></div>
+      <div class="bar"><b>10 × 20</b><i style="width:67%"></i><span>346</span></div>
+      <div class="bar"><b>10 × 30</b><i style="width:100%"></i><span>520</span></div>
     </div>
   </div>
-</div>
+  <p class="note">A sofa takes the space of 20 boxes. Movers price by weight: about 7 lb per cubic foot.</p>
+  <div class="ctas"><a class="btn go" href="truck/">Size my truck</a><a class="btn soft" href="storage/">Size my unit</a></div>
+</div></section>
 
-<div class="wrap"><ul class="trust" aria-label="What you get">
-  <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>No account</li>
-  <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9c4.5-4 11.5-4 16 0M7 12.5c3-2.5 7-2.5 10 0M10 16c1.2-1 2.8-1 4 0M3 3l18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Works offline</li>
-  <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M11 18.5h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Stays on your phone</li>
-  <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h10l4 4v12H5z M14 4v5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Sources: FMCSA, FTC and CFPB</li>
-</ul></div>
+<section><div class="wrap">
+  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
+  <h2>Then it welcomes you home.</h2>
+  <ul class="home">
+    <li class="glass">Every box in its room<small>Which ones aren't, and where they are.</small></li>
+    <li class="glass">Your deposit back<small>Photos and dates, ready if you need them.</small></li>
+    <li class="glass">The old place closed out<small>Utilities, mail, the final walk-through.</small></li>
+    <li class="glass">A new state, sorted<small>License, registration, voter registration.</small></li>
+  </ul>
+</div></section>
 
-<section class="band screen2" id="tools" aria-labelledby="tl-h">
-  <div class="wrap">
-    <p class="stamp"><img src="img/rabbit.svg" alt="" width="30" height="30">The Packed Rabbit</p>
-    <h2 id="tl-h">Moving is hard. Getting taken shouldn&rsquo;t be part of it.</h2>
-    <p class="lead muted">Free. No sign-up.</p>
-    <div class="tools">
-      <a href="quote-check/"><b>Mover&rsquo;s quote</b></a>
-      <a href="mover-check/"><b>Is the mover real?</b></a>
-      <a href="truck/"><b>Truck size</b></a>
-      <a href="storage/"><b>Storage unit size</b></a>
-      <a href="diy-cost/"><b>Cost to move yourself</b></a>
-      <a href="answers/clean-from-away.html"><b>Move-out cleaning</b></a>
-      <a href="take-or-leave/"><b>Take it or leave it</b></a>
-      <a href="answers/donate.html"><b>Donate or haul away</b></a>
-    </div>
-  </div>
-</section>
+<section class="biz"><div class="wrap">
+  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit for business</div>
+  <h2>Hand it to everyone you move.</h2>
+  <p class="lede">Your name on it, their whole move organized. They keep it on their own phone.</p>
+  <nav class="who" aria-label="For business">
+    <a href="business/property-managers.html">Property managers <span>Move-ins</span></a>
+    <a href="agents.html">Real estate agents <span>Closing gift</span></a>
+    <a href="business/relocation.html">Relocation and HR <span>Transferees</span></a>
+    <a href="business/military.html">Military families <span>PCS</span></a>
+    <a href="business/">Move managers <span>Pro</span></a>
+    <a href="business/services.html">Storage and cleaning <span>Flat listing</span></a>
+  </nav>
+  <div class="ctas"><a class="btn go" href="business/">See business plans</a><a class="btn soft" href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a></div>
+</div></section>
 
-<section class="band screen3" aria-labelledby="tb-h">
-  <div class="wrap">
-    <p class="stamp"><img src="img/rabbit.svg" alt="" width="30" height="30">The Packed Rabbit</p>
-    <h2 id="tb-h">It knows what fits.</h2>
-    <p class="lead muted">Trucks</p>
-    <div class="trucks">
-      <div class="tb"><div class="tb-h"><b>Cargo van</b></div><div class="tb-n"><b>71 boxes</b></div><div class="tb-bar" aria-hidden="true"><i style="width:15%"></i></div><div class="tb-m">245 cu ft &middot; about 1,700 lb full</div></div>
-      <div class="tb"><div class="tb-h"><b>10-foot truck</b></div><div class="tb-n"><b>116 boxes</b></div><div class="tb-bar" aria-hidden="true"><i style="width:24%"></i></div><div class="tb-m">402 cu ft &middot; about 2,800 lb full</div></div>
-      <div class="tb"><div class="tb-h"><b>15-foot truck</b></div><div class="tb-n"><b>221 boxes</b></div><div class="tb-bar" aria-hidden="true"><i style="width:45%"></i></div><div class="tb-m">764 cu ft &middot; about 5,350 lb full</div></div>
-      <div class="tb"><div class="tb-h"><b>17-foot truck</b></div><div class="tb-n"><b>250 boxes</b></div><div class="tb-bar" aria-hidden="true"><i style="width:51%"></i></div><div class="tb-m">865 cu ft &middot; about 6,050 lb full</div></div>
-      <div class="tb"><div class="tb-h"><b>20-foot truck</b></div><div class="tb-n"><b>294 boxes</b></div><div class="tb-bar" aria-hidden="true"><i style="width:60%"></i></div><div class="tb-m">1,016 cu ft &middot; about 7,100 lb full</div></div>
-      <div class="tb"><div class="tb-h"><b>26-foot truck</b></div><div class="tb-n"><b>488 boxes</b></div><div class="tb-bar" aria-hidden="true"><i style="width:100%"></i></div><div class="tb-m">1,684 cu ft &middot; about 11,800 lb full</div></div>
-    </div>
-    <p class="lead muted" style="margin-top:22px">Storage units</p>
-    <div class="trucks">
-      <div class="tb"><div class="tb-h"><b>5 &times; 5 unit</b></div><div class="tb-n"><b>43 boxes</b></div><div class="tb-bar" aria-hidden="true"><i style="width:8%"></i></div><div class="tb-m">25 sq ft &middot; 200 cu ft at 8 ft high &middot; a closet</div></div>
-      <div class="tb"><div class="tb-h"><b>5 &times; 10 unit</b></div><div class="tb-n"><b>86 boxes</b></div><div class="tb-bar" aria-hidden="true"><i style="width:17%"></i></div><div class="tb-m">50 sq ft &middot; 400 cu ft at 8 ft high &middot; a studio</div></div>
-      <div class="tb"><div class="tb-h"><b>10 &times; 10 unit</b></div><div class="tb-n"><b>173 boxes</b></div><div class="tb-bar" aria-hidden="true"><i style="width:33%"></i></div><div class="tb-m">100 sq ft &middot; 800 cu ft at 8 ft high &middot; a 1-bedroom</div></div>
-      <div class="tb"><div class="tb-h"><b>10 &times; 15 unit</b></div><div class="tb-n"><b>260 boxes</b></div><div class="tb-bar" aria-hidden="true"><i style="width:50%"></i></div><div class="tb-m">150 sq ft &middot; 1,200 cu ft at 8 ft high &middot; a 2-bedroom</div></div>
-      <div class="tb"><div class="tb-h"><b>10 &times; 20 unit</b></div><div class="tb-n"><b>346 boxes</b></div><div class="tb-bar" aria-hidden="true"><i style="width:67%"></i></div><div class="tb-m">200 sq ft &middot; 1,600 cu ft at 8 ft high &middot; a 3-bedroom</div></div>
-      <div class="tb"><div class="tb-h"><b>10 &times; 30 unit</b></div><div class="tb-n"><b>520 boxes</b></div><div class="tb-bar" aria-hidden="true"><i style="width:100%"></i></div><div class="tb-m">300 sq ft &middot; 2,400 cu ft at 8 ft high &middot; a house</div></div>
-    </div>
-    <p class="muted" style="margin-top:12px">Medium boxes. A sofa takes the space of 20. Movers price by weight: about 7 lb per cubic foot.</p>
-    <div class="cta2"><a class="btn tape" href="truck/">Size my truck</a><a class="btn ghost dark" href="storage/">Size my unit</a></div>
-  </div>
-</section>
-
-<section class="band screen4" aria-labelledby="wh-h">
-  <div class="wrap">
-    <p class="stamp"><img src="img/rabbit.svg" alt="" width="30" height="30">The Packed Rabbit</p>
-    <h2 id="wh-h">Then it welcomes you home.</h2>
-    <div class="tools">
-      <a href="change-address/"><b>Close out the old place</b></a>
-      <a href="deposit/"><b>Get your deposit back</b></a>
-      <a href="states/"><b>New state checklist</b></a>
-      <a href="app/"><b>Unpack at your pace</b></a>
-    </div>
-  </div>
-</section>
-
-<section class="band promise" aria-labelledby="pr-h">
-  <div class="wrap">
-    <p class="stamp"><img src="img/rabbit.svg" alt="" width="30" height="30">The Packed Rabbit</p>
-    <h2 id="pr-h">Made by someone who was moving, not by a moving company.</h2>
-    <ul class="promises">
-      <li><b>We don't sell your number,</b></li>
-      <li><b>we don't take a cut from movers,</b></li>
-      <li><b>and your list stays on your phone.</b></li>
-    </ul>
-  </div>
-</section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<section class="band" id="reviews" hidden data-server="https://REPLACE_ME">
-  <div class="wrap narrow">
-    <h2>What people said</h2>
-    <p class="muted" id="rv-sum"></p>
-    <div id="rv-list"></div>
-    <p class="muted" style="font-size:.9rem">Every review comes from someone who used the app and chose to share it. We take down only personal details and abuse, never a review for being critical.</p>
-  </div>
-</section>
-
-
-<section class="band faq" aria-labelledby="fq-h">
-  <div class="wrap narrow">
-    <p class="stamp"><img src="img/rabbit.svg" alt="" width="30" height="30">The Packed Rabbit</p>
-    <h2 id="fq-h">Questions people ask first</h2>
-    <details><summary>What does it do?</summary><p>It remembers your move for you. Every box gets a number, a photo and a QR label, and you can find anything by typing or saying its name. It keeps where each box belongs and where it actually is, counts down to the truck, shows what&#x27;s next and where you left off, works out the truck size and what fits through the door, and keeps a dated record of what every mover, cleaner and landlord promised. It still works long after the move.</p></details><details><summary>How do I check a moving quote for hidden fees?</summary><p>Paste the quote&#x27;s text into the free quote checker. It flags paperwork fees like a &quot;binding estimate fee&quot;, a deposit that&#x27;s too big, the weakest coverage already checked, a missing USDOT number, pressure to book today, and signs you&#x27;re dealing with a broker instead of a mover. It runs in your browser and nothing you paste is sent anywhere.</p></details><details><summary>What does it cost?</summary><p>Unlimited boxes, photos, labels, search and the quote checker are free for good, with no card and no account. The full app (the plan and timeline, furniture fit, truck size, move day, the deposit and the paperwork) is $9.99 a month for up to 12 months, then billing stops by itself. Cancel anytime.</p></details><details><summary>How do you make money?</summary><p>From the monthly plan for the full app, and from plans for businesses that help people move. Never from movers: we don&#x27;t take a commission or a referral fee, and we never sell anyone&#x27;s number.</p></details><details><summary>Will moving companies call me?</summary><p>No. We never ask for your phone number, and there&#x27;s nothing to sell to a mover. That&#x27;s the whole point.</p></details><details><summary>Do I need an account?</summary><p>No. Open it and start. Everything you enter stays on your own phone.</p></details><details><summary>How do I put it on my phone?</summary><p>iPhone and iPad: open <a href="app/">the app</a> in Safari, tap Share, then Add to Home Screen. Android: open it in Chrome and tap Install. On a computer it just runs in the browser. Once it is on your home screen it works with the wifi off.</p></details><details><summary>Who made this?</summary><p>Someone who was moving, not a moving company. Every warning sign on this site came from a real move this fall.</p></details><details><summary>Where do the answers come from?</summary><p>Federal and consumer sources: the FMCSA, the FTC and the CFPB, plus state law where it matters. Each answer names its source.</p></details>
-    <div class="cta2"><a class="btn tape" href="quote-check/">Check a quote</a><a class="btn ghost dark" href="app/">Start managing my move</a></div>
-  </div>
-</section>
-
-<section class="band invite" aria-labelledby="inv-h">
-  <div class="wrap">
-    <div class="invitebox">
-      <button class="inv-rabbit" type="button" aria-label="Tap the rabbit"><img src="img/rabbit.svg" alt="" width="150" height="150"></button>
-      <div>
-        <h2 id="inv-h">Ready when you are.</h2>
-        <p class="lead">Start with one box.</p>
-        <div class="cta2" style="margin-top:0"><a class="btn tape" href="app/">Start managing my move</a><a class="btn ghost" href="#tools" style="color:#fff">Check before you pay</a></div>
-      </div>
-    </div>
-  </div>
-</section>
+<section class="promise"><div class="wrap">
+  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
+  <div class="card glass"><blockquote>Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</blockquote>
+  <div class="ctas"><a class="btn go" href="app/">Start with one box</a></div></div>
+</div></section>
+<section class="faq-s"><div class="wrap">
+  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
+  <h2 id="fq-h">Questions people ask first</h2>
+  <details class="glass"><summary>What does it do?</summary><p>It remembers your move for you. Every box gets a number, a photo and a QR label, and you can find anything by typing or saying its name. It keeps where each box belongs and where it actually is, counts down to the truck, shows what&#x27;s next and where you left off, works out the truck size and what fits through the door, and keeps a dated record of what every mover, cleaner and landlord promised. It still works long after the move.</p></details><details class="glass"><summary>How do I check a moving quote for hidden fees?</summary><p>Paste the quote&#x27;s text into the free quote checker. It flags paperwork fees like a &quot;binding estimate fee&quot;, a deposit that&#x27;s too big, the weakest coverage already checked, a missing USDOT number, pressure to book today, and signs you&#x27;re dealing with a broker instead of a mover. It runs in your browser and nothing you paste is sent anywhere.</p></details><details class="glass"><summary>What does it cost?</summary><p>Unlimited boxes, photos, labels, search and the quote checker are free for good, with no card and no account. The full app (the plan and timeline, furniture fit, truck size, move day, the deposit and the paperwork) is $9.99 a month for up to 12 months, then billing stops by itself. Cancel anytime.</p></details><details class="glass"><summary>How do you make money?</summary><p>From the monthly plan for the full app, and from plans for businesses that help people move. Never from movers: we don&#x27;t take a commission or a referral fee, and we never sell anyone&#x27;s number.</p></details><details class="glass"><summary>Will moving companies call me?</summary><p>No. We never ask for your phone number, and there&#x27;s nothing to sell to a mover. That&#x27;s the whole point.</p></details><details class="glass"><summary>Do I need an account?</summary><p>No. Open it and start. Everything you enter stays on your own phone.</p></details><details class="glass"><summary>How do I put it on my phone?</summary><p>iPhone and iPad: open <a href="app/">the app</a> in Safari, tap Share, then Add to Home Screen. Android: open it in Chrome and tap Install. On a computer it just runs in the browser. Once it is on your home screen it works with the wifi off.</p></details><details class="glass"><summary>Who made this?</summary><p>Someone who was moving, not a moving company. Every warning sign on this site came from a real move this fall.</p></details><details class="glass"><summary>Where do the answers come from?</summary><p>Federal and consumer sources: the FMCSA, the FTC and the CFPB, plus state law where it matters. Each answer names its source.</p></details>
+</div></section>
 </main>
 
 <footer><div class="wrap cols">
@@ -250,43 +407,31 @@
   <div><b>Business</b><a href="agents.html">Real estate agents</a><a href="business/property-managers.html">Property managers</a><a href="business/relocation.html">Relocation and HR</a><a href="business/military.html">Military families</a><a href="business/services.html">Movers, storage, cleaning</a></div>
   <div><b>The fine print</b><a href="price.html">Price</a><a href="built.html">You asked, we built</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms and refunds</a><a href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a></div>
 </div></footer>
-
-<div class="stickycta" id="stickycta" hidden><a class="btn tape" href="app/">Open the app</a></div>
-<script src="site.js"></script>
 <script>
+/* the hero answers in turn: the box, its size, where it is, and the photo taken inside it.
+   With reduced motion it shows the first answer and stops. */
 (function(){
-  /* same as slug() in make-tips.py */
-  function tipSlug(x){var s=String(x).toLowerCase().replace(/\u2019/g,"'").replace(/['"]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
-    s=s.split("-").slice(0,10).join("-"); if(s.length>72){var c=s.slice(0,72);s=c.lastIndexOf("-")>0?c.slice(0,c.lastIndexOf("-")):c;} return s;}
-  document.querySelectorAll(".tshare").forEach(function(b){b.addEventListener("click",function(){
-    var tx=b.parentNode.querySelector("p").textContent, u="https://packedrabbit.com/tips/"+tipSlug(tx)+"/", t=tx+"\n\n"+u;
-    if(navigator.share){navigator.share({text:tx,url:u}).catch(function(){});}
-    else if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){b.textContent="Copied";setTimeout(function(){b.textContent="Share"},1800)});}
-  });});
-  var still=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var hop=new Audio("img/hop.mp3"); hop.preload="none";
-  document.querySelectorAll(".mono-peek,.inv-rabbit").forEach(function(r){r.addEventListener("click",function(){
-    r.classList.remove("hopping"); void r.offsetWidth; r.classList.add("hopping");
-    try{hop.currentTime=0; hop.play().catch(function(){});}catch(e){}
-  });});
-  var tr=document.getElementById("truck");
-  if(tr&&!still&&"IntersectionObserver" in window){tr.classList.add("pre");
-    new IntersectionObserver(function(es,o){es.forEach(function(e){if(e.isIntersecting){tr.classList.add("go");o.disconnect();}});},{threshold:.5}).observe(tr);}
-  if(!still&&"IntersectionObserver" in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting){v.preload="auto";v.play().catch(function(){});}else v.pause();});},{threshold:.6});
-    document.querySelectorAll(".shortrow video").forEach(function(v){io.observe(v)});}
-  /* owner, 26 Oct: one obvious button for sound; it starts that video over with sound and quiets the others */
-  document.querySelectorAll(".shortrow figure").forEach(function(f){var v=f.querySelector("video");if(!v)return;
-    var b=document.createElement("button");b.type="button";b.className="soundbtn";
-    b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" fill="none"/></svg><span>Tap for sound</span>';
-    b.addEventListener("click",function(){document.querySelectorAll(".shortrow video").forEach(function(o){if(o!==v){o.muted=true;}});
-      document.querySelectorAll(".shortrow .soundbtn").forEach(function(o){o.hidden=false;});
-      v.muted=false;v.currentTime=0;v.play().catch(function(){});b.hidden=true;});
-    v.addEventListener("volumechange",function(){b.hidden=!v.muted;});
-    f.appendChild(b);});
+  var P={
+    frame:'<svg viewBox="0 0 120 120"><rect width="120" height="120" fill="#C9A677"/><rect x="10" y="12" width="100" height="96" fill="#B8935F"/><rect x="18" y="22" width="48" height="36" rx="2" fill="none" stroke="#3B2A17" stroke-width="5"/><rect x="24" y="28" width="36" height="24" fill="#E8DCC5"/><path d="M70 30h30M70 38h24" stroke="#5A6470" stroke-width="3" stroke-linecap="round"/><rect x="20" y="72" width="80" height="12" rx="3" fill="#E1B23A"/><circle cx="60" cy="78" r="3.5" fill="#7FB37A"/><path d="M28 96c20-8 44-8 64 0" stroke="#8A8F96" stroke-width="2.5" fill="none"/><circle cx="84" cy="56" r="3" fill="#8A8F96"/><circle cx="92" cy="60" r="3" fill="#8A8F96"/></svg>',
+    coat:'<svg viewBox="0 0 120 120"><rect width="120" height="120" fill="#C9A677"/><rect x="10" y="12" width="100" height="96" fill="#B8935F"/><path d="M30 30l18-8 12 10 12-10 18 8 4 50H26z" fill="#2E5A7A"/><path d="M60 32v48" stroke="#1E3F57" stroke-width="3"/><circle cx="66" cy="46" r="2.5" fill="#E8DCC5"/><circle cx="66" cy="58" r="2.5" fill="#E8DCC5"/><path d="M28 86h64v14H28z" fill="#5B3B2A"/></svg>',
+    pass:'<svg viewBox="0 0 120 120"><rect width="120" height="120" fill="#D9E6DD"/><rect x="22" y="20" width="44" height="62" rx="4" fill="#1F3A68"/><circle cx="44" cy="44" r="10" fill="none" stroke="#E1B23A" stroke-width="2.5"/><rect x="58" y="34" width="44" height="58" rx="3" fill="#FFFFFF" stroke="#9AA6B2" stroke-width="2"/><path d="M66 48h28M66 58h28M66 68h20" stroke="#9AA6B2" stroke-width="3" stroke-linecap="round"/><rect x="30" y="88" width="30" height="16" rx="4" fill="#3A3F45"/></svg>'
+  };
+  var ex=[
+    {q:"frame mount kit",code:"FAM-021",what:"Frame mount kit, picture wire, level",size:"Medium box",goes:"Family room",now:"bottom of the stack",pic:"frame"},
+    {q:"winter coats",code:"HALL-03",what:"Winter coats, boots, scarves",size:"Wardrobe box",goes:"Hall closet",now:"storage unit 214",pic:"coat"},
+    {q:"passports",code:"HAND-01",what:"Passports, papers, chargers",size:"Tote bag",goes:"Stays with you",now:"in your car",pic:"pass"}
+  ];
+  var $=function(id){return document.getElementById(id)};
+  $("pic").innerHTML=P.frame;
+  if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  var i=0,F=$("found");
+  function type(word,done){var q=$("q");q.textContent="";var n=0;var t=setInterval(function(){q.textContent=word.slice(0,++n);if(n>=word.length){clearInterval(t);done()}},85)}
+  function show(){var e=ex[i];type(e.q,function(){setTimeout(function(){
+    $("code").textContent=e.code;$("what").textContent=e.what;$("size").textContent=e.size;$("goes").textContent=e.goes;$("now").textContent=e.now;$("pic").innerHTML=P[e.pic];
+    F.classList.remove("in");void F.offsetWidth;F.classList.add("in");},300)});}
+  setInterval(function(){i=(i+1)%ex.length;show()},5000);
 })();
 </script>
-
 <script src="nav.js" defer></script>
-<script src="halloween.js"></script>
 </body>
 </html>
