@@ -6,7 +6,7 @@
 <title>Will my mattress fit up the stairs? Free check, no signup</title>
 <meta name="description" content="Pick the mattress or box spring size, type the stair width and headroom, and see whether it goes up the stairs and around the landing, which way to carry it, and what to do if it won't. Free, no signup.">
 <link rel="canonical" href="https://packedrabbit.com/mattress/">
-<meta name="theme-color" content="#0F2742">
+<meta name="theme-color" content="#22341A">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Packed Rabbit">
 <meta property="og:title" content="Will my mattress fit up the stairs?">
@@ -68,16 +68,16 @@
   .num:focus-within { border-color: var(--blue); }
   .num input { flex: 1; width: 100%; min-width: 0; border: 0; background: transparent; color: var(--ink); font: inherit; font-family: var(--display); font-weight: 800; font-size: 1.3rem; padding: 10px 0; outline: none; }
   .num span { color: var(--ink2); font-weight: 600; }
-  .stage { background: #0A1C33; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin-top: 20px; }
+  .stage { background: #1A3214; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin-top: 20px; }
   .stage svg { display: block; width: 100%; height: auto; }
   .say { padding: 16px 18px 18px; color: #fff; font-family: var(--display); }
   .say .big { font-size: clamp(1.6rem, 6.3vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.08; }
-  .say .big.ok { color: #7FF5C6; } .say .big.no { color: #FF9BAD; } .say .big.tight { color: #FFD66B; }
+  .say .big.ok { color: #D5DF4D; } .say .big.no { color: #FF9BAD; } .say .big.tight { color: #E4F08E; }
   .say p { font-family: var(--text); font-weight: 500; color: rgba(255,255,255,.85); margin: 8px 0 0; font-size: 1rem; }
   .steps { margin: 12px 0 0; padding: 0; list-style: none; }
   .steps li { font-family: var(--text); font-weight: 600; color: #fff; font-size: .98rem; padding: 8px 0 8px 30px; position: relative; border-top: 1px solid rgba(255,255,255,.12); }
   .steps li::before { content: ""; position: absolute; left: 4px; top: 13px; width: 14px; height: 14px; border-radius: 50%; }
-  .steps li.ok::before { background: #2EE59D; } .steps li.no::before { background: #FF5C76; } .steps li.tight::before { background: #FFC21A; }
+  .steps li.ok::before { background: #B8DD4E; } .steps li.no::before { background: #FF5C76; } .steps li.tight::before { background: #C9E35C; }
   .fixes { margin: 18px 0 0; padding: 16px 18px; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
   .fixes h2 { font-size: 1.3rem; margin: 0 0 8px; }
   .fixes ol { margin: 0; padding-left: 22px; } .fixes li { margin: 6px 0; }
@@ -143,7 +143,7 @@
 
   <div class="stage">
     <svg id="svg" viewBox="0 0 500 380" role="img" aria-labelledby="big">
-      <rect width="500" height="380" fill="#0A1C33"/>
+      <rect width="500" height="380" fill="#1A3214"/>
       <g id="well"></g><g id="piece"></g>
       <g id="dims" font-family="ui-monospace,Menlo,monospace" font-size="15" font-weight="700"></g>
     </svg>
@@ -288,14 +288,14 @@
     /* The picture: looking up the stairs at the end of the mattress. */
     var SC = Math.min(3.4, 300 / Math.max(H, B, 1), 420 / Math.max(S, B, 1)), CX = 250, CY = 178;
     var ww = S * SC, wh = H * SC;
-    el("rect", { x: 0, y: 0, width: 500, height: 380, fill: "#17365E" }, well);
-    el("rect", { x: CX - ww / 2, y: CY - wh / 2, width: ww, height: wh, fill: "#06121F" }, well);
+    el("rect", { x: 0, y: 0, width: 500, height: 380, fill: "#3E6B1C" }, well);
+    el("rect", { x: CX - ww / 2, y: CY - wh / 2, width: ww, height: wh, fill: "#0C1208" }, well);
     el("rect", { x: CX - ww / 2 - 3, y: CY - wh / 2 - 3, width: ww + 6, height: wh + 6, fill: "none", stroke: "#E9EEF5", "stroke-width": 5, "stroke-linejoin": "round" }, well);
-    var ang = r.flight.ang, col = r.flight.spare < 0 ? "#FF5C76" : r.flight.spare < 1 ? "#FFC21A" : "#2EE59D";
+    var ang = r.flight.ang, col = r.flight.spare < 0 ? "#FF5C76" : r.flight.spare < 1 ? "#C9E35C" : "#B8DD4E";
     var g = el("g", { transform: "translate(" + CX + " " + CY + ") rotate(" + (-ang) + ")" }, piece);
-    el("rect", { x: -B * SC / 2, y: -T * SC / 2, width: B * SC, height: T * SC, rx: Math.min(10, T * SC / 3), fill: r.flight.spare < 0 ? "rgba(255,92,118,.3)" : r.flight.spare < 1 ? "rgba(255,194,26,.28)" : "rgba(46,229,157,.28)", stroke: col, "stroke-width": 3 }, g);
-    var t1 = el("text", { x: CX, y: Math.max(18, CY - wh / 2 - 14), fill: "#FFC21A", "text-anchor": "middle" }, dims); t1.textContent = "stairs " + r1(S) + " in wide";
-    var t2 = el("text", { x: CX, y: Math.min(338, CY + wh / 2 + 26), fill: "#FFC21A", "text-anchor": "middle" }, dims); t2.textContent = r1(H) + " in of room square to the stairs";
+    el("rect", { x: -B * SC / 2, y: -T * SC / 2, width: B * SC, height: T * SC, rx: Math.min(10, T * SC / 3), fill: r.flight.spare < 0 ? "rgba(255,92,118,.3)" : r.flight.spare < 1 ? "rgba(201,227,92,.28)" : "rgba(46,229,157,.28)", stroke: col, "stroke-width": 3 }, g);
+    var t1 = el("text", { x: CX, y: Math.max(18, CY - wh / 2 - 14), fill: "#C9E35C", "text-anchor": "middle" }, dims); t1.textContent = "stairs " + r1(S) + " in wide";
+    var t2 = el("text", { x: CX, y: Math.min(338, CY + wh / 2 + 26), fill: "#C9E35C", "text-anchor": "middle" }, dims); t2.textContent = r1(H) + " in of room square to the stairs";
     var t3 = el("text", { x: CX, y: 366, fill: "rgba(255,255,255,.6)", "text-anchor": "middle", "font-size": 13 }, dims); t3.textContent = "looking up the stairs at the end of the " + (kind === "m" ? "mattress" : "box spring");
 
     /* The words. */
@@ -356,18 +356,18 @@
   function picture() {
     var c = document.createElement("canvas"), Z = 1080; c.width = Z; c.height = Z;
     var g = c.getContext("2d"), F = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
-    g.fillStyle = "#0A1C33"; g.fillRect(0, 0, Z, Z);
-    g.fillStyle = "#FFC21A"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.fillStyle = "#1A3214"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#C9E35C"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
     var SC = Math.min(7, 470 / Math.max(last.H, last.B), 700 / Math.max(last.S, last.B)), CX = Z / 2, CY = 440;
     var ww = last.S * SC, wh = last.H * SC;
-    g.fillStyle = "#17365E"; g.fillRect(0, 150, Z, 600); g.fillStyle = "#06121F"; g.fillRect(CX - ww / 2, CY - wh / 2, ww, wh);
+    g.fillStyle = "#3E6B1C"; g.fillRect(0, 150, Z, 600); g.fillStyle = "#0C1208"; g.fillRect(CX - ww / 2, CY - wh / 2, ww, wh);
     g.strokeStyle = "#E9EEF5"; g.lineWidth = 8; g.strokeRect(CX - ww / 2 - 4, CY - wh / 2 - 4, ww + 8, wh + 8);
     g.save(); g.translate(CX, CY); g.rotate(-last.ang * Math.PI / 180);
-    var col = last.fs < 0 ? "#FF5C76" : last.fs < 1 ? "#FFC21A" : "#2EE59D";
-    g.fillStyle = last.fs < 0 ? "rgba(255,92,118,.3)" : last.fs < 1 ? "rgba(255,194,26,.28)" : "rgba(46,229,157,.3)"; g.strokeStyle = col; g.lineWidth = 5;
+    var col = last.fs < 0 ? "#FF5C76" : last.fs < 1 ? "#C9E35C" : "#B8DD4E";
+    g.fillStyle = last.fs < 0 ? "rgba(255,92,118,.3)" : last.fs < 1 ? "rgba(201,227,92,.28)" : "rgba(46,229,157,.3)"; g.strokeStyle = col; g.lineWidth = 5;
     g.beginPath(); var bw = last.B * SC, bt = last.T * SC; if (g.roundRect) g.roundRect(-bw / 2, -bt / 2, bw, bt, Math.min(14, bt / 3)); else g.rect(-bw / 2, -bt / 2, bw, bt); g.fill(); g.stroke(); g.restore();
-    g.textAlign = "center"; g.fillStyle = "#FFC21A"; g.font = "700 30px ui-monospace,Menlo,monospace"; g.fillText(last.label, CX, 735);
-    g.fillStyle = last.t === "ok" ? "#7FF5C6" : last.t === "tight" ? "#FFD66B" : "#FF9BAD";
+    g.textAlign = "center"; g.fillStyle = "#C9E35C"; g.font = "700 30px ui-monospace,Menlo,monospace"; g.fillText(last.label, CX, 735);
+    g.fillStyle = last.t === "ok" ? "#D5DF4D" : last.t === "tight" ? "#E4F08E" : "#FF9BAD";
     var size = 84; g.font = "850 " + size + "px " + F; while (g.measureText(last.big).width > Z - 100 && size > 44) { size -= 4; g.font = "850 " + size + "px " + F; }
     g.fillText(last.big, CX, 850);
     g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 34px " + F; g.fillText("Will my mattress fit up the stairs? Check yours free:", CX, 935);

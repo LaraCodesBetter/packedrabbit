@@ -6,7 +6,7 @@
 <title>What size storage unit do I need? Free calculator, no signup</title>
 <meta name="description" content="Count your furniture and boxes and see which storage unit holds them: 5x5, 5x10, 10x10, 10x15, 10x20 or 10x30. Shows how full it will be, with or without a walkway. Free, no signup.">
 <link rel="canonical" href="https://packedrabbit.com/storage/">
-<meta name="theme-color" content="#0F2742">
+<meta name="theme-color" content="#22341A">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Packed Rabbit">
 <meta property="og:title" content="What size storage unit do I need?">
@@ -54,10 +54,10 @@
   .homes { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 16px 0 6px; }
   .homes button, .seg button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 4px; }
   .homes button.on, .seg button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
-  .stage { position: sticky; top: 0; z-index: 2; background: #0A1C33; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #1A3214; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
   .stage svg { display: block; width: 100%; height: auto; }
   .say { padding: 4px 18px 16px; color: #fff; }
-  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.5vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #7FF5C6; }
+  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.5vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #D5DF4D; }
   .say .big.no { color: #FF9BAD; }
   .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
   .opts { background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); padding: 14px 16px; margin: 8px 0 12px; display: grid; gap: 14px; }
@@ -316,34 +316,34 @@
      wall, furniture first then boxes; the walkway is a clear strip */
   function paint(unit, need, furnCu, over) {
     var s = $("svg"); s.textContent = "";
-    el("rect", { width: 500, height: 222, fill: "#0A1C33" }, s);
+    el("rect", { width: 500, height: 222, fill: "#1A3214" }, s);
     var maxW = 440, maxH = 136, sc = Math.min(maxW / unit.l, maxH / unit.w);
     var BW = unit.l * sc, BH = unit.w * sc, X = (500 - BW) / 2 + 6, Y = 40 + (maxH - BH) / 2;
-    el("rect", { x: X - 4, y: Y - 4, width: BW + 8, height: BH + 8, rx: 6, fill: "#13304F", stroke: "#E9EEF5", "stroke-width": 3 }, s);
+    el("rect", { x: X - 4, y: Y - 4, width: BW + 8, height: BH + 8, rx: 6, fill: "#203A16", stroke: "#E9EEF5", "stroke-width": 3 }, s);
     /* door */
-    el("rect", { x: X - 10, y: Y + BH * 0.1, width: 8, height: BH * 0.8, rx: 2, fill: "#FFC21A" }, s);
+    el("rect", { x: X - 10, y: Y + BH * 0.1, width: 8, height: BH * 0.8, rx: 2, fill: "#C9E35C" }, s);
     var C = cap(unit), full = Math.min(need, C), fw = BW * Math.min(furnCu, C) / C, tw = BW * full / C;
     var right = X + BW;
     function band(y, h) {
-      if (fw > 0) el("rect", { x: right - fw, y: y, width: fw, height: h, fill: "#5B8CFF" }, s);
+      if (fw > 0) el("rect", { x: right - fw, y: y, width: fw, height: h, fill: "#9DC447" }, s);
       if (tw > fw) {
         var bx = right - tw, bw = tw - fw;
         el("rect", { x: bx, y: y, width: bw, height: h, fill: "#C9A27A" }, s);
-        for (var x = bx + 12; x < bx + bw - 4; x += 24) el("rect", { x: x, y: y, width: 4, height: h, fill: "#FFC21A", opacity: .8 }, s);
+        for (var x = bx + 12; x < bx + bw - 4; x += 24) el("rect", { x: x, y: y, width: 4, height: h, fill: "#C9E35C", opacity: .8 }, s);
       }
     }
     if (aisle) {
       /* a walkway down the middle, from the door toward the back */
       var gap = BH * 0.2, h = (BH - gap) / 2;
       band(Y, h); band(Y + h + gap, h);
-      var wk = el("text", { x: X + 8, y: Y + BH / 2 + 4, fill: "#9CC0FF", "font-size": 15, "font-weight": 800, "font-family": "system-ui,sans-serif" }, s);
+      var wk = el("text", { x: X + 8, y: Y + BH / 2 + 4, fill: "#C9E35C", "font-size": 15, "font-weight": 800, "font-family": "system-ui,sans-serif" }, s);
       wk.textContent = BH > 40 ? "walkway" : "";
     } else band(Y, BH);
     var lbl = el("text", { x: 22, y: 26, fill: "#fff", "font-weight": 800, "font-size": 19, "font-family": "ui-rounded,system-ui,sans-serif" }, s);
     lbl.textContent = need ? (over ? "Over by " + fmt(need - C) + " cu ft · " + unit.n : Math.round(need / C * 100) + "% full · " + unit.n + " unit") : unit.n + " unit";
-    var k1 = el("text", { x: 22, y: 210, fill: "#9CC0FF", "font-size": 16, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k1.textContent = "blue: furniture";
+    var k1 = el("text", { x: 22, y: 210, fill: "#C9E35C", "font-size": 16, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k1.textContent = "green: furniture";
     var k2 = el("text", { x: 170, y: 210, fill: "#E2C29E", "font-size": 16, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k2.textContent = "kraft: boxes";
-    var k3 = el("text", { x: 310, y: 210, fill: "#FFC21A", "font-size": 16, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k3.textContent = "yellow: door";
+    var k3 = el("text", { x: 310, y: 210, fill: "#C9E35C", "font-size": 16, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k3.textContent = "light green: door";
   }
   segs(); draw();
 
@@ -351,12 +351,12 @@
   function picture() {
     var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
     var g = cv.getContext("2d"), F = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
-    g.fillStyle = "#0A1C33"; g.fillRect(0, 0, Z, Z);
-    g.fillStyle = "#FFC21A"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.fillStyle = "#1A3214"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#C9E35C"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
     var img = new Image(), svg = new XMLSerializer().serializeToString($("svg"));
     return new Promise(function (res) {
       function words() {
-        g.textAlign = "center"; g.fillStyle = last.over ? "#FF9BAD" : "#7FF5C6"; g.font = "850 84px " + F; g.fillText(last.big, Z / 2, 760, Z - 80);
+        g.textAlign = "center"; g.fillStyle = last.over ? "#FF9BAD" : "#D5DF4D"; g.font = "850 84px " + F; g.fillText(last.big, Z / 2, 760, Z - 80);
         g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 34px " + F; g.fillText("What size storage unit do you need? Check free:", Z / 2, 900, Z - 80);
         g.fillStyle = "#fff"; g.font = "800 40px " + F; g.fillText("packedrabbit.com/storage", Z / 2, 960);
         res(cv);

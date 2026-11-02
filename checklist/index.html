@@ -6,7 +6,7 @@
 <title>Moving checklist by date: what to do each week before you move</title>
 <meta name="description" content="Type your moving date and get a dated moving checklist: what to do this week, every week until the move, on moving day and after. Add it to your calendar. Free, no signup.">
 <link rel="canonical" href="https://packedrabbit.com/checklist/">
-<meta name="theme-color" content="#0F2742">
+<meta name="theme-color" content="#22341A">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Packed Rabbit">
 <meta property="og:title" content="Moving checklist by date">
@@ -63,12 +63,12 @@
   .lbl { font-weight: 800; margin: 22px 0 0; font-size: 1.1rem; display: block; }
   .date { display: block; width: 100%; box-sizing: border-box; min-height: 56px; margin-top: 10px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-family: var(--display); font-weight: 800; font-size: 1.2rem; padding: 6px 14px; }
   .date:focus { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
-  .stage { background: #0A1C33; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage { background: #1A3214; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
   .say { padding: 16px 18px 16px; color: #fff; }
-  .say .big { font-family: var(--display); font-size: clamp(1.8rem, 7vw, 2.4rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #7FF5C6; }
+  .say .big { font-family: var(--display); font-size: clamp(1.8rem, 7vw, 2.4rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #D5DF4D; }
   .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
-  .bar { height: 12px; border-radius: 6px; background: #11284A; margin: 14px 0 0; overflow: hidden; }
-  .bar i { display: block; height: 100%; background: #FFC21A; border-radius: 6px; }
+  .bar { height: 12px; border-radius: 6px; background: #25451A; margin: 14px 0 0; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: #C9E35C; border-radius: 6px; }
   .opts { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
   .opts li { padding: 10px 12px 12px 16px; border-bottom: 1px solid var(--line); }
   .opts li:last-child { border-bottom: 0; }
@@ -350,18 +350,18 @@
   function picture() {
     var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
     var g = cv.getContext("2d"), FN = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
-    g.fillStyle = "#0A1C33"; g.fillRect(0, 0, Z, Z);
-    g.fillStyle = "#FFC21A"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.fillStyle = "#1A3214"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#C9E35C"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
     g.textAlign = "left"; var X = 90;
     g.fillStyle = "rgba(255,255,255,.85)"; g.font = "700 40px " + FN;
     g.fillText(last ? (last.left < 0 ? "Moved " : "Moving ") + nice(last.day, 1) : "My moving checklist", X, 220);
-    g.fillStyle = "#7FF5C6"; var fs = 110, bigT = last ? last.big : "Pick a date"; do { g.font = "850 " + fs + "px " + FN; fs -= 4; } while (g.measureText(bigT).width > Z - X * 2 && fs > 40); g.fillText(bigT, X, 350);
+    g.fillStyle = "#D5DF4D"; var fs = 110, bigT = last ? last.big : "Pick a date"; do { g.font = "850 " + fs + "px " + FN; fs -= 4; } while (g.measureText(bigT).width > Z - X * 2 && fs > 40); g.fillText(bigT, X, 350);
     g.fillStyle = "#fff"; g.font = "800 42px " + FN; g.fillText(last && last.next.length ? "Next up" : "", X, 470);
     g.font = "600 36px " + FN; g.fillStyle = "rgba(255,255,255,.88)";
     var y = 535;
     (last ? last.next : []).forEach(function (t, i) {
-      g.fillStyle = "#FFC21A"; g.beginPath(); g.arc(X + 14, y - 12, 14, 0, 7); g.fill();
-      g.fillStyle = "#0A1C33"; g.font = "800 22px " + FN; g.textAlign = "center"; g.fillText(String(i + 1), X + 14, y - 4);
+      g.fillStyle = "#C9E35C"; g.beginPath(); g.arc(X + 14, y - 12, 14, 0, 7); g.fill();
+      g.fillStyle = "#1A3214"; g.font = "800 22px " + FN; g.textAlign = "center"; g.fillText(String(i + 1), X + 14, y - 4);
       g.textAlign = "left"; g.fillStyle = "rgba(255,255,255,.88)"; g.font = "600 36px " + FN;
       y += wrap(g, t, X + 50, y, Z - X * 2 - 50, 46) * 46 + 22;
     });
