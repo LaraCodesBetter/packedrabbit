@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How much money do I need to move? Free move-in cost and rent calculator</title>
+<meta name="description" content="Add up the cash you need to move into a rental: first month, last month, deposit, fees, utility deposits and getting there. See how your rent compares with the 30% of income that HUD uses as its cost-burden line. Free, no signup.">
+<link rel="canonical" href="https://packedrabbit.com/move-in-cost/">
+<meta name="theme-color" content="#22341A">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="How much money do I need to move?">
+<meta property="og:description" content="The cash you need on move-in day, and how your rent compares with 30% of income.">
+<meta property="og:url" content="https://packedrabbit.com/move-in-cost/">
+<meta property="og:image" content="https://packedrabbit.com/img/og-card.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "How much money do I need to move? by The Packed Rabbit",
+  "url": "https://packedrabbit.com/move-in-cost/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Adds up the cash needed to move into a rental from the person's own numbers: rent due at signing (first month, or first and last), security deposit, application and other move-in fees, pet deposit, utility deposits, the cost of getting there, first things for the new place and a cushion. Also shows rent plus utilities as a share of income before taxes, next to the 30% line HUD uses for housing cost burden and the 50% line for severe cost burden. Every starting number is a placeholder to replace."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How much money do I need to move into an apartment?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Add up everything due before or on move-in day: the rent due at signing (often the first month, sometimes the last month too), the security deposit, application and screening fees, any admin, holding or pet fees, utility deposits or hookup charges, the cost of getting there (a truck, fuel or movers) and first things for the new place such as groceries and cleaning supplies. Then add a cushion for surprises. The amounts vary by landlord, city and state, so use the figures from your own lease and quotes." } },
+    { "@type": "Question", "name": "How much rent can I afford?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A common yardstick is 30% of income before taxes. HUD considers households that spend more than 30% of income on housing costs to be cost burdened, and the Census Bureau, citing HUD, calls more than 50% severely cost burdened. It is a measure, not a rule: a landlord may use a different income test, and your other bills matter too." } },
+    { "@type": "Question", "name": "What does cost burdened mean?",
+      "acceptedAnswer": { "@type": "Answer", "text": "According to the U.S. Department of Housing and Urban Development, as reported by the Census Bureau, a household is cost burdened when it spends more than 30% of its income on rent, mortgage payments and other housing costs, and severely cost burdened above 50%. The Census Bureau reported that nearly half (49.7%) of renter households were cost burdened in 2023." } },
+    { "@type": "Question", "name": "Do I get my security deposit back?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A security deposit is meant to come back, less any deductions the law and your lease allow, after you move out. Each state sets its own deadline for returning it, and some states limit how large a deposit can be. Check your state's law and keep move-in photos." } }
+  ]
+}
+</script>
+<style>
+  .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0 6px; }
+  .seg button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 6px 8px; line-height: 1.2; }
+  .seg button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .lbl { font-weight: 800; margin: 22px 0 0; font-size: 1.1rem; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #1A3214; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .say { padding: 14px 18px 4px; color: #fff; }
+  .say .big { font-family: var(--display); font-size: clamp(1.8rem, 7vw, 2.4rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #D5DF4D; }
+  .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
+  .items { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .items li { display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 16px; border-bottom: 1px solid var(--line); }
+  .items li:last-child { border-bottom: 0; }
+  .items li[hidden] { display: none; }
+  .items label { flex: 1; min-width: 0; font-weight: 700; }
+  .items label small { display: block; font-weight: 500; color: var(--ink2); font-size: .82rem; }
+  .items i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: 0; }
+  .num { display: flex; align-items: center; gap: 4px; flex: 0 0 auto; }
+  .num span { font-weight: 800; color: var(--ink2); min-width: 1ch; text-align: right; }
+  .num input { width: 6.6rem; min-height: 46px; border-radius: 12px; border: 2px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; font-family: var(--display); font-weight: 800; font-size: 1.15rem; padding: 4px 10px; text-align: right; }
+  .num input:focus { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+  .hint { font-size: .95rem; color: var(--ink2); margin: 8px 2px 0; }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  .how { margin-top: 34px; } .how h2 { font-size: 1.5rem; }
+  .aside { font-size: .95rem; color: var(--ink2); }
+  .src { font-size: .9rem; color: var(--ink2); border-top: 1px solid var(--line); padding-top: 12px; margin-top: 22px; }
+  .src a { color: var(--ink2); overflow-wrap: anywhere; }
+  @media (max-width: 370px) { .num input { width: 5.6rem; } .seg button { font-size: .88rem; } }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home">
+    <img src="../img/rabbit.svg" alt="" width="34" height="34">
+    The Packed Rabbit
+  </a>
+</header>
+
+<main class="tp">
+  <h1>How much money do I need to move?</h1>
+  <p class="lede">Add up the cash due before the keys are in your hand, and see how the rent compares with your income. Every starting number is a placeholder: type your own.</p>
+
+  <div class="stage">
+    <div class="say" aria-live="polite"><div class="big" id="big"></div><p id="small"></p></div>
+    <svg id="svg" viewBox="0 0 500 170" role="img" aria-label="What the move-in cash is made of, and rent as a share of income"></svg>
+  </div>
+
+  <p class="lbl">Rent and income</p>
+  <ul class="items" id="g-inc"></ul>
+
+  <p class="lbl" id="due-l">Rent due when you sign</p>
+  <div class="seg" role="group" aria-labelledby="due-l">
+    <button type="button" data-l="0" class="on">First month only</button>
+    <button type="button" data-l="1">First and last month</button>
+  </div>
+
+  <p class="lbl">Paid before or on move-in day</p>
+  <ul class="items" id="g-up"></ul>
+  <p class="hint">Not sure what the move itself costs? <a href="../diy-cost/">Work out a do-it-yourself move</a>, then type the total under getting there.</p>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this answer</button>
+    <button class="btn ghost" id="reset" type="button">Start again</button>
+    <a class="btn ghost" href="../app/">Keep move costs in the app, free</a>
+  </div>
+  <p class="aside">The app keeps the budget next to the boxes, the dates and what every landlord and mover promised, on your phone. No account, and it works with no signal.</p>
+
+  <section class="how">
+    <h2>How this works</h2>
+    <p><strong>The total.</strong> It adds the rent due at signing (one month, or two if the last month is due too), the deposit, every fee you type, the cost of getting there and first things for the new place, then adds the cushion you choose on top. The starting cushion of 10% is our own suggestion, not a rule.</p>
+    <p><strong>The 30% line.</strong> HUD considers households that spend more than 30% of income on housing costs to be cost burdened. The Census Bureau, citing HUD, counts rent, mortgage payments and other housing costs, and calls more than 50% severely cost burdened. This page counts rent plus the utilities you pay, against income before taxes. It is a yardstick, not a rule: a landlord may use its own income test, and debts, child care and travel to work matter too.</p>
+    <p><strong>How common it is.</strong> The Census Bureau reported that nearly half (49.7%) of renter households spent more than 30% of income on housing costs in 2023.</p>
+    <p><strong>A first month that starts mid-month.</strong> Some leases charge only the days left in the first month, and some ask for the next full month too. Type what your lease says into the rent box, or add the difference under other move-in fees.</p>
+    <p><strong>The deposit comes back, later.</strong> A security deposit is meant to be returned, less what the law and lease allow, after you move out. Some states limit how large it can be, and each sets a deadline for returning it. See <a href="../deposit/">when a deposit is due back in your state</a>.</p>
+    <p class="aside">Moving yourself? Try <a href="../diy-cost/">what a do-it-yourself move costs</a> and <a href="../truck/">what size truck you need</a>.</p>
+  </section>
+
+  <p class="src">Sources: the 30% cost-burden line from <a href="https://archives.huduser.gov/portal/pdredge/pdr-edge-featd-article-081417.html">HUD Office of Policy Development and Research, Defining Housing Affordability</a> (August 14, 2017); the 50% severe cost-burden line, what counts as housing costs, and the 49.7% share of renter households in 2023 from <a href="https://www.census.gov/newsroom/press-releases/2024/renter-households-cost-burdened-race.html">U.S. Census Bureau, Nearly Half of Renter Households Are Cost-Burdened</a> (September 12, 2024). The starting amounts, counting utilities as housing costs, and the 10% cushion are our own placeholders. Checked November 2026.</p>
+  <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Made by someone moving, for people moving. Not a moving company, broker or lead site: we never sell your details and never take a commission from movers, and nothing you type here is sent to us.</p>
+</main>
+
+<footer class="wrap">
+  <a href="../privacy.html">Privacy</a>
+  <a href="../terms.html">Terms and refunds</a>
+  <a href="../answers/">What I wish I'd known</a>
+  <a href="../fit/">Will my couch fit?</a>
+  <a href="../truck/">What size truck?</a>
+  <a href="../boxes/">How many boxes?</a>
+  <a href="../diy-cost/">Cost to move yourself</a>
+  <a href="../tip/">How much to tip movers?</a>
+  <a href="../quote-check/">Check a moving quote</a>
+  <a href="../mover-check/">Check your mover</a>
+  <a href="../checklist/">Moving checklist by date</a>
+  <a href="../change-address/">Change of address checklist</a>
+  <a href="../deposit/">When is my deposit due back?</a>
+  <a href="../storage/">What size storage unit?</a>
+  <a href="../packing-schedule/">When should I start packing?</a>
+  <a href="../mattress/">Will my mattress fit up the stairs?</a>
+  <a href="../move-day/">How long will moving day take?</a>
+  <a href="../moving-tax/">Can I deduct my moving expenses?</a>
+  <a href="../weight/">How much does my stuff weigh?</a>
+  <a href="../embed/">Put these tools on your site</a>
+</footer>
+
+<script>
+/* Nothing typed here is sent anywhere. The numbers go in the address only so
+   a shared link opens showing the same answer. */
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  function $(id) { return document.getElementById(id); }
+  function el(tag, a, p) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  /* every starting amount is our own placeholder */
+  var F = [
+    { k: "inc", g: "g-inc", t: "Income a month, before taxes", s: "Everyone paying the rent", v: 6000 },
+    { k: "rent", g: "g-inc", t: "Rent a month", s: "From the listing or lease", v: 1500 },
+    { k: "ut", g: "g-inc", t: "Utilities you pay a month", s: "Power, gas, water, internet", v: 150 },
+    { k: "dep", g: "g-up", t: "Security deposit", s: "From the lease", v: 1500, c: 1 },
+    { k: "app", g: "g-up", t: "Application and screening fees", s: "For every place you apply", v: 50, c: 2 },
+    { k: "fee", g: "g-up", t: "Other move-in fees", s: "Admin, holding, amenity, key", v: 0, c: 2 },
+    { k: "pet", g: "g-up", t: "Pet deposit or fee", s: "Leave at 0 if none", v: 0, c: 2 },
+    { k: "utd", g: "g-up", t: "Utility deposits and hookups", s: "Ask each company", v: 100, c: 2 },
+    { k: "mv", g: "g-up", t: "Getting there", s: "Truck, fuel, movers, travel", v: 600, c: 3 },
+    { k: "set", g: "g-up", t: "First things for the new place", s: "Groceries, cleaning, curtains", v: 300, c: 4 },
+    { k: "cu", g: "g-up", t: "Cushion for surprises", s: "Share of everything above", v: 10, pct: 1, max: 100, c: 5 }
+  ];
+  /* parts of the total and their colors (legible on the dark stage) */
+  var P = [
+    { t: "Rent at signing", col: "#D5DF4D" },
+    { t: "Deposit", col: "#C9A27A" },
+    { t: "Fees", col: "#8FB8E8" },
+    { t: "Getting there", col: "#F2B66D" },
+    { t: "First things", col: "#C3A8EE" },
+    { t: "Cushion", col: "#E7EEF8" }
+  ];
+  var MAX = 1000000, val = {}, last2 = 0;
+  function defaults() { F.forEach(function (f) { val[f.k] = f.v; }); last2 = 0; }
+  defaults();
+
+  var q = new URLSearchParams(location.search);
+  if (/^[01]$/.test(q.get("l") || "")) last2 = +q.get("l");
+  F.forEach(function (f) { if (!q.has(f.k)) return; var v = parseFloat(q.get(f.k)); if (isFinite(v) && v >= 0 && v <= (f.max || MAX)) val[f.k] = v; });
+
+  var inputs = {};
+  F.forEach(function (f) {
+    var li = document.createElement("li"), id = "f-" + f.k;
+    var dot = f.c !== undefined ? '<i aria-hidden="true" style="background:' + P[f.c].col + '"></i>' : "";
+    li.innerHTML = '<label for="' + id + '">' + dot + f.t + "<small>" + f.s + '</small></label><span class="num"><span aria-hidden="true">' + (f.pct ? "%" : "$") + '</span><input id="' + id + '" type="number" inputmode="numeric" min="0" max="' + (f.max || MAX) + '" step="1"></span>';
+    if (f.pct) li.querySelector(".num").insertBefore(li.querySelector("input"), li.querySelector(".num span"));
+    $(f.g).appendChild(li);
+    var inp = li.querySelector("input");
+    inp.value = show(val[f.k]);
+    inp.addEventListener("input", function () {
+      var v = parseFloat(inp.value);
+      val[f.k] = isFinite(v) && v > 0 ? Math.min(v, f.max || MAX) : 0; draw();
+    });
+    inp.addEventListener("blur", function () { if (inp.value !== "" && inp.value !== show(val[f.k])) inp.value = show(val[f.k]); });
+    inputs[f.k] = inp;
+  });
+  function show(v) { return String(Math.round(v * 100) / 100); }
+  function sync() {
+    [].forEach.call(document.querySelectorAll("[data-l]"), function (b) { var on = +b.getAttribute("data-l") === last2; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+  }
+  [].forEach.call(document.querySelectorAll("[data-l]"), function (b) { b.addEventListener("click", function () { last2 = +b.getAttribute("data-l"); sync(); draw(); }); });
+  $("reset").addEventListener("click", function () { defaults(); F.forEach(function (f) { inputs[f.k].value = show(val[f.k]); }); sync(); draw(); });
+
+  function usd(n) { return "$" + Math.round(n).toLocaleString("en-US"); }
+  function pc(n) { return (n >= 10 ? Math.round(n).toLocaleString("en-US") : Math.round(n * 10) / 10) + "%"; }
+  var last = null;
+  function draw() {
+    var rentUp = val.rent * (last2 ? 2 : 1);
+    var fees = val.app + val.fee + val.pet + val.utd;
+    var sub = rentUp + val.dep + fees + val.mv + val.set;
+    var cush = sub * val.cu / 100;
+    var parts = [rentUp, val.dep, fees, val.mv, val.set, cush];
+    var total = sub + cush;
+    var house = val.rent + val.ut;
+    var share = val.inc > 0 ? house / val.inc * 100 : null;
+    var at30 = val.inc * 0.3;
+    var big, small, verdict = "";
+    if (total <= 0) { big = "Type your rent and costs"; small = "Start with the rent a month; the total updates as you type."; }
+    else {
+      big = usd(total) + " to move in.";
+      small = val.cu > 0 ? usd(sub) + " plus a " + pc(val.cu) + " cushion." : "No cushion added.";
+      if (val.dep > 0) small += " The " + usd(val.dep) + " deposit should come back later.";
+    }
+    if (share !== null && house > 0) {
+      verdict = share > 50 ? "over the 50% line for severe cost burden"
+        : share > 30 ? "over the 30% line HUD uses for cost burden"
+        : "at or under the 30% line HUD uses";
+      small += " Rent and utilities: " + pc(share) + " of income, " + verdict + ".";
+    } else if (val.inc <= 0 && house > 0) small += " Type your income to compare the rent with it.";
+    $("big").textContent = big; $("small").textContent = small;
+    paint(parts, total, share, at30);
+    last = { big: big, total: total, sub: sub, share: share, verdict: verdict, at30: at30, dep: val.dep, parts: parts };
+    var p = new URLSearchParams(); p.set("l", last2);
+    F.forEach(function (f) { p.set(f.k, show(val[f.k])); });
+    try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
+  }
+
+  /* the total as one bar split into its parts, then rent as a share of income */
+  function paint(parts, total, share, at30) {
+    var s = $("svg"); s.textContent = "";
+    var FN = "system-ui,sans-serif", x0 = 24, W = 452;
+    el("rect", { width: 500, height: 170, fill: "#1A3214" }, s);
+    el("rect", { x: x0, y: 14, width: W, height: 26, rx: 8, fill: "#25451A" }, s);
+    if (total > 0) {
+      var x = x0;
+      el("clipPath", { id: "cb" }, s).appendChild(el("rect", { x: x0, y: 14, width: W, height: 26, rx: 8 }));
+      var gg = el("g", { "clip-path": "url(#cb)" }, s);
+      parts.forEach(function (v, i) {
+        if (v <= 0) return;
+        var w = v / total * W;
+        el("rect", { x: x, y: 14, width: w, height: 26, fill: P[i].col }, gg);
+        if (w > 2) el("rect", { x: x + w - 1, y: 14, width: 2, height: 26, fill: "#1A3214" }, gg);
+        x += w;
+      });
+      /* legend: the two biggest parts; the dots by each line below match */
+      var order = parts.map(function (v, i) { return { v: v, i: i }; }).filter(function (o) { return o.v > 0; }).sort(function (a, b) { return b.v - a.v; }).slice(0, 2);
+      order.forEach(function (o, j) {
+        var lx = x0 + j * 232;
+        el("rect", { x: lx, y: 52, width: 14, height: 14, rx: 3, fill: P[o.i].col }, s);
+        var t = el("text", { x: lx + 20, y: 65, fill: "#E7EEF8", "font-size": 17, "font-weight": 700, "font-family": FN }, s); t.textContent = P[o.i].t + " " + usd(o.v);
+      });
+    }
+    /* income gauge, 0 to 60%+, lines at 30 and 50 */
+    var gy = 108, GW = W, max = 60;
+    var l = el("text", { x: x0, y: gy - 12, fill: "rgba(255,255,255,.7)", "font-size": 16, "font-weight": 600, "font-family": FN }, s); l.textContent = val.inc > 0 ? "Share of income; 30% is " + usd(at30) + " a month" : "Rent and utilities as a share of income";
+    el("rect", { x: x0, y: gy, width: GW, height: 14, rx: 7, fill: "#25451A" }, s);
+    if (share !== null) {
+      var fw = Math.min(share, max) / max * GW;
+      el("rect", { x: x0, y: gy, width: Math.max(fw, 14), height: 14, rx: 7, fill: share > 50 ? "#FF8A7A" : share > 30 ? "#F2B66D" : "#D5DF4D" }, s);
+    }
+    [30, 50].forEach(function (m) {
+      var mx = x0 + m / max * GW;
+      el("rect", { x: mx - 1.5, y: gy - 4, width: 3, height: 22, fill: "#E7EEF8" }, s);
+      var t = el("text", { x: mx, y: gy + 40, fill: "#E7EEF8", "font-size": 16, "font-weight": 700, "font-family": FN, "text-anchor": "middle" }, s); t.textContent = m + "%";
+    });
+    var r = el("text", { x: x0, y: gy + 40, fill: "#D5DF4D", "font-size": 18, "font-weight": 800, "font-family": FN }, s);
+    r.textContent = share === null ? "Type income" : pc(share);
+  }
+  sync(); draw();
+
+  function picture() {
+    var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
+    var g = cv.getContext("2d"), FN = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#1A3214"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#C9E35C"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.textAlign = "center"; g.fillStyle = "rgba(255,255,255,.85)"; g.font = "700 40px " + FN; g.fillText("Cash we need to move in", Z / 2, 240);
+    g.fillStyle = "#D5DF4D"; g.font = "850 140px " + FN; g.fillText(usd(last.total), Z / 2, 400);
+    /* the split as one bar */
+    var bx = 120, bw = Z - 240, by = 460, x = bx;
+    g.fillStyle = "#25451A"; g.fillRect(bx, by, bw, 44);
+    if (last.total > 0) last.parts.forEach(function (v, i) { if (v <= 0) return; var w = v / last.total * bw; g.fillStyle = P[i].col; g.fillRect(x, by, w, 44); x += w; });
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 34px " + FN;
+    if (last.dep > 0) g.fillText("Includes a " + usd(last.dep) + " deposit, returned later", Z / 2, 590);
+    if (last.share !== null && last.total > 0) {
+      g.fillStyle = "#fff"; g.font = "800 46px " + FN; g.fillText("Rent and utilities: " + pc(last.share) + " of income", Z / 2, 690);
+      g.fillStyle = "rgba(255,255,255,.8)"; g.font = "600 32px " + FN;
+      g.fillText(last.share > 50 ? "Over the 50% line for severe cost burden" : last.share > 30 ? "Over the 30% line HUD uses for cost burden" : "At or under the 30% line HUD uses", Z / 2, 745);
+    }
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 32px " + FN; g.fillText("Add up yours free:", Z / 2, 920);
+    g.fillStyle = "#fff"; g.font = "800 40px " + FN; g.fillText("packedrabbit.com/move-in-cost", Z / 2, 975);
+    return cv;
+  }
+  $("share").addEventListener("click", function () {
+    var url = location.href, text = last.big + " How much money you need to move, added up free:";
+    picture().toBlob(function (blob) {
+      var file = blob && typeof File !== "undefined" ? new File([blob], "move-in-cost.png", { type: "image/png" }) : null;
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+      else if (navigator.share) navigator.share({ title: "How much money do I need to move?", text: text, url: url }).catch(function () {});
+      else if (blob) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "move-in-cost.png"; document.body.appendChild(a); a.click(); a.remove(); }
+    }, "image/png");
+  });
+})();
+</script>
+<script>
+/* Embedded on someone else's page: no site header or footer, links open in a
+   new tab, a credit line at the end, and the height told to the host page. */
+(function () {
+  if (!document.documentElement.classList.contains("embed")) return;
+  document.querySelectorAll("a[href]").forEach(function (a) { a.target = "_blank"; a.rel = "noopener"; });
+  var m = document.querySelector("main") || document.body;
+  var c = document.createElement("a");
+  c.className = "embed-credit"; c.target = "_blank"; c.rel = "noopener";
+  c.href = "https://packedrabbit.com" + location.pathname;
+  c.textContent = "Free tool by The Packed Rabbit";
+  m.appendChild(c);
+  function tell() { try { parent.postMessage({ prEmbedHeight: Math.ceil(document.documentElement.scrollHeight) }, "*"); } catch (e) {} }
+  tell(); addEventListener("load", tell); addEventListener("resize", tell);
+  if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
+})();
+</script>
+<script src="../nav.js" defer></script>
+</body>
+</html>
