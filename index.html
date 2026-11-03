@@ -242,19 +242,30 @@ footer b{color:var(--ink);display:block;margin-bottom:4px}
 
 /* owner, 2 Nov: more change between bright and light. Sunlit sections glow,
    calm white sections rest the eye, and each fades into the next. */
-section.sun{background:
-  radial-gradient(70% 60% at 88% 18%,rgba(213,223,77,.62),transparent 70%),
-  radial-gradient(60% 55% at 4% 92%,rgba(157,196,71,.34),transparent 70%),
-  linear-gradient(180deg,rgba(234,245,190,0) 0%,#EAF5BE 14%,#E2F1AE 50%,#EAF5BE 86%,rgba(234,245,190,0) 100%)}
+/* owner, 3 Nov: the change between sections was too sudden when scrolling.
+   The sunlight now sits on a layer that reaches 160px past each sunlit section
+   and fades out over that distance, so light and white blend with no edge. */
+section.sun{position:relative;background:none}
+section.sun::before{content:"";position:absolute;left:0;right:0;top:-160px;bottom:-160px;z-index:-1;pointer-events:none;
+  background:
+  radial-gradient(70% 55% at 88% 32%,rgba(213,223,77,.55),transparent 70%),
+  radial-gradient(60% 50% at 4% 70%,rgba(157,196,71,.30),transparent 70%),
+  linear-gradient(180deg,rgba(234,245,190,0) 0%,#EAF5BE 30%,#E2F1AE 50%,#EAF5BE 70%,rgba(234,245,190,0) 100%);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 30%,#000 70%,transparent 100%);
+  mask-image:linear-gradient(180deg,transparent 0,#000 30%,#000 70%,transparent 100%)}
 section.sun .glass{background:linear-gradient(140deg,rgba(255,255,255,.92),rgba(255,255,255,.62));border-color:#fff}
-section.calm{background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.75) 18%,rgba(255,255,255,.75) 82%,rgba(255,255,255,0))}
+section.calm{background:none}
 @media (prefers-color-scheme: dark){
- :root:not([data-theme="light"]) section.sun{background:
-   radial-gradient(70% 60% at 88% 18%,rgba(184,221,78,.20),transparent 70%),
-   radial-gradient(60% 55% at 4% 92%,rgba(157,196,71,.12),transparent 70%),
-   linear-gradient(180deg,rgba(28,44,16,0),#1C2C10 14%,#203414 50%,#1C2C10 86%,rgba(28,44,16,0))}
- :root:not([data-theme="light"]) section.sun .glass{background:linear-gradient(140deg,rgba(40,64,22,.75),rgba(20,30,12,.6));border-color:rgba(213,223,77,.18)}
- :root:not([data-theme="light"]) section.calm{background:none}}
+ :root:not([data-theme="light"]) section.sun::before{background:
+   radial-gradient(70% 55% at 88% 32%,rgba(184,221,78,.20),transparent 70%),
+   radial-gradient(60% 50% at 4% 70%,rgba(157,196,71,.12),transparent 70%),
+   linear-gradient(180deg,rgba(28,44,16,0),#1C2C10 30%,#203414 50%,#1C2C10 70%,rgba(28,44,16,0))}
+ :root:not([data-theme="light"]) section.sun .glass{background:linear-gradient(140deg,rgba(40,64,22,.75),rgba(20,30,12,.6));border-color:rgba(213,223,77,.18)}}
+:root[data-theme="dark"] section.sun::before{background:
+   radial-gradient(70% 55% at 88% 32%,rgba(184,221,78,.20),transparent 70%),
+   radial-gradient(60% 50% at 4% 70%,rgba(157,196,71,.12),transparent 70%),
+   linear-gradient(180deg,rgba(28,44,16,0),#1C2C10 30%,#203414 50%,#1C2C10 70%,rgba(28,44,16,0))}
+:root[data-theme="dark"] section.sun .glass{background:linear-gradient(140deg,rgba(40,64,22,.75),rgba(20,30,12,.6));border-color:rgba(213,223,77,.18)}
 
 .reasons li.glass,.reasons li{background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding:4px 14px 4px 0;font-size:1.12rem;display:flex;align-items:center;gap:8px}
 .reasons li::before{content:"";width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#D5DF4D,#3F6E1C);flex:none}
