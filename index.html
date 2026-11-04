@@ -46,9 +46,9 @@
   "description": "A moving app that remembers for you: what's in every box and where the box is now, the countdown and what's next, the truck size, what fits through the door, and what every mover and cleaner promised. It reads quotes for hidden fees and works offline.",
   "offers": [
     { "@type": "Offer", "name": "Free checks", "price": "0", "priceCurrency": "USD",
-      "description": "The checks on the website are free with no sign-up: the box checker, the truck checker, the quote checker, the mover check and the storage unit sizer. Helpers on someone's move use the app free." },
+      "description": "The checks on the website are free with no sign-up: the box checker, the truck checker, the quote checker, the mover check and the storage unit sizer. Everyone helping with someone's move uses the app free." },
     { "@type": "Offer", "name": "The full app", "price": "9.99", "priceCurrency": "USD",
-      "description": "Monthly, for up to 12 months, then billing stops by itself; reminder before every charge; cancel anytime; every device: the moving plan and timeline, furniture and doorway fit, truck size from what was packed, scanning boxes on and off the truck, deposit, insurance and paperwork." }
+      "description": "Monthly for up to 12 months, then billing stops by itself and the list stays on the phone. No account: you pay, and a code unlocks the app on your phone. Includes the moving plan and timeline, furniture and doorway fit, truck size from what was packed, scanning boxes on and off the truck, deposit, insurance and paperwork." }
   ]
 }
 </script>
@@ -57,28 +57,28 @@
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
+    { "@type": "Question", "name": "What does it do?",
+      "acceptedAnswer": { "@type": "Answer", "text": "It remembers your move for you. Every box gets a number, a photo and a QR label, and you can find anything by typing or saying its name. It keeps where each box belongs and where it actually is, counts down to the truck, shows what's next and where you left off, works out the truck size and what fits through the door, and keeps a dated record of what every mover, cleaner and landlord promised. It still works long after the move." } },
     { "@type": "Question", "name": "How do I check a moving quote for hidden fees?",
       "acceptedAnswer": { "@type": "Answer", "text": "Paste the quote's text into the free quote checker. It flags paperwork fees like a \"binding estimate fee\", a deposit that's too big, the weakest coverage already checked, a missing USDOT number, pressure to book today, and signs you're dealing with a broker instead of a mover. It runs in your browser and nothing you paste is sent anywhere." } },
     { "@type": "Question", "name": "What does it cost?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The app is $9.99 a month for up to 12 months, then billing stops by itself. Cancel anytime. It covers your whole move: every box with its photo and label, the plan and timeline, fit for your own furniture, the truck for what you actually packed, move day, the deposit and the paperwork. The checks on this website stay free, with no sign-up." } },
+      "acceptedAnswer": { "@type": "Answer", "text": "The app is $9.99 a month, and billing stops by itself after 12 months. Your list stays on your phone. Everyone helping with your move uses it free. It covers your whole move: every box with its photo and label, the plan and timeline, fit for your own furniture, the truck for what you actually packed, move day, the deposit and the paperwork. The checks on this website are free, with no sign-up." } },
     { "@type": "Question", "name": "How do you make money?",
       "acceptedAnswer": { "@type": "Answer", "text": "From the monthly plan for the full app, and from plans for businesses that help people move. Never from movers: we don't take a commission or a referral fee, and we never sell anyone's number." } },
     { "@type": "Question", "name": "Will moving companies call me?",
       "acceptedAnswer": { "@type": "Answer", "text": "No. We never ask for your phone number, and there's nothing to sell to a mover. That's the whole point." } },
     { "@type": "Question", "name": "Do I need an account?",
-      "acceptedAnswer": { "@type": "Answer", "text": "No. Open it and start. Everything you enter stays on your own phone." } },
+      "acceptedAnswer": { "@type": "Answer", "text": "No. You pay, and a code unlocks the app on your phone. Everything you enter stays on your own phone." } },
+    { "@type": "Question", "name": "How do I put it on my phone?",
+      "acceptedAnswer": { "@type": "Answer", "text": "iPhone and iPad: open the app in Safari, tap Share, then Add to Home Screen. Android: open it in Chrome and tap Install. On a computer it just runs in the browser. Once it is on your home screen it works with the wifi off." } },
     { "@type": "Question", "name": "Who made this?",
       "acceptedAnswer": { "@type": "Answer", "text": "Someone who was moving, not a moving company. Every warning sign on this site came from a real move this fall." } },
     { "@type": "Question", "name": "Where do the answers come from?",
       "acceptedAnswer": { "@type": "Answer", "text": "Federal and consumer sources: the FMCSA, the FTC and the CFPB, plus state law where it matters. Each answer names its source." } },
-    { "@type": "Question", "name": "What's the best app to keep track of boxes when moving?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The Packed Rabbit numbers every box, prints a QR label for it, keeps a photo of what's inside, and finds any item by typing or saying its name. Boxes are unlimited, and it works offline with nothing leaving the phone." } },
     { "@type": "Question", "name": "How do I know if my sofa will fit through the door?",
       "acceptedAnswer": { "@type": "Answer", "text": "You carry a sofa long end first, so what has to pass the doorway is its cross-section: the two smaller measurements, usually depth and height. If the smaller one is narrower than the door, it goes through straight; if not, try it on its side. Taking the legs off often saves 4 to 6 inches. The Packed Rabbit does this check against every doorway you've measured." } },
     { "@type": "Question", "name": "What size moving truck do I need?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Add up the cubic feet of your boxes and furniture and add about 15% for packing room. The Packed Rabbit does this from the actual boxes and furniture you've entered rather than a bedroom-count average, and names the truck or number of containers." } },
-    { "@type": "Question", "name": "Does the monthly plan renew forever?",
-      "acceptedAnswer": { "@type": "Answer", "text": "No. Bought on the website, The Packed Rabbit is $9.99 a month and billing stops by itself after 12 months. Cancel anytime." } }
+      "acceptedAnswer": { "@type": "Answer", "text": "Add up the cubic feet of your boxes and furniture and add about 15% for packing room. The Packed Rabbit does this from the actual boxes and furniture you've entered rather than a bedroom-count average, and names the truck or number of containers." } }
   ]
 }
 </script>
@@ -96,17 +96,17 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#10150C; --mist:#1A2410; --bamboo:#2D4314; --sage:#4E7A1E;
-    --ink:#EEF4DE; --ink2:#B4C39A; --line:rgba(238,244,222,.14);
+    --bg:#0E140A; --mist:#16220E; --bamboo:#2D4314; --sage:#5E8F26;
+    --ink:#F1F6E4; --ink2:#CBD8B2; --line:rgba(238,244,222,.18);
     --green:#B8DD4E; --green-ink:#15200A; --deep:#0C1208; --bark:#1A1510; --lit:#C9E35C;
-    --glass:linear-gradient(140deg,rgba(60,90,25,.45),rgba(20,30,12,.55)); --glass-edge:rgba(214,234,138,.16);
+    --glass:linear-gradient(140deg,rgba(60,90,25,.45),rgba(20,30,12,.6)); --glass-edge:rgba(214,234,138,.30);
   }
 }
 :root[data-theme="dark"]{
-    --bg:#10150C; --mist:#132219; --bamboo:#1D3527; --sage:#2D5440;
-  --ink:#E8F2EC; --ink2:#A7BBAF; --line:rgba(232,242,236,.14);
-  --green:#6FD3A0; --green-ink:#0B2117; --deep:#0A1C14;
-  --glass:rgba(24,44,34,.55); --glass-edge:rgba(255,255,255,.12);
+    --bg:#0E140A; --mist:#16220E; --bamboo:#2D4314; --sage:#5E8F26;
+    --ink:#F1F6E4; --ink2:#CBD8B2; --line:rgba(238,244,222,.18);
+    --green:#B8DD4E; --green-ink:#15200A; --deep:#0C1208; --bark:#1A1510; --lit:#C9E35C;
+    --glass:linear-gradient(140deg,rgba(60,90,25,.45),rgba(20,30,12,.6)); --glass-edge:rgba(214,234,138,.30);
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -121,8 +121,7 @@ section{padding:56px 0;position:relative}
 @media(min-width:900px){section{padding:84px 0}}
 .brandrow{display:flex;white-space:nowrap;align-items:center;gap:10px;font-weight:700;font-size:1.08rem;text-decoration:none}
 .brandrow img{width:40px;height:40px}
-.mark{display:flex;align-items:center;gap:8px;font-weight:700;font-size:.98rem;margin-bottom:16px;color:var(--ink2)}
-.mark img{width:26px;height:26px}
+.kick{margin:0 0 12px;font-weight:700;font-size:1rem;letter-spacing:.01em;color:var(--green)}
 .glass{background:var(--glass);background-color:transparent;border:1px solid var(--glass-edge);border-radius:28px;-webkit-backdrop-filter:blur(18px) saturate(1.2);backdrop-filter:blur(18px) saturate(1.2);box-shadow:0 1px 0 var(--glass-edge) inset,0 24px 60px rgba(24,59,44,.12)}
 
 /* the fluid light behind everything: soft bamboo and mist, slow */
@@ -138,6 +137,7 @@ section{padding:56px 0;position:relative}
 .leaves svg{position:absolute;fill:#3F6E1C}
 @keyframes sway{to{transform:translate3d(-14px,10px,0) rotate(.6deg)}}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .leaves{opacity:.22}:root:not([data-theme="light"]) .leaves svg{fill:#000}}
+:root[data-theme="dark"] .leaves{opacity:.22}:root[data-theme="dark"] .leaves svg{fill:#000}
 @keyframes drift{to{transform:translate3d(3vmax,-2vmax,0) scale(1.06)}}
 /* bamboo: a few quiet stalks at the edge of the hero */
 .stalks{position:absolute;right:0;top:0;height:100%;width:180px;opacity:.5;pointer-events:none;z-index:-1}
@@ -165,6 +165,7 @@ header .btn{min-height:44px;padding:0 18px;font-size:.98rem;white-space:nowrap}
 .demo{position:relative;max-width:470px;padding:18px}
 .ask{display:flex;align-items:center;gap:12px;border-radius:999px;padding:0 20px;min-height:58px;font-size:1.12rem;background:rgba(255,255,255,.7);border:1px solid var(--line)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ask{background:rgba(255,255,255,.06)}}
+:root[data-theme="dark"] .ask{background:rgba(255,255,255,.06)}
 .ask svg{flex:none;color:var(--ink2)}
 .ask .q{font-weight:700}
 .caret{display:inline-block;width:2px;height:1.15em;background:var(--green);vertical-align:-3px;margin-left:1px;animation:blink 1s steps(1) infinite}
@@ -215,7 +216,7 @@ header .btn{min-height:44px;padding:0 18px;font-size:.98rem;white-space:nowrap}
 .biz{color:#EEF4DE;background:radial-gradient(55% 45% at 85% 0%,rgba(213,223,77,.34),transparent 70%),radial-gradient(40% 40% at 10% 100%,rgba(157,196,71,.18),transparent 70%),linear-gradient(165deg,#3E6B1C,#25451A 50%,#1A3214)}
 .biz h2{color:#fff}
 .biz .lede{color:#C9D9A8}
-.biz .mark{color:#C9D9A8}
+.biz .kick{color:#C9E35C}
 .who{display:grid;gap:10px;margin-top:30px}
 .who a{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:60px;padding:10px 20px;border-radius:20px;text-decoration:none;font-weight:700;font-size:1.1rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14)}
 .who a span{font:700 .8rem var(--mono);color:#C9E35C;letter-spacing:.05em}
@@ -257,15 +258,15 @@ section.sun .glass{background:linear-gradient(140deg,rgba(255,255,255,.92),rgba(
 section.calm{background:none}
 @media (prefers-color-scheme: dark){
  :root:not([data-theme="light"]) section.sun::before{background:
-   radial-gradient(70% 55% at 88% 32%,rgba(184,221,78,.20),transparent 70%),
-   radial-gradient(60% 50% at 4% 70%,rgba(157,196,71,.12),transparent 70%),
-   linear-gradient(180deg,rgba(28,44,16,0),#1C2C10 30%,#203414 50%,#1C2C10 70%,rgba(28,44,16,0))}
- :root:not([data-theme="light"]) section.sun .glass{background:linear-gradient(140deg,rgba(40,64,22,.75),rgba(20,30,12,.6));border-color:rgba(213,223,77,.18)}}
+   radial-gradient(70% 55% at 88% 32%,rgba(157,214,60,.11),transparent 70%),
+   radial-gradient(60% 50% at 4% 70%,rgba(94,145,40,.12),transparent 70%),
+   linear-gradient(180deg,rgba(16,34,12,0),#10230C 30%,#132A0E 50%,#10230C 70%,rgba(16,34,12,0))}
+ :root:not([data-theme="light"]) section.sun .glass{background:linear-gradient(140deg,rgba(36,62,22,.78),rgba(14,26,10,.66));border-color:rgba(213,223,77,.32)}}
 :root[data-theme="dark"] section.sun::before{background:
-   radial-gradient(70% 55% at 88% 32%,rgba(184,221,78,.20),transparent 70%),
-   radial-gradient(60% 50% at 4% 70%,rgba(157,196,71,.12),transparent 70%),
-   linear-gradient(180deg,rgba(28,44,16,0),#1C2C10 30%,#203414 50%,#1C2C10 70%,rgba(28,44,16,0))}
-:root[data-theme="dark"] section.sun .glass{background:linear-gradient(140deg,rgba(40,64,22,.75),rgba(20,30,12,.6));border-color:rgba(213,223,77,.18)}
+   radial-gradient(70% 55% at 88% 32%,rgba(157,214,60,.11),transparent 70%),
+   radial-gradient(60% 50% at 4% 70%,rgba(94,145,40,.12),transparent 70%),
+   linear-gradient(180deg,rgba(16,34,12,0),#10230C 30%,#132A0E 50%,#10230C 70%,rgba(16,34,12,0))}
+:root[data-theme="dark"] section.sun .glass{background:linear-gradient(140deg,rgba(36,62,22,.78),rgba(14,26,10,.66));border-color:rgba(213,223,77,.32)}
 
 .reasons li.glass,.reasons li{background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding:4px 14px 4px 0;font-size:1.12rem;display:flex;align-items:center;gap:8px}
 .reasons li::before{content:"";width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#D5DF4D,#3F6E1C);flex:none}
@@ -285,6 +286,26 @@ footer .social a{display:inline-flex;width:44px;height:44px;align-items:center;j
 footer .social svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8}
 footer p{margin:0}
 .prnav button{background:#3F6E1C!important}
+/* owner, 4 Nov: tool rows read as tappable; info lists stop looking like buttons */
+.tools a{justify-content:flex-start;min-height:68px;padding:12px 14px 12px 20px}
+.tools a b{display:block;flex:1;min-width:0;font-size:1.1rem;line-height:1.25}
+.tools a b span{display:block;margin-top:3px;font:400 .95rem/1.35 var(--sans);letter-spacing:0;color:var(--ink2)}
+.tools .chev{flex:none;width:22px;height:22px;fill:none;stroke:var(--green);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.carry li,.home li{background:none;border:0;border-left:3px solid color-mix(in srgb,var(--sage) 65%,transparent);border-radius:0;padding:4px 0 4px 18px;box-shadow:none}
+.carry,.home{gap:20px;margin-bottom:0}
+.cost{margin:14px 0 0;font-weight:700;font-size:1rem;color:var(--ink)}
+.hero .fine.lead-msg{margin-top:10px}
+@media (max-width:640px){
+  section{padding:44px 0}
+  section.sun::before{top:-56px;bottom:-56px}
+  .hero{padding:14px 0 36px}
+  .hello{font-size:.98rem;margin-bottom:8px}
+  .hero .sub{margin-top:14px}
+  .ctas{margin-top:20px}
+  .hero-grid{gap:34px}
+  .carry,.tools,.home,.fit,.reasons{margin-top:22px}
+  .faq-s h2{margin-bottom:4px}
+}
 </style>
 </head>
 <body>
@@ -310,6 +331,7 @@ footer p{margin:0}
     <h1>Forget about it. <span>The Packed Rabbit won't.</span></h1>
     <p class="sub">Every box, every date, every promise, remembered.</p>
     <div class="ctas"><a class="btn go" href="app/">Open the app</a><a class="btn soft" href="#tools">What it checks</a></div>
+    <p class="cost">$9.99 a month. Stops by itself after 12 months. Helpers use it free.</p>
     <p class="fine lead-msg">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>
   </div>
   <div class="demo glass" aria-label="Example: ask for something and the app shows the box it's in, with the photo taken inside the box">
@@ -332,7 +354,6 @@ footer p{margin:0}
 </div></section>
 
 <section class="reasons-s sun"><div class="wrap">
-  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
   <h2>Every move has a reason.</h2>
   <ul class="reasons">
     <li class="glass">A first home</li><li class="glass">Off to college</li><li class="glass">A new job</li><li class="glass">Moving in together</li><li class="glass">More room</li><li class="glass">Downsizing</li><li class="glass">A parent moving in</li><li class="glass">A divorce</li><li class="glass">A loss</li><li class="glass">A move gone wrong</li>
@@ -341,35 +362,35 @@ footer p{margin:0}
 </div></section>
 
 <section class="calm"><div class="wrap">
-  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
+  <p class="kick">Find it</p>
   <h2>Your things, even when you can't be with them.</h2>
   <p class="lede">A photo inside every box, its number, its size and where it is. See it, prove it, find it.</p>
   <ul class="carry">
-    <li class="glass"><b>Years in storage</b><span>A military move can mean four years apart from everything you own. Carry it all in your pocket.</span></li>
-    <li class="glass"><b>Someone else moved you</b><span>A hospital stay, an emergency, a family member packing up. Every box is still yours, and you can see where it went.</span></li>
-    <li class="glass"><b>Proof for insurance</b><span>The photo inside the box, taken before it was sealed. If something breaks or goes missing, you have it.</span></li>
+    <li><b>Years in storage</b><span>A military move can mean four years apart from everything you own. Carry it all in your pocket.</span></li>
+    <li><b>Someone else moved you</b><span>A hospital stay, an emergency, a family member packing up. Every box is still yours, and you can see where it went.</span></li>
+    <li><b>Proof for insurance</b><span>The photo inside the box, taken before it was sealed. If something breaks or goes missing, you have it.</span></li>
   </ul>
 </div></section>
 
 <section id="tools" class="sun"><div class="wrap">
-  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
+  <p class="kick">Check it</p>
   <h2>Moving is hard. Getting taken shouldn't be part of it.</h2>
-  <p class="lede">Free. No sign-up.</p>
+  <p class="lede">These checks are free. No sign-up.</p>
   <nav class="tools" aria-label="Free checks">
-    <a class="glass" href="quote-check/">Quote checker</a>
-    <a class="glass" href="boxes/">Box checker</a>
-    <a class="glass" href="mover-check/">Is the mover real?</a>
-    <a class="glass" href="truck/">Truck checker</a>
-    <a class="glass" href="storage/">Storage unit size</a>
-    <a class="glass" href="diy-cost/">Cost to move yourself</a>
-    <a class="glass" href="move-day/">How long moving day takes</a>
-    <a class="glass" href="answers/clean-from-away.html">Move-out cleaning</a>
-    <a class="glass" href="take-or-leave/">Take it or leave it</a>
+    <a class="glass" href="quote-check/"><b>Quote checker<span>Hidden fees and broker signs</span></b><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
+    <a class="glass" href="boxes/"><b>Box checker<span>How many boxes, by size</span></b><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
+    <a class="glass" href="mover-check/"><b>Is the mover real?<span>Their federal record, in plain words</span></b><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
+    <a class="glass" href="truck/"><b>Truck checker<span>The truck your things fill</span></b><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
+    <a class="glass" href="storage/"><b>Storage unit size<span>The unit that holds it all</span></b><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
+    <a class="glass" href="diy-cost/"><b>Cost to move yourself<span>Truck, fuel, help: the total</span></b><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
+    <a class="glass" href="move-day/"><b>How long moving day takes<span>An hour-by-hour plan</span></b><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
+    <a class="glass" href="answers/clean-from-away.html"><b>Move-out cleaning<span>Cleaned after you&#x27;ve left</span></b><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
+    <a class="glass" href="take-or-leave/"><b>Take it or leave it<span>Worth moving, or replace it?</span></b><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
   </nav>
 </div></section>
 
 <section class="calm"><div class="wrap">
-  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
+  <p class="kick">Fit it</p>
   <h2>It knows what fits.</h2>
   <div class="fit">
     <div class="glass">
@@ -396,29 +417,27 @@ footer p{margin:0}
 </div></section>
 
 <section class="sun"><div class="wrap">
-  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
+  <p class="kick">Settle in</p>
   <h2>Then it welcomes you home.</h2>
   <ul class="home">
-    <li class="glass">Every box in its room<small>Which ones aren't, and where they are.</small></li>
-    <li class="glass">Your deposit back<small>Photos and dates, ready if you need them.</small></li>
-    <li class="glass">The old place closed out<small>Utilities, mail, the final walk-through.</small></li>
-    <li class="glass">A new state, sorted<small>License, registration, voter registration.</small></li>
+    <li>Every box in its room<small>Which ones aren't, and where they are.</small></li>
+    <li>Your deposit back<small>Photos and dates, ready if you need them.</small></li>
+    <li>The old place closed out<small>Utilities, mail, the final walk-through.</small></li>
+    <li>A new state, sorted<small>License, registration, voter registration.</small></li>
   </ul>
 </div></section>
 
 
 <section class="promise calm"><div class="wrap">
-  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
   <div class="card glass"><blockquote>Start with one box. The Packed Rabbit remembers the rest.</blockquote>
   <div class="ctas"><a class="btn go" href="app/">Start with one box</a></div></div>
 </div></section>
 <section class="faq-s sun"><div class="wrap">
-  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit</div>
   <h2 id="fq-h">Questions people ask first</h2>
-  <details class="glass"><summary>What does it do?</summary><p>It remembers your move for you. Every box gets a number, a photo and a QR label, and you can find anything by typing or saying its name. It keeps where each box belongs and where it actually is, counts down to the truck, shows what&#x27;s next and where you left off, works out the truck size and what fits through the door, and keeps a dated record of what every mover, cleaner and landlord promised. It still works long after the move.</p></details><details class="glass"><summary>How do I check a moving quote for hidden fees?</summary><p>Paste the quote&#x27;s text into the free quote checker. It flags paperwork fees like a &quot;binding estimate fee&quot;, a deposit that&#x27;s too big, the weakest coverage already checked, a missing USDOT number, pressure to book today, and signs you&#x27;re dealing with a broker instead of a mover. It runs in your browser and nothing you paste is sent anywhere.</p></details><details class="glass"><summary>What does it cost?</summary><p>The app is $9.99 a month for up to 12 months, then billing stops by itself. Cancel anytime. It covers your whole move: every box with its photo and label, the plan and timeline, fit for your own furniture, the truck for what you actually packed, move day, the deposit and the paperwork. The checks on this website stay free, with no sign-up.</p></details><details class="glass"><summary>How do you make money?</summary><p>From the monthly plan for the full app, and from plans for businesses that help people move. Never from movers: we don&#x27;t take a commission or a referral fee, and we never sell anyone&#x27;s number.</p></details><details class="glass"><summary>Will moving companies call me?</summary><p>No. We never ask for your phone number, and there&#x27;s nothing to sell to a mover. That&#x27;s the whole point.</p></details><details class="glass"><summary>Do I need an account?</summary><p>No. Open it and start. Everything you enter stays on your own phone.</p></details><details class="glass"><summary>How do I put it on my phone?</summary><p>iPhone and iPad: open <a href="app/">the app</a> in Safari, tap Share, then Add to Home Screen. Android: open it in Chrome and tap Install. On a computer it just runs in the browser. Once it is on your home screen it works with the wifi off.</p></details><details class="glass"><summary>Who made this?</summary><p>Someone who was moving, not a moving company. Every warning sign on this site came from a real move this fall.</p></details><details class="glass"><summary>Where do the answers come from?</summary><p>Federal and consumer sources: the FMCSA, the FTC and the CFPB, plus state law where it matters. Each answer names its source.</p></details>
+  <details class="glass"><summary>What does it do?</summary><p>It remembers your move for you. Every box gets a number, a photo and a QR label, and you can find anything by typing or saying its name. It keeps where each box belongs and where it actually is, counts down to the truck, shows what&#x27;s next and where you left off, works out the truck size and what fits through the door, and keeps a dated record of what every mover, cleaner and landlord promised. It still works long after the move.</p></details><details class="glass"><summary>How do I check a moving quote for hidden fees?</summary><p>Paste the quote&#x27;s text into the free quote checker. It flags paperwork fees like a &quot;binding estimate fee&quot;, a deposit that&#x27;s too big, the weakest coverage already checked, a missing USDOT number, pressure to book today, and signs you&#x27;re dealing with a broker instead of a mover. It runs in your browser and nothing you paste is sent anywhere.</p></details><details class="glass"><summary>What does it cost?</summary><p>The app is $9.99 a month, and billing stops by itself after 12 months. Your list stays on your phone. Everyone helping with your move uses it free. It covers your whole move: every box with its photo and label, the plan and timeline, fit for your own furniture, the truck for what you actually packed, move day, the deposit and the paperwork. The checks on this website are free, with no sign-up.</p></details><details class="glass"><summary>How do you make money?</summary><p>From the monthly plan for the full app, and from plans for businesses that help people move. Never from movers: we don&#x27;t take a commission or a referral fee, and we never sell anyone&#x27;s number.</p></details><details class="glass"><summary>Will moving companies call me?</summary><p>No. We never ask for your phone number, and there&#x27;s nothing to sell to a mover. That&#x27;s the whole point.</p></details><details class="glass"><summary>Do I need an account?</summary><p>No. You pay, and a code unlocks the app on your phone. Everything you enter stays on your own phone.</p></details><details class="glass"><summary>How do I put it on my phone?</summary><p>iPhone and iPad: open <a href="app/">the app</a> in Safari, tap Share, then Add to Home Screen. Android: open it in Chrome and tap Install. On a computer it just runs in the browser. Once it is on your home screen it works with the wifi off.</p></details><details class="glass"><summary>Who made this?</summary><p>Someone who was moving, not a moving company. Every warning sign on this site came from a real move this fall.</p></details><details class="glass"><summary>Where do the answers come from?</summary><p>Federal and consumer sources: the FMCSA, the FTC and the CFPB, plus state law where it matters. Each answer names its source.</p></details><details class="glass"><summary>How do I know if my sofa will fit through the door?</summary><p>You carry a sofa long end first, so what has to pass the doorway is its cross-section: the two smaller measurements, usually depth and height. If the smaller one is narrower than the door, it goes through straight; if not, try it on its side. Taking the legs off often saves 4 to 6 inches. The Packed Rabbit does this check against every doorway you&#x27;ve measured.</p></details><details class="glass"><summary>What size moving truck do I need?</summary><p>Add up the cubic feet of your boxes and furniture and add about 15% for packing room. The Packed Rabbit does this from the actual boxes and furniture you&#x27;ve entered rather than a bedroom-count average, and names the truck or number of containers.</p></details>
 </div></section>
 <section class="biz"><div class="wrap">
-  <div class="mark"><img src="img/rabbit.svg" alt="">The Packed Rabbit for business</div>
+  <p class="kick">For business</p>
   <h2>Hand it to everyone you move.</h2>
   <p class="lede">Your name on it, their whole move organized. They keep it on their own phone.</p>
   <nav class="who" aria-label="For business">
