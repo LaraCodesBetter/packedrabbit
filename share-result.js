@@ -4,6 +4,15 @@
    on the page; nothing is uploaded. Amounts and company names from the quote
    are left out of the picture. */
 (function () {
+  /* owner, 4 Nov: the picture uses the site's own font and carries the rabbit.
+     Both are fetched as the page loads, so the tap that shares stays quick. */
+  var BASE = ((document.currentScript && document.currentScript.getAttribute("src")) || "").replace(/share-result\.js.*$/, "");
+  var RABBIT = new Image(); RABBIT.src = BASE + "img/rabbit.svg";
+  var READY = Promise.all([
+    (document.fonts && document.fonts.load) ? Promise.all([document.fonts.load('800 40px "Atkinson Next"'), document.fonts.load('600 40px "Atkinson Next"')]).catch(function () {}) : Promise.resolve(),
+    new Promise(function (res) { if (RABBIT.complete && RABBIT.naturalWidth) res(); else { RABBIT.onload = RABBIT.onerror = function () { res(); }; } })
+  ]);
+  function ready() { return Promise.race([READY, new Promise(function (res) { setTimeout(res, 1200); })]); }
   var KEEP = /fee|charge|estimate|deposit|valuation|protection|coverage|binding|tariff|surcharge/i;
   var CO = /\b(?:[A-Z][\w&.'-]*\s+){0,4}(?:Inc|LLC|L\.L\.C|Co|Corp|Corporation|Company|Holdings|Group|Moving|Movers|Logistics|Van Lines|Relocation|Freight|Transport|Transportation|Storage|Services)\b\.?/g;
   function clean(t) {
@@ -30,12 +39,12 @@
   }
   function draw(flags) {
     var W = 1080, H = 1350, c = document.createElement("canvas"); c.width = W; c.height = H;
-    var g = c.getContext("2d"), F = '-apple-system, "SF Pro Display", "Segoe UI", system-ui, sans-serif';
+    var g = c.getContext("2d"), F = '"Atkinson Next", -apple-system, "Segoe UI", system-ui, sans-serif';
     var bad = flags.filter(function (f) { return f.tone === "bad"; }), ask = flags.filter(function (f) { return f.tone === "warn"; });
     g.fillStyle = "#22341A"; g.fillRect(0, 0, W, H);
     g.save(); g.translate(0, 70); g.rotate(-0.02); g.fillStyle = "#C9E35C"; g.fillRect(-20, 0, W + 40, 36); g.restore();
     g.fillStyle = window.prSpooky ? "#FF8A1F" : "#C9E35C"; g.font = "800 40px " + F; g.fillText(window.prSpooky && bad.length ? "The scariest part of my mover's quote:" : "I checked my mover's quote.", 80, 210);
-    g.fillStyle = "#FFFFFF"; g.font = "900 104px " + F;
+    g.fillStyle = "#FFFFFF"; g.font = "800 104px " + F;
     var head = bad.length ? bad.length + (bad.length === 1 ? " red flag." : " red flags.") : ask.length ? ask.length + (ask.length === 1 ? " thing to ask." : " things to ask.") : "It looks clean.";
     g.fillText(head, 80, 340);
     var y = 450, list = (bad.length ? bad : ask).slice(0, 4);
@@ -45,13 +54,17 @@
     });
     if ((bad.length ? bad : ask).length > 4) { g.fillStyle = "rgba(255,255,255,.75)"; g.font = "600 36px " + F; g.fillText("and " + ((bad.length ? bad : ask).length - 4) + " more", 136, y); }
     g.fillStyle = "#C9E35C"; roundRect(g, 80, H - 300, 620, 104, 52); g.fill();
-    g.fillStyle = "#2E2203"; g.font = "900 54px " + F; g.fillText("packedrabbit.com", 120, H - 230);
+    g.fillStyle = "#1C2A12"; g.font = "800 54px " + F; g.fillText("packedrabbit.com", 120, H - 230);
     g.fillStyle = "rgba(255,255,255,.88)"; g.font = "600 38px " + F; g.fillText("Check yours before you sign.", 80, H - 130);
     g.fillStyle = "rgba(255,255,255,.6)"; g.font = "500 30px " + F; g.fillText("A moving app made by a consumer, for consumers.", 80, H - 80);
+    if (RABBIT.complete && RABBIT.naturalWidth) { try { g.drawImage(RABBIT, W - 80 - 150, H - 330, 150, 150); } catch (e) { /* drawn without it */ } }
     return c;
   }
   function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
   window.prShareResult = function (flags, btn) {
+    ready().then(function () { share(flags, btn); });
+  };
+  function share(flags, btn) {
     var c = draw(flags || []);
     var bad = (flags || []).filter(function (f) { return f.tone === "bad"; }).length;
     var text = bad ? "My mover's quote had " + bad + (bad === 1 ? " red flag" : " red flags") + ". Check yours before you sign: https://packedrabbit.com/quote-check/" : "Check your mover's quote before you sign: https://packedrabbit.com/quote-check/";
@@ -65,5 +78,5 @@
         try { navigator.clipboard && navigator.clipboard.writeText(text).catch(function () {}); } catch (e) { /* fine */ }
       }
     }, "image/png");
-  };
+  }
 })();
