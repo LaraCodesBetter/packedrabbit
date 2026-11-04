@@ -564,3 +564,60 @@ body{background:
  :root:not([data-theme="light"]) .qpaper .btn.ghost{color:#EEF4DE}}
 /* dark mode: a chosen chip is the deep green too, like the buttons */
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .homes button.on,:root:not([data-theme="light"]) button[aria-pressed="true"].on{background:linear-gradient(160deg,#5E9128,#3F6E1C 50%,#22341A);border-color:#5E9128;color:#FFFFFF}}
+
+/* ===== Owner-approved fixes, 4 Nov 2026 ===== */
+/* dark: secondary text a step brighter, panel edges visible */
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--ink2:#CBD8B2; --line:rgba(238,244,222,.2)}}
+:root[data-theme="dark"]{--ink2:#CBD8B2; --line:rgba(238,244,222,.2)}
+:root[data-theme="dark"] body{background:radial-gradient(60vmax 40vmax at 90% -10%,rgba(157,196,71,.16),transparent 70%),var(--bg);background-attachment:fixed}
+:root[data-theme="dark"] :focus-visible{outline-color:#D5DF4D}
+
+/* one header everywhere: the homepage's frosted pill, brand left, the app button right */
+header.top{width:calc(100% - 32px); max-width:1088px; margin:14px auto 0; padding:8px 8px 8px 14px; min-height:60px; border-radius:999px;
+  background:linear-gradient(140deg,rgba(255,255,255,.86),rgba(234,246,186,.42)); border:1px solid rgba(255,255,255,.85);
+  -webkit-backdrop-filter:blur(18px) saturate(1.2); backdrop-filter:blur(18px) saturate(1.2);
+  box-shadow:0 1px 0 rgba(255,255,255,.85) inset,0 24px 60px rgba(24,59,44,.12)}
+header.top .brand{font-family:var(--text); font-weight:700; font-size:1.08rem; letter-spacing:0; white-space:nowrap}
+header.top .brand img{width:40px; height:40px}
+header.top nav{flex-wrap:nowrap}
+header.top .btn{min-height:44px; padding:0 18px; font-size:.98rem; font-weight:700; white-space:nowrap}
+@media (max-width:420px){ header.top .brand{font-size:1rem} header.top .brand img{width:34px; height:34px} header.top .btn{padding:0 14px} }
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) header.top{background:linear-gradient(140deg,rgba(60,90,25,.45),rgba(20,30,12,.6)); border-color:rgba(214,234,138,.30); box-shadow:inset 0 1px 0 rgba(214,234,138,.18),0 18px 40px rgba(0,0,0,.35)}}
+:root[data-theme="dark"] header.top{background:linear-gradient(140deg,rgba(60,90,25,.45),rgba(20,30,12,.6)); border-color:rgba(214,234,138,.30); box-shadow:inset 0 1px 0 rgba(214,234,138,.18),0 18px 40px rgba(0,0,0,.35)}
+:root[data-theme="dark"] .btn.tape,:root[data-theme="dark"] .btn.navy{background:linear-gradient(160deg,#5E9128,#3F6E1C 50%,#22341A); color:#FFFFFF}
+.pagehead{padding-top:28px}
+
+/* business: green glass rows instead of teal, purple, pink and orange cards */
+a.door{color:var(--ink); background:linear-gradient(140deg,rgba(255,255,255,.92),rgba(234,246,186,.5)); border:1px solid #fff; box-shadow:var(--lift1); min-height:0}
+a.door span{color:var(--ink2); opacity:1}
+a.door em{color:var(--green); display:flex; align-items:center; gap:6px; margin-top:8px}
+a.door em::after{content:"\203A"; font-size:1.4rem; line-height:1; margin-left:auto}
+div.door{color:var(--ink); background:none; box-shadow:none; border-left:3px solid color-mix(in srgb,#9DC447 65%,transparent); border-radius:0; padding:4px 0 4px 18px; min-height:0}
+div.door span{color:var(--ink2); opacity:1}
+div.door em{color:var(--green); margin-top:6px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) a.door{background:linear-gradient(140deg,rgba(40,64,22,.7),rgba(16,26,10,.7)); border-color:rgba(214,234,138,.30); box-shadow:none}}
+:root[data-theme="dark"] a.door{background:linear-gradient(140deg,rgba(40,64,22,.7),rgba(16,26,10,.7)); border-color:rgba(214,234,138,.30); box-shadow:none}
+.fact b{color:var(--green)}
+.panel{border-color:var(--line)}
+
+/* quote checker: off the old slate paper, onto the green glass card */
+.qpaper{color:var(--ink); border-radius:28px; background:linear-gradient(140deg,rgba(255,255,255,.94),rgba(234,246,186,.55)); border:1px solid #fff;
+  -webkit-backdrop-filter:blur(18px) saturate(1.2); backdrop-filter:blur(18px) saturate(1.2); box-shadow:0 1px 0 rgba(255,255,255,.85) inset,0 24px 60px rgba(24,59,44,.12)}
+.qtitle,.qsamplehead,.qmore summary{color:var(--ink)}
+.qsub{color:var(--ink2)}
+.qpaper textarea{color:var(--ink); background:rgba(255,255,255,.8); border:1.5px solid rgba(63,110,28,.30); border-radius:16px}
+.qpaper textarea:focus{outline:3px solid #9DC447; border-color:transparent}
+.qprivate,.qfine{color:var(--ink2)}
+#qout{border-top:1px solid var(--line)}
+.qflag{border-bottom-color:var(--line)}
+.qnext{background:#F3F9DF}
+.qpaper .btn.ghost{color:var(--ink)}
+@media (prefers-color-scheme: dark){
+ :root:not([data-theme="light"]) .qpaper{background:linear-gradient(140deg,rgba(40,64,22,.75),rgba(14,24,9,.7)); color:var(--ink); border-color:rgba(214,234,138,.30); box-shadow:inset 0 1px 0 rgba(214,234,138,.18),0 26px 60px rgba(0,0,0,.45)}
+ :root:not([data-theme="light"]) .qpaper textarea{background:rgba(8,14,6,.55); color:var(--ink); border-color:rgba(214,234,138,.30)}
+ :root:not([data-theme="light"]) .qnext{background:rgba(214,234,138,.08)}}
+:root[data-theme="dark"] .qpaper{background:linear-gradient(140deg,rgba(40,64,22,.75),rgba(14,24,9,.7)); color:var(--ink); border-color:rgba(214,234,138,.30); box-shadow:inset 0 1px 0 rgba(214,234,138,.18),0 26px 60px rgba(0,0,0,.45)}
+:root[data-theme="dark"] .qpaper textarea{background:rgba(8,14,6,.55); color:var(--ink); border-color:rgba(214,234,138,.30)}
+:root[data-theme="dark"] .qnext{background:rgba(214,234,138,.08)}
+:root[data-theme="dark"] .qtitle{color:#EEF4DE}
+:root[data-theme="dark"] .qpaper .muted,:root[data-theme="dark"] .qpaper p{color:#C3D1A8}

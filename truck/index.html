@@ -60,6 +60,7 @@
   .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.5vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #D5DF4D; }
   .say .big.no { color: #FF9BAD; }
   .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
+  .say p.assume { color: rgba(255,255,255,.66); font-size: .88rem; margin-top: 8px; }
   .items { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
   .items li { display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 16px; border-bottom: 1px solid var(--line); }
   .items li:last-child { border-bottom: 0; }
@@ -100,14 +101,14 @@
 
   <div class="stage">
     <svg id="svg" viewBox="0 0 500 222" role="img" aria-labelledby="big"></svg>
-    <div class="say" aria-live="polite"><div class="big" id="big"></div><p id="small"></p></div>
+    <div class="say" aria-live="polite"><div class="big" id="big"></div><p id="small"></p><p class="assume">Assumes medium boxes, loaded tight, plus 15 percent for gaps.</p></div>
   </div>
 
   <ul class="items" id="items"></ul>
 
   <div class="acts">
     <button class="btn tape" id="share" type="button">Share this answer</button>
-    <a class="btn ghost" href="../app/">Count your real boxes in the app, free</a>
+    <a class="btn ghost" href="../app/">Count your real boxes in the app</a>
   </div>
   <p class="aside">The app adds each box as you pack it and each piece of furniture you measure, then shows the truck filling on move day as the crew loads. No account, and it works with no signal.</p>
 
@@ -259,6 +260,12 @@
       var bx = right - tw, bw = tw - fw;
       el("rect", { x: bx, y: Y, width: bw, height: BH, fill: "#C9A27A" }, s);
       for (var x = bx + 14; x < bx + bw - 4; x += 28) el("rect", { x: x, y: Y, width: 5, height: BH, fill: "#C9E35C", opacity: .8 }, s);
+    }
+    /* label the space still free, so a picture that looks full says what's left */
+    var free = BW - tw;
+    if (!over && need && free > 44) {
+      var ft = el("text", { x: X + free / 2, y: Y + BH / 2 + 5, fill: "#E9EEF5", "text-anchor": "middle", "font-weight": 800, "font-size": 14, "font-family": "ui-rounded,system-ui,sans-serif" }, s);
+      ft.textContent = "empty";
     }
     var lbl = el("text", { x: X, y: 22, fill: "#fff", "font-weight": 800, "font-size": 15, "font-family": "ui-rounded,system-ui,sans-serif" }, s);
     lbl.textContent = need ? (over ? "Over by " + (need - truck.cu).toLocaleString("en-US") + " cu ft" : Math.round(need / truck.cu * 100) + "% full · " + truck.n) : truck.n;
