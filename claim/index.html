@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Movers damaged or lost something? Free claim deadline and letter</title>
+<meta name="description" content="Type your delivery date and what was broken or lost. See the last day to file a written claim on an interstate move, when the mover has to answer, and get a claim letter with the three things federal rules say it must have. Free, no signup.">
+<link rel="canonical" href="https://packedrabbit.com/claim/">
+<meta name="theme-color" content="#22341A">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="Movers damaged or lost something? Your claim deadline and letter">
+<meta property="og:description" content="The last day to file, when the mover has to answer, and a claim letter that covers what the federal rules ask for.">
+<meta property="og:url" content="https://packedrabbit.com/claim/">
+<meta property="og:image" content="https://packedrabbit.com/img/og-card.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Movers damaged or lost something? Claim deadline and letter, by The Packed Rabbit",
+  "url": "https://packedrabbit.com/claim/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "For an interstate household move: works out the last day to file a written loss or damage claim (9 months from delivery, as FMCSA describes it), the day the mover's written acknowledgment is due (30 days after it receives the claim, 49 CFR 370.5) and the day it must pay, decline or make a firm offer (120 days, 49 CFR 370.9). Builds a claim letter that identifies the shipment, asserts liability and asks for a specified amount (49 CFR 370.3). Nothing typed is sent anywhere."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How long do I have to file a claim against movers for damage?",
+      "acceptedAnswer": { "@type": "Answer", "text": "For an interstate move, FMCSA says to file a written claim with the mover within 9 months of delivery. Check your bill of lading for the time it gives, and file as soon as you can, while photos and receipts are easy to find. A move inside one state follows that state's rules and your contract." } },
+    { "@type": "Question", "name": "Does writing the damage on the delivery receipt count as a claim?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No, not on its own. Under 49 CFR 370.3, notes of damage or shortage on a delivery receipt, freight bill or similar paper are not enough by themselves to count as a claim. Write the damage on the inventory at delivery, then send a separate written claim." } },
+    { "@type": "Question", "name": "What does a moving damage claim have to include?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Under 49 CFR 370.3, a written claim must give enough facts to identify the shipment, say the mover is liable for the loss, damage or delay, and ask for a specified or determinable amount of money. Listing each item with a dollar amount and a total covers the amount. Attach photos, the inventory with your delivery notes, and receipts or repair estimates." } },
+    { "@type": "Question", "name": "How long does a mover have to respond to a damage claim?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Under 49 CFR 370.5 the mover must acknowledge your claim in writing within 30 days after it receives it, unless it has already paid or declined it in writing. Under 49 CFR 370.9 it must pay, decline or make a firm settlement offer in writing within 120 days after receiving the claim; if it can't, it must tell you in writing why, at the end of each 60-day period after that while the claim is open." } },
+    { "@type": "Question", "name": "How much will the mover pay for a damaged item?",
+      "acceptedAnswer": { "@type": "Answer", "text": "It depends on the protection (valuation) shown on your bill of lading. Under 49 CFR 370.9, a household goods carrier settling a claim starts from the replacement cost and applies depreciation to reach the item's current actual value." } }
+  ]
+}
+</script>
+<style>
+  .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .lbl { display: block; font-weight: 800; margin: 22px 0 8px; font-size: 1.1rem; }
+  .lbl small { display: block; font-weight: 500; color: var(--ink2); font-size: .9rem; margin-top: 2px; }
+  .fld { width: 100%; box-sizing: border-box; min-height: 54px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 700; font-size: 1.1rem; padding: 8px 14px; }
+  .fld:focus { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+  select.fld { appearance: auto; }
+  input[type=date].fld { min-width: 0; -webkit-appearance: none; appearance: none; display: block; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 0 6px; }
+  .seg button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 6px 8px; line-height: 1.2; }
+  .seg button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #1A3214; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .say { padding: 14px 18px 4px; color: #fff; }
+  .say .k { color: rgba(255,255,255,.72); font-weight: 700; font-size: .95rem; margin: 0; }
+  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.6vw, 2.3rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.08; color: #D5DF4D; margin-top: 2px; }
+  .say p { color: rgba(255,255,255,.84); margin: 6px 0 0; font-size: 1rem; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: end; }
+  .two .lbl { margin-top: 14px; }
+  .items { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .items li { background: var(--panel); border-radius: 16px; box-shadow: var(--lift1); padding: 10px; display: grid; gap: 8px; }
+  .items .row { display: grid; grid-template-columns: 1fr 7.4rem 48px; gap: 8px; align-items: center; }
+  .items .fld { min-height: 48px; font-size: 1rem; background: var(--bg); }
+  .money { position: relative; }
+  .money span { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-weight: 800; color: var(--ink2); pointer-events: none; }
+  .money .fld { padding-left: 24px; text-align: right; }
+  .rm { min-width: 48px; min-height: 48px; border-radius: 12px; border: 2px solid var(--line); background: transparent; color: var(--ink2); font: inherit; font-weight: 800; font-size: 1.3rem; cursor: pointer; line-height: 1; }
+  .add { margin-top: 10px; width: 100%; min-height: 52px; border-radius: 14px; border: 2px dashed var(--line); background: transparent; color: var(--ink); font: inherit; font-weight: 800; cursor: pointer; }
+  .undo { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 10px 0 0; padding: 6px 6px 6px 14px; border-radius: 14px; background: var(--panel); box-shadow: var(--lift1); }
+  .undo[hidden] { display: none; }
+  .undo button { min-height: 44px; padding: 0 18px; border-radius: 999px; border: 2px solid currentColor; background: transparent; color: var(--ink); font: inherit; font-weight: 800; cursor: pointer; }
+  .total { font-weight: 800; margin: 10px 2px 0; }
+  .facts { list-style: none; margin: 20px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .facts li { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .facts li:last-child { border-bottom: 0; }
+  .facts li[hidden] { display: none; }
+  .facts b { display: block; font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink2); margin-bottom: 2px; }
+  .hint { font-size: .95rem; color: var(--ink2); margin: 8px 2px 0; }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  textarea.fld { min-height: 300px; font-weight: 500; font-size: 1rem; line-height: 1.45; resize: vertical; }
+  .how { margin-top: 34px; } .how h2 { font-size: 1.5rem; }
+  .aside { font-size: .95rem; color: var(--ink2); }
+  .src { font-size: .9rem; color: var(--ink2); border-top: 1px solid var(--line); padding-top: 12px; margin-top: 22px; }
+  .src a { color: var(--ink2); overflow-wrap: anywhere; }
+  @media (max-width: 370px) { .seg button { font-size: .88rem; } .items .row { grid-template-columns: 1fr 6.4rem 48px; } .two { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home">
+    <img src="../img/rabbit.svg" alt="" width="34" height="34">
+    The Packed Rabbit
+  </a>
+</header>
+
+<main class="tp">
+  <h1>Movers damaged or lost something?</h1>
+  <p class="lede">See the last day to file a written claim, when the mover has to answer, and get a claim letter that covers what the federal rules ask for.</p>
+
+  <div class="stage">
+    <div class="say" aria-live="polite"><p class="k" id="kick"></p><div class="big" id="big"></div><p id="small"></p></div>
+    <svg id="svg" viewBox="0 0 500 130" role="img" aria-label="Time from delivery to the claim deadline"></svg>
+  </div>
+
+  <p class="lbl" id="where-l">Where did the move go?</p>
+  <div class="seg" role="group" aria-labelledby="where-l">
+    <button type="button" data-m="i" class="on">To another state</button>
+    <button type="button" data-m="s">Within one state</button>
+  </div>
+  <p class="hint" id="where-h"></p>
+
+  <label class="lbl" for="dd">The day it was delivered<small>If nothing arrived, use the day it was supposed to be delivered.</small></label>
+  <input class="fld" id="dd" type="date">
+
+  <label class="lbl" for="rd">The day the mover got your claim (if you've sent it)<small>Leave this empty if you haven't sent it yet.</small></label>
+  <input class="fld" id="rd" type="date">
+
+  <p class="lbl">What was damaged or lost<small>One line for each item, with what it would cost to repair or replace.</small></p>
+  <ul class="items" id="items"></ul>
+  <button class="add" id="add" type="button">Add another item</button>
+  <div class="undo" id="undo" role="status" hidden><span id="undo-t">Item removed.</span><button type="button" id="undo-b">Undo</button></div>
+  <p class="total" id="total"></p>
+
+  <p class="lbl">For the letter (optional)<small>These stay on this page. They go in the link only after the # sign, which browsers never send to a website.</small></p>
+  <label class="lbl" for="co" style="margin-top:6px">Mover's legal name</label>
+  <input class="fld" id="co" type="text" autocomplete="off" maxlength="120">
+  <div class="two">
+    <div><label class="lbl" for="dot">USDOT number</label><input class="fld" id="dot" type="text" inputmode="numeric" autocomplete="off" maxlength="12"></div>
+    <div><label class="lbl" for="bol">Bill of lading or order number</label><input class="fld" id="bol" type="text" autocomplete="off" maxlength="40"></div>
+  </div>
+  <label class="lbl" for="me">Your name</label>
+  <input class="fld" id="me" type="text" autocomplete="off" maxlength="80">
+
+  <ul class="facts" id="facts">
+    <li id="f-file"><b>Your deadline to file</b><span></span></li>
+    <li id="f-need"><b>What the claim must say</b><span>Under 49 CFR 370.3, a written claim must give enough facts to identify the shipment, say the mover is liable for the loss or damage, and ask for a specified or determinable amount of money. The letter below does all three.</span></li>
+    <li id="f-note"><b>A note at delivery isn't a claim</b><span>Damage written on a delivery receipt or freight bill doesn't count as a claim by itself (49 CFR 370.3). Write it on the inventory before you sign, then send the claim.</span></li>
+    <li id="f-ack"><b>When the mover has to answer</b><span></span></li>
+    <li id="f-pay"><b>How much they pay</b><span>That depends on the protection (valuation) shown on your bill of lading. A household goods carrier settling a claim starts from the replacement cost and takes off depreciation to reach the item's current value (49 CFR 370.9).</span></li>
+  </ul>
+
+  <label class="lbl" for="letter">Your claim letter<small>Fill in the brackets. Send it in a way you can prove, such as email or mail with tracking, and keep a copy. Nothing here is sent anywhere.</small></label>
+  <textarea class="fld" id="letter" spellcheck="false"></textarea>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this answer</button>
+    <button class="btn ghost" id="copy" type="button">Copy the letter</button>
+    <button class="btn ghost" id="reset" type="button">Start again</button>
+    <a class="btn ghost" href="../app/">Keep box photos in the app, free</a>
+  </div>
+  <p class="aside">The app keeps a photo of what went in each box and its condition when it arrived, so a claim has proof attached. No account, and it works with no signal.</p>
+
+  <section class="how">
+    <h2>How this works</h2>
+    <p><strong>The deadline.</strong> For an interstate move, FMCSA says to file a written claim with the mover within 9 months of delivery. We count 9 calendar months from the date you type. Your bill of lading may state the time too, so check it, and don't wait: photos, receipts and memories are easiest to gather in the first weeks.</p>
+    <p><strong>Within one state.</strong> The federal claim rules on this page are for interstate moves. A move inside one state follows that state's rules and your contract, so read the contract for a claim deadline and ask your state's consumer protection office. Sending the claim early, in writing, is a safe step either way.</p>
+    <p><strong>The mover's clock.</strong> Once the mover receives your claim, it has 30 days to acknowledge it in writing (49 CFR 370.5) and 120 days to pay, decline or make a firm offer in writing. If it can't, it must tell you in writing why, at the end of every 60 days after that while the claim is open (49 CFR 370.9).</p>
+    <p><strong>What to attach.</strong> Photos of the damage and of the box it came in, the inventory with your delivery notes, the bill of lading, and receipts, a repair estimate, or a link to the same item for sale. Keep the damaged item and its packing until the mover has had a chance to inspect it.</p>
+    <p><strong>Not legal advice.</strong> Rules change. Each rule above names the federal regulation it comes from, linked below, so you can check the current text.</p>
+    <p class="aside">More on this: <a href="../answers/claim.html">how long you have to file a claim</a>.</p>
+    <p class="aside">Still before the move? Try <a href="../mover-check/">check your mover before you pay</a> or <a href="../quote-check/">check a moving quote</a>.</p>
+  </section>
+
+  <p class="src">Sources: <a href="https://www.ecfr.gov/current/title-49/subtitle-B/chapter-III/subchapter-B/part-370">49 CFR Part 370, Principles and Practices for the Investigation and Voluntary Disposition of Loss and Damage Claims</a> (eCFR, up to date as of October 23, 2026): 370.3 what a claim must contain and that notes on delivery papers alone are not a claim, 370.5 written acknowledgment within 30 days, 370.9 answer within 120 days, status every 60 days, replacement cost less depreciation. The 9 months from delivery is from FMCSA Protect Your Move, <a href="https://www.fmcsa.dot.gov/sites/fmcsa.dot.gov/files/2023-05/PYM-Moving-Checklist.pdf">Moving Checklist</a> and <a href="https://www.fmcsa.dot.gov/sites/fmcsa.dot.gov/files/ReadytoMoveBrochure_2022Update.pdf">Ready to Move</a>. Counting 9 calendar months, using the expected delivery day when nothing arrived, and the advice on what to attach are our own. Checked November 2026.</p>
+  <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Made by someone moving, for people moving. Not a moving company, broker or lead site: we never sell your details and never take a commission from movers, and nothing you type here is sent to us.</p>
+</main>
+
+<footer class="wrap">
+  <a href="../privacy.html">Privacy</a>
+  <a href="../terms.html">Terms and refunds</a>
+  <a href="../answers/">What I wish I'd known</a>
+  <a href="../fit/">Will my couch fit?</a>
+  <a href="../truck/">What size truck?</a>
+  <a href="../boxes/">How many boxes?</a>
+  <a href="../diy-cost/">Cost to move yourself</a>
+  <a href="../tip/">How much to tip movers?</a>
+  <a href="../quote-check/">Check a moving quote</a>
+  <a href="../mover-check/">Check your mover</a>
+  <a href="../checklist/">Moving checklist by date</a>
+  <a href="../change-address/">Change of address checklist</a>
+  <a href="../deposit/">When is my deposit due back?</a>
+  <a href="../storage/">What size storage unit?</a>
+  <a href="../move-day/">How long will moving day take?</a>
+  <a href="../weight/">How much does my stuff weigh?</a>
+  <a href="../move-in-cost/">How much money do I need to move?</a>
+  <a href="../embed/">Put these tools on your site</a>
+</footer>
+
+<script>
+/* Nothing typed here is sent anywhere. Dates go in the address (?d=) so a
+   shared link opens showing the same deadline. Item names, amounts and names
+   go only after the #, which browsers never send to a server. */
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  function $(id) { return document.getElementById(id); }
+  function el(tag, a, p) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  var MAXI = 40;
+  var st = { m: "i", d: "", r: "", co: "", dot: "", bol: "", me: "", items: [] };
+  function blank() { return { n: "", k: "d", a: 0 }; }
+
+  /* dates, all at local noon so no time zone shifts the day */
+  function okDate(s) { if (!/^\d{4}-\d{2}-\d{2}$/.test(s || "")) return false; var y = +s.slice(0, 4); var d = parse(s); return y >= 1990 && y <= 2100 && !isNaN(d) && iso(d) === s; }
+  function parse(s) { var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2], 12); }
+  function iso(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+  function today() { var t = new Date(); return new Date(t.getFullYear(), t.getMonth(), t.getDate(), 12); }
+  function addDays(d, n) { var x = new Date(d); x.setDate(x.getDate() + n); return x; }
+  function addMonths(d, n) { var y = d.getFullYear(), m = d.getMonth() + n, day = d.getDate(); var last = new Date(y, m + 1, 0, 12).getDate(); return new Date(y, m, Math.min(day, last), 12); }
+  function between(a, b) { return Math.round((b - a) / 864e5); }
+  function long(d) { return d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" }); }
+  function mid(d) { return d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }); }
+  function short(d) { return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }); }
+  function usd(n) { return "$" + (Math.round(n * 100) / 100).toLocaleString("en-US", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }); }
+  function days(n) { return n + (n === 1 ? " day" : " days"); }
+
+  /* read the link */
+  var q = new URLSearchParams(location.search);
+  if (q.get("m") === "s") st.m = "s";
+  if (okDate(q.get("d"))) st.d = q.get("d");
+  if (okDate(q.get("r"))) st.r = q.get("r");
+  try {
+    var h = new URLSearchParams(location.hash.slice(1));
+    ["co", "dot", "bol", "me"].forEach(function (k) { if (h.get(k)) st[k] = h.get(k).slice(0, 120); });
+    (h.get("i") || "").split("|").slice(0, MAXI).forEach(function (s) {
+      if (!s) return; var p = s.split("~");
+      var a = parseFloat(p[2]); st.items.push({ n: (p[0] || "").slice(0, 80), k: p[1] === "l" ? "l" : "d", a: isFinite(a) && a > 0 ? Math.min(a, 1e7) : 0 });
+    });
+  } catch (e) {}
+  if (!st.items.length) st.items.push(blank());
+
+  /* the item list */
+  var removed = null, undoTimer = 0;
+  function renderItems() {
+    var ul = $("items"); ul.textContent = "";
+    st.items.forEach(function (it, i) {
+      var li = document.createElement("li"), n = i + 1;
+      li.innerHTML = '<input class="fld" type="text" maxlength="80" autocomplete="off" aria-label="Item ' + n + '" placeholder="Item, for example a dresser">' +
+        '<div class="row"><select class="fld" aria-label="What happened to item ' + n + '"><option value="d">Damaged</option><option value="l">Lost</option></select>' +
+        '<span class="money"><span aria-hidden="true">$</span><input class="fld" type="number" inputmode="decimal" min="0" max="10000000" step="0.01" aria-label="Amount for item ' + n + ', in dollars"></span>' +
+        '<button class="rm" type="button" aria-label="Remove item ' + n + '">&times;</button></div>';
+      var name = li.querySelector('input[type=text]'), kind = li.querySelector("select"), amt = li.querySelector('input[type=number]');
+      name.value = it.n; kind.value = it.k; amt.value = it.a ? String(it.a) : "";
+      name.addEventListener("input", function () { it.n = name.value.replace(/[|~]/g, " "); draw(); });
+      kind.addEventListener("change", function () { it.k = kind.value; draw(); });
+      amt.addEventListener("input", function () { var v = parseFloat(amt.value); it.a = isFinite(v) && v > 0 ? Math.min(v, 1e7) : 0; draw(); });
+      li.querySelector(".rm").addEventListener("click", function () {
+        removed = { it: st.items.splice(i, 1)[0], at: i };
+        if (!st.items.length) st.items.push(blank());
+        $("undo-t").textContent = (removed.it.n ? '"' + removed.it.n + '"' : "Item") + " removed.";
+        $("undo").hidden = false; clearTimeout(undoTimer);
+        undoTimer = setTimeout(function () { $("undo").hidden = true; removed = null; }, 15000);
+        renderItems(); draw();
+      });
+      ul.appendChild(li);
+    });
+    $("add").disabled = st.items.length >= MAXI;
+  }
+  $("undo-b").addEventListener("click", function () {
+    if (!removed) return;
+    if (st.items.length === 1 && !st.items[0].n && !st.items[0].a) st.items = [];
+    st.items.splice(Math.min(removed.at, st.items.length), 0, removed.it);
+    removed = null; $("undo").hidden = true; clearTimeout(undoTimer); renderItems(); draw();
+  });
+  $("add").addEventListener("click", function () {
+    if (st.items.length >= MAXI) return;
+    st.items.push(blank()); renderItems(); draw();
+    var all = $("items").querySelectorAll('input[type=text]'); all[all.length - 1].focus();
+  });
+
+  /* the other fields */
+  function bindDate(id, k) { function f() { var v = $(id).value; st[k] = okDate(v) ? v : ""; draw(); } $(id).addEventListener("input", f); $(id).addEventListener("change", f); }
+  bindDate("dd", "d"); bindDate("rd", "r");
+  ["co", "dot", "bol", "me"].forEach(function (k) { $(k).addEventListener("input", function () { st[k] = $(k).value; draw(); }); });
+  [].forEach.call(document.querySelectorAll("[data-m]"), function (b) { b.addEventListener("click", function () { st.m = b.getAttribute("data-m"); draw(); }); });
+  function fill() { $("dd").value = st.d; $("rd").value = st.r; ["co", "dot", "bol", "me"].forEach(function (k) { $(k).value = st[k]; }); }
+  $("reset").addEventListener("click", function () {
+    st = { m: "i", d: "", r: "", co: "", dot: "", bol: "", me: "", items: [blank()] };
+    removed = null; $("undo").hidden = true; fill(); renderItems(); draw();
+  });
+
+  var last = {};
+  function draw() {
+    var inter = st.m === "i", t = today();
+    [].forEach.call(document.querySelectorAll("[data-m]"), function (b) { var on = b.getAttribute("data-m") === st.m; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+    $("where-h").textContent = inter
+      ? "The federal claim rules below apply to interstate household moves."
+      : "A move inside one state follows that state's rules and your contract. The federal dates below are shown only as a guide.";
+
+    var del = st.d ? parse(st.d) : null, due = del ? addMonths(del, 9) : null, rec = st.r ? parse(st.r) : null;
+    var ack = rec ? addDays(rec, 30) : null, ans = rec ? addDays(rec, 120) : null;
+    var kick = "", big = "", small = "";
+    if (!del) {
+      kick = inter ? "Interstate move" : "Move within one state";
+      big = "When was it delivered?";
+      small = "Type the delivery day and we'll show the last day to file, counted from it.";
+    } else if (rec && inter) {
+      var la = between(t, ack), ln = between(t, ans);
+      kick = "Claim received " + short(rec);
+      if (la >= 0) { big = "Written reply due by " + mid(ack) + "."; small = "Then it must pay, decline or make a firm offer by " + mid(ans) + " (" + days(ln) + " from today)."; }
+      else if (ln >= 0) { big = "An answer is due by " + mid(ans) + "."; small = "That's " + days(ln) + " from today: it must pay, decline or make a firm offer, in writing. The written acknowledgment was due " + mid(ack) + "."; }
+      else { big = "The 120 days ended " + mid(ans) + "."; small = "If the claim is still open, the mover must tell you in writing why, every 60 days. Ask for it in writing."; }
+    } else if (inter) {
+      var left = between(t, due), since = between(del, t);
+      kick = "Delivered " + short(del);
+      if (since < 0) { big = "File by " + mid(due) + "."; small = "That delivery day is still ahead. Note damage on the inventory before you sign, then send the claim."; }
+      else if (left > 0) { big = "File by " + mid(due) + "."; small = days(left) + " left. In writing, with a dollar amount. A note on the delivery receipt alone isn't a claim."; }
+      else if (left === 0) { big = "Today is the last day to file."; small = "Send the claim in writing today, in a way you can prove, and keep a copy."; }
+      else { big = "The 9 months ended " + mid(due) + "."; small = "Check your bill of lading for the time it gives, and send the claim in writing anyway. A legal aid office can tell you what's left."; }
+    } else {
+      kick = "Delivered " + short(del);
+      big = "Check your contract for the deadline.";
+      small = "In-state moves follow state rules. Send the claim in writing as soon as you can, and keep a copy.";
+    }
+    $("kick").textContent = kick; $("big").textContent = big; $("small").textContent = small;
+
+    $("f-file").querySelector("span").textContent = !inter
+      ? "For a move inside one state, the claim deadline comes from your contract and state law. Ask your state's consumer protection office if the contract doesn't say."
+      : due ? "FMCSA says to file a written claim within 9 months of delivery. Counted from " + mid(del) + ", that's " + long(due) + ". Check your bill of lading for the time it gives."
+      : "FMCSA says to file a written claim within 9 months of delivery. Type the delivery day above to see the date.";
+    $("f-ack").querySelector("span").textContent = (rec
+      ? "The mover got your claim " + mid(rec) + ". It must acknowledge it in writing by " + mid(ack) + " (30 days, 49 CFR 370.5), and pay, decline or make a firm offer in writing by " + mid(ans) + " (120 days, 49 CFR 370.9). If it can't, it must write to you with the reason every 60 days after that."
+      : "Once it receives your claim, the mover has 30 days to acknowledge it in writing (49 CFR 370.5) and 120 days to pay, decline or make a firm offer in writing (49 CFR 370.9). Type the day it got your claim to see those dates.")
+      + (inter ? "" : " These are the federal rules for interstate moves.");
+
+    var tot = 0, filled = st.items.filter(function (it) { return it.n.trim() || it.a; });
+    filled.forEach(function (it) { tot += it.a; });
+    $("total").textContent = filled.length ? "Total claimed: " + usd(tot) + " for " + filled.length + (filled.length === 1 ? " item" : " items") : "";
+    $("letter").value = letter(filled, tot, del, inter);
+    paint(del, due, rec, ans, t, inter);
+    last = { big: big, small: small, due: due, del: del, inter: inter };
+
+    var p = new URLSearchParams(); if (st.m === "s") p.set("m", "s"); if (st.d) p.set("d", st.d); if (st.r) p.set("r", st.r);
+    var hp = new URLSearchParams();
+    ["co", "dot", "bol", "me"].forEach(function (k) { if (st[k].trim()) hp.set(k, st[k].trim()); });
+    var is = filled.map(function (it) { return it.n.trim() + "~" + it.k + "~" + (it.a ? Math.round(it.a * 100) / 100 : ""); }).join("|");
+    if (is) hp.set("i", is);
+    var qs = p.toString(), hs = hp.toString();
+    try { history.replaceState(null, "", location.pathname + (qs ? "?" + qs : "") + (location.search.indexOf("embed") >= 0 ? (qs ? "&" : "?") + "embed" : "") + (hs ? "#" + hs : "")); } catch (e) {}
+  }
+
+  function letter(items, tot, del, inter) {
+    var L = [];
+    L.push("[Today's date]", "");
+    L.push("To: " + (st.co.trim() || "[Mover's legal name]"));
+    L.push("USDOT number: " + (st.dot.trim() || "[USDOT number]"));
+    L.push("Bill of lading or order number: " + (st.bol.trim() || "[number]"));
+    L.push("", "Re: Written claim for loss and damage", "");
+    L.push("My household goods were picked up on [pickup date] at [pickup address] and delivered on " + (del ? mid(del) : "[delivery date]") + " to [delivery address].");
+    L.push("", "The items listed below were lost or damaged while in your care. I hold you liable for this loss and damage, and I claim payment of the amount below.", "");
+    if (items.length) items.forEach(function (it, i) { L.push((i + 1) + ". " + (it.n.trim() || "[item]") + ": " + (it.k === "l" ? "lost or missing" : "damaged") + ", " + (it.a ? usd(it.a) : "$[amount]")); });
+    else L.push("1. [item]: [damaged or lost], $[amount]");
+    L.push("", "Total claimed: " + (tot ? usd(tot) : "$[total]"), "");
+    L.push("Attached: [photos of the damage, the inventory with my delivery notes, the bill of lading, receipts or repair estimates].");
+    L.push("");
+    if (inter) L.push("Please acknowledge this claim in writing within 30 days of receiving it, and pay, decline or make a firm settlement offer in writing within 120 days, as 49 CFR 370.5 and 370.9 require.");
+    else L.push("Please confirm in writing that you have received this claim, and tell me in writing how you will resolve it.");
+    L.push("", "The damaged items and their packing are available for inspection.", "");
+    L.push("Sincerely,", st.me.trim() || "[Your name]", "[Your address]", "[Your email]");
+    return L.join("\n");
+  }
+
+  /* delivery to deadline as a bar, today on it, and the mover's 120 days under it */
+  function paint(del, due, rec, ans, t, inter) {
+    var s = $("svg"); s.textContent = "";
+    var FN = "system-ui,sans-serif", x0 = 30, W = 440, y = 34;
+    el("rect", { width: 500, height: 130, fill: "#1A3214" }, s);
+    el("rect", { x: x0, y: y, width: W, height: 14, rx: 7, fill: "#25451A" }, s);
+    if (!del) {
+      var e = el("text", { x: 250, y: y + 48, fill: "rgba(255,255,255,.6)", "font-size": 15, "font-weight": 600, "font-family": FN, "text-anchor": "middle" }, s); e.textContent = "Delivery to the last day to file";
+      return;
+    }
+    var total = Math.max(1, between(del, due)), gone = between(del, t), f = Math.max(0, Math.min(1, gone / total));
+    if (inter) el("rect", { x: x0, y: y, width: Math.max(14, f * W), height: 14, rx: 7, fill: gone > total ? "#C9E35C" : "#3F6E1C", opacity: .85 }, s);
+    el("circle", { cx: x0, cy: y + 7, r: 9, fill: "#E7EEF8" }, s);
+    if (inter) el("circle", { cx: x0 + W, cy: y + 7, r: 11, fill: "#D5DF4D", stroke: "#1A3214", "stroke-width": 3 }, s);
+    if (inter && gone >= 0 && gone <= total) {
+      var mx = x0 + f * W;
+      el("rect", { x: mx - 2, y: y - 12, width: 4, height: 38, rx: 2, fill: "#C9E35C" }, s);
+      var tt = el("text", { x: Math.max(60, Math.min(440, mx)), y: y - 17, fill: "#C9E35C", "font-size": 15, "font-weight": 800, "font-family": FN, "text-anchor": "middle" }, s); tt.textContent = "Today";
+    }
+    var a = el("text", { x: x0 - 4, y: y + 36, fill: "rgba(255,255,255,.75)", "font-size": 15, "font-weight": 700, "font-family": FN }, s); a.textContent = "Delivered " + short(del);
+    if (inter) { var b = el("text", { x: x0 + W + 4, y: y + 36, fill: "#D5DF4D", "font-size": 15, "font-weight": 800, "font-family": FN, "text-anchor": "end" }, s); b.textContent = "File by " + short(due); }
+    if (rec) {
+      var span = between(rec, ans), rg = between(rec, t), g2 = Math.max(0, Math.min(1, rg / span)), y2 = y + 58;
+      el("rect", { x: x0, y: y2, width: W, height: 8, rx: 4, fill: "#25451A" }, s);
+      el("rect", { x: x0, y: y2, width: Math.max(8, g2 * W), height: 8, rx: 4, fill: "#5E8F2C" }, s);
+      var c = el("text", { x: x0 - 4, y: y2 + 28, fill: "rgba(255,255,255,.75)", "font-size": 14, "font-weight": 700, "font-family": FN }, s); c.textContent = "Claim received " + short(rec);
+      var d2 = el("text", { x: x0 + W + 4, y: y2 + 28, fill: "#E7EEF8", "font-size": 14, "font-weight": 800, "font-family": FN, "text-anchor": "end" }, s); d2.textContent = "Answer by " + short(ans);
+    }
+  }
+
+  fill(); renderItems(); draw();
+
+  $("copy").addEventListener("click", function () {
+    var ta = $("letter"), b = $("copy");
+    function done() { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy the letter"; }, 2000); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ta.value).then(done, function () { ta.select(); });
+    else { ta.select(); try { document.execCommand("copy"); done(); } catch (e) {} }
+  });
+
+  function wrap(g, text, x, y, max, lh) {
+    var words = text.split(" "), line = "";
+    words.forEach(function (w) { var t = line ? line + " " + w : w; if (g.measureText(t).width > max && line) { g.fillText(line, x, y); y += lh; line = w; } else line = t; });
+    if (line) g.fillText(line, x, y); return y + lh;
+  }
+  /* the picture leaves out item names, amounts and the mover's name */
+  function picture() {
+    var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
+    var g = cv.getContext("2d"), FN = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#1A3214"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#C9E35C"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.textAlign = "center";
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "700 42px " + FN; g.fillText("Movers broke or lost something?", Z / 2, 240);
+    g.fillStyle = "#D5DF4D"; g.font = "850 76px " + FN;
+    var y = wrap(g, last.big, Z / 2, 370, 940, 88);
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 36px " + FN;
+    y = wrap(g, last.small, Z / 2, y + 30, 900, 50);
+    g.fillStyle = "rgba(255,255,255,.75)"; g.font = "600 32px " + FN;
+    if (last.inter) wrap(g, "Interstate moves: a written claim within 9 months of delivery. The mover must answer within 120 days of getting it.", Z / 2, Math.max(y + 30, 760), 900, 44);
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 32px " + FN; g.fillText("Your deadline and claim letter, free:", Z / 2, 940);
+    g.fillStyle = "#fff"; g.font = "800 40px " + FN; g.fillText("packedrabbit.com/claim", Z / 2, 995);
+    return cv;
+  }
+  $("share").addEventListener("click", function () {
+    var url = location.origin + location.pathname + location.search, text = last.big + " Moving damage claim deadline, worked out free:";
+    picture().toBlob(function (blob) {
+      var file = blob && typeof File !== "undefined" ? new File([blob], "moving-claim-deadline.png", { type: "image/png" }) : null;
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+      else if (navigator.share) navigator.share({ title: "Movers damaged or lost something?", text: text, url: url }).catch(function () {});
+      else if (blob) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "moving-claim-deadline.png"; document.body.appendChild(a); a.click(); a.remove(); }
+    }, "image/png");
+  });
+})();
+</script>
+<script>
+/* Embedded on someone else's page: no site header or footer, links open in a
+   new tab, a credit line at the end, and the height told to the host page. */
+(function () {
+  if (!document.documentElement.classList.contains("embed")) return;
+  document.querySelectorAll("a[href]").forEach(function (a) { a.target = "_blank"; a.rel = "noopener"; });
+  var m = document.querySelector("main") || document.body;
+  var c = document.createElement("a");
+  c.className = "embed-credit"; c.target = "_blank"; c.rel = "noopener";
+  c.href = "https://packedrabbit.com" + location.pathname;
+  c.textContent = "Free tool by The Packed Rabbit";
+  m.appendChild(c);
+  function tell() { try { parent.postMessage({ prEmbedHeight: Math.ceil(document.documentElement.scrollHeight) }, "*"); } catch (e) {} }
+  tell(); addEventListener("load", tell); addEventListener("resize", tell);
+  if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
+})();
+</script>
+<script src="../nav.js" defer></script>
+</body>
+</html>
