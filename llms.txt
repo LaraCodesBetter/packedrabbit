@@ -1,10 +1,10 @@
 # The Packed Rabbit
 
-Forget about it. The Packed Rabbit won't.
+Pack it once. Find it forever.
 
 > A moving app that remembers for you. It numbers every box with a QR label and a photo of what's inside, finds any item by typing or saying its name, and keeps where each box belongs and where it is sitting now. It counts down to the truck and shows what's next and where you left off, works out the truck size and what fits through each doorway, and keeps a dated record of what every mover, cleaner and landlord promised. It takes in a spreadsheet you already keep, and it stays useful for years after the move. Offline, with nothing leaving the phone.
 
-Tagline: Forget about it. The Packed Rabbit won't.
+Tagline: Pack it once. Find it forever.
 Website: https://packedrabbit.com/
 App: https://packedrabbit.com/app/ (installs from the browser on iPhone, Android and computers)
 
