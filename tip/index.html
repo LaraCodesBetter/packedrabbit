@@ -263,7 +263,7 @@
     var cnt = n > 10 ? 9 : n, gap = 44, ex = 250 - (cnt * gap - 8 + (n > cnt ? 48 : 0)) / 2, ey = 92;
     for (var i = 0; i < cnt; i++) {
       var gx = ex + i * gap;
-      el("rect", { x: gx, y: ey, width: 36, height: 24, rx: 4, fill: missing ? "#1E412B" : "#C9A27A" }, s);
+      el("rect", { x: gx, y: ey, width: 36, height: 24, rx: 4, fill: missing ? "#1E412B" : "#D9E3DA" }, s);
       el("path", { d: "M" + gx + " " + ey + " l18 13 l18 -13", fill: "none", stroke: "#172F20", "stroke-width": 2 }, s);
     }
     if (n > cnt) { var m = el("text", { x: ex + cnt * gap + 4, y: ey + 18, fill: "#E7EEF8", "font-size": 16, "font-weight": 700, "font-family": FN }, s); m.textContent = "+" + (n - cnt); }

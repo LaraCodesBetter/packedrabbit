@@ -13,16 +13,21 @@
     if(!t){out.innerHTML='<p class="qfine">'+(document.getElementById("qsample")?'Paste a quote first, or try the sample.':'Paste the text of a quote first.')+'</p>';ta.focus();return;}
     if(!window.prReadQuote){out.innerHTML='<p class="qfine">One moment, the reader is still loading. Try again.</p>';return;}
     var r=window.prReadQuote(t), fl=r.flags||[];
-    var order={bad:0,warn:1,good:2}; fl=fl.slice().sort(function(a,b){return order[a.tone]-order[b.tone];});
-    var n={bad:0,warn:0,good:0}; fl.forEach(function(x){n[x.tone]++;});
-    var lab={bad:"Red flag",warn:"Ask",good:"Good"};
-    var h='<div class="qsum">'+(n.bad?'<span class="b">'+n.bad+' red flag'+(n.bad>1?'s':'')+'</span>':'')+(n.warn?'<span class="w">'+n.warn+' to ask about</span>':'')+(n.good?'<span class="g">'+n.good+' good sign'+(n.good>1?'s':'')+'</span>':'')+'</div>';
-    var row=function(x){return '<div class="qflag '+x.tone+'"><i>'+lab[x.tone]+'</i><span>'+esc(x.text)+'</span></div>';};
-    var first=fl.filter(function(x){return x.tone==="bad";}); if(first.length<3) first=fl.slice(0,3); if(quiet) first=first.slice(0,3);
-    var rest=fl.slice(first.length);
-    h+=first.map(row).join("");
-    if(rest.length) h+='<details class="qmore"><summary>Show '+rest.length+' more</summary>'+rest.map(row).join("")+'</details>';
-    h+='<div class="qshare"><button type="button" class="btn tape" id="qsharebtn">Share my result</button><span>A picture of your red flags, with no amounts or company names. Made on this page.</span></div>';
+    /* Lumi's review, 5 Nov: say what was found, what wasn't in the pasted text, and what to check.
+       A flag is a question to ask, never a verdict that a mover is a scam. */
+    var missing=function(x){return /^(No |It doesn't say|Doesn't|Delivery isn't)/.test(x.text)&&x.tone!=="good";};
+    var found=fl.filter(function(x){return x.tone!=="good"&&!missing(x);}), miss=fl.filter(missing), good=fl.filter(function(x){return x.tone==="good";});
+    found.sort(function(a,b){return (a.tone==="bad"?0:1)-(b.tone==="bad"?0:1);});
+    var lab={bad:"Check this",warn:"Ask about this",good:"Good sign"};
+    var more=function(x){return /broker/i.test(x.text)?' <a href="'+B+'movers-vs-brokers/">What a broker is</a>':/USDOT/.test(x.text)?' <a href="'+B+'mover-check/">How to check a mover</a>':/coverage|valuation|value protection/i.test(x.text)?' <a href="'+B+'answers/valuation.html">How coverage works</a>':'';};
+    var row=function(x,miss){return '<div class="qflag '+(miss?"warn":x.tone)+'"><i>'+(miss?"Not found":lab[x.tone])+'</i><span>'+esc(x.text)+more(x)+'</span></div>';};
+    var h='<div class="qsum">'+(found.length?'<span class="b">'+found.length+' found to check</span>':'')+(miss.length?'<span class="w">'+miss.length+' not in what you pasted</span>':'')+(good.length?'<span class="g">'+good.length+' good sign'+(good.length>1?'s':'')+'</span>':'')+'</div>';
+    h+='<p class="qfine" style="margin-top:4px">These are things to check and questions to ask before you book. A flag on its own doesn\'t mean a mover is dishonest.</p>';
+    var sec=function(title,list,isMiss,note,open){if(!list.length)return "";var first=quiet?list.slice(0,3):list,rest=quiet?list.slice(3):[];return '<h3 class="qgroup">'+title+'</h3>'+(note?'<p class="qfine">'+note+'</p>':'')+first.map(function(x){return row(x,isMiss);}).join("")+(rest.length?'<details class="qmore"><summary>Show '+rest.length+' more</summary>'+rest.map(function(x){return row(x,isMiss);}).join("")+'</details>':'');};
+    h+=sec("Found in your quote",found,false,"");
+    h+=sec("Not in what you pasted",miss,true,"If you copied only part of the quote, these may be on a page you didn't paste. Ask the mover either way.");
+    h+=sec("Good signs",good,false,"");
+    h+='<div class="qshare"><button type="button" class="btn tape" id="qsharebtn">Share my result</button><span>A picture of what was found, with no amounts or company names. Made on this page.</span></div>';
     h+='<div class="qnext"><p>Keep every quote side by side, give each mover stars for facts, and log every call. Then it runs the rest of the move: every box, the truck, move day and the deposit.</p><a class="btn tape" href="'+B+'app/">Start managing my move</a></div>';
     h+='<p class="qfine">This checks the words on the quote against federal moving rules and the tricks we have seen. It isn\'t legal advice. <a href="'+B+'movers-vs-brokers/">How each trick works</a></p>';
     if(quiet) h='<p class="qsamplehead">A sample result, from a made-up quote built from real ones. Paste yours above to check it.</p>'+h;

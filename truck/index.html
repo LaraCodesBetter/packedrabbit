@@ -258,7 +258,7 @@
     if (fw > 0) el("rect", { x: right - fw, y: Y, width: fw, height: BH, fill: "#52B978" }, s);
     if (tw > fw) {
       var bx = right - tw, bw = tw - fw;
-      el("rect", { x: bx, y: Y, width: bw, height: BH, fill: "#C9A27A" }, s);
+      el("rect", { x: bx, y: Y, width: bw, height: BH, fill: "#D9E3DA" }, s);
       for (var x = bx + 14; x < bx + bw - 4; x += 28) el("rect", { x: x, y: Y, width: 5, height: BH, fill: "#EADFC9", opacity: .8 }, s);
     }
     /* label the space still free, so a picture that looks full says what's left */
@@ -273,7 +273,7 @@
       for (var i = 0; i < 4; i++) el("rect", { x: 2 + (i % 2) * 9, y: 162 - Math.floor(i / 2) * 18, width: 8, height: 16, rx: 2, fill: "#FF5C76" }, s);
     }
     var k1 = el("text", { x: X, y: 214, fill: "#EADFC9", "font-size": 12, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k1.textContent = "green: furniture";
-    var k2 = el("text", { x: X + 110, y: 214, fill: "#E2C29E", "font-size": 12, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k2.textContent = "kraft: boxes";
+    var k2 = el("text", { x: X + 110, y: 214, fill: "#CFE3D5", "font-size": 12, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k2.textContent = "kraft: boxes";
   }
   draw();
 

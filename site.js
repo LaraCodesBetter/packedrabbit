@@ -103,7 +103,7 @@
       var key = c + "," + r; if (used[key]) continue;
       var x = X0 + c * CW + 2, y = Y0 + r * CH + 2;
       if (boxes < target) {
-        el("rect", { x: x, y: y, width: CW - 4, height: CH - 4, rx: 3, fill: (c + r) % 3 ? "#C9A27A" : "#B88B5E" }, svg);
+        el("rect", { x: x, y: y, width: CW - 4, height: CH - 4, rx: 3, fill: (c + r) % 3 ? "#D9E3DA" : "#C3D1C6" }, svg);
         el("rect", { x: x + (CW - 4) / 2 - 3, y: y, width: 6, height: CH - 4, fill: "#EADFC9", opacity: .85 }, svg);
         boxes++;
       } else {

@@ -56,8 +56,18 @@
   .homes button, .fill button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 4px; }
   .homes button.on, .fill button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
   .lbl { font-weight: 800; margin: 20px 0 0; }
-  .stage { position: sticky; top: 0; z-index: 2; background: #172F20; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage { position: relative; background: #172F20; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
   .stage svg { display: block; width: 100%; height: auto; }
+  /* Lumi's review, 5 Nov: the card covered the page all the way down. It sticks only
+     beside the room counts, and shrinks to one line while you scroll them. */
+  .calc { position: relative; }
+  .minibar { position: fixed; z-index: 30; left: 0; right: 0; top: 0; padding: calc(10px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px));
+    background: #172F20; color: #F2E8D5; box-shadow: 0 8px 24px -12px rgba(0,0,0,.5); transform: translateY(-110%); transition: transform .25s ease; display: flex; gap: 4px 12px; align-items: baseline; flex-wrap: wrap; }
+  .minibar.on { transform: none; }
+  .minibar b { font-size: 1.2rem; }
+  .minibar span { font-size: .92rem; opacity: .9; }
+  @media (prefers-reduced-motion: reduce) { .minibar { transition: none; } }
+  .say .buy { color: #F2E8D5; font-weight: 700; }
   .say { padding: 4px 18px 16px; color: #fff; }
   .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.5vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #F2E8D5; }
   .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
@@ -101,9 +111,11 @@
     <button type="button" data-h="4">4 bed</button>
   </div>
 
-  <div class="stage">
+  <div class="minibar" id="minibar" aria-hidden="true"><b id="mb-big"></b><span id="mb-buy"></span></div>
+  <div class="calc" id="calc">
+  <div class="stage" id="stage">
     <svg id="svg" viewBox="0 0 500 222" role="img" aria-labelledby="big"></svg>
-    <div class="say" aria-live="polite"><div class="big" id="big"></div><p id="small"></p></div>
+    <div class="say" aria-live="polite"><div class="big" id="big"></div><p id="small"></p><p id="buy" class="buy"></p></div>
   </div>
 
   <ul class="items" id="items"></ul>
@@ -113,6 +125,7 @@
     <button type="button" data-f="l">Sparse</button>
     <button type="button" data-f="a" class="on">Average</button>
     <button type="button" data-f="f">Packed</button>
+  </div>
   </div>
 
   <div class="acts">
@@ -237,9 +250,15 @@
     else {
       big = "About " + total.toLocaleString("en-US") + " box" + (total === 1 ? "" : "es") + ".";
       var parts = []; by.forEach(function (n, i) { if (n) parts.push(n + " " + SIZES[i]); });
-      small = parts.join(", ") + ". Get about " + spare.toLocaleString("en-US") + " so you don't run short, and about " + tape + " roll" + (tape === 1 ? "" : "s") + " of tape. An estimate for " + FILLNAME[fill] + "; yours will vary.";
+      small = "Estimated need: " + parts.join(", ") + ". An estimate for " + FILLNAME[fill] + "; yours will vary.";
     }
-    $("big").textContent = big; $("small").textContent = small;
+    /* spares go to the sizes you'll run out of first: small, medium, large */
+    var extra = spare - total, sp = [0, 0, 0], k = 0, base = by[0] + by[1] + by[2];
+    while (extra > 0 && base) { var i2 = k % 3; if (by[i2]) { sp[i2]++; extra--; } k++; }
+    var spl = []; sp.forEach(function (n, i) { if (n) spl.push(n + " " + SIZES[i]); });
+    var buy = total ? "Buy " + spare.toLocaleString("en-US") + ", including " + (spare - total) + " spare" + (spare - total === 1 ? "" : "s") + (spl.length ? " (" + spl.join(", ") + ")" : "") + ", and about " + tape + " roll" + (tape === 1 ? "" : "s") + " of tape." : "";
+    $("big").textContent = big; $("small").textContent = small; $("buy").textContent = buy;
+    $("mb-big").textContent = big; $("mb-buy").textContent = total ? "Buy " + spare.toLocaleString("en-US") + " with spares" : "";
     paint(by);
     last = { big: big, by: by, total: total };
     var p = new URLSearchParams(); ROOMS.forEach(function (r) { p.set(r.k, c[r.k]); }); p.set("f", fill);
@@ -258,23 +277,27 @@
       var scale = n * h > room ? room / (n * h) : 1, bh = h * scale, y = 186;
       if (scale < 0.25) {
         /* too many to draw singly: one tall stack with a seam every few boxes */
-        el("rect", { x: x, y: y - room, width: w, height: room, rx: 3, fill: "#C9A27A" }, s);
-        el("rect", { x: x + w / 2 - 3, y: y - room, width: 6, height: room, fill: "#EADFC9", opacity: .85 }, s);
-        for (var yy = y - room + 10; yy < y; yy += 10) el("rect", { x: x, y: yy, width: w, height: 1.5, fill: "#9C7A55" }, s);
+        el("rect", { x: x, y: y - room, width: w, height: room, rx: 3, fill: "#E6DECC" }, s);
+        el("rect", { x: x + w / 2 - 3, y: y - room, width: 6, height: room, fill: "#2E9358", opacity: .9 }, s);
+        for (var yy = y - room + 10; yy < y; yy += 10) el("rect", { x: x, y: yy, width: w, height: 1.5, fill: "#C9C0AC" }, s);
       } else {
         for (var j = 0; j < n; j++) {
           var by0 = y - (j + 1) * bh;
-          el("rect", { x: x, y: by0 + 0.6, width: w, height: Math.max(1, bh - 1.2), rx: 2, fill: j % 2 ? "#BF976E" : "#C9A27A" }, s);
-          el("rect", { x: x + w / 2 - 3, y: by0 + 0.6, width: 6, height: Math.max(1, bh - 1.2), fill: "#EADFC9", opacity: .85 }, s);
+          el("rect", { x: x, y: by0 + 0.6, width: w, height: Math.max(1, bh - 1.2), rx: 2, fill: j % 2 ? "#DCD3BF" : "#E6DECC" }, s);
+          el("rect", { x: x + w / 2 - 3, y: by0 + 0.6, width: 6, height: Math.max(1, bh - 1.2), fill: "#2E9358", opacity: .9 }, s);
         }
       }
       var top = n ? y - Math.min(room, n * bh) : y;
       var t = el("text", { x: x + w / 2, y: top - 8, fill: "#fff", "font-weight": 850, "font-size": 18, "text-anchor": "middle", "font-family": F }, s); t.textContent = n;
-      var l = el("text", { x: x + w / 2, y: 208, fill: "#E2C29E", "font-weight": 700, "font-size": 12, "text-anchor": "middle", "font-family": "system-ui,sans-serif" }, s); l.textContent = SIZES[i];
+      var l = el("text", { x: x + w / 2, y: 208, fill: "#CFE3D5", "font-weight": 700, "font-size": 12, "text-anchor": "middle", "font-family": "system-ui,sans-serif" }, s); l.textContent = SIZES[i];
       x += w + gap;
     }
   }
   draw();
+  /* the slim bar shows only while the big card is out of sight and the room counts are on screen */
+  function bar() { var st = $("stage").getBoundingClientRect(), ca = $("calc").getBoundingClientRect();
+    $("minibar").classList.toggle("on", st.bottom < 0 && ca.bottom > 140); }
+  addEventListener("scroll", bar, { passive: true }); addEventListener("resize", bar); bar();
 
   /* share picture: square, the answer large */
   function picture() {
