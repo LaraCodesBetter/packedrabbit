@@ -3,7 +3,7 @@
    no blue and no yellow anywhere), kraft for boxes. Fonts are served from this
    site; nothing is loaded from anyone else's server. */
 :root{
-  --navy:#1C3224; --navy2:#23643B; --tape:#EADFC9; --tape-ink:#14281B; --kraft:#C9A27A; --kraft2:#B88B5E;
+  --navy:#1C3224; --navy2:#23643B; --tape:#EADFC9; --tape-ink:#14281B; --kraft:#D9E3DA; --kraft2:#C3D1C6;
   --blue:#23673C; --rose:#23673C; --green:#23673C; --violet:#317D4D; --orange:#317D4D;
   --bg:#F3FAF6; --panel:#FFFFFF; --ink:#14281B; --ink2:#415B4B; --line:rgba(20,40,27,.13);
   --ok:#23673C; --no:#C8102E;
@@ -392,11 +392,11 @@ html.embed h1{font-size:clamp(1.5rem,5vw,2.1rem) !important; margin-top:4px !imp
 #qout{margin-top:16px; border-top:2px dashed #D5DBE6; padding-top:14px}
 .qsum{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 12px}
 .qsum span{font-weight:800; font-size:.9rem; padding:6px 12px; border-radius:999px}
-.qsum .b{background:#D7142E; color:#fff} .qsum .w{background:#B4EBC8; color:#1C3224} .qsum .g{background:#C3F0D3; color:#23673C}
+.qsum .b{background:#8C3A6B; color:#fff} .qsum .w{background:#B4EBC8; color:#1C3224} .qsum .g{background:#C3F0D3; color:#23673C}
 .qflag{display:flex; gap:10px; align-items:flex-start; padding:10px 0; border-bottom:1px solid #EEF1F5; font-size:.97rem; line-height:1.4}
 .qflag:last-of-type{border-bottom:0}
 .qflag i{flex:none; font-style:normal; font-weight:800; font-size:.75rem; padding:4px 8px; border-radius:6px; margin-top:1px; white-space:nowrap}
-.qflag.bad i{background:#D7142E; color:#fff} .qflag.warn i{background:#EADFC9; color:#14281B} .qflag.good i{background:#23673C; color:#fff}
+.qflag.bad i{background:#8C3A6B; color:#fff} .qflag.warn i{background:#EADFC9; color:#14281B} .qflag.good i{background:#23673C; color:#fff}
 .qnext{margin-top:14px; padding:14px; background:#F6F7FA; border-radius:12px}
 .qnext p{margin:0 0 10px; font-weight:650}
 .qnext .btn{min-height:48px}
@@ -657,3 +657,7 @@ div.door em{color:var(--green); margin-top:6px}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tb-bar i{background:linear-gradient(90deg,#23673C,#52B978 60%,#F2E8D5)}}
 :root[data-theme="dark"] .tb-bar i{background:linear-gradient(90deg,#23673C,#52B978 60%,#F2E8D5)}
 .qhint{font-size:.92rem; color:var(--ink2); margin:8px 0 0; line-height:1.4}
+
+/* Lumi's review, 5 Nov: results grouped by found / not in what you pasted / good signs. Plum, not alarm red. */
+.qgroup{font-size:1rem; font-weight:800; margin:16px 0 2px}
+.qflag span a{color:inherit; font-weight:700; text-decoration:underline; text-underline-offset:2px}

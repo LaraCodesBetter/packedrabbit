@@ -328,7 +328,7 @@
       if (fw > 0) el("rect", { x: right - fw, y: y, width: fw, height: h, fill: "#52B978" }, s);
       if (tw > fw) {
         var bx = right - tw, bw = tw - fw;
-        el("rect", { x: bx, y: y, width: bw, height: h, fill: "#C9A27A" }, s);
+        el("rect", { x: bx, y: y, width: bw, height: h, fill: "#D9E3DA" }, s);
         for (var x = bx + 12; x < bx + bw - 4; x += 24) el("rect", { x: x, y: y, width: 4, height: h, fill: "#EADFC9", opacity: .8 }, s);
       }
     }
@@ -342,7 +342,7 @@
     var lbl = el("text", { x: 22, y: 26, fill: "#fff", "font-weight": 800, "font-size": 19, "font-family": "ui-rounded,system-ui,sans-serif" }, s);
     lbl.textContent = need ? (over ? "Over by " + fmt(need - C) + " cu ft · " + unit.n : Math.round(need / C * 100) + "% full · " + unit.n + " unit") : unit.n + " unit";
     var k1 = el("text", { x: 22, y: 210, fill: "#EADFC9", "font-size": 16, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k1.textContent = "green: furniture";
-    var k2 = el("text", { x: 170, y: 210, fill: "#E2C29E", "font-size": 16, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k2.textContent = "kraft: boxes";
+    var k2 = el("text", { x: 170, y: 210, fill: "#CFE3D5", "font-size": 16, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k2.textContent = "kraft: boxes";
     var k3 = el("text", { x: 310, y: 210, fill: "#EADFC9", "font-size": 16, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k3.textContent = "light green: door";
   }
   segs(); draw();

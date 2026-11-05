@@ -348,7 +348,7 @@
   }
 
   function label(x) {
-    if (x.last) return { t: "Last things", s: "A first-night box: bedding, medicine, chargers, toiletries, a change of clothes, snacks. Then the last kitchen things.", col: "#C9A27A" };
+    if (x.last) return { t: "Last things", s: "A first-night box: bedding, medicine, chargers, toiletries, a change of clothes, snacks. Then the last kitchen things.", col: "#D9E3DA" };
     if (x.spare) return { t: "Spare day", s: "Catch up on anything that ran over, or rest.", col: "#306845" };
     var t = x.parts.map(function (p) { return p.r.t + ": " + p.n + " box" + (p.n === 1 ? "" : "es"); }).join(", ");
     return { t: t, s: x.parts[0].r.tip, col: x.parts[0].r.col };
