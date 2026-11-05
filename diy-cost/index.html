@@ -6,7 +6,7 @@
 <title>How much does it cost to move yourself? Free DIY moving cost calculator</title>
 <meta name="description" content="Add up a do-it-yourself move: truck rental and mileage, fuel, damage waiver, boxes and supplies, paid help, and hotels on the road. Type your own quotes and see the total. Free, no signup.">
 <link rel="canonical" href="https://packedrabbit.com/diy-cost/">
-<meta name="theme-color" content="#22341A">
+<meta name="theme-color" content="#1C3224">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Packed Rabbit">
 <meta property="og:title" content="How much does it cost to move yourself?">
@@ -57,10 +57,10 @@
   .seg button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 6px 8px; line-height: 1.2; }
   .seg button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
   .lbl { font-weight: 800; margin: 22px 0 0; font-size: 1.1rem; }
-  .stage { position: sticky; top: 0; z-index: 2; background: #1A3214; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #172F20; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
   .stage svg { display: block; width: 100%; height: auto; }
   .say { padding: 14px 18px 4px; color: #fff; }
-  .say .big { font-family: var(--display); font-size: clamp(1.8rem, 7vw, 2.4rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #D5DF4D; }
+  .say .big { font-family: var(--display); font-size: clamp(1.8rem, 7vw, 2.4rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #F2E8D5; }
   .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
   .items { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
   .items li { display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 16px; border-bottom: 1px solid var(--line); }
@@ -228,11 +228,11 @@
   $("reset").addEventListener("click", function () { defaults(); F.forEach(function (f) { inputs[f.k].value = show(val[f.k]); }); sync(); draw(); });
 
   var PARTS = [
-    { k: "truck", t: "Truck", c: "#9DC447" },
+    { k: "truck", t: "Truck", c: "#52B978" },
     { k: "waiver", t: "Waiver", c: "#A57BFF" },
     { k: "fuel", t: "Fuel", c: "#FF9A3D" },
     { k: "supplies", t: "Supplies", c: "#C9A27A" },
-    { k: "help", t: "Help", c: "#B8DD4E" },
+    { k: "help", t: "Help", c: "#5BD086" },
     { k: "road", t: "Road", c: "#FF5C86" }
   ];
   function usd(n) { return "$" + Math.round(n).toLocaleString("en-US"); }
@@ -272,9 +272,9 @@
   /* one bar split into the parts, with a key underneath */
   function paint(cost, total) {
     var s = $("svg"); s.textContent = "";
-    el("rect", { width: 500, height: 150, fill: "#1A3214" }, s);
+    el("rect", { width: 500, height: 150, fill: "#172F20" }, s);
     var x0 = 18, W = 464, x = x0, FN = "system-ui,sans-serif";
-    el("rect", { x: x0, y: 12, width: W, height: 34, rx: 10, fill: "#25451A" }, s);
+    el("rect", { x: x0, y: 12, width: W, height: 34, rx: 10, fill: "#1E412B" }, s);
     if (total >= 0.5) {
       PARTS.forEach(function (p) {
         var w = cost[p.k] / total * W; if (w < 0.5) return;
@@ -294,16 +294,16 @@
   function picture() {
     var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
     var g = cv.getContext("2d"), FN = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
-    g.fillStyle = "#1A3214"; g.fillRect(0, 0, Z, Z);
-    g.fillStyle = "#C9E35C"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.fillStyle = "#172F20"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#EADFC9"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
     g.textAlign = "center"; g.fillStyle = "rgba(255,255,255,.85)"; g.font = "700 40px " + FN; g.fillText("Our do-it-yourself move", Z / 2, 230);
-    g.fillStyle = "#D5DF4D"; g.font = "850 120px " + FN; g.fillText(last.total >= 0.5 ? usd(last.total) : "$0", Z / 2, 370);
+    g.fillStyle = "#F2E8D5"; g.font = "850 120px " + FN; g.fillText(last.total >= 0.5 ? usd(last.total) : "$0", Z / 2, 370);
     var y = 460, x0 = 120, W = 840;
     PARTS.forEach(function (p) {
       var c = last.cost[p.k], w = last.total >= 0.5 ? c / last.total * W : 0;
       g.textAlign = "left"; g.fillStyle = "#E7EEF8"; g.font = "700 30px " + FN; g.fillText(p.t, x0, y + 30);
       g.textAlign = "right"; g.fillText(usd(c), x0 + W, y + 30);
-      g.fillStyle = "#25451A"; g.fillRect(x0, y + 44, W, 12);
+      g.fillStyle = "#1E412B"; g.fillRect(x0, y + 44, W, 12);
       g.fillStyle = p.c; g.fillRect(x0, y + 44, w, 12);
       y += 66;
     });

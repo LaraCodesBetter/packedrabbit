@@ -6,7 +6,7 @@
 <title>How many moving boxes do I need? Free calculator, no signup</title>
 <meta name="description" content="Count your rooms and see how many moving boxes you need, split into small, medium, large, dish-pack and wardrobe boxes, plus rolls of tape. Free, no signup, nothing to download.">
 <link rel="canonical" href="https://packedrabbit.com/boxes/">
-<meta name="theme-color" content="#22341A">
+<meta name="theme-color" content="#1C3224">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Packed Rabbit">
 <meta property="og:title" content="How many moving boxes do I need?">
@@ -56,10 +56,10 @@
   .homes button, .fill button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 4px; }
   .homes button.on, .fill button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
   .lbl { font-weight: 800; margin: 20px 0 0; }
-  .stage { position: sticky; top: 0; z-index: 2; background: #1A3214; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #172F20; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
   .stage svg { display: block; width: 100%; height: auto; }
   .say { padding: 4px 18px 16px; color: #fff; }
-  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.5vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #D5DF4D; }
+  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.5vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #F2E8D5; }
   .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
   .items { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
   .items li { display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 16px; border-bottom: 1px solid var(--line); }
@@ -249,8 +249,8 @@
   /* five stacks of boxes, one per size, scaled so the tallest fits */
   function paint(by) {
     var s = $("svg"); s.textContent = "";
-    el("rect", { width: 500, height: 222, fill: "#1A3214" }, s);
-    el("rect", { x: 0, y: 186, width: 500, height: 36, fill: "#25451A" }, s);
+    el("rect", { width: 500, height: 222, fill: "#172F20" }, s);
+    el("rect", { x: 0, y: 186, width: 500, height: 36, fill: "#1E412B" }, s);
     var W = [52, 66, 80, 66, 46], H = [12, 16, 20, 16, 30], F = "ui-rounded,system-ui,sans-serif";
     var room = 140, x = 22, gap = (500 - 44 - W.reduce(function (a, b) { return a + b; }, 0)) / 4;
     for (var i = 0; i < 5; i++) {
@@ -259,13 +259,13 @@
       if (scale < 0.25) {
         /* too many to draw singly: one tall stack with a seam every few boxes */
         el("rect", { x: x, y: y - room, width: w, height: room, rx: 3, fill: "#C9A27A" }, s);
-        el("rect", { x: x + w / 2 - 3, y: y - room, width: 6, height: room, fill: "#C9E35C", opacity: .85 }, s);
+        el("rect", { x: x + w / 2 - 3, y: y - room, width: 6, height: room, fill: "#EADFC9", opacity: .85 }, s);
         for (var yy = y - room + 10; yy < y; yy += 10) el("rect", { x: x, y: yy, width: w, height: 1.5, fill: "#9C7A55" }, s);
       } else {
         for (var j = 0; j < n; j++) {
           var by0 = y - (j + 1) * bh;
           el("rect", { x: x, y: by0 + 0.6, width: w, height: Math.max(1, bh - 1.2), rx: 2, fill: j % 2 ? "#BF976E" : "#C9A27A" }, s);
-          el("rect", { x: x + w / 2 - 3, y: by0 + 0.6, width: 6, height: Math.max(1, bh - 1.2), fill: "#C9E35C", opacity: .85 }, s);
+          el("rect", { x: x + w / 2 - 3, y: by0 + 0.6, width: 6, height: Math.max(1, bh - 1.2), fill: "#EADFC9", opacity: .85 }, s);
         }
       }
       var top = n ? y - Math.min(room, n * bh) : y;
@@ -280,12 +280,12 @@
   function picture() {
     var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
     var g = cv.getContext("2d"), F = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
-    g.fillStyle = "#1A3214"; g.fillRect(0, 0, Z, Z);
-    g.fillStyle = "#C9E35C"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.fillStyle = "#172F20"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#EADFC9"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
     var img = new Image(), svg = new XMLSerializer().serializeToString($("svg"));
     return new Promise(function (res) {
       function words() {
-        g.textAlign = "center"; g.fillStyle = "#D5DF4D"; g.font = "850 84px " + F; g.fillText(last.big, Z / 2, 760);
+        g.textAlign = "center"; g.fillStyle = "#F2E8D5"; g.font = "850 84px " + F; g.fillText(last.big, Z / 2, 760);
         g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 34px " + F; g.fillText("How many boxes do you need? Check free:", Z / 2, 900);
         g.fillStyle = "#fff"; g.font = "800 40px " + F; g.fillText("packedrabbit.com/boxes", Z / 2, 960);
         res(cv);
