@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How much will it cost to break my lease? Free calculator, no signup</title>
+<meta name="description" content="Type your rent, the day you move out and the day your lease ends, and see what breaking the lease could cost: every month left, rent until the place is re-rented, or a lease-break fee. Includes the military orders end date. Free, no signup.">
+<link rel="canonical" href="https://packedrabbit.com/break-lease/">
+<meta name="theme-color" content="#1C3224">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="How much will it cost to break my lease?">
+<meta property="og:description" content="Your rent and dates in, the likely cost of leaving early out, from most to least.">
+<meta property="og:url" content="https://packedrabbit.com/break-lease/">
+<meta property="og:image" content="https://packedrabbit.com/img/og-card.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Break a lease cost calculator by The Packed Rabbit",
+  "url": "https://packedrabbit.com/break-lease/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Estimates what leaving a residential lease early could cost from the rent, move-out date and lease end date: the rent for every month left, the rent until the landlord re-rents the unit plus costs the lease allows, or a lease-break fee from the lease. For servicemembers with qualifying orders it shows the date a monthly lease ends under the Servicemembers Civil Relief Act. Runs on the device; nothing typed is sent anywhere."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How much does it cost to break a lease?",
+      "acceptedAnswer": { "@type": "Answer", "text": "It depends on your lease and your state. Your lease controls first: look for an early-termination or lease-break clause with a set fee. Without one, you may owe the rent for the rest of the lease. In many states the landlord must try to re-rent the unit and cannot simply charge you for every remaining month, so you may owe rent only until a new tenant moves in, plus costs your lease allows. Unpaid rent can go to collections and hurt your credit." } },
+    { "@type": "Question", "name": "Does my landlord have to re-rent my apartment if I break my lease?",
+      "acceptedAnswer": { "@type": "Answer", "text": "In many states, yes: the landlord must make a good faith effort to re-rent the unit, and what you owe is reduced by the rent the new tenant pays. California's rule is in Civil Code section 1951.2. The rule varies, so check your state's tenant guide at hud.gov/states or your state attorney general." } },
+    { "@type": "Question", "name": "Can servicemembers break a lease without a penalty?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Under the federal Servicemembers Civil Relief Act, servicemembers with orders such as a permanent change of station or a deployment of 90 days or more can end a residential lease without an early-termination penalty. They give the landlord written notice with a copy of the orders. On a lease with monthly rent, it ends 30 days after the next rent due date after the notice is delivered." } }
+  ]
+}
+</script>
+<style>
+  .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .lbl { display: block; font-weight: 800; margin: 22px 0 8px; font-size: 1.1rem; }
+  .lbl small { display: block; font-weight: 500; color: var(--ink2); font-size: .9rem; margin-top: 2px; }
+  .fld { width: 100%; box-sizing: border-box; min-height: 54px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 700; font-size: 1.1rem; padding: 8px 14px; }
+  .fld:focus { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+  select.fld { appearance: auto; }
+  input[type=date].fld { min-width: 0; -webkit-appearance: none; appearance: none; display: block; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 0 6px; }
+  .seg button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 6px 8px; line-height: 1.2; }
+  .seg button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #172F20; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .say { padding: 14px 18px 4px; color: #fff; }
+  .say .k { color: rgba(255,255,255,.72); font-weight: 700; font-size: .95rem; margin: 0; }
+  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.6vw, 2.3rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.08; color: #F2E8D5; margin-top: 2px; }
+  .say p { color: rgba(255,255,255,.84); margin: 6px 0 0; font-size: 1rem; }
+  .two { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 10px; align-items: end; }
+  .two > div { min-width: 0; }
+  input[type=date].fld { width: 100%; max-width: 100%; }
+  .two .lbl { margin-top: 14px; }
+  .money { position: relative; }
+  .money span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-weight: 800; color: var(--ink2); pointer-events: none; }
+  .money .fld { padding-left: 28px; }
+  .step { display: flex; align-items: center; gap: 8px; }
+  .step button { width: 52px; height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-size: 1.5rem; font-weight: 800; cursor: pointer; line-height: 1; flex: none; }
+  .step output { flex: 1; text-align: center; font-family: var(--display); font-weight: 850; font-size: 1.2rem; }
+  .facts { list-style: none; margin: 20px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .facts li { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .facts li:last-child { border-bottom: 0; }
+  .facts li[hidden] { display: none; }
+  .facts b { display: block; font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink2); margin-bottom: 2px; }
+  .hint { font-size: .95rem; color: var(--ink2); margin: 8px 2px 0; }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  textarea.fld { min-height: 260px; font-weight: 500; font-size: 1rem; line-height: 1.45; resize: vertical; }
+  .how { margin-top: 34px; } .how h2 { font-size: 1.5rem; }
+  .aside { font-size: .95rem; color: var(--ink2); }
+  .src { font-size: .9rem; color: var(--ink2); border-top: 1px solid var(--line); padding-top: 12px; margin-top: 22px; }
+  .src a { color: var(--ink2); overflow-wrap: anywhere; }
+  [hidden] { display: none !important; }
+  @media (max-width: 370px) { .seg button { font-size: .88rem; } .two { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home">
+    <img src="../img/rabbit.svg" alt="" width="34" height="34">
+    The Packed Rabbit
+  </a>
+</header>
+
+<main class="tp">
+  <h1>How much will it cost to break my lease?</h1>
+  <p class="lede">Type your rent and two dates. See what leaving early could cost, from the most you could owe to the least, and what to ask your landlord.</p>
+
+  <div class="stage">
+    <div class="say" aria-live="polite"><p class="k" id="kick"></p><div class="big" id="big"></div><p id="small"></p></div>
+    <svg id="svg" viewBox="0 0 500 170" role="img" aria-label="What each way of leaving could cost"></svg>
+  </div>
+
+  <p class="lbl" id="why-l">Why are you leaving?</p>
+  <div class="seg" role="group" aria-labelledby="why-l">
+    <button type="button" data-w="o" class="on">A move, job or anything else</button>
+    <button type="button" data-w="m">Military orders</button>
+  </div>
+  <p class="hint" id="why-h" hidden>For servicemembers with orders such as a permanent change of station or a deployment of 90 days or more.</p>
+
+  <label class="lbl" for="rent">Monthly rent</label>
+  <div class="money"><span>$</span><input class="fld" id="rent" type="text" inputmode="numeric" autocomplete="off" maxlength="7"></div>
+
+  <div class="two">
+    <div><label class="lbl" for="out">Day you move out</label><input class="fld" id="out" type="date"></div>
+    <div><label class="lbl" for="end">Day the lease ends</label><input class="fld" id="end" type="date"></div>
+  </div>
+
+  <div id="civ">
+    <p class="lbl" id="cl-l">Does your lease have a lease-break fee?<small>Look for "early termination," "lease break" or "buyout."</small></p>
+    <div class="seg" role="group" aria-labelledby="cl-l">
+      <button type="button" data-c="1">Yes, it has one</button>
+      <button type="button" data-c="0" class="on">No, or not sure</button>
+    </div>
+    <div id="clause" hidden>
+      <div class="two">
+        <div><label class="lbl" for="fee">The fee</label><div class="money"><span>$</span><input class="fld" id="fee" type="text" inputmode="numeric" autocomplete="off" maxlength="7"></div></div>
+        <div><label class="lbl" for="fx">Plus months of rent<small>If the clause also asks for notice rent</small></label><select class="fld" id="fx"></select></div>
+      </div>
+    </div>
+
+    <p class="lbl" id="rr-l">How long until a new tenant moves in?<small>Your guess. Ask the landlord how fast units like yours rent.</small></p>
+    <div class="step" role="group" aria-labelledby="rr-l">
+      <button type="button" id="rr-m" aria-label="Half a month less">−</button>
+      <output id="rr-o" aria-live="polite"></output>
+      <button type="button" id="rr-p" aria-label="Half a month more">+</button>
+    </div>
+
+    <label class="lbl" for="oc">Other costs your lease lets the landlord charge<small>For example advertising or a re-renting fee. Leave it at 0 if you don't know.</small></label>
+    <div class="money"><span>$</span><input class="fld" id="oc" type="text" inputmode="numeric" autocomplete="off" maxlength="7"></div>
+  </div>
+
+  <div id="mil" hidden>
+    <div class="two">
+      <div><label class="lbl" for="nd">Day the landlord gets your notice</label><input class="fld" id="nd" type="date"></div>
+      <div><label class="lbl" for="due">Rent is due on the</label><select class="fld" id="due"></select></div>
+    </div>
+  </div>
+
+  <label class="lbl" for="dep">Security deposit the landlord holds</label>
+  <div class="money"><span>$</span><input class="fld" id="dep" type="text" inputmode="numeric" autocomplete="off" maxlength="7"></div>
+
+  <ul class="facts" id="facts">
+    <li id="f-a"><b></b><span></span></li>
+    <li id="f-b"><b></b><span></span></li>
+    <li id="f-c"><b></b><span></span></li>
+    <li id="f-d"><b>Your deposit</b><span></span></li>
+  </ul>
+
+  <label class="lbl" for="letter">A note to your landlord<small>Fill in the brackets. Send it in writing and keep a copy. Nothing here is sent anywhere.</small></label>
+  <textarea class="fld" id="letter" spellcheck="false"></textarea>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this answer</button>
+    <button class="btn ghost" id="copy" type="button">Copy the note</button>
+    <a class="btn ghost" href="../app/">Keep your move-out dates in the app</a>
+  </div>
+  <p class="aside">The app keeps the dates, the notice you sent and what your landlord promised in one dated record, next to your boxes. No account, and it works with no signal.</p>
+
+  <section class="how">
+    <h2>How this works</h2>
+    <p><strong>Your lease comes first.</strong> If it has an early-termination or lease-break clause with a set fee, that is usually the clearest price. Without one, you may owe the rent for every month left. Unpaid rent can go to collections and hurt your credit.</p>
+    <p><strong>Re-renting.</strong> In many states the landlord must make a good faith effort to re-rent the unit and cannot simply charge you for every remaining month. You would then owe rent until the new tenant moves in, plus costs your lease allows. California, for example, sets this out in Civil Code section 1951.2. The rule varies, so check your state's tenant guide at <a href="https://www.hud.gov/states">hud.gov/states</a> or your state attorney general. Some cities add their own rules; Berkeley, California bans lease-break fees.</p>
+    <p><strong>Talk first, in writing.</strong> Ask the landlord whether they will let you go for a fee or accept a replacement tenant, and get any agreement in writing. If you sublet, put it in writing with everyone signed, because you may still owe rent if the new tenant doesn't pay.</p>
+    <p><strong>Military orders.</strong> Under the federal Servicemembers Civil Relief Act, servicemembers with orders such as a permanent change of station or a deployment of 90 days or more can end a residential lease without an early-termination penalty. They give written notice with a copy of the orders. On a lease with monthly rent, it ends 30 days after the next rent due date after the notice. Many states also let survivors of domestic violence end a lease early; check your state.</p>
+    <p><strong>The math.</strong> Months are counted from your move-out day to the lease end day, with part of a month counted by its days. Rent for part of a month is worked out by the day (12 months of rent over 365 days). Every amount is an estimate, not a bill. Not legal advice.</p>
+    <p class="aside">More on this: <a href="../answers/break-lease-early.html">can I break my lease early?</a> and <a href="../answers/notice-to-landlord.html">how much notice to give</a>. Leaving soon? See <a href="../deposit/">when your deposit is due back</a> or <a href="../move-in-cost/">how much money you need to move</a>.</p>
+  </section>
+
+  <p class="src">Sources: Minnesota Attorney General, <a href="https://www.ag.state.mn.us/Consumer/Publications/HowToVacApartment.asp">Vacating Your Apartment</a> (lease clauses, owing the remaining rent, written agreements, subletting); U.S. Department of Justice, <a href="https://www.justice.gov/servicemembers">Servicemembers Civil Relief Act</a> guidance (who can end a lease, written notice with orders, 30 days after the next rent due date); City of Berkeley Rent Board, <a href="https://rentboard.berkeleyca.gov/rights-responsibilities/leases/lease-breaking">Lease Breaking</a> (California Civil Code 1951.2, the duty to make a good faith effort to re-rent, deposit deductions under Civil Code 1950.5, the Berkeley fee ban); HUD, <a href="https://www.hud.gov/states">state tenant resources</a>. The time to re-rent, the daily rent math and the note are our own. Checked November 2026.</p>
+  <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Made by someone moving, for people moving. Not a moving company, broker or lead site: we never sell your details and never take a commission from movers, and nothing you type here is sent to us.</p>
+</main>
+
+<footer class="wrap">
+  <a href="../privacy.html">Privacy</a>
+  <a href="../terms.html">Terms and refunds</a>
+  <a href="../answers/">What I wish I'd known</a>
+  <a href="../fit/">Will my couch fit?</a>
+  <a href="../truck/">What size truck?</a>
+  <a href="../boxes/">How many boxes?</a>
+  <a href="../diy-cost/">Cost to move yourself</a>
+  <a href="../tip/">How much to tip movers?</a>
+  <a href="../take-or-leave/">Take it or leave it?</a>
+  <a href="../quote-check/">Check a moving quote</a>
+  <a href="../mover-check/">Check your mover</a>
+  <a href="../checklist/">Moving checklist by date</a>
+  <a href="../change-address/">Change of address checklist</a>
+  <a href="../deposit/">When is my deposit due back?</a>
+  <a href="../storage/">What size storage unit?</a>
+  <a href="../packing-schedule/">When should I start packing?</a>
+  <a href="../mattress/">Will my mattress fit up the stairs?</a>
+  <a href="../move-day/">How long will moving day take?</a>
+  <a href="../moving-tax/">Can I deduct my moving expenses?</a>
+  <a href="../weight/">How much does my stuff weigh?</a>
+  <a href="../move-in-cost/">How much money do I need to move?</a>
+  <a href="../claim/">Movers damaged or lost something?</a>
+  <a href="../embed/">Put these tools on your site</a>
+</footer>
+
+<script>
+/* Nothing typed here is sent anywhere. The numbers and dates go in the
+   address only so a shared link opens showing the same answer. */
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  function $(id) { return document.getElementById(id); }
+  function el(tag, a, p) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  function money(n) { return "$" + Math.round(n).toLocaleString("en-US"); }
+  function num(v) { var n = parseFloat(String(v).replace(/[^0-9.]/g, "")); return isFinite(n) && n >= 0 ? Math.min(n, 9999999) : 0; }
+  function pd(s) { var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || ""); if (!m) return null; var d = new Date(+m[1], +m[2] - 1, +m[3]); return isNaN(d) || d.getFullYear() < 1990 || d.getFullYear() > 2100 ? null : d; }
+  function iso(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+  function nice(d) { return d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }); }
+  function addDays(d, n) { var x = new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); return x; }
+  function dim(y, m) { return new Date(y, m + 1, 0).getDate(); }
+  function addMonths(d, n) { var y = d.getFullYear(), m = d.getMonth() + n; y += Math.floor(m / 12); m = ((m % 12) + 12) % 12; return new Date(y, m, Math.min(d.getDate(), dim(y, m))); }
+  function days(a, b) { return Math.round((b - a) / 864e5); }
+  /* months from a to b: whole months, then the rest by its days */
+  function monthsBetween(a, b) {
+    if (b <= a) return 0;
+    var n = 0; while (addMonths(a, n + 1) <= b) n++;
+    var s = addMonths(a, n), e = addMonths(a, n + 1);
+    return n + days(s, b) / days(s, e);
+  }
+  function mo(m) { var r = Math.round(m * 10) / 10; return (r === Math.round(r) ? String(Math.round(r)) : r.toFixed(1)) + (r === 1 ? " month" : " months"); }
+
+  var today = new Date(); today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  var S = { w: "o", rent: 1500, out: iso(addDays(today, 30)), end: iso(addMonths(addDays(today, 30), 6)), c: 0, fee: 3000, fx: 0, rr: 1, oc: 0, dep: 1500, nd: iso(today), due: 1 };
+  var q = new URLSearchParams(location.search);
+  if (q.get("w") === "m" || q.get("w") === "o") S.w = q.get("w");
+  ["rent", "fee", "oc", "dep"].forEach(function (k) { if (q.has(k)) S[k] = num(q.get(k)); });
+  ["out", "end", "nd"].forEach(function (k) { if (pd(q.get(k))) S[k] = q.get(k); });
+  if (q.get("c") === "1" || q.get("c") === "0") S.c = +q.get("c");
+  var fx = parseInt(q.get("fx"), 10); if (fx >= 0 && fx <= 6) S.fx = fx;
+  var rr = parseFloat(q.get("rr")); if (rr >= 0 && rr <= 12) S.rr = Math.round(rr * 2) / 2;
+  var due = parseInt(q.get("due"), 10); if (due >= 1 && due <= 31) S.due = due;
+
+  $("fx").innerHTML = [0, 1, 2, 3, 4, 5, 6].map(function (i) { return '<option value="' + i + '">' + (i === 0 ? "None" : i + (i === 1 ? " month" : " months")) + "</option>"; }).join("");
+  var suf = function (n) { return n + (n % 10 === 1 && n !== 11 ? "st" : n % 10 === 2 && n !== 12 ? "nd" : n % 10 === 3 && n !== 13 ? "rd" : "th"); };
+  var dopts = ""; for (var i = 1; i <= 31; i++) dopts += '<option value="' + i + '">' + suf(i) + " of the month</option>"; $("due").innerHTML = dopts;
+
+  function fill() {
+    $("rent").value = S.rent ? Math.round(S.rent) : ""; $("fee").value = S.fee ? Math.round(S.fee) : ""; $("oc").value = Math.round(S.oc); $("dep").value = S.dep ? Math.round(S.dep) : "";
+    $("out").value = S.out; $("end").value = S.end; $("nd").value = S.nd; $("fx").value = S.fx; $("due").value = S.due;
+  }
+  fill();
+
+  function seg(attr, key, cast) {
+    [].forEach.call(document.querySelectorAll("[data-" + attr + "]"), function (b) {
+      b.classList.toggle("on", String(S[key]) === b.getAttribute("data-" + attr));
+      b.setAttribute("aria-pressed", String(S[key]) === b.getAttribute("data-" + attr) ? "true" : "false");
+      b.onclick = function () { S[key] = cast(b.getAttribute("data-" + attr)); seg(attr, key, cast); draw(); };
+    });
+  }
+  seg("w", "w", String); seg("c", "c", Number);
+  ["rent", "fee", "oc", "dep"].forEach(function (k) { $(k).addEventListener("input", function () { S[k] = num($(k).value); draw(); }); });
+  ["out", "end", "nd"].forEach(function (k) { $(k).addEventListener("input", function () { S[k] = $(k).value; draw(); }); $(k).addEventListener("change", function () { S[k] = $(k).value; draw(); }); });
+  $("fx").addEventListener("change", function () { S.fx = +$("fx").value; draw(); });
+  $("due").addEventListener("change", function () { S.due = +$("due").value; draw(); });
+  $("rr-m").addEventListener("click", function () { S.rr = Math.max(0, S.rr - 0.5); draw(); });
+  $("rr-p").addEventListener("click", function () { S.rr = Math.min(12, S.rr + 0.5); draw(); });
+
+  function fact(id, head, text) { var li = $(id); li.hidden = !text; if (head) li.querySelector("b").textContent = head; li.querySelector("span").textContent = text || ""; }
+
+  /* the next rent due date strictly after the notice date */
+  function nextDue(n, d) {
+    var c = new Date(n.getFullYear(), n.getMonth(), Math.min(d, dim(n.getFullYear(), n.getMonth())));
+    if (c <= n) { var y = n.getFullYear(), m = n.getMonth() + 1; if (m > 11) { m = 0; y++; } c = new Date(y, m, Math.min(d, dim(y, m))); }
+    return c;
+  }
+
+  var last = null;
+  function draw() {
+    var mil = S.w === "m";
+    $("civ").hidden = mil; $("mil").hidden = !mil; $("why-h").hidden = !mil; $("clause").hidden = mil || !S.c;
+    $("rr-o").textContent = S.rr === 0 ? "Right away" : mo(S.rr);
+    var out = pd(S.out), end = pd(S.end), nd = pd(S.nd), R = S.rent, daily = R * 12 / 365;
+    var kick = "", big = "", small = "", bars = [], note = "";
+    fact("f-a"); fact("f-b"); fact("f-c");
+    if (!R) { big = "Type your monthly rent"; }
+    else if (!out || !end) { big = "Add both dates"; small = "The day you move out and the day your lease ends."; }
+    else if (!mil) {
+      var left = monthsBetween(out, end);
+      if (left <= 0) { big = "Your lease is over by then"; small = "You move out on or after the day it ends, so there's no early-leaving cost. Check how much notice your lease asks for, so it doesn't renew."; }
+      else {
+        var all = R * left, rrm = Math.min(S.rr, left), re = R * rrm + S.oc, cl = S.c ? S.fee + R * Math.min(S.fx, left) : null;
+        var low = Math.min(all, re, cl === null ? Infinity : cl);
+        kick = "Leaving " + mo(left) + " early could cost about";
+        big = low >= all - 0.5 ? money(all) : money(low) + " to " + money(all);
+        small = "The most is every month left. " + (cl !== null && cl <= re ? "Your lease-break fee is the lowest here." : cl !== null ? "If the landlord re-rents quickly, that beats your lease-break fee." : "If your state makes the landlord try to re-rent, it could be closer to " + money(re) + ".");
+        bars.push({ n: "Every month left", v: all });
+        bars.push({ n: "Until it's re-rented", v: re });
+        if (cl !== null) bars.push({ n: "Your lease-break fee", v: cl });
+        fact("f-a", "If you owe every month left", money(all) + ": " + mo(left) + " of rent at " + money(R) + ", from " + nice(out) + " to " + nice(end) + ". This is the most you could owe in rent if the landlord never re-rents.");
+        fact("f-b", "If the landlord re-rents", money(re) + ": " + (rrm ? mo(rrm) + " of rent until a new tenant moves in" : "no gap before a new tenant") + (S.oc ? ", plus " + money(S.oc) + " in other costs" : "") + ". Many states require the landlord to make a good faith effort to re-rent. Ask what they've done to list it, and when the new lease starts.");
+        if (cl !== null) fact("f-c", "With your lease-break clause", money(cl) + ": the " + money(S.fee) + " fee" + (S.fx ? " plus " + mo(Math.min(S.fx, left)) + " of rent" : "") + ". It's the clearest price, and usually ends what you owe. Get the landlord's yes in writing, and check whether your city limits these fees.");
+        else fact("f-c", "No lease-break clause", "Ask the landlord in writing whether they'll let you go for a set fee, or accept a replacement tenant you find. A written yes is a price you can count on.");
+        last = { low: low, all: all };
+      }
+    } else {
+      if (!nd) { big = "Add the day the landlord gets your notice"; }
+      else {
+        var nx = nextDue(nd, S.due), stop = addDays(nx, 30), ends = stop < end ? stop : end;
+        var owe = ends > out ? daily * days(out, ends) : 0;
+        kick = "With written notice and your orders, the lease can end on";
+        big = nice(ends);
+        small = ends === end ? "That's the day the lease ends anyway." : "30 days after the next rent due date (" + nice(nx) + "). No early-termination penalty under the act." + (owe > 0 ? " Rent after you move out: about " + money(owe) + "." : "");
+        bars.push({ n: "Every month left", v: R * monthsBetween(out, end) });
+        bars.push({ n: "With your orders", v: owe });
+        fact("f-a", "When it ends", "On a lease with monthly rent, it ends 30 days after the first rent due date after the landlord gets your notice: " + nice(nx) + " plus 30 days is " + nice(stop) + ". Give written notice with a copy of the orders, and keep proof of when it was delivered.");
+        fact("f-b", "What you still pay", owe > 0 ? "Rent up to that day. From " + nice(out) + " that's about " + money(owe) + ", worked out by the day." : "Nothing more after you move out: the lease ends before your move-out day. Rent is still due up to the day it ends.");
+        fact("f-c", "Get the notice in sooner", "Each day sooner can move the end date. Notice delivered the day before rent is due ends the lease about 30 days after that due date.");
+        last = { low: owe, all: owe };
+      }
+    }
+    if (bars.length) {
+      var dep = S.dep;
+      fact("f-d", "Your deposit", dep ? "The landlord holds " + money(dep) + ". Some states let a landlord take unpaid rent out of the deposit (California does, under Civil Code 1950.5), and any deductions must follow your state's rules. Ask for a move-out inspection and a list of any deductions." : "Type the deposit to see it here.");
+    } else fact("f-d");
+    $("kick").textContent = kick; $("big").textContent = big; $("small").textContent = small;
+    paint(bars);
+    letter(mil, out, end);
+    last = last || {}; last.kick = kick; last.big = big; last.small = small;
+    if (!bars.length) last = { kick: kick, big: big, small: small };
+    var p = new URLSearchParams(); p.set("w", S.w); p.set("rent", Math.round(S.rent)); p.set("out", S.out); p.set("end", S.end);
+    if (mil) { p.set("nd", S.nd); p.set("due", S.due); } else { p.set("c", S.c); if (S.c) { p.set("fee", Math.round(S.fee)); p.set("fx", S.fx); } p.set("rr", S.rr); p.set("oc", Math.round(S.oc)); }
+    p.set("dep", Math.round(S.dep));
+    try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
+  }
+
+  function paint(bars) {
+    var s = $("svg"); s.textContent = "";
+    if (!bars.length) { s.setAttribute("viewBox", "0 0 500 16"); return; }
+    var H = 22 + bars.length * 52; s.setAttribute("viewBox", "0 0 500 " + H);
+    var max = Math.max.apply(null, bars.map(function (b) { return b.v; })) || 1;
+    var lo = Math.min.apply(null, bars.map(function (b) { return b.v; }));
+    bars.forEach(function (b, i) {
+      var y = 10 + i * 52, w = Math.max(4, 460 * b.v / max);
+      var t = el("text", { x: 20, y: y + 15, fill: "#E9EEF5", "font-size": 18, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); t.textContent = b.n;
+      el("rect", { x: 20, y: y + 24, width: 460, height: 16, rx: 8, fill: "#1E412B" }, s);
+      el("rect", { x: 20, y: y + 24, width: w, height: 16, rx: 8, fill: b.v === lo ? "#52B978" : "#EADFC9" }, s);
+      var v = el("text", { x: 480, y: y + 15, fill: "#F2E8D5", "text-anchor": "end", "font-size": 19, "font-weight": 850, "font-family": "ui-rounded,system-ui,sans-serif" }, s); v.textContent = money(b.v);
+    });
+  }
+
+  function letter(mil, out, end) {
+    var t;
+    if (mil) t = "[Date]\n\nTo [landlord's name],\n\nI am a servicemember with military orders, and I am ending my lease at [your address] under the Servicemembers Civil Relief Act. A copy of my orders is attached.\n\nI plan to move out on " + (out ? nice(out) : "[date]") + ". Please send my security deposit, or an itemized list of any deductions, to my new address: [forwarding address].\n\nPlease confirm in writing that you received this notice and the date the lease ends.\n\n[Your name]\n[Phone or email]";
+    else t = "[Date]\n\nTo [landlord's name],\n\nI need to move out of [your address] before my lease ends on " + (end ? nice(end) : "[date]") + ". I plan to leave on " + (out ? nice(out) : "[date]") + ".\n\nI'd like to agree on how to end the lease early. Would you accept " + (S.c ? "the early-termination fee in the lease" : "a set fee") + ", or a qualified replacement tenant I help find? If you re-rent the unit, please tell me the date the new tenancy starts so my rent stops then.\n\nPlease reply in writing. My forwarding address for the deposit is [forwarding address].\n\n[Your name]\n[Phone or email]";
+    $("letter").value = t;
+  }
+  draw();
+
+  $("copy").addEventListener("click", function () {
+    var b = $("copy"), v = $("letter").value;
+    function ok() { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy the note"; }, 1600); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(v).then(ok, function () { $("letter").select(); });
+    else { $("letter").select(); try { document.execCommand("copy"); ok(); } catch (e) {} }
+  });
+
+  function wrap(g, text, x, y, max, lh) {
+    var words = text.split(" "), line = "";
+    words.forEach(function (w) { var t = line ? line + " " + w : w; if (g.measureText(t).width > max && line) { g.fillText(line, x, y); y += lh; line = w; } else line = t; });
+    if (line) g.fillText(line, x, y); return y + lh;
+  }
+  function picture() {
+    var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
+    var g = cv.getContext("2d"), FN = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#172F20"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#EADFC9"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.textAlign = "center";
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "700 42px " + FN; g.fillText("Breaking a lease?", Z / 2, 230);
+    g.fillStyle = "rgba(255,255,255,.75)"; g.font = "600 36px " + FN;
+    var y = wrap(g, last.kick || "", Z / 2, 320, 920, 48);
+    g.fillStyle = "#F2E8D5"; g.font = "850 92px " + FN;
+    y = wrap(g, last.big, Z / 2, y + 60, 960, 104);
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 34px " + FN;
+    wrap(g, last.small, Z / 2, y + 20, 900, 48);
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 32px " + FN; g.fillText("Work out yours, free:", Z / 2, 940);
+    g.fillStyle = "#fff"; g.font = "800 40px " + FN; g.fillText("packedrabbit.com/break-lease", Z / 2, 995);
+    return cv;
+  }
+  $("share").addEventListener("click", function () {
+    var url = location.origin + location.pathname + location.search, text = (last.kick ? last.kick + " " : "") + last.big + ". Work out yours, free:";
+    picture().toBlob(function (blob) {
+      var file = blob && typeof File !== "undefined" ? new File([blob], "break-lease-cost.png", { type: "image/png" }) : null;
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+      else if (navigator.share) navigator.share({ title: "How much will it cost to break my lease?", text: text, url: url }).catch(function () {});
+      else if (blob) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "break-lease-cost.png"; document.body.appendChild(a); a.click(); a.remove(); }
+    }, "image/png");
+  });
+})();
+</script>
+<script>
+/* Embedded on someone else's page: no site header or footer, links open in a
+   new tab, a credit line at the end, and the height told to the host page. */
+(function () {
+  if (!document.documentElement.classList.contains("embed")) return;
+  document.querySelectorAll("a[href]").forEach(function (a) { a.target = "_blank"; a.rel = "noopener"; });
+  var m = document.querySelector("main") || document.body;
+  var c = document.createElement("a");
+  c.className = "embed-credit"; c.target = "_blank"; c.rel = "noopener";
+  c.href = "https://packedrabbit.com" + location.pathname;
+  c.textContent = "Free tool by The Packed Rabbit";
+  m.appendChild(c);
+  function tell() { try { parent.postMessage({ prEmbedHeight: Math.ceil(document.documentElement.scrollHeight) }, "*"); } catch (e) {} }
+  tell(); addEventListener("load", tell); addEventListener("resize", tell);
+  if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
+})();
+</script>
+<script src="../nav.js" defer></script>
+</body>
+</html>
