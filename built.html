@@ -6,17 +6,17 @@
 <title>You asked, we built — The Packed Rabbit</title>
 <meta name="description" content="Every change to The Packed Rabbit that came from someone moving: what they ran into, and what the app does about it now.">
 <link rel="canonical" href="https://packedrabbit.com/built.html">
-<meta name="theme-color" content="#22341A">
+<meta name="theme-color" content="#1C3224">
 <link rel="icon" href="app/icon.svg" type="image/svg+xml">
 <style>
 :root{
-  --bg:#F8FBF2; --panel:#FFFFFF; --ink:#141C0D; --ink2:#4F5E3E; --teal:#07705F; --line:#DDE8C8;
+  --bg:#F3FAF6; --panel:#FFFFFF; --ink:#0E1B13; --ink2:#415B4B; --teal:#07705F; --line:#CBE5D5;
   --serif:ui-serif,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
 }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){--bg:#10150C;--panel:#1A2410;--ink:#EEF4DE;--ink2:#A9B79A;--teal:#9DC447;--line:#2A3820}
+  :root:not([data-theme="light"]){--bg:#0D1410;--panel:#122218;--ink:#E0F2E7;--ink2:#9DB4A5;--teal:#52B978;--line:#223629}
 }
-:root[data-theme="dark"]{--bg:#10150C;--panel:#1A2410;--ink:#EEF4DE;--ink2:#A9B79A;--teal:#9DC447;--line:#2A3820}
+:root[data-theme="dark"]{--bg:#0D1410;--panel:#122218;--ink:#E0F2E7;--ink2:#9DB4A5;--teal:#52B978;--line:#223629}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);
   font-family:-apple-system,"SF Pro Text","Segoe UI",system-ui,sans-serif;font-size:17px;line-height:1.6}
@@ -33,11 +33,11 @@ hr{border:0;border-top:1px solid var(--line);margin:34px 0}
 /* ---- the app's own identity: navy, kraft, packing tape, rounded type ---- */
 :root{
   --display:ui-rounded,"SF Pro Rounded","Nunito","Segoe UI Variable Display",system-ui,-apple-system,sans-serif;
-  --navy:#22341A; --navy2:#25451A; --kraft:#C9A27A; --tape:#C9E35C; --tape-ink:#1C2A12;
-  --bg:#F3F8E8; --teal:#3F6E1C;
+  --navy:#1C3224; --navy2:#1E412B; --kraft:#C9A27A; --tape:#EADFC9; --tape-ink:#14281B;
+  --bg:#E9F7EE; --teal:#23673C;
 }
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#0C1208; --panel:#18220F; --navy:#1A3214; --navy2:#25451A; --teal:#B8DD4E; } }
-:root[data-theme="dark"]{ --bg:#0C1208; --panel:#18220F; --navy:#1A3214; --navy2:#25451A; --teal:#B8DD4E; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#09110C; --panel:#112016; --navy:#172F20; --navy2:#1E412B; --teal:#5BD086; } }
+:root[data-theme="dark"]{ --bg:#09110C; --panel:#112016; --navy:#172F20; --navy2:#1E412B; --teal:#5BD086; }
 h1,h2,h3{font-family:var(--display); font-weight:850; letter-spacing:-.02em}
 h2{font-size:clamp(1.55rem,5vw,2.1rem)}
 h3{font-weight:800}
@@ -46,7 +46,7 @@ h3{font-weight:800}
 .hero{
   position:relative; margin-top:18px; padding:46px 24px 30px; border-radius:28px;
   background:linear-gradient(160deg,var(--navy2),var(--navy)); color:#fff; overflow:hidden;
-  box-shadow:0 18px 40px rgba(34,52,26,.28);
+  box-shadow:0 18px 40px rgba(28,50,36,.28);
 }
 .hero::before{content:""; position:absolute; left:-4%; right:-4%; top:16px; height:22px; background:var(--tape); transform:rotate(-1.6deg);
   background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.18) 0 2px,transparent 2px 22px); opacity:.95}
@@ -57,7 +57,7 @@ h3{font-weight:800}
 .hero .btn{border-color:rgba(255,255,255,.28); background:rgba(255,255,255,.08); color:#fff; box-shadow:none}
 .hero .btn.primary{background:var(--tape); border-color:var(--tape); color:var(--tape-ink)}
 .label{
-  margin:28px 0 6px; max-width:360px; background:var(--kraft); color:#1C2A12; border-radius:14px; padding:16px 18px 14px;
+  margin:28px 0 6px; max-width:360px; background:var(--kraft); color:#14281B; border-radius:14px; padding:16px 18px 14px;
   position:relative; transform:rotate(-1.2deg); box-shadow:0 10px 24px rgba(0,0,0,.28);
   background-image:repeating-linear-gradient(0deg,rgba(0,0,0,.025) 0 1px,transparent 1px 4px);
 }
@@ -66,9 +66,9 @@ h3{font-weight:800}
 .label .room{font-family:var(--display); font-weight:800; margin-top:4px}
 .label .what{font-size:.95rem; margin-top:8px}
 .label .flags{display:flex; gap:6px; margin-top:10px; flex-wrap:wrap}
-.label .flags span{font-size:.78rem; font-weight:800; border:2px solid #1C2A12; border-radius:6px; padding:1px 7px}
+.label .flags span{font-size:.78rem; font-weight:800; border:2px solid #14281B; border-radius:6px; padding:1px 7px}
 .label .qr{position:absolute; right:16px; top:16px; width:54px; height:54px;
-  background:conic-gradient(#1C2A12 25%,transparent 0 50%,#1C2A12 0 75%,transparent 0) 0 0/18px 18px; border:4px solid #1C2A12; border-radius:4px; opacity:.9}
+  background:conic-gradient(#14281B 25%,transparent 0 50%,#14281B 0 75%,transparent 0) 0 0/18px 18px; border:4px solid #14281B; border-radius:4px; opacity:.9}
 .card{border-radius:22px; border:1px solid var(--line)}
 .card h3{font-size:1.15rem}
 #what .card{border-top:4px solid var(--kraft)}

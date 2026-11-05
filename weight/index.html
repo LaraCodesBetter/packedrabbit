@@ -6,7 +6,7 @@
 <title>How much does my stuff weigh? Moving weight estimator, free</title>
 <meta name="description" content="Count your furniture and boxes and see about how many pounds your move weighs, from the federal 7-pounds-per-cubic-foot rule. Compare it with a mover's estimate. Free, no signup, nothing sent anywhere.">
 <link rel="canonical" href="https://packedrabbit.com/weight/">
-<meta name="theme-color" content="#22341A">
+<meta name="theme-color" content="#1C3224">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Packed Rabbit">
 <meta property="og:title" content="How much does my stuff weigh?">
@@ -56,10 +56,10 @@
   .homes { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 16px 0 6px; }
   .homes button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 4px; }
   .homes button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
-  .stage { position: sticky; top: 0; z-index: 2; background: #1A3214; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #172F20; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
   .stage svg { display: block; width: 100%; height: auto; }
   .say { padding: 2px 18px 16px; color: #fff; }
-  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.5vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #D5DF4D; }
+  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.5vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #F2E8D5; }
   .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
   .items { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
   .items li { display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 16px; border-bottom: 1px solid var(--line); }
@@ -285,12 +285,12 @@
     var stepv = top <= 6000 ? 1000 : top <= 15000 ? 2500 : top <= 40000 ? 5000 : 10000;
     var max = Math.ceil(top * 1.08 / stepv) * stepv;
     function xp(w) { return X + W * Math.min(w, max) / max; }
-    el("rect", { width: 500, height: 120, fill: "#1A3214" }, s);
-    el("rect", { x: X, y: Y, width: W, height: H, rx: 11, fill: "#2C4A20" }, s);
+    el("rect", { width: 500, height: 120, fill: "#172F20" }, s);
+    el("rect", { x: X, y: Y, width: W, height: H, rx: 11, fill: "#244630" }, s);
     if (cu) {
-      el("rect", { x: xp(lo), y: Y, width: Math.max(4, xp(hi) - xp(lo)), height: H, rx: 11, fill: "#9DC447" }, s);
-      el("rect", { x: xp(lb) - 3, y: Y - 10, width: 6, height: H + 20, rx: 3, fill: "#D5DF4D" }, s);
-      var t = el("text", { x: Math.min(Math.max(xp(lb), X + 40), X + W - 40), y: Y - 16, fill: "#D5DF4D", "font-weight": 800, "font-size": 15, "text-anchor": "middle", "font-family": "ui-rounded,system-ui,sans-serif" }, s);
+      el("rect", { x: xp(lo), y: Y, width: Math.max(4, xp(hi) - xp(lo)), height: H, rx: 11, fill: "#52B978" }, s);
+      el("rect", { x: xp(lb) - 3, y: Y - 10, width: 6, height: H + 20, rx: 3, fill: "#F2E8D5" }, s);
+      var t = el("text", { x: Math.min(Math.max(xp(lb), X + 40), X + W - 40), y: Y - 16, fill: "#F2E8D5", "font-weight": 800, "font-size": 15, "text-anchor": "middle", "font-family": "ui-rounded,system-ui,sans-serif" }, s);
       t.textContent = "about " + fmt(lb) + " lb";
     }
     if (ev) {
@@ -310,12 +310,12 @@
   function picture() {
     var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
     var g = cv.getContext("2d"), F = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
-    g.fillStyle = "#1A3214"; g.fillRect(0, 0, Z, Z);
-    g.fillStyle = "#C9E35C"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.fillStyle = "#172F20"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#EADFC9"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
     var img = new Image(), svg = new XMLSerializer().serializeToString($("svg"));
     return new Promise(function (res) {
       function words() {
-        g.textAlign = "center"; g.fillStyle = "#D5DF4D"; g.font = "850 80px " + F; g.fillText(last.big, Z / 2, 640);
+        g.textAlign = "center"; g.fillStyle = "#F2E8D5"; g.font = "850 80px " + F; g.fillText(last.big, Z / 2, 640);
         g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 36px " + F;
         if (last.cu) g.fillText("from about " + fmt(last.cu) + " cubic feet, at 7 lb a cubic foot", Z / 2, 710);
         g.fillText("How much does your move weigh? Check free:", Z / 2, 880);

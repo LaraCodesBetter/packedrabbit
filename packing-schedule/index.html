@@ -6,7 +6,7 @@
 <title>When should I start packing to move? Free packing schedule by date</title>
 <meta name="description" content="Type your moving date and rooms and see the day to start packing, which room to pack on which day, and how many boxes a day. Free, no signup, nothing to download.">
 <link rel="canonical" href="https://packedrabbit.com/packing-schedule/">
-<meta name="theme-color" content="#22341A">
+<meta name="theme-color" content="#1C3224">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Packed Rabbit">
 <meta property="og:title" content="When should I start packing?">
@@ -58,10 +58,10 @@
   .lbl { font-weight: 800; margin: 22px 0 0; font-size: 1.1rem; display: block; }
   .date { display: block; width: 100%; box-sizing: border-box; min-height: 56px; margin-top: 10px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-family: var(--display); font-weight: 800; font-size: 1.2rem; padding: 6px 14px; }
   .date:focus { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
-  .stage { background: #1A3214; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage { background: #172F20; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
   .stage svg { display: block; width: 100%; height: auto; }
   .say { padding: 16px 18px 6px; color: #fff; }
-  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.5vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #D5DF4D; }
+  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.5vw, 2.2rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #F2E8D5; }
   .say .big.no { color: #FF9BAD; }
   .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
   .items { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
@@ -204,8 +204,8 @@
     { k: "gar", n: "Garages, basements, storage", t: "Garage and storage", tip: "Things you won't need before the move", bx: 10, col: "#8FA3BF" },
     { k: "off", n: "Offices", t: "Office", tip: "Books and files, in small boxes", bx: 7, col: "#A57BFF" },
     { k: "din", n: "Dining rooms or areas", t: "Dining", tip: "Serving dishes, table linens, decor", bx: 4, col: "#FF9A3D" },
-    { k: "liv", n: "Living and family rooms", t: "Living room", tip: "Books, decor and games. The TV goes last", bx: 7, col: "#9DC447" },
-    { k: "bed", n: "Bedrooms", t: "Bedrooms", tip: "Out-of-season clothes first. Keep a week's worth out", bx: 10, col: "#B8DD4E" },
+    { k: "liv", n: "Living and family rooms", t: "Living room", tip: "Books, decor and games. The TV goes last", bx: 7, col: "#52B978" },
+    { k: "bed", n: "Bedrooms", t: "Bedrooms", tip: "Out-of-season clothes first. Keep a week's worth out", bx: 10, col: "#5BD086" },
     { k: "bath", n: "Bathrooms", t: "Bathrooms", tip: "Spares first. Daily things go in the first-night box", bx: 3, col: "#5CD6FF" },
     { k: "kit", n: "Kitchens", t: "Kitchen", tip: "Rarely used things first. Keep a plate, cup and pan each", bx: 10, col: "#FF5C86", max: 3 }
   ];
@@ -349,7 +349,7 @@
 
   function label(x) {
     if (x.last) return { t: "Last things", s: "A first-night box: bedding, medicine, chargers, toiletries, a change of clothes, snacks. Then the last kitchen things.", col: "#C9A27A" };
-    if (x.spare) return { t: "Spare day", s: "Catch up on anything that ran over, or rest.", col: "#4F6E2A" };
+    if (x.spare) return { t: "Spare day", s: "Catch up on anything that ran over, or rest.", col: "#306845" };
     var t = x.parts.map(function (p) { return p.r.t + ": " + p.n + " box" + (p.n === 1 ? "" : "es"); }).join(", ");
     return { t: t, s: x.parts[0].r.tip, col: x.parts[0].r.col };
   }
@@ -379,23 +379,23 @@
   function paint(s) {
     var svg = $("svg"); svg.textContent = "";
     var F = "ui-rounded,system-ui,sans-serif";
-    if (s.state !== "ok") { svg.setAttribute("viewBox", "0 0 500 14"); el("rect", { width: 500, height: 14, fill: "#1A3214" }, svg); return; }
+    if (s.state !== "ok") { svg.setAttribute("viewBox", "0 0 500 14"); el("rect", { width: 500, height: 14, fill: "#172F20" }, svg); return; }
     var first = add(s.start, -s.start.getDay()), rows = Math.floor(days(first, move) / 7) + 1;
     /* a very long plan shows its last 12 weeks */
     if (rows > 12) { first = add(move, -move.getDay() - 77); rows = 12; }
     var cw = 64, gap = 4, ch = 30, top = 26, X = (500 - (cw * 7 + gap * 6)) / 2;
     var H = top + rows * (ch + gap) + 14;
     svg.setAttribute("viewBox", "0 0 500 " + H);
-    el("rect", { width: 500, height: H, fill: "#1A3214" }, svg);
-    "SMTWTFS".split("").forEach(function (l, i) { var t = el("text", { x: X + i * (cw + gap) + cw / 2, y: 18, fill: "#C9E35C", "font-size": 12, "font-weight": 800, "text-anchor": "middle", "font-family": F }, svg); t.textContent = l; });
+    el("rect", { width: 500, height: H, fill: "#172F20" }, svg);
+    "SMTWTFS".split("").forEach(function (l, i) { var t = el("text", { x: X + i * (cw + gap) + cw / 2, y: 18, fill: "#EADFC9", "font-size": 12, "font-weight": 800, "text-anchor": "middle", "font-family": F }, svg); t.textContent = l; });
     var map = {}; s.list.forEach(function (x) { map[iso(x.d)] = x; });
     for (var i = 0, d = first; days(d, move) >= 0; i++, d = add(d, 1)) {
       var row = Math.floor(i / 7), col = i % 7, x = X + col * (cw + gap), y = top + row * (ch + gap);
       var it = map[iso(d)], isMove = days(d, move) === 0, before = days(s.start, d) < 0;
-      var fillc = isMove ? "#C9E35C" : it ? label(it).col : "#203A16";
+      var fillc = isMove ? "#EADFC9" : it ? label(it).col : "#193724";
       el("rect", { x: x, y: y, width: cw, height: ch, rx: Math.min(8, ch / 3), fill: fillc, opacity: before ? 0.35 : 1 }, svg);
-      if (ch >= 22) { var t = el("text", { x: x + 8, y: y + ch / 2 + 5, fill: isMove || (it && !it.spare) ? "#1A3214" : it ? "#E9EEF5" : "#C9E35C", "font-size": 13, "font-weight": 800, "font-family": F }, svg); t.textContent = isMove ? d.getDate() + " move" : d.getDate(); }
-      if (it && it.spare) el("rect", { x: x + 1.5, y: y + 1.5, width: cw - 3, height: ch - 3, rx: Math.min(7, ch / 3), fill: "none", stroke: "#C9E35C", "stroke-width": 2, "stroke-dasharray": "4 3" }, svg);
+      if (ch >= 22) { var t = el("text", { x: x + 8, y: y + ch / 2 + 5, fill: isMove || (it && !it.spare) ? "#172F20" : it ? "#E9EEF5" : "#EADFC9", "font-size": 13, "font-weight": 800, "font-family": F }, svg); t.textContent = isMove ? d.getDate() + " move" : d.getDate(); }
+      if (it && it.spare) el("rect", { x: x + 1.5, y: y + 1.5, width: cw - 3, height: ch - 3, rx: Math.min(7, ch / 3), fill: "none", stroke: "#EADFC9", "stroke-width": 2, "stroke-dasharray": "4 3" }, svg);
     }
   }
 
@@ -406,13 +406,13 @@
   function picture() {
     var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
     var g = cv.getContext("2d"), F = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
-    g.fillStyle = "#1A3214"; g.fillRect(0, 0, Z, Z);
-    g.fillStyle = "#C9E35C"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.fillStyle = "#172F20"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#EADFC9"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
     var svgEl = $("svg"), vb = svgEl.getAttribute("viewBox").split(" "), vw = +vb[2], vh = +vb[3];
     var img = new Image(), svg = new XMLSerializer().serializeToString(svgEl);
     return new Promise(function (res) {
       function words(bottom) {
-        g.textAlign = "center"; g.fillStyle = last.s.short ? "#FF9BAD" : "#D5DF4D"; g.font = "850 72px " + F;
+        g.textAlign = "center"; g.fillStyle = last.s.short ? "#FF9BAD" : "#F2E8D5"; g.font = "850 72px " + F;
         var lines = wrapText(g, last.big, 960), y = Math.max(bottom + 90, 600);
         lines.forEach(function (l, i) { g.fillText(l, Z / 2, y + i * 80); });
         g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 34px " + F; g.fillText("When should you start packing? Check free:", Z / 2, 900);

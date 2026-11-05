@@ -6,7 +6,7 @@
 <title>Change of address checklist: who to tell when you move</title>
 <meta name="description" content="Answer a few yes or no questions and get your own change-of-address list: the post office, IRS, motor vehicles, voter registration, Social Security and the rest, with legal deadlines first and dates from your move. Free, no signup.">
 <link rel="canonical" href="https://packedrabbit.com/change-address/">
-<meta name="theme-color" content="#22341A">
+<meta name="theme-color" content="#1C3224">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Packed Rabbit">
 <meta property="og:title" content="Change of address checklist: who to tell when you move">
@@ -64,12 +64,12 @@
   .date { display: block; width: 100%; box-sizing: border-box; min-height: 56px; margin-top: 10px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-family: var(--display); font-weight: 800; font-size: 1.2rem; padding: 6px 14px; }
   .date:focus { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
   .hint { font-size: .95rem; color: var(--ink2); margin: 8px 2px 0; }
-  .stage { background: #1A3214; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage { background: #172F20; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
   .say { padding: 16px 18px 16px; color: #fff; }
-  .say .big { font-family: var(--display); font-size: clamp(1.8rem, 7vw, 2.4rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #D5DF4D; }
+  .say .big { font-family: var(--display); font-size: clamp(1.8rem, 7vw, 2.4rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #F2E8D5; }
   .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
-  .bar { height: 12px; border-radius: 6px; background: #25451A; margin: 14px 0 0; overflow: hidden; }
-  .bar i { display: block; height: 100%; width: 0; background: #C9E35C; border-radius: 6px; }
+  .bar { height: 12px; border-radius: 6px; background: #1E412B; margin: 14px 0 0; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: #EADFC9; border-radius: 6px; }
   .opts { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
   .opts li { padding: 10px 12px 12px 16px; border-bottom: 1px solid var(--line); }
   .opts li:last-child { border-bottom: 0; }
@@ -349,12 +349,12 @@
   function picture() {
     var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
     var g = cv.getContext("2d"), FN = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
-    g.fillStyle = "#1A3214"; g.fillRect(0, 0, Z, Z);
-    g.fillStyle = "#C9E35C"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.fillStyle = "#172F20"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#EADFC9"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
     g.textAlign = "center"; g.fillStyle = "rgba(255,255,255,.85)"; g.font = "700 40px " + FN; g.fillText("Our change of address list", Z / 2, 220);
-    g.fillStyle = "#D5DF4D"; g.font = "850 104px " + FN; g.fillText(last.big, Z / 2, 350);
-    g.fillStyle = "#25451A"; g.fillRect(140, 395, 800, 22);
-    g.fillStyle = "#C9E35C"; g.fillRect(140, 395, last.n ? 800 * last.k / last.n : 0, 22);
+    g.fillStyle = "#F2E8D5"; g.font = "850 104px " + FN; g.fillText(last.big, Z / 2, 350);
+    g.fillStyle = "#1E412B"; g.fillRect(140, 395, 800, 22);
+    g.fillStyle = "#EADFC9"; g.fillRect(140, 395, last.n ? 800 * last.k / last.n : 0, 22);
     g.textAlign = "left"; g.fillStyle = "#fff"; g.font = "800 38px " + FN;
     var y = 490, show = last.law.slice(0, 5);
     if (show.length) { g.fillText("Deadlines set by law:", 140, y); y += 58; }

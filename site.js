@@ -33,12 +33,12 @@
       frame.textContent = ""; piece.textContent = ""; dims.textContent = "";
       var dw = W * S, dh = DOOR_H * S, dx = CX - dw / 2, dy = FLOOR - dh;
       /* wall with the opening cut out */
-      el("path", { d: "M0 0H500V" + FLOOR + "H" + (dx + dw) + "V" + dy + "H" + dx + "V" + FLOOR + "H0Z", fill: "#3E6B1C" }, frame);
-      el("rect", { x: dx, y: dy, width: dw, height: dh, fill: "#0C1208" }, frame);
+      el("path", { d: "M0 0H500V" + FLOOR + "H" + (dx + dw) + "V" + dy + "H" + dx + "V" + FLOOR + "H0Z", fill: "#23643B" }, frame);
+      el("rect", { x: dx, y: dy, width: dw, height: dh, fill: "#09110C" }, frame);
       el("path", { d: "M" + (dx - 7) + " " + FLOOR + "V" + (dy - 7) + "H" + (dx + dw + 7) + "V" + FLOOR, fill: "none", stroke: "#E9EEF5", "stroke-width": 7, "stroke-linejoin": "round" }, frame);
       /* the face that has to pass */
       var pw = r.across * S, ph = r.up * S, px = CX - pw / 2, py = FLOOR - ph;
-      var col = r.ok ? "#B8DD4E" : "#FF5C76";
+      var col = r.ok ? "#5BD086" : "#FF5C76";
       el("rect", { class: "piece", x: px, y: py, width: pw, height: ph, rx: 8, fill: r.ok ? "rgba(46,229,157,.28)" : "rgba(255,92,118,.22)", stroke: col, "stroke-width": 3 }, piece);
       if (!r.ok) {
         var over = (pw - dw) / 2;
@@ -49,8 +49,8 @@
       var arm = Math.min(pw, ph) * 0.18;
       el("path", { d: "M" + (px + arm) + " " + (py + ph * .45) + "H" + (px + pw - arm), stroke: col, "stroke-width": 2, opacity: .6, fill: "none", "stroke-dasharray": "6 6" }, piece);
       /* measurements */
-      var t = el("text", { x: CX, y: dy - 14, fill: "#C9E35C", "text-anchor": "middle" }, dims); t.textContent = "door " + W + " in";
-      el("path", { d: "M" + dx + " " + (dy - 30) + "H" + (dx + dw), stroke: "#C9E35C", "stroke-width": 2, "marker-start": "", fill: "none" }, dims);
+      var t = el("text", { x: CX, y: dy - 14, fill: "#EADFC9", "text-anchor": "middle" }, dims); t.textContent = "door " + W + " in";
+      el("path", { d: "M" + dx + " " + (dy - 30) + "H" + (dx + dw), stroke: "#EADFC9", "stroke-width": 2, "marker-start": "", fill: "none" }, dims);
       var t2 = el("text", { x: CX, y: py + ph / 2 + 22, fill: "#fff", "text-anchor": "middle" }, dims); t2.textContent = r.across + " × " + r.up + " in";
       var t3 = el("text", { x: CX, y: FLOOR + 26, fill: "rgba(255,255,255,.6)", "text-anchor": "middle", "font-size": 13 }, dims);
       t3.textContent = "the end of the sofa, as it meets the doorway";
@@ -84,10 +84,10 @@
     var BW = COLS * CW, BH = ROWS * CH;
     el("rect", { x: X0 - 6, y: Y0 - 6, width: BW + 12, height: BH + 12, rx: 10, fill: "none", stroke: "currentColor", "stroke-width": 3, opacity: .55 }, svg);
     /* cab */
-    el("path", { d: "M" + (X0 + BW + 10) + " " + (Y0 + 40) + "h62l34 46v78h-96z", fill: "#22341A", opacity: .9 }, svg);
-    el("path", { d: "M" + (X0 + BW + 22) + " " + (Y0 + 52) + "h44l24 34h-68z", fill: "#C9E35C", opacity: .85 }, svg);
+    el("path", { d: "M" + (X0 + BW + 10) + " " + (Y0 + 40) + "h62l34 46v78h-96z", fill: "#1C3224", opacity: .9 }, svg);
+    el("path", { d: "M" + (X0 + BW + 22) + " " + (Y0 + 52) + "h44l24 34h-68z", fill: "#EADFC9", opacity: .85 }, svg);
     [X0 + 70, X0 + 300, X0 + BW + 62].forEach(function (cx) {
-      el("circle", { cx: cx, cy: Y0 + BH + 24, r: 20, fill: "#1B2214" }, svg);
+      el("circle", { cx: cx, cy: Y0 + BH + 24, r: 20, fill: "#152119" }, svg);
       el("circle", { cx: cx, cy: Y0 + BH + 24, r: 8, fill: "#C9CED6" }, svg);
     });
     /* furniture goes in first, at the front (by the cab); boxes behind it */
@@ -96,7 +96,7 @@
     furn.forEach(function (f, i) {
       var c = f[0], r = f[1], w = f[2], h = f[3];
       for (var a = 0; a < w; a++) for (var b = 0; b < h; b++) used[(c + a) + "," + (r + b)] = 1;
-      el("rect", { x: X0 + c * CW + 2, y: Y0 + r * CH + 2, width: w * CW - 4, height: h * CH - 4, rx: 6, fill: i % 2 ? "#9DC447" : "#3F6E1C" }, svg);
+      el("rect", { x: X0 + c * CW + 2, y: Y0 + r * CH + 2, width: w * CW - 4, height: h * CH - 4, rx: 6, fill: i % 2 ? "#52B978" : "#23673C" }, svg);
     });
     var boxes = 0, target = 49 - Object.keys(used).length;
     for (var c = COLS - 1; c >= 0; c--) for (var r = ROWS - 1; r >= 0; r--) {
@@ -104,7 +104,7 @@
       var x = X0 + c * CW + 2, y = Y0 + r * CH + 2;
       if (boxes < target) {
         el("rect", { x: x, y: y, width: CW - 4, height: CH - 4, rx: 3, fill: (c + r) % 3 ? "#C9A27A" : "#B88B5E" }, svg);
-        el("rect", { x: x + (CW - 4) / 2 - 3, y: y, width: 6, height: CH - 4, fill: "#C9E35C", opacity: .85 }, svg);
+        el("rect", { x: x + (CW - 4) / 2 - 3, y: y, width: 6, height: CH - 4, fill: "#EADFC9", opacity: .85 }, svg);
         boxes++;
       } else {
         el("rect", { x: x, y: y, width: CW - 4, height: CH - 4, rx: 3, fill: "none", stroke: "currentColor", opacity: .22, "stroke-dasharray": "4 4" }, svg);

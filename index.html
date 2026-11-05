@@ -6,7 +6,7 @@
 <title>The Packed Rabbit: forget about it, the rabbit won&#x27;t</title>
 <meta name="description" content="The Packed Rabbit remembers what's in every box and where that box is now, what's coming next, what fits through the door, and what every mover and cleaner promised. No account, nobody calls you.">
 <link rel="canonical" href="https://packedrabbit.com/">
-<meta name="theme-color" content="#F8FBF2">
+<meta name="theme-color" content="#F3FAF6">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Packed Rabbit">
 <meta property="og:title" content="Forget about it. The Packed Rabbit won't.">
@@ -86,27 +86,27 @@
 @font-face{font-family:"Atkinson Next";src:url(fonts/atkinson-next.woff) format("woff");font-weight:200 800;font-display:swap}
 @font-face{font-family:"Atkinson Mono";src:url(fonts/atkinson-mono.woff) format("woff");font-weight:200 800;font-display:swap}
 :root{
-  --bg:#F8FBF2; --mist:#EAF3D2; --bamboo:#D6EA8A; --sage:#9DC447;
-  --ink:#1C2A12; --ink2:#4F5E3E; --line:rgba(28,42,18,.13);
-  --green:#3F6E1C; --green-ink:#FFFFFF; --deep:#22341A; --bark:#2B241D; --lit:#C9E35C;
-  --glass:linear-gradient(140deg,rgba(255,255,255,.86),rgba(234,246,186,.42)); --glass-edge:rgba(255,255,255,.85);
+  --bg:#F3FAF6; --mist:#D5F0DF; --bamboo:#93E1B0; --sage:#52B978;
+  --ink:#14281B; --ink2:#415B4B; --line:rgba(20,40,27,.13);
+  --green:#23673C; --green-ink:#FFFFFF; --deep:#1C3224; --bark:#2B241D; --lit:#EADFC9;
+  --glass:linear-gradient(140deg,rgba(255,255,255,.86),rgba(191,241,209,.42)); --glass-edge:rgba(255,255,255,.85);
   --sans:"Atkinson Next",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"Atkinson Mono",ui-monospace,"SF Mono",Menlo,monospace;
   color-scheme:light dark;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0E140A; --mist:#16220E; --bamboo:#2D4314; --sage:#5E8F26;
-    --ink:#F1F6E4; --ink2:#CBD8B2; --line:rgba(238,244,222,.18);
-    --green:#B8DD4E; --green-ink:#15200A; --deep:#0C1208; --bark:#1A1510; --lit:#C9E35C;
-    --glass:linear-gradient(140deg,rgba(60,90,25,.45),rgba(20,30,12,.6)); --glass-edge:rgba(214,234,138,.30);
+    --bg:#0B130E; --mist:#102016; --bamboo:#183F26; --sage:#2F864F;
+    --ink:#E6F4EB; --ink2:#B5D5C1; --line:rgba(224,242,231,.18);
+    --green:#5BD086; --green-ink:#2A2210; --deep:#09110C; --bark:#1A1510; --lit:#EADFC9;
+    --glass:linear-gradient(140deg,rgba(31,84,50,.45),rgba(14,28,19,.6)); --glass-edge:rgba(147,225,176,.30);
   }
 }
 :root[data-theme="dark"]{
-    --bg:#0E140A; --mist:#16220E; --bamboo:#2D4314; --sage:#5E8F26;
-    --ink:#F1F6E4; --ink2:#CBD8B2; --line:rgba(238,244,222,.18);
-    --green:#B8DD4E; --green-ink:#15200A; --deep:#0C1208; --bark:#1A1510; --lit:#C9E35C;
-    --glass:linear-gradient(140deg,rgba(60,90,25,.45),rgba(20,30,12,.6)); --glass-edge:rgba(214,234,138,.30);
+    --bg:#0B130E; --mist:#102016; --bamboo:#183F26; --sage:#2F864F;
+    --ink:#E6F4EB; --ink2:#B5D5C1; --line:rgba(224,242,231,.18);
+    --green:#5BD086; --green-ink:#2A2210; --deep:#09110C; --bark:#1A1510; --lit:#EADFC9;
+    --glass:linear-gradient(140deg,rgba(31,84,50,.45),rgba(14,28,19,.6)); --glass-edge:rgba(147,225,176,.30);
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -134,7 +134,7 @@ section{padding:56px 0;position:relative}
   animation:drift 40s ease-in-out infinite alternate}
 /* leaf shadows, like sun through maples: soft, layered, slow */
 .leaves{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.09;filter:blur(5px);mix-blend-mode:multiply;animation:sway 26s ease-in-out infinite alternate}
-.leaves svg{position:absolute;fill:#3F6E1C}
+.leaves svg{position:absolute;fill:#23673C}
 @keyframes sway{to{transform:translate3d(-14px,10px,0) rotate(.6deg)}}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .leaves{opacity:.22}:root:not([data-theme="light"]) .leaves svg{fill:#000}}
 :root[data-theme="dark"] .leaves{opacity:.22}:root[data-theme="dark"] .leaves svg{fill:#000}
@@ -213,15 +213,15 @@ header .btn{min-height:44px;padding:0 18px;font-size:.98rem;white-space:nowrap}
 .home li{padding:20px;border-radius:24px;font-weight:700;font-size:1.1rem}
 .home li small{display:block;font-weight:400;color:var(--ink2);font-size:.95rem;margin-top:6px}
 
-.biz{color:#EEF4DE;background:radial-gradient(55% 45% at 85% 0%,rgba(213,223,77,.34),transparent 70%),radial-gradient(40% 40% at 10% 100%,rgba(157,196,71,.18),transparent 70%),linear-gradient(165deg,#3E6B1C,#25451A 50%,#1A3214)}
+.biz{color:#E0F2E7;background:radial-gradient(55% 45% at 85% 0%,rgba(242,232,213,.34),transparent 70%),radial-gradient(40% 40% at 10% 100%,rgba(82,185,120,.18),transparent 70%),linear-gradient(165deg,#23643B,#1E412B 50%,#172F20)}
 .biz h2{color:#fff}
-.biz .lede{color:#C9D9A8}
-.biz .kick{color:#C9E35C}
+.biz .lede{color:#ACD5BB}
+.biz .kick{color:#EADFC9}
 .who{display:grid;gap:10px;margin-top:30px}
 .who a{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:60px;padding:10px 20px;border-radius:20px;text-decoration:none;font-weight:700;font-size:1.1rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14)}
-.who a span{font:700 .8rem var(--mono);color:#C9E35C;letter-spacing:.05em}
+.who a span{font:700 .8rem var(--mono);color:#EADFC9;letter-spacing:.05em}
 @media(min-width:760px){.who{grid-template-columns:1fr 1fr}}
-.biz .btn.go{background:linear-gradient(160deg,#DDF08A,#B5D63F);color:#1C2A12;box-shadow:none}
+.biz .btn.go{background:linear-gradient(160deg,#93E7B2,#4DC87A);color:#14281B;box-shadow:none}
 .biz .btn.soft{color:#fff;background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25)}
 
 .promise .card{padding:30px;border-radius:32px}
@@ -238,8 +238,8 @@ footer b{color:var(--ink);display:block;margin-bottom:4px}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.glass{background:color-mix(in srgb,var(--bg) 92%,white)}}
 
 /* dark mode: buttons in the deep part of the green, white text, a lit top edge so they glow on the dark */
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.go,:root:not([data-theme="light"]) .biz .btn.go{background:linear-gradient(160deg,#5E9128,#3F6E1C 50%,#22341A);color:#FFFFFF;box-shadow:inset 0 1px 0 rgba(213,223,77,.45),0 6px 16px -8px rgba(0,0,0,.5)}}
-:root[data-theme="dark"] .btn.go,:root[data-theme="dark"] .biz .btn.go{background:linear-gradient(160deg,#5E9128,#3F6E1C 50%,#22341A);color:#FFFFFF;box-shadow:inset 0 1px 0 rgba(213,223,77,.45),0 6px 16px -8px rgba(0,0,0,.5)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.go,:root:not([data-theme="light"]) .biz .btn.go{background:linear-gradient(160deg,#318851,#23673C 50%,#1C3224);color:#FFFFFF;box-shadow:inset 0 1px 0 rgba(242,232,213,.45),0 6px 16px -8px rgba(0,0,0,.5)}}
+:root[data-theme="dark"] .btn.go,:root[data-theme="dark"] .biz .btn.go{background:linear-gradient(160deg,#318851,#23673C 50%,#1C3224);color:#FFFFFF;box-shadow:inset 0 1px 0 rgba(242,232,213,.45),0 6px 16px -8px rgba(0,0,0,.5)}
 
 /* owner, 2 Nov: more change between bright and light. Sunlit sections glow,
    calm white sections rest the eye, and each fades into the next. */
@@ -249,27 +249,27 @@ footer b{color:var(--ink);display:block;margin-bottom:4px}
 section.sun{position:relative;background:none}
 section.sun::before{content:"";position:absolute;left:0;right:0;top:-160px;bottom:-160px;z-index:-1;pointer-events:none;
   background:
-  radial-gradient(70% 55% at 88% 32%,rgba(213,223,77,.55),transparent 70%),
-  radial-gradient(60% 50% at 4% 70%,rgba(157,196,71,.30),transparent 70%),
-  linear-gradient(180deg,rgba(234,245,190,0) 0%,#EAF5BE 30%,#E2F1AE 50%,#EAF5BE 70%,rgba(234,245,190,0) 100%);
+  radial-gradient(70% 55% at 88% 32%,rgba(242,232,213,.55),transparent 70%),
+  radial-gradient(60% 50% at 4% 70%,rgba(82,185,120,.30),transparent 70%),
+  linear-gradient(180deg,rgba(195,240,211,0) 0%,#C3F0D3 30%,#B4EBC8 50%,#C3F0D3 70%,rgba(195,240,211,0) 100%);
   -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 30%,#000 70%,transparent 100%);
   mask-image:linear-gradient(180deg,transparent 0,#000 30%,#000 70%,transparent 100%)}
 section.sun .glass{background:linear-gradient(140deg,rgba(255,255,255,.92),rgba(255,255,255,.62));border-color:#fff}
 section.calm{background:none}
 @media (prefers-color-scheme: dark){
  :root:not([data-theme="light"]) section.sun::before{background:
-   radial-gradient(70% 55% at 88% 32%,rgba(157,214,60,.11),transparent 70%),
-   radial-gradient(60% 50% at 4% 70%,rgba(94,145,40,.12),transparent 70%),
-   linear-gradient(180deg,rgba(16,34,12,0),#10230C 30%,#132A0E 50%,#10230C 70%,rgba(16,34,12,0))}
- :root:not([data-theme="light"]) section.sun .glass{background:linear-gradient(140deg,rgba(36,62,22,.78),rgba(14,26,10,.66));border-color:rgba(213,223,77,.32)}}
+   radial-gradient(70% 55% at 88% 32%,rgba(74,200,120,.11),transparent 70%),
+   radial-gradient(60% 50% at 4% 70%,rgba(49,136,81,.12),transparent 70%),
+   linear-gradient(180deg,rgba(14,32,21,0),#0E2115 30%,#112719 50%,#0E2115 70%,rgba(14,32,21,0))}
+ :root:not([data-theme="light"]) section.sun .glass{background:linear-gradient(140deg,rgba(26,58,38,.78),rgba(11,25,16,.66));border-color:rgba(242,232,213,.32)}}
 :root[data-theme="dark"] section.sun::before{background:
-   radial-gradient(70% 55% at 88% 32%,rgba(157,214,60,.11),transparent 70%),
-   radial-gradient(60% 50% at 4% 70%,rgba(94,145,40,.12),transparent 70%),
-   linear-gradient(180deg,rgba(16,34,12,0),#10230C 30%,#132A0E 50%,#10230C 70%,rgba(16,34,12,0))}
-:root[data-theme="dark"] section.sun .glass{background:linear-gradient(140deg,rgba(36,62,22,.78),rgba(14,26,10,.66));border-color:rgba(213,223,77,.32)}
+   radial-gradient(70% 55% at 88% 32%,rgba(74,200,120,.11),transparent 70%),
+   radial-gradient(60% 50% at 4% 70%,rgba(49,136,81,.12),transparent 70%),
+   linear-gradient(180deg,rgba(14,32,21,0),#0E2115 30%,#112719 50%,#0E2115 70%,rgba(14,32,21,0))}
+:root[data-theme="dark"] section.sun .glass{background:linear-gradient(140deg,rgba(26,58,38,.78),rgba(11,25,16,.66));border-color:rgba(242,232,213,.32)}
 
 .reasons li.glass,.reasons li{background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding:4px 14px 4px 0;font-size:1.12rem;display:flex;align-items:center;gap:8px}
-.reasons li::before{content:"";width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#D5DF4D,#3F6E1C);flex:none}
+.reasons li::before{content:"";width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#F2E8D5,#23673C);flex:none}
 .reasons{gap:4px 10px}
 .fine.lead-msg{max-width:42ch;font-size:1rem;line-height:1.5}
 </style>
@@ -285,7 +285,7 @@ footer .social{display:flex;gap:6px;margin-top:8px}
 footer .social a{display:inline-flex;width:44px;height:44px;align-items:center;justify-content:center;padding:0}
 footer .social svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8}
 footer p{margin:0}
-.prnav button{background:#3F6E1C!important}
+.prnav button{background:#23673C!important}
 /* owner, 4 Nov: tool rows read as tappable; info lists stop looking like buttons */
 .tools a{justify-content:flex-start;min-height:68px;padding:12px 14px 12px 20px}
 .tools a b{display:block;flex:1;min-width:0;font-size:1.1rem;line-height:1.25}
@@ -308,10 +308,10 @@ footer p{margin:0}
 }
 /* owner, 4 Nov: in dark, the size bars use one gradient, and the business band sits deep with a lime top edge */
 @media (prefers-color-scheme: dark){
- :root:not([data-theme="light"]) .bar i{background:linear-gradient(90deg,#3F6E1C,#9DC447 60%,#D5DF4D)}
- :root:not([data-theme="light"]) .biz{background:linear-gradient(165deg,#22341A,#141E0E);border-top:2px solid #C9E35C}}
-:root[data-theme="dark"] .bar i{background:linear-gradient(90deg,#3F6E1C,#9DC447 60%,#D5DF4D)}
-:root[data-theme="dark"] .biz{background:linear-gradient(165deg,#22341A,#141E0E);border-top:2px solid #C9E35C}
+ :root:not([data-theme="light"]) .bar i{background:linear-gradient(90deg,#23673C,#52B978 60%,#F2E8D5)}
+ :root:not([data-theme="light"]) .biz{background:linear-gradient(165deg,#1C3224,#0F1D14);border-top:2px solid #EADFC9}}
+:root[data-theme="dark"] .bar i{background:linear-gradient(90deg,#23673C,#52B978 60%,#F2E8D5)}
+:root[data-theme="dark"] .biz{background:linear-gradient(165deg,#1C3224,#0F1D14);border-top:2px solid #EADFC9}
 </style>
 </head>
 <body>
@@ -474,9 +474,9 @@ footer p{margin:0}
    With reduced motion it shows the first answer and stops. */
 (function(){
   var P={
-    frame:'<svg viewBox="0 0 120 120"><rect width="120" height="120" fill="#C9A677"/><rect x="10" y="12" width="100" height="96" fill="#B8935F"/><rect x="18" y="22" width="48" height="36" rx="2" fill="none" stroke="#3B2A17" stroke-width="5"/><rect x="24" y="28" width="36" height="24" fill="#E8DCC5"/><path d="M70 30h30M70 38h24" stroke="#5A6470" stroke-width="3" stroke-linecap="round"/><rect x="20" y="72" width="80" height="12" rx="3" fill="#C9E35C"/><circle cx="60" cy="78" r="3.5" fill="#7FB37A"/><path d="M28 96c20-8 44-8 64 0" stroke="#8A8F96" stroke-width="2.5" fill="none"/><circle cx="84" cy="56" r="3" fill="#8A8F96"/><circle cx="92" cy="60" r="3" fill="#8A8F96"/></svg>',
-    coat:'<svg viewBox="0 0 120 120"><rect width="120" height="120" fill="#C9A677"/><rect x="10" y="12" width="100" height="96" fill="#B8935F"/><path d="M30 30l18-8 12 10 12-10 18 8 4 50H26z" fill="#3F6E1C"/><path d="M60 32v48" stroke="#22341A" stroke-width="3"/><circle cx="66" cy="46" r="2.5" fill="#E8DCC5"/><circle cx="66" cy="58" r="2.5" fill="#E8DCC5"/><path d="M28 86h64v14H28z" fill="#5B3B2A"/></svg>',
-    pass:'<svg viewBox="0 0 120 120"><rect width="120" height="120" fill="#D9E6DD"/><rect x="22" y="20" width="44" height="62" rx="4" fill="#22341A"/><circle cx="44" cy="44" r="10" fill="none" stroke="#C9E35C" stroke-width="2.5"/><rect x="58" y="34" width="44" height="58" rx="3" fill="#FFFFFF" stroke="#9AA6B2" stroke-width="2"/><path d="M66 48h28M66 58h28M66 68h20" stroke="#9AA6B2" stroke-width="3" stroke-linecap="round"/><rect x="30" y="88" width="30" height="16" rx="4" fill="#3A3F45"/></svg>'
+    frame:'<svg viewBox="0 0 120 120"><rect width="120" height="120" fill="#C9A677"/><rect x="10" y="12" width="100" height="96" fill="#B8935F"/><rect x="18" y="22" width="48" height="36" rx="2" fill="none" stroke="#3B2A17" stroke-width="5"/><rect x="24" y="28" width="36" height="24" fill="#E8DCC5"/><path d="M70 30h30M70 38h24" stroke="#5A6470" stroke-width="3" stroke-linecap="round"/><rect x="20" y="72" width="80" height="12" rx="3" fill="#EADFC9"/><circle cx="60" cy="78" r="3.5" fill="#7FAE90"/><path d="M28 96c20-8 44-8 64 0" stroke="#8A8F96" stroke-width="2.5" fill="none"/><circle cx="84" cy="56" r="3" fill="#8A8F96"/><circle cx="92" cy="60" r="3" fill="#8A8F96"/></svg>',
+    coat:'<svg viewBox="0 0 120 120"><rect width="120" height="120" fill="#C9A677"/><rect x="10" y="12" width="100" height="96" fill="#B8935F"/><path d="M30 30l18-8 12 10 12-10 18 8 4 50H26z" fill="#23673C"/><path d="M60 32v48" stroke="#1C3224" stroke-width="3"/><circle cx="66" cy="46" r="2.5" fill="#E8DCC5"/><circle cx="66" cy="58" r="2.5" fill="#E8DCC5"/><path d="M28 86h64v14H28z" fill="#5B3B2A"/></svg>',
+    pass:'<svg viewBox="0 0 120 120"><rect width="120" height="120" fill="#D9E6DD"/><rect x="22" y="20" width="44" height="62" rx="4" fill="#1C3224"/><circle cx="44" cy="44" r="10" fill="none" stroke="#EADFC9" stroke-width="2.5"/><rect x="58" y="34" width="44" height="58" rx="3" fill="#FFFFFF" stroke="#9AA6B2" stroke-width="2"/><path d="M66 48h28M66 58h28M66 68h20" stroke="#9AA6B2" stroke-width="3" stroke-linecap="round"/><rect x="30" y="88" width="30" height="16" rx="4" fill="#3A3F45"/></svg>'
   };
   var ex=[
     {q:"frame mount kit",code:"FAM-021",what:"Frame mount kit, picture wire, level",size:"Medium box",goes:"Family room",now:"bottom of the stack",pic:"frame"},

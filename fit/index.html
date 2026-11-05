@@ -6,7 +6,7 @@
 <title>Will my couch fit through the door? Free check, no signup</title>
 <meta name="description" content="Type four measurements and see whether your couch, sofa or sectional goes through the doorway, which way to carry it, and what to take off if it doesn't. Free, no signup, nothing to download.">
 <link rel="canonical" href="https://packedrabbit.com/fit/">
-<meta name="theme-color" content="#22341A">
+<meta name="theme-color" content="#1C3224">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Packed Rabbit">
 <meta property="og:title" content="Will my couch fit through the door?">
@@ -53,11 +53,11 @@
   /* One job: four numbers in, a clear answer out, and a picture worth sending. */
   .fitpage { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
   .fitpage h1 { font-size: clamp(2.2rem, 8vw, 3.4rem); margin: 12px 0 10px; }
-  .stage { background: #1A3214; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); }
+  .stage { background: #172F20; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); }
   .stage svg { display: block; width: 100%; height: auto; }
   .say { padding: 16px 18px 18px; color: #fff; font-family: var(--display); }
   .say .big { font-size: clamp(1.7rem, 6.5vw, 2.3rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; }
-  .say .big.ok { color: #D5DF4D; } .say .big.no { color: #FF9BAD; }
+  .say .big.ok { color: #F2E8D5; } .say .big.no { color: #FF9BAD; }
   .say p { font-family: var(--text); font-weight: 500; color: rgba(255,255,255,.82); margin: 8px 0 0; font-size: 1rem; }
   .inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; margin: 20px 0 8px; }
   .inputs label { display: block; font-weight: 700; font-size: .95rem; margin-bottom: 4px; }
@@ -107,8 +107,8 @@
   <div class="stage">
     <svg id="svg" viewBox="0 0 500 400" role="img" aria-labelledby="big">
       <defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="4" height="8" fill="rgba(255,92,118,.75)"/></pattern></defs>
-      <rect width="500" height="400" fill="#1A3214"/>
-      <rect y="362" width="500" height="38" fill="#25451A"/>
+      <rect width="500" height="400" fill="#172F20"/>
+      <rect y="362" width="500" height="38" fill="#1E412B"/>
       <g id="frame"></g><g id="piece"></g>
       <g id="dims" font-family="ui-monospace,Menlo,monospace" font-size="15" font-weight="700"></g>
     </svg>
@@ -200,17 +200,17 @@
     var r = doorFit([h, D, L], W, DH);
     var S = Math.min(3.85, 300 / Math.max(DH, r.up), 440 / Math.max(W, r.across)), FLOOR = 362, CX = 250;
     var dw = W * S, dh = DH * S, dx = CX - dw / 2, dy = FLOOR - dh;
-    el("path", { d: "M0 0H500V" + FLOOR + "H" + (dx + dw) + "V" + dy + "H" + dx + "V" + FLOOR + "H0Z", fill: "#3E6B1C" }, frame);
-    el("rect", { x: dx, y: dy, width: dw, height: dh, fill: "#0C1208" }, frame);
+    el("path", { d: "M0 0H500V" + FLOOR + "H" + (dx + dw) + "V" + dy + "H" + dx + "V" + FLOOR + "H0Z", fill: "#23643B" }, frame);
+    el("rect", { x: dx, y: dy, width: dw, height: dh, fill: "#09110C" }, frame);
     el("path", { d: "M" + (dx - 7) + " " + FLOOR + "V" + (dy - 7) + "H" + (dx + dw + 7) + "V" + FLOOR, fill: "none", stroke: "#E9EEF5", "stroke-width": 7, "stroke-linejoin": "round" }, frame);
-    var pw = r.across * S, ph = r.up * S, px = CX - pw / 2, py = FLOOR - ph, col = r.ok ? "#B8DD4E" : "#FF5C76";
+    var pw = r.across * S, ph = r.up * S, px = CX - pw / 2, py = FLOOR - ph, col = r.ok ? "#5BD086" : "#FF5C76";
     el("rect", { x: px, y: py, width: pw, height: ph, rx: 8, fill: r.ok ? "rgba(46,229,157,.28)" : "rgba(255,92,118,.22)", stroke: col, "stroke-width": 3 }, piece);
     if (!r.ok) {
       var over = (pw - dw) / 2;
       el("rect", { x: px, y: py, width: over + 4, height: ph, fill: "url(#hatch)" }, piece);
       el("rect", { x: dx + dw - 4, y: py, width: over + 4, height: ph, fill: "url(#hatch)" }, piece);
     }
-    var t = el("text", { x: CX, y: Math.max(18, dy - 14), fill: "#C9E35C", "text-anchor": "middle" }, dims); t.textContent = "door " + r1(W) + " in";
+    var t = el("text", { x: CX, y: Math.max(18, dy - 14), fill: "#EADFC9", "text-anchor": "middle" }, dims); t.textContent = "door " + r1(W) + " in";
     var t2 = el("text", { x: CX, y: py + ph / 2 + 6, fill: "#fff", "text-anchor": "middle" }, dims); t2.textContent = r1(r.across) + " × " + r1(r.up) + " in";
     var t3 = el("text", { x: CX, y: FLOOR + 26, fill: "rgba(255,255,255,.6)", "text-anchor": "middle", "font-size": 13 }, dims); t3.textContent = "the end of the couch, as it meets the doorway";
 
@@ -241,18 +241,18 @@
   function picture() {
     var c = document.createElement("canvas"), Z = 1080; c.width = Z; c.height = Z;
     var g = c.getContext("2d"), F = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
-    g.fillStyle = "#1A3214"; g.fillRect(0, 0, Z, Z);
-    g.fillStyle = "#C9E35C"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.fillStyle = "#172F20"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#EADFC9"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
     var FLOOR = 700, S = Math.min(5, 430 / Math.max(last.DH, last.up), 640 / Math.max(last.W, last.across)), CX = Z / 2;
     var dw = last.W * S, dh = last.DH * S, dx = CX - dw / 2, dy = FLOOR - dh;
-    g.fillStyle = "#3E6B1C"; g.fillRect(0, 150, Z, FLOOR - 150); g.fillStyle = "#0C1208"; g.fillRect(dx, dy, dw, dh);
-    g.fillStyle = "#25451A"; g.fillRect(0, FLOOR, Z, 40);
+    g.fillStyle = "#23643B"; g.fillRect(0, 150, Z, FLOOR - 150); g.fillStyle = "#09110C"; g.fillRect(dx, dy, dw, dh);
+    g.fillStyle = "#1E412B"; g.fillRect(0, FLOOR, Z, 40);
     g.strokeStyle = "#E9EEF5"; g.lineWidth = 9; g.beginPath(); g.moveTo(dx - 9, FLOOR); g.lineTo(dx - 9, dy - 9); g.lineTo(dx + dw + 9, dy - 9); g.lineTo(dx + dw + 9, FLOOR); g.stroke();
     var pw = last.across * S, ph = last.up * S;
-    g.fillStyle = last.ok ? "rgba(46,229,157,.30)" : "rgba(255,92,118,.26)"; g.strokeStyle = last.ok ? "#B8DD4E" : "#FF5C76"; g.lineWidth = 5;
+    g.fillStyle = last.ok ? "rgba(46,229,157,.30)" : "rgba(255,92,118,.26)"; g.strokeStyle = last.ok ? "#5BD086" : "#FF5C76"; g.lineWidth = 5;
     g.beginPath(); if (g.roundRect) g.roundRect(CX - pw / 2, FLOOR - ph, pw, ph, 12); else g.rect(CX - pw / 2, FLOOR - ph, pw, ph); g.fill(); g.stroke();
-    g.textAlign = "center"; g.fillStyle = "#C9E35C"; g.font = "700 30px ui-monospace,Menlo,monospace"; g.fillText("door " + r1(last.W) + " in", CX, Math.max(190, dy - 22));
-    g.fillStyle = last.ok ? "#D5DF4D" : "#FF9BAD"; g.font = "850 92px " + F; g.fillText(last.big, CX, 840);
+    g.textAlign = "center"; g.fillStyle = "#EADFC9"; g.font = "700 30px ui-monospace,Menlo,monospace"; g.fillText("door " + r1(last.W) + " in", CX, Math.max(190, dy - 22));
+    g.fillStyle = last.ok ? "#F2E8D5" : "#FF9BAD"; g.font = "850 92px " + F; g.fillText(last.big, CX, 840);
     g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 34px " + F; g.fillText("Will my couch fit? Check yours free:", CX, 930);
     g.fillStyle = "#FFFFFF"; g.font = "800 40px " + F; g.fillText("packedrabbit.com/fit", CX, 990);
     return c;

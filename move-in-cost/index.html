@@ -6,7 +6,7 @@
 <title>How much money do I need to move? Free move-in cost and rent calculator</title>
 <meta name="description" content="Add up the cash you need to move into a rental: first month, last month, deposit, fees, utility deposits and getting there. See how your rent compares with the 30% of income that HUD uses as its cost-burden line. Free, no signup.">
 <link rel="canonical" href="https://packedrabbit.com/move-in-cost/">
-<meta name="theme-color" content="#22341A">
+<meta name="theme-color" content="#1C3224">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Packed Rabbit">
 <meta property="og:title" content="How much money do I need to move?">
@@ -57,10 +57,10 @@
   .seg button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 6px 8px; line-height: 1.2; }
   .seg button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
   .lbl { font-weight: 800; margin: 22px 0 0; font-size: 1.1rem; }
-  .stage { position: sticky; top: 0; z-index: 2; background: #1A3214; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #172F20; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
   .stage svg { display: block; width: 100%; height: auto; }
   .say { padding: 14px 18px 4px; color: #fff; }
-  .say .big { font-family: var(--display); font-size: clamp(1.8rem, 7vw, 2.4rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #D5DF4D; }
+  .say .big { font-family: var(--display); font-size: clamp(1.8rem, 7vw, 2.4rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.05; color: #F2E8D5; }
   .say p { color: rgba(255,255,255,.82); margin: 6px 0 0; font-size: 1rem; }
   .items { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
   .items li { display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 16px; border-bottom: 1px solid var(--line); }
@@ -182,7 +182,7 @@
   ];
   /* parts of the total and their colors (legible on the dark stage) */
   var P = [
-    { t: "Rent at signing", col: "#D5DF4D" },
+    { t: "Rent at signing", col: "#F2E8D5" },
     { t: "Deposit", col: "#C9A27A" },
     { t: "Fees", col: "#8FB8E8" },
     { t: "Getting there", col: "#F2B66D" },
@@ -258,8 +258,8 @@
   function paint(parts, total, share, at30) {
     var s = $("svg"); s.textContent = "";
     var FN = "system-ui,sans-serif", x0 = 24, W = 452;
-    el("rect", { width: 500, height: 170, fill: "#1A3214" }, s);
-    el("rect", { x: x0, y: 14, width: W, height: 26, rx: 8, fill: "#25451A" }, s);
+    el("rect", { width: 500, height: 170, fill: "#172F20" }, s);
+    el("rect", { x: x0, y: 14, width: W, height: 26, rx: 8, fill: "#1E412B" }, s);
     if (total > 0) {
       var x = x0;
       el("clipPath", { id: "cb" }, s).appendChild(el("rect", { x: x0, y: 14, width: W, height: 26, rx: 8 }));
@@ -268,7 +268,7 @@
         if (v <= 0) return;
         var w = v / total * W;
         el("rect", { x: x, y: 14, width: w, height: 26, fill: P[i].col }, gg);
-        if (w > 2) el("rect", { x: x + w - 1, y: 14, width: 2, height: 26, fill: "#1A3214" }, gg);
+        if (w > 2) el("rect", { x: x + w - 1, y: 14, width: 2, height: 26, fill: "#172F20" }, gg);
         x += w;
       });
       /* legend: the two biggest parts; the dots by each line below match */
@@ -282,17 +282,17 @@
     /* income gauge, 0 to 60%+, lines at 30 and 50 */
     var gy = 108, GW = W, max = 60;
     var l = el("text", { x: x0, y: gy - 12, fill: "rgba(255,255,255,.7)", "font-size": 16, "font-weight": 600, "font-family": FN }, s); l.textContent = val.inc > 0 ? "Share of income; 30% is " + usd(at30) + " a month" : "Rent and utilities as a share of income";
-    el("rect", { x: x0, y: gy, width: GW, height: 14, rx: 7, fill: "#25451A" }, s);
+    el("rect", { x: x0, y: gy, width: GW, height: 14, rx: 7, fill: "#1E412B" }, s);
     if (share !== null) {
       var fw = Math.min(share, max) / max * GW;
-      el("rect", { x: x0, y: gy, width: Math.max(fw, 14), height: 14, rx: 7, fill: share > 50 ? "#FF8A7A" : share > 30 ? "#F2B66D" : "#D5DF4D" }, s);
+      el("rect", { x: x0, y: gy, width: Math.max(fw, 14), height: 14, rx: 7, fill: share > 50 ? "#FF8A7A" : share > 30 ? "#F2B66D" : "#F2E8D5" }, s);
     }
     [30, 50].forEach(function (m) {
       var mx = x0 + m / max * GW;
       el("rect", { x: mx - 1.5, y: gy - 4, width: 3, height: 22, fill: "#E7EEF8" }, s);
       var t = el("text", { x: mx, y: gy + 40, fill: "#E7EEF8", "font-size": 16, "font-weight": 700, "font-family": FN, "text-anchor": "middle" }, s); t.textContent = m + "%";
     });
-    var r = el("text", { x: x0, y: gy + 40, fill: "#D5DF4D", "font-size": 18, "font-weight": 800, "font-family": FN }, s);
+    var r = el("text", { x: x0, y: gy + 40, fill: "#F2E8D5", "font-size": 18, "font-weight": 800, "font-family": FN }, s);
     r.textContent = share === null ? "Type income" : pc(share);
   }
   sync(); draw();
@@ -300,13 +300,13 @@
   function picture() {
     var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
     var g = cv.getContext("2d"), FN = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
-    g.fillStyle = "#1A3214"; g.fillRect(0, 0, Z, Z);
-    g.fillStyle = "#C9E35C"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.fillStyle = "#172F20"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#EADFC9"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
     g.textAlign = "center"; g.fillStyle = "rgba(255,255,255,.85)"; g.font = "700 40px " + FN; g.fillText("Cash we need to move in", Z / 2, 240);
-    g.fillStyle = "#D5DF4D"; g.font = "850 140px " + FN; g.fillText(usd(last.total), Z / 2, 400);
+    g.fillStyle = "#F2E8D5"; g.font = "850 140px " + FN; g.fillText(usd(last.total), Z / 2, 400);
     /* the split as one bar */
     var bx = 120, bw = Z - 240, by = 460, x = bx;
-    g.fillStyle = "#25451A"; g.fillRect(bx, by, bw, 44);
+    g.fillStyle = "#1E412B"; g.fillRect(bx, by, bw, 44);
     if (last.total > 0) last.parts.forEach(function (v, i) { if (v <= 0) return; var w = v / last.total * bw; g.fillStyle = P[i].col; g.fillRect(x, by, w, 44); x += w; });
     g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 34px " + FN;
     if (last.dep > 0) g.fillText("Includes a " + usd(last.dep) + " deposit, returned later", Z / 2, 590);
