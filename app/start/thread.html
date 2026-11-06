@@ -1344,6 +1344,7 @@ window.addEventListener('pagehide',()=>{ if(window.__APP) idbSet('pr-thread-stat
 (async function(){ let d=null;
   try{ d=window.__APP?JSON.parse(await idbGet('pr-thread-state')||'null'):JSON.parse(sessionStorage.getItem('pr-thread')||'null'); }catch(e){}
   if(window.__APP){ try{ const st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); const se=(st&&st.settings)||{}; if(se.licence||se.storeFull) S.paid=S.paid||'licence'; }catch(e){} }
+  if(window.__APP){ try{ const mc=await idbGet('pr-member-code'); if(mc){ S.paid=S.paid||'licence'; S.memberCode=mc; } }catch(e){} }
   if(d&&d.S&&d.cur&&P[d.cur]){ const paid=S.paid; Object.assign(S,d.S); if(paid) S.paid=paid; if(d.curIdx>=0) S.cur=S.big[d.curIdx]; hist.push(...(d.hist||[])); hopping=''; try{ show(d.cur,true); if(d.cur!=='firstBox') pauseCard(true); return; }catch(e){ reset(); hist.length=0; } }
   try{ const q=new URLSearchParams(location.search).get('date'); if(q&&/^\d{4}-\d{2}-\d{2}$/.test(q)&&new Date(q+'T12:00')>new Date()){ S.date=q; S.fromSite=true; } }catch(e){}
   show('firstBox'); })();

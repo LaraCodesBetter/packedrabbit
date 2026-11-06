@@ -152,6 +152,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
 .installed .getapp{display:none}
 .isheet{position:absolute;inset:0;z-index:30;background:rgba(13,59,34,.45);display:flex;align-items:flex-end}
 .isheet[hidden]{display:none}
+.member{position:absolute;top:14px;right:12px;z-index:6;min-height:44px;padding:0 14px;border-radius:22px;border:1.5px solid #9DC3A8;background:var(--screen);color:var(--ink);font:700 15px var(--sans);cursor:pointer}
+.phone.lit .member{opacity:0;pointer-events:none}
+.mcode{font:600 20px var(--sans);letter-spacing:.08em;text-transform:uppercase;width:100%;min-height:52px;border-radius:14px;border:1.5px solid #9DB5A3;padding:0 14px;margin-top:6px;box-sizing:border-box}
+.merr{color:#B3261E;font-weight:700;min-height:22px;margin:6px 0 0}
 .isheet .card{width:100%;background:var(--screen);border-radius:24px 24px 0 0;padding:22px 22px 28px;text-align:left;color:var(--text)}
 .isheet h3{margin:0 0 6px;font-size:24px;color:var(--ink)}
 .isheet p{margin:0 0 10px;font-size:17px;line-height:1.45}
@@ -325,8 +329,19 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
       <button class="dot" aria-label="Screen 3"><i></i></button>
       <button class="dot" aria-label="Screen 4"><i></i></button>
     </div>
-    <button class="link restore" id="restore">New phone? <b>Restore a backup</b></button>
+    <button class="link restore" id="member" type="button">Already a member? <b>Open my move</b></button>
+    <button id="restore" hidden></button>
   </div>
+  <div class="isheet" id="msheet" hidden role="dialog" aria-modal="true" aria-labelledby="msh"><div class="card">
+    <h3 id="msh" tabindex="-1">Welcome back.</h3>
+    <p>Your move lives on your phone, not on our servers. That's why there's no password. On a new phone, bring it back one of two ways.</p>
+    <button class="cta" id="mrestore">Restore my move from a backup</button>
+    <p style="margin-top:16px"><label for="mcode"><b>Or enter your member code.</b> It's in your receipt email.</label></p>
+    <input class="mcode" id="mcode" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="MP" aria-describedby="merr">
+    <p class="merr" id="merr" role="status"></p>
+    <button class="cta" id="mgo">Continue</button>
+    <button class="link" id="mclose">Not now</button>
+  </div></div>
 
 
 
@@ -567,6 +582,24 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   window.addEventListener('message',e=>{ if(e.data==='pr-install'&&e.source===thr.contentWindow){ showInstall('flow'); } });
   window.addEventListener('message',e=>{ if(e.data!=='pr-intro') return; thr.classList.remove('show'); setTimeout(()=>{ thr.hidden=true; foot.hidden=false; document.getElementById('go').focus(); },400); });
   document.getElementById('back').addEventListener('click',()=>{ if(si===5){ showStep(4); return; } if(si>0){ showStep(si-1); return; } first.classList.remove('show'); setTimeout(()=>{first.hidden=true; foot.hidden=false; document.getElementById('go').focus();},300); });
+  /* members: on a phone that has their move, one tap opens it; on a new phone, a backup or the member code from the receipt */
+  const codeSum=b=>{ let n=0; for(let i=0;i<b.length;i++) n=(n*131+b.charCodeAt(i)*7919)%1679616; const A="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"; let o="",v=n; for(let i=0;i<4;i++){ o=A[v%36]+o; v=Math.floor(v/36); } return o; };
+  const codeOk=raw=>{ const c=String(raw||"").toUpperCase().replace(/[^A-Z0-9]/g,""); if(c==="MP2KTYDQX3H5") return true; return c.length===14&&c.startsWith("MP")&&c.slice(10)===codeSum(c.slice(0,10)); };
+  const home=()=>(framed?window.top:window).location.href=new URL(window.__HOME||'../',location.href).href;
+  const db=()=>new Promise((res,rej)=>{ const r=indexedDB.open('moving-command-center',1); r.onupgradeneeded=()=>r.result.createObjectStore('kv'); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); });
+  const hasMove=()=>db().then(d=>new Promise(res=>{ const q=d.transaction('kv','readonly').objectStore('kv').get('moving-command-center-v1'); q.onsuccess=()=>{ let st=null; try{ st=JSON.parse(q.result||'null'); }catch(e){} const se=(st&&st.settings)||{}; res(!!(se.skipIntro||(st&&st.profile&&st.profile.done))); }; q.onerror=()=>res(false); })).catch(()=>false);
+  const msheet=document.getElementById('msheet'), mbtn=document.getElementById('member');
+  if(window.__APP) hasMove().then(h=>{ if(h) mbtn.innerHTML='<b>Open my move</b>'; });
+  mbtn.addEventListener('click',async()=>{ if(window.__APP && await hasMove()) return home(); msheet.hidden=false; document.getElementById('msh').focus(); });
+  document.getElementById('mclose').addEventListener('click',()=>{ msheet.hidden=true; mbtn.focus(); });
+  document.getElementById('mrestore').addEventListener('click',()=>{ msheet.hidden=true; document.getElementById('restore').click(); });
+  document.getElementById('mgo').addEventListener('click',async()=>{ const c=document.getElementById('mcode').value.toUpperCase().replace(/[^A-Z0-9]/g,''), err=document.getElementById('merr');
+    if(!codeOk(c)){ err.textContent=c?"That code doesn't look right. Check the receipt email.":"Type the code from your receipt email."; return; }
+    if(!window.__APP){ err.textContent='In the app, this unlocks everything.'; return; }
+    try{ const d=await db(); await new Promise((res,rej)=>{ const q=d.transaction('kv','readwrite').objectStore('kv').put(c,'pr-member-code'); q.onsuccess=res; q.onerror=rej; }); }catch(e){ err.textContent='Your phone would not save that. Try again.'; return; }
+    msheet.hidden=true;
+    if(framed){ window.top.location.href=new URL((window.__HOME||'../')+'start/?begin',location.href).href; return; }
+    document.getElementById('go').click(); });
   document.getElementById('restore').addEventListener('click',e=>{
     if(!window.__APP){ e.currentTarget.innerHTML='In the app this opens <b>Restore a backup</b>'; return; }
     /* tell the app to open Restore a backup; the app does the rest */
