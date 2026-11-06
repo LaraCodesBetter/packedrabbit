@@ -162,6 +162,19 @@ a.choice{text-decoration:none}
 .keepsafe{margin-top:22px}.keepsafe .choice{margin-top:10px;width:100%}
 .hint{margin:10px 0 0;color:var(--muted);font-size:16px}
 .microw.nomic input{padding-right:14px!important}
+.land{position:absolute;width:0;height:0;z-index:41;pointer-events:none}
+.land .glow{position:absolute;left:-60px;top:-60px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,#FFF6DFcc 0%,#F2E8D566 38%,#F2E8D500 70%);animation:landglow 2s ease-out forwards}
+.land .ring{position:absolute;left:-28px;top:-28px;width:56px;height:56px;border-radius:50%;border:2px solid #F2E8D5;animation:landring 1.1s cubic-bezier(.2,.7,.3,1) forwards}
+.land .ring.r2{border-color:#9BE0B3;animation-delay:.16s;opacity:0}
+.land svg{position:absolute;left:-60px;top:-60px;width:120px;height:120px;overflow:visible}
+.land line{stroke-dasharray:1;stroke-dashoffset:1;animation:landray .9s cubic-bezier(.2,.7,.3,1) forwards}
+.tabs [data-tab].earned{color:#fff}
+.tabs [data-tab].earned svg{filter:drop-shadow(0 0 6px #F2E8D5)}
+@keyframes landglow{0%{transform:scale(.3);opacity:0}25%{opacity:1}100%{transform:scale(1.35);opacity:0}}
+@keyframes landring{0%{transform:scale(.4);opacity:1}100%{transform:scale(2.3);opacity:0}}
+@keyframes landray{0%{stroke-dashoffset:1;opacity:1}60%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:-1;opacity:0}}
+.land.still .glow{animation:landglowstill 2s ease-out forwards}
+@keyframes landglowstill{0%{opacity:0}25%{opacity:1}100%{opacity:0}}
 .cheerw{position:absolute;inset:0;pointer-events:none;z-index:40;overflow:hidden}
 .cheerp{position:absolute;left:50%;top:64px;transform:translateX(-50%);max-width:86%;padding:12px 20px;border-radius:999px;background:#1C3224;color:#fff;font-weight:700;font-size:16px;line-height:1.3;border:2px solid #EADFC9;box-shadow:0 12px 28px -10px rgba(0,0,0,.5);text-align:center;white-space:normal}
 .topr{display:flex;align-items:center;gap:4px;margin-left:auto}
@@ -520,7 +533,7 @@ function addToCalendar(){ const blob=new Blob([icsText()],{type:'text/calendar'}
 function homeDone(){ if(S.tabs.includes('Moving')){ const r=S.retTo; S.retTo=''; show(r&&P[r]?r:'sortTab'); setTimeout(()=>openSheet('Moving'),50); } else earnMoving(); }
 
 function toSorting(){ S.li=0; S.lstage='ask'; S.lsay=''; show('leave'); }
-function earnMoving(){ S.mover=MOVERS()?(/booked/.test(S.booked)?"Yes, they're booked":/prices/.test(S.booked)?"I'm getting quotes":'Not yet'):/truck|Friends|container/.test(S.how||'')?"I'm moving myself":''; learn('Moving'); cheer(true,'Your dates are set.'); hopping=matchMedia('(prefers-reduced-motion: reduce)').matches?'':'Moving'; show('movingTab'); if(hopping) hop('Moving'); }
+function earnMoving(){ S.mover=MOVERS()?(/booked/.test(S.booked)?"Yes, they're booked":/prices/.test(S.booked)?"I'm getting quotes":'Not yet'):/truck|Friends|container/.test(S.how||'')?"I'm moving myself":''; learn('Moving'); hopping=matchMedia('(prefers-reduced-motion: reduce)').matches?'':'Moving'; show('movingTab'); if(hopping) hop('Moving'); else landSoon('Moving'); }
 const HOWS=["Movers pack and move it","Movers move it, I pack","A rental truck","Friends and our cars","A moving container","Not sure yet"];
 const MOVERS=()=>S.place==='signed'&&/^Movers/.test(S.how||''), INTER=()=>S.far==='Another state';
 const fmtD=d=>new Date(d+'T12:00').toLocaleDateString('en-US',{month:'long',day:'numeric'});
@@ -844,7 +857,7 @@ function hop(name){ name=name||'Boxes';
     const ir=ib.getBoundingClientRect(), dx=(ti.left+ti.width/2)-(ir.left+ir.width/2), dy=(ti.top+ti.height/2)-(ir.top+ir.height/2), s=ti.width/ir.width;
     ib.animate([{transform:'none'},{transform:`translate(${dx}px,${dy}px) scale(${s})`}],{duration:700,easing:'ease-in-out',fill:'forwards'});
     return r.animate([{height:H+'px'},{height:bh+'px'}],{duration:700,easing:'ease-in-out',fill:'forwards'}).finished; })
-  .then(()=>{ hopping=''; tab.classList.remove('wait'); r.remove(); if(name==='Moving') show_bar(); }).catch(()=>{});
+  .then(()=>{ hopping=''; tab.classList.remove('wait'); r.remove(); show_bar(); tabLand(name); }).catch(()=>{});
 }
 function wire(id){
   const $=s=>phone.querySelector(s);
@@ -874,8 +887,7 @@ function wire(id){
   if(id==='special'){
     phone.querySelectorAll('[data-flag]').forEach(b=>b.onclick=()=>{ const k=b.dataset.flag, i=S.flags.indexOf(k); i<0?S.flags.push(k):S.flags.splice(i,1); b.classList.toggle('on'); b.setAttribute('aria-pressed',i<0); stampAt=k; phone.querySelector('.scene').innerHTML=scene('special'); stampAt=''; phone.querySelector('.sub').textContent=specialSub(); });
     const save=()=>{ S.boxes.push({code:code(),rc:rcOf(S.room),destRc:S.dest&&!/^(Donate|Sell|Not sure)$/.test(S.dest)?rcOf(S.dest):'',room:S.room,size:S.size,custom:S.size==='Custom'?S.custom:'',brand:S.brand,dims:boxDims(S.brand,S.size,S.duty),duty:S.duty,words:S.words,dest:S.dest||'',airtag:!!S.airtag,flags:[...S.flags],photos:[...S.photos],photo:S.photos[0]||''}); S.photos=[]; S.words=''; S.dest=''; S.airtag=false; S.flags=[]; S.size=''; S.duty=''; S.custom=''; fresh=['box'+(S.boxes.length-1)];
-      { const n=S.boxes.length, c=S.boxes[n-1].code; cheer(n===1||n%10===0, n===1?`${c} is packed. Your first box.`:n%10===0?`${c} is packed. That's ${n} boxes.`:`${c} is packed.`); }
-      if(S.boxes.length===1){ learn('Boxes'); hopping=matchMedia('(prefers-reduced-motion: reduce)').matches?'':'Boxes'; show('boxesTab'); if(hopping) hop('Boxes'); } else show('boxSaved'); };
+      if(S.boxes.length===1){ learn('Boxes'); hopping=matchMedia('(prefers-reduced-motion: reduce)').matches?'':'Boxes'; show('boxesTab'); if(hopping) hop('Boxes'); else landSoon('Boxes'); } else show('boxSaved'); };
     $('#airtag').onclick=e=>{ S.airtag=!S.airtag; e.currentTarget.classList.toggle('on',S.airtag); e.currentTarget.setAttribute('aria-pressed',S.airtag); say(S.airtag?'AirTag inside.':'No AirTag.'); };
     $('#saveBox').onclick=save; $('#plainBox').onclick=()=>{ S.flags=[]; save(); };
   }
@@ -1090,7 +1102,7 @@ const QS=w=>APPL.test(w)?{q:`Is the ${w.toLowerCase()} coming with you?`,a:["Com
  :/Bookcase/.test(w)?{q:"How tall is it?",a:["Waist high","Shoulder high","Floor to ceiling"]}
  :/^Sleeper sofa$/.test(w)?{q:"What size is the sleeper sofa?",a:["Twin","Full","Queen"],sub:"Sleeper sofas are much heavier than they look."}
  :{q:"About how big is it?",a:["Small","Medium","Large","Extra large"],sub:"Small fits in a car seat. Extra large takes two people and a dolly."};
-function leaveNext(said){ S.lsay=said; S.li++; S.lstage='ask'; if(S.li<LEAVE.length) return show('leave',true); learn('Sorting'); cheer(true,'Your whole move is set up.'); show('sortTab'); }
+function leaveNext(said){ S.lsay=said; S.li++; S.lstage='ask'; if(S.li<LEAVE.length) return show('leave',true); learn('Sorting'); show('sortTab'); landSoon('Sorting'); }
 function goRoom(r,first){ newBatch(); S.bigRoom=r; S.missShown=false; S.queue=[]; if(!S.homeRooms.includes(r)) S.homeRooms.push(r); S.big.filter(b=>b.room===r).forEach(b=>b.batch=S.batch); if(first) return startItem(first); show('roomItem'); }
 /* where a first big piece usually is, so the question can be yes or no */
 const likelyRoom=w=>/^(Sofa|Sectional|Loveseat|TV|TV stand|Coffee table|End tables|Armchair|Recliner|Entertainment center|Piano|Bookcase)$/.test(w)?'Living room'
@@ -1171,8 +1183,7 @@ function saveItem(){ const b=S.cur, a=b.ans||{};
     parts.forEach(pt=>S.big.push(Object.assign({},b,{what:pt,size:a.size||'',apart:a.apart||''}))); }
   else { b.size=a.size||b.size||''; }
   fresh=S.big.map((x,i)=>x.batch===S.batch?'big'+i:'').filter(Boolean);
-  if(!S.tabs.includes('Furniture')) cheer(true,`The ${lc(itemName(b))} is in. Your first big piece.`);
-  if(!S.tabs.includes('Furniture')){ learn('Furniture'); hopping=matchMedia('(prefers-reduced-motion: reduce)').matches?'':'Furniture'; show('furnTab'); if(hopping) hop('Furniture'); return; }
+  if(!S.tabs.includes('Furniture')){ learn('Furniture'); hopping=matchMedia('(prefers-reduced-motion: reduce)').matches?'':'Furniture'; show('furnTab'); if(hopping) hop('Furniture'); else landSoon('Furniture'); return; }
   afterItem(); }
 function afterItem(){ if(S.queue&&S.queue.length) return startItem(S.queue.shift()); show('roomItem'); }
 function roomEnd(){ const have=S.big.filter(b=>b.room===S.bigRoom).map(b=>b.what); S.miss=(FORGOT[S.bigRoom]||[]).filter(x=>!have.includes(x)).slice(0,4); if(S.miss.length&&!S.missShown){ S.missShown=true; return show('bigMissing'); } afterRoom(); }
@@ -1181,7 +1192,7 @@ function newBatch(){ S.batch=(S.batch||0)+1; S.pick=[]; S.lastRoom=''; }
 const shotItems=()=>{ const it=roomItems(); let bed=false; return it.filter(b=>{ if(!BEDPART.test(b.what)) return true; if(bed) return false; bed=true; return true; }); };
 /* a room's sizes are done: photos and condition, then the next room */
 function roomFinish(){ const it=shotItems(); if(S.photoLater||!it.length) return afterRoom(); S.si=it.findIndex(b=>!b.shotDone); if(S.si<0) return afterRoom(); show('bigShot'); }
-function afterRoom(){ if(S.bigRoom&&!S.doneRooms.includes(S.bigRoom)){ S.doneRooms.push(S.bigRoom); cheer(true,`The ${lc(S.bigRoom)} is done.`); }
+function afterRoom(){ if(S.bigRoom&&!S.doneRooms.includes(S.bigRoom)){ S.doneRooms.push(S.bigRoom); say(`The ${lc(S.bigRoom)} is done.`); }
   fresh=S.big.map((b,i)=>b.batch===S.batch?'big'+i:'').filter(Boolean);
   if(!S.roomsAsked) return show('bedCount'); show('bigSaved'); }
 function finishBig(){ if(!S.ntShown && S.big.some(b=>FUEL.test(b.what))){ S.ntShown=true; return show('notruck'); }
@@ -1216,6 +1227,32 @@ function cheerSound(big){ try{ const AC=window.AudioContext||window.webkitAudioC
   const bell=(f,at,len,amp)=>{ [[1,1,4.2],[2,0.42,7],[3.01,0.18,10],[4.2,0.08,13]].forEach(([m,a,k])=>{ const o=ac.createOscillator(), g=ac.createGain(); o.type='sine'; o.frequency.value=f*m; g.gain.setValueAtTime(0.0001,at); g.gain.exponentialRampToValueAtTime(amp*a,at+0.005); g.gain.exponentialRampToValueAtTime(0.0001,at+Math.min(len,5/k)); o.connect(g); g.connect(out); o.start(at); o.stop(at+len); }); };
   hop(784,t0,0.11); hop(1046.5,t0+0.15,0.11); hop(1318.5,t0+0.30,0.14); if(big){ bell(1568,t0+0.50,1.0,0.9); bell(3139.5,t0+0.56,0.6,0.25); }
   if(navigator.vibrate) navigator.vibrate(12); }catch(e){} }
+/* owner, 6 Nov: the celebration is earning a tab. When the icon lands in the bar: the tab lifts, a warm light blooms behind it,
+   two rings open out and fine rays of light spread. The sound is new: a soft landing, then a rising marimba run that grows
+   with every tab earned, so the fourth tab finishes the chord. Reduced motion keeps the light and the sound, nothing moves. */
+const landSoon=n=>setTimeout(()=>tabLand(n),420);
+function landSound(k){ try{ const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return; prAudio=prAudio||new AC(); const ac=prAudio; if(ac.state==='suspended') ac.resume();
+  const t0=ac.currentTime+0.02, out=ac.createGain(); out.gain.value=0.24;
+  const d1=ac.createDelay(), g1=ac.createGain(), d2=ac.createDelay(), g2=ac.createGain(); d1.delayTime.value=0.09; g1.gain.value=0.22; d2.delayTime.value=0.19; g2.gain.value=0.11;
+  out.connect(ac.destination); out.connect(d1); d1.connect(g1); g1.connect(ac.destination); out.connect(d2); d2.connect(g2); g2.connect(ac.destination);
+  const thud=ac.createOscillator(), tg=ac.createGain(); thud.type='sine'; thud.frequency.setValueAtTime(150,t0); thud.frequency.exponentialRampToValueAtTime(62,t0+0.16);
+  tg.gain.setValueAtTime(0.0001,t0); tg.gain.exponentialRampToValueAtTime(0.75,t0+0.01); tg.gain.exponentialRampToValueAtTime(0.0001,t0+0.22); thud.connect(tg); tg.connect(out); thud.start(t0); thud.stop(t0+0.25);
+  const mar=(f,at,amp)=>[[1,1,1.1],[3.93,0.22,0.28],[9.2,0.05,0.09]].forEach(([m,a,len])=>{ const o=ac.createOscillator(), g=ac.createGain(); o.type='sine'; o.frequency.value=f*m;
+    g.gain.setValueAtTime(0.0001,at); g.gain.exponentialRampToValueAtTime(amp*a,at+0.004); g.gain.exponentialRampToValueAtTime(0.0001,at+len); o.connect(g); g.connect(out); o.start(at); o.stop(at+len+0.05); });
+  const notes=[523.25,659.25,783.99,1046.5,1318.5,1567.98,2093], n=Math.min(notes.length,3+Math.max(0,k-1));
+  for(let i=0;i<n;i++) mar(notes[i],t0+0.13+i*0.085,i===n-1?0.8:0.55);
+  const end=t0+0.13+n*0.085+0.05; [[2093,0.18],[3135.96,0.1],[4186,0.05]].forEach(([f,a],j)=>{ const o=ac.createOscillator(), g=ac.createGain(); o.type='sine'; o.frequency.value=f;
+    g.gain.setValueAtTime(0.0001,end+j*0.03); g.gain.exponentialRampToValueAtTime(a,end+j*0.03+0.01); g.gain.exponentialRampToValueAtTime(0.0001,end+j*0.03+1.4); o.connect(g); g.connect(out); o.start(end+j*0.03); o.stop(end+1.6); });
+  if(navigator.vibrate) navigator.vibrate([10,40,14]); }catch(e){} }
+function tabLand(name){ try{ const tab=phone.querySelector(`[data-tab="${name}"]`); if(!tab) return; landSound(S.tabs.length);
+  const still=matchMedia('(prefers-reduced-motion: reduce)').matches, pr=phone.getBoundingClientRect(), ic=(tab.querySelector('svg')||tab).getBoundingClientRect();
+  const fx=document.createElement('div'); fx.className='land'+(still?' still':''); fx.setAttribute('aria-hidden','true');
+  fx.style.left=(ic.left-pr.left+ic.width/2)+'px'; fx.style.top=(ic.top-pr.top+ic.height/2)+'px';
+  let rays=''; if(!still){ for(let i=0;i<12;i++){ const a=i*30+15, c=i%2?'#F2E8D5':'#9BE0B3'; rays+=`<line x1="0" y1="-22" x2="0" y2="-46" stroke="${c}" stroke-width="2.2" stroke-linecap="round" pathLength="1" transform="rotate(${a})" style="animation-delay:${(i%3)*40}ms"/>`; } }
+  fx.innerHTML=`<i class="glow"></i>${still?'':`<i class="ring"></i><i class="ring r2"></i><svg viewBox="-60 -60 120 120">${rays}</svg>`}`;
+  phone.appendChild(fx); say(`${nm(name)} is yours.`);
+  if(!still) tab.animate([{transform:'none'},{transform:'translateY(-7px) scale(1.14)',offset:0.35},{transform:'none'}],{duration:900,easing:'cubic-bezier(.3,1.4,.5,1)'});
+  tab.classList.add('earned'); setTimeout(()=>{ tab.classList.remove('earned'); fx.remove(); },2200); }catch(e){} }
 function cheer(big,line){ cheerSound(big); setTimeout(()=>cheerDraw(big,line),40); }
 function cheerDraw(big,line){ try{
   const quiet=matchMedia('(prefers-reduced-motion: reduce)').matches, old=phone.querySelector('.cheerw'); if(old) old.remove();
