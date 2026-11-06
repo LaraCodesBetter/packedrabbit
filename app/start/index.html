@@ -165,7 +165,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
 .phone.lit .brand{opacity:0;transition:opacity .5s}
 .flood{position:absolute;inset:0;z-index:1;background:#0A3B1F;clip-path:circle(0px at 50% 100%);transition:clip-path 1s cubic-bezier(.6,0,.3,1)}
 .stop.last.alive .flood{clip-path:circle(150% at 50% 100%)}
-.walk{position:absolute;left:0;bottom:86px;width:100%;aspect-ratio:1;object-fit:cover;z-index:3;opacity:0;transition:opacity .6s ease .85s}
+.walk{position:absolute;left:0;bottom:86px;width:100%;aspect-ratio:1;object-fit:cover;z-index:3;opacity:0;transition:opacity .6s ease .85s;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 30%,#000 90%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 30%,#000 90%,transparent 100%)}
+/* owner, 6 Nov: the green looked choppy. The picture now melts into the room at its top edge, and its background is smoothed. */
+.walkfade{display:none!important}
 .walkfade{position:absolute;left:0;right:0;bottom:374px;height:72px;z-index:3;background:linear-gradient(#0A3B1F,rgba(10,59,31,0));opacity:0;transition:opacity .6s ease .85s}
 .stop.last.alive .walkfade{opacity:1}
 .stop.last.alive .walk{opacity:1}
@@ -305,7 +307,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
       <img class="walk" id="walkimg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
       <div class="walkfade" aria-hidden="true"></div>
       <div class="s4text">
-        <p class="s4name"><img src="wordmark-cream.png" alt="The Packed Rabbit" width="300" height="72" style="display:block;height:auto"></p>
+        <p class="s4name"><img id="wm4" src="wordmark-ears-cream.png" alt="The Packed Rabbit" width="300" height="78" style="display:block;height:auto"></p>
         <h2 class="s4tag">The calm way to move.</h2>
         <button class="cta" id="go">Let's get started</button>
         <button class="link getapp" id="getapp">Download the app</button>
@@ -498,7 +500,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   try{ const pre=new Image(); pre.src='rabbit-walks-in.webp'; }catch(e){}
   const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
   let played=false;
-  function wake(s){ s.classList.add('alive'); document.querySelector('.phone').classList.add('lit');
+  /* the signature again at the end: once the name has flown in, the ears wiggle */
+  function wiggle4(){ try{ if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; }catch(e){} const m=document.getElementById('wm4'); if(!m||m.dataset.w) return; m.dataset.w='1'; setTimeout(()=>{ const w=new Image(); w.onload=()=>{ m.src=w.src; }; w.src='wordmark-wiggle-cream.webp?'+Date.now(); },2100); }
+  function wake(s){ s.classList.add('alive'); if(s.classList.contains('last')) wiggle4(); document.querySelector('.phone').classList.add('lit');
     const v=s.querySelector('.walk'); if(!v.dataset.played){ v.dataset.played='1'; if(RM) v.src='rabbit-walks-in-end.jpg'; else setTimeout(()=>{ v.src='rabbit-walks-in.webp'; },800); } }
   function arrive(s){ if(played){ if(!s.classList.contains('alive')) wake(s); return; } played=true;
     if(RM){ wake(s); return; }

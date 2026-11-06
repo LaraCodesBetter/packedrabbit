@@ -206,6 +206,9 @@ a.choice{text-decoration:none}
 .ckey i{display:inline-block;width:14px;height:14px;border-radius:4px}
 .ckey .kw{background:#E3F0E6}.ckey .km{border-bottom:3px solid var(--plum);border-radius:0;height:8px;margin-left:8px}
 .findl{display:inline-flex;align-items:center;min-height:44px;font-weight:700;color:var(--ink)}
+.asklist{width:100%;max-width:420px;text-align:left}
+.asklist .grp{margin:14px 0 0}
+.asklist .checks{margin-top:4px}
 .links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;width:100%;max-width:300px}
 .links .choice{min-width:0;padding-left:6px;padding-right:6px;font-size:16px}
 .homepic{width:100%;max-width:340px;max-height:30vh;object-fit:cover;border-radius:16px;margin-top:14px;border:1.5px solid #9DC3A8}
@@ -487,7 +490,7 @@ function scene(mode){
 const TAB={Boxes:'<path class="bf" d="M4.5 10h15v10h-15z"/><path d="M3 6.5h18V10H3z"/><path class="tf" d="M10.25 6.5h3.5v6h-3.5z"/><path d="M8 14.5h8V18H8z"/>',Furniture:'<path d="M4 18v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6M2 14h20M5 18v2M19 18v2M6 10V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3"/>',Moving:'<path d="M4 6h16v14H4zM4 10.5h16M8.5 3.5v5M15.5 3.5v5M8 14h2M12 14h2M16 14h0M8 17h2M12 17h2"/>',Menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',Sorting:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/>'};
 const TABORDER=['Boxes','Furniture','Moving','Sorting','Menu'];
 const TABNAME={Furniture:'Big Stuff',Moving:'Calendar'}, nm=n=>TABNAME[n]||n;
-const SECTION={}; [['Furniture',['toobig','bigFirst','bigWhere','roomItem','itemPhoto','itemCond','itemQ','bigMissing']],['Sorting',['leave','lpick','dhow','sprice','uq','uverdict','llist']],['Moving',['mto','mwhy','mwho','hplan','hbeds','hbudget','hsearch','hphoto','hlink','hdetails','hstart','hclose','htitle','oldplace','oldend','oldclose','moveday','mfound','msize','hkind','hneeds','hshow','moving','mfar','mhow','mbooked','mname','mdot','mnq','mquote','mread','mstairs','mdoor','mpacket','mtruck','mhelp','mboth','mrent']]].forEach(([n,ids])=>ids.forEach(i=>SECTION[i]=n));
+const SECTION={}; [['Furniture',['toobig','bigFirst','bigWhere','roomItem','itemPhoto','itemCond','itemQ','bigMissing']],['Sorting',['leave','lpick','dhow','sprice','uq','uverdict','llist']],['Moving',['mwhyask','hask','mto','mwhy','mwho','hplan','hbeds','hbudget','hsearch','hphoto','hlink','hdetails','hstart','hclose','htitle','oldplace','oldend','oldclose','moveday','mfound','msize','hkind','hneeds','hshow','moving','mfar','mhow','mbooked','mname','mdot','mnq','mquote','mread','mstairs','mdoor','mpacket','mtruck','mhelp','mboth','mrent']]].forEach(([n,ids])=>ids.forEach(i=>SECTION[i]=n));
 function bar(){
   if(!S.tabs.length) return '';
   const t=TABORDER.filter(n=>S.tabs.includes(n)).map(n=>`<button type="button" data-tab="${n}" class="${n===newTab&&!hopping?'new':''} ${hopping===n?'wait':''} ${n===openTab?'on':''}" aria-expanded="${n===openTab}"><svg viewBox="0 0 24 24" aria-hidden="true">${TAB[n]}</svg>${nm(n)}${n==='Moving'&&hopping!=='Moving'&&truckTag()?`<span class="mtag">${truckTag()}</span>`:''}</button>`).join('');
@@ -497,6 +500,13 @@ function bar(){
 const learn=(n)=>{ if(!S.tabs.includes(n)){ S.tabs.push(n); newTab=n; } };
 
 /* the move itself: a few questions now, the rest one at a time when their day comes */
+/* owner, 6 Nov, from her own rental: the things nobody thinks to ask until they live there */
+const ASKS=[["Kitchen",["Which appliances stay? Get the brand and model of each.","Do the dishwasher, microwave, ice maker and filtered water all work?","Enough cabinets? Is there a spot for the trash can?"]],
+ ["Light and air",["Curtains or blinds on every window, the biggest one too?","Ceiling fans? Were any taken out?","Can you change the light fixtures and bulbs, or are they built-in LEDs?","Heating and cooling on every floor, or one zone for the whole house?"]],
+ ["Living there",["Where's the laundry, and how many stairs from the bedrooms?","Does your car fit in the garage with the doors open?","Does the fireplace light?"]],
+ ["Smell",["Musty smell in the laundry room or basement? Strong air freshener can hide it."]],
+ ["In writing",["Everything in the listing stays, in writing, before you sign.","Photograph every room the day you get the keys."]]];
+const askText=()=>ASKS.map(([g,qs])=>g+':\n'+qs.map(q=>'- '+q).join('\n')).join('\n\n');
 const WHYS_HOME=["Downsizing","More space","First place of my own","Closer to family or care","A job or school","Splitting a household"], WHYS_BIZ=["More space","Less space","The lease is ending","Closer to customers","Combining locations","A better building"];
 let WHYS=WHYS_HOME;
 const LISTING_SOURCES=["Zillow","Apartments.com","Realtor.com","Redfin","Trulia","Facebook Marketplace","An agent","Word of mouth","Somewhere else"];
@@ -609,6 +619,7 @@ const MSTEPS=[
  {k:'signing', w:0, on:()=>MOVERS(), q:"Before you sign, is anything missing?", short:"check before you sign.", c:["Everything's here","Something's missing"], say:{"Something's missing":"Write it on their inventory before you sign, and take a photo."}},
  {k:'delivery', w:-1/7, on:()=>MOVERS(), q:"Anything broken or missing at the new place?", short:"check everything arrived.", c:["No","Yes"], say:{"Yes":()=>"Write it on the paperwork before you sign."+(INTER()?" You have 9 months to file a claim.":"")}},
  {k:'keys', w:-2/7, on:()=>false, q:"When did you hand back the keys?", short:"hand back the keys.", t:'date', say:()=>"The rabbit counts the days until your deposit is due."},
+ {k:'moveinPhotos', w:-1/7, on:()=>S.place==='signed'&&S.hkind==='Renting', q:"Have you photographed every room at the new place?", short:"photograph the new place.", c:["Yes","Not yet"], say:{"Not yet":"Do it before you unpack. Include anything the listing promised that isn't there.",Yes:"Keep them. They protect your deposit when you leave."}},
  {k:'license', w:-2, on:()=>INTER(), q:"Do you drive?", short:"update your license.", c:["Yes","No"], say:{"Yes":"Your new state's DMV site has the license steps and the deadline."}},
 ];
 const dueOf=st=>{ if(!S.date) return null; const d=new Date(S.date+'T12:00'); d.setDate(d.getDate()-Math.round(st.w*7)); return d; };
@@ -762,6 +773,7 @@ const P={
       body:`<ul class="list"><li>${S.boxes.length} ${S.boxes.length===1?'box':'boxes'}<span>${Math.round(bx)} cu ft</span></li><li>${pcs} pieces of big stuff<span>${Math.round(bg)} cu ft</span></li></ul><button class="cta" id="toLeave">Next: your move</button><button class="link" id="addMore">Add something else</button>`}); },
   mto:()=>({say:"Next, your move.", h:"Where are you moving to?", sub:"The town and state is enough.", scene:'house',
     body:`<div class="field microw"><input id="mto" value="${esc(S.to||'')}" placeholder="Basking Ridge, NJ" aria-label="Where you're moving to"><button type="button" class="mic" data-mic="mto" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div><p class="hint" id="michint" hidden></p><button class="cta" id="toNext">Next</button><button class="link" id="toNot">Not sure yet</button>`}),
+  mwhyask:()=>({say:S.far&&S.far!=='Not sure yet'?S.far+'.':'', h:"Do you mind if we ask why you're moving?", sub:"It helps the rabbit know what to help with. It's fine to skip.", scene:'house', body:pickList(["Ask away","I'd rather not say"],'')}),
   mwhy:()=>(WHYS=isBiz()?WHYS_BIZ:WHYS_HOME,{say:S.far&&S.far!=='Not sure yet'?S.far+'.':"", h:"Why are you moving?", sub:"It changes what the rabbit helps with.", scene:'house2', body:pickList(WHYS,S.why)+`<button class="link" data-v="Something else">Something else</button>`}),
   mwho:()=>({say:S.why&&S.why!=='Something else'?S.why+'.':'', h:"Who's moving with you?", sub:"Tap all that apply.", scene:'house',
     body:`<div class="choices two">${["Just me","A partner","Kids","Pets","A parent or relative","Roommates"].map(x=>`<button class="choice${(S.who||[]).includes(x)?' hint':''}" data-who="${x}" aria-pressed="${(S.who||[]).includes(x)}">${x}</button>`).join('')}</div><button class="cta" id="whoNext" ${(S.who||[]).length?'':'disabled'}>Next</button>`}),
@@ -796,6 +808,8 @@ const P={
   hshow:()=>{ const big=S.big.filter(b=>/×/.test(b.size||'')).slice(0,3), widest=big.map(b=>esc(b.what)+', '+esc(b.size)).join('<br>');
     return ({say:"For every place you see.", h:"Bring a tape measure.", sub:big.length?`Measure the doors and stairs against your biggest pieces:<br><b>${widest}</b>`:"Measure the doors, the stairs and the rooms for your biggest pieces.", scene:'house',
     body:`<ul class="checks">${[(S.hneeds||[]).length?'Check: '+S.hneeds.join(', ').toLowerCase()+'.':'',"Ask what's included: water, trash, parking.",S.hkind==='Renting'?"Ask about the deposit and the move-in date.":"Ask what stays with the house.","Take a photo of every room. They blur together fast."].filter(Boolean).map(x=>`<li class="ok">${x}</li>`).join('')}</ul><button class="cta" id="showNext">Next</button>`}); },
+  hask:()=>({say:"Before you sign.", h:"What a video tour won't show you.", sub:"Check these in person. Get the answers in writing.", scene:'blank',
+    body:`<div class="asklist">${ASKS.map(([g,qs])=>`<p class="grp">${g}</p><ul class="checks">${qs.map(q=>`<li class="ask">${q}</li>`).join('')}</ul>`).join('')}</div><button class="cta" id="askCopy">Copy this list</button><button class="link" id="askNext">Next</button>`}),
   moving:()=>{ if(S.fromSite&&S.date) return ({say:"Your date.", h:`${fmtD(S.date)}, from the website. Still right?`, scene:'calendar', body:`<div class="choices"><button class="choice" data-v="yes">Yes</button><button class="choice" data-v="change">Change it</button></div>`});
     return ({say:S.bigger?({Bigger:"Room to grow.","About the same":"About the same size.",Smaller:"Smaller. Sorting comes next.","A lot smaller":"A lot smaller. Sorting comes next."})[S.bigger]||'':"", h:S.place==='signed'?"When do you move in?":"When would you like to move?", sub:S.date&&!S.rough?`${fmtD(S.date)}. ${dayLine()}`:"Tap the day.", scene:'blank',
     body:calBody()}); },
@@ -1019,7 +1033,8 @@ function wire(id){
   const calPage=(k,next,skip)=>{ phone.querySelectorAll('.cal [data-day]').forEach(b=>b.onclick=()=>{ S[k]=b.dataset.day; if(k==='date') S.rough=''; show(cur,true); const n=phone.querySelector(`[data-day="${S[k]}"]`); if(n) n.focus(); }); calNav(phone,k,()=>show(cur,true)); $('#calNext').onclick=next; if($('#calSkip')) $('#calSkip').onclick=skip||next; };
   if(id==='mwhat') pick(v=>{ S.mwhat=v; if(v==='A business'){ S.roomsAsked=true; S.homeRooms=['Private office','Open office','Conference room','Reception','Break room','Storage room']; } show('firstBox'); });
   if(id==='mto'){ $('#toNext').onclick=()=>{ S.to=$('#mto').value.trim(); show('mfar'); }; $('#toNot').onclick=()=>{ S.to=''; show('mfar'); }; }
-  if(id==='mfar') pick(v=>{ S.far=v; show('mwhy'); });
+  if(id==='mfar') pick(v=>{ S.far=v; show('mwhyask'); });
+  if(id==='mwhyask') pick(v=>{ if(/Ask/.test(v)) show('mwhy'); else { S.why=''; show(isBiz()?'mfound':'mwho'); } });
   if(id==='mwhy') pick(v=>{ S.why=v; S.bigger=/Downsizing|Less space/.test(v)?'Smaller':v==='More space'?'Bigger':''; show(isBiz()?'mfound':'mwho'); });
   if(id==='mwho'){ phone.querySelectorAll('[data-who]').forEach(b=>b.onclick=()=>{ const x=b.dataset.who; let w=S.who||[]; w=w.includes(x)?w.filter(y=>y!==x):(x==='Just me'?['Just me']:w.filter(y=>y!=='Just me').concat(x)); S.who=w; show('mwho',true); }); $('#whoNext').onclick=()=>show('mfound'); }
   if(id==='hplan'){ const inp=$('#homeplan'); if(inp) inp.onchange=async()=>{ const fl=inp.files&&inp.files[0]; if(!fl) return; const u=await shrink(fl); if(u){ S.home.plan=u; show('hplan',true); } }; if($('#planNext')) $('#planNext').onclick=()=>show('hlink'); if($('#planSkip')) $('#planSkip').onclick=()=>show('hlink'); }
@@ -1029,7 +1044,8 @@ function wire(id){
   if(id==='hbudget'){ $('#budNext').onclick=()=>{ S.hbudget=$('#hbud').value.replace(/[^\d,]/g,''); show('hneeds'); }; $('#budSkip').onclick=()=>show('hneeds'); }
   if(id==='hneeds'){ phone.querySelectorAll('[data-need]').forEach(b=>b.onclick=()=>{ const x=b.dataset.need; S.hneeds=S.hneeds.includes(x)?S.hneeds.filter(y=>y!==x):S.hneeds.concat(x); show('hneeds',true); }); $('#needsNext').onclick=()=>show('hsearch'); }
   if(id==='hsearch') $('#searchNext').onclick=()=>show('hshow');
-  if(id==='hshow') $('#showNext').onclick=()=>show('oldplace');
+  if(id==='hshow') $('#showNext').onclick=()=>show('hask');
+  if(id==='hask'){ $('#askNext').onclick=()=>show('oldplace'); $('#askCopy').onclick=()=>{ (navigator.clipboard?navigator.clipboard.writeText(askText()):Promise.reject()).then(()=>{ $('#askCopy').textContent='Copied'; say('Copied.'); },()=>{ $('#askCopy').textContent='Copy did not work here'; }); }; }
   if(id==='hphoto'){ const inp=$('#homepic'); inp.onchange=async()=>{ const fl=inp.files&&inp.files[0]; if(!fl) return; const u=await shrink(fl); if(u){ S.home.photo=u; show('hphoto',true); } }; if($('#photoNext')) $('#photoNext').onclick=()=>show('hplan'); if($('#photoSkip')) $('#photoSkip').onclick=()=>show('hplan'); }
   if(id==='hlink'){ const go=()=>{ S.home.link=$('#hlinkin').value.trim(); S.home.source=$('#hsrc').value; show('hdetails'); }; $('#linkNext').onclick=go; $('#linkSkip').onclick=()=>show('hdetails'); }
   if(id==='hdetails'){ $('#detNext').onclick=()=>{ S.home.text=$('#htext').value; show('hkind'); }; $('#detSkip').onclick=()=>show('hkind'); }
@@ -1207,8 +1223,8 @@ function pauseCard(back){ keep(true); const old=phone.querySelector('.paused'); 
   c.querySelector('[data-resume]').onclick=()=>{ c.remove(); if(pg) pg.inert=false; const h=phone.querySelector('.page h2'); if(h) h.focus(); }; }
 phone.addEventListener('click',e=>{ if(e.target.closest('[data-pause]')) pauseCard(false); });
 const afterOldGo=()=>S.place==='signed'?show('moveday'):homeDone();
-const SKIP={mto:()=>show('mfar'),mfar:()=>show('mwhy'),mwhy:()=>show('mwho'),mwho:()=>show('mfound'),mfound:()=>show('oldplace'),
-  hkind:()=>show(S.place==='signed'?'hstart':(isBiz()?'hbudget':'hbeds')),hbeds:()=>show('hbudget'),hneeds:()=>show('hsearch'),hsearch:()=>show('hshow'),hshow:()=>show('oldplace'),
+const SKIP={mto:()=>show('mfar'),mfar:()=>show('mwhyask'),mwhyask:()=>show(isBiz()?'mfound':'mwho'),mwhy:()=>show('mwho'),mwho:()=>show('mfound'),mfound:()=>show('oldplace'),
+  hkind:()=>show(S.place==='signed'?'hstart':(isBiz()?'hbudget':'hbeds')),hbeds:()=>show('hbudget'),hneeds:()=>show('hsearch'),hsearch:()=>show('hshow'),hshow:()=>show('hask'),hask:()=>show('oldplace'),
   hstart:()=>show('oldplace'),hclose:()=>show('htitle'),oldplace:afterOldGo,oldend:afterOldGo,oldclose:afterOldGo,moveday:()=>homeDone(),
   words:()=>show('dest'),dest:()=>show('photo'),leave:()=>leaveNext(''),mstairs:()=>show('mdoor'),mdoor:()=>show(MOVERS()&&S.booked!=="Yes, they're booked"&&!S.qtext?'mpacket':'mrent')};
 const SKIPWORDS=/^(Skip|Later|Not now|Not sure yet|I don't know yet|I'll find it later|Not sold yet|Nothing like that|Not right now)$/;
