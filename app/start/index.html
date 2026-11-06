@@ -309,7 +309,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
       <div class="s4text">
         <p class="s4name"><img id="wm4" src="wordmark-ears-cream.png" alt="The Packed Rabbit" width="300" height="78" style="display:block;height:auto"></p>
         <h2 class="s4tag">The calm way to move.</h2>
-        <button class="cta" id="go">Let's get started</button>
+        <button class="cta" id="go">Pack my first box</button>
         <button class="link getapp" id="getapp">Download the app</button>
       </div>
     </section>
@@ -320,7 +320,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
     <h3 id="ish">Put the rabbit on your phone</h3>
     <p>It installs straight from here, like any app. No App Store, no account.</p>
     <div id="iwhat"></div>
-    <button class="cta" id="idone">Let's get started</button>
+    <button class="cta" id="idone">Pack my first box</button>
     <button class="link" id="iclose">Not now</button>
   </div></div>
   <div class="foot" id="foot">
@@ -483,7 +483,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
     <li><h3>He walks in</h3><p>At the last stop the screen fills with green and the felt rabbit walks in carrying a box, sets it down and looks at you. The button appears as the green fills in. Then he adjusts his monocle and looks at you.</p></li>
     <li><h3>A way back for new phones</h3><p>"Restore a backup" sits under the button, the way an app puts "Sign in" under "Get started."</p></li>
   </ul>
-  <div class="q"><p>Try it: swipe the phone or tap the dots, then tap "Let's get started." It goes straight into the first box, and from there the whole thread: boxes, the big things room by room, what's not coming, and moving day, earning a tab at each step. Back on the first question returns to the drawings.</p></div>
+  <div class="q"><p>Try it: swipe the phone or tap the dots, then tap "Pack my first box." It goes straight into the first box, and from there the whole thread: boxes, the big things room by room, what's not coming, and moving day, earning a tab at each step. Back on the first question returns to the drawings.</p></div>
 </div>
 </div>
 
@@ -563,7 +563,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
     iwhat.innerHTML= ios ? '<ol><li>Tap the <b>Share</b> button at the bottom of Safari.</li><li>Tap <b>Add to Home Screen</b>.</li><li>Tap <b>Add</b>. The rabbit is on your home screen.</li></ol>'
       : android ? (bip ? '<p>Tap <b>Install</b> and it opens like any app.</p>' : '<ol><li>Tap the menu at the top right of Chrome.</li><li>Tap <b>Install app</b> or <b>Add to Home screen</b>.</li></ol>')
       : '<p>Open <b>packedrabbit.com/app</b> on your phone, then add it to your home screen. On a computer it works right here in the browser.</p>';
-    document.getElementById('idone').textContent = android && bip ? 'Install' : afterInstall==='flow' ? 'Done' : "Let's get started";
+    document.getElementById('idone').textContent = android && bip ? 'Install' : afterInstall==='flow' ? 'Done' : "Pack my first box";
     isheet.hidden=false; document.getElementById('idone').focus();
   }
   document.getElementById('idone').addEventListener('click',async()=>{ if(bip){ bip.prompt(); try{ await bip.userChoice; }catch(e){} bip=null; } isheet.hidden=true; if(afterInstall!=='flow') document.getElementById('go').click(); });

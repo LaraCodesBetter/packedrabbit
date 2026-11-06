@@ -209,6 +209,10 @@ a.choice{text-decoration:none}
 .asklist{width:100%;max-width:420px;text-align:left}
 .asklist .grp{margin:14px 0 0}
 .asklist .checks{margin-top:4px}
+.more{width:100%;max-width:340px;margin-top:14px;text-align:center}
+.more summary{min-height:44px;display:inline-flex;align-items:center;cursor:pointer;font-weight:700;color:var(--ink);list-style:none}
+.more summary::-webkit-details-marker{display:none}
+.more summary span{font-weight:600;color:var(--muted);margin-left:4px}
 .links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;width:100%;max-width:300px}
 .links .choice{min-width:0;padding-left:6px;padding-right:6px;font-size:16px}
 .homepic{width:100%;max-width:340px;max-height:30vh;object-fit:cover;border-radius:16px;margin-top:14px;border:1.5px solid #9DC3A8}
@@ -650,11 +654,12 @@ const P={
       <p class="qlabel">Not coming?</p><div class="duty" role="group" aria-label="Not coming">${["Donate","Sell","Not sure"].map(k=>`<button class="choice" data-dest="${k}">${k}</button>`).join('')}</div>`}),
   size:()=>({say:`Box ${S.boxes.length+1}, from ${S.room==='A closet'?'a closet':'the '+S.room.toLowerCase()}.`, h:"What size box?", sub:S.size?{XS:"Books, records, tools.",S:"Dishes, tins, anything heavy.",M:"The everyday box.",L:"Bedding, cushions, toys.",XL:"Big and light only.",Custom:"Its size in inches."}[S.size]:"Small boxes for heavy things.",
     body:`<div class="sizes" role="group" aria-label="Size">${["XS","S","M","L","XL","Custom"].map(k=>`<button class="choice ${S.size===k?'on':''}" data-size="${k}" aria-pressed="${S.size===k}" aria-label="${({XS:'Extra small',S:'Small',M:'Medium',L:'Large',XL:'Extra large',Custom:'Custom size'})[k]}">${k}${k==='Custom'?'':`<small>${({XS:'Extra small',S:'Small',M:'Medium',L:'Large',XL:'Extra large'})[k]}</small>`}</button>`).join('')}</div>${S.size==='Custom'?`<div class="dims"><label>Long<input inputmode="decimal" id="cw"></label><label>Wide<input inputmode="decimal" id="cd"></label><label>High<input inputmode="decimal" id="ch"></label></div>`:''}
+      <details class="more" id="sizeMore" ${S.sizeMore||S.duty==='Heavy duty'||S.brand?'open':''}><summary>Heavy duty, or a store's box? <span>(optional)</span></summary>
       <p class="qlabel">Regular or heavy duty?</p><div class="duty" role="group" aria-label="Regular or heavy duty">${["Regular","Heavy duty"].map(k=>`<button class="choice ${S.duty===k?'on':''}" data-duty="${k}" aria-pressed="${S.duty===k}">${k}${k==='Regular'?'<small>Most boxes</small>':'<small>Heavy things</small>'}</button>`).join('')}</div>
       <p class="qlabel">Box brand <span style="font-weight:600;color:var(--muted)">(optional)</span></p><div class="duty brands" role="group" aria-label="Box brand">${MAINBRANDS.map(k=>{ const on=k==='Other'?otherBrand():S.brand===k; return `<button class="choice ${on?'on':''}" data-brand="${k}" aria-pressed="${on}">${k}</button>`; }).join('')}</div>
-      ${otherBrand()?`<div class="field" style="margin-top:8px"><select id="brandOther" aria-label="Which brand"><option value="" ${S.brand?'':'selected'} disabled>Which one?</option>${BRANDS.filter(b=>b&&!MAINBRANDS.includes(b)).map(b=>`<option ${S.brand===b?'selected':''}>${b}</option>`).join('')}</select></div>`:''}
+      ${otherBrand()?`<div class="field" style="margin-top:8px"><select id="brandOther" aria-label="Which brand"><option value="" ${S.brand?'':'selected'} disabled>Which one?</option>${BRANDS.filter(b=>b&&!MAINBRANDS.includes(b)).map(b=>`<option ${S.brand===b?'selected':''}>${b}</option>`).join('')}</select></div>`:''}</details>
       ${S.size&&S.size!=='Custom'?`<p class="dimline">${dimText(boxDims(S.brand,S.size,S.duty||'Regular'))}</p>`:''}
-      <button class="cta" id="sizeNext" ${S.size&&S.size!=='Custom'&&S.duty?'':'disabled'}>Next</button>`}),
+      <button class="cta" id="sizeNext" ${S.size&&S.size!=='Custom'?'':'disabled'}>Next</button>`}),
   words:()=>({h:`This is ${code()}.`, sub:"Write this on the box.",
     body:`<p class="qlabel"><label for="words">What's going inside?</label></p><div class="field microw" style="margin-top:8px"><input id="words" value="${esc(S.words||'')}" placeholder="coats, boots, scarves"><button type="button" class="mic" data-mic="words" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div><p class="hint" id="michint">Tap the microphone and say what's going in. You don't have to type.</p><button class="cta" id="wordsNext">Next</button>`}),
   special:()=>({h:"Anything special about this box?", sub:specialSub(), scene:"special",
@@ -763,7 +768,7 @@ const P={
     return ({say:"Your 3 free boxes are packed.", h:"All of it is $9.99 a month.", scene:"price",
       body:`<ul class="have">${have.map(x=>`<li>${x}</li>`).join('')}</ul>
         <div class="plans"><button class="plan m" data-plan="month">Monthly<small>$9.99 a month</small></button><button class="plan y" data-plan="year"><span class="save">Save $9.99</span>Yearly<small>$109.89 a year</small></button></div>
-        <button class="link" data-back2>Not now</button>
+        <p class="hint" style="margin-top:8px">Monthly billing stops by itself after 12 payments. Cancel anytime: your list stays yours.</p><button class="link" data-back2>Not now</button>
         <p class="lead">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>`}); },
   furnTab:()=>({say:`The ${esc(itemName(S.cur||{what:'piece'}))} is saved.`, h:"Your Big Stuff tab is ready.", sub:"It's in the bar, next to Boxes.", body:`<button class="cta" id="furnNext">Next</button>`}),
   roomCheck:()=>{ const left=COMMONROOMS.filter(r=>!S.doneRooms.includes(r)).slice(0,6); return ({say:`Done: ${S.doneRooms.join(', ')}.`, h:"Did we miss a room?", sub:"Garages, basements and patios are the ones people forget.",
@@ -890,8 +895,9 @@ function wire(id){
   if(id==='size'){
     phone.querySelectorAll('[data-size]').forEach(b=>b.onclick=()=>{ S.size=b.dataset.size; show('size',true); });
     phone.querySelectorAll('[data-duty]').forEach(b=>b.onclick=()=>{ S.duty=b.dataset.duty; show('size',true); });
-    const cw=$('#cw'); if(cw){ const ins=['#cw','#cd','#ch'].map(s=>$(s)); ins.forEach(i=>i.oninput=()=>$('#sizeNext').disabled=!(ins.every(i=>i.value)&&S.duty)); }
-    $('#sizeNext').onclick=()=>{ if(cw) S.custom=['#cw','#cd','#ch'].map(s=>$(s).value).join(' × ')+' in'; show('words'); };
+    const cw=$('#cw'); if(cw){ const ins=['#cw','#cd','#ch'].map(s=>$(s)); ins.forEach(i=>i.oninput=()=>$('#sizeNext').disabled=!ins.every(i=>i.value)); }
+    const sm=$('#sizeMore'); if(sm) sm.ontoggle=()=>{ S.sizeMore=sm.open; };
+    $('#sizeNext').onclick=()=>{ S.duty=S.duty||'Regular'; if(cw) S.custom=['#cw','#cd','#ch'].map(s=>$(s).value).join(' × ')+' in'; show('words'); };
     phone.querySelectorAll('[data-brand]').forEach(b=>b.onclick=()=>{ const k=b.dataset.brand; if(k==='Other'){ S.brandOther=true; if(MAINBRANDS.includes(S.brand)) S.brand=''; } else { S.brandOther=false; S.brand=S.brand===k?'':k; } show('size',true); });
     if($('#brandOther')) $('#brandOther').onchange=e=>{ S.brand=e.target.value; show('size',true); };
   }

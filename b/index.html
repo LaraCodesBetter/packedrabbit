@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0D3B22">
+<meta name="robots" content="noindex">
+<title>A packed box · The Packed Rabbit</title>
+<style>
+@font-face{font-family:"Atkinson Hyperlegible Next";src:url("../app/fonts/atkinson-next.woff") format("woff");font-weight:200 800;font-display:swap}
+:root{--green:#0D3B22;--ink:#1E4D33;--cream:#F2E8D5;--text:#1B2A21;--muted:#56665B;--screen:#F7F8F5}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--screen);color:var(--text);font-family:"Atkinson Hyperlegible Next",system-ui,sans-serif}
+main{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 24px}
+.wm{width:180px;height:auto;margin-bottom:28px}
+.tag{display:inline-block;padding:18px 28px;border:3px solid var(--ink);border-radius:16px;background:#fff;font-weight:800;font-size:44px;letter-spacing:.04em;color:var(--ink)}
+h1{font-size:26px;line-height:1.25;margin:22px 0 6px;max-width:22ch}
+p{font-size:18px;line-height:1.5;color:var(--muted);margin:6px 0;max-width:32ch}
+.cta{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 26px;margin-top:28px;border-radius:14px;background:var(--ink);color:#fff;font-weight:700;font-size:18px;text-decoration:none}
+.link{display:inline-flex;align-items:center;min-height:44px;margin-top:8px;color:var(--ink);font-weight:700}
+.lead{margin-top:30px;font-size:15px}
+</style>
+</head>
+<body>
+<main>
+  <img class="wm" src="../img/wordmark.png" alt="The Packed Rabbit" width="180" height="47">
+  <div class="tag" id="code">A box</div>
+  <h1 id="where">This box is part of someone's move.</h1>
+  <p id="help">Carrying it? Please take it where the label says.</p>
+  <a class="cta" href="../">Pack your own move calmly</a>
+  <a class="link" id="mine" href="../app/?go=find">This is my box: open my move</a>
+  <p class="lead">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>
+</main>
+<script>
+/* the label carries only its code and where it goes. What's inside stays on the owner's phone. */
+(function(){ try{
+  var h=decodeURIComponent((location.hash||'').slice(1)), parts=h.split('/'), code=(parts[0]||'').replace(/[^A-Za-z0-9-]/g,'').toUpperCase().slice(0,16), room=(parts[1]||'').replace(/[<>]/g,'').slice(0,40);
+  if(code){ document.getElementById('code').textContent=code; document.title=code+' · The Packed Rabbit'; }
+  if(room){ document.getElementById('where').textContent='This box goes to the '+room.toLowerCase()+'.'; document.getElementById('help').textContent='Carrying it? Thank you. Please set it in the '+room.toLowerCase()+'.'; }
+}catch(e){} })();
+</script>
+</body>
+</html>
