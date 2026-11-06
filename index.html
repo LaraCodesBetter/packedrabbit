@@ -372,6 +372,10 @@ section.calm{background:none}
   .fo-grid{display:block;padding:0}
   .fo-phone{width:100vw;height:100vh;height:100svh;aspect-ratio:auto;border:0;border-radius:0;box-shadow:none}
   .fo-side{padding:28px 22px 0}
+  /* owner, 6 Nov: on a phone the first view is the app and nothing else. What's below is earned inside the app. */
+  .fo{padding:0}.fo-side,footer,.leaves,.light{display:none}
+  html,body{height:100%;overflow:hidden;overscroll-behavior:none}
+  .fo-phone{height:100dvh}
 }
 .story-s{padding:10px 0 70px}
 .story{list-style:none;margin:0;padding:0;display:grid;gap:22px}
@@ -456,103 +460,6 @@ footer p{margin:0}
   </div>
 </div></section>
 
-<section class="reasons-s sun"><div class="wrap">
-  <h2>Every move has a reason.</h2>
-  <ul class="reasons">
-    <li class="glass">A first home</li><li class="glass">Off to college</li><li class="glass">A new job</li><li class="glass">Moving in together</li><li class="glass">More room</li><li class="glass">Downsizing</li><li class="glass">A parent moving in</li><li class="glass">A divorce</li><li class="glass">A loss</li><li class="glass">A move gone wrong</li>
-  </ul>
-  <p class="tag">The Packed Rabbit handles the boxes so you can handle the rest.</p>
-</div></section>
-
-<section class="calm"><div class="wrap">
-  <p class="kick">Find it</p>
-  <h2>Your things, even when you can't be with them.</h2>
-  <p class="lede">A photo inside every box, its number, its size and where it is. See it, prove it, find it.</p>
-  <ul class="carry">
-    <li><b>Years in storage</b><span>A military move can mean four years apart from everything you own. Carry it all in your pocket.</span></li>
-    <li><b>Someone else moved you</b><span>A hospital stay, an emergency, a family member packing up. Every box is still yours, and you can see where it went.</span></li>
-    <li><b>Proof for insurance</b><span>The photo inside the box, taken before it was sealed. If something breaks or goes missing, you have it.</span></li>
-  </ul>
-</div></section>
-
-<section id="tools" class="sun"><div class="wrap">
-  <p class="kick">Check it</p>
-  <h2>Moving is hard. Getting taken shouldn't be part of it.</h2>
-  <p class="lede">These checks are free. No sign-up.</p>
-  <nav class="tools" aria-label="Free checks">
-    <a class="glass" href="quote-check/"><b>Quote checker<span>Hidden fees and broker signs</span></b><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
-    <a class="glass" href="boxes/"><b>Box checker<span>How many boxes, by size</span></b><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
-    <a class="glass" href="mover-check/"><b>Is the mover real?<span>Their federal record, in plain words</span></b><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
-    <a class="glass" href="truck/"><b>Truck checker<span>The truck your things fill</span></b><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
-    <a class="glass" href="storage/"><b>Storage unit size<span>The unit that holds it all</span></b><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
-    <a class="glass" href="diy-cost/"><b>Cost to move yourself<span>Truck, fuel, help: the total</span></b><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
-    <a class="glass" href="move-day/"><b>How long moving day takes<span>An hour-by-hour plan</span></b><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
-    <a class="glass" href="answers/clean-from-away.html"><b>Move-out cleaning<span>Plan it, even after you&#x27;ve left</span></b><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
-    <a class="glass" href="take-or-leave/"><b>Take it or leave it<span>Worth moving, or replace it?</span></b><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
-  </nav>
-</div></section>
-
-<section class="calm"><div class="wrap">
-  <p class="kick">Fit it</p>
-  <h2>It knows what fits.</h2>
-  <div class="fit">
-    <div class="glass">
-      <h3>Trucks, in medium boxes</h3>
-      <div class="bar"><b>Cargo van</b><i style="width:15%"></i><span>71</span></div>
-      <div class="bar"><b>10-foot</b><i style="width:24%"></i><span>116</span></div>
-      <div class="bar"><b>15-foot</b><i style="width:45%"></i><span>221</span></div>
-      <div class="bar"><b>17-foot</b><i style="width:51%"></i><span>250</span></div>
-      <div class="bar"><b>20-foot</b><i style="width:60%"></i><span>294</span></div>
-      <div class="bar"><b>26-foot</b><i style="width:100%"></i><span>488</span></div>
-    </div>
-    <div class="glass">
-      <h3>Storage units, in medium boxes</h3>
-      <div class="bar"><b>5 × 5</b><i style="width:8%"></i><span>43</span></div>
-      <div class="bar"><b>5 × 10</b><i style="width:17%"></i><span>86</span></div>
-      <div class="bar"><b>10 × 10</b><i style="width:33%"></i><span>173</span></div>
-      <div class="bar"><b>10 × 15</b><i style="width:50%"></i><span>260</span></div>
-      <div class="bar"><b>10 × 20</b><i style="width:67%"></i><span>346</span></div>
-      <div class="bar"><b>10 × 30</b><i style="width:100%"></i><span>520</span></div>
-    </div>
-  </div>
-  <p class="note">A sofa takes the space of 20 boxes. Movers price by weight: about 7 lb per cubic foot.</p>
-  <div class="ctas"><a class="btn go" href="truck/">Size my truck</a><a class="btn soft" href="storage/">Size my unit</a></div>
-</div></section>
-
-<section class="sun"><div class="wrap">
-  <p class="kick">Settle in</p>
-  <h2>Then it welcomes you home.</h2>
-  <ul class="home">
-    <li>Every box in its room<small>Which ones aren't, and where they are.</small></li>
-    <li>Your deposit back<small>Photos and dates, ready if you need them.</small></li>
-    <li>The old place closed out<small>Utilities, mail, the final walk-through.</small></li>
-    <li>A new state, sorted<small>License, registration, voter registration.</small></li>
-  </ul>
-</div></section>
-
-
-<section class="promise calm"><div class="wrap">
-  <div class="card glass"><blockquote>Start with one box. The Packed Rabbit remembers the rest.</blockquote>
-  <div class="ctas"><a class="btn go" href="app/">Make it yours, $9.99 a month</a></div></div>
-</div></section>
-<section class="faq-s sun"><div class="wrap">
-  <h2 id="fq-h">Moving questions, answered</h2>
-  <details class="glass"><summary>How far ahead should I book movers?</summary><p>Four to eight weeks is normal for a local move. For a move between states, or any move from May to September or at the end of a month, aim for eight to twelve weeks, because those dates fill first. <a href="answers/book-ahead.html">Read more</a></p></details><details class="glass"><summary>When should I start packing?</summary><p>Four to six weeks out, starting with what you won&#x27;t miss: books, out-of-season clothes, decorations and spare bedding. Finish one room before starting the next. Kitchen, bathroom and bedding go last, in the final two days. <a href="answers/when-pack.html">Read more</a></p></details><details class="glass"><summary>How many boxes do I need?</summary><p>A rough start: a studio needs 15 to 25 boxes, one bedroom 25 to 40, two bedrooms 40 to 60, and three bedrooms 60 to 90. Add more for lots of books or kitchenware. Use mostly small and medium boxes, and put heavy things in small ones. <a href="answers/box-count.html">Read more</a></p></details><details class="glass"><summary>What size moving truck do I need?</summary><p>Add up the cubic feet of your boxes and furniture, then add about 15% for packing room. As a guide, a 10-foot truck holds about 400 cubic feet, a 15-foot about 760, a 20-foot about 1,000 and a 26-foot about 1,700. <a href="answers/truck-size.html">Read more</a></p></details><details class="glass"><summary>Will my sofa fit through the door?</summary><p>You carry a sofa long end first, so what has to pass the doorway is its two smaller measurements, usually depth and height. If the smaller one is narrower than the door, it goes through straight. If not, try it on its side. Taking the legs off often saves 4 to 6 inches. <a href="answers/measure.html">Read more</a></p></details><details class="glass"><summary>How do I check a moving quote for hidden fees?</summary><p>Add up every line yourself. Look for paperwork fees such as a &quot;binding estimate fee&quot; or &quot;booking fee&quot;, stairs and long-carry charges, a large deposit, and pressure to book today. The free quote checker on this site flags them for you, and nothing you paste is sent anywhere. <a href="answers/read-quote.html">Read more</a></p></details><details class="glass"><summary>How do I know a mover is legitimate?</summary><p>A mover crossing state lines must have a USDOT number. Look it up on the federal FMCSA site and check that it&#x27;s active and matches the company&#x27;s name. Then ask directly whether they are the mover or a broker who sells the job to someone else. <a href="answers/check-mover.html">Read more</a></p></details><details class="glass"><summary>What won&#x27;t movers take?</summary><p>Anything flammable, explosive or corrosive, such as propane tanks, gasoline, paint, aerosols and pool chemicals. Most won&#x27;t take perishable food or plants on a long move. Medicines, documents, cash, jewelry and keys should travel with you anyway. <a href="answers/wont-take.html">Read more</a></p></details><details class="glass"><summary>How do I keep pets safe on moving day?</summary><p>Keep them in a closed, quiet room or with a friend while the doors are open. Open doors and strangers are how pets get lost. Update the microchip and their tags with your new address before you go. <a href="answers/pets.html">Read more</a></p></details><details class="glass"><summary>What if the mover won&#x27;t unload until I pay more?</summary><p>On a move between states, federal rules cap what a mover can demand at delivery: 110% of a non-binding estimate, or the binding price plus services you agreed to. Anything more must be billed later. Offer the allowed amount in writing. <a href="answers/movers-holding-goods-hostage.html">Read more</a></p></details><details class="glass"><summary>How long do I have to file a damage claim?</summary><p>On a move between states, you have nine months from delivery to file a written claim. The mover must acknowledge it within 30 days and pay, refuse or make a firm offer within 120 days. <a href="answers/claim.html">Read more</a></p></details><details class="glass"><summary>How do I get my security deposit back?</summary><p>Do exactly what the move-out section of your lease says, then photograph every empty, clean room with the date. Deadlines depend on the state, for example 30 days in New Jersey and 45 days in Virginia, and the landlord must itemize any deductions. <a href="answers/deposit-deadline.html">Read more</a></p></details>
-</div></section>
-<section class="biz"><div class="wrap">
-  <p class="kick">For business</p>
-  <h2>Hand it to everyone you move.</h2>
-  <p class="lede">Your name on it, their whole move organized. They keep it on their own phone.</p>
-  <nav class="who" aria-label="For business">
-    <a href="business/property-managers.html">Property managers <span>A move-in plan for every resident</span></a>
-    <a href="agents.html">Real estate agents <span>A gift at closing</span></a>
-    <a href="business/relocation.html">Relocation and HR <span>Every new hire&#x27;s move, organized</span></a>
-    <a href="business/military.html">Family-support groups <span>Gift codes for your families</span></a>
-    <a href="business/">Move managers <span>Every client&#x27;s move in one place</span></a>
-    <a href="business/services.html">Storage and cleaning <span>Be listed for a flat fee, never a commission</span></a>
-  </nav>
-  <div class="ctas"><a class="btn go" href="business/">See business plans</a><a class="btn soft" href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a></div>
-</div></section>
 </main>
 
 <footer><div class="wrap cols">
