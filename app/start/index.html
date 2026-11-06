@@ -188,7 +188,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
 
 <div class="wrap">
 <div class="phone" aria-label="Phone preview">
-  <div class="brand"><img src="wordmark-green.png" alt="The Packed Rabbit" width="168" height="40"></div>
+  <div class="brand"><img id="wm" src="wordmark-ears.png" alt="The Packed Rabbit" width="168" height="44"></div>
+  <script>/* the signature: the ears in the two b's wiggle once, then rest */(function(){ try{ if(matchMedia("(prefers-reduced-motion: reduce)").matches) return; }catch(e){} var w=new Image(); w.onload=function(){ var m=document.getElementById("wm"); if(m) m.src=w.src; }; w.src="wordmark-wiggle.webp"; })();</script>
   <div class="street" id="street" tabindex="0" aria-label="Welcome screens, swipe or use arrow keys">
 
     <!-- stop 1: packing at home -->
