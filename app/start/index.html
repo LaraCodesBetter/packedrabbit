@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0D3B22"><title>The Packed Rabbit</title><script>window.__APP=1;window.__HOME="../";window.__BUY="https://buy.stripe.com/14AaEZaqk99kgzX9Faa3u01";window.__BUY_YEAR="";</script><style>@font-face{font-family:"Atkinson Hyperlegible Next";src:url("../fonts/atkinson-next.woff") format("woff");font-weight:200 800;font-display:swap}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0D3B22"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../icon-180.png"><meta name="apple-mobile-web-app-capable" content="yes"><title>The Packed Rabbit</title><script>window.__APP=1;window.__HOME="../";window.__BUY="https://buy.stripe.com/14AaEZaqk99kgzX9Faa3u01";window.__BUY_YEAR="";</script><style>@font-face{font-family:"Atkinson Hyperlegible Next";src:url("../fonts/atkinson-next.woff") format("woff");font-weight:200 800;font-display:swap}</style></head><body>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
 /* Layout: one phone, one street. Swiping walks you from the old door to the new one; each stop inks itself in as you arrive. */
@@ -148,6 +148,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
 .stop.last .s4tag{font-size:26px!important;font-weight:600!important;color:#E6EFE4!important;opacity:0;transition:opacity .6s ease 1.7s}
 .stop.last.alive .s4tag{opacity:1}
 .stop.last #go{opacity:0;transition:opacity .5s ease 2.1s}.stop.last.alive #go{opacity:1}
+.getapp{color:#F2E8D5!important;text-decoration:underline;text-underline-offset:4px;opacity:0;transition:opacity .5s ease 2.4s}.stop.last.alive .getapp{opacity:1}
+.installed .getapp{display:none}
+.isheet{position:absolute;inset:0;z-index:30;background:rgba(13,59,34,.45);display:flex;align-items:flex-end}
+.isheet[hidden]{display:none}
+.isheet .card{width:100%;background:var(--screen);border-radius:24px 24px 0 0;padding:22px 22px 28px;text-align:left;color:var(--text)}
+.isheet h3{margin:0 0 6px;font-size:24px;color:var(--ink)}
+.isheet p{margin:0 0 10px;font-size:17px;line-height:1.45}
+.isheet ol{margin:6px 0 14px;padding-left:22px;font-size:18px;line-height:1.6}
+.isheet .cta{max-width:none;margin-top:10px}
+.isheet .link{display:block;margin:6px auto 0}
 .phone.lit .brand{opacity:0;transition:opacity .5s}
 .flood{position:absolute;inset:0;z-index:1;background:#0A3B1F;clip-path:circle(0px at 50% 100%);transition:clip-path 1s cubic-bezier(.6,0,.3,1)}
 .stop.last.alive .flood{clip-path:circle(150% at 50% 100%)}
@@ -293,11 +303,19 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
         <p class="s4name"><img src="wordmark-cream.png" alt="The Packed Rabbit" width="300" height="72" style="display:block;height:auto"></p>
         <h2 class="s4tag">The calm way to move.</h2>
         <button class="cta" id="go">Let's get started</button>
+        <button class="link getapp" id="getapp">Download the app</button>
       </div>
     </section>
   </div>
 
 
+  <div class="isheet" id="isheet" hidden role="dialog" aria-modal="true" aria-labelledby="ish"><div class="card">
+    <h3 id="ish">Put the rabbit on your phone</h3>
+    <p>It installs straight from here, like any app. No App Store, no account.</p>
+    <div id="iwhat"></div>
+    <button class="cta" id="idone">Let's get started</button>
+    <button class="link" id="iclose">Not now</button>
+  </div></div>
   <div class="foot" id="foot">
     <div class="hint" id="hint">Swipe to continue</div>
     <div class="dots" role="tablist" aria-label="Screens">
@@ -513,6 +531,28 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   /* in the app: someone who left partway through comes straight back to where they were */
   if(window.__APP){ try{ const r=indexedDB.open('moving-command-center',1); r.onupgradeneeded=()=>r.result.createObjectStore('kv');
     r.onsuccess=()=>{ const q=r.result.transaction('kv','readonly').objectStore('kv').get('pr-thread-state'); q.onsuccess=()=>{ if(q.result) document.getElementById('go').click(); }; }; }catch(e){} }
+  /* on the website the first open is framed: buttons take the whole page into the app */
+  const framed=(()=>{ try{ return window.top!==window; }catch(e){ return true; } })();
+  const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+  if(standalone) document.documentElement.classList.add('installed');
+  let bip=null; window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); bip=e; });
+  const isheet=document.getElementById('isheet'), iwhat=document.getElementById('iwhat');
+  function showInstall(){
+    const ua=navigator.userAgent, ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document), android=/Android/.test(ua);
+    iwhat.innerHTML= ios ? '<ol><li>Tap the <b>Share</b> button at the bottom of Safari.</li><li>Tap <b>Add to Home Screen</b>.</li><li>Tap <b>Add</b>. The rabbit is on your home screen.</li></ol>'
+      : android ? (bip ? '<p>Tap <b>Install</b> and it opens like any app.</p>' : '<ol><li>Tap the menu at the top right of Chrome.</li><li>Tap <b>Install app</b> or <b>Add to Home screen</b>.</li></ol>')
+      : '<p>Open <b>packedrabbit.com/app</b> on your phone, then add it to your home screen. On a computer it works right here in the browser.</p>';
+    document.getElementById('idone').textContent = android && bip ? 'Install' : "Let's get started";
+    isheet.hidden=false; document.getElementById('idone').focus();
+  }
+  document.getElementById('idone').addEventListener('click',async()=>{ if(bip){ bip.prompt(); try{ await bip.userChoice; }catch(e){} bip=null; } isheet.hidden=true; document.getElementById('go').click(); });
+  document.getElementById('iclose').addEventListener('click',()=>{ isheet.hidden=true; document.getElementById('getapp').focus(); });
+  document.getElementById('getapp').addEventListener('click',()=>{ if(framed&&window.__APP){ window.top.location.href=new URL((window.__HOME||'../')+'start/?install',location.href).href; return; } showInstall(); });
+  if(/[?&](install|begin|site)\b/.test(location.search) && !framed){ const want=location.search; try{ history.replaceState(null,'',location.pathname); }catch(e){} if(/install/.test(want) && !standalone) setTimeout(()=>{ go(3); showInstall(); },300); if(/begin/.test(want)) setTimeout(()=>document.getElementById('go').click(),50); }
+  /* someone whose move is already set up never lands on the first open again */
+  if(window.__APP && !framed){ try{ const r=indexedDB.open('moving-command-center',1); r.onupgradeneeded=()=>r.result.createObjectStore('kv'); r.onsuccess=()=>{ const s=r.result.transaction('kv','readonly').objectStore('kv'); const a=s.get('pr-thread-state'), b=s.get('moving-command-center-v1');
+    b.onsuccess=()=>{ if(a.result) return; let st=null; try{ st=JSON.parse(b.result||'null'); }catch(e){} const se=(st&&st.settings)||{}; if(se.skipIntro||(st&&st.profile&&st.profile.done)) location.replace(new URL(window.__HOME||'../',location.href).href); }; }; }catch(e){} }
+  document.getElementById('go').addEventListener('click',e=>{ if(framed&&window.__APP){ e.stopImmediatePropagation(); window.top.location.href=new URL((window.__HOME||'../')+'start/?begin',location.href).href; } },true);
   document.getElementById('go').addEventListener('click',()=>{ if(!thr.src) thr.src='thread.html?embed'; thr.hidden=false; foot.hidden=true; requestAnimationFrame(()=>requestAnimationFrame(()=>thr.classList.add('show'))); thr.focus(); });
   /* the embedded flow asks the rabbit to look up a photo; only this page can reach Claude */
   let sampleP=null; const getSample=()=>sampleP||(sampleP=(window.claude&&claude.use?claude.use('sample'):Promise.resolve(null)).catch(()=>null));
@@ -528,7 +568,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
     if(!window.__APP){ e.currentTarget.innerHTML='In the app this opens <b>Restore a backup</b>'; return; }
     /* tell the app to open Restore a backup; the app does the rest */
     const r=indexedDB.open('moving-command-center',1); r.onupgradeneeded=()=>r.result.createObjectStore('kv');
-    r.onsuccess=()=>{ const q=r.result.transaction('kv','readwrite').objectStore('kv').put(JSON.stringify({v:1,restore:true}),'pr-thread-handoff'); q.onsuccess=()=>location.replace(window.__HOME||'../'); };
+    r.onsuccess=()=>{ const q=r.result.transaction('kv','readwrite').objectStore('kv').put(JSON.stringify({v:1,restore:true}),'pr-thread-handoff'); q.onsuccess=()=>(framed?window.top:window).location.replace(new URL(window.__HOME||'../',location.href).href); };
   });
 })();
 </script>
