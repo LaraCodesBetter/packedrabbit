@@ -41,7 +41,7 @@
     { "@type": "Question", "name": "How long does it take to load a moving truck?",
       "acceptedAnswer": { "@type": "Answer", "text": "It depends most on how much you own, how many people are carrying and how far each trip is. As a rough estimate, three people loading a two-bedroom apartment with about 45 boxes and 14 big pieces, close to the truck, take a little under two hours; stairs or an elevator can add a third or more. Unloading usually goes a little faster than loading. These are estimates, not promises: packed, labeled boxes and a clear path save the most time." } },
     { "@type": "Question", "name": "What should I do on moving day, and in what order?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Before the truck comes, set aside the bag that travels with you and put pets in a closed room away from open doors. Walk through with whoever is loading, then load the heaviest furniture first. Before the truck leaves, check every room, closet and cupboard and photograph the empty rooms. For an interstate move with a mover, FMCSA advises reading the estimate, order for service, bill of lading and inventory before you sign them, and at delivery paying as your written estimate says before unloading and noting any damaged or missing items on the inventory before you sign." } }
+      "acceptedAnswer": { "@type": "Answer", "text": "Before the truck comes, set aside the bag that travels with you and put pets in a closed room away from open doors. Walk through with whoever is loading, then load the heaviest furniture first. Before the truck leaves, check every room, closet and cupboard and photograph the empty rooms. For an interstate move with a mover, FMCSA advises reading the estimate, bill of lading and inventory before you sign them, and at delivery paying as your written estimate says before unloading and noting any damaged or missing items on the inventory before you sign." } }
   ]
 }
 </script>
@@ -194,7 +194,7 @@
 
   <div class="src">Sources:
     <ul>
-      <li><a href="https://www.fmcsa.dot.gov/sites/fmcsa.dot.gov/files/2023-05/PYM-Moving-Checklist.pdf">FMCSA, Protect Your Move moving checklist</a> and <a href="https://www.fmcsa.dot.gov/sites/fmcsa.dot.gov/files/ReadytoMoveBrochure_2022Update.pdf">Ready to Move brochure</a> (for an interstate move with a mover: read the estimate, order for service, bill of lading and inventory before you sign; stay until they finish and walk through; at delivery, pay as your written estimate says before unloading, and note damaged or missing items on the inventory before you sign)</li>
+      <li><a href="https://www.fmcsa.dot.gov/sites/fmcsa.dot.gov/files/2023-05/PYM-Moving-Checklist.pdf">FMCSA, Protect Your Move moving checklist</a> and <a href="https://www.fmcsa.dot.gov/sites/fmcsa.dot.gov/files/ReadytoMoveBrochure_2022Update.pdf">Ready to Move brochure</a> (for an interstate move with a mover: read the estimate, bill of lading and inventory before you sign; stay until they finish and walk through; at delivery, pay as your written estimate says before unloading, and note damaged or missing items on the inventory before you sign)</li>
     </ul>
     The times, the order of the day and the break are our own suggestions. Checked October 2026. Rules change, so check current guidance.
   </div>
@@ -290,7 +290,7 @@
 
     if (who === "s") add(start - 60, "Pick up the truck", "Bring your license and the reservation. Check it over and photograph any marks before you drive off.");
     add(start - (who === "s" ? 90 : 60), "Get the house ready", "Set aside the bag that travels with you, keys and papers. Put pets in a closed room, away from open doors.");
-    add(t, who === "m" ? "The crew arrives. Walk through together" : "Your helpers arrive. Walk through together", "Show what goes, what stays and what's fragile." + (who === "m" && X ? " Read the estimate, order for service, bill of lading and inventory before you sign anything." : ""));
+    add(t, who === "m" ? "The crew arrives. Walk through together" : "Your helpers arrive. Walk through together", "Show what goes, what stays and what's fragile." + (who === "m" && X ? " Read the estimate, bill of lading and inventory before you sign anything." : ""));
     t += 15;
     if (brk1) {
       var half = q15(load / 2);
