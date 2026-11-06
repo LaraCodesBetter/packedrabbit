@@ -537,15 +537,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   if(standalone) document.documentElement.classList.add('installed');
   let bip=null; window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); bip=e; });
   const isheet=document.getElementById('isheet'), iwhat=document.getElementById('iwhat');
-  function showInstall(){
+  let afterInstall='start';
+  function showInstall(from){ afterInstall=from||'start';
     const ua=navigator.userAgent, ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document), android=/Android/.test(ua);
     iwhat.innerHTML= ios ? '<ol><li>Tap the <b>Share</b> button at the bottom of Safari.</li><li>Tap <b>Add to Home Screen</b>.</li><li>Tap <b>Add</b>. The rabbit is on your home screen.</li></ol>'
       : android ? (bip ? '<p>Tap <b>Install</b> and it opens like any app.</p>' : '<ol><li>Tap the menu at the top right of Chrome.</li><li>Tap <b>Install app</b> or <b>Add to Home screen</b>.</li></ol>')
       : '<p>Open <b>packedrabbit.com/app</b> on your phone, then add it to your home screen. On a computer it works right here in the browser.</p>';
-    document.getElementById('idone').textContent = android && bip ? 'Install' : "Let's get started";
+    document.getElementById('idone').textContent = android && bip ? 'Install' : afterInstall==='flow' ? 'Done' : "Let's get started";
     isheet.hidden=false; document.getElementById('idone').focus();
   }
-  document.getElementById('idone').addEventListener('click',async()=>{ if(bip){ bip.prompt(); try{ await bip.userChoice; }catch(e){} bip=null; } isheet.hidden=true; document.getElementById('go').click(); });
+  document.getElementById('idone').addEventListener('click',async()=>{ if(bip){ bip.prompt(); try{ await bip.userChoice; }catch(e){} bip=null; } isheet.hidden=true; if(afterInstall!=='flow') document.getElementById('go').click(); });
   document.getElementById('iclose').addEventListener('click',()=>{ isheet.hidden=true; document.getElementById('getapp').focus(); });
   document.getElementById('getapp').addEventListener('click',()=>{ if(framed&&window.__APP){ window.top.location.href=new URL((window.__HOME||'../')+'start/?install',location.href).href; return; } showInstall(); });
   if(/[?&](install|begin|site)\b/.test(location.search) && !framed){ const want=location.search; try{ history.replaceState(null,'',location.pathname); }catch(e){} if(/install/.test(want) && !standalone) setTimeout(()=>{ go(3); showInstall(); },300); if(/begin/.test(want)) setTimeout(()=>document.getElementById('go').click(),50); }
@@ -562,6 +563,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
     try{ const [h,d]=String(m.image).split(','), bin=atob(d), u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
       const json=await s.json(String(m.prompt).slice(0,8000),{images:[new Blob([u],{type:'image/jpeg'})],modelTier:'quick'}); reply({json}); }
     catch(err){ reply({error:(err&&err.code)||'failed'}); } });
+  window.addEventListener('message',e=>{ if(e.data==='pr-install'&&e.source===thr.contentWindow){ showInstall('flow'); } });
   window.addEventListener('message',e=>{ if(e.data!=='pr-intro') return; thr.classList.remove('show'); setTimeout(()=>{ thr.hidden=true; foot.hidden=false; document.getElementById('go').focus(); },400); });
   document.getElementById('back').addEventListener('click',()=>{ if(si===5){ showStep(4); return; } if(si>0){ showStep(si-1); return; } first.classList.remove('show'); setTimeout(()=>{first.hidden=true; foot.hidden=false; document.getElementById('go').focus();},300); });
   document.getElementById('restore').addEventListener('click',e=>{
