@@ -19,7 +19,6 @@
 <link rel="icon" href="../app/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../app/icon-180.png">
 <link rel="stylesheet" href="../site.css">
-<link rel="stylesheet" href="../walk.css">
 <script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebApplication","name":"Moving quote checker","url":"https://packedrabbit.com/quote-check/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (runs in the browser)","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Reads a mover's quote on your own device and flags hidden fees, large deposits, money due before pickup, weak coverage, broker signs and a missing USDOT number. Nothing pasted is sent anywhere."}
@@ -48,7 +47,10 @@
 <a class="skip" href="#main">Skip to the content</a>
 
 <header class="wrap top">
-  <a class="brand" href="../" aria-label="The Packed Rabbit, home"><img class="wm wm-l" src="../img/wordmark.png" alt="The Packed Rabbit" width="150" height="39"><img class="wm wm-d" src="../img/wordmark-cream.png" alt="" width="150" height="39"></a>
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home">
+    <img src="../img/rabbit.svg" alt="" width="34" height="34">
+    The Packed Rabbit
+  </a>
 </header>
 
 <main id="main" class="tp qc-page">
@@ -74,7 +76,7 @@
     <ul>
       <li>Paperwork fees, like a "binding estimate fee"</li>
       <li>A deposit that's too big, and money due before your things are even loaded</li>
-      <li>The weakest coverage already ticked for you</li>
+      <li>The weakest coverage already checked for you</li>
       <li>No USDOT number, or signs you're dealing with a broker instead of a mover</li>
       <li>Pressure to book today, and a pickup window measured in days</li>
     </ul>
@@ -82,24 +84,6 @@
   </section>
   <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Made by someone moving, for people moving. Not a moving company, broker or lead site: we never sell your details and never take a commission from movers, and nothing you type here is sent to us.</p>
 </main>
-
-<section class="last" id="last" aria-label="Contact and links">
-  <img src="../img/wordmark-cream.png" alt="The Packed Rabbit" width="190" height="50" loading="lazy">
-  <h2>Questions? Write to us.</h2>
-  <a class="mail" href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a>
-  <nav aria-label="More from The Packed Rabbit">
-    <a href="../tools/">Free moving tools</a><a href="../answers/">Straight answers</a>
-    <a href="../business/">For businesses</a><a href="../price.html">Price</a>
-    <a href="../privacy.html">Privacy</a><a href="../terms.html">Terms and refunds</a>
-  </nav>
-  <div class="soc" aria-label="Follow The Packed Rabbit">
-      <a href="https://www.instagram.com/thepackedrabbit/" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></svg></a>
-      <a href="https://www.tiktok.com/@thepackedrabbit" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5M14 3c.5 2.8 2.4 4.6 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      <a href="https://www.youtube.com/@thepackedrabbit" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 9.3v5.4l4.6-2.7z" fill="currentColor"/></svg></a>
-    </div>
-  <p class="lead">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>
-  <small>&copy; 2026 The Packed Rabbit</small>
-</section>
 
 <footer class="wrap">
   <a href="../privacy.html">Privacy</a>
@@ -138,103 +122,6 @@
   tell(); addEventListener("load", tell); addEventListener("resize", tell);
   if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
 })();
-</script>
-<script src="../walk.js" defer></script>
-<script>
-/* The walk-through for the quote checker (owner, 7 Nov 2026): do you have your
-   quote yet? Paste it and we read the fine print with you, or see what to watch
-   for while the quotes come in. The reader is the same one as the tool below,
-   and nothing pasted leaves this page. */
-addEventListener("DOMContentLoaded", function () {
-  if (!window.prWalk || /^#q=/.test(location.hash || "")) return;
-  var SAMPLE = "ESTIMATE AND ORDER FOR SERVICE\nSample Moving Co. (a made-up company, built from real quotes)\nWe arrange your move through our nationwide network of carriers.\nPickup window: 72 hours. Survey waived.\nEstimated weight: 4,200 lbs\nLine haul $2,769.00\nFuel surcharge $415.35\nAdmin / dispatch $200.00\nBinding estimate fee $2,001.99\nAvailability discount -$615.35\nTotal Moving Estimate $4,770.99\nDeposit 30% due at booking, non-refundable.\nValuation: [X] Basic Value Protection ($0.60 per lb)\nDelivery: up to 30 business days from pickup.\nThis price is valid today only.";
-  function first(t) { var m = String(t).split(/(?<=[.!?])\s/); return m[0]; }
-  function rest(t) { var m = String(t).split(/(?<=[.!?])\s/); return m.slice(1).join(" "); }
-  function read(S) {
-    var r = window.prReadQuote ? window.prReadQuote(S.qt || "") : { flags: [] }, fl = r.flags || [];
-    var miss = function (x) { return /^(No |It doesn't say|Doesn't|Delivery isn't)/.test(x.text) && x.tone !== "good"; };
-    S.found = fl.filter(function (x) { return x.tone !== "good" && !miss(x); }).sort(function (a, b) { return (a.tone === "bad" ? 0 : 1) - (b.tone === "bad" ? 0 : 1); });
-    S.miss = fl.filter(miss); S.good = fl.filter(function (x) { return x.tone === "good"; });
-  }
-  function toTool(S, api) { var ta = document.getElementById("qtext"), f = document.getElementById("qform"); if (ta && f) { ta.value = S.qt || ""; if (f.requestSubmit) f.requestSubmit(); else f.dispatchEvent(new Event("submit", { cancelable: true })); var o = document.getElementById("qout"); if (o) { o.scrollIntoView({ block: "start" }); return false; } } api.tool(); return false; }
-  /* the drawing: a quote on a clipboard; the magnifier reads it; what needs you is circled */
-  function paper(n, glass) {
-    var X = 112, Y = 132, W = 136, f = "";
-    f += '<rect class="f2" x="' + X + '" y="' + Y + '" width="' + W + '" height="212" rx="10"/>';
-    f += '<rect x="' + (X + 10) + '" y="' + (Y + 16) + '" width="' + (W - 20) + '" height="190" rx="3"/>';
-    f += '<rect class="tape" x="' + (X + W / 2 - 24) + '" y="' + (Y - 8) + '" width="48" height="18" rx="5"/>';
-    f += '<text x="' + (X + 22) + '" y="' + (Y + 40) + '" style="font-size:12px;letter-spacing:.08em">ESTIMATE</text>';
-    var L = [70, 92, 56, 84, 64, 96, 50, 78, 88];
-    for (var i = 0; i < L.length; i++) {
-      var y = Y + 58 + i * 16;
-      f += '<line x1="' + (X + 22) + '" y1="' + y + '" x2="' + (X + 22 + L[i]) + '" y2="' + y + '"/>';
-      if (i < n) f += '<ellipse class="nf plum" cx="' + (X + 22 + L[i] / 2) + '" cy="' + y + '" rx="' + (L[i] / 2 + 9) + '" ry="7"/>';
-    }
-    if (glass) f += '<circle class="nf" cx="262" cy="236" r="30"/><circle class="nf" cx="262" cy="236" r="23" style="stroke-width:1.2"/><line x1="283" y1="257" x2="316" y2="290" style="stroke-width:7"/>';
-    return f;
-  }
-  window.prWalk({
-    label: "Check a moving quote, step by step",
-    allLabel: "See the whole checker",
-    underTitle: "The whole quote checker",
-    start: "have",
-    scene: function (name, S) {
-      if (name === "paper") return paper(0, true);
-      if (name === "watch") return paper(5, true);
-      if (name === "paste") return paper(0, false);
-      if (name === "found") return paper(Math.min(9, (S.found || []).length), false);
-      return "";
-    },
-    steps: {
-      have: {
-        say: "Check a moving quote",
-        h: "Do you have your quote yet?",
-        sub: "We read the fine print with you, and show you what might be hiding in it.",
-        choices: [
-          { label: "Yes, I have it", small: "Paste it and we'll read it", go: "paste" },
-          { label: "Not yet", small: "I'm still getting quotes", go: "watch" }
-        ],
-        link: { label: "Try a sample quote", run: function (S, api) { S.qt = SAMPLE; S.sample = 1; read(S); api.go("found"); return false; } },
-        scene: "paper"
-      },
-      paste: {
-        say: "Paste it here",
-        h: "Paste your quote.",
-        sub: "Copy the words from the email or PDF.",
-        field: { id: "qt", type: "textarea", label: "The quote's text", placeholder: "Paste the text of the quote or estimate here." },
-        cta: { label: "Read it for me", run: function (S, api) { if (!(S.qt || "").trim()) { var t = document.getElementById("wk-qt"); if (t) t.focus(); return false; } S.sample = 0; read(S); api.go("found"); return false; } },
-        fine: "On a phone, open the quote, press and hold the text, then Copy.<br>It's read right here. Nothing you paste is sent anywhere.",
-        scene: "paste"
-      },
-      found: {
-        say: function (S) { return S.sample ? "A sample quote, built from real ones" : "Your quote, read"; },
-        h: function (S) { var n = S.found.length; return n ? "We found " + n + (n === 1 ? " thing" : " things") + " to check." : "Nothing jumped out."; },
-        sub: function (S) { return S.found.length ? "Questions to ask before you book. A flag on its own doesn't mean a mover is dishonest." : (S.miss.length ? "But " + S.miss.length + " things weren't in what you pasted. Ask the mover about each one." : "Still read every page before you sign."); },
-        list: function (S) {
-          var L = (S.found.length ? S.found : S.miss), more = L.length - 3;
-          return L.slice(0, 3).map(function (x) { return { b: first(x.text), plum: x.tone === "bad" }; }).concat(more > 0 ? [{ b: "And " + more + " more", t: " with what to ask about each one." }] : []);
-        },
-        cta: { label: "See everything we found", run: toTool },
-        link: { label: "Check another quote", run: function (S, api) { S.qt = ""; api.go("paste"); return false; } },
-        scene: "found"
-      },
-      watch: {
-        say: "While the quotes come in",
-        h: "When it comes, look for these.",
-        list: [
-          { b: "How long they have to deliver", t: "Some quotes allow up to 30 business days. Ask for a delivery date in writing.", plum: true },
-          { b: "Fees in the fine print", t: "A \"binding estimate fee\", admin or dispatch fees. Ask what each one is for.", plum: true },
-          { b: "Who you're really booking", t: "\"Our network of carriers\" can mean a broker. Ask who drives the truck.", a: ["Mover or broker?", "../movers-vs-brokers/"] },
-          { b: "Money before anything moves", t: "A big deposit, or the balance due before your things are loaded." },
-          { b: "Coverage already ticked", t: "60 cents a pound is the minimum. Ask what full value protection costs." }
-        ],
-        cta: { label: "Check the mover first", href: "../mover-check/" },
-        link: { label: "See it on a sample quote", run: function (S, api) { S.qt = SAMPLE; S.sample = 1; read(S); api.go("found"); return false; } },
-        scene: "watch"
-      }
-    }
-  });
-});
 </script>
 <script src="../nav.js" defer></script>
 <script src="../halloween.js"></script>

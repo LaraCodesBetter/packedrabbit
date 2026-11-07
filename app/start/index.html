@@ -562,7 +562,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
     const ua=navigator.userAgent, ios=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&'ontouchend' in document), android=/Android/.test(ua);
     iwhat.innerHTML= ios ? '<ol><li>Tap the <b>Share</b> button at the bottom of Safari.</li><li>Tap <b>Add to Home Screen</b>.</li><li>Tap <b>Add</b>. The rabbit is on your home screen.</li></ol>'
       : android ? (bip ? '<p>Tap <b>Install</b> and it opens like any app.</p>' : '<ol><li>Tap the menu at the top right of Chrome.</li><li>Tap <b>Install app</b> or <b>Add to Home screen</b>.</li></ol>')
-      : '<p>Open <b>packedrabbit.com/app</b> on your phone, then add it to your home screen. On a computer it works right here in the browser.</p>';
+      : matchMedia('(pointer: coarse)').matches ? '<ol><li>Open your browser\'s menu or <b>Share</b> button.</li><li>Tap <b>Add to Home Screen</b> or <b>Install app</b>.</li></ol>'
+      : '<p>On your phone, open <b>packedrabbit.com/app</b> and add it to your home screen. On a computer it works right here in the browser.</p>';
     document.getElementById('idone').textContent = android && bip ? 'Install' : afterInstall==='flow' ? 'Done' : "Pack my first box";
     isheet.hidden=false; document.getElementById('idone').focus();
   }
