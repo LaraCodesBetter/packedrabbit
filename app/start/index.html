@@ -548,9 +548,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
     if(b.hasAttribute('data-restart')){ const n=saved.length+1; code='KIT-'+String(n).padStart(3,'0'); photo=''; roomSel.selectedIndex=0; document.getElementById('roomnext').disabled=true; document.getElementById('words').value='';
       first.querySelectorAll('.uphoto').forEach(im=>{ im.setAttribute('href',''); im.setAttribute('visibility','hidden'); }); cam.value=''; showStep(0); } });
   const thr=document.getElementById('thr');
+  /* owner, 7 Nov: start/?home opens the box list, start/?box the next box; the walk inside needs to hear it */
+  const walkQ=/[?&](home|box)\b/.test(location.search);
   /* in the app: someone who left partway through comes straight back to where they were */
   if(window.__APP){ try{ const r=indexedDB.open('moving-command-center',1); r.onupgradeneeded=()=>r.result.createObjectStore('kv');
-    r.onsuccess=()=>{ const q=r.result.transaction('kv','readonly').objectStore('kv').get('pr-thread-state'); q.onsuccess=()=>{ if(q.result) document.getElementById('go').click(); }; }; }catch(e){} }
+    r.onsuccess=()=>{ const q=r.result.transaction('kv','readonly').objectStore('kv').get('pr-thread-state'); q.onsuccess=()=>{ if(q.result||walkQ) document.getElementById('go').click(); }; }; }catch(e){} }
   /* on the website the first open is framed: buttons take the whole page into the app */
   const framed=(()=>{ try{ return window.top!==window; }catch(e){ return true; } })();
   const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
@@ -573,9 +575,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   if(/[?&](install|begin|site)\b/.test(location.search) && !framed){ const want=location.search; try{ history.replaceState(null,'',location.pathname); }catch(e){} if(/install/.test(want) && !standalone) setTimeout(()=>{ go(3); showInstall(); },300); if(/begin/.test(want)) setTimeout(()=>document.getElementById('go').click(),50); }
   /* someone whose move is already set up never lands on the first open again */
   if(window.__APP && !framed){ try{ const r=indexedDB.open('moving-command-center',1); r.onupgradeneeded=()=>r.result.createObjectStore('kv'); r.onsuccess=()=>{ const s=r.result.transaction('kv','readonly').objectStore('kv'); const a=s.get('pr-thread-state'), b=s.get('moving-command-center-v1');
-    b.onsuccess=()=>{ if(a.result) return; let st=null; try{ st=JSON.parse(b.result||'null'); }catch(e){} const se=(st&&st.settings)||{}; if(se.skipIntro||(st&&st.profile&&st.profile.done)) location.replace(new URL(window.__HOME||'../',location.href).href); }; }; }catch(e){} }
+    b.onsuccess=()=>{ if(a.result) return; let st=null; try{ st=JSON.parse(b.result||'null'); }catch(e){} const se=(st&&st.settings)||{}; if(!walkQ&&(se.skipIntro||(st&&st.profile&&st.profile.done))) location.replace(new URL(window.__HOME||'../',location.href).href); }; }; }catch(e){} }
   document.getElementById('go').addEventListener('click',e=>{ if(framed&&window.__APP){ e.stopImmediatePropagation(); window.top.location.href=new URL((window.__HOME||'../')+'start/?begin',location.href).href; } },true);
-  document.getElementById('go').addEventListener('click',()=>{ if(!thr.src) thr.src='thread.html?embed'; thr.hidden=false; foot.hidden=true; requestAnimationFrame(()=>requestAnimationFrame(()=>thr.classList.add('show'))); thr.focus(); });
+  document.getElementById('go').addEventListener('click',()=>{ if(!thr.src) thr.src='thread.html?embed'+(walkQ?'&'+location.search.slice(1):''); thr.hidden=false; foot.hidden=true; requestAnimationFrame(()=>requestAnimationFrame(()=>thr.classList.add('show'))); thr.focus(); });
   /* the embedded flow asks the rabbit to look up a photo; only this page can reach Claude */
   let sampleP=null; const getSample=()=>sampleP||(sampleP=(window.claude&&claude.use?claude.use('sample'):Promise.resolve(null)).catch(()=>null));
   window.addEventListener('message',async e=>{ const m=e.data; if(!m||m.type!=='pr-ai'||e.source!==thr.contentWindow) return;

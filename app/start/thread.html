@@ -130,6 +130,8 @@ h2{font-size:31px;line-height:1.15;margin:0;text-wrap:balance}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.tags span{border:1.5px solid currentColor;border-radius:6px;padding:2px 8px;font-weight:700;font-size:14px}
 .grp{margin:14px 0 6px;font-size:16px;color:var(--muted);font-weight:700}
 .sheet .list{max-height:none;max-width:none}
+#mbres .list{max-height:none;max-width:none}
+.say .sig{display:block;width:220px;max-width:70%;height:auto;margin:0 auto 4px}
 .list li.tap{cursor:pointer;min-height:52px;align-items:center}.list li em{font-style:normal;flex:1}
 .thumb{width:40px;height:40px;border-radius:8px;object-fit:cover;flex:none}
 .pchoose{width:100%;padding:12px;display:grid;gap:8px}.pchoose .lab{margin:0;min-height:46px;max-width:none;font-size:17px}
@@ -728,7 +730,20 @@ const P={
     body:`<p class="qlabel"><label for="words">What's going inside?</label></p><div class="field microw" style="margin-top:8px"><input id="words" value="${esc(S.words||'')}" placeholder="${esc(wordsHint())}"><button type="button" class="mic" data-mic="words" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div><p class="hint" id="michint">Tap the microphone and say what's going in. You don't have to type.</p><button class="cta" id="wordsNext">Next</button>`}),
   special:()=>({h:"Anything special about this box?", sub:specialSub(), scene:"special",
     body:`<div class="chips" role="group" aria-label="Special">${STAMPS.map(k=>`<button class="choice ${S.flags.includes(k)?'on':''}" data-flag="${k}" aria-pressed="${S.flags.includes(k)}">${k}</button>`).join('')}</div><button class="choice tracker ${S.airtag?'on':''}" id="airtag" aria-pressed="${!!S.airtag}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.2"/></svg>AirTag inside</button><button class="cta" id="saveBox">Save this box</button><button class="link" id="plainBox">Nothing special</button>`}),
-  boxSaved:()=>{ const n=S.boxes.length, last=S.boxes[n-1]; return ({say:"Saved.", h:`${last.code} is packed.`, sub:"It's in your Boxes tab, with its photo.", body:`<div class="choices"><button class="cta" style="margin-top:0" data-go="start">Pack the next box</button><button class="choice" data-go="toobig">Something won't fit in a box</button>${S.walked?'<button class="choice" id="backMove">Back to my move</button>':''}</div><button class="link" data-go="start">Change room</button>`}); },
+  /* owner, 7 Nov: the app opens on the list of boxes, in the walk's own look. Adding a box or
+     something too big is the walk's own screens, then back here. */
+  myBoxes:()=>{ const n=S.boxes.length, m=S.big.length, q=(S.find||'').trim().toLowerCase();
+    const hit=q?S.boxes.filter(b=>(b.words+' '+b.room+' '+b.code).toLowerCase().includes(q)):S.boxes.slice().reverse();
+    const bigHit=q?S.big.filter(b=>(b.what+' '+(b.room||'')).toLowerCase().includes(q)):[];
+    const free=!S.paid?Math.max(0,3-n):9;
+    /* owner, 7 Nov: "our signature line on our app somewhere": the script wordmark heads the list */
+    return ({say:'<picture><source srcset="wordmark-ears-cream.png" media="(prefers-color-scheme: dark)"><img class="sig" src="wordmark-ears.png" alt="The Packed Rabbit" width="220" height="57"></picture>', h:n?`${n} ${n===1?'box':'boxes'}${m?`, ${m} big ${m===1?'thing':'things'}`:''}.`:'Nothing packed yet.', sub:n?'Type or say what you need, and the rabbit finds the box.':'Your first box takes a minute. A photo, a few words, and you never open it to look.', scene:n?'boxesTab':'firstBox',
+    body:`${n?`<div class="field microw"><input id="mbfind" value="${esc(S.find||'')}" placeholder="Try &quot;${esc(((S.boxes[n-1]||{}).words||'coats').split(/[ ,]+/)[0]||'coats')}&quot;" aria-label="Find a box"><button type="button" class="mic" data-mic="mbfind" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div>`:''}
+      <button class="cta" data-go="start">${n?'Pack a box':'Pack my first box'}</button>${free<3&&free>0?`<p class="hint" style="text-align:center">${free} free ${free===1?'box':'boxes'} left</p>`:''}
+      <button class="choice" style="width:100%;margin-top:10px" id="mbBig">Something won't fit in a box</button>
+      <div id="mbres" aria-live="polite" style="margin-top:6px">${q&&!hit.length&&!bigHit.length?'<p class="sub" style="max-width:none">Nothing listed matches that. Try another word from the box.</p>':''}${hit.length?`<ul class="list">${hit.slice(0,q?20:6).map(boxRow).join('')}</ul>`:''}${bigHit.length?`<ul class="list">${bigHit.map(b=>`<li><em><b style="color:var(--ink)">${esc(b.what)}</b></em><span>${esc(b.room||'Big stuff')}</span></li>`).join('')}</ul>`:''}${!q&&n>6?`<p class="hint">Showing the last 6. Type to find any of the ${n}.</p>`:''}</div>
+      <button class="link" id="mbApp">The rest of my move</button>`}); },
+  boxSaved:()=>{ const n=S.boxes.length, last=S.boxes[n-1]; return ({say:"Saved.", h:`${last.code} is packed.`, sub:"It's in your Boxes tab, with its photo.", body:`<div class="choices"><button class="cta" style="margin-top:0" data-go="start">Pack the next box</button><button class="choice" data-go="toobig">Something won't fit in a box</button>${S.homeMode?'<button class="choice" id="backMove">Back to my boxes</button>':S.walked?'<button class="choice" id="backMove">Back to my move</button>':''}</div><button class="link" data-go="start">Change room</button>`}); },
   boxesTab:()=>({say:`${(S.boxes[S.boxes.length-1]||{}).code||'Your box'} is saved.`, h:"Your Boxes tab is ready.", sub:"It's in the bar below.", body:`<button class="cta" data-go="learnAdd">Next</button><button class="link" data-go="start">Pack another box first</button>`}),
   learnAdd:()=>({count:"1 of 2", h:"Tap Boxes, then Add a box.", sub:"Room, size, what's inside, where it goes, a picture.", body:`<button class="cta" data-go="learnFind">Next</button>${needsInstall()?`<div class="packtip keepsafe"><b>Keep your boxes safe.</b><p>Put the app on your home screen. Your phone can clear websites you haven't added, and your list with them.</p><button class="choice" id="howInstall">Show me how</button></div>`:''}`}),
   learnFind:()=>{ const w=((S.boxes[0]||{}).words||'coats').split(/[ ,]+/)[0]||'coats'; return ({count:"2 of 2", h:"To find a box, type or say what's in it.", sub:"Or tap the microphone and say it.", body:`<div class="field microw"><input id="tryfind" placeholder="Try &quot;${esc(w)}&quot;" aria-label="Find a box"><button type="button" class="mic" data-mic="tryfind" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div><div id="tryres" aria-live="polite" style="width:100%;max-width:310px"></div><button class="cta" data-go="toobig">Next: the big stuff</button>`}); },
@@ -760,7 +775,7 @@ const P={
   bigMeasure:()=>{ const room=S.big.filter(b=>b.room===S.bigRoom), b=room[S.mi]; return ({count:`${S.mi+1} of ${room.length}`, h:`How big is the ${esc(lc(b.what))}?`, sub:"In inches, at its widest. It sizes the truck, storage and doorways.",
     body:`<div class="dims"><label>Wide<input inputmode="decimal" id="dw"></label><label>Deep<input inputmode="decimal" id="dd"></label><label>High<input inputmode="decimal" id="dh"></label></div><button class="cta" id="bigSave">Save it</button><button class="link" id="bigLater">Measure it later</button>${room.length-S.mi>1?'<button class="link" id="bigRest">Measure the rest later</button>':''}`}); },
   bigSaved:()=>{ const done=S.big.filter(b=>b.room===S.bigRoom), n=nextRoom(); return ({say:`The ${lc(S.bigRoom)} is done.`, h:n?`Next: the ${lc(n)}.`:"Which room next?", sub:done.length?cap1(listAnd(done.map(b=>b.size&&!BEDPART.test(b.what)?`${lc(b.what)} (${b.size.toLowerCase()})`:lc(b.what))))+'. On the list.':'Nothing big in there.',
-    body:`${n?`<button class="cta" data-nextroom="${esc(n)}">Go to the ${esc(lc(n))}</button>`:''}<div class="field"><select id="otherroom2" aria-label="${n?'Or pick another room':'Pick a room'}">${roomOpts(n?'Or pick another room':'Pick a room')}</select></div><button class="link" data-go="roomCheck">That's every room</button>`}); },
+    body:`${n?`<button class="cta" data-nextroom="${esc(n)}">Go to the ${esc(lc(n))}</button>`:''}<div class="field"><select id="otherroom2" aria-label="${n?'Or pick another room':'Pick a room'}">${roomOpts(n?'Or pick another room':'Pick a room')}</select></div>${S.homeMode?'<button class="link" id="allRooms">Back to my boxes</button>':'<button class="link" data-go="roomCheck">That\'s every room</button>'}`}); },
   roomItem:()=>{ const done=S.big.filter(b=>b.room===S.bigRoom&&b.batch===S.batch), dw=done.map(b=>b.what), bedroom=(FURN[S.bigRoom]||[]).some(x=>BEDPART.test(x));
     let opts=(FURN[S.bigRoom]||[]).filter(x=>!BEDPART.test(x)); if(bedroom) opts=["Bed"].concat(opts);
     opts=opts.filter(x=>!dw.includes(x)&&!(x==='Bed'&&done.some(b=>BEDPART.test(b.what)))); const pri=x=>{ const i=["Bed","Sofa","Sectional","TV","Dining table","Dresser","Desk"].indexOf(x); return i<0?99:i; };
@@ -913,7 +928,7 @@ const P={
     body:`<button class="cta" id="tabNext">Next: what's not coming</button>${ds.length?'<button class="link" id="tabIcs">Add these to my phone\'s calendar</button>':''}`}); },
 };
 const hist=[]; let cur=null, started=false;
-const NOBACK=['price','boxSaved','boxesTab','bigSaved','furnTab','llist','sortTab','movingTab','notruck','mread'];
+const NOBACK=['myBoxes','price','boxSaved','boxesTab','bigSaved','furnTab','llist','sortTab','movingTab','notruck','mread'];
 let lastDrawn="";
 const drawn=(svg,on)=>on?svg.replace('<svg ','<svg class="draw" ').replace(/<(rect|path|line|circle|ellipse|polyline)(?=[\s>\/])/g,'<$1 pathLength="1"'):svg;
 function show(id,back){
@@ -921,13 +936,13 @@ function show(id,back){
   if(id==='start' && S.boxes.length>=3 && !S.paid) id='price';
   if(!back && cur && cur!==id) hist.push(cur);
   cur=id; openTab=''; const p=P[id]();
-  phone.innerHTML=`<div class="page"><div class="top"><span class="topr">${p.count?`<span class="count">${p.count}</span>`:''}<button class="pause" data-aa aria-label="Text size">Aa</button>${id!=='firstBox'?'<button class="pause" data-pause>Pause</button>':''}</span></div>
+  phone.innerHTML=`<div class="page"><div class="top"><span class="topr">${p.count?`<span class="count">${p.count}</span>`:''}<button class="pause" data-aa aria-label="Text size">Aa</button>${id!=='firstBox'&&id!=='myBoxes'?'<button class="pause" data-pause>Pause</button>':''}</span></div>
     <div class="text">${p.tag?`<p class="itemtag">${esc(p.tag)}</p>`:''}${p.say?`<p class="say">${p.say}</p>`:''}<h2>${p.h}</h2>${p.sub?`<p class="sub">${p.sub}</p>`:''}${p.body}</div>
-    <div class="scene">${drawn(scene(p.scene||id), id!==lastDrawn)}</div><div class="band"></div></div><div class="navrow"><button class="back" ${hist.length&&!NOBACK.includes(id)?'':'hidden'} data-back>Back</button><button class="skip" data-skip hidden>Skip</button></div>${bar()}`;
+    <div class="scene">${drawn(scene(p.scene||id), id!==lastDrawn)}</div><div class="band"></div></div><div class="navrow"><button class="back" ${(hist.length&&!NOBACK.includes(id))?'':'hidden'} data-back>Back</button><button class="skip" data-skip hidden>Skip</button></div>${bar()}`;
   textSize(); lastDrawn=id; fresh=[]; newTab=""; wire(id); wireSkip(id); wireMics(); keep();
   const h=phone.querySelector('h2'); h.tabIndex=-1; if(started) h.focus({preventScroll:true}); started=true;
   live.textContent=((p.tag?p.tag+'. ':'')+(p.say?p.say+' ':'')+p.h).replace(/<[^>]+>/g,'');
-  if(window.__embed && !hist.length){ const bk=phone.querySelector('[data-back]'); bk.hidden=false; bk.onclick=()=>parent.postMessage('pr-intro','*'); }
+  if(window.__embed && !hist.length && !S.homeMode){ const bk=phone.querySelector('[data-back]'); bk.hidden=false; bk.onclick=()=>parent.postMessage('pr-intro','*'); }
 }
 function hop(name){ name=name||'Boxes';
   /* the bar becomes the green room from the opening: the rabbit walks in, sets the box down,
@@ -1135,6 +1150,10 @@ function wire(id){
   if(id==='moveday'){ calPage('date',()=>show('mdeliver')); $('#rough').onchange=e=>{ const v=e.target.value; if(!v) return; if(v==='Not sure yet'){ S.date=''; S.rough=''; } else { S.rough=v; S.date=roughDate(v); } homeDone(); }; }
   if(id==='mdeliver'){ calPage('delivery',homeDone); $('#sameDay').onclick=()=>{ S.delivery=S.date; homeDone(); }; }
   if(id==='boxSaved'&&$('#backMove')) $('#backMove').onclick=()=>finishThread();
+  if(id==='myBoxes'){ const i=$('#mbfind'); if(i){ i.oninput=()=>{ S.find=i.value; const at=i.selectionStart; show('myBoxes',true); const j=$('#mbfind'); if(j){ j.focus(); try{ j.setSelectionRange(at,at); }catch(e){} } }; }
+    phone.querySelectorAll('#mbres [data-box]').forEach(li=>li.onclick=()=>{ const b=S.boxes[+li.dataset.box]; if(b) (window.top||window).location.href=(window.__HOME||'../')+'?find='+encodeURIComponent(b.code); });
+    $('#mbBig').onclick=()=>{ S.firstItem=''; S.roomsAsked=true; show('bigFirst'); };
+    $('#mbApp').onclick=()=>{ (window.top||window).location.href=(window.__HOME||'../')+'?go=home'; }; }
   if(id==='sortTab') $('#openMove').onclick=()=>show('toolkit');
   if(id==='toolkit') $('#kitOpen').onclick=()=>window.__APP?finishThread():openSheet('Moving',$('#kitOpen'));
   if(id==='mhow') pick(v=>{ S.how=v; show(MOVERS()?'mbooked':v==='A rental truck'?'mtruck':v==='Not sure yet'?'mboth':'mhelp'); });
@@ -1298,8 +1317,20 @@ function roomFinish(){ const it=shotItems(); if(S.photoLater||!it.length) return
 function afterRoom(){ if(S.bigRoom&&!S.doneRooms.includes(S.bigRoom)){ S.doneRooms.push(S.bigRoom); say(`The ${lc(S.bigRoom)} is done.`); }
   fresh=S.big.map((b,i)=>b.batch===S.batch?'big'+i:'').filter(Boolean);
   if(!S.roomsAsked) return show('bedCount'); show('bigSaved'); }
+/* home mode: the app's own boxes and big stuff, read from the phone, so numbers, search and the free count are right */
+async function loadHome(){ let st=null; try{ st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); }catch(e){}
+  const RN={}; Object.keys(CODE).forEach(k=>{ if(!RN[CODE[k]]) RN[CODE[k]]=k; });
+  const have=new Set(S.boxes.map(b=>b.code));
+  ((st&&st.boxes)||[]).forEach(b=>{ if(!b||!b.code||have.has(b.code)) return; have.add(b.code); const rc=String(b.room||b.code.split('-')[0]||'MISC');
+    S.boxes.push({code:b.code,rc,room:RN[rc]||rc,words:(b.items||[]).map(x=>x.name).filter(Boolean).join(', '),flags:b.withMe?['Goes with me']:[],photos:[],photo:'',handed:1,appId:b.id}); });
+  const hb=new Set(S.big.map(b=>b.what+'|'+(b.rc||'')));
+  ((st&&st.bigs)||[]).forEach(g=>{ const k=(g.name||'')+'|'+(g.room||''); if(!g||!g.name||hb.has(k)) return; hb.add(k); S.big.push({what:g.name,rc:g.room||'',room:RN[g.room]||'',handed:1}); });
+  for(const b of S.boxes.filter(x=>x.appId&&!x.photo).slice(-12)){ try{ const o=JSON.parse(await idbGet('moving-command-center-v1-photos-'+b.appId)||'null'); const src=o&&(o.open||o.open2||o.side||o.top); if(src) b.photo=src; }catch(e){} }
+  const se=(st&&st.settings)||{}; if(se.licence||se.storeFull) S.paid=S.paid||'licence';
+  if(!S.mwhat) S.mwhat='A home'; ['Boxes','Furniture'].forEach(t=>{ if((st&&st.boxes||[]).length&&!S.tabs.includes(t)) S.tabs.push(t); });
+  S.walked=1; S.homeMode=1; S.find=''; }
 function finishBig(){ if(!S.ntShown && S.big.some(b=>FUEL.test(b.what))){ S.ntShown=true; return show('notruck'); }
-  show('cubic'); }
+  if(S.homeMode) return finishThread(); show('cubic'); }
 const roomItems=()=>S.big.filter(b=>b.batch===S.batch);
 /* a 30-inch door opening, about 78 inches tall: it fits if the two smallest sides get through */
 const _fits=d=>{ const s=[...d].sort((a,b)=>a-b); return s[0]<=30 && s[1]<=78; };
@@ -1534,7 +1565,9 @@ window.addEventListener('pagehide',()=>{ if(window.__APP) idbSet('pr-thread-stat
   try{ d=window.__APP?JSON.parse(await idbGet('pr-thread-state')||'null'):JSON.parse(sessionStorage.getItem('pr-thread')||'null'); }catch(e){}
   if(window.__APP){ try{ const st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); const se=(st&&st.settings)||{}; if(se.licence||se.storeFull) S.paid=S.paid||'licence'; }catch(e){} }
   if(window.__APP){ try{ const mc=await idbGet('pr-member-code'); if(mc){ S.paid=S.paid||'licence'; S.memberCode=mc; } }catch(e){} }
-  const nextBox=/[?&]box\b/.test(location.search);
+  const nextBox=/[?&]box\b/.test(location.search), homeQ=/[?&]home\b/.test(location.search);
+  if(window.__APP&&homeQ){ if(d&&d.S){ const paid=S.paid; Object.assign(S,d.S); if(paid) S.paid=paid; } try{ await loadHome(); }catch(e){} cur=null; hist.length=0; hopping=''; show('myBoxes');
+    if(nextBox){ show('start'); } else if(/[?&]big\b/.test(location.search)){ S.firstItem=''; S.roomsAsked=true; show('bigFirst'); } return; }
   if(d&&d.S&&d.cur&&P[d.cur]){ const paid=S.paid; Object.assign(S,d.S); if(paid) S.paid=paid; if(d.curIdx>=0) S.cur=S.big[d.curIdx]; hist.push(...(d.hist||[])); hopping=''; try{ if(nextBox){ show('start'); return; } show(d.cur,true); if(d.cur!=='firstBox') pauseCard(true); return; }catch(e){ reset(); hist.length=0; } }
   try{ const q=new URLSearchParams(location.search).get('date'); if(q&&/^\d{4}-\d{2}-\d{2}$/.test(q)&&new Date(q+'T12:00')>new Date()){ S.date=q; S.fromSite=true; } }catch(e){}
   show(S.mwhat?'firstBox':'mwhat'); })();
