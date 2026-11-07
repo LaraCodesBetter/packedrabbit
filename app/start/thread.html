@@ -833,7 +833,7 @@ const P={
     return ({say:"Your 3 free boxes are packed.", h:"All of it is $9.99 a month.", scene:"price",
       body:`<ul class="have">${have.map(x=>`<li>${x}</li>`).join('')}</ul>
         <div class="plans"><button class="plan m" data-plan="month">Monthly<small>$9.99 a month</small></button><button class="plan y" data-plan="year"><span class="save">Save $9.99</span>Yearly<small>$109.89 a year</small></button></div>
-        <p class="hint" style="margin-top:8px">Monthly billing stops by itself after 12 payments. Cancel anytime: your list stays yours.</p><button class="link" data-back2>Not now</button>
+        <p class="hint" style="margin-top:8px">Renews monthly until you cancel, with a reminder before every charge. Cancel anytime: your list stays yours.</p><button class="link" data-back2>Not now</button>
         <p class="lead">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>`}); },
   furnTab:()=>({say:`The ${esc(itemName(S.cur||{what:'piece'}))} is saved.`, h:"Your Big Stuff tab is ready.", sub:"It's in the bar, next to Boxes.", body:`<button class="cta" id="furnNext">Next</button>`}),
   roomCheck:()=>{ const left=COMMONROOMS.filter(r=>!S.doneRooms.includes(r)).slice(0,6); return ({say:`Done: ${S.doneRooms.join(', ')}.`, h:"Did we miss a room?", sub:"Garages, basements and patios are the ones people forget.",

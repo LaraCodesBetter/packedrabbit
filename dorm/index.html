@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Will it fit in my dorm room? Free check, no signup</title>
+<meta name="description" content="Type your dorm room's size and what you want to bring, and see how much floor is left after the bed, desk, dresser and wardrobe the school provides, plus what fits under a raised bed. Free, no signup.">
+<link rel="canonical" href="https://packedrabbit.com/dorm/">
+<meta name="theme-color" content="#1C3224">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="Will it fit in my dorm room?">
+<meta property="og:description" content="Your room, the school's furniture, and everything you want to bring. See what fits before move-in day.">
+<meta property="og:url" content="https://packedrabbit.com/dorm/">
+<meta property="og:image" content="https://packedrabbit.com/img/og-card.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Will it fit in my dorm room? by The Packed Rabbit","url":"https://packedrabbit.com/dorm/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any web browser","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+ "description":"Estimates how much dorm room floor is left after the furniture a school provides and the things a student brings, and what fits under a raised bed. Uses furniture sizes published by university housing offices."}
+</script>
+<style>
+.dorm{max-width:680px;margin:0 auto;padding:32px 16px 40px}
+.dorm h1{font-family:var(--display);font-size:clamp(2rem,8vw,3rem);line-height:1.06;margin:0;color:var(--ink)}
+.dorm .sub{font-size:1.1rem;color:var(--ink2);margin:12px 0 22px;line-height:1.5}
+.card2{background:var(--panel);border-radius:20px;box-shadow:var(--lift1);padding:20px;margin-top:18px}
+.card2 h2{font-size:1.15rem;margin:0 0 12px;color:var(--ink)}
+.row{display:flex;flex-wrap:wrap;gap:12px}
+.row label{flex:1 1 140px;display:flex;flex-direction:column;gap:6px;font-weight:700;color:var(--ink);font-size:.98rem}
+.row input,.row select{min-height:48px;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:1.05rem;padding:0 12px}
+.who{display:flex;gap:10px;margin-top:4px}
+.who button{flex:1;min-height:48px;border-radius:14px;border:2px solid var(--ink);background:transparent;color:var(--ink);font:inherit;font-weight:700;cursor:pointer}
+.who button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.items{list-style:none;margin:0;padding:0}
+.items li{display:flex;align-items:center;gap:10px;min-height:52px;border-top:1px solid var(--line)}
+.items li:first-child{border-top:0}
+.items label{flex:1;display:flex;align-items:center;gap:12px;cursor:pointer;font-weight:600;color:var(--ink)}
+.items input[type=checkbox]{width:24px;height:24px;accent-color:var(--ink);flex:0 0 auto}
+.items small{color:var(--ink2);font-weight:500}
+.items input.n{width:64px;min-height:44px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;text-align:center}
+.add{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.add input{flex:1 1 120px;min-height:44px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;padding:0 10px}
+.add button,.btn2{min-height:44px;padding:0 16px;border-radius:12px;border:0;background:var(--ink);color:var(--bg);font:inherit;font-weight:800;cursor:pointer}
+.verdict{font-family:var(--display);font-size:clamp(1.5rem,6vw,2rem);line-height:1.15;margin:0 0 8px;color:var(--ink)}
+.bar{display:flex;height:22px;border-radius:11px;overflow:hidden;background:var(--line);margin:14px 0 8px}
+.bar i{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.92rem;color:var(--ink2)}
+.legend span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--c)}
+.plan{display:block;width:100%;height:auto;margin-top:14px;border-radius:12px;background:var(--bg)}
+.tips li{margin:6px 0;line-height:1.5;color:var(--ink)}
+.src{font-size:.9rem;color:var(--ink2);margin-top:12px;line-height:1.5}
+.src a{color:var(--ink)}
+.maker{margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem}
+</style>
+<meta property="og:image:alt" content="The Packed Rabbit: it knows what fits through the door. A sofa shown against a 32-inch doorway, with the words: Sofa, 2 inches too wide. Legs off: it goes through.">
+<meta name="twitter:image:alt" content="The Packed Rabbit: it knows what fits through the door. A sofa shown against a 32-inch doorway, with the words: Sofa, 2 inches too wide. Legs off: it goes through.">
+<style id="skipcss">.skip{position:absolute;left:-9999px;top:8px;z-index:9999;background:#14281B;color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;text-decoration:none}.skip:focus{left:8px}</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home"><img src="../img/rabbit.svg" alt="" width="34" height="34"> The Packed Rabbit</a>
+</header>
+<main class="dorm" id="main">
+  <h1>Will it fit in my dorm room?</h1>
+  <p class="sub">The school gives you a bed, a desk, a dresser and a wardrobe. Find out how much floor that leaves before you buy the futon.</p>
+
+  <section class="card2" aria-labelledby="h-room">
+    <h2 id="h-room">Your room</h2>
+    <div class="row">
+      <label for="len">Length, feet<input id="len" type="number" inputmode="decimal" min="6" max="40" step="0.5" value="16"></label>
+      <label for="wid">Width, feet<input id="wid" type="number" inputmode="decimal" min="6" max="40" step="0.5" value="10"></label>
+    </div>
+    <p class="src" style="margin-top:8px">Your housing office's page for your hall usually lists the room size. 16 by 10 feet is one real example (Woodland Hall at SIUE).</p>
+    <div class="who" role="group" aria-label="How many people share the room">
+      <button type="button" data-p="1" aria-pressed="false">Just me</button>
+      <button type="button" data-p="2" aria-pressed="true">Two of us</button>
+      <button type="button" data-p="3" aria-pressed="false">Three</button>
+    </div>
+  </section>
+
+  <section class="card2" aria-labelledby="h-bring">
+    <h2 id="h-bring">What you're bringing</h2>
+    <ul class="items" id="items"></ul>
+    <div class="add">
+      <input id="aname" placeholder="Something else" aria-label="Item name">
+      <input id="aw" type="number" inputmode="decimal" placeholder="Width in." aria-label="Width in inches" style="flex:0 1 110px">
+      <input id="ad" type="number" inputmode="decimal" placeholder="Depth in." aria-label="Depth in inches" style="flex:0 1 110px">
+      <button type="button" id="addbtn">Add it</button>
+    </div>
+    <p class="src">Sizes are typical. If yours is different, add it above with its real size.</p>
+  </section>
+
+  <section class="card2" aria-labelledby="verdict" aria-live="polite">
+    <p class="verdict" id="verdict">Working it out…</p>
+    <p id="detail" style="margin:0;color:var(--ink);line-height:1.5"></p>
+    <div class="bar" id="bar" aria-hidden="true"></div>
+    <div class="legend" id="legend"></div>
+    <svg class="plan" id="plan" role="img" aria-label="A simple top-down sketch of the room with the furniture placed along the walls"></svg>
+  </section>
+
+  <section class="card2" aria-labelledby="h-under">
+    <h2 id="h-under">What fits under the bed</h2>
+    <div class="row">
+      <label for="clear">Space under your bed, inches<input id="clear" type="number" inputmode="decimal" min="4" max="40" value="11"></label>
+      <label for="bin">Height of your storage bin, inches<input id="bin" type="number" inputmode="decimal" min="2" max="40" value="6"></label>
+    </div>
+    <p id="underv" style="margin:12px 0 0;font-weight:700;color:var(--ink)"></p>
+    <p class="src">Most school beds adjust. The schools below list 11 to 14 inches under the bed at a low setting and up to about 32 inches at the highest. Leave an inch so the bin slides out.</p>
+  </section>
+
+  <section class="card2" aria-labelledby="h-tips">
+    <h2 id="h-tips">Before move-in day</h2>
+    <ul class="tips">
+      <li><b>Every school we checked uses twin XL beds, 36 by 80 inches.</b> Regular twin sheets come up short; buy twin XL.</li>
+      <li><b>Talk to your roommate before you shop.</b> One fridge, one rug and one TV, not two of each.</li>
+      <li><b>Check your hall's own page.</b> Furniture and room sizes change from one hall to the next, even on one campus.</li>
+      <li><b>Check what's allowed.</b> Your housing office lists the rules on fridges, cords and anything that heats up.</li>
+      <li><b>Pack in labeled bins, not trash bags.</b> Bins stack, slide under the bed, and come home again in May.</li>
+    </ul>
+  </section>
+
+  <p class="src">Furniture sizes from university housing offices, checked November 2026: <a href="https://www.unh.edu/housing/furniture-dimensions-beds" rel="noopener" target="_blank">University of New Hampshire</a>, <a href="https://housing.uoregon.edu/node/447" rel="noopener" target="_blank">University of Oregon</a>, <a href="https://housingmealplans.syr.edu/residential-facilities/residential-features/" rel="noopener" target="_blank">Syracuse University</a>, <a href="https://sites.rowan.edu/housing/resources/Furniture%20Descriptions.html" rel="noopener" target="_blank">Rowan University</a> and <a href="https://www.siue.edu/housing/housing-options/woodland/room-dimensions.shtml" rel="noopener" target="_blank">SIUE</a>. This is an estimate of floor space, not a floor plan; doors, radiators and windows take room too.</p>
+
+  <p class="maker">Made by someone moving, for people moving. Not a moving company, broker or lead site: we never sell your details and never take a commission from movers, and nothing you type here is sent to us.</p>
+</main>
+<footer class="wrap">
+  <a href="../tools/">Every free moving tool</a>
+  <a href="../fit/">Will my couch fit through the door?</a>
+  <a href="../boxes/">How many boxes?</a>
+  <a href="../privacy.html">Privacy</a>
+</footer>
+<script>
+(function () {
+  "use strict";
+  /* Per student, from the school (inches, width x depth). Synthesis of the five housing pages cited on this page. */
+  var SCHOOL = [["Bed (twin XL)", 36, 80], ["Desk", 42, 24], ["Dresser", 30, 24], ["Wardrobe", 36, 24]];
+  var BRING = [
+    ["Mini fridge", 19, 20, true], ["Desk chair you bring", 0, 0, false], ["Futon or loveseat", 54, 34, false], ["Bean bag chair", 36, 36, false],
+    ["TV stand", 36, 16, false], ["Rolling cart or drawers", 15, 18, true], ["Floor lamp", 12, 12, true], ["Laundry hamper", 16, 16, true],
+    ["Bookshelf", 24, 12, false], ["Full-length mirror (on the floor)", 14, 6, false]
+  ];
+  var $ = function (id) { return document.getElementById(id); };
+  var people = 2, list = BRING.map(function (b) { return { n: b[0], w: b[1], d: b[2], on: b[3] && b[1] > 0 }; }).filter(function (b) { return b.w > 0; });
+  function drawList() {
+    var ul = $("items"); ul.textContent = "";
+    list.forEach(function (b, i) {
+      var li = document.createElement("li");
+      var lab = document.createElement("label"); var cb = document.createElement("input"); cb.type = "checkbox"; cb.checked = b.on; cb.id = "it" + i;
+      cb.addEventListener("change", function () { b.on = cb.checked; calc(); });
+      lab.appendChild(cb); var t = document.createElement("span"); t.textContent = b.n + " "; var sm = document.createElement("small"); sm.textContent = b.w + " × " + b.d + " in."; t.appendChild(sm); lab.appendChild(t);
+      li.appendChild(lab); ul.appendChild(li);
+    });
+  }
+  function rect(svg, x, y, w, h, fill, label, s) {
+    var r = document.createElementNS("http://www.w3.org/2000/svg", "rect"); r.setAttribute("x", x * s); r.setAttribute("y", y * s); r.setAttribute("width", w * s); r.setAttribute("height", h * s); r.setAttribute("rx", 3); r.setAttribute("fill", fill); r.setAttribute("stroke", "currentColor"); r.setAttribute("stroke-opacity", ".25"); svg.appendChild(r);
+    if (label && w * s > 40 && h * s > 14) { var t = document.createElementNS("http://www.w3.org/2000/svg", "text"); t.setAttribute("x", (x + w / 2) * s); t.setAttribute("y", (y + h / 2) * s + 4); t.setAttribute("text-anchor", "middle"); t.setAttribute("font-size", "11"); t.setAttribute("fill", "currentColor"); t.textContent = label; svg.appendChild(t); }
+  }
+  function calc() {
+    var L = parseFloat($("len").value) || 0, W = parseFloat($("wid").value) || 0, room = L * W * 144;
+    var schoolA = 0; SCHOOL.forEach(function (f) { schoolA += f[1] * f[2]; }); schoolA *= people;
+    var bringA = 0, n = 0; list.forEach(function (b) { if (b.on) { bringA += b.w * b.d * people; n++; } });
+    var free = room - schoolA - bringA, pct = room ? free / room : 0, sq = Math.round(free / 144);
+    var v = $("verdict"), d = $("detail");
+    if (!room) { v.textContent = "Type the room's length and width."; d.textContent = ""; }
+    else if (pct >= 0.35) { v.textContent = "It fits, with room to walk."; }
+    else if (pct >= 0.22) { v.textContent = "It fits, but it'll be snug."; }
+    else if (pct >= 0) { v.textContent = "Too tight to live in comfortably."; }
+    else { v.textContent = "That's more than the floor holds."; }
+    if (room) d.textContent = "About " + Math.max(0, sq) + " square feet of open floor left out of " + Math.round(room / 144) + ", or " + Math.max(0, Math.round(pct * 100)) + "%. Our rule of thumb: keep about a third of the floor open for walking and the door." + (people > 1 ? " Counted for " + people + " of you; each person brings what's ticked." : "");
+    var bar = $("bar"); bar.textContent = "";
+    [[schoolA, "var(--ink)"], [bringA, "var(--tape)"], [Math.max(0, free), "var(--line)"]].forEach(function (p) { var i = document.createElement("i"); i.style.width = (room ? Math.min(100, p[0] / room * 100) : 0) + "%"; i.style.background = p[1]; bar.appendChild(i); });
+    $("legend").innerHTML = '<span style="--c:var(--ink)">School furniture</span><span style="--c:var(--tape)">What you bring</span><span style="--c:var(--line)">Open floor</span>';
+    /* a simple sketch: school furniture along the long walls, your things along the short wall */
+    var svg = $("plan"), s = 600 / Math.max(L * 12, 1); svg.setAttribute("viewBox", "0 0 600 " + Math.max(60, Math.round(W * 12 * s)));
+    svg.textContent = ""; rect(svg, 0, 0, L * 12, W * 12, "none", "", s);
+    var pieces = []; for (var p = 0; p < people; p++) SCHOOL.forEach(function (f) { pieces.push({ n: f[0].replace(" (twin XL)", ""), w: f[1], d: f[2], c: "rgba(35,103,60,.35)" }); });
+    list.forEach(function (b) { if (b.on) for (var p2 = 0; p2 < people; p2++) pieces.push({ n: b.n.split(" ")[0], w: b.w, d: b.d, c: "rgba(199,154,91,.45)" }); });
+    var x = 0, y = 0, row = 0, top = true, maxX = L * 12, maxY = W * 12;
+    pieces.forEach(function (pc) {
+      var w = pc.w, h = pc.d; if (pc.n === "Bed") { w = pc.d; h = pc.w; }
+      if (x + w > maxX) { if (top) { top = false; x = 0; } else { return; } }
+      var yy = top ? 0 : maxY - h; if (yy < 0) return;
+      rect(svg, x, yy, w, h, pc.c, pc.n, s); x += w + 2;
+    });
+  }
+  document.querySelectorAll(".who button").forEach(function (b) { b.addEventListener("click", function () { people = +b.dataset.p; document.querySelectorAll(".who button").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); }); calc(); }); });
+  ["len", "wid"].forEach(function (id) { $(id).addEventListener("input", calc); });
+  $("addbtn").addEventListener("click", function () { var n = $("aname").value.trim(), w = parseFloat($("aw").value), d = parseFloat($("ad").value); if (!n || !(w > 0) || !(d > 0)) { $("aname").focus(); return; } list.push({ n: n, w: w, d: d, on: true }); $("aname").value = $("aw").value = $("ad").value = ""; drawList(); calc(); });
+  function under() { var c = parseFloat($("clear").value) || 0, b = parseFloat($("bin").value) || 0; $("underv").textContent = !c || !b ? "" : b + 1 <= c ? "It slides under, with " + (c - b) + " inch" + (c - b === 1 ? "" : "es") + " to spare." : "Too tall by " + (b + 1 - c) + " inch" + (b + 1 - c === 1 ? "" : "es") + ". Raise the bed a notch, or look for a flatter bin."; }
+  ["clear", "bin"].forEach(function (id) { $(id).addEventListener("input", under); });
+  /* links can carry the room: ?l=16&w=10&p=2 */
+  try { var q = new URLSearchParams(location.search); if (+q.get("l")) $("len").value = q.get("l"); if (+q.get("w")) $("wid").value = q.get("w"); if (+q.get("p")) { people = Math.min(3, Math.max(1, +q.get("p"))); document.querySelectorAll(".who button").forEach(function (x) { x.setAttribute("aria-pressed", +x.dataset.p === people ? "true" : "false"); }); } } catch (e) {}
+  drawList(); calc(); under();
+})();
+</script>
+</body>
+</html>
