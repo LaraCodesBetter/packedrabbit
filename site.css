@@ -661,3 +661,27 @@ div.door em{color:var(--green); margin-top:6px}
 /* Lumi's review, 5 Nov: results grouped by found / not in what you pasted / good signs. Plum, not alarm red. */
 .qgroup{font-size:1rem; font-weight:800; margin:16px 0 2px}
 .qflag span a{color:inherit; font-weight:700; text-decoration:underline; text-underline-offset:2px}
+
+/* Owner, 7 Nov 2026: every tool in the new format. The signature wordmark in the
+   header (green on light, cream on dark) and the deep green last page with the
+   contact, links and the lead message, the same as the homepage. */
+header.top .brand img.wm{width:150px; height:auto}
+header.top .brand img.wm-d{display:none}
+@media (max-width:420px){ header.top .brand img.wm{width:128px; height:auto} }
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) header.top .brand img.wm-l{display:none} :root:not([data-theme="light"]) header.top .brand img.wm-d{display:block}}
+:root[data-theme="dark"] header.top .brand img.wm-l{display:none}
+:root[data-theme="dark"] header.top .brand img.wm-d{display:block}
+section.last{display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; gap:22px; padding:64px 24px 48px; margin-top:40px; background:#0D3B22; color:#F2E8D5}
+section.last img{width:190px; height:auto}
+section.last h2{font-size:1.7rem; margin:0; color:#F2E8D5}
+section.last .mail{display:inline-flex; align-items:center; justify-content:center; min-height:52px; padding:0 26px; border-radius:14px; background:#F2E8D5; color:#0D3B22; font-weight:800; font-size:1.06rem; text-decoration:none}
+section.last nav{display:grid; grid-template-columns:1fr 1fr; gap:4px 18px; max-width:340px; width:100%}
+section.last nav a{display:flex; align-items:center; justify-content:center; min-height:44px; color:#F2E8D5; font-weight:700; text-decoration:none; border-bottom:1px solid #F2E8D522}
+section.last .soc{display:flex; gap:10px}
+section.last .soc a{display:grid; place-items:center; width:48px; height:48px; border-radius:50%; border:1.5px solid #F2E8D555; color:#F2E8D5}
+section.last .soc svg{width:22px; height:22px}
+section.last .lead{max-width:34ch; font-size:.98rem; line-height:1.5; color:#F2E8D5cc; margin:0}
+section.last small{color:#F2E8D599}
+section.last a:focus-visible{outline:3px solid #F2E8D5; outline-offset:3px}
+html.embed section.last{display:none}
+@media print{section.last{display:none}}
