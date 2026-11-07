@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0D3B22">
+<meta name="robots" content="noindex">
+<title>A move · The Packed Rabbit</title>
+<style>
+@font-face{font-family:"Atkinson Hyperlegible Next";src:url("../app/fonts/atkinson-next.woff") format("woff");font-weight:200 800;font-display:swap}
+:root{--green:#0D3B22;--cream:#F2E8D5;--mint:#9BE0B3}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--green);color:#fff;font-family:"Atkinson Hyperlegible Next",system-ui,sans-serif}
+main{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px}
+.tape{position:fixed;left:-10px;right:-10px;top:48px;height:18px;background:#EADFC9;transform:rotate(-1.4deg)}
+.wm{width:200px;height:auto;margin-bottom:36px}
+.days{font-weight:800;font-size:clamp(120px,36vw,200px);line-height:.9;letter-spacing:-.03em}
+.to{font-weight:800;font-size:28px;margin-top:8px}
+.what{font-size:20px;color:#ffffffcc;margin-top:10px}
+.bar{width:min(320px,80vw);height:10px;border-radius:5px;background:#ffffff2e;margin:34px auto 10px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--mint);border-radius:5px;width:0;transition:width 1.2s cubic-bezier(.2,.7,.3,1) .3s}
+.boxes{font-size:18px;color:#ffffffd9}
+.cta{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 26px;margin-top:40px;border-radius:14px;background:var(--cream);color:var(--green);font-weight:800;font-size:18px;text-decoration:none}
+.lead{margin-top:28px;font-size:15px;line-height:1.5;color:#ffffffb3;max-width:34ch}
+@media (prefers-reduced-motion: reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<div class="tape" aria-hidden="true"></div>
+<main>
+  <img class="wm" src="../app/start/wordmark-ears-cream.png" alt="The Packed Rabbit" width="200" height="52">
+  <div class="days" id="days">Soon</div>
+  <div class="to" id="to">a move is coming</div>
+  <div class="what" id="what"></div>
+  <div class="bar" id="bar" hidden><i id="fill"></i></div>
+  <div class="boxes" id="boxes"></div>
+  <a class="cta" href="../">Pack your own move calmly</a>
+  <p class="lead">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>
+</main>
+<script>
+/* the card keeps counting down by itself: the link holds a date, a milestone's name and two numbers, nothing else */
+(function(){ try{
+  var p=new URLSearchParams((location.hash||'').slice(1)), d=p.get('d')||'', w=(p.get('w')||'').replace(/[<>]/g,'').slice(0,32), pk=+p.get('p')||0, tot=+p.get('t')||0;
+  if(/^\d{4}-\d\d-\d\d$/.test(d)){
+    var then=new Date(d+'T12:00:00'), now=new Date(); now.setHours(12,0,0,0);
+    var n=Math.round((then-now)/864e5);
+    var el=document.getElementById('days'), to=document.getElementById('to');
+    if(n>1){ el.textContent=n; to.textContent='days to go'; }
+    else if(n===1){ el.textContent='1'; to.textContent='day to go'; }
+    else if(n===0){ el.textContent='Today'; to.textContent="it's moving day"; }
+    else { el.textContent='Home'; to.textContent='the move is done'; }
+    document.getElementById('what').textContent=(w||'Moving day')+', '+then.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+    document.title=(n>1?n+' days to go':w||'A move')+' · The Packed Rabbit';
+  }
+  if(tot>0 && pk>=0 && pk<=tot){ document.getElementById('bar').hidden=false; document.getElementById('boxes').textContent=pk+' of '+tot+' boxes packed';
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ document.getElementById('fill').style.width=(100*pk/tot)+'%'; }); }); }
+}catch(e){} })();
+</script>
+</body>
+</html>

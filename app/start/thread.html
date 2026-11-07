@@ -247,7 +247,9 @@ textarea{font:inherit;font-size:17px;width:100%;border-radius:14px;border:1.5px 
 .list{margin:14px 0 0;padding:0;width:100%;max-width:310px;list-style:none;text-align:left;border:1.5px solid var(--frame);border-radius:16px;max-height:210px;overflow:auto}
 .list li{display:flex;justify-content:space-between;gap:10px;padding:12px 14px;font-size:17px;border-top:1px solid var(--frame)}
 .list li:first-child{border-top:0}.list li span{color:var(--muted);font-weight:700;white-space:nowrap}
-.choice.hint{box-shadow:0 0 0 3px var(--soft)}
+.choice.hint,.choice.on{background:var(--ink);color:var(--screen);border-color:var(--ink)}.choice.hint small{color:var(--screen)}.choice.hint{margin:0;font-size:19px}.chips .choice.hint{font-size:16px}
+.choices .choice.hint::before,.choices .choice.on::before,.chips .choice.on::before{content:"";display:inline-block;width:.8em;height:.45em;border-left:3px solid currentColor;border-bottom:3px solid currentColor;transform:translateY(-.2em) rotate(-45deg);margin-right:.5em;vertical-align:middle}
+.choice{transition:background .15s,color .15s}@media (prefers-reduced-motion: reduce){.choice{transition:none}}
 .measure{stroke:var(--plum)!important;stroke-width:3!important;fill:none!important}
 .mtext{fill:var(--plum)!important;font-size:15px!important}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
