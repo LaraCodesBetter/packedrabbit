@@ -40,6 +40,16 @@ h2{font-size:31px;line-height:1.15;margin:0;text-wrap:balance}
 .cta{margin-top:16px;width:100%;max-width:300px;min-height:56px;border:0;border-radius:14px;background:var(--btn);color:var(--btnfg);font:700 20px var(--sans);cursor:pointer}
 .cta:disabled{opacity:.45;cursor:default}
 .link{margin-top:4px;background:none;border:0;color:var(--text);font:600 18px var(--sans);text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;min-height:44px;cursor:pointer}
+.knife{display:block;width:220px;height:auto;margin:6px auto 4px;overflow:visible}
+.knife .body{fill:var(--ink,#1E4D33)}.knife .pin{fill:#EADFC9}
+.knife .bl{transform-box:view-box;transform-origin:0 0;transform:translate(59px,116px) rotate(var(--a));animation:fan .7s cubic-bezier(.3,1.3,.5,1) both;animation-delay:var(--d)}
+.knife .blade{fill:#DCE3DD;stroke:var(--ink,#1E4D33);stroke-width:1.5}
+@keyframes fan{from{transform:translate(59px,116px) rotate(80deg)}}
+@media (prefers-reduced-motion: reduce){.knife .bl{animation:none}}
+.kit{list-style:none;margin:10px auto 0;padding:0;width:100%;max-width:320px;text-align:left;border:2px solid var(--soft);border-radius:16px;overflow:hidden}
+.kit li+li{border-top:1px solid var(--soft)}
+.kit a{display:flex;align-items:center;min-height:48px;padding:8px 16px;color:var(--text);font-weight:600;text-decoration:none}
+.kit a::after{content:"";margin-left:auto;width:8px;height:8px;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(45deg);opacity:.5}
 .sugg{width:100%;max-width:300px;margin:6px auto 0;background:var(--screen);border:2px solid var(--soft);border-radius:14px;overflow:hidden;text-align:left}
 .sugg[hidden]{display:none}
 .sopt{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;min-height:48px;padding:10px 16px;border:0;background:transparent;color:var(--text);font:600 17px var(--sans);text-align:left;cursor:pointer}
@@ -556,6 +566,7 @@ function homeDone(){ if(S.tabs.includes('Moving')){ const r=S.retTo; S.retTo='';
 
 function toSorting(){ S.li=0; S.lstage='ask'; S.lsay=''; show('leave'); }
 function earnMoving(){ S.mover=MOVERS()?(/booked/.test(S.booked)?"Yes, they're booked":/prices/.test(S.booked)?"I'm getting quotes":'Not yet'):/truck|Friends|container/.test(S.how||'')?"I'm moving myself":''; learn('Moving'); hopping=matchMedia('(prefers-reduced-motion: reduce)').matches?'':'Moving'; show('movingTab'); if(hopping) hop('Moving'); else landSoon('Moving'); }
+const KIT=[["fit/","Will it fit through the door?"],["quote-check/","Is this quote a scam?"],["mover-check/","Can I trust this mover?"],["truck/","What size truck?"],["deposit/","When is my deposit due back?"],["tip/","How much to tip"]];
 const HOWS=["Movers pack and move it","Movers move it, I pack","A rental truck","Friends and our cars","A moving container","Not sure yet"];
 const MOVERS=()=>S.place==='signed'&&/^Movers/.test(S.how||''), INTER=()=>S.far==='Another state';
 const fmtD=d=>new Date(d+'T12:00').toLocaleDateString('en-US',{month:'long',day:'numeric'});
@@ -638,10 +649,10 @@ const MSTEPS=[
  {k:'found', w:9, on:()=>S.place==='looking', q:"Have you found your new place?", short:"find your new place.", c:["Yes, it's signed","Close, deciding between a couple","Still looking"], set:v=>{ if(/signed/.test(v)){ S.place='signed'; S.go='hphoto'; } else if(/Close/.test(v)) S.place='found'; }, keep:v=>!/Still/.test(v)},
  {k:'signed', w:8, on:()=>S.place==='found', q:"Is your new place signed?", short:"get the new place signed.", c:["Yes, it's signed","Not yet"], say:{"Not yet":"Movers and utilities wait until it's signed."}, set:v=>{ if(/signed/.test(v)){ S.place='signed'; S.go='hphoto'; } }, keep:v=>/signed/.test(v)},
  {k:'how', w:8, on:()=>S.place==='signed'&&!S.how, q:"Who's moving your things?", short:"choose how it gets there.", c:HOWS, set:v=>{ S.how=v; }},
- {k:'whohelps', w:7, t:'text', on:()=>true, q:"Who's helping you move?", short:"note who's helping.", ph:"Names, like Maya and Sam", say:()=>"The rabbit keeps them with your move."},
+ {k:'whohelps', w:5, t:'text', on:()=>true, q:"Who's helping you move?", short:"note who's helping.", ph:"Names, like Maya and Sam", say:()=>"The rabbit keeps them with your move."},
  {k:'budget', w:7, t:'number', on:()=>S.place==='signed', q:"What can you spend on the move?", short:"set a moving budget.", ph:"3000", say:()=>"The rabbit compares every price to this."},
- {k:'booked', w:7, on:()=>MOVERS()&&!S.booked, q:"Have you booked movers?", short:"book your movers.", c:["Yes, they're booked","Getting prices","Not started"], set:v=>{ S.booked=v; }},
- {k:'prices', w:7, on:()=>MOVERS()&&S.booked&&!/booked/.test(S.booked), q:"Send your list to two or three movers.", short:"send your list to movers.", packet:1, c:["I sent it","I have a price to paste"], set:v=>{ if(/paste/.test(v)) S.go='mquote'; }, keep:v=>!/paste/.test(v)},
+ {k:'booked', w:7.8, find:()=>`licensed movers near ${S.fromZip||S.from||'me'} reviews`, on:()=>MOVERS()&&!S.booked, q:"Have you booked movers?", short:"book your movers.", c:["Yes, they're booked","Getting prices","Not started"], set:v=>{ S.booked=v; }},
+ {k:'prices', w:7.6, find:()=>`licensed movers near ${S.fromZip||S.from||'me'} reviews`, on:()=>MOVERS()&&S.booked&&!/booked/.test(S.booked), q:"Send your list to two or three movers.", short:"send your list to movers.", packet:1, c:["I sent it","I have a price to paste"], set:v=>{ if(/paste/.test(v)) S.go='mquote'; }, keep:v=>!/paste/.test(v)},
  {k:'movers', w:6, t:'cal', label:'Movers come', on:()=>MOVERS()&&!!S.date, win:()=>moveWin(), q:"When are the movers coming?", short:"set the movers' day.", find:'licensed movers near me reviews'},
  {k:'truckPick', w:4, t:'cal', label:'Pick up the truck', on:()=>S.place==='signed'&&S.how==='A rental truck'&&!!S.date, win:()=>({min:addDays(S.date,-2),max:S.date}), q:"When do you pick up the truck?", short:"reserve the truck.", find:'moving truck rental near me', say:()=>"Reserve it early. Weekends at the end of the month go first."},
  {k:'truckBack', w:4, t:'cal', label:'Return the truck', on:()=>S.place==='signed'&&S.how==='A rental truck'&&!!S.date, win:()=>({min:S.date,max:addDays(S.date,3)}), q:"When does the truck go back?", short:"set the truck's return."},
@@ -685,7 +696,7 @@ function stepCard(st){ const a=S.ma[st.k];
     :st.t==='cal'?calBody(st.k,st.win(),true)+`<button class="cta" data-msave style="max-width:none" ${S.msel2?'':'disabled'}>Save</button>`
     :st.t?`<div class="field" style="max-width:none"><input id="mval" type="${st.t}" ${st.t==='number'?'inputmode="decimal"':''} placeholder="${esc(st.ph||'')}" aria-label="${esc(st.q)}"></div><button class="cta" data-msave style="max-width:none">Save</button>`
     :`<div class="choices" style="max-width:none">${st.c.map(x=>`<button class="choice" data-ma="${esc(x)}">${esc(x)}</button>`).join('')}</div>`;
-  return `<div class="nextq"><p class="when">${dueLine(st)}</p><b>${st.q}</b>${st.term?`<small class="term">${st.term}</small>`:''}${st.find?`<a class="findl" target="_blank" rel="noopener" href="https://www.google.com/search?q=${encodeURIComponent(st.find)}">Find one near you</a>`:''}${st.packet?`<pre class="packet">${esc(packetText())}</pre><button class="choice" data-mpacket style="max-width:none;width:100%;margin-top:8px">Copy it</button>`:''}${ctl}<button class="link" data-mskip style="padding:0;min-height:44px">Not sure, ask me later</button></div>`; }
+  return `<div class="nextq"><p class="when">${dueLine(st)}</p><b>${st.q}</b>${st.term?`<small class="term">${st.term}</small>`:''}${st.find?`<a class="findl" target="_blank" rel="noopener" href="https://www.google.com/search?q=${encodeURIComponent(typeof st.find==='function'?st.find():st.find)}">Find one near you</a>`:''}${st.packet?`<pre class="packet">${esc(packetText())}</pre><button class="choice" data-mpacket style="max-width:none;width:100%;margin-top:8px">Copy it</button>`:''}${ctl}<button class="link" data-mskip style="padding:0;min-height:44px">Not sure, ask me later</button></div>`; }
 const truckTag=()=>{ const n=daysTo(); return n==null?'':n>1?`${n} days`:n===1?'Tomorrow':n===0?'Today':'Home'; };
 
 const P={
@@ -811,6 +822,10 @@ const P={
   llist:()=>{ const k=S.lk, L=S.lists[k]; return ({say:{donate:"Your donate list.",sell:"Your for-sale list.",unsure:"Decided."}[k], h:{donate:`${L.length} ${L.length===1?'thing':'things'} to donate.`,sell:`${L.length} ${L.length===1?'thing':'things'} for sale.`,unsure:"Here's where everything landed."}[k],
     sub:{donate:S.dhow==="Picked up from my door"?"The rabbit will remind you to book the pickup three to four weeks before you move. Keep the receipt for your taxes.":"Keep the receipt from wherever you drop it off. It can count at tax time.",sell:"Once you pick a moving day, the rabbit sets a sell-by date about two weeks before it, so big things are gone in time.",unsure:"Anything you keep goes back on your list for the movers."}[k],
     body:`<ul class="list">${L.map(x=>`<li>${esc(x.what)}<span>${k==='sell'?(x.price?'$'+x.price:'Price later'):k==='unsure'?({Trash:'Throw out'}[x.fate]||x.fate):(S.dhow==='Picked up from my door'?'Pickup':'Drop off')}</span></li>`).join('')}</ul><button class="cta" id="llNext">Next</button>`}); },
+  toolkit:()=>({say:"One more thing.", h:"The rabbit's pocketknife.", sub:"Free tools for every hard part of a move. No sign-up, no questions asked.", scene:'blank',
+    body:`<svg class="knife" viewBox="-14 0 240 150" role="img" aria-label="A pocketknife opening into moving tools"><g class="blades">${[['-62','tape'],['-38','truck'],['-14','glass'],['10','list'],['34','key']].map(([a,k],i)=>`<g class="bl" style="--a:${a}deg;--d:${i*90}ms"><path d="M0 0 L0 -86 Q8 -92 14 -84 L14 0 Z" class="blade"/></g>`).join('')}</g><rect x="40" y="96" width="160" height="40" rx="20" class="body"/><circle cx="66" cy="116" r="6" class="pin"/></svg>
+    <ul class="kit">${KIT.map(([u,q])=>`<li><a href="https://packedrabbit.com/${u}" target="_blank" rel="noopener">${q}</a></li>`).join('')}<li><a href="https://packedrabbit.com/tools/" target="_blank" rel="noopener"><b>Every free tool, in one box</b></a></li></ul>
+    <button class="cta" id="kitOpen">Open my move</button>`}),
   sortTab:()=>({say:"Sorted.", h:"Your Sorting tab is ready.", sub:"What you're donating, selling, and still deciding, each in its own list. That's the heart of it. The Calendar tab asks the next question when it's time.", body:`<button class="cta" id="openMove">Open my move</button><button class="link" data-go="start">Pack the next box</button>`}),
   notruck:()=>({say:"Before moving day.", h:"Movers won't take gas or propane.", sub:"Run the gas out of anything with an engine, and keep propane tanks off the truck. The rabbit keeps a list of what doesn't go on the truck.", body:`<button class="cta" id="ntOk">Got it</button>`}),
   price:()=>{ const pcs=S.big.reduce((s,b)=>s+pieces(b),0), d=S.date?new Date(S.date+'T12:00').toLocaleDateString('en-US',{month:'long',day:'numeric'}):'';
@@ -1114,7 +1129,8 @@ function wire(id){
   if(id==='oldplace') pick(v=>{ S.oldkind=v; S.rent=/rent/.test(v)?'Renting':/own/i.test(v)?'I own it':'Living with someone'; if(/rent/.test(v)) show('oldend'); else if(/selling/.test(v)) show('oldclose'); else afterOld(); });
   if(id==='oldend'||id==='oldclose') calPage('oldEnd',afterOld);
   if(id==='moveday'){ calPage('date',homeDone); $('#rough').onchange=e=>{ const v=e.target.value; if(!v) return; if(v==='Not sure yet'){ S.date=''; S.rough=''; } else { S.rough=v; S.date=roughDate(v); } homeDone(); }; }
-  if(id==='sortTab') $('#openMove').onclick=()=>window.__APP?finishThread():openSheet('Moving',$('#openMove'));
+  if(id==='sortTab') $('#openMove').onclick=()=>show('toolkit');
+  if(id==='toolkit') $('#kitOpen').onclick=()=>window.__APP?finishThread():openSheet('Moving',$('#kitOpen'));
   if(id==='mhow') pick(v=>{ S.how=v; show(MOVERS()?'mbooked':v==='A rental truck'?'mtruck':v==='Not sure yet'?'mboth':'mhelp'); });
   if(id==='mbooked') pick(v=>{ S.booked=v; show(/booked/.test(v)?'mname':/prices/.test(v)?'mnq':'mstairs'); });
   if(id==='mname'){ const go=()=>show(INTER()?'mdot':'mstairs'); $('#nameNext').onclick=()=>{ S.mname=$('#mname').value.trim(); go(); }; $('#nameLater').onclick=go; }
@@ -1283,7 +1299,7 @@ function pauseCard(back){ keep(true); const old=phone.querySelector('.paused'); 
 phone.addEventListener('click',e=>{ if(e.target.closest('[data-pause]')) pauseCard(false); });
 const afterOldGo=()=>S.place==='signed'?show('moveday'):homeDone();
 function afterFrom(){ if(measureMove()) show('mwhyask'); else if(S.to&&!S.toLL) show('mfar'); else { if(!S.to) S.far='Not sure yet'; show('mwhyask'); } }
-const SKIP={mto:()=>show('mfrom'),mfrom:()=>afterFrom(),mfar:()=>show('mwhyask'),mwhyask:()=>show(isBiz()?'mfound':'mwho'),mwhy:()=>show('mwho'),mwho:()=>show('mfound'),mfound:()=>show('oldplace'),
+const SKIP={toolkit:()=>window.__APP?finishThread():openSheet('Moving'),mto:()=>show('mfrom'),mfrom:()=>afterFrom(),mfar:()=>show('mwhyask'),mwhyask:()=>show(isBiz()?'mfound':'mwho'),mwhy:()=>show('mwho'),mwho:()=>show('mfound'),mfound:()=>show('oldplace'),
   hkind:()=>show(S.place==='signed'?'hstart':(isBiz()?'hbudget':'hbeds')),hbeds:()=>show('hbudget'),hneeds:()=>show('hsearch'),hsearch:()=>show('hshow'),hshow:()=>show('hask'),hask:()=>show('oldplace'),
   hstart:()=>show('oldplace'),hclose:()=>show('htitle'),oldplace:afterOldGo,oldend:afterOldGo,oldclose:afterOldGo,moveday:()=>homeDone(),
   words:()=>show('dest'),dest:()=>show('photo'),leave:()=>leaveNext(''),mstairs:()=>show('mdoor'),mdoor:()=>show(MOVERS()&&S.booked!=="Yes, they're booked"&&!S.qtext?'mpacket':'mrent')};
