@@ -256,7 +256,7 @@
   c.className = "embed-credit"; c.target = "_blank"; c.rel = "noopener";
   c.href = "https://packedrabbit.com" + location.pathname;
   c.textContent = "Free tool by The Packed Rabbit";
-  m.appendChild(c);
+  if (!/[?&]hub\b/.test(location.search)) m.appendChild(c);
   function tell() { try { parent.postMessage({ prEmbedHeight: Math.ceil(document.documentElement.scrollHeight) }, "*"); } catch (e) {} }
   tell(); addEventListener("load", tell); addEventListener("resize", tell);
   if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
