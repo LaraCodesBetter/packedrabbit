@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How many days to drive to my new home? Moving road trip planner, free</title>
+<meta name="description" content="Moving across the country by car or moving truck? Type the miles and how long you'll drive each day to see how many driving days it takes, where to stop each night and when you'll arrive. Free, no signup.">
+<link rel="canonical" href="https://packedrabbit.com/drive-days/">
+<meta name="theme-color" content="#1C3224">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="How many days will it take to drive to my new home?">
+<meta property="og:description" content="The miles and your driving day in, the number of days, the nightly stops and your arrival time out.">
+<meta property="og:url" content="https://packedrabbit.com/drive-days/">
+<meta property="og:image" content="https://packedrabbit.com/img/og-card.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Moving road trip planner by The Packed Rabbit",
+  "url": "https://packedrabbit.com/drive-days/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Works out how many days a long-distance move takes to drive, by car, moving truck, or truck towing a car, from the miles, the hours of driving each day, the average speed and the start times. Adds short stops and a meal stop, keeps each day's driving before 9 PM, and shows a day-by-day plan with the miles where to stop each night and the arrival day and time. Every number is a labeled estimate. Runs on the device; nothing typed is sent anywhere."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How many days does it take to drive across the country when moving?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Divide the miles by what you can drive in a day. At 8 hours of driving a day and about 55 miles an hour while moving, that's about 440 miles a day, so a 2,800-mile move is about 7 driving days and 6 nights on the road. A moving truck or a truck towing a car is usually slower than a car, and stops for fuel, food and rest add time. These are estimates; plan for weather, traffic and road work." } },
+    { "@type": "Question", "name": "How many hours a day should I drive when moving?",
+      "acceptedAnswer": { "@type": "Answer", "text": "There's no official limit for private drivers. For scale, federal rules let a professional truck driver drive at most 11 hours after 10 hours off, with a 30-minute break after 8 hours of driving, and you're likely in an unfamiliar vehicle. Plan well under that, and don't start a driving day short on sleep: CDC says adults need at least 7 hours." } },
+    { "@type": "Question", "name": "How many miles a day can you drive a moving truck?",
+      "acceptedAnswer": { "@type": "Answer", "text": "It depends on how long you drive and how fast the truck moves with traffic and hills. At 7 hours of driving and about 55 miles an hour, that's about 385 miles a day, before stops. Towing a car is usually slower again. Book each night's stop ahead so you aren't searching for a place to park a loaded truck late at night." } }
+  ]
+}
+</script>
+<style>
+  .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .lbl { display: block; font-weight: 800; margin: 22px 0 8px; font-size: 1.1rem; }
+  .lbl small { display: block; font-weight: 500; color: var(--ink2); font-size: .9rem; margin-top: 2px; }
+  .fld { width: 100%; box-sizing: border-box; min-height: 54px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 700; font-size: 1.1rem; padding: 8px 14px; }
+  .fld:focus { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+  select.fld { appearance: auto; }
+  input[type=date].fld { min-width: 0; width: 100%; max-width: 100%; -webkit-appearance: none; appearance: none; display: block; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 0 6px; }
+  .seg button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 6px 8px; line-height: 1.2; }
+  .seg button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .seg.three { grid-template-columns: 1fr 1fr 1fr; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #172F20; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .say { padding: 14px 18px 4px; color: #fff; }
+  .say .k { color: rgba(255,255,255,.72); font-weight: 700; font-size: .95rem; margin: 0; }
+  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.6vw, 2.3rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.08; color: #F2E8D5; margin-top: 2px; }
+  .say p { color: rgba(255,255,255,.84); margin: 6px 0 0; font-size: 1rem; }
+  .two { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 10px; align-items: end; }
+  .two > div { min-width: 0; }
+  .two .lbl { margin-top: 14px; }
+  .step { display: flex; align-items: center; gap: 8px; }
+  .step button { width: 52px; height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-size: 1.5rem; font-weight: 800; cursor: pointer; line-height: 1; flex: none; }
+  .step output { flex: 1; text-align: center; font-family: var(--display); font-weight: 850; font-size: 1.2rem; }
+  .facts { list-style: none; margin: 20px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .facts li { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .facts li:last-child { border-bottom: 0; }
+  .facts b { display: block; font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink2); margin-bottom: 2px; }
+  .trip { list-style: none; margin: 20px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .trip li { display: grid; grid-template-columns: 44px minmax(0,1fr); gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--line); align-items: start; }
+  .trip li:last-child { border-bottom: 0; }
+  .trip .n { width: 44px; height: 44px; border-radius: 50%; background: var(--blue); color: #fff; display: grid; place-items: center; font-weight: 850; font-family: var(--display); }
+  .trip strong { display: block; }
+  .trip span { display: block; color: var(--ink2); font-size: .97rem; }
+  .hint { font-size: .95rem; color: var(--ink2); margin: 8px 2px 0; }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  .how { margin-top: 34px; } .how h2 { font-size: 1.5rem; }
+  .how ul { padding-left: 20px; } .how li { margin: 6px 0; }
+  .aside { font-size: .95rem; color: var(--ink2); }
+  .src { font-size: .9rem; color: var(--ink2); border-top: 1px solid var(--line); padding-top: 12px; margin-top: 22px; }
+  .src a { color: var(--ink2); overflow-wrap: anywhere; }
+  [hidden] { display: none !important; }
+  @media (max-width: 370px) { .seg button { font-size: .88rem; } .seg.three { grid-template-columns: 1fr; } .two { grid-template-columns: 1fr; } }
+</style>
+<meta property="og:image:alt" content="The Packed Rabbit: it knows what fits through the door. A sofa shown against a 32-inch doorway, with the words: Sofa, 2 inches too wide. Legs off: it goes through.">
+<meta name="twitter:image:alt" content="The Packed Rabbit: it knows what fits through the door. A sofa shown against a 32-inch doorway, with the words: Sofa, 2 inches too wide. Legs off: it goes through.">
+<style id="skipcss">.skip{position:absolute;left:-9999px;top:8px;z-index:9999;background:#14281B;color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;text-decoration:none}.skip:focus{left:8px}</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home"><img class="wm wm-l" src="../img/wordmark.png" alt="The Packed Rabbit" width="150" height="39"><img class="wm wm-d" src="../img/wordmark-cream.png" alt="" width="150" height="39"></a>
+</header>
+
+<main id="main" class="tp">
+  <h1>How many days will it take to drive to my new home?</h1>
+  <p class="lede">Driving a car or a moving truck to a new city? Type the miles and how long you want to drive each day to see how many days it takes, where to stop each night and when you'll get there.</p>
+
+  <div class="stage">
+    <div class="say" aria-live="polite"><p class="k" id="kick"></p><div class="big" id="big"></div><p id="small"></p></div>
+    <svg id="svg" viewBox="0 0 500 90" role="img" aria-label="The drive split into days, with each night's stop"></svg>
+  </div>
+
+  <label class="lbl" for="mi">How many miles is the drive?<small>From a map app, old address to new address.</small></label>
+  <input class="fld" id="mi" type="text" inputmode="numeric" autocomplete="off" maxlength="5">
+
+  <p class="lbl" id="v-l">What are you driving?</p>
+  <div class="seg three" role="group" aria-labelledby="v-l">
+    <button type="button" data-v="c" class="on">A car</button>
+    <button type="button" data-v="t">Moving truck</button>
+    <button type="button" data-v="w">Truck towing a car</button>
+  </div>
+
+  <p class="lbl" id="h-l">Hours behind the wheel each day<small>Driving time only. Stops are added on top.</small></p>
+  <div class="step" role="group" aria-labelledby="h-l"><button type="button" id="h-" aria-label="Fewer hours">&minus;</button><output id="h-o" aria-live="polite"></output><button type="button" id="h+" aria-label="More hours">+</button></div>
+
+  <p class="lbl" id="s-l">Average speed while moving<small>Highway speed less traffic, hills and towns. Starts at our estimate for what you're driving.</small></p>
+  <div class="step" role="group" aria-labelledby="s-l"><button type="button" id="s-" aria-label="Slower">&minus;</button><output id="s-o" aria-live="polite"></output><button type="button" id="s+" aria-label="Faster">+</button></div>
+
+  <p class="lbl" id="k-l">Pets or young children along?<small>More, longer stops.</small></p>
+  <div class="seg" role="group" aria-labelledby="k-l">
+    <button type="button" data-k="0" class="on">No</button>
+    <button type="button" data-k="1">Yes</button>
+  </div>
+
+  <label class="lbl" for="day">Day you leave</label>
+  <input class="fld" id="day" type="date">
+
+  <div class="two">
+    <div><label class="lbl" for="t1">First day, leave at<small>Later if you load that morning.</small></label><select class="fld" id="t1"></select></div>
+    <div><label class="lbl" for="t2">Other days, leave at<small>After a full night's sleep.</small></label><select class="fld" id="t2"></select></div>
+  </div>
+
+  <ol class="trip" id="days" aria-label="Day by day"></ol>
+
+  <ul class="facts" id="facts">
+    <li id="f-a"><b></b><span></span></li>
+    <li id="f-b"><b></b><span></span></li>
+    <li id="f-c"><b></b><span></span></li>
+  </ul>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this answer</button>
+    <a class="btn ghost" href="../app/">Keep the trip with your boxes in the app</a>
+  </div>
+  <p class="aside">The app keeps the drive, each night's stop and what goes in the car with you in one place, next to your box list. No account, and it works with no signal.</p>
+
+  <section class="how">
+    <h2>How this works</h2>
+    <p><strong>Days are miles divided by a driving day.</strong> Your hours behind the wheel times your average speed is the miles you cover in a day. The last day is whatever is left.</p>
+    <p><strong>Stops are added on top</strong>, as our own estimates: a 15-minute stop after every 2 hours of driving for fuel and stretching, and a 45-minute meal stop on any day with more than 4 hours of driving. With pets or young children it's a 20-minute stop every 90 minutes. Driving ends by 9 PM, so a late start makes the first day shorter.</p>
+    <p><strong>Starting speeds are our estimates</strong> of the average while moving, not a speed limit: about 60 mph for a car, 55 for a loaded moving truck and 50 for a truck towing a car. Change it to match your route. Mountains, cities, weather and road work all slow you down, so treat every number here as an estimate and leave room in the plan.</p>
+    <p><strong>How many hours is safe?</strong> There's no official limit for private drivers. For scale, federal rules let a professional truck driver drive at most 11 hours after 10 hours off, with a 30-minute break after 8 hours of driving. They're trained, and you may be in a vehicle you've never driven. Plan well under that, and switch drivers if you can.</p>
+    <p><strong>Sleep matters more than miles.</strong> CDC says adults need at least 7 hours, so don't start a long driving day after loading the truck late into the night. Pull over and rest, or switch drivers, at the first signs of drowsy driving: yawning or blinking a lot, not remembering the last few miles, missing your exit, drifting out of your lane or hitting a rumble strip.</p>
+    <p class="aside">Planning the drive? See <a href="../answers/drive-hours.html">how many hours a day to drive</a>, <a href="../answers/truck-overnight.html">leaving a loaded truck at a hotel overnight</a>, <a href="../diy-cost/">what the move will cost</a> or <a href="../move-day/">how long loading will take</a>.</p>
+  </section>
+
+  <p class="src">Sources: FMCSA, <a href="https://www.fmcsa.dot.gov/regulations/hours-service/summary-hours-service-regulations">Summary of Hours of Service Regulations</a> (the professional driver limits, given for scale only; they don't apply when you move your own things); CDC, <a href="https://stacks.cdc.gov/view/cdc/35742">Drowsy Driving: Asleep at the Wheel</a> (at least 7 hours of sleep); NHTSA, <a href="https://www.nhtsa.gov/risky-driving/drowsy-driving">Drowsy Driving</a> (warning signs). The same sources as our answer on <a href="../answers/drive-hours.html">driving hours</a>; not re-read for this page. The stop times, starting speeds and the 9 PM end of the driving day are our own labeled estimates. Checked November 2026.</p>
+  <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Made by someone moving, for people moving. Not a moving company, broker or lead site: we never sell your details and never take a commission from movers, and nothing you type here is sent to us.</p>
+</main>
+
+<section class="last" id="last" aria-label="Contact and links">
+  <img src="../img/wordmark-cream.png" alt="The Packed Rabbit" width="190" height="50" loading="lazy">
+  <h2>Questions? Write to us.</h2>
+  <a class="mail" href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a>
+  <nav aria-label="More from The Packed Rabbit">
+    <a href="../tools/">Free moving tools</a><a href="../answers/">Straight answers</a>
+    <a href="../business/">For businesses</a><a href="../price.html">Price</a>
+    <a href="../privacy.html">Privacy</a><a href="../terms.html">Terms and refunds</a>
+  </nav>
+  <div class="soc" aria-label="Follow The Packed Rabbit">
+      <a href="https://www.instagram.com/thepackedrabbit/" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></svg></a>
+      <a href="https://www.tiktok.com/@thepackedrabbit" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5M14 3c.5 2.8 2.4 4.6 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="https://www.youtube.com/@thepackedrabbit" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 9.3v5.4l4.6-2.7z" fill="currentColor"/></svg></a>
+    </div>
+  <p class="lead">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>
+  <small>&copy; 2026 The Packed Rabbit</small>
+</section>
+
+<footer class="wrap">
+  <a href="../privacy.html">Privacy</a>
+  <a href="../terms.html">Terms and refunds</a>
+  <a href="../answers/">What I wish I'd known</a>
+  <a href="../fit/">Will my couch fit?</a>
+  <a href="../truck/">What size truck?</a>
+  <a href="../boxes/">How many boxes?</a>
+  <a href="../diy-cost/">Cost to move yourself</a>
+  <a href="../tip/">How much to tip movers?</a>
+  <a href="../take-or-leave/">Take it or leave it?</a>
+  <a href="../quote-check/">Check a moving quote</a>
+  <a href="../mover-check/">Check your mover</a>
+  <a href="../checklist/">Moving checklist by date</a>
+  <a href="../change-address/">Change of address checklist</a>
+  <a href="../deposit/">When is my deposit due back?</a>
+  <a href="../storage/">What size storage unit?</a>
+  <a href="../packing-schedule/">When should I start packing?</a>
+  <a href="../mattress/">Will my mattress fit up the stairs?</a>
+  <a href="../move-day/">How long will moving day take?</a>
+  <a href="../moving-tax/">Can I deduct my moving expenses?</a>
+  <a href="../weight/">How much does my stuff weigh?</a>
+  <a href="../move-in-cost/">How much money do I need to move?</a>
+  <a href="../claim/">Movers damaged or lost something?</a>
+  <a href="../break-lease/">Cost to break a lease?</a>
+  <a href="../prorated-rent/">Prorated rent for a partial month?</a>
+  <a href="../embed/">Put these tools on your site</a>
+</footer>
+
+<script>
+/* Nothing typed here is sent anywhere. The miles and choices go in the
+   address only so a shared link opens showing the same plan. */
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  function $(id) { return document.getElementById(id); }
+  function el(tag, a, p) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  function num(v) { var n = parseInt(String(v).replace(/[^0-9]/g, ""), 10); return isFinite(n) && n > 0 ? Math.min(n, 9999) : 0; }
+  function pd(s) { var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || ""); if (!m) return null; var d = new Date(+m[1], +m[2] - 1, +m[3]); return isNaN(d) || d.getFullYear() < 1990 || d.getFullYear() > 2100 || d.getDate() !== +m[3] ? null : d; }
+  function iso(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+  function wd(d) { return d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }); }
+  function wds(d) { return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }); }
+  function clock(h) { var m = Math.round(h * 4) * 15, hh = Math.floor(m / 60) % 24, mm = m % 60; return (hh % 12 || 12) + ":" + String(mm).padStart(2, "0") + (hh < 12 ? " AM" : " PM"); }
+  function dur(h) { var m = Math.round(h * 4) * 15, hh = Math.floor(m / 60), mm = m % 60; return hh ? hh + (hh === 1 ? " hour" : " hours") + (mm ? " " + mm + " min" : "") : mm + " min"; }
+  function comma(n) { return Math.round(n).toLocaleString("en-US"); }
+
+  var SPEED = { c: 60, t: 55, w: 50 };
+  var END = 21; /* driving ends by 9 PM */
+  var today = new Date(); today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  var dflt = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 14);
+  var S = { mi: 1200, v: "c", h: 8, sp: 60, k: "0", d: iso(dflt), t1: 9, t2: 8 };
+  var q = new URLSearchParams(location.search);
+  if (q.has("mi")) S.mi = num(q.get("mi"));
+  if (/^[ctw]$/.test(q.get("v") || "")) { S.v = q.get("v"); S.sp = SPEED[S.v]; }
+  if (q.has("h")) { var h = parseInt(q.get("h"), 10); if (h >= 2 && h <= 12) S.h = h; }
+  if (q.has("sp")) { var sp = parseInt(q.get("sp"), 10); if (sp >= 25 && sp <= 75) S.sp = Math.round(sp / 5) * 5; }
+  if (q.get("k") === "0" || q.get("k") === "1") S.k = q.get("k");
+  if (pd(q.get("d"))) S.d = q.get("d");
+  if (q.has("t1")) { var a = parseInt(q.get("t1"), 10); if (a >= 4 && a <= 18) S.t1 = a; }
+  if (q.has("t2")) { var b = parseInt(q.get("t2"), 10); if (b >= 4 && b <= 12) S.t2 = b; }
+
+  function fill(sel, lo, hi, v) { for (var i = lo; i <= hi; i++) { var o = document.createElement("option"); o.value = i; o.textContent = clock(i); if (i === v) o.selected = true; sel.appendChild(o); } }
+  fill($("t1"), 4, 18, S.t1); fill($("t2"), 4, 12, S.t2);
+  $("mi").value = S.mi || ""; $("day").value = S.d;
+
+  function seg(attr, key, after) {
+    [].forEach.call(document.querySelectorAll("[data-" + attr + "]"), function (bt) {
+      var on = S[key] === bt.getAttribute("data-" + attr);
+      bt.classList.toggle("on", on); bt.setAttribute("aria-pressed", on ? "true" : "false");
+      bt.onclick = function () { S[key] = bt.getAttribute("data-" + attr); if (after) after(); seg(attr, key, after); draw(); };
+    });
+  }
+  seg("v", "v", function () { S.sp = SPEED[S.v]; });
+  seg("k", "k");
+  function stepper(id, key, lo, hi, by) {
+    $(id + "-").onclick = function () { S[key] = Math.max(lo, S[key] - by); draw(); };
+    $(id + "+").onclick = function () { S[key] = Math.min(hi, S[key] + by); draw(); };
+  }
+  stepper("h", "h", 2, 12, 1); stepper("s", "sp", 25, 75, 5);
+  $("mi").addEventListener("input", function () { S.mi = num($("mi").value); draw(); });
+  function setDay() { S.d = $("day").value; draw(); }
+  $("day").addEventListener("input", setDay); $("day").addEventListener("change", setDay);
+  $("t1").addEventListener("change", function () { S.t1 = +$("t1").value; draw(); });
+  $("t2").addEventListener("change", function () { S.t2 = +$("t2").value; draw(); });
+
+  /* time on the road for D hours of driving: short stops plus a meal stop */
+  function road(D) {
+    var every = S.k === "1" ? 1.5 : 2, len = S.k === "1" ? 20 / 60 : 15 / 60;
+    var n = Math.max(0, Math.ceil(D / every - 1e-9) - 1);
+    return D + n * len + (D > 4 ? 0.75 : 0);
+  }
+  /* the most driving that fits before END, starting at t */
+  function fit(t, want) {
+    var D = want;
+    while (D > 0 && t + road(D) > END + 1e-9) D -= 0.25;
+    return Math.max(0, D);
+  }
+  function plan() {
+    var left = S.mi, out = [], i = 0;
+    while (left > 0.5 && i < 60) {
+      var t = i === 0 ? S.t1 : S.t2;
+      var D = fit(t, S.h);
+      if (D <= 0) { out.push({ skip: true, t: t }); i++; continue; }
+      var can = D * S.sp, go = Math.min(left, can), Dd = go / S.sp;
+      out.push({ t: t, drive: Dd, miles: go, end: t + road(Dd), short: D < S.h - 1e-9 });
+      left -= go; i++;
+    }
+    return { days: out, done: left <= 0.5 };
+  }
+  function fact(id, head, text) { var li = $(id); li.hidden = !text; if (head) li.querySelector("b").textContent = head; li.querySelector("span").textContent = text || ""; }
+
+  var last = {};
+  function draw() {
+    $("h-o").textContent = S.h + (S.h === 1 ? " hour" : " hours");
+    $("s-o").textContent = S.sp + " mph";
+    var start = pd(S.d), kick = "", big = "", small = "", list = $("days"), stops = [];
+    list.textContent = ""; list.hidden = true;
+    fact("f-a"); fact("f-b"); fact("f-c");
+    if (!S.mi) { big = "Type the miles"; small = "Old address to new address, from a map app."; }
+    else if (!start) { big = "Add the day you leave"; }
+    else {
+      var P = plan();
+      if (!P.done) { stops = null; big = "More than 60 days of driving"; small = "At " + S.h + (S.h === 1 ? " hour" : " hours") + " a day and " + S.sp + " mph that's about " + comma(fit(S.t2, S.h) * S.sp) + " miles a day. Try more hours a day or check the miles."; }
+      else {
+      var days = P.days.filter(function (d) { return !d.skip; }), N = days.length;
+      var cal = P.days.length, arrive = new Date(start.getFullYear(), start.getMonth(), start.getDate() + cal - 1);
+      var lastD = days[N - 1], run = 0;
+      if (N === 1) {
+        kick = comma(S.mi) + " miles at " + S.sp + " mph:";
+        big = "One day, about " + dur(lastD.end - lastD.t) + " on the road";
+        small = "Leave " + wds(start) + " at " + clock(lastD.t) + ", arrive about " + clock(lastD.end) + ". That's " + dur(lastD.drive) + " of driving plus stops.";
+      } else {
+        kick = comma(S.mi) + " miles, " + S.h + " hours of driving a day at " + S.sp + " mph:";
+        big = N + " driving days, " + (cal - 1) + (cal - 1 === 1 ? " night" : " nights") + " on the road";
+        small = "Leave " + wds(start) + ", arrive about " + wds(arrive) + " around " + clock(lastD.end) + ".";
+      }
+      list.hidden = false;
+      P.days.forEach(function (d, i) {
+        var date = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
+        var li = document.createElement("li"), n = document.createElement("div"), body = document.createElement("div"), s = document.createElement("strong"), sp = document.createElement("span");
+        n.className = "n"; n.textContent = String(i + 1); n.setAttribute("aria-hidden", "true");
+        if (d.skip) { s.textContent = "Day " + (i + 1) + ", " + wd(date) + ": no driving"; sp.textContent = "Starting at " + clock(d.t) + " leaves no time before 9 PM."; }
+        else {
+          run += d.miles;
+          var isLast = run >= S.mi - 0.5;
+          s.textContent = "Day " + (i + 1) + ", " + wd(date) + ": " + comma(d.miles) + " miles";
+          sp.textContent = "Leave " + clock(d.t) + ", " + dur(d.drive) + " of driving, " + (isLast ? "arrive" : "stop for the night") + " about " + clock(d.end) + ". " + (isLast ? "You're there." : "Night stop near mile " + comma(run) + ".") + (d.short && !isLast ? " A shorter day, to finish by 9 PM." : "");
+          if (!isLast) stops.push(run);
+        }
+        body.appendChild(s); body.appendChild(sp); li.appendChild(n); li.appendChild(body); list.appendChild(li);
+      });
+      if (stops.length) fact("f-a", "Book each night ahead", "Plan to stop near mile " + stops.map(comma).join(", mile ") + ". Look on the map for a town near each point and book there, so you aren't hunting for a place to park late at night. With a loaded truck, pick a well-lit lot you can back into.");
+      else fact("f-a", "Before you go", "Pack what you need on the drive in the car with you: medicines, chargers, documents and anything you couldn't replace.");
+      fact("f-b", "For scale", S.h >= 10 ? S.h + " hours a day is close to the most federal rules allow a professional truck driver: 11 hours after 10 hours off. Think about shorter days or a second driver." : "Federal rules let a professional truck driver drive at most 11 hours after 10 hours off. Your " + S.h + " hours is under that, and that's the right side to be on.");
+      fact("f-c", "Leave room in the plan", "Every number here is an estimate. Weather, cities, mountains and road work slow you down; " + (N > 1 ? "a spare half day near the end gives you slack." : "leave early enough to arrive in daylight."));
+      }
+    }
+    $("kick").textContent = kick; $("big").textContent = big; $("small").textContent = small;
+    paint(start && S.mi ? stops : null);
+    last = { kick: kick, big: big, small: small };
+    var p = new URLSearchParams(); p.set("mi", String(S.mi)); p.set("v", S.v); p.set("h", String(S.h)); p.set("sp", String(S.sp)); p.set("k", S.k); p.set("d", S.d || ""); p.set("t1", String(S.t1)); p.set("t2", String(S.t2));
+    try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
+  }
+
+  function paint(stops) {
+    var s = $("svg"); s.textContent = "";
+    if (!stops) { s.setAttribute("viewBox", "0 0 500 16"); return; }
+    s.setAttribute("viewBox", "0 0 500 90");
+    var x0 = 30, x1 = 470, y = 44;
+    el("line", { x1: x0, y1: y, x2: x1, y2: y, stroke: "#EADFC9", "stroke-width": 6, "stroke-linecap": "round" }, s);
+    function dot(x, big, fill) { el("circle", { cx: x, cy: y, r: big ? 11 : 7, fill: fill, stroke: "#172F20", "stroke-width": 3 }, s); }
+    function label(x, t, anchor, yy) { var e = el("text", { x: x, y: yy, fill: "#F2E8D5", "text-anchor": anchor, "font-size": 16, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); e.textContent = t; }
+    var many = stops.length > 9;
+    stops.forEach(function (m, i) {
+      var x = x0 + (x1 - x0) * m / S.mi; dot(x, false, "#52B978");
+      if (!many && stops.length <= 5) label(x, "Night " + (i + 1), "middle", 78);
+    });
+    dot(x0, true, "#F2E8D5"); dot(x1, true, "#52B978");
+    label(x0 - 8, "Leave", "start", 20); label(x1 + 8, "Arrive", "end", 20);
+    if (many || stops.length > 5) label(250, stops.length + " nights on the road", "middle", 78);
+  }
+  draw();
+
+  function wrap(g, text, x, y, max, lh) {
+    var words = text.split(" "), line = "";
+    words.forEach(function (w) { var t = line ? line + " " + w : w; if (g.measureText(t).width > max && line) { g.fillText(line, x, y); y += lh; line = w; } else line = t; });
+    if (line) g.fillText(line, x, y); return y + lh;
+  }
+  function picture() {
+    var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
+    var g = cv.getContext("2d"), FN = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#172F20"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#EADFC9"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.textAlign = "center";
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "700 42px " + FN; g.fillText("How long is the drive to the new place?", Z / 2, 230);
+    g.fillStyle = "rgba(255,255,255,.75)"; g.font = "600 36px " + FN;
+    var y = wrap(g, last.kick || "", Z / 2, 320, 920, 48);
+    g.fillStyle = "#F2E8D5"; g.font = "850 84px " + FN;
+    y = wrap(g, last.big || "", Z / 2, y + 60, 960, 96);
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 34px " + FN;
+    wrap(g, last.small || "", Z / 2, y + 20, 900, 48);
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 32px " + FN; g.fillText("Plan yours, free:", Z / 2, 940);
+    g.fillStyle = "#fff"; g.font = "800 40px " + FN; g.fillText("packedrabbit.com/drive-days", Z / 2, 995);
+    return cv;
+  }
+  $("share").addEventListener("click", function () {
+    var url = location.origin + location.pathname + location.search, text = (last.kick ? last.kick + " " : "") + last.big + ". Plan yours, free:";
+    prBrand(picture()).toBlob(function (blob) {
+      var file = blob && typeof File !== "undefined" ? new File([blob], "drive-days.png", { type: "image/png" }) : null;
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+      else if (navigator.share) navigator.share({ title: "How many days will it take to drive to my new home?", text: text, url: url }).catch(function () {});
+      else if (blob) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "drive-days.png"; document.body.appendChild(a); a.click(); a.remove(); }
+    }, "image/png");
+  });
+})();
+</script>
+<script>
+/* Embedded on someone else's page: no site header or footer, links open in a
+   new tab, a credit line at the end, and the height told to the host page. */
+(function () {
+  if (!document.documentElement.classList.contains("embed")) return;
+  document.querySelectorAll("a[href]").forEach(function (a) { a.target = "_blank"; a.rel = "noopener"; });
+  var m = document.querySelector("main") || document.body;
+  var c = document.createElement("a");
+  c.className = "embed-credit"; c.target = "_blank"; c.rel = "noopener";
+  c.href = "https://packedrabbit.com" + location.pathname;
+  c.textContent = "Free tool by The Packed Rabbit";
+  if (!/[?&]hub\b/.test(location.search)) m.appendChild(c);
+  function tell() { try { parent.postMessage({ prEmbedHeight: Math.ceil(document.documentElement.scrollHeight) }, "*"); } catch (e) {} }
+  tell(); addEventListener("load", tell); addEventListener("resize", tell);
+  if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
+})();
+</script>
+<script src="../brand.js"></script>
+<script src="../nav.js" defer></script>
+<script>
+/* tester, 7 Nov: odd amounts were changed without a word. Say what was used. */
+(function(){ document.querySelectorAll('.money .fld').forEach(function(f){ var n=document.createElement('p'); n.className='fldnote'; n.setAttribute('role','status'); n.style.cssText='margin:6px 0 0;font-size:15px;color:inherit;opacity:.85'; n.hidden=true; f.parentNode.insertAdjacentElement('afterend',n);
+  f.addEventListener('input',function(){ var v=f.value, msg='';
+    if(/-/.test(v)) msg='Amounts can\'t be negative, so this counts it as $'+(v.replace(/[^0-9.]/g,'')||'0')+'.';
+    else if(/[^0-9.,\s]/.test(v)) msg='Only the numbers are counted.';
+    else if(f.maxLength>0 && v.replace(/[^0-9]/g,'').length>=f.maxLength) msg='Up to $9,999,999.';
+    n.textContent=msg; n.hidden=!msg; }); }); })();
+</script>
+</body>
+</html>
