@@ -40,6 +40,12 @@ h2{font-size:31px;line-height:1.15;margin:0;text-wrap:balance}
 .cta{margin-top:16px;width:100%;max-width:300px;min-height:56px;border:0;border-radius:14px;background:var(--btn);color:var(--btnfg);font:700 20px var(--sans);cursor:pointer}
 .cta:disabled{opacity:.45;cursor:default}
 .link{margin-top:4px;background:none;border:0;color:var(--text);font:600 18px var(--sans);text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;min-height:44px;cursor:pointer}
+.sugg{width:100%;max-width:300px;margin:6px auto 0;background:var(--screen);border:2px solid var(--soft);border-radius:14px;overflow:hidden;text-align:left}
+.sugg[hidden]{display:none}
+.sopt{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;min-height:48px;padding:10px 16px;border:0;background:transparent;color:var(--text);font:600 17px var(--sans);text-align:left;cursor:pointer}
+.sopt+.sopt{border-top:1px solid var(--soft)}
+.sopt span{color:var(--muted,#56665B);font-weight:500;font-size:15px}
+.sopt:hover,.sopt:focus-visible{background:var(--soft)}
 .field{margin-top:16px;width:100%;max-width:300px;position:relative}
 .field input,.field select{width:100%;min-height:56px;border-radius:14px;border:2px solid var(--soft);padding:0 16px;font:18px var(--sans);background:var(--screen);color:var(--text)}
 .field select{border-color:var(--ink);font-weight:600;appearance:none;-webkit-appearance:none;padding-right:44px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10'%3E%3Cpath d='M1 1l7 7 7-7' fill='none' stroke='%231B5E36' stroke-width='2'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
@@ -496,7 +502,7 @@ function scene(mode){
 const TAB={Boxes:'<path class="bf" d="M4.5 10h15v10h-15z"/><path d="M3 6.5h18V10H3z"/><path class="tf" d="M10.25 6.5h3.5v6h-3.5z"/><path d="M8 14.5h8V18H8z"/>',Furniture:'<path d="M4 18v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6M2 14h20M5 18v2M19 18v2M6 10V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3"/>',Moving:'<path d="M4 6h16v14H4zM4 10.5h16M8.5 3.5v5M15.5 3.5v5M8 14h2M12 14h2M16 14h0M8 17h2M12 17h2"/>',Menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',Sorting:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/>'};
 const TABORDER=['Boxes','Furniture','Moving','Sorting','Menu'];
 const TABNAME={Furniture:'Big Stuff',Moving:'Calendar'}, nm=n=>TABNAME[n]||n;
-const SECTION={}; [['Furniture',['toobig','bigFirst','bigWhere','roomItem','itemPhoto','itemCond','itemQ','bigMissing']],['Sorting',['leave','lpick','dhow','sprice','uq','uverdict','llist']],['Moving',['mwhyask','hask','mto','mwhy','mwho','hplan','hbeds','hbudget','hsearch','hphoto','hlink','hdetails','hstart','hclose','htitle','oldplace','oldend','oldclose','moveday','mfound','msize','hkind','hneeds','hshow','moving','mfar','mhow','mbooked','mname','mdot','mnq','mquote','mread','mstairs','mdoor','mpacket','mtruck','mhelp','mboth','mrent']]].forEach(([n,ids])=>ids.forEach(i=>SECTION[i]=n));
+const SECTION={}; [['Furniture',['toobig','bigFirst','bigWhere','roomItem','itemPhoto','itemCond','itemQ','bigMissing']],['Sorting',['leave','lpick','dhow','sprice','uq','uverdict','llist']],['Moving',['mwhyask','hask','mto','mfrom','mwhy','mwho','hplan','hbeds','hbudget','hsearch','hphoto','hlink','hdetails','hstart','hclose','htitle','oldplace','oldend','oldclose','moveday','mfound','msize','hkind','hneeds','hshow','moving','mfar','mhow','mbooked','mname','mdot','mnq','mquote','mread','mstairs','mdoor','mpacket','mtruck','mhelp','mboth','mrent']]].forEach(([n,ids])=>ids.forEach(i=>SECTION[i]=n));
 function bar(){
   if(!S.tabs.length) return '';
   const t=TABORDER.filter(n=>S.tabs.includes(n)).map(n=>`<button type="button" data-tab="${n}" class="${n===newTab&&!hopping?'new':''} ${hopping===n?'wait':''} ${n===openTab?'on':''}" aria-expanded="${n===openTab}"><svg viewBox="0 0 24 24" aria-hidden="true">${TAB[n]}</svg>${nm(n)}${n==='Moving'&&hopping!=='Moving'&&truckTag()?`<span class="mtag">${truckTag()}</span>`:''}</button>`).join('');
@@ -556,6 +562,48 @@ const fmtD=d=>new Date(d+'T12:00').toLocaleDateString('en-US',{month:'long',day:
 const today0=()=>{ const t=new Date(); t.setHours(12,0,0,0); return t; };
 const daysTo=()=>S.date?Math.round((new Date(S.date+'T12:00')-today0())/864e5):null;
 const dayLine=()=>{ const n=daysTo(); return n==null?'':n>1?`That's ${n} days away.`:n===1?"That's tomorrow.":n===0?"That's today.":''; };
+/* Places: city, state and ZIP for the whole US, read from places.txt on this phone. Nothing typed leaves it. */
+const STN={AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',CT:'Connecticut',DE:'Delaware',DC:'District of Columbia',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',KY:'Kentucky',LA:'Louisiana',ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',MN:'Minnesota',MS:'Mississippi',MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',NH:'New Hampshire',NJ:'New Jersey',NM:'New Mexico',NY:'New York',NC:'North Carolina',ND:'North Dakota',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',PA:'Pennsylvania',RI:'Rhode Island',SC:'South Carolina',SD:'South Dakota',TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming',PR:'Puerto Rico'};
+let PLACES=null, placesP=null;
+function loadPlaces(){ if(PLACES) return Promise.resolve(PLACES); if(placesP) return placesP;
+  placesP=fetch('places.txt').then(r=>r.ok?r.text():'').then(tx=>(PLACES=tx.split('\n').filter(Boolean).map(l=>{const [c,s,la,lo,z]=l.split('|');return {c,s,la:+la,lo:+lo,z:z||'',k:c.toLowerCase()};}))).catch(()=>(PLACES=[]));
+  return placesP; }
+const placeName=p=>p.c+', '+(STN[p.s]||p.s);
+function placeFind(q){ if(!PLACES) return [];
+  q=String(q||'').trim(); if(!q) return [];
+  const d=q.replace(/\D/g,'');
+  if(/^\d{3,5}$/.test(q.replace(/\s/g,''))){ const out=[];
+    for(const p of PLACES){ for(let i=0;i<p.z.length;i+=5){ const z=p.z.slice(i,i+5); if(z.startsWith(d)){ out.push({p,zip:z}); break; } } if(out.length>=6) break; }
+    return out.sort((a,b)=>a.zip.localeCompare(b.zip)); }
+  const norm=k=>k.replace(/^(st|saint)\s/,'saint ').replace(/^ft\s/,'fort ').replace(/^mt\s/,'mount ');
+  const stCode=s=>{ s=(s||'').trim(); return s?Object.keys(STN).filter(k=>k.toLowerCase()===s||STN[k].toLowerCase().startsWith(s)):null; };
+  const run=(cq,codes)=>{ const ex=[],pre=[]; for(const p of PLACES){ if(codes&&!codes.includes(p.s)) continue; const k=norm(p.k); if(k===cq) ex.push(p); else if(k.startsWith(cq)) pre.push(p); if(ex.length>=6) break; } return ex.concat(pre); };
+  const low=q.toLowerCase().replace(/\./g,''), parts=low.split(','); let out=[];
+  if(parts.length>1){ out=run(norm(parts[0].trim()),stCode(parts[1])); }
+  else { const m=low.match(/^(.*\S)\s+([a-z]{2}|[a-z][a-z ]{3,})$/); const codes=m&&stCode(m[2]);
+    out=run(norm(low.trim()),null); if(codes&&codes.length){ const sp=run(norm(m[1]),codes); const ex=sp.filter(p=>norm(p.k)===norm(m[1])); out=ex.concat(out,sp); } }
+  const seen=new Set(); out=out.filter(p=>!seen.has(p)&&seen.add(p));
+  return out.slice(0,6).map(p=>({p,zip:p.z.length===5?p.z:''})); }
+const miles=(a,b)=>{ const R=3958.8,r=x=>x*Math.PI/180, dl=r(b.la-a.la), dn=r(b.lo-a.lo), h=Math.sin(dl/2)**2+Math.cos(r(a.la))*Math.cos(r(b.la))*Math.sin(dn/2)**2; return 2*R*Math.asin(Math.sqrt(h)); };
+const placeField=(id,val,ph,label)=>`<div class="field microw place"><input id="${id}" value="${esc(val||'')}" placeholder="${ph}" aria-label="${label}" autocomplete="off" autocapitalize="words" enterkeyhint="next" role="combobox" aria-expanded="false" aria-controls="${id}-list" aria-autocomplete="list"><button type="button" class="mic" data-mic="${id}" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div><div class="sugg" id="${id}-list" role="listbox" hidden></div><p class="hint" id="michint" hidden></p>`;
+function wirePlace(id,onPick){ const inp=phone.querySelector("#"+id), box=phone.querySelector("#"+id+"-list"); let chosen=null;
+  const draw=()=>{ const r=placeFind(inp.value); if(!r.length||(chosen&&inp.value===chosen.label)){ box.hidden=true; inp.setAttribute('aria-expanded','false'); return; }
+    box.innerHTML=r.map((x,i)=>`<button type="button" role="option" class="sopt" data-i="${i}">${esc(placeName(x.p))}${x.zip?` <span>${x.zip}</span>`:''}</button>`).join('');
+    box.hidden=false; inp.setAttribute('aria-expanded','true');
+    box.querySelectorAll('.sopt').forEach(b=>b.onclick=()=>{ const x=r[+b.dataset.i]; chosen={label:placeName(x.p),p:x.p,zip:x.zip}; inp.value=chosen.label; box.hidden=true; inp.setAttribute('aria-expanded','false'); onPick(chosen); }); };
+  inp.addEventListener('input',()=>{ chosen=null; loadPlaces().then(draw); });
+  inp.addEventListener('focus',()=>loadPlaces());
+  loadPlaces();
+  /* Next without tapping a suggestion: take the first match if it's a clear one */
+  return ()=>{ if(chosen&&inp.value===chosen.label) return chosen; const v=inp.value.trim(); if(!v) return null;
+    const r=placeFind(v); if(r.length&&(/^\d{5}$/.test(v)||r[0].p.k===v.toLowerCase().split(',')[0].trim()||r.length===1)) return {label:placeName(r[0].p),p:r[0].p,zip:r[0].zip||(/^\d{5}$/.test(v)?v:'')};
+    return {label:v,p:null,zip:/^\d{5}$/.test(v)?v:''}; }; }
+function setPlace(which,x){ if(!x){ S[which]=''; S[which+'Zip']=''; S[which+'LL']=null; S[which+'St']=''; return; }
+  S[which]=x.label; S[which+'Zip']=x.zip||''; S[which+'LL']=x.p?[x.p.la,x.p.lo]:null; S[which+'St']=x.p?x.p.s:''; }
+function measureMove(){ if(S.toLL&&S.fromLL){ const m=miles({la:S.toLL[0],lo:S.toLL[1]},{la:S.fromLL[0],lo:S.fromLL[1]})*1.2; S.miles=Math.round(m);
+    S.far=S.toSt!==S.fromSt?'Another state':(m<15||(S.to===S.from)?'Same town':'Somewhere else in this state'); return true; }
+  S.miles=0; return false; }
+const milesLine=()=>S.miles?(S.miles<5?"It looks like a move across town.":`It looks like you're moving about ${S.miles<100?S.miles:Math.round(S.miles/10)*10} miles${S.far==='Another state'?', to another state':''}.`):'';
 const pickList=(xs,on)=>`<div class="choices">${xs.map(x=>`<button class="choice${x===on?' hint':''}" data-v="${esc(x)}">${esc(x)}</button>`).join('')}</div>`;
 const dotUrl=n=>'https://safer.fmcsa.dot.gov/query.asp?searchtype=ANY&query_type=queryCarrierSnapshot&query_param=USDOT&query_string='+encodeURIComponent(n||'');
 const moveCube=()=>Math.round((S.boxes.reduce((s,b)=>s+boxCube(b),0)+S.big.reduce((s,b)=>s+cube(b),0))/10)*10||0;
@@ -778,10 +826,12 @@ const P={
   cubic:()=>{ const bx=S.boxes.reduce((s,b)=>s+boxCube(b),0), bg=S.big.reduce((s,b)=>s+cube(b),0), tot=Math.round((bx+bg)/10)*10||0, pcs=S.big.reduce((s,b)=>s+pieces(b),0);
     return ({say:"Your move, measured.", h:`About ${tot.toLocaleString()} cubic feet.`, sub:`That's about ${truckFor(tot*1.1)}. The rabbit plans with the bigger size, so you won't come up short.`,
       body:`<ul class="list"><li>${S.boxes.length} ${S.boxes.length===1?'box':'boxes'}<span>${Math.round(bx)} cu ft</span></li><li>${pcs} pieces of big stuff<span>${Math.round(bg)} cu ft</span></li></ul><button class="cta" id="toLeave">Next: your move</button><button class="link" id="addMore">Add something else</button>`}); },
-  mto:()=>({say:"Next, your move.", h:"Where are you moving to?", sub:"The town and state is enough.", scene:'house',
-    body:`<div class="field microw"><input id="mto" value="${esc(S.to||'')}" placeholder="Basking Ridge, NJ" aria-label="Where you're moving to"><button type="button" class="mic" data-mic="mto" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div><p class="hint" id="michint" hidden></p><button class="cta" id="toNext">Next</button><button class="link" id="toNot">Not sure yet</button>`}),
-  mwhyask:()=>({say:S.far&&S.far!=='Not sure yet'?S.far+'.':'', h:"Do you mind if we ask why you're moving?", sub:"It helps the rabbit know what to help with. It's fine to skip.", scene:'house', body:pickList(["Ask away","I'd rather not say"],'')}),
-  mwhy:()=>(WHYS=isBiz()?WHYS_BIZ:WHYS_HOME,{say:S.far&&S.far!=='Not sure yet'?S.far+'.':"", h:"Why are you moving?", sub:"It changes what the rabbit helps with.", scene:'house2', body:pickList(WHYS,S.why)+`<button class="link" data-v="Something else">Something else</button>`}),
+  mto:()=>({say:"Next, your move.", h:"Where are you going?", sub:"A city, or a ZIP code.", scene:'house',
+    body:`${placeField('mto',S.to,'City, state or ZIP','Where you are moving to')}<button class="cta" id="toNext">Next</button><button class="link" id="toNot">Not sure yet</button>`}),
+  mfrom:()=>({say:S.to?esc(S.to)+'.':'', h:"And where are you coming from?", sub:"Your ZIP code is enough.", scene:'house',
+    body:`${placeField('mfrom',S.from,'ZIP code','Where you are moving from')}<button class="cta" id="fromNext">Next</button>`}),
+  mwhyask:()=>({say:milesLine()||(S.far&&S.far!=='Not sure yet'?S.far+'.':''), h:"Do you mind if we ask why you're moving?", sub:"It helps the rabbit know what to help with. It's fine to skip.", scene:'house', body:pickList(["Ask away","I'd rather not say"],'')}),
+  mwhy:()=>(WHYS=isBiz()?WHYS_BIZ:WHYS_HOME,{say:milesLine()||(S.far&&S.far!=='Not sure yet'?S.far+'.':""), h:"Why are you moving?", sub:"It changes what the rabbit helps with.", scene:'house2', body:pickList(WHYS,S.why)+`<button class="link" data-v="Something else">Something else</button>`}),
   mwho:()=>({say:S.why&&S.why!=='Something else'?S.why+'.':'', h:"Who's moving with you?", sub:"Tap all that apply.", scene:'house',
     body:`<div class="choices two">${["Just me","A partner","Kids","Pets","A parent or relative","Roommates"].map(x=>`<button class="choice${(S.who||[]).includes(x)?' hint':''}" data-who="${x}" aria-pressed="${(S.who||[]).includes(x)}">${x}</button>`).join('')}</div><button class="cta" id="whoNext" ${(S.who||[]).length?'':'disabled'}>Next</button>`}),
   hplan:()=>({say:"Your new place.", h:S.home.plan?"Got the floor plan.":"Have a floor plan?", sub:S.home.plan?"":"A photo of the listing's plan works. Later it shows what fits through the doors.", scene:S.home.plan?'blank':'house',
@@ -1040,7 +1090,8 @@ function wire(id){
   const afterOld=()=>S.place==='signed'?show('moveday'):homeDone();
   const calPage=(k,next,skip)=>{ phone.querySelectorAll('.cal [data-day]').forEach(b=>b.onclick=()=>{ S[k]=b.dataset.day; if(k==='date') S.rough=''; show(cur,true); const n=phone.querySelector(`[data-day="${S[k]}"]`); if(n) n.focus(); }); calNav(phone,k,()=>show(cur,true)); $('#calNext').onclick=next; if($('#calSkip')) $('#calSkip').onclick=skip||next; };
   if(id==='mwhat') pick(v=>{ S.mwhat=v; if(v==='A business'){ S.roomsAsked=true; S.homeRooms=['Private office','Open office','Conference room','Reception','Break room','Storage room']; } show('firstBox'); });
-  if(id==='mto'){ $('#toNext').onclick=()=>{ S.to=$('#mto').value.trim(); show('mfar'); }; $('#toNot').onclick=()=>{ S.to=''; show('mfar'); }; }
+  if(id==='mto'){ const get=wirePlace('mto',x=>{ setPlace('to',x); show('mfrom'); }); $('#toNext').onclick=()=>{ setPlace('to',get()); show('mfrom'); }; $('#toNot').onclick=()=>{ setPlace('to',null); show('mfrom'); }; }
+  if(id==='mfrom'){ const get=wirePlace('mfrom',x=>{ setPlace('from',x); afterFrom(); }); $('#fromNext').onclick=()=>{ setPlace('from',get()); afterFrom(); }; }
   if(id==='mfar') pick(v=>{ S.far=v; show('mwhyask'); });
   if(id==='mwhyask') pick(v=>{ if(/Ask/.test(v)) show('mwhy'); else { S.why=''; show(isBiz()?'mfound':'mwho'); } });
   if(id==='mwhy') pick(v=>{ S.why=v; S.bigger=/Downsizing|Less space/.test(v)?'Smaller':v==='More space'?'Bigger':''; show(isBiz()?'mfound':'mwho'); });
@@ -1231,7 +1282,8 @@ function pauseCard(back){ keep(true); const old=phone.querySelector('.paused'); 
   c.querySelector('[data-resume]').onclick=()=>{ c.remove(); if(pg) pg.inert=false; const h=phone.querySelector('.page h2'); if(h) h.focus(); }; }
 phone.addEventListener('click',e=>{ if(e.target.closest('[data-pause]')) pauseCard(false); });
 const afterOldGo=()=>S.place==='signed'?show('moveday'):homeDone();
-const SKIP={mto:()=>show('mfar'),mfar:()=>show('mwhyask'),mwhyask:()=>show(isBiz()?'mfound':'mwho'),mwhy:()=>show('mwho'),mwho:()=>show('mfound'),mfound:()=>show('oldplace'),
+function afterFrom(){ if(measureMove()) show('mwhyask'); else if(S.to&&!S.toLL) show('mfar'); else { if(!S.to) S.far='Not sure yet'; show('mwhyask'); } }
+const SKIP={mto:()=>show('mfrom'),mfrom:()=>afterFrom(),mfar:()=>show('mwhyask'),mwhyask:()=>show(isBiz()?'mfound':'mwho'),mwhy:()=>show('mwho'),mwho:()=>show('mfound'),mfound:()=>show('oldplace'),
   hkind:()=>show(S.place==='signed'?'hstart':(isBiz()?'hbudget':'hbeds')),hbeds:()=>show('hbudget'),hneeds:()=>show('hsearch'),hsearch:()=>show('hshow'),hshow:()=>show('hask'),hask:()=>show('oldplace'),
   hstart:()=>show('oldplace'),hclose:()=>show('htitle'),oldplace:afterOldGo,oldend:afterOldGo,oldclose:afterOldGo,moveday:()=>homeDone(),
   words:()=>show('dest'),dest:()=>show('photo'),leave:()=>leaveNext(''),mstairs:()=>show('mdoor'),mdoor:()=>show(MOVERS()&&S.booked!=="Yes, they're booked"&&!S.qtext?'mpacket':'mrent')};
@@ -1255,7 +1307,17 @@ function cheerSound(big){ try{ const AC=window.AudioContext||window.webkitAudioC
    two rings open out and fine rays of light spread. The sound is new: a soft landing, then a rising marimba run that grows
    with every tab earned, so the fourth tab finishes the chord. Reduced motion keeps the light and the sound, nothing moves. */
 const landSoon=n=>setTimeout(()=>tabLand(n),420);
-function landSound(k){ try{ const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return; prAudio=prAudio||new AC(); const ac=prAudio; if(ac.state==='suspended') ac.resume();
+/* Phones only let a page make sound after a tap, so the first tap anywhere wakes the sound up and loads the four tab sounds. */
+const TABSND=[];
+function wakeSound(){ try{ const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return; prAudio=prAudio||new AC(); const ac=prAudio; if(ac.state==='suspended') ac.resume();
+  const b=ac.createBuffer(1,1,22050), s=ac.createBufferSource(); s.buffer=b; s.connect(ac.destination); s.start(0);
+  if(!TABSND.length){ TABSND.push(null); [1,2,3,4].forEach(k=>fetch('tab'+k+'.mp3').then(r=>r.arrayBuffer()).then(a=>new Promise((ok,no)=>ac.decodeAudioData(a,ok,no))).then(buf=>{ TABSND[k]=buf; }).catch(()=>{})); }
+  }catch(e){} }
+['pointerdown','keydown','touchend'].forEach(ev=>document.addEventListener(ev,wakeSound,{capture:true,passive:true}));
+function landSound(k){ try{ const ac0=prAudio, buf=TABSND[Math.max(1,Math.min(4,k||1))];
+  if(ac0&&buf){ if(ac0.state==='suspended') ac0.resume(); const s=ac0.createBufferSource(), g=ac0.createGain(); g.gain.value=0.9; s.buffer=buf; s.connect(g); g.connect(ac0.destination); s.start(ac0.currentTime+0.02); if(navigator.vibrate) navigator.vibrate([10,40,14]); return; } }catch(e){}
+  landSynth(k); }
+function landSynth(k){ try{ const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return; prAudio=prAudio||new AC(); const ac=prAudio; if(ac.state==='suspended') ac.resume();
   const t0=ac.currentTime+0.02, out=ac.createGain(); out.gain.value=0.24;
   const d1=ac.createDelay(), g1=ac.createGain(), d2=ac.createDelay(), g2=ac.createGain(); d1.delayTime.value=0.09; g1.gain.value=0.22; d2.delayTime.value=0.19; g2.gain.value=0.11;
   out.connect(ac.destination); out.connect(d1); d1.connect(g1); g1.connect(ac.destination); out.connect(d2); d2.connect(g2); g2.connect(ac.destination);
@@ -1274,7 +1336,7 @@ function tabLand(name){ try{ const tab=phone.querySelector(`[data-tab="${name}"]
   fx.style.left=(ic.left-pr.left+ic.width/2)+'px'; fx.style.top=(ic.top-pr.top+ic.height/2)+'px';
   let rays=''; if(!still){ for(let i=0;i<12;i++){ const a=i*30+15, c=i%2?'#F2E8D5':'#9BE0B3'; rays+=`<line x1="0" y1="-22" x2="0" y2="-46" stroke="${c}" stroke-width="2.2" stroke-linecap="round" pathLength="1" transform="rotate(${a})" style="animation-delay:${(i%3)*40}ms"/>`; } }
   fx.innerHTML=`<i class="glow"></i>${still?'':`<i class="ring"></i><i class="ring r2"></i><svg viewBox="-60 -60 120 120">${rays}</svg>`}`;
-  phone.appendChild(fx); say(`${nm(name)} is yours.`);
+  phone.appendChild(fx); cheerDraw(true,`${nm(name)} is yours.`);
   if(!still) tab.animate([{transform:'none'},{transform:'translateY(-7px) scale(1.14)',offset:0.35},{transform:'none'}],{duration:900,easing:'cubic-bezier(.3,1.4,.5,1)'});
   tab.classList.add('earned'); setTimeout(()=>{ tab.classList.remove('earned'); fx.remove(); },2200); }catch(e){} }
 function cheer(big,line){ cheerSound(big); setTimeout(()=>cheerDraw(big,line),40); }

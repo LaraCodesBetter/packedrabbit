@@ -1,0 +1,1 @@
+US places and ZIP codes: from the zipcodes package by Dav Glass (BSD license), whose US data comes from federalgovernmentzipcodes.us. Built by places.txt: City|ST|lat|lon|ZIPs.
