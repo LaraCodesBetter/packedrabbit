@@ -1151,9 +1151,9 @@ function wire(id){
   if(id==='mdeliver'){ calPage('delivery',homeDone); $('#sameDay').onclick=()=>{ S.delivery=S.date; homeDone(); }; }
   if(id==='boxSaved'&&$('#backMove')) $('#backMove').onclick=()=>finishThread();
   if(id==='myBoxes'){ const i=$('#mbfind'); if(i){ i.oninput=()=>{ S.find=i.value; const at=i.selectionStart; show('myBoxes',true); const j=$('#mbfind'); if(j){ j.focus(); try{ j.setSelectionRange(at,at); }catch(e){} } }; }
-    phone.querySelectorAll('#mbres [data-box]').forEach(li=>li.onclick=()=>{ const b=S.boxes[+li.dataset.box]; if(b) (window.top||window).location.href=(window.__HOME||'../')+'?find='+encodeURIComponent(b.code); });
+    phone.querySelectorAll('#mbres [data-box]').forEach(li=>li.onclick=()=>{ const b=S.boxes[+li.dataset.box]; if(b) toApp('?find='+encodeURIComponent(b.code)); });
     $('#mbBig').onclick=()=>{ S.firstItem=''; S.roomsAsked=true; show('bigFirst'); };
-    $('#mbApp').onclick=()=>{ (window.top||window).location.href=(window.__HOME||'../')+'?go=home'; }; }
+    $('#mbApp').onclick=()=>toApp('?go=home'); }
   if(id==='sortTab') $('#openMove').onclick=()=>show('toolkit');
   if(id==='toolkit') $('#kitOpen').onclick=()=>window.__APP?finishThread():openSheet('Moving',$('#kitOpen'));
   if(id==='mhow') pick(v=>{ S.how=v; show(MOVERS()?'mbooked':v==='A rental truck'?'mtruck':v==='Not sure yet'?'mboth':'mhelp'); });
@@ -1531,7 +1531,7 @@ function wireSheet(s,n){
   s.querySelectorAll('[data-rm]').forEach(x=>x.onclick=()=>{ const i=+x.dataset.rm, gone=S.boxes[i]; S.boxes.splice(i,1); S.bsel=-1; re(); toast(s,`${gone.code} removed.`,()=>{ S.boxes.splice(i,0,gone); re(); }); });
   s.querySelectorAll('[data-piece]').forEach(li=>li.onclick=()=>{ const b=S.big[+li.dataset.piece];
     /* a piece that lives in the app opens its full page there: every photo, the size, brand, value and dates */
-    if(S.homeMode&&b&&b.appId){ (window.top||window).location.href=new URL((window.__HOME||'../')+'?big='+encodeURIComponent(b.appId),location.href).href; return; }
+    if(S.homeMode&&b&&b.appId){ toApp('?big='+encodeURIComponent(b.appId),n); return; }
     S.fsel=+li.dataset.piece; S.pphoto=false; re(); });
   const b=S.big[S.fsel]; if(!b||n!=='Furniture') return;
   const back=s.querySelector('[data-plist]'); if(back) back.onclick=()=>{ S.fsel=-1; re(); };
@@ -1555,8 +1555,13 @@ function closeSheet(quiet){ const s=phone.querySelector('.sheet'); if(s) s.remov
   if(!quiet && opener && document.contains(opener)) opener.focus(); }
 /* owner, 8 Nov: "we don't have Calendar and Sort". In your move, those tabs open the app's own screens, with everything you've saved. */
 const HOMEGO={Moving:'calendar',Sorting:'clearout',Menu:'home'};
+/* owner, 8 Nov: "when I tapped on my furniture, it brought me to a page with boxes." Leaving for one
+   of the app's screens first notes the list that was open, so Back from the app lands on that list again. */
+function toApp(q,sheet){ const t=window.top||window;
+  try{ t.history.replaceState(t.history.state,'',t.location.pathname+'?home'+(sheet?'&sheet='+encodeURIComponent(sheet):'')); }catch(e){}
+  keep(true).finally(()=>{ t.location.href=new URL((window.__HOME||'../')+q,location.href).href; }); }
 phone.addEventListener('click',e=>{ const a=e.target.closest('[data-tab]'); if(!a) return; e.preventDefault();
-  if(S.homeMode&&HOMEGO[a.dataset.tab]){ (window.top||window).location.href=new URL((window.__HOME||'../')+'?go='+HOMEGO[a.dataset.tab],location.href).href; return; }
+  if(S.homeMode&&HOMEGO[a.dataset.tab]){ toApp('?go='+HOMEGO[a.dataset.tab]); return; }
   a.dataset.tab===openTab?closeSheet():openSheet(a.dataset.tab,a); });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&phone.querySelector('.sheet')) closeSheet(); });
 document.getElementById('restart').onclick=()=>{ try{ sessionStorage.removeItem('pr-thread'); if(window.__APP) idbDel('pr-thread-state'); }catch(e){} reset(); hist.length=0; cur=null; show('mwhat'); };
@@ -1582,7 +1587,9 @@ window.addEventListener('pagehide',()=>{ if(window.__APP) idbSet('pr-thread-stat
   if(window.__APP){ try{ const mc=await idbGet('pr-member-code'); if(mc){ S.paid=S.paid||'licence'; S.memberCode=mc; } }catch(e){} }
   const nextBox=/[?&]box\b/.test(location.search), homeQ=/[?&]home\b/.test(location.search);
   if(window.__APP&&homeQ){ if(d&&d.S){ const paid=S.paid; Object.assign(S,d.S); if(paid) S.paid=paid; } try{ await loadHome(); }catch(e){} cur=null; hist.length=0; hopping=''; show('myBoxes');
-    if(nextBox){ show('start'); } else if(/[?&]big\b/.test(location.search)){ S.firstItem=''; S.roomsAsked=true; show('bigFirst'); } return; }
+    if(nextBox){ show('start'); } else if(/[?&]big\b/.test(location.search)){ S.firstItem=''; S.roomsAsked=true; show('bigFirst'); }
+    else { const sq=(location.search.match(/[?&]sheet=([A-Za-z]+)/)||[])[1]; if(sq&&S.tabs.includes(sq)) openSheet(sq); }
+    return; }
   if(d&&d.S&&d.cur&&P[d.cur]){ const paid=S.paid; Object.assign(S,d.S); if(paid) S.paid=paid; if(d.curIdx>=0) S.cur=S.big[d.curIdx]; hist.push(...(d.hist||[])); hopping=''; try{ if(nextBox){ show('start'); return; } show(d.cur,true); if(d.cur!=='firstBox') pauseCard(true); return; }catch(e){ reset(); hist.length=0; } }
   try{ const q=new URLSearchParams(location.search).get('date'); if(q&&/^\d{4}-\d{2}-\d{2}$/.test(q)&&new Date(q+'T12:00')>new Date()){ S.date=q; S.fromSite=true; } }catch(e){}
   show(S.mwhat?'firstBox':'mwhat'); })();
