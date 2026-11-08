@@ -432,7 +432,7 @@ function boxDims(brand,size,duty){
 const dimText=d=>d&&d.length===3&&d.every(x=>x>0)?`${d.map(x=>+x.toFixed(1)).join(' × ')} inches, about ${(d[0]*d[1]*d[2]/1728).toFixed(1)} cubic feet`:'';
 const STAMPS=["Fragile","Heavy","Private","Valuable","Open first","Goes with me"];
 const STAMPC={Fragile:"#B3261E",Heavy:"var(--ink)",Private:"var(--plum)",Valuable:"var(--plum)","Open first":"#2E9358","Goes with me":"var(--text)"};
-const specialSub=()=>S.flags.includes("Heavy")&&/^(L|XL)$/.test(S.size)?"Heavy things travel better in small boxes. A big box this heavy can split, or be too much to lift.":"Tap any that apply.";
+const specialSub=()=>S.flags.includes("Heavy")&&/^(L|XL)$/.test(S.size)?"Heavy things travel better in small boxes. A big box this heavy can split, or be too much to lift.":"Tap any that apply, or none. Save it either way.";
 let stampAt="";
 function scene(mode){
   let f="";
@@ -568,6 +568,8 @@ function addToCalendar(){ const blob=new Blob([icsText()],{type:'text/calendar'}
 function homeDone(){ if(S.tabs.includes('Moving')){ const r=S.retTo; S.retTo=''; show(r&&P[r]?r:'sortTab'); setTimeout(()=>openSheet('Moving'),50); } else earnMoving(); }
 
 function toSorting(){ S.li=0; S.lstage='ask'; S.lsay=''; show('leave'); }
+/* owner, 8 Nov (on the website): "it asks so many times, are you renting". Asked once: if the place you're leaving was already answered, the second question is skipped. */
+function toRent(){ if(S.rent) earnMoving(); else show('mrent'); }
 function earnMoving(){ S.mover=MOVERS()?(/booked/.test(S.booked)?"Yes, they're booked":/prices/.test(S.booked)?"I'm getting quotes":'Not yet'):/truck|Friends|container/.test(S.how||'')?"I'm moving myself":''; learn('Moving'); hopping=matchMedia('(prefers-reduced-motion: reduce)').matches?'':'Moving'; show('movingTab'); if(hopping) hop('Moving'); else landSoon('Moving'); }
 const KIT=[["fit/","Will it fit through the door?"],["quote-check/","Is this quote a scam?"],["mover-check/","Can I trust this mover?"],["truck/","What size truck?"],["deposit/","When is my deposit due back?"],["tip/","How much to tip"]];
 const HOWS=["Movers pack and move it","Movers move it, I pack","A rental truck","Friends and our cars","A moving container","Not sure yet"];
@@ -728,8 +730,9 @@ const P={
       <button class="cta" id="sizeNext" ${S.size&&S.size!=='Custom'?'':'disabled'}>Next</button>`}),
   words:()=>({h:`This is ${code()}.`, sub:"Write this on the box.",
     body:`<p class="qlabel"><label for="words">What's going inside?</label></p><div class="field microw" style="margin-top:8px"><input id="words" value="${esc(S.words||'')}" placeholder="${esc(wordsHint())}"><button type="button" class="mic" data-mic="words" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div><p class="hint" id="michint">Tap the microphone and say what's going in. You don't have to type.</p><button class="cta" id="wordsNext">Next</button>`}),
-  special:()=>({h:"Anything special about this box?", sub:specialSub(), scene:"special",
-    body:`<div class="chips" role="group" aria-label="Special">${STAMPS.map(k=>`<button class="choice ${S.flags.includes(k)?'on':''}" data-flag="${k}" aria-pressed="${S.flags.includes(k)}">${k}</button>`).join('')}</div><button class="choice tracker ${S.airtag?'on':''}" id="airtag" aria-pressed="${!!S.airtag}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.2"/></svg>AirTag inside</button><button class="cta" id="saveBox">Save this box</button><button class="link" id="plainBox">Nothing special</button>`}),
+  /* owner, 8 Nov: "everything someone saves is special to them, just no special labeling required." The marks are optional and nothing calls a box ordinary. */
+  special:()=>({h:"Anything to mark on this box?", sub:specialSub(), scene:"special",
+    body:`<div class="chips" role="group" aria-label="Marks for this box">${STAMPS.map(k=>`<button class="choice ${S.flags.includes(k)?'on':''}" data-flag="${k}" aria-pressed="${S.flags.includes(k)}">${k}</button>`).join('')}</div><button class="choice tracker ${S.airtag?'on':''}" id="airtag" aria-pressed="${!!S.airtag}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.2"/></svg>AirTag inside</button><button class="cta" id="saveBox">Save this box</button>`}),
   /* owner, 7 Nov: the app opens on the list of boxes, in the walk's own look. Adding a box or
      something too big is the walk's own screens, then back here. */
   myBoxes:()=>{ const n=S.boxes.length, m=S.big.length, q=(S.find||'').trim().toLowerCase();
@@ -870,7 +873,7 @@ const P={
   hplan:()=>({say:"Your new place.", h:S.home.plan?"Got the floor plan.":"Have a floor plan?", sub:S.home.plan?"":"A photo of the listing's plan works. Later it shows what fits through the doors.", scene:S.home.plan?'blank':'house',
     body:(S.home.plan?`<img class="homepic" src="${S.home.plan}" alt="Floor plan of your new place"><button class="cta" id="planNext">Next</button>`
       :`<label class="cta lab">Add the floor plan<input type="file" accept="image/*" hidden id="homeplan"></label><button class="link" id="planSkip">Not now</button>`)}),
-  hbeds:()=>({say:S.hkind==='Buying'?"Buying.":"Renting.", h:"How many bedrooms?", scene:'house', body:pickList(["Studio","1","2","3","4 or more"],S.hbeds)}),
+  hbeds:()=>({say:"The new place.", h:"How many bedrooms?", scene:'house', body:pickList(["Studio","1","2","3","4 or more"],S.hbeds)}),
   hbudget:()=>({say:`${S.hbeds==='Studio'?'A studio':S.hbeds+(S.hbeds==='1'?' bedroom':' bedrooms')}.`, h:S.hkind==='Buying'?"What's the most you want to pay?":"What's the most you want to pay a month?", scene:'house',
     body:`<div class="field"><input id="hbud" inputmode="numeric" value="${esc(S.hbudget||'')}" placeholder="${S.hkind==='Buying'?'350,000':'2,000'}" aria-label="Budget in dollars"></div><button class="cta" id="budNext">Next</button><button class="link" id="budSkip">Skip</button>`}),
   hsearch:()=>({say:"Your search, ready to go.", h:"Look here first.", sub:"Each one opens with what you're looking for already filled in.", scene:'house',
@@ -883,12 +886,12 @@ const P={
   hdetails:()=>({say:"The details.", h:"Paste what the listing says.", sub:"Price, rooms, size, what's included. The rabbit pulls out the numbers.", scene:'house',
     body:`<div class="field" style="max-width:420px"><textarea id="htext" rows="5" placeholder="Paste the listing text here" aria-label="The listing text">${esc(S.home.text||'')}</textarea></div><button class="cta" id="detNext">Next</button><button class="link" id="detSkip">Later</button>`}),
   hkind:()=>{ const d=listingFacts(); return ({say:d||(S.place==='signed'?"Your new place.":"Looking. The rabbit can help with that."), h:"Renting or buying?", scene:'house', body:pickList(["Renting","Buying","Not sure yet"],S.hkind)}); },
-  hstart:()=>({say:S.hkind==='Renting'?"Renting.":"The new place.", h:S.hkind==='Renting'?"When does your new lease start?":"When can you move in?", sub:dateSub('newStart'), scene:'blank', body:calBody('newStart',{past:1})+`<button class="cta" id="calNext" ${S.newStart?'':'disabled'}>Next</button><button class="link" id="calSkip">I don't know yet</button>`}),
+  hstart:()=>({say:"The new place.", h:S.hkind==='Renting'?"When does your new lease start?":"When can you move in?", sub:dateSub('newStart'), scene:'blank', body:calBody('newStart',{past:1})+`<button class="cta" id="calNext" ${S.newStart?'':'disabled'}>Next</button><button class="link" id="calSkip">I don't know yet</button>`}),
   hclose:()=>({say:"Buying.", h:"When is closing?", sub:dateSub('newStart'), scene:'blank', body:calBody('newStart',{})+`<button class="cta" id="calNext" ${S.newStart?'':'disabled'}>Next</button><button class="link" id="calSkip">I don't know yet</button>`}),
   htitle:()=>({say:`Closing ${S.newStart?fmtD(S.newStart):'is set'}.`, h:"Who's the title company?", sub:"So their name and the closing are in one place.", scene:'house',
     body:`<div class="field microw"><input id="htitle" value="${esc(S.home.title||'')}" placeholder="Title company name" aria-label="Title company"><button type="button" class="mic" data-mic="htitle" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div><p class="hint" id="michint" hidden></p><button class="cta" id="titleNext">Next</button><button class="link" id="titleSkip">Later</button>`}),
   oldplace:()=>({say:"Now the place you're leaving.", h:"Are you renting it?", scene:'house', body:pickList(["Yes, I rent it","I own it and I'm selling","I own it and I'm keeping it","Living with someone"],S.oldkind)}),
-  oldend:()=>({say:"Renting.", h:"When does your lease end?", sub:dateSub('oldEnd'), scene:'blank', body:calBody('oldEnd',{})+`<button class="cta" id="calNext" ${S.oldEnd?'':'disabled'}>Next</button><button class="link" id="calSkip">I don't know yet</button>`}),
+  oldend:()=>({say:"The place you're leaving.", h:"When does your lease end?", sub:dateSub('oldEnd'), scene:'blank', body:calBody('oldEnd',{})+`<button class="cta" id="calNext" ${S.oldEnd?'':'disabled'}>Next</button><button class="link" id="calSkip">I don't know yet</button>`}),
   oldclose:()=>({say:"Selling.", h:"When does the sale close?", sub:dateSub('oldEnd'), scene:'blank', body:calBody('oldEnd',{})+`<button class="cta" id="calNext" ${S.oldEnd?'':'disabled'}>Next</button><button class="link" id="calSkip">Not sold yet</button>`}),
   moveday:()=>({say:windowLine(), h:"When is moving day?", sub:dateSub('date',moveWin()), scene:'blank', body:calBody('date',moveWin())+`<button class="cta" id="calNext" ${S.date?'':'disabled'}>Next</button><div class="field" style="margin-top:10px"><select id="rough" aria-label="No exact day yet"><option value="">No exact day yet</option>${["This month","Next month","In 2 or 3 months","Not sure yet"].map(x=>`<option${S.rough===x?' selected':''}>${x}</option>`).join('')}</select></div>`}),
   mdeliver:()=>({say:S.date?`Moving day, ${fmtD(S.date)}.`:'', h:"When does it arrive at the new place?", sub:S.delivery?`${fmtD(S.delivery)}. ${dayLine2(S.delivery)}`:"Across town, it's usually the same day. Farther, the mover gives you a delivery date or a window.", scene:'blank', body:calBody('delivery',{min:S.date})+`<button class="cta" id="calNext" ${S.delivery?'':'disabled'}>Next</button><button class="link" id="sameDay">The same day</button><button class="link" id="calSkip">I don't know yet</button>`}),
@@ -995,7 +998,7 @@ function wire(id){
     const save=()=>{ S.boxes.push({code:code(),rc:rcOf(S.room),destRc:S.dest&&!/^(Donate|Sell|Not sure)$/.test(S.dest)?rcOf(S.dest):'',room:S.room,size:S.size,custom:S.size==='Custom'?S.custom:'',brand:S.brand,dims:boxDims(S.brand,S.size,S.duty),duty:S.duty,words:S.words,dest:S.dest||'',airtag:!!S.airtag,flags:[...S.flags],photos:[...S.photos],photo:S.photos[0]||''}); S.photos=[]; S.words=''; S.dest=''; S.airtag=false; S.flags=[]; S.size=''; S.duty=''; S.custom=''; fresh=['box'+(S.boxes.length-1)];
       if(S.boxes.length===1){ learn('Boxes'); hopping=matchMedia('(prefers-reduced-motion: reduce)').matches?'':'Boxes'; show('boxesTab'); if(hopping) hop('Boxes'); else landSoon('Boxes'); } else show('boxSaved'); };
     $('#airtag').onclick=e=>{ S.airtag=!S.airtag; e.currentTarget.classList.toggle('on',S.airtag); e.currentTarget.setAttribute('aria-pressed',S.airtag); say(S.airtag?'AirTag inside.':'No AirTag.'); };
-    $('#saveBox').onclick=save; $('#plainBox').onclick=()=>{ S.flags=[]; save(); };
+    $('#saveBox').onclick=save;
   }
   if(id==='bigRoom'){ phone.querySelectorAll('[data-broom]').forEach(b=>b.onclick=()=>goRoom(b.dataset.broom)); const s=$('#bigroomsel'); if(s) s.onchange=e=>goRoom(e.target.value); }
   if(id==='homeRooms'){ phone.querySelectorAll('[data-hr]').forEach(b=>b.onclick=()=>{ const r=b.dataset.hr, i=S.homeRooms.indexOf(r); i<0?S.homeRooms.push(r):S.homeRooms.splice(i,1); b.classList.toggle('on'); b.setAttribute('aria-pressed',i<0); $('#hrNext').disabled=!S.homeRooms.length; });
@@ -1165,10 +1168,10 @@ function wire(id){
   if(id==='mquote'){ const q=$('#qtext'); q.oninput=()=>{ S.qtext=q.value; $('#qRead').disabled=!q.value.trim(); }; $('#qRead').onclick=()=>show('mread'); $('#qLater').onclick=()=>S.retTo?homeDone():show('mstairs'); }
   if(id==='mread') $('#readNext').onclick=()=>S.retTo?homeDone():show('mstairs');
   if(id==='mstairs') pick(v=>{ S.stairs=v; show('mdoor'); });
-  if(id==='mdoor') pick(v=>{ S.door=v; show(MOVERS()&&S.booked!=="Yes, they're booked"&&!S.qtext?'mpacket':'mrent'); });
-  if(id==='mpacket'||id==='mboth'){ $('#pkCopy').onclick=()=>{ const tx=packetText(); (navigator.clipboard?navigator.clipboard.writeText(tx):Promise.reject()).then(()=>say('Copied.'),()=>{}).finally(()=>{ $('#pkCopy').textContent='Copied'; }); }; $('#pkNext').onclick=()=>show(id==='mboth'?'mhelp':'mrent'); }
+  if(id==='mdoor') pick(v=>{ S.door=v; MOVERS()&&S.booked!=="Yes, they're booked"&&!S.qtext?show('mpacket'):toRent(); });
+  if(id==='mpacket'||id==='mboth'){ $('#pkCopy').onclick=()=>{ const tx=packetText(); (navigator.clipboard?navigator.clipboard.writeText(tx):Promise.reject()).then(()=>say('Copied.'),()=>{}).finally(()=>{ $('#pkCopy').textContent='Copied'; }); }; $('#pkNext').onclick=()=>id==='mboth'?show('mhelp'):toRent(); }
   if(id==='mtruck') pick(v=>{ S.tsize=v; show('mhelp'); });
-  if(id==='mhelp') pick(v=>{ S.helpers=v; show('mrent'); });
+  if(id==='mhelp') pick(v=>{ S.helpers=v; toRent(); });
   if(id==='mrent') pick(v=>{ S.rent=v; earnMoving(); });
   if(id==='movingTab'){ $('#tabNext').onclick=toSorting; if($('#tabIcs')) $('#tabIcs').onclick=addToCalendar; }
 }
@@ -1355,7 +1358,7 @@ function afterFrom(){ if(measureMove()) show('mwhyask'); else if(S.to&&!S.toLL) 
 const SKIP={toolkit:()=>window.__APP?finishThread():openSheet('Moving'),mto:()=>show('mfrom'),mfrom:()=>afterFrom(),mfar:()=>show('mwhyask'),mwhyask:()=>show(isBiz()?'mfound':'mwho'),mwhy:()=>show('mwho'),mwho:()=>show('mfound'),mfound:()=>show('oldplace'),
   hkind:()=>show(S.place==='signed'?'oldplace':(isBiz()?'hbudget':'hbeds')),hbeds:()=>show('hbudget'),hneeds:()=>show('hsearch'),hsearch:()=>show('hshow'),hshow:()=>show('hask'),hask:()=>show('oldplace'),
   hstart:()=>show('oldplace'),hclose:()=>show('htitle'),oldplace:afterOldGo,oldend:afterOldGo,oldclose:afterOldGo,moveday:()=>homeDone(),mdeliver:()=>homeDone(),
-  words:()=>show('dest'),dest:()=>show('photo'),leave:()=>leaveNext(''),mstairs:()=>show('mdoor'),mdoor:()=>show(MOVERS()&&S.booked!=="Yes, they're booked"&&!S.qtext?'mpacket':'mrent')};
+  words:()=>show('dest'),dest:()=>show('photo'),leave:()=>leaveNext(''),mstairs:()=>show('mdoor'),mdoor:()=>MOVERS()&&S.booked!=="Yes, they're booked"&&!S.qtext?show('mpacket'):toRent()};
 const SKIPWORDS=/^(Skip|Later|Not now|Not sure yet|I don't know yet|I'll find it later|Not sold yet|Nothing like that|Not right now)$/;
 function wireSkip(id){ const sk=phone.querySelector('[data-skip]'); if(!sk) return; let fn=SKIP[id];
   if(!fn){ const own=[...phone.querySelectorAll('.page .text .link')].find(b=>SKIPWORDS.test(b.textContent.trim())); if(own){ own.hidden=true; fn=()=>own.click(); } }
