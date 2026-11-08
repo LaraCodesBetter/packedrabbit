@@ -1324,10 +1324,18 @@ async function loadHome(){ let st=null; try{ st=JSON.parse(await idbGet('moving-
   ((st&&st.boxes)||[]).forEach(b=>{ if(!b||!b.code||have.has(b.code)) return; have.add(b.code); const rc=String(b.room||b.code.split('-')[0]||'MISC');
     S.boxes.push({code:b.code,rc,room:RN[rc]||rc,words:(b.items||[]).map(x=>x.name).filter(Boolean).join(', '),flags:b.withMe?['Goes with me']:[],photos:[],photo:'',handed:1,appId:b.id}); });
   const hb=new Set(S.big.map(b=>b.what+'|'+(b.rc||'')));
-  ((st&&st.bigs)||[]).forEach(g=>{ const k=(g.name||'')+'|'+(g.room||''); if(!g||!g.name||hb.has(k)) return; hb.add(k); S.big.push({what:g.name,rc:g.room||'',room:RN[g.room]||'',handed:1}); });
+  /* owner, 8 Nov: "all my pictures for all my furniture ... measurements ... brand names ... value ... missing".
+     They were never gone: they live in the app, and this list only copied the names. Now each piece
+     carries its app id, size, brand and value, refreshed every time, and its photo is read below. */
+  ((st&&st.bigs)||[]).forEach(g=>{ if(!g||!g.name) return; const k=(g.name||'')+'|'+(g.room||'');
+    const size=(g.w&&g.d&&g.h)?`${g.w}″ × ${g.d}″ × ${g.h}″`:'';
+    const ex=S.big.find(b=>b.appId===g.id)||(hb.has(k)?S.big.find(b=>b.handed&&(b.what+'|'+(b.rc||''))===k&&!b.appId):null);
+    const rec={what:g.name,rc:g.room||'',room:RN[g.room]||'',handed:1,appId:g.id,size,brand:g.brand||'',value:g.repl||g.price||''};
+    if(ex) Object.assign(ex,rec); else { hb.add(k); S.big.push(rec); } });
+  for(const b of S.big.filter(x=>x.appId&&!x.photo)){ try{ const o=JSON.parse(await idbGet('moving-command-center-v1-photos-'+b.appId)||'null'); const src=o&&(o.open||o.side||o.sealed||o.top||o.label||o.detail||(o.more&&o.more[0]&&o.more[0].src)); if(src) b.photo=src; }catch(e){} }
   for(const b of S.boxes.filter(x=>x.appId&&!x.photo).slice(-12)){ try{ const o=JSON.parse(await idbGet('moving-command-center-v1-photos-'+b.appId)||'null'); const src=o&&(o.open||o.open2||o.side||o.top); if(src) b.photo=src; }catch(e){} }
   const se=(st&&st.settings)||{}; if(se.licence||se.storeFull) S.paid=S.paid||'licence';
-  if(!S.mwhat) S.mwhat='A home'; ['Boxes','Furniture'].forEach(t=>{ if((st&&st.boxes||[]).length&&!S.tabs.includes(t)) S.tabs.push(t); });
+  if(!S.mwhat) S.mwhat='A home'; ['Boxes','Furniture'].forEach(t=>{ if((st&&st.boxes||[]).length&&!S.tabs.includes(t)) S.tabs.push(t); }); if(st) ['Moving','Sorting','Menu'].forEach(t=>{ if(!S.tabs.includes(t)) S.tabs.push(t); });
   S.walked=1; S.homeMode=1; S.find=''; }
 function finishBig(){ if(!S.ntShown && S.big.some(b=>FUEL.test(b.what))){ S.ntShown=true; return show('notruck'); }
   if(S.homeMode) return finishThread(); show('cubic'); }
@@ -1521,7 +1529,10 @@ function wireSheet(s,n){
   const add=s.querySelector('[data-addbox]'); if(add) add.onclick=()=>{ closeSheet(true); show('start'); };
   const ab=s.querySelector('[data-blist]'); if(ab) ab.onclick=()=>{ S.bsel=-1; re(); };
   s.querySelectorAll('[data-rm]').forEach(x=>x.onclick=()=>{ const i=+x.dataset.rm, gone=S.boxes[i]; S.boxes.splice(i,1); S.bsel=-1; re(); toast(s,`${gone.code} removed.`,()=>{ S.boxes.splice(i,0,gone); re(); }); });
-  s.querySelectorAll('[data-piece]').forEach(li=>li.onclick=()=>{ S.fsel=+li.dataset.piece; S.pphoto=false; re(); });
+  s.querySelectorAll('[data-piece]').forEach(li=>li.onclick=()=>{ const b=S.big[+li.dataset.piece];
+    /* a piece that lives in the app opens its full page there: every photo, the size, brand, value and dates */
+    if(S.homeMode&&b&&b.appId){ (window.top||window).location.href=new URL((window.__HOME||'../')+'?big='+encodeURIComponent(b.appId),location.href).href; return; }
+    S.fsel=+li.dataset.piece; S.pphoto=false; re(); });
   const b=S.big[S.fsel]; if(!b||n!=='Furniture') return;
   const back=s.querySelector('[data-plist]'); if(back) back.onclick=()=>{ S.fsel=-1; re(); };
   const ap=s.querySelector('[data-addpic]'); if(ap) ap.onclick=()=>{ S.pphoto=true; re(); };
@@ -1542,7 +1553,11 @@ function openSheet(n,from){ closeSheet(true); openTab=n; S.fsel=-1; S.bsel=-1; o
 function closeSheet(quiet){ const s=phone.querySelector('.sheet'); if(s) s.remove(); const sc=phone.querySelector('.scrim'); if(sc) sc.remove(); openTab=""; const pg=phone.querySelector('.page'); if(pg) pg.inert=false;
   phone.querySelectorAll('[data-tab]').forEach(a=>{ a.classList.remove('on'); a.setAttribute('aria-expanded','false'); });
   if(!quiet && opener && document.contains(opener)) opener.focus(); }
-phone.addEventListener('click',e=>{ const a=e.target.closest('[data-tab]'); if(!a) return; e.preventDefault(); a.dataset.tab===openTab?closeSheet():openSheet(a.dataset.tab,a); });
+/* owner, 8 Nov: "we don't have Calendar and Sort". In your move, those tabs open the app's own screens, with everything you've saved. */
+const HOMEGO={Moving:'calendar',Sorting:'clearout',Menu:'home'};
+phone.addEventListener('click',e=>{ const a=e.target.closest('[data-tab]'); if(!a) return; e.preventDefault();
+  if(S.homeMode&&HOMEGO[a.dataset.tab]){ (window.top||window).location.href=new URL((window.__HOME||'../')+'?go='+HOMEGO[a.dataset.tab],location.href).href; return; }
+  a.dataset.tab===openTab?closeSheet():openSheet(a.dataset.tab,a); });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&phone.querySelector('.sheet')) closeSheet(); });
 document.getElementById('restart').onclick=()=>{ try{ sessionStorage.removeItem('pr-thread'); if(window.__APP) idbDel('pr-thread-state'); }catch(e){} reset(); hist.length=0; cur=null; show('mwhat'); };
 /* the app's own database: same name and store as the app, so nothing new is created */
