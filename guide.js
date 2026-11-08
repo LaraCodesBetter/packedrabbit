@@ -9,7 +9,7 @@
       ["Decide: movers or a truck", "See what each would cost for your home, and which pieces are worth moving at all.", "Compare the costs", "diy-cost/"]] },
     movers: { n: "Hiring movers", steps: [
       ["Find out who you're talking to", "A mover owns trucks. A broker sells your move to someone else. Ask, then look them up.", "Mover or broker?", "movers-vs-brokers/"],
-      ["Check every quote before you sign", "Paste it in. See the hidden fees, the big deposit and the weak coverage.", "Check a quote", "#check"],
+      ["Check every quote before you sign", "Paste it in. See the hidden fees, the big deposit and the weak coverage.", "Check a quote", "quote-check/"],
       ["Keep every quote side by side", "Stars for facts, every call logged, the deposit paid by card and tracked.", "Open my quotes", "app/?stage=started"]] },
     diy: { n: "Moving myself", steps: [
       ["Pick the right truck", "Sized from what you own, not a guess from how many bedrooms you have.", "What size truck?", "truck/"],

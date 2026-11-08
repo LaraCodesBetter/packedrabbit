@@ -53,6 +53,7 @@
   .look select, .look input { min-height: 54px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 700; padding: 0 12px; width: 100%; box-sizing: border-box; }
   .look input { font-family: var(--display); font-size: 1.25rem; }
   .look .wide { grid-column: 1 / -1; }
+  @media (max-width: 420px) { .look { grid-template-columns: 1fr; } }
   .look .btn { width: 100%; }
   .card2 { margin: 16px 0; padding: 16px 18px; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
   .card2 h2 { font-size: 1.3rem; margin: 0 0 8px; }
@@ -131,7 +132,7 @@
     <h2>Where this comes from</h2>
     <p class="aside">The red flags follow the federal government's own guidance for people moving between states: <a href="https://www.fmcsa.dot.gov/protect-your-move" rel="noopener">Protect Your Move (FMCSA)</a> and <a href="https://www.fmcsa.dot.gov/protect-your-move/consumer-rights" rel="noopener">Your Rights and Responsibilities When You Move</a>. Moves within one state follow that state's rules. This is a checklist, not legal advice.</p>
   </section>
-<div class="card" style="border-left:4px solid var(--rose);padding:18px 20px;margin:22px 0 0;background:var(--panel);border-radius:16px"><h2 style="margin:0 0 6px;font-size:1.2rem">Got a quote already? Check it now.</h2><p class="muted" style="margin:0 0 12px">Paste the text into the free quote checker. It flags the fees, the deposit, the coverage and broker signs. Nothing you paste is sent anywhere.</p><a class="btn tape" href="../#check">Check a quote, free</a></div>
+<div class="card" style="border-left:4px solid var(--rose);padding:18px 20px;margin:22px 0 0;background:var(--panel);border-radius:16px"><h2 style="margin:0 0 6px;font-size:1.2rem">Got a quote already? Check it now.</h2><p class="muted" style="margin:0 0 12px">Paste the text into the free quote checker. It flags the fees, the deposit, the coverage and broker signs. Nothing you paste is sent anywhere.</p><a class="btn tape" href="../quote-check/">Check a quote, free</a></div>
   <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Made by someone moving, for people moving. Not a moving company, broker or lead site: we never sell your details and never take a commission from movers, and nothing you type here is sent to us.</p>
 </main>
 
