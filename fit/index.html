@@ -129,7 +129,7 @@
 
   <div class="acts">
     <button class="btn tape" id="share" type="button">Share this answer</button>
-    <a class="btn ghost" href="../app/?go=bigs">Check every piece against every door in the app</a>
+    <a class="btn ghost" id="keep" href="../app/?go=bigs">Check every piece against every door in the app</a>
   </div>
   <p class="aside">The app remembers each piece and each doorway, checks the turn out of the hallway too, and tells the movers before the day. No account, and it works with no signal.</p>
 
@@ -219,7 +219,7 @@
     var W = n("door"), L = n("len"), D = n("dep"), Hh = n("hgt"), DH = n("dh") || 80, legs = $("legs").checked;
     var frame = $("frame"), piece = $("piece"), dims = $("dims");
     frame.textContent = ""; piece.textContent = ""; dims.textContent = "";
-    if (!W || !L || !D || !Hh) { $("big").className = "big"; $("big").textContent = "Type all four measurements"; $("small").textContent = ""; $("fixes").hidden = true; last = null; return; }
+    if (!W || !L || !D || !Hh) { $("keep").href = "../app/?go=bigs"; $("keep").textContent = "Check every piece against every door in the app"; $("big").className = "big"; $("big").textContent = "Type all four measurements"; $("small").textContent = ""; $("fixes").hidden = true; last = null; return; }
     var h = legs ? Math.max(1, Hh - LEGS) : Hh;
     var r = doorFit([h, D, L], W, DH);
     var S = Math.min(3.85, 300 / Math.max(DH, r.up), 440 / Math.max(W, r.across)), FLOOR = 362, CX = 250;
@@ -257,6 +257,10 @@
     last = { ok: r.ok, big: big, small: small, W: W, across: r.across, up: r.up, DH: DH };
     var p = new URLSearchParams(); p.set("door", W); p.set("l", L); p.set("d", D); p.set("h", Hh); if (DH !== 80) p.set("dh", DH); if (legs) p.set("legs", "1");
     try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
+    /* owner, 9 Nov: "Keep this in your move" carries the couch, its size and this answer into Furniture */
+    var k = new URLSearchParams(); k.set("go", "bigs"); k.set("piece", "Couch"); k.set("w", L); k.set("d", D); k.set("h", Hh);
+    k.set("note", big + " Checked against a " + r1(W) + "-inch door" + (legs ? ", legs off." : "."));
+    $("keep").href = "../app/?" + k.toString(); $("keep").textContent = "Keep this couch in your move";
   }
   window.prFitLast = function () { return last; }; /* the walk above reads the same answer */
   ids.forEach(function (id) { $(id).addEventListener("input", draw); });
@@ -441,7 +445,8 @@ addEventListener("DOMContentLoaded", function () {
       say: function (S) { return S.shared ? "Someone checked their couch" : "Your couch and your door"; },
       h: function () { return txt("big"); },
       sub: function () { return txt("small").replace(/: check the box above\./, ". Check whether they unscrew."); },
-      cta: { label: "Check every piece in the app", href: "../app/?go=bigs" },
+      /* owner, 9 Nov: the answer goes into the app with the couch, its size and the answer as a note */
+      cta: { label: "Keep this couch in your move", run: function (S) { if (!S.shared) { location.href = document.getElementById("keep").href; return false; } }, href: "../app/?go=bigs" },
       fine: "For a standard 80-inch-tall door.",
       dyk: true, scene: "answer", room: false
     }
@@ -452,7 +457,7 @@ addEventListener("DOMContentLoaded", function () {
     b.type = "button"; b.className = "wk-link";
     if (S.shared) { b.textContent = "Check my own couch"; b.onclick = function () { ["door", "len", "dep", "hgt"].forEach(function (k) { delete S[k]; delete S[k + "N"]; }); S.shared = false; S.legsOff = false; api.replace("start"); }; }
     else { b.textContent = L && !L.ok ? "Every way to make it fit" : "See the whole tool"; b.onclick = api.tool; }
-    var c = host.querySelector("[data-cta]"); if (c) c.insertAdjacentElement("afterend", b);
+    var c = host.querySelector("[data-cta]"); if (c) { c.insertAdjacentElement("afterend", b); if (S.shared) c.textContent = "Check every piece in the app"; }
   };
   var w = window.prWalk({
     label: "Will it fit through the door?, step by step",
