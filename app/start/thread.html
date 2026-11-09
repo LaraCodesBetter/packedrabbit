@@ -1145,7 +1145,7 @@ const P={
     /* tester, 8 Nov: "3 boxes, with photos" when one had a photo. Each count says only what's true. */
     const nb=S.boxes.length, np=S.boxes.filter(b=>b.photo||(b.photos&&b.photos.length)).length;
     const have=[`${nb} ${nb===1?'box':'boxes'}${np&&np===nb?(nb===1?', with its photo':', with photos'):np?`, ${np} with ${np===1?'a photo':'photos'}`:''}`, pcs?`${pcs} ${pcs===1?'piece':'pieces'} of furniture`:'', (S.lists.donate.length||S.lists.sell.length)?'Your donate and sell lists':'', d?`Moving day, ${d}`:'', 'Every tab still to come'].filter(Boolean);
-    return ({say:"Your 3 free boxes are packed.", h:"All of it is $9.99 a month.", scene:"price",
+    return ({say:"Your first 3 boxes are packed.", h:"All of it is $9.99 a month.", scene:"price",
       body:`<ul class="have">${have.map(x=>`<li>${x}</li>`).join('')}</ul>
         <div class="plans"><button class="plan m" data-plan="month">Monthly<small>$9.99 a month</small></button><button class="plan y" data-plan="year"><span class="save">Save $9.99</span>Yearly<small>$109.89 a year</small></button></div>
         <p class="hint" style="margin-top:8px">Renews monthly until you cancel, with a reminder before every charge. Cancel anytime: your list stays yours.</p><button class="link" data-back2>Not now</button>
