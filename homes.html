@@ -16,12 +16,12 @@
 body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 -apple-system,"SF Pro Text","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 .wrap{max-width:680px;margin:0 auto;padding:18px 16px 60px}
 a{color:var(--teal)}
-.top{position:relative;overflow:hidden;border-radius:26px;padding:44px 22px 24px;color:#fff;background:linear-gradient(160deg,var(--navy2),var(--navy))}
-.top::before{content:"";position:absolute;left:-4%;right:-4%;top:14px;height:20px;background:var(--tape);transform:rotate(-1.4deg)}
+.ptop{position:relative;overflow:hidden;border-radius:26px;padding:44px 22px 24px;color:#fff;background:linear-gradient(160deg,var(--navy2),var(--navy))}
+.ptop::before{content:"";position:absolute;left:-4%;right:-4%;top:14px;height:20px;background:var(--tape);transform:rotate(-1.4deg)}
 h1,h2{font-family:var(--display);font-weight:850;letter-spacing:-.02em;line-height:1.08;margin:0}
 h1{font-size:clamp(2rem,8vw,2.8rem);margin-top:8px}
 h2{font-size:1.4rem;margin-bottom:8px}
-.top p{color:rgba(255,255,255,.84);margin:10px 0 0}
+.ptop p{color:rgba(255,255,255,.84);margin:10px 0 0}
 .search{display:flex;gap:8px;margin-top:18px}
 .search input{flex:1;min-width:0;font:inherit;padding:14px 16px;border-radius:14px;border:0}
 .btn{font:inherit;font-weight:800;border:0;border-radius:999px;padding:0 20px;min-height:50px;cursor:pointer;background:var(--tape);color:var(--tape-ink)}
@@ -49,9 +49,14 @@ label{display:block;font-weight:700;margin:12px 0 6px}
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image:alt" content="The Packed Rabbit: it knows what fits through the door. A sofa shown against a 32-inch doorway, with the words: Sofa, 2 inches too wide. Legs off: it goes through.">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Rental Ratings","url":"https://packedrabbit.com/homes.html","description":"Ratings of rental homes and landlords from verified past tenants: repairs, deposits, honesty, respect for privacy. Free to read.","inLanguage":"en-US","isPartOf":{"@type":"WebSite","@id":"https://packedrabbit.com/#site","name":"The Packed Rabbit","url":"https://packedrabbit.com/"},"publisher":{"@type":"Organization","@id":"https://packedrabbit.com/#org","name":"The Packed Rabbit","url":"https://packedrabbit.com/","logo":"https://packedrabbit.com/app/icon-512.png","email":"hello@packedrabbit.com","sameAs":["https://www.instagram.com/thepackedrabbit/","https://www.tiktok.com/@thepackedrabbit","https://www.youtube.com/@thepackedrabbit"]}}</script>
+<link rel="stylesheet" href="sig.css">
 </head>
-<body><div class="wrap" id="app" data-server="https://REPLACE_ME">
-  <div class="top">
+<body>
+<header class="wrap top">
+  <a class="brand" href="./" aria-label="The Packed Rabbit, home"><img class="wm wm-l" src="img/wordmark.png" alt="The Packed Rabbit" width="150" height="39"><img class="wm wm-d" src="img/wordmark-cream.png" alt="" width="150" height="39"></a>
+</header>
+<div class="wrap" id="app" data-server="https://REPLACE_ME">
+  <div class="ptop">
     <h1>What it's really like to rent there.</h1>
     <p>Ratings from people who lived there — each one checked against a lease or bill, then the proof is deleted. Repairs, deposits, honesty, privacy.</p>
     <form class="search" id="sf"><input id="q" placeholder="Street address, city" aria-label="Address to look up" autocomplete="street-address"><button class="btn">Look up</button></form>
@@ -149,5 +154,23 @@ label{display:block;font-weight:700;margin:12px 0 6px}
   });
 })();
 </script>
+
+<section class="last" id="last" aria-label="Contact and links">
+  <img src="img/wordmark-cream.png" alt="The Packed Rabbit" width="190" height="50" loading="lazy">
+  <h2>Questions? Write to us.</h2>
+  <a class="mail" href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a>
+  <nav aria-label="More from The Packed Rabbit">
+    <a href="tools/">Free moving tools</a><a href="answers/">Straight answers</a>
+    <a href="business/">For businesses</a><a href="price.html">Price</a>
+    <a href="privacy.html">Privacy</a><a href="terms.html">Terms and refunds</a>
+  </nav>
+  <div class="soc" aria-label="Follow The Packed Rabbit">
+    <a href="https://www.instagram.com/thepackedrabbit/" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></svg></a>
+    <a href="https://www.tiktok.com/@thepackedrabbit" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5M14 3c.5 2.8 2.4 4.6 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a href="https://www.youtube.com/@thepackedrabbit" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 9.3v5.4l4.6-2.7z" fill="currentColor"/></svg></a>
+  </div>
+  <p class="lead">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>
+  <small>&copy; 2026 The Packed Rabbit</small>
+</section>
 </body>
 </html>
