@@ -72,6 +72,7 @@ label{display:block;font-weight:700;margin:12px 0 6px}
     <p class="muted">Rate a place you lived: <a href="app/">open the app</a> → Pack and place → Your rental resume.</p>
   </div>
 
+  <div class="card" id="ownsoon" hidden><h2>Own or manage a building?</h2><p class="muted">You'll be able to reply to ratings once they open. You'll show proof that you own or manage the address, and the proof is deleted once it's checked.</p></div>
   <form class="card f" id="cf">
     <h2>Own or manage a building?</h2>
     <p class="muted">Show a deed, property tax bill or management agreement for the address. Once it's checked, you'll get a private reply code by email or text. The proof is then deleted.</p>
@@ -93,7 +94,9 @@ label{display:block;font-weight:700;margin:12px 0 6px}
   var $ = function (id) { return document.getElementById(id); };
   var esc = function (t) { var e = document.createElement("span"); e.textContent = t == null ? "" : t; return e.innerHTML; };
   var LBL = { repairs: "Repairs done promptly", deposit: "Deposit handled fairly", honest: "Matched the listing", respect: "Privacy respected" };
-  if (!live) $("soon").hidden = false;
+  /* outside review, 9 Nov: say plainly that ratings are a preview. Until they open, the owner form is put away,
+     so nobody picks a deed or a bill to send when nothing is there to receive it. */
+  if (!live) { $("soon").hidden = false; $("cf").hidden = true; $("ownsoon").hidden = false; }
   function show(d, q) {
     if (!d || !d.count) { $("out").innerHTML = '<div class="card"><p>No verified ratings for <strong>' + esc(q) + '</strong> yet. If you lived there, you could be the first.</p></div>'; return; }
     var head = '<div class="card"><div class="big">' + d.average + ' <span class="stars">★</span></div><p class="muted">' + d.count + (d.count === 1 ? " verified rating" : " verified ratings") + (d.claimed ? " · the owner or manager replies here" : "") + "</p></div>";
