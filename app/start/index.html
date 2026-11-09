@@ -74,6 +74,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
 .foot .restore{margin-top:2px;font-size:16px}
 .phone.lit .foot .restore{color:#E6EFE4}.phone.lit .foot .restore b{color:#F2E8D5}
 .hint{display:none}
+/* funnel test, 9 Nov: on a small phone (iPhone SE) the drawing covered the last line of the words */
+@media (max-height:600px){.stop{padding-top:74px}.stop h2{font-size:28px;margin-bottom:8px}.stop p{font-size:17px}}
+.foot .next{width:auto;min-width:200px;margin:0 0 8px;padding-left:40px;padding-right:40px}.foot .next[hidden]{display:none}
 .dots{display:flex;gap:2px}
 .dot{width:44px;height:44px;border:0;background:none;cursor:pointer;display:grid;place-items:center;padding:0}
 .dot i{width:8px;height:8px;border-radius:50%;background:var(--ink-soft);transition:width .3s, background .3s}
@@ -327,6 +330,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   </div></div>
   <div class="foot" id="foot">
     <div class="hint" id="hint">Swipe to continue</div>
+    <!-- funnel test, 9 Nov: on a phone the welcome showed no button until screen 4, and nothing said to swipe -->
+    <button class="cta next" id="next" type="button">Next</button>
     <div class="dots" role="group" aria-label="Screens">
       <button class="dot" aria-label="Screen 1" aria-current="true"><i></i></button>
       <button class="dot" aria-label="Screen 2"><i></i></button>
@@ -498,7 +503,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   const mark=i=>{ if(i===cur && !stops[i].classList.contains('pre')) return; cur=i;
     stops.forEach((s,k)=>{ if(k!==i && k<stops.length-1 && !matchMedia('(prefers-reduced-motion: reduce)').matches) s.classList.add('pre'); }); requestAnimationFrame(()=>requestAnimationFrame(()=>stops[i].classList.remove('pre')));
     dots.forEach((d,k)=>d.setAttribute('aria-current',k===i?'true':'false'));
-    hint.textContent = i===stops.length-1 ? '' : 'Swipe to continue'; document.querySelector('.phone').classList.toggle('lit', i===stops.length-1 && stops[i].classList.contains('alive')); if(i===stops.length-1) arrive(stops[i]); };
+    hint.textContent = i===stops.length-1 ? '' : 'Swipe to continue'; document.getElementById('next').hidden = i===stops.length-1; document.querySelector('.phone').classList.toggle('lit', i===stops.length-1 && stops[i].classList.contains('alive')); if(i===stops.length-1) arrive(stops[i]); };
   try{ const pre=new Image(); pre.src='rabbit-walks-in.webp'; }catch(e){}
   const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
   let played=false;
@@ -509,6 +514,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   function arrive(s){ if(played){ if(!s.classList.contains('alive')) wake(s); return; } played=true;
     if(RM){ wake(s); return; }
     wake(s); }
+  document.getElementById('next').onclick=()=>go(Math.max(cur,0)+1);
   setTimeout(()=>mark(0),250);
   let t; st.addEventListener('scroll',()=>{clearTimeout(t); t=setTimeout(()=>mark(Math.round(st.scrollLeft/st.clientWidth)),80);},{passive:true});
   dots.forEach((d,k)=>d.addEventListener('click',()=>go(k)));
