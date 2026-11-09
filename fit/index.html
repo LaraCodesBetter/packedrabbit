@@ -381,7 +381,16 @@ addEventListener("DOMContentLoaded", function () {
   function next(id, to) {
     return { label: "Next", run: function (S, api) {
       var x = inches(S[id]), i = $("wk-" + id);
-      if (!x) { if (i) { i.setAttribute("aria-invalid", "true"); i.focus(); } return false; }
+      /* tester, 9 Nov: -5, 0, 500 or letters made Next do nothing and say nothing */
+      if (!x) {
+        if (i) {
+          i.setAttribute("aria-invalid", "true"); i.focus();
+          var f = i.closest(".wk-field") || i.parentNode, e = f.querySelector(".wk-err");
+          if (!e) { e = document.createElement("p"); e.className = "wk-err"; e.id = "wk-err-" + id; e.setAttribute("role", "alert"); f.appendChild(e); i.setAttribute("aria-describedby", e.id); }
+          e.textContent = { door: "Type the doorway's width in inches, like 32.", len: "Type the couch's length in inches, like 84.", dep: "Type its depth in inches, like 38.", hgt: "Type its height in inches, like 34." }[id];
+        }
+        return false;
+      }
       S[id + "N"] = x; api.go(to); return false;
     } };
   }
