@@ -352,6 +352,8 @@
 </script>
 <script src="../brand.js"></script>
 <script src="../walk-art.js" defer></script>
+<script src="../facts.js" defer></script>
+<script src="../facts-more.js" defer></script>
 <script src="../walk.js" defer></script>
 <script>
 /* The truck checker, drawn in (owner, 7 Nov 2026). The same questions the app's walk asks,
@@ -389,7 +391,7 @@ addEventListener("DOMContentLoaded", function () {
   var steps = {
     beds: { say: "What size truck", h: "How many bedrooms are you moving?",
       choices: [["A studio", 0], ["1", 1], ["2", 2], ["3", 3], ["4", 4], ["5 or more", 5]].map(function (c) { return { label: c[0], run: function (S) { S.beds = c[1]; S.rooms = BEDROOMS.slice(0, Math.min(5, c[1])); S.other = S.other || []; S.picked = {}; }, go: "other" }; }),
-      scene: "room" },
+      dyk: true, scene: "room" },
     other: { h: "What other rooms are you moving?",
       html: function (S) { return chips(OTHER, S.other, "or"); }, after: function (S, api, host) { wireChips(host, "or", S.other); },
       cta: { label: "Next", run: function (S, api) { var all = (S.beds === 0 ? ["Living room"] : S.rooms).concat(S.other.filter(function (r) { return !(S.beds === 0 && r === "Living room"); }));
@@ -401,7 +403,7 @@ addEventListener("DOMContentLoaded", function () {
       /* alpha test, 8 Nov: the walk said a 20-foot truck for 3 bedrooms, then the full tool opened on 2 bedrooms and
          a 15-foot one. It opens on the same bedrooms now. The finished truck stands on its own, not in the room. */
       link: { label: "Count it piece by piece", run: function (S, api) { var b = document.querySelector('[data-h="' + (S.beds === 0 ? "s" : String(Math.min(4, S.beds || 2))) + '"]'); if (b) b.click(); api.tool(); return false; } },
-      scene: "tfull", room: false }
+      dyk: true, scene: "tfull", room: false }
   };
   function roomStep(r, i) {
     /* alpha test, 8 Nov: the same question on every room page, and "The bedroom 2." The first room asks it in full;
@@ -418,6 +420,7 @@ addEventListener("DOMContentLoaded", function () {
     allLabel: "Count it piece by piece",
     underTitle: "Count it piece by piece",
     start: "beds",
+    facts: ["truck-license", "truck-theft", "fridge", "moth"],
     /* the room with the boxes, the same drawing as the app's walk: the boxes stacked on the right,
        and whatever you pick in this room appearing on the left. The truck comes at the end. */
     scene: function (name, S) {

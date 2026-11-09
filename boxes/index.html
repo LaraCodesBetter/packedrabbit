@@ -19,6 +19,7 @@
 <link rel="icon" href="../app/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../app/icon-180.png">
 <link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../walk.css">
 <script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
 
 <script type="application/ld+json">
@@ -368,6 +369,82 @@
 })();
 </script>
 <script src="../brand.js"></script>
+<script src="../facts.js" defer></script>
+<script src="../facts-more.js" defer></script>
+<script src="../walk.js" defer></script>
+<script>
+/* How many boxes?, as a walk (owner, 8 Nov 2026). Two questions, then the answer from the calculator below, so
+   both always agree. The drawing is a pile in a living room, never a store shelf: "a small box on top of a really
+   big box next to a medium size box with three other boxes piled and one open." It grows with the home. */
+addEventListener("DOMContentLoaded", function () {
+  if (!window.prWalk) return;
+  function R(x, y, w, h, c, r) { return '<rect class="' + (c || "") + '" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '"' + (r ? ' rx="' + r + '"' : "") + "/>"; }
+  function P(d, c) { return '<path class="' + (c || "") + '" d="' + d + '"/>'; }
+  function T(x, y, t, s) { return '<text x="' + x + '" y="' + y + '" text-anchor="middle" style="font-size:' + (s || 10) + 'px">' + t + "</text>"; }
+  function box(b) {
+    var x = b[0], y = b[1], w = b[2], h = b[3], o = R(x, y - h, w, h, "f3", 2);
+    if (b[4]) o += P("M" + x + " " + (y - h) + " l-" + (w * 0.18) + " -" + (h * 0.32) + " h" + (w * 0.5) + " l" + (w * 0.18) + " " + (h * 0.32) + " z M" + (x + w) + " " + (y - h) + " l" + (w * 0.18) + " -" + (h * 0.32) + " h-" + (w * 0.5) + " l-" + (w * 0.18) + " " + (h * 0.32) + " z", "f2");
+    else o += R(x + w / 2 - w * 0.09, y - h, w * 0.18, h * 0.34, "tape");
+    return o;
+  }
+  /* the pile, in the order it grows: big, small on top, medium beside it, one open, and more on top */
+  var G = 344, PILE = [
+    [118, G, 104, 80], [144, G - 80, 48, 38], [226, G, 72, 58], [44, G, 66, 50, 1],
+    [236, G - 58, 52, 40], [302, G, 42, 34], [150, G - 118, 36, 28], [304, G - 34, 36, 26]
+  ];
+  function pile(k) { var o = ""; PILE.slice(0, k).forEach(function (b) { o += box(b); }); return o; }
+  var HN = { s: "a studio", 1: "a 1-bedroom", 2: "a 2-bedroom", 3: "a 3-bedroom", 4: "a 4-bedroom or bigger" };
+  var FN = { l: "sparse", a: "average", f: "packed" };
+  function size(S) { return { s: 3, 1: 4, 2: 5, 3: 6, 4: 7 }[S.home] || 3; }
+  function press(sel) { var b = document.querySelector(sel); if (b) b.click(); }
+  function run(S) { if (S.home) press('.homes [data-h="' + S.home + '"]'); if (S.fill) press('.fill [data-f="' + S.fill + '"]'); }
+  function txt(id) { var e = document.getElementById(id); return e ? e.textContent : ""; }
+  var steps = {
+    start: {
+      say: "How many boxes?",
+      h: "How big is the place you're packing?",
+      choices: [
+        { label: "Studio", run: function (S, api) { S.home = "s"; api.go("fill"); return false; } },
+        { label: "1 bedroom", run: function (S, api) { S.home = "1"; api.go("fill"); return false; } },
+        { label: "2 bedrooms", run: function (S, api) { S.home = "2"; api.go("fill"); return false; } },
+        { label: "3 bedrooms", run: function (S, api) { S.home = "3"; api.go("fill"); return false; } },
+        { label: "4 or more", run: function (S, api) { S.home = "4"; api.go("fill"); return false; } }
+      ],
+      dyk: true, scene: "pile"
+    },
+    fill: {
+      say: function (S) { return "For " + HN[S.home] + "."; },
+      h: "How full is it?",
+      choices: [
+        { label: "Sparse", small: "I don't keep much", run: function (S, api) { S.fill = "l"; run(S); api.go("answer"); return false; } },
+        { label: "About average", run: function (S, api) { S.fill = "a"; run(S); api.go("answer"); return false; } },
+        { label: "Packed", small: "Every shelf and closet is full", run: function (S, api) { S.fill = "f"; run(S); api.go("answer"); return false; } }
+      ],
+      scene: "pile"
+    },
+    answer: {
+      enter: function (S) { run(S); },
+      say: function (S) { return "For " + HN[S.home] + ", " + FN[S.fill] + "."; },
+      h: function () { return txt("big"); },
+      sub: function () { return txt("small").replace(/^Estimated need: /, "").replace(/\. An estimate for .*$/, "."); },
+      fine: function () { return txt("buy"); },
+      cta: { label: "Pack my first box", href: "../app/start/?begin" },
+      link: { label: "Count it room by room", tool: true },
+      dyk: true, scene: "full"
+    }
+  };
+  window.prWalk({
+    label: "How many boxes?, step by step",
+    allLabel: "See the whole calculator",
+    underTitle: "The whole calculator",
+    start: "start",
+    facts: ["cents", "fridge", "truck-license"],
+    factsEnd: { label: "Pack my first box", href: "../app/start/?begin" },
+    scene: function (name, S) { return name === "full" ? pile(8) : pile(size(S)); },
+    steps: steps
+  });
+});
+</script>
 <script src="../nav.js" defer></script>
 </body>
 </html>
