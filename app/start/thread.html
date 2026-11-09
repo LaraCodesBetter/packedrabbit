@@ -332,6 +332,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 .lground{flex:1 0 auto;display:flex;flex-direction:column;align-items:center;text-align:center;padding:14px 22px 20px;background:var(--ground)}
 .lone{margin:0;font-size:22px;line-height:1.3;font-weight:700;color:var(--text);max-width:24ch;text-wrap:balance}
 .lsub{margin:8px 0 0;font-size:19px;line-height:1.4;color:var(--muted);max-width:30ch;text-wrap:balance}
+.hnote{font-size:17px;margin-top:14px;color:var(--text)}.hnote .link{display:inline-flex;min-height:44px;margin:0 0 0 4px;padding:0 6px;vertical-align:middle}
 .hundo{font-size:17px;margin-top:12px}.hundo .link{display:inline-flex;min-height:44px;margin:0 0 0 4px;padding:0 6px;vertical-align:middle}
 .lground .lsub:first-child{margin-top:0;color:var(--text)}
 .lground .lsub b{color:var(--ink)}
@@ -954,7 +955,8 @@ const P={
       else { one='Nothing needs you today.'; sub='Which is allowed. Pack a box if you feel like it.'; act=undo; } }
     const nx=(H.next||[])[0];
     const badges=lemBadges([[BIC.box,`${vault} ${vault===1?'box':'boxes'}`,'in the vault'],[BIC.sofa,m,m===1?'big thing':'big things'],nx?[BIC.cal(hDate(nx.d).getDate()),hShort(nx.d),esc(nx.w)]:[BIC.cal(''),H.mode==='dates'?'No dates':'Nothing',H.mode==='dates'?'yet':'coming up']]);
-    return ({lem:1, pi:0, mark:1, h:'Welcome home.', count2:cd, pano:lemPano(H,art), body:`<p class="lone">${one}</p>${sub?`<p class="lsub">${sub}</p>`:''}${act}${badges}`}); },
+    const nt=H.note&&H.mode!=='dates'?`<p class="lsub hnote">${esc(H.note.t)} <button class="link" data-hgo="${H.note.go}">${H.note.b}</button></p>`:'';
+    return ({lem:1, pi:0, mark:1, h:'Welcome home.', count2:cd, pano:lemPano(H,art), body:`<p class="lone">${one}</p>${sub?`<p class="lsub">${sub}</p>`:''}${act}${nt}${badges}`}); },
   lvault:()=>{ const n=S.boxes.length, vault=S.boxes.filter(b=>!b.unpacked).length, opened=n-vault, H=S.hm||{};
     const say=!n?'Nothing is in the vault yet. Your first box takes a minute: a photo, a few words, and you never open it to look.':vault?`${vault} ${vault===1?'box is':'boxes are'} in the vault${opened?`, and ${opened} ${opened===1?'is':'are'} unpacked`:''}. Type or say what you need, and the rabbit finds the box.`:`Every box is unpacked. All ${n} are still listed here.`;
     const find=n?`<div class="field microw"><input id="hfind" value="${esc(S.hq||'')}" placeholder="Try &quot;towels&quot;" aria-label="Find a box"><button type="button" class="mic" data-mic="hfind" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div><div id="hres" aria-live="polite"></div>`:'';
@@ -1741,10 +1743,19 @@ function homeRead(st){ if(!st) return null; const mv=st.move||{}, at=d=>new Date
   /* tester, 8 Nov: December 12 showed twice, "Movers, loading" and "Loading day". The day is listed once. */
   if(mv.date&&mv.date>=td&&!next.some(a=>a.d===mv.date&&/load|mover/i.test(a.w))) next.push({d:mv.date,w:'Loading day'}); if(mv.delivery&&mv.delivery>=td&&mv.delivery!==mv.date&&!next.some(a=>a.d===mv.delivery&&/deliver|unload/i.test(a.w))) next.push({d:mv.delivery,w:'Delivery day'});
   next.sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);
+  /* outside review, 8 Nov 2026: the rabbit notices what the records plainly don't agree on, with the same rules
+     as the app's "What needs you": a move-day appointment on another day than the move, two boxes with one number. */
+  const dayOf=d=>new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'long',day:'numeric'}), near=(a,b)=>Math.abs((new Date(a+'T12:00:00')-new Date(b+'T12:00:00'))/864e5)<=7;
+  const offDay=(re,day,other)=>(st.appts||[]).find(x=>x&&!x.done&&x.date&&day&&x.date!==day&&x.date!==other&&near(x.date,day)&&re.test(x.what||''));
+  const offL=offDay(/elevator|loading dock|truck (rental|pick ?up)|pick ?up the truck|packers|packing crew|\bmovers?\b(?![^]*(deliver|unload))/i,mv.date,mv.delivery), offD=offDay(/deliver|unload/i,mv.delivery,mv.date);
+  const codes={}; (st.boxes||[]).forEach(b=>{ if(b&&b.code) codes[b.code]=(codes[b.code]||0)+1; }); const twice=Object.keys(codes).filter(c=>codes[c]>1);
+  const note=offL?{t:`"${String(offL.what)}" is booked for ${dayOf(offL.date)}, but loading day is ${dayOf(mv.date)}.`,go:'appts',b:'Fix the date'}
+    :offD?{t:`"${String(offD.what)}" is booked for ${dayOf(offD.date)}, but delivery day is ${dayOf(mv.delivery)}.`,go:'appts',b:'Fix the date'}
+    :twice.length?{t:`Two boxes are both labeled ${twice[0]}.`,go:'boxes',b:'Renumber one'}:null;
   const plans={}; (st.bigs||[]).forEach(g=>{ if(g&&g.plan) plans[g.plan]=(plans[g.plan]||0)+1; });
   const wide=(st.bigs||[]).filter(g=>g&&g.name&&+g.w>0&&(g.measured||!g.fromPreset)).sort((a,b)=>+b.w - +a.w)[0];
   const stay=(st.bigs||[]).filter(g=>g&&g.name&&g.plan&&!/^(move|store)$/.test(g.plan)).map(g=>({id:g.id,name:String(g.name),plan:g.plan}));
-  return {mode,dl,dd,tasks,truck,lost,tracked:(st.boxes||[]).some(b=>b.loaded||b.delivered||b.unpacked),moved:!!(st.settings||{}).movedConfirmed,next,plans,stay,
+  return {mode,dl,dd,tasks,truck,lost,note,tracked:(st.boxes||[]).some(b=>b.loaded||b.delivered||b.unpacked),moved:!!(st.settings||{}).movedConfirmed,next,plans,stay,
     wide:wide?{name:String(wide.name),w:+wide.w}:null,value:(st.bigs||[]).reduce((a,g)=>a+(parseFloat(String((g&&(g.repl||g.price))||'').replace(/[^\d.]/g,''))||0),0),door:String(mv.doorway||'').replace(/[^\d.]/g,'').slice(0,4),
     from:hCity(mv.fromName,mv.from),to:hCity(mv.toName,mv.to)||hCity('',(st.newhome||{}).address),loadAt:lo&&lo.k==='out'?lo.t:null}; }
 async function homeWrite(fn){ try{ const st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); if(!st||fn(st)===false) return null; await idbSet('moving-command-center-v1',JSON.stringify(st)); return st; }catch(e){ return null; } }
