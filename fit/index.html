@@ -22,6 +22,7 @@
 <link rel="icon" href="../app/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../app/icon-180.png">
 <link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../walk.css">
 <script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
 
 <script type="application/ld+json">
@@ -190,6 +191,7 @@
   <a href="../embed/">Put these tools on your site</a>
 </footer>
 
+<script>window.prFitQ = location.search; /* read before the tool below rewrites the address */</script>
 <script>
 /* The same rule as the app (doorFit). Nothing typed here is sent anywhere;
    the numbers go in the address only so a shared link shows the same answer. */
@@ -256,6 +258,7 @@
     var p = new URLSearchParams(); p.set("door", W); p.set("l", L); p.set("d", D); p.set("h", Hh); if (DH !== 80) p.set("dh", DH); if (legs) p.set("legs", "1");
     try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
   }
+  window.prFitLast = function () { return last; }; /* the walk above reads the same answer */
   ids.forEach(function (id) { $(id).addEventListener("input", draw); });
   $("legs").addEventListener("change", draw);
   draw();
@@ -314,6 +317,153 @@
 })();
 </script>
 <script src="../brand.js"></script>
+<script src="../facts.js" defer></script>
+<script src="../facts-fit.js" defer></script>
+<script src="../walk.js" defer></script>
+<script>
+/* Will it fit through the door?, as a walk (owner, 8 Nov 2026). One measurement per screen, each with its own
+   drawing, then the answer from the calculator below, so both always agree. Nothing typed here is sent anywhere. */
+addEventListener("DOMContentLoaded", function () {
+  if (!window.prWalk) return;
+  function R(x, y, w, h, c, r) { return '<rect class="' + (c || "") + '" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '"' + (r ? ' rx="' + r + '"' : "") + "/>"; }
+  function P(d, c) { return '<path class="' + (c || "") + '" d="' + d + '"/>'; }
+  function C(x, y, r, c) { return '<circle class="' + (c || "") + '" cx="' + x + '" cy="' + y + '" r="' + r + '"/>'; }
+  function T(x, y, t, s, c) { return '<text class="' + (c || "") + '" x="' + x + '" y="' + y + '" text-anchor="middle" style="font-size:' + (s || 10) + 'px">' + t + "</text>"; }
+  function arrowH(x1, x2, y) {
+    return P("M" + x1 + " " + y + " H" + x2, "nf") + P("M" + (x1 + 7) + " " + (y - 5) + " L" + x1 + " " + y + " L" + (x1 + 7) + " " + (y + 5), "nf") +
+      P("M" + (x2 - 7) + " " + (y - 5) + " L" + x2 + " " + y + " L" + (x2 - 7) + " " + (y + 5), "nf");
+  }
+  function arrowV(x, y1, y2) {
+    return P("M" + x + " " + y1 + " V" + y2, "nf") + P("M" + (x - 5) + " " + (y1 + 7) + " L" + x + " " + y1 + " L" + (x + 5) + " " + (y1 + 7), "nf") +
+      P("M" + (x - 5) + " " + (y2 - 7) + " L" + x + " " + y2 + " L" + (x + 5) + " " + (y2 - 7), "nf");
+  }
+  var G = 344, CX = 180;
+  /* the couch from the front, and from the side; with its legs off it sits on the floor */
+  var FRONT = R(86, 206, 188, 70, "f2", 14) + R(92, 282, 176, 52, "f2", 4) + R(96, 258, 84, 28, "f1", 9) + R(180, 258, 84, 28, "f1", 9) +
+    R(58, 240, 38, 94, "f3", 14) + R(264, 240, 38, 94, "f3", 14) + R(68, 334, 8, 10, "f3", 1) + R(284, 334, 8, 10, "f3", 1);
+  function side(lift) { return R(96, 182 + lift, 46, 84, "f2", 16) + R(92, 246 + lift, 176, 88, "f3", 16) + (lift ? "" : R(104, 334, 9, 10, "f3", 1) + R(247, 334, 9, 10, "f3", 1)); }
+  function doorway(w, h, x) { x = x == null ? CX : x; return R(x - w / 2 - 12, G - h - 12, w + 24, h + 12, "f2", 2) + R(x - w / 2, G - h, w, h, "f1"); }
+  var SCENES = {
+    /* the doorway, its door swung open, a tape measure across the opening */
+    door: function () {
+      return doorway(88, 204) + P("M136 140 L98 150 L98 338 L136 344 Z", "f3") + C(107, 248, 3) +
+        R(138, 229, 78, 6, "tape", 1) + P("M138 223 v18", "nf") + R(212, 218, 30, 28, "f3", 6) + C(227, 232, 7, "f1") + T(178, 212, "how wide?", 14);
+    },
+    long: function () { return FRONT + arrowH(58, 302, 184) + T(180, 174, "length", 14); },
+    deep: function () { return side(0) + arrowH(92, 268, 164) + T(180, 154, "depth", 14); },
+    tall: function () { return side(0) + arrowV(296, 182, 344) + T(326, 266, "height", 14); },
+    legs: function () { return side(10) + R(286, 336, 26, 8, "f3", 2) + R(318, 336, 26, 8, "f3", 2) + T(315, 324, "legs off", 14); },
+    /* the end of the couch in the doorway, at scale; too wide shows the overlap in plum */
+    answer: function () {
+      var L = window.prFitLast && window.prFitLast(); if (!L) return doorway(88, 204);
+      var k = Math.min(2.5, 210 / Math.max(L.DH, L.up), 240 / Math.max(L.W, L.across)), dw = L.W * k, dh = L.DH * k, pw = L.across * k, ph = L.up * k;
+      var o = doorway(dw, dh) + T(CX, G - dh - 22, "door " + L.W + " in", 14);
+      o += R(CX - pw / 2, G - ph, pw, ph, L.ok ? "f3" : "f3 plum", 10);
+      if (!L.ok) { var over = (pw - dw) / 2; o += R(CX - pw / 2, G - ph, over, ph, "plumf") + R(CX + dw / 2, G - ph, over, ph, "plumf"); }
+      return o + T(CX, G - ph / 2 + 5, (Math.round(L.across * 10) / 10) + " × " + (Math.round(L.up * 10) / 10) + " in", 13, L.ok ? "" : "pt");
+    }
+  };
+  /* inches, or feet and inches ("6' 2"), the way people read a tape */
+  function inches(v) {
+    v = String(v == null ? "" : v).trim().replace(",", ".");
+    var m = v.match(/^(\d+(?:\.\d+)?)\s*(?:'|’|ft|feet|foot)\s*(?:(\d+(?:\.\d+)?)\s*(?:"|”|in|inch|inches)?)?$/i);
+    var x = m ? (+m[1]) * 12 + (m[2] ? +m[2] : 0) : parseFloat(v);
+    return x > 0 && x < 400 ? Math.round(x * 10) / 10 : 0;
+  }
+  function $(id) { return document.getElementById(id); }
+  function txt(id) { var e = $(id); return e ? e.textContent : ""; }
+  /* carry the answers into the calculator below and let it work out the answer */
+  function run(S) {
+    [["door", "door"], ["len", "len"], ["dep", "dep"], ["hgt", "hgt"]].forEach(function (p) { if (S[p[0] + "N"]) $(p[1]).value = S[p[0] + "N"]; });
+    $("legs").checked = !!S.legsOff;
+    $("door").dispatchEvent(new Event("input"));
+  }
+  function next(id, to) {
+    return { label: "Next", run: function (S, api) {
+      var x = inches(S[id]), i = $("wk-" + id);
+      if (!x) { if (i) { i.setAttribute("aria-invalid", "true"); i.focus(); } return false; }
+      S[id + "N"] = x; api.go(to); return false;
+    } };
+  }
+  /* Enter goes on, the way a form would */
+  function enterKey(S, api, host) { var i = host.querySelector(".wk-field input"), c = host.querySelector("[data-cta]"); if (i && c) i.onkeydown = function (e) { if (e.key === "Enter") { e.preventDefault(); c.click(); } }; }
+  function field(id, eg) { return { id: id, inputmode: "decimal", placeholder: "Inches, like " + eg }; }
+  var steps = {
+    start: {
+      say: "Will it fit through the door?",
+      h: "How wide is the doorway?",
+      sub: "Open the door all the way and measure inside the frame.",
+      field: field("door", 32), cta: next("door", "len"), after: enterKey,
+      dyk: true, scene: "door", room: false
+    },
+    len: {
+      say: "The couch, 1 of 3",
+      h: "How long is it, end to end?",
+      sub: "At the widest point, arms included.",
+      field: field("len", 84), cta: next("len", "dep"), after: enterKey,
+      scene: "long", room: false
+    },
+    dep: {
+      say: "The couch, 2 of 3",
+      h: "How deep is it, back to front?",
+      sub: "At the widest point, cushions on.",
+      field: field("dep", 38), cta: next("dep", "hgt"), after: enterKey,
+      scene: "deep", room: false
+    },
+    hgt: {
+      say: "The couch, 3 of 3",
+      h: "How tall is it?",
+      sub: "From the floor to the top of the back, legs included.",
+      field: field("hgt", 34), cta: next("hgt", "legs"), after: enterKey,
+      scene: "tall", room: false
+    },
+    legs: {
+      say: "One more thing",
+      h: "Do the legs come off?",
+      sub: "Most unscrew by hand, and that takes about 4 inches off the height.",
+      choices: [
+        { label: "Yes, they come off", run: function (S, api) { S.legsOff = true; api.go("answer"); return false; } },
+        { label: "No, or I'm not sure", run: function (S, api) { S.legsOff = false; api.go("answer"); return false; } }
+      ],
+      scene: "legs", room: false
+    },
+    answer: {
+      enter: function (S) { run(S); },
+      say: function (S) { return S.shared ? "Someone checked their couch" : "Your couch and your door"; },
+      h: function () { return txt("big"); },
+      sub: function () { return txt("small").replace(/: check the box above\./, ". Check whether they unscrew."); },
+      cta: { label: "Check every piece in the app", href: "../app/?go=bigs" },
+      fine: "For a standard 80-inch-tall door.",
+      dyk: true, scene: "answer", room: false
+    }
+  };
+  /* the answer's second button: every way to make it fit, the whole tool, or your own couch after a shared link */
+  steps.answer.after = function (S, api, host) {
+    var L = window.prFitLast && window.prFitLast(), b = document.createElement("button");
+    b.type = "button"; b.className = "wk-link";
+    if (S.shared) { b.textContent = "Check my own couch"; b.onclick = function () { ["door", "len", "dep", "hgt"].forEach(function (k) { delete S[k]; delete S[k + "N"]; }); S.shared = false; S.legsOff = false; api.replace("start"); }; }
+    else { b.textContent = L && !L.ok ? "Every way to make it fit" : "See the whole tool"; b.onclick = api.tool; }
+    var c = host.querySelector("[data-cta]"); if (c) c.insertAdjacentElement("afterend", b);
+  };
+  var w = window.prWalk({
+    label: "Will it fit through the door?, step by step",
+    allLabel: "See the whole tool",
+    underTitle: "The whole tool",
+    start: function (S) {
+      /* a shared link opens on its answer */
+      var q = new URLSearchParams(window.prFitQ || ""), v = { door: q.get("door"), len: q.get("l"), dep: q.get("d"), hgt: q.get("h") };
+      if (!(inches(v.door) && inches(v.len) && inches(v.dep) && inches(v.hgt))) return "start";
+      Object.keys(v).forEach(function (k) { S[k] = v[k]; S[k + "N"] = inches(v[k]); });
+      S.legsOff = q.get("legs") === "1"; S.shared = true;
+      return "answer";
+    },
+    facts: ["measure", "hinges", "hook"],
+    factsEnd: { label: "Check my couch", run: function (S, api) { api.replace(S.doorN && S.hgtN ? "answer" : "start"); return false; } },
+    scene: function (name) { return SCENES[name] ? SCENES[name]() : ""; },
+    steps: steps
+  });
+});
+</script>
 <script src="../nav.js" defer></script>
 </body>
 </html>

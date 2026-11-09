@@ -31,6 +31,8 @@ body.has-walk header.top{margin-bottom:0}
 .wk-cta:disabled{opacity:.45;cursor:default}
 .wk-link{margin-top:12px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;border:0;background:none;color:var(--wk-ink);font:700 17px var(--wk-sans);cursor:pointer;text-decoration:underline;text-underline-offset:4px;padding:0 10px}
 .walk :focus-visible{outline:3px solid var(--wk-plum);outline-offset:3px}
+/* the heading takes focus so screen readers start there; it is not a control, so no ring */
+.walk .wk-h:focus-visible{outline:none}
 .wk-field{margin-top:18px;width:100%;max-width:340px;text-align:left}
 .wk-field textarea,.wk-field input,.wk-field select{width:100%;min-height:56px;border-radius:14px;border:2px solid var(--wk-soft);padding:12px 16px;font:18px var(--wk-sans);background:var(--wk-screen);color:var(--wk-text)}
 .wk-field textarea{min-height:168px;resize:vertical;line-height:1.4;font-size:16px}
@@ -61,7 +63,8 @@ body.has-walk header.top{margin-bottom:0}
 .wk-draw .wk-fore :is(rect,path,line,circle,ellipse,polyline){animation-delay:.55s}
 .wk-draw .wk-fore text{opacity:0;animation:wk-rise .4s ease 1.3s forwards}
 @keyframes wk-ink{to{stroke-dashoffset:0;fill-opacity:1}}
-@media (prefers-reduced-motion: reduce){.wk-text > *,.wk-draw *{animation:none!important;opacity:1!important;transform:none!important;stroke-dashoffset:0!important;fill-opacity:1!important}}
+/* reduced motion: everything shows at once. Only the text loses its transform; a drawing's own transforms (a truck, a tipped sofa) stay. */
+@media (prefers-reduced-motion: reduce){.wk-text > *{animation:none!important;opacity:1!important;transform:none!important}.wk-draw *{animation:none!important;opacity:1!important;stroke-dashoffset:0!important;fill-opacity:1!important}}
 /* the full tool underneath */
 .wk-under{border-top:1.5px solid var(--wk-frame);margin-top:0}
 .wk-under-h{max-width:640px;margin:0 auto;padding:28px 16px 0;font:700 15px var(--wk-sans);color:var(--wk-muted);letter-spacing:.04em;text-transform:uppercase}
@@ -76,3 +79,15 @@ body.has-walk.wk-closed .walk{min-height:100svh}
 .wk-chips{margin-top:16px;width:100%;max-width:360px;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
 .wk-chip{min-height:46px;font-size:16px;padding:6px 14px;flex:0 1 auto}
 .wk-choice.on{background:var(--wk-ink);color:var(--wk-screen)}
+/* "Did you know?" (owner, 8 Nov 2026: "bring them down the rabbit hole"): the rabbit's question,
+   asked from his hole. He comes up once when the question opens, then holds still. */
+.wk-dyk{margin-top:14px;min-height:48px;display:inline-flex;align-items:center;gap:8px;padding:0 18px 0 12px;border:1.5px solid var(--wk-ink);border-radius:999px;background:var(--wk-screen);color:var(--wk-ink);font:700 17px var(--wk-sans);cursor:pointer}
+.wk-dyk svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.wk-dyk:hover{background:var(--wk-f1)}
+.wk-fore .wk-hole{fill:#1B5E36;stroke:none}
+.wk-fore .wk-rim{fill:none;stroke-width:3}
+.wk-fore .dash *{fill:none;stroke-dasharray:7 7!important}
+.wk-draw .wk-pop{animation:wk-pop .7s cubic-bezier(.2,.9,.3,1.15) .5s both}
+@keyframes wk-pop{from{transform:translateY(112px)}to{transform:none}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .wk-fore .wk-hole{fill:#050E08}}
+:root[data-theme="dark"] .wk-fore .wk-hole{fill:#050E08}

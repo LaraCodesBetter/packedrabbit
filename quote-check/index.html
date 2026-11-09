@@ -139,6 +139,8 @@
   if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
 })();
 </script>
+<script src="../facts.js" defer></script>
+<script src="../facts-more.js" defer></script>
 <script src="../walk.js" defer></script>
 <script>
 /* The walk-through for the quote checker (owner, 7 Nov 2026): do you have your
@@ -178,6 +180,7 @@ addEventListener("DOMContentLoaded", function () {
     allLabel: "See the whole checker",
     underTitle: "The whole quote checker",
     start: "have",
+    facts: ["deposit", "phone-price", "round-trip", "reweigh", "hostage"],
     scene: function (name, S) {
       if (name === "paper") return paper(0, true);
       if (name === "watch") return paper(5, true);
@@ -195,7 +198,7 @@ addEventListener("DOMContentLoaded", function () {
           { label: "Not yet", small: "I'm still getting quotes", go: "watch" }
         ],
         link: { label: "Try a sample quote", run: function (S, api) { S.qt = SAMPLE; S.sample = 1; read(S); api.go("found"); return false; } },
-        scene: "paper", room: false
+        dyk: true, scene: "paper", room: false
       },
       paste: {
         say: "Paste it here",
@@ -230,7 +233,7 @@ addEventListener("DOMContentLoaded", function () {
         ],
         cta: { label: "Check the mover first", href: "../mover-check/" },
         link: { label: "See it on a sample quote", run: function (S, api) { S.qt = SAMPLE; S.sample = 1; read(S); api.go("found"); return false; } },
-        scene: "watch", room: false
+        dyk: true, scene: "watch", room: false
       }
     }
   });

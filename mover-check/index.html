@@ -19,6 +19,7 @@
 <link rel="icon" href="../app/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../app/icon-180.png">
 <link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../walk.css">
 <script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
 
 <script type="application/ld+json">
@@ -257,6 +258,11 @@
     save();
   }
   syncLook(); draw();
+  /* for the walk on top (owner, 8 Nov): it fills in this check as it goes */
+  window.prMC = { Q: Q, set: function (k, v) { a[k] = v; draw(); },
+    look: function (kind, num) { $("kind").value = kind === "MC_MX" ? "MC_MX" : "USDOT"; $("num").value = num; syncLook(); },
+    url: lookUrl, kind: function () { return $("kind").value; }, num: function () { return String($("num").value || "").replace(/\D/g, ""); },
+    flags: function () { return Q.filter(function (x) { return a[x.k] && a[x.k] === x.bad; }); } };
 
   $("share").addEventListener("click", function () {
     var url = location.href, text = "Check your mover before you pay a deposit. Free:";
@@ -281,6 +287,121 @@
   tell(); addEventListener("load", tell); addEventListener("resize", tell);
   if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
 })();
+</script>
+<script src="../facts.js" defer></script>
+<script src="../facts-more.js" defer></script>
+<script src="../walk.js" defer></script>
+<script>
+/* Can I trust this mover?, as a walk (owner, 8 Nov 2026: every free tool in the new style, with the rabbit's
+   "Did you know?"). The record first, then the ten questions one at a time. A red flag gets its own page with
+   what to do; the rest go straight on. The full check underneath fills in as you answer. */
+addEventListener("DOMContentLoaded", function () {
+  if (!window.prWalk || !window.prMC) return;
+  var MC = window.prMC, Q = MC.Q;
+  function R(x, y, w, h, c, r) { return '<rect class="' + (c || "") + '" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '"' + (r ? ' rx="' + r + '"' : "") + "/>"; }
+  function P(d, c, st) { return '<path class="' + (c || "") + '" d="' + d + '"' + (st ? ' style="' + st + '"' : "") + "/>"; }
+  function C(x, y, r, c) { return '<circle class="' + (c || "") + '" cx="' + x + '" cy="' + y + '" r="' + r + '"/>'; }
+  function T(x, y, t, s, a) { return '<text x="' + x + '" y="' + y + '" text-anchor="' + (a || "middle") + '" style="font-size:' + (s || 10) + 'px">' + t + "</text>"; }
+  function truck(x, s, door) {
+    return '<g transform="translate(' + x + " 344) scale(" + s + ')">' + R(0, -122, 200, 104, "", 6) + P("M100 -122 v104", "nf") +
+      (door ? R(30, -92, 140, 34, "f1", 4) + T(100, -70, "USDOT", 15) : "") +
+      P("M200 -88 h46 l34 36 v34 h-80 z", "f2") + P("M210 -78 h30 l24 26 h-54 z", "f3") + R(272, -30, 12, 8, "f3", 2) +
+      C(48, -6, 17) + C(48, -6, 6, "f2") + C(238, -6, 17) + C(238, -6, 6, "f2") + "</g>";
+  }
+  function record(marks) {
+    var h = R(84, 186, 176, 158, "", 6) + R(84, 186, 176, 28, "f2", 6) + T(172, 205, "Federal record", 11) +
+      P("M102 232 h132 M102 248 h104", "nf");
+    [["Active", 266], ["Household goods", 292], ["Name matches", 318]].forEach(function (r, i) {
+      h += R(102, r[1], 16, 16, "", 3) + T(126, r[1] + 13, r[0], 12, "start");
+      if (marks) h += P("M105 " + (r[1] + 8) + " l4 5 l8 -10", "nf", "stroke-width:2.5");
+    });
+    return h;
+  }
+  function clip(mark) {
+    var h = R(104, 196, 152, 148, "", 8) + R(154, 186, 52, 18, "tape", 4);
+    for (var i = 0; i < 4; i++) h += R(122, 220 + i * 28, 16, 16, "", 3) + P("M148 " + (228 + i * 28) + " h90", "nf");
+    if (mark === "flag") h += P("M262 344 v-96", "nf") + P("M262 248 h44 l-10 14 l10 14 h-44 z", "plumf");
+    if (mark === "done") h += C(268, 300, 26, "tape") + P("M256 300 l9 9 l17 -19", "nf", "stroke:#fff;stroke-width:3");
+    return h;
+  }
+  var SC = {
+    door: function () { return truck(40, 0.95, true); },
+    record: function () { return record(false) + C(262, 252, 32, "f1") + P("M285 275 l32 32 l-7 7 l-32 -32 z", "tape"); },
+    check: function () { return record(true); },
+    pad: function () { return clip(""); },
+    flag: function () { return clip("flag"); },
+    end: function () { return clip("done"); }
+  };
+  function n(S) { return String(S.dot || "").replace(/\D/g, ""); }
+  function openRecord(S) { MC.look(S.kind || "USDOT", n(S)); var u = MC.url(); if (u) window.open(u, "_blank", "noopener"); return !!u; }
+  function nextAfter(i) { return i < Q.length - 1 ? "q" + (i + 1) : "end"; }
+  var steps = {
+    start: {
+      say: "Can I trust this mover?",
+      h: "Do you have their USDOT number?",
+      sub: "It's on the estimate, their website and the side of the truck. Every mover that crosses state lines has one.",
+      choices: [
+        { label: "Yes, I have it", small: "Look up their federal record", go: "num" },
+        { label: "Not yet", small: "Start with the paperwork", go: "q0" }
+      ],
+      dyk: true, scene: "door"
+    },
+    num: {
+      say: "Step 1 of 2: the record",
+      h: function (S) { return S.kind === "MC_MX" ? "Type their MC number." : "Type their USDOT number."; },
+      field: { id: "dot", type: "text", inputmode: "numeric", placeholder: "Numbers only" },
+      cta: { label: "Open their federal record", run: function (S, api) { if (!n(S)) { var i = document.getElementById("wk-dot"); if (i) i.focus(); return false; } openRecord(S); api.go("check"); return false; } },
+      link: { label: "It's an MC number", run: function (S, api) { S.kind = S.kind === "MC_MX" ? "USDOT" : "MC_MX"; api.replace("num"); return false; } },
+      fine: "It opens the government's own page in a new tab. We don't see what you look up.",
+      scene: "record"
+    },
+    check: {
+      say: "On their record",
+      h: "Check these three things.",
+      list: [
+        { b: "Status says ACTIVE.", t: " And \"Out of Service Date\" says None." },
+        { b: "It says Motor Carrier of Household Goods.", t: " If it says only Broker, they don't own trucks. Ask in writing who will carry your things." },
+        { b: "The name matches your paperwork.", t: " A different name is fine if it's listed as the DBA name." }
+      ],
+      cta: { label: "Now the paperwork", go: "q0" },
+      link: { label: "Open the record again", run: function (S) { openRecord(S); return false; } },
+      scene: "check"
+    },
+    end: {
+      say: "Your check",
+      h: function () { var f = MC.flags(); return f.length === 0 ? "No red flags so far." : f.length === 1 ? "1 red flag." : f.length + " red flags."; },
+      sub: function () { var f = MC.flags(); return f.length ? "Fix these in writing before you pay any more, and before your refund window closes." : "Keep every promise in writing, and keep the paperwork with you on moving day."; },
+      list: function () { return MC.flags().map(function (f) { return { b: f.t + ".", t: "" }; }); },
+      cta: { label: "See the whole check", tool: true },
+      link: { label: "Mover or broker? How to tell", href: "../movers-vs-brokers/" },
+      dyk: true, scene: function () { return MC.flags().length ? "flag" : "end"; }
+    }
+  };
+  Q.forEach(function (x, i) {
+    var pick = function (v) { return function (S, api) { MC.set(x.k, v); api.go(v === x.bad ? "f" + i : nextAfter(i)); return false; }; };
+    steps["q" + i] = { say: "Step 2 of 2: the paperwork, " + (i + 1) + " of " + Q.length, h: x.q,
+      sub: i === 0 ? "Answer from your paperwork, not from what someone said on the phone." : "",
+      choices: [{ label: "Yes", run: pick("y") }, { label: "No", run: pick("n") }],
+      link: { label: "I don't know yet", run: function (S, api) { api.go(nextAfter(i)); return false; } },
+      scene: "pad" };
+    steps["f" + i] = { say: "That's a red flag.", h: x.t + ".", sub: x.fix,
+      cta: { label: i < Q.length - 1 ? "Next question" : "See your check", go: nextAfter(i) }, scene: "flag" };
+  });
+  Object.keys(steps).forEach(function (k) { steps[k].room = false; });
+  var w = window.prWalk({
+    label: "Can I trust this mover?, step by step",
+    allLabel: "See the whole check",
+    underTitle: "The whole check",
+    start: "start",
+    state: { kind: MC.kind() === "MC_MX" ? "MC_MX" : "USDOT", dot: MC.num() },
+    facts: ["truck", "phone-price", "deposit", "reweigh", "hostage"],
+    factsEnd: { label: "Look up a company", go: "num" },
+    scene: function (name) { return SC[name] ? SC[name]() : ""; },
+    steps: steps
+  });
+  /* a shared link already carries answers: show the whole check it was made from */
+  if (w && /[?&](dot|survey|binding|deliv|deposit|cash|fvp|carrier|booklet|price|address)=/.test(location.search)) w.tool();
+});
 </script>
 <script src="../nav.js" defer></script>
 </body>

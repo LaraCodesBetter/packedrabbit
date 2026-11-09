@@ -19,6 +19,7 @@
 <link rel="icon" href="../app/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../app/icon-180.png">
 <link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../walk.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -209,6 +210,119 @@
   <a href="../tip/">How much to tip movers?</a>
   <a href="../states/">Moving to a new state</a>
 </footer>
+<script src="../facts.js" defer></script>
+<script src="../walk.js" defer></script>
+<script>
+/* Mover or broker, as a walk (owner, 8 Nov 2026: the free tools in the new style, drawn
+   scenes from real moments, and "Did you know?" down the rabbit hole). Five lines people
+   really heard on the phone this fall make a short game: would you hang up? */
+addEventListener("DOMContentLoaded", function () {
+  if (!window.prWalk) return;
+  function R(x, y, w, h, c, r) { return '<rect class="' + (c || "") + '" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '"' + (r ? ' rx="' + r + '"' : "") + "/>"; }
+  function P(d, c, st) { return '<path class="' + (c || "") + '" d="' + d + '"' + (st ? ' style="' + st + '"' : "") + "/>"; }
+  function C(x, y, r, c) { return '<circle class="' + (c || "") + '" cx="' + x + '" cy="' + y + '" r="' + r + '"/>'; }
+  function T(x, y, t, s, a) { return '<text x="' + x + '" y="' + y + '" text-anchor="' + (a || "middle") + '" style="font-size:' + (s || 10) + 'px">' + t + "</text>"; }
+  function truck(x, s) {
+    return '<g transform="translate(' + x + " 344) scale(" + s + ')">' + R(0, -122, 200, 104, "", 6) + P("M100 -122 v104", "nf") +
+      P("M200 -88 h46 l34 36 v34 h-80 z", "f2") + P("M210 -78 h30 l24 26 h-54 z", "f3") + R(272, -30, 12, 8, "f3", 2) +
+      C(48, -6, 17) + C(48, -6, 6, "f2") + C(238, -6, 17) + C(238, -6, 6, "f2") + "</g>";
+  }
+  function deskPhone(x, y) { y = y || 298; return P("M" + x + " " + y + " l5 -18 h28 l5 18 z", "f1") + R(x - 1, y - 26, 40, 9, "f2", 4.5) + R(x + 12, y - 12, 14, 6, "", 1.5); }
+  function cell(mark) {
+    var m = mark === "hang" ? C(180, 274, 24, "plumf") + P("M164 280 c4 -10 28 -10 32 0 l-1 6 l-8 -2 l1 -5 c-5 -3 -11 -3 -16 0 l1 5 l-8 2 z", "", "fill:#fff;stroke:#fff;stroke-width:1") :
+      mark === "ok" ? C(180, 274, 24, "tape") + P("M169 274 l8 8 l15 -16", "nf", "stroke:#fff;stroke-width:3") :
+      R(162, 240, 36, 4, "f3", 2) + R(162, 252, 26, 4, "f3", 2);
+    return R(144, 204, 72, 140, "", 12) + R(150, 216, 60, 112, "f1", 4) + P("M172 210 h16", "nf") + m;
+  }
+  var SC = {
+    /* a mover's truck on one side; on the other, a broker's desk of phones and no truck */
+    split: function () {
+      return truck(4, 0.64) + T(88, 252, "Mover", 16) + C(330, 204, 14, "f1") + P("M330 204 v-8 M330 204 l6 4", "nf") +
+        R(200, 290, 152, 9, "f3", 2) + R(208, 299, 8, 45) + R(336, 299, 8, 45) + R(272, 299, 56, 24, "", 2) + P("M292 311 h16", "nf") +
+        deskPhone(208, 290) + deskPhone(254, 290) + deskPhone(300, 290) + P("M344 252 q5 6 0 12 M350 246 q9 12 0 24", "nf") + T(276, 238, "Broker", 16);
+    },
+    /* the federal record, under a magnifier */
+    record: function () {
+      return R(84, 186, 176, 158, "", 6) + R(84, 186, 176, 28, "f2", 6) + T(172, 205, "Federal record", 11) +
+        P("M102 232 h132 M102 248 h104", "nf") +
+        R(102, 266, 16, 16, "", 3) + T(126, 279, "Motor carrier", 12, "start") + R(102, 296, 16, 16, "", 3) + T(126, 309, "Broker", 12, "start") +
+        C(262, 252, 32, "f1") + P("M285 275 l32 32 l-7 7 l-32 -32 z", "tape");
+    },
+    /* the phone, and a voice in a speech bubble */
+    call: function () { return cell("") + P("M206 128 h112 a12 12 0 0 1 12 12 v34 a12 12 0 0 1 -12 12 h-76 l-22 18 v-18 h-14 a12 12 0 0 1 -12 -12 v-34 a12 12 0 0 1 12 -12 z", "f2") + C(240, 157, 4.5, "tape") + C(262, 157, 4.5, "tape") + C(284, 157, 4.5, "tape"); },
+    hang: function () { return cell("hang"); },
+    ok: function () { return cell("ok"); }
+  };
+  /* lines people really heard on the phone during one move this fall */
+  var GAME = [
+    ["Stay on the line while you read it. I'll wait.", "hang", "Once you hang up, you have time to think. A real mover lets you read it, sleep on it and call back."],
+    ["We take $100 to hold your date.", "keep", "A small deposit is normal, and some movers take nothing up front. Thousands of dollars down is the warning sign."],
+    ["The price changes if you hang up.", "hang", "A real price is still there tomorrow. A price that only lasts for this call isn't a price."],
+    ["Our crew will be there between 8 and 10.", "keep", "A mover with its own trucks can give you a pickup time. Ask for it in writing."],
+    ["Scroll to the bottom and sign here.", "hang", "Read every page, on your own time, before you sign anything."]
+  ];
+  var steps = {
+    start: {
+      say: "Mover or broker?",
+      h: "Who's on the other end of the phone?",
+      sub: "A mover owns the trucks and sends the crew. A broker sells your move to a company you haven't met.",
+      choices: [
+        { label: "How can I tell?", small: "Five minutes, before you pay", go: "lookup" },
+        { label: "Would you hang up?", small: "Five things people really heard", go: "g0" }
+      ],
+      dyk: true, scene: "split"
+    },
+    lookup: {
+      say: "Five minutes, before you pay",
+      h: "Look up their federal record.",
+      sub: "Every company that moves homes between states has one. It says Motor Carrier if they run the trucks, Broker if they sell moves. Some are both.",
+      cta: { label: "Look up a company", href: "../mover-check/" },
+      link: { label: "What to ask on the phone", go: "ask" },
+      scene: "record"
+    },
+    ask: {
+      say: "On the phone",
+      h: "Ask every company these four things.",
+      list: [
+        { b: "Are you the mover or a broker?", t: " If it's a broker, ask which mover will carry your things." },
+        { b: "What's your USDOT number?", t: " Then look it up yourself. Don't use a link they send." },
+        { b: "Will you see my things first?", t: " In person or on video, with a binding price in writing." },
+        { b: "What's the deposit?", t: " When is it refundable, and can I pay by card?" }
+      ],
+      cta: { label: "Look up a company", href: "../mover-check/" },
+      dyk: true, scene: "none"
+    },
+    end: {
+      say: "That's all five",
+      h: function (S) { var n = 0; GAME.forEach(function (g, i) { if (S["g" + i] === g[1]) n++; }); return n === 5 ? "You'd have caught every one." : "You caught " + n + " of 5."; },
+      sub: "Every line came from real calls during one move this fall. Real movers do business without any of the bad ones.",
+      cta: { label: "Look up a company", href: "../mover-check/" },
+      link: { label: "What to ask on the phone", go: "ask" },
+      dyk: true, scene: "record"
+    }
+  };
+  GAME.forEach(function (g, i) {
+    var pick = function (v) { return function (S, api) { S["g" + i] = v; api.go("r" + i); return false; }; };
+    steps["g" + i] = { say: "Would you hang up? " + (i + 1) + " of 5", h: "“" + g[0] + "”",
+      choices: [{ label: "Keep talking", run: pick("keep") }, { label: "Hang up", run: pick("hang") }], scene: "call" };
+    steps["r" + i] = { say: function (S) { return S["g" + i] === g[1] ? "You got it." : "Easy to miss."; },
+      h: g[1] === "hang" ? "Hang up." : "That one's fair.", sub: g[2],
+      cta: i < 4 ? { label: "Next one", go: "g" + (i + 1) } : { label: "See how you did", go: "end" },
+      scene: g[1] === "hang" ? "hang" : "ok" };
+  });
+  Object.keys(steps).forEach(function (k) { steps[k].room = false; });
+  window.prWalk({
+    label: "Mover or broker, step by step",
+    allLabel: "See the whole guide",
+    underTitle: "The whole guide",
+    start: "start",
+    facts: ["truck", "deposit", "cents", "hostage", "calls"],
+    factsEnd: { label: "Look up a company", href: "../mover-check/" },
+    scene: function (name, S) { return SC[name] ? SC[name](S) : ""; },
+    steps: steps
+  });
+});
+</script>
 <script src="../nav.js" defer></script>
 </body>
 </html>
