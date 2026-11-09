@@ -1,0 +1,11 @@
+/* One drawing per page, in the walks' green-line style (owner, 9 Nov 2026: "each page has its own
+   drawing and its own feeling and its own story"). Made by make-art.py; the colors follow the device. */
+:root{--pa-ink:#1B5E36;--pa-f1:#EEF4EF;--pa-f2:#DFE9E1;--pa-f3:#C9D9CE;--pa-tape:#2E9358;--pa-plum:#8C3A6B;--pa-ground:#F0F3EE;--pa-paper:#FAFBF8}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--pa-ink:#9FD6B2;--pa-f1:#1A2C20;--pa-f2:#223A2A;--pa-f3:#2C4636;--pa-tape:#3FA868;--pa-plum:#E59AC4;--pa-ground:#172A1E;--pa-paper:#132219}}
+:root[data-theme="dark"]{--pa-ink:#9FD6B2;--pa-f1:#1A2C20;--pa-f2:#223A2A;--pa-f3:#2C4636;--pa-tape:#3FA868;--pa-plum:#E59AC4;--pa-ground:#172A1E;--pa-paper:#132219}
+.pr-art{display:block;margin:10px auto 6px;max-width:380px;width:100%;padding:0}
+.pr-art svg{display:block;width:100%;height:auto;overflow:visible}
+.pr-art *{stroke:var(--pa-ink);fill:var(--pa-paper);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pr-art .nf{fill:none}.pr-art .f1{fill:var(--pa-f1)}.pr-art .f2{fill:var(--pa-f2)}.pr-art .f3{fill:var(--pa-f3)}
+.pr-art .tape{fill:var(--pa-tape)}.pr-art .plum{stroke:var(--pa-plum)}.pr-art .dash{stroke-dasharray:6 7}
+.pr-art .gnd{fill:var(--pa-ground);stroke:none}.pr-art text{stroke:none;fill:var(--pa-ink);font:700 11px -apple-system,"SF Pro Text","Segoe UI",system-ui,sans-serif}
