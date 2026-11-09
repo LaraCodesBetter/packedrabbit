@@ -9,3 +9,4 @@
 .pr-art .nf{fill:none}.pr-art .f1{fill:var(--pa-f1)}.pr-art .f2{fill:var(--pa-f2)}.pr-art .f3{fill:var(--pa-f3)}
 .pr-art .tape{fill:var(--pa-tape)}.pr-art .plum{stroke:var(--pa-plum)}.pr-art .dash{stroke-dasharray:6 7}
 .pr-art .gnd{fill:var(--pa-ground);stroke:none}.pr-art text{stroke:none;fill:var(--pa-ink);font:700 11px -apple-system,"SF Pro Text","Segoe UI",system-ui,sans-serif}
+.pr-art .bk{opacity:.45}.pr-art .t8{font-size:8px}.pr-art .t9{font-size:9px}.pr-art .t10{font-size:10px}.pr-art .t11{font-size:11px}.pr-art .t14{font-size:14px}.pr-art .t18{font-size:18px}.pr-art .t46{font-size:46px}
