@@ -68,3 +68,11 @@ body.has-walk header.top{margin-bottom:0}
 html.embed .walk{display:none}
 @media print{.walk{display:none}}
 @media (min-width:700px){.walk{min-height:min(calc(100svh - 74px),860px)}.wk-text{padding-top:40px}}
+
+/* owner, 7 Nov: the page is the walk, like the entrance. The site's bar and the whole
+   tool stay out of sight until "See the whole tool" is pressed. */
+body.has-walk.wk-closed header.top, body.has-walk.wk-closed .wk-under, body.has-walk.wk-closed body > footer, body.has-walk.wk-closed > footer{display:none}
+body.has-walk.wk-closed .walk{min-height:100svh}
+.wk-chips{margin-top:16px;width:100%;max-width:360px;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.wk-chip{min-height:46px;font-size:16px;padding:6px 14px;flex:0 1 auto}
+.wk-choice.on{background:var(--wk-ink);color:var(--wk-screen)}

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Your gift codes — The Packed Rabbit</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="../../app/icon.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:"Atkinson Hyperlegible Next";src:url("../../app/fonts/atkinson-next.woff") format("woff");font-weight:200 800;font-display:swap}
+:root{--screen:#FAFBF8;--ground:#F0F3EE;--ink:#1B5E36;--text:#1E2A22;--muted:#33413A;--frame:#D5DDD6;--btn:#2E9358;--btnfg:#fff;--f1:#EEF4EF;--tape:#2E9358;
+  --sans:"Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,-apple-system,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--screen:#132219;--ground:#172A1E;--ink:#9FD6B2;--text:#E7EFE9;--muted:#C9D6CD;--frame:#2A3D31;--btn:#3FA868;--btnfg:#06140B;--f1:#1A2C20;--tape:#3FA868}}
+:root[data-theme="dark"]{--screen:#132219;--ground:#172A1E;--ink:#9FD6B2;--text:#E7EFE9;--muted:#C9D6CD;--frame:#2A3D31;--btn:#3FA868;--btnfg:#06140B;--f1:#1A2C20;--tape:#3FA868}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--ground);color:var(--text);font:400 18px/1.5 var(--sans);-webkit-font-smoothing:antialiased;min-height:100dvh}
+.top{background:var(--screen);padding:max(28px,env(safe-area-inset-top)) 16px 26px;text-align:center}
+.wrap{max-width:560px;margin:0 auto}
+.mark{display:block;margin:0 auto 14px;height:44px;width:auto}
+h1{font-size:clamp(30px,8vw,38px);line-height:1.12;margin:0;color:var(--text)}
+.from{margin:8px 0 0;color:var(--muted);font-size:18px}
+main{padding:22px 16px 48px}
+.big{display:flex;align-items:baseline;justify-content:center;gap:10px;margin:0;color:var(--ink);font-weight:800}
+.big b{font-size:48px;line-height:1;font-variant-numeric:tabular-nums}
+.big span{font-size:20px;color:var(--text);font-weight:700}
+.bar{height:12px;border-radius:6px;background:var(--f1);border:1px solid var(--frame);overflow:hidden;margin:16px auto 6px;max-width:420px}
+.bar i{display:block;height:100%;background:var(--tape)}
+.share{text-align:center;color:var(--muted);margin:0;font-size:17px}
+.card{background:var(--screen);border-radius:18px;margin:24px auto 0;max-width:560px;overflow:hidden}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:56px;padding:10px 18px;border-top:1px solid var(--frame)}
+.row:first-child{border-top:0}
+.row .c{font-weight:700;letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.row .s{color:var(--muted)}
+.row .s.on{color:var(--ink);font-weight:700}
+.note{max-width:30rem;margin:22px auto 0;color:var(--muted);font-size:16px;text-align:center}
+.cta{display:flex;align-items:center;justify-content:center;margin:26px auto 0;max-width:320px;min-height:56px;border-radius:14px;background:var(--btn);color:var(--btnfg);font:700 20px var(--sans);text-decoration:none}
+.cta:focus-visible,a:focus-visible{outline:3px solid var(--tape);outline-offset:3px}
+.quiet{text-align:center;color:var(--muted);margin:40px auto 0;max-width:30rem}
+.foot{text-align:center;color:var(--muted);font-size:15px;margin:40px 0 0}
+</style>
+<style id="skipcss">.skip{position:absolute;left:-9999px;top:8px;z-index:9999;background:#14281B;color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;text-decoration:none}.skip:focus{left:8px}</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<div class="top"><div class="wrap">
+  <picture><source srcset="../../app/start/wordmark-ears-cream.png" media="(prefers-color-scheme: dark)"><img class="mark" src="../../app/start/wordmark-ears.png" alt="The Packed Rabbit" width="170" height="44"></picture>
+  <h1>Your gift codes.</h1>
+  <p class="from" id="from">Checking your codes.</p>
+</div></div>
+<main id="main"><div class="wrap" id="out" aria-live="polite"></div></main>
+<script>
+/* owner, 8 Nov: a business that buys codes in bulk sees which were opened and which are still waiting, so it can
+   decide whether to buy more. Each code shows only opened or waiting, never anything about the person or their move. */
+(function(){
+  var SERVER = "https://REPLACE_ME";
+  var from = document.getElementById("from"), out = document.getElementById("out");
+  var k = (location.hash.match(/k=([0-9a-f]{40})/) || [])[1] || "";
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]; }); }
+  function day(d){ return new Date(d + "T12:00:00").toLocaleDateString("en-US", {month:"long", day:"numeric"}); }
+  function quiet(t){ from.textContent = ""; out.innerHTML = '<p class="quiet">' + t + '</p>'; }
+  if (/REPLACE_ME/.test(SERVER)) return quiet("This page starts working when gift tracking is switched on.");
+  if (!k) return quiet("This page opens from the private link in your email. Use that link and your codes show here.");
+  fetch(SERVER + "/partner?k=" + k, {cache: "no-store"}).then(function(r){ return r.json(); }).then(function(d){
+    if (!d || !d.ok) return quiet("We couldn't find this page. Check the link in your email, or write to hello@packedrabbit.com.");
+    var pct = d.bought ? Math.round(100 * d.opened / d.bought) : 0, waiting = d.bought - d.opened;
+    from.textContent = "For " + d.name + ". Bought " + day(d.at) + ".";
+    out.innerHTML =
+      '<p class="big"><b>' + d.opened + '</b><span>of ' + d.bought + ' opened</span></p>' +
+      '<div class="bar" role="img" aria-label="' + pct + ' percent opened"><i style="width:' + pct + '%"></i></div>' +
+      '<p class="share">' + pct + '% opened. ' + waiting + ' still waiting.</p>' +
+      '<div class="card" role="list" aria-label="Each code">' + d.codes.map(function(c){
+        return '<div class="row" role="listitem"><span class="c">Code ending ' + esc(c.l) + '</span><span class="s' + (c.o ? ' on">Opened ' + day(c.o) : '">Waiting') + '</span></div>';
+      }).join("") + '</div>' +
+      '<p class="note">Each code shows only whether it was opened. Nothing about the person or their move is ever shared with anyone.</p>' +
+      '<a class="cta" href="mailto:hello@packedrabbit.com?subject=More%20gift%20codes%20for%20' + encodeURIComponent(d.name) + '">Buy more codes</a>' +
+      '<p class="foot">Made by someone who was moving, not by a moving company.</p>';
+  }).catch(function(){ quiet("We couldn't reach your codes just now. Try again in a minute."); });
+})();
+</script>
+</body>
+</html>

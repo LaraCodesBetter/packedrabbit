@@ -80,6 +80,7 @@
 <meta property="og:image:alt" content="The Packed Rabbit: it knows what fits through the door. A sofa shown against a 32-inch doorway, with the words: Sofa, 2 inches too wide. Legs off: it goes through.">
 <meta name="twitter:image:alt" content="The Packed Rabbit: it knows what fits through the door. A sofa shown against a 32-inch doorway, with the words: Sofa, 2 inches too wide. Legs off: it goes through.">
 <style id="skipcss">.skip{position:absolute;left:-9999px;top:8px;z-index:9999;background:#14281B;color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;text-decoration:none}.skip:focus{left:8px}</style>
+<link rel="stylesheet" href="../walk.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to the content</a>
@@ -168,6 +169,7 @@
   <a href="../break-lease/">Cost to break a lease?</a>
   <a href="../prorated-rent/">Prorated rent for a partial month?</a>
   <a href="../drive-days/">How many days to drive there?</a>
+  <a href="../move-out/">Move-out checklist</a>
   <a href="../embed/">Put these tools on your site</a>
 </footer>
 
@@ -349,6 +351,89 @@
 })();
 </script>
 <script src="../brand.js"></script>
+<script src="../walk-art.js" defer></script>
+<script src="../walk.js" defer></script>
+<script>
+/* The truck checker, drawn in (owner, 7 Nov 2026). The same questions the app's walk asks,
+   in the same words: how many bedrooms, which other rooms, then one room at a time, what's
+   too big for a box. The truck fills as each room is done. Sizes are the app's own. */
+addEventListener("DOMContentLoaded", function () {
+  if (!window.prWalk) return;
+  var LIV = ["Armchair","Bookcase","Coffee table","Console table","End tables","Entertainment center","Lamps","Mirror","Ottoman","Piano","Recliner","Rug","Sectional","Sofa","TV","TV stand","Wall art"];
+  var BEDF = ["Armchair","Armoire","Bed","Bench","Chest of drawers","Daybed","Dresser","Futon","Lamps","Mirror","Nightstands","Rug","TV","Wall art"];
+  var FURN = { "Living room": LIV, "Family room": LIV, "Dining room": ["Bar cart","Buffet","China cabinet","Dining chairs","Dining table","Hutch","Mirror","Rug","Sideboard","Wall art"],
+    Kitchen: ["Barstools","Kitchen cart","Kitchen chairs","Kitchen table","Microwave","Refrigerator","Step stool"], Office: ["Bookcase","Desk","Desk chair","Filing cabinet","L-shaped desk","Lamps","Printer","Safe","Shelves"],
+    "Laundry room": ["Drying rack","Dryer","Shelving","Utility cart","Washer"], Basement: ["Exercise bike","Freezer","Pool table","Shelving","Sofa","Treadmill","Weight bench","Workbench"],
+    Garage: ["Bicycle","Folding chairs","Grill","Ladder","Lawn mower","Shelving","Snow blower","Tool chest","Workbench"], Attic: ["Artificial tree","Rocking chair","Trunk"],
+    Patio: ["Chaise lounge","Deck chairs","Fire pit","Grill","Outdoor sofa","Outdoor table","Patio umbrella","Planters","Rocking chairs"], Shed: ["Ladder","Lawn mower","Leaf blower","Snow blower","Tool chest","Wheelbarrow"] };
+  FURN.Barn = FURN.Shed;
+  var BEDROOMS = ["Primary bedroom","Bedroom 2","Bedroom 3","Bedroom 4","Bedroom 5"], OTHER = ["Living room","Dining room","Family room","Kitchen","Office","Laundry room","Basement","Garage","Attic","Patio","Shed","Barn"];
+  /* the app's sizes, at their usual size, since nothing is measured here */
+  var CU = { Bed: 60, Sofa: 50, "Outdoor sofa": 50, Sectional: 90, Armchair: 10, Recliner: 15, Ottoman: 5, Desk: 10, "Coffee table": 10, "Console table": 10, Bench: 10, Buffet: 30, "China cabinet": 25, Hutch: 25, Sideboard: 30,
+    "Entertainment center": 35, Armoire: 30, "L-shaped desk": 25, Daybed: 40, Futon: 35, Treadmill: 30, Dresser: 35, "Chest of drawers": 35, TV: 12, Rug: 6, Mirror: 10, "Wall art": 8, Nightstands: 10, "End tables": 10,
+    Lamps: 4, "Dining chairs": 20, "Kitchen chairs": 20, Barstools: 15, "Dining table": 25, "Kitchen table": 25, "Outdoor table": 25, Bookcase: 20, Piano: 70, Safe: 10, "Pool table": 40, Refrigerator: 45, Washer: 25, Dryer: 25, Freezer: 30 };
+  var HAUL = [["a cargo van", 245], ["a 10-foot truck", 402], ["a 15-foot truck", 764], ["a 17-foot truck", 865], ["a 20-foot truck", 1016], ["a 26-foot truck", 1684]];
+  var BOXES = { 0: 20, 1: 30, 2: 45, 3: 70, 4: 100, 5: 120 };
+  function lc(x) { return String(x).toLowerCase(); }
+  function cube(S) { var c = 0; Object.keys(S.picked || {}).forEach(function (r) { S.picked[r].forEach(function (w) { c += CU[w] || 15; }); }); return c + BOXES[S.beds] * 3; }
+  function truck(S) { var need = cube(S) * 1.15, b = S.beds, fl = b === 0 ? 402 : b <= 2 ? 764 : b === 3 ? 1016 : 1684, t = null, f = null;
+    for (var i = 0; i < HAUL.length; i++) { if (!t && HAUL[i][1] >= need) t = HAUL[i]; if (!f && HAUL[i][1] >= fl) f = HAUL[i]; }
+    var pick = t && t[1] < fl && need < fl * 0.6 ? f : t; return { name: pick ? pick[0] : "a 26-foot truck and a second trip", cu: pick ? pick[1] : 1684, need: Math.round(need / 10) * 10 }; }
+  function chips(list, on, attr) { return '<div class="wk-chips" role="group">' + list.map(function (x) { var p = on.indexOf(x) >= 0; return '<button type="button" class="wk-choice wk-chip' + (p ? " on" : "") + '" aria-pressed="' + p + '" data-' + attr + '="' + x + '">' + x + "</button>"; }).join("") + "</div>"; }
+  function wireChips(host, attr, arr, api) { [].forEach.call(host.querySelectorAll("[data-" + attr + "]"), function (b) { b.onclick = function () { var v = b.getAttribute("data-" + attr), i = arr.indexOf(v); if (i >= 0) arr.splice(i, 1); else arr.push(v); b.classList.toggle("on", i < 0); b.setAttribute("aria-pressed", i < 0); if (api) api.redraw(); }; }); }
+  function drawTruck(frac) { var X = 40, Y = 186, L = 200, H = 124, f = '<rect x="' + X + '" y="' + Y + '" width="' + L + '" height="' + H + '" rx="6"/>';
+    var n = Math.round(Math.max(0, Math.min(1, frac)) * 12);
+    for (var i = 0; i < n; i++) { var bx = X + 10 + (i % 4) * 46, by = Y + H - 44 - Math.floor(i / 4) * 40; f += '<rect x="' + bx + '" y="' + by + '" width="40" height="36"/><rect class="tape" x="' + (bx + 16) + '" y="' + by + '" width="8" height="36"/>'; }
+    f += '<path class="f2" d="M240 226 h44 l34 38 v46 h-78 z"/><path class="f3" d="M250 238 h28 l24 26 h-52 z"/><circle class="nf" cx="94" cy="316" r="18"/><circle class="f2" cx="94" cy="316" r="6"/><circle class="nf" cx="280" cy="316" r="18"/><circle class="f2" cx="280" cy="316" r="6"/>';
+    return f; }
+  var steps = {
+    beds: { say: "What size truck", h: "How many bedrooms are you moving?",
+      choices: [["A studio", 0], ["1", 1], ["2", 2], ["3", 3], ["4", 4], ["5 or more", 5]].map(function (c) { return { label: c[0], run: function (S) { S.beds = c[1]; S.rooms = BEDROOMS.slice(0, Math.min(5, c[1])); S.other = S.other || []; S.picked = {}; }, go: "other" }; }),
+      scene: "room" },
+    other: { h: "What other rooms are you moving?",
+      html: function (S) { return chips(OTHER, S.other, "or"); }, after: function (S, api, host) { wireChips(host, "or", S.other); },
+      cta: { label: "Next", run: function (S, api) { var all = (S.beds === 0 ? ["Living room"] : S.rooms).concat(S.other.filter(function (r) { return !(S.beds === 0 && r === "Living room"); }));
+        S.all = all; all.forEach(function (r, i) { S.picked[r] = S.picked[r] || []; steps["r" + i] = roomStep(r, i); }); api.go("r0"); return false; } },
+      scene: "room" },
+    done: { say: function (S) { return "About " + truck(S).need.toLocaleString("en-US") + " cubic feet."; }, h: function (S) { var t = truck(S).name; return "That's about " + t + "."; },
+      sub: function (S) { return "Your rooms and about " + BOXES[S.beds] + " boxes, with room to spare."; },
+      cta: { label: "Start packing in the app", href: "../app/start/?begin" },
+      /* alpha test, 8 Nov: the walk said a 20-foot truck for 3 bedrooms, then the full tool opened on 2 bedrooms and
+         a 15-foot one. It opens on the same bedrooms now. The finished truck stands on its own, not in the room. */
+      link: { label: "Count it piece by piece", run: function (S, api) { var b = document.querySelector('[data-h="' + (S.beds === 0 ? "s" : String(Math.min(4, S.beds || 2))) + '"]'); if (b) b.click(); api.tool(); return false; } },
+      scene: "tfull", room: false }
+  };
+  function roomStep(r, i) {
+    /* alpha test, 8 Nov: the same question on every room page, and "The bedroom 2." The first room asks it in full;
+       after that it's one short line, and a numbered bedroom reads as a word. */
+    var m = /^Bedroom (\d)$/.exec(r), nm = m ? ["", "first", "second", "third", "fourth", "fifth"][+m[1]] + " bedroom" : lc(r);
+    return { say: "The " + nm + ".", h: i === 0 ? "Look around. Is there anything that won't fit in a box?" : "Anything too big for a box in here?",
+      html: function (S) { return chips(r.indexOf("bedroom") >= 0 || /^Bedroom/.test(r) ? BEDF : (FURN[r] || []), S.picked[r], "it"); },
+      after: function (S, api, host) { wireChips(host, "it", S.picked[r], api); },
+      cta: { label: "Next", run: function (S, api) { api.go(i + 1 < S.all.length ? "r" + (i + 1) : "done"); return false; } },
+      scene: "r" + i };
+  }
+  window.prWalk({
+    label: "What size truck, room by room",
+    allLabel: "Count it piece by piece",
+    underTitle: "Count it piece by piece",
+    start: "beds",
+    /* the room with the boxes, the same drawing as the app's walk: the boxes stacked on the right,
+       and whatever you pick in this room appearing on the left. The truck comes at the end. */
+    scene: function (name, S) {
+      if (name === "tfull") { var t = truck(S); return drawTruck(t.need / t.cu); }
+      var A = window.prArt; if (!A) return "";
+      var m = /^r(\d+)/.exec(name), room = m && S.all ? S.all[+m[1]] : "", items = room ? (S.picked[room] || []).slice(-3) : [];
+      var codes = ["KIT-01", "KIT-02", "BED-01", "LIV-01"], has = items.length > 0, bs = has ? codes.slice(-3) : codes, x = 346, gb = "", gg = "", bx = 10;
+      bs.forEach(function (c) { var w = 72, h = 58; x -= w + 6; gb += A.boxSvg(x, w, h, c, false); });
+      items.forEach(function (w) { gg += A.bigSvg(w, bx, false); bx += A.wide(w) ? 112 : 84; });
+      var k = has ? 0.56 : 1, kg = 0.7;
+      return '<g transform="translate(' + 346 * (1 - k) + ' ' + 344 * (1 - k) + ') scale(' + k + ')">' + gb + '</g><g transform="translate(0 ' + 344 * (1 - kg) + ') scale(' + kg + ')">' + gg + "</g>";
+    },
+    steps: steps
+  });
+});
+</script>
 <script src="../nav.js" defer></script>
 </body>
 </html>

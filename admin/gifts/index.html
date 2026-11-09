@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Make gift codes — The Packed Rabbit</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="../../app/icon.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:"Atkinson Hyperlegible Next";src:url("../../app/fonts/atkinson-next.woff") format("woff");font-weight:200 800;font-display:swap}
+:root{--screen:#FAFBF8;--ground:#F0F3EE;--ink:#1B5E36;--text:#1E2A22;--muted:#33413A;--frame:#D5DDD6;--btn:#2E9358;--btnfg:#fff;--sans:"Atkinson Hyperlegible Next",system-ui,-apple-system,sans-serif}
+@media (prefers-color-scheme: dark){:root{--screen:#132219;--ground:#172A1E;--ink:#9FD6B2;--text:#E7EFE9;--muted:#C9D6CD;--frame:#2A3D31;--btn:#3FA868;--btnfg:#06140B}}
+*{box-sizing:border-box} html,body{margin:0}
+body{background:var(--ground);color:var(--text);font:400 18px/1.5 var(--sans)}
+.wrap{max-width:560px;margin:0 auto;padding:max(28px,env(safe-area-inset-top)) 16px 48px}
+h1{font-size:32px;margin:0 0 6px} p{margin:6px 0}
+label{display:block;font-weight:700;margin:16px 0 6px}
+input,textarea,select{width:100%;min-height:48px;border:1.5px solid var(--frame);border-radius:12px;background:var(--screen);color:var(--text);font:400 18px var(--sans);padding:10px 12px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button,.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;border:0;border-radius:14px;background:var(--btn);color:var(--btnfg);font:700 19px var(--sans);padding:0 18px;margin-top:20px;cursor:pointer;text-decoration:none}
+.ghost{background:none;color:var(--ink);border:1.5px solid var(--ink)}
+.box{background:var(--screen);border-radius:16px;padding:16px;margin-top:18px}
+.muted{color:var(--muted);font-size:16px} code{word-break:break-all}
+</style>
+</head>
+<body><div class="wrap">
+<h1>Make gift codes</h1>
+<p class="muted">For a business that has paid for a block of codes. The admin key stays in this tab only and is never saved.</p>
+<form id="f">
+  <label for="key">Admin key</label><input id="key" type="password" autocomplete="off" required>
+  <label for="biz">Business name, as it shows on their private page</label><input id="biz" required maxlength="80">
+  <label for="n">How many codes</label><input id="n" type="number" min="1" max="5000" value="25" required>
+  <p class="muted" style="margin-top:18px"><b>The gift card</b> each person sees when they open a code.</p>
+  <label for="k">Who it's from</label><select id="k"><option value="agent">A person (an agent)</option><option value="company">A company</option></select>
+  <div class="two"><div><label for="gn">Name</label><input id="gn" maxlength="120" required></div><div><label for="go">Business</label><input id="go" maxlength="120"></div></div>
+  <div class="two"><div><label for="gp">Phone</label><input id="gp" maxlength="40" inputmode="tel"></div><div><label for="ge">Email</label><input id="ge" maxlength="120" type="email"></div></div>
+  <label for="gw">Website</label><input id="gw" maxlength="120">
+  <label for="gm">A short note to their clients (optional)</label><textarea id="gm" maxlength="280" rows="3"></textarea>
+  <button type="submit">Make the codes</button>
+</form>
+<div id="out" aria-live="polite"></div>
+</div>
+<script>
+/* owner, 8 Nov: blocks of gift codes for businesses, tracked as opened or waiting. Same code and card rules
+   as the app (codeSum, giftCheck, makeGiftLink), so every link opens the gift in the app. */
+(function(){
+  var SERVER = "https://REPLACE_ME";
+  var CODE_SPACE = 36*36*36*36;
+  function codeSum(body){ var n=0; for(var i=0;i<body.length;i++) n=(n*131+body.charCodeAt(i)*7919)%CODE_SPACE; var A="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", out="", v=n; for(var j=0;j<4;j++){ out=A[v%36]+out; v=Math.floor(v/36); } return out; }
+  function giftCheck(json){ return codeSum("GIFT|"+json)+codeSum(json+"|GIFT"); }
+  function b64e(str){ return btoa(unescape(encodeURIComponent(str))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); }
+  var FIELDS=["c","k","n","o","l","p","e","w","m"];
+  function link(card){ var clean={}; FIELDS.forEach(function(f){ if(card[f]) clean[f]=String(card[f]).slice(0,f==="m"?280:120); }); var json=JSON.stringify(clean); return "https://packedrabbit.com/gift/#gift="+b64e(json)+"."+giftCheck(json); }
+  var $=function(id){ return document.getElementById(id); }, out=$("out");
+  $("f").addEventListener("submit", function(e){ e.preventDefault();
+    if(/REPLACE_ME/.test(SERVER)){ out.innerHTML='<div class="box">The server isn\'t switched on yet. This page works once it is.</div>'; return; }
+    out.innerHTML='<div class="box">Making the codes.</div>';
+    fetch(SERVER+"/gift/batch",{method:"POST",headers:{"content-type":"application/json","x-admin-key":$("key").value},body:JSON.stringify({name:$("biz").value,n:+$("n").value})})
+    .then(function(r){ return r.json(); }).then(function(d){
+      if(!d||!d.ok){ out.innerHTML='<div class="box">'+((d&&d.why)||"That didn't work. Check the admin key.")+'</div>'; return; }
+      var card={k:$("k").value,n:$("gn").value,o:$("go").value,p:$("gp").value,e:$("ge").value,w:$("gw").value,m:$("gm").value};
+      var rows=d.codes.map(function(c){ var x=Object.assign({},card,{c:c}); return [c,link(x)]; });
+      var csv="code,gift link\n"+rows.map(function(r){ return r[0]+","+r[1]; }).join("\n");
+      var page="https://packedrabbit.com/partners/codes/#k="+d.key;
+      var url=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
+      out.innerHTML='<div class="box"><p><b>'+d.codes.length+' codes made.</b></p>'+
+        '<p>Send the business this private link. It shows which codes were opened:</p><p><code>'+page+'</code></p>'+
+        '<a class="btn" href="'+url+'" download="gift-codes.csv">Download the codes and links</a>'+
+        '<p class="muted" style="margin-top:14px">Each line has the code and its gift link. Send them to the business together with the private link. They aren\'t kept anywhere after you leave this page.</p></div>';
+    }).catch(function(){ out.innerHTML='<div class="box">Couldn\'t reach the server. Try again in a minute.</div>'; });
+  });
+})();
+</script>
+</body>
+</html>
