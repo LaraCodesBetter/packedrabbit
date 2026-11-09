@@ -884,7 +884,14 @@ const MSTEPS=[
  {k:'license', w:-2, on:()=>INTER(), q:"Do you drive?", short:"update your license.", c:["Yes","No"], say:{"Yes":"Your new state's DMV site has the license steps and the deadline."}},
 ];
 const dueOf=st=>{ if(!S.date) return null; const d=new Date(S.date+'T12:00'); d.setDate(d.getDate()-Math.round(st.w*7)); return d; };
-const nextSteps=()=>MSTEPS.filter(st=>st.on()&&S.ma[st.k]==null).sort((a,b)=>((S.snooze||{})[a.k]?1:0)-((S.snooze||{})[b.k]?1:0)||b.w-a.w);
+/* tester, 9 Nov: the day before moving, the calendar said "Now" to 20 things, giving notice and getting a survey among
+   them. In the final week, what was due weeks ago is dropped (unless the move can't happen without it), the rest come
+   nearest-first, and the calendar shows three. */
+const daysToMove=()=>S.date?Math.round((new Date(S.date+'T12:00')-today0())/864e5):null;
+const finalWeek=()=>{ const d=daysToMove(); return d!=null&&d>=0&&d<=7; };
+const STILLNEEDED=['found','signed','how','booked'];
+const nextSteps=()=>{ const fw=finalWeek(), need=st=>STILLNEEDED.includes(st.k)?1:0;
+  return MSTEPS.filter(st=>st.on()&&S.ma[st.k]==null&&!(fw&&st.w>4&&!need(st))).sort((a,b)=>((S.snooze||{})[a.k]?1:0)-((S.snooze||{})[b.k]?1:0)||(fw?(need(b)-need(a))||a.w-b.w:b.w-a.w)); };
 function dueLine(st){ const d=dueOf(st); if(!d) return "Whenever you're ready."; const n=Math.round((d-today0())/864e5), f=d.toLocaleDateString('en-US',{month:'long',day:'numeric'});
   return n>0?`Not due until ${f}.`:n===0?"Due today.":`Best done now.`; }
 function stepCard(st){ const a=S.ma[st.k];
@@ -1125,7 +1132,7 @@ const P={
     body:`<div class="choices">${[["Keep","Keep it"],["Sell","Sell it"],["Donate","Donate it"],["Trash","Throw it out"]].map(([k,l])=>`<button class="choice ${k===v?'hint':''}" data-uv="${k}">${l}</button>`).join('')}</div>`}); },
   llist:()=>{ const k=S.lk, L=S.lists[k]; return ({say:{donate:"Your donate list.",sell:"Your for-sale list.",unsure:"Decided."}[k], h:{donate:`${L.length} ${L.length===1?'thing':'things'} to donate.`,sell:`${L.length} ${L.length===1?'thing':'things'} for sale.`,unsure:"Here's where everything landed."}[k],
     sub:{donate:S.dhow==="Picked up from my door"?"The rabbit will remind you to book the pickup three to four weeks before you move. Keep the receipt for your taxes.":"Keep the receipt from wherever you drop it off. It can count at tax time.",sell:"Once you pick a moving day, the rabbit sets a sell-by date about two weeks before it, so big things are gone in time.",unsure:"Anything you keep goes back on your list for the movers."}[k],
-    body:`<ul class="list">${L.map(x=>`<li>${esc(x.what)}<span>${k==='sell'?(x.price?'$'+x.price:'Price later'):k==='unsure'?({Trash:'Throw out'}[x.fate]||x.fate):(S.dhow==='Picked up from my door'?'Pickup':'Drop off')}</span></li>`).join('')}</ul><button class="cta" id="llNext">Next</button>`}); },
+    body:`<ul class="list">${L.map(x=>`<li>${esc(x.what)}<span>${k==='sell'?(x.price?'$'+x.price:'Price later'):k==='unsure'?({Trash:'Throw out'}[x.fate]||x.fate):(S.dhow==='Picked up from my door'?'Pickup':'Drop off')}</span></li>`).join('')}</ul>${k==='donate'?`<a class="findl" target="_blank" rel="noopener" href="https://www.google.com/search?q=${encodeURIComponent(S.dhow==='Picked up from my door'?'free furniture donation pickup near me':'donation drop off near me')}">${S.dhow==='Picked up from my door'?'Find a free pickup near you':'Find a drop-off near you'}</a>`:''}<button class="cta" id="llNext">Next</button>`}); },
   toolkit:()=>({say:"One more thing.", h:"The rabbit's pocketknife.", sub:"Free tools for every hard part of a move. No sign-up, no questions asked.", scene:'blank',
     body:`<svg class="knife" viewBox="-14 0 240 150" role="img" aria-label="A pocketknife opening into moving tools"><g class="blades">${[['-62','tape'],['-38','truck'],['-14','glass'],['10','list'],['34','key']].map(([a,k],i)=>`<g class="bl" style="--a:${a}deg;--d:${i*90}ms"><path d="M0 0 L0 -86 Q8 -92 14 -84 L14 0 Z" class="blade"/></g>`).join('')}</g><rect x="40" y="96" width="160" height="40" rx="20" class="body"/><circle cx="66" cy="116" r="6" class="pin"/></svg>
     <ul class="kit">${KIT.map(([u,q])=>`<li><a href="https://packedrabbit.com/${u}" target="_blank" rel="noopener">${q}</a></li>`).join('')}<li><a href="https://packedrabbit.com/moving-quietly/" target="_blank" rel="noopener noreferrer">Moving quietly, if you need to leave safely</a></li><li><a href="https://packedrabbit.com/tools/" target="_blank" rel="noopener"><b>Every free tool, in one box</b></a></li></ul>
@@ -1230,6 +1237,9 @@ function show(id,back){
   /* alpha test, 8 Nov: redrawing the same page (after Done, Undo, a search, an unpack) sent focus back to the
      heading and talked over what just happened. A redraw keeps focus where it was and leaves the announcement. */
   const same=id===cur&&!!back, fa=document.activeElement, fin=!!(fa&&phone.contains(fa)), fid=same&&fin?(fa.id||''):'';
+  /* tester, 9 Nov: a follow-up question drawn on the same page (a desk's "Does it come apart?") kept the old spoken line.
+     When the heading changes, it's a new question: focus and announce it like a new page. */
+  const was=same?((phone.querySelector('h2')||{}).textContent||''):'';
   if((cur==='boxesTab'||cur==='furnTab'||cur==='movingTab') && id!==cur) hopping='';
   if(id==='start' && S.boxes.length>=3 && !S.paid) id='price';
   if(!back && cur && cur!==id) hist.push(cur);
@@ -1244,13 +1254,13 @@ function show(id,back){
       <div class="lground">${p.body}</div></div>${bar()}`;
     textSize(); lastDrawn=id; fresh=[]; newTab=""; wire(id); wireMics(); keep();
     if(from!==p.pi){ const pin=phone.querySelector('.pano-in'); requestAnimationFrame(()=>requestAnimationFrame(()=>{ pin.classList.add('go'); pin.style.transform=`translateX(${-panoPct(p.pi)}%)`; })); }
-    const h=phone.querySelector('h2'); h.tabIndex=-1; if(same){ const f=(fid&&document.getElementById(fid))||(fin?phone.querySelector('.page .cta'):null); if(f&&phone.contains(f)) f.focus({preventScroll:true}); return; } if(started) h.focus({preventScroll:true}); started=true;
+    const h=phone.querySelector('h2'); h.tabIndex=-1; if(same&&h.textContent===was){ const f=(fid&&document.getElementById(fid))||(fin?phone.querySelector('.page .cta'):null); if(f&&phone.contains(f)) f.focus({preventScroll:true}); return; } if(started) h.focus({preventScroll:true}); started=true;
     live.textContent=(String(p.h)+' '+String(p.count2||'')).replace(/<[^>]+>/g,''); return; }
   phone.innerHTML=`<div class="page" role="main"><div class="top"><span class="topr">${p.count?`<span class="count">${p.count}</span>`:''}<button class="pause" data-aa aria-label="Text size">Aa</button>${!['firstBox','myBoxes','vrooms','flip','home'].includes(id)?'<button class="pause" data-pause>Pause</button>':''}</span></div>
     <div class="text">${p.tag?`<p class="itemtag">${esc(p.tag)}</p>`:''}${p.say?`<p class="say">${p.say}</p>`:''}<h2>${p.h}</h2>${p.sub?`<p class="sub">${p.sub}</p>`:''}${p.body}</div>
     <div class="scene">${drawn(scene(p.scene||id), id!==lastDrawn)}</div><div class="band"></div></div><div class="navrow${id==='home'?' hn':''}"><button class="back" ${(hist.length&&(!NOBACK.includes(id)||(S.homeMode&&id==='myBoxes')))?'':'hidden'} data-back>Back</button><button class="skip" data-skip hidden>Skip</button></div>${bar()}`;
   textSize(); lastDrawn=id; fresh=[]; newTab=""; wire(id); wireSkip(id); wireMics(); keep();
-  const h=phone.querySelector('h2'); h.tabIndex=-1; if(same){ const f=(fid&&document.getElementById(fid))||(fin?phone.querySelector('.page .cta'):null); if(f&&phone.contains(f)) f.focus({preventScroll:true}); return; } if(started) h.focus({preventScroll:true}); started=true;
+  const h=phone.querySelector('h2'); h.tabIndex=-1; if(same&&h.textContent===was){ const f=(fid&&document.getElementById(fid))||(fin?phone.querySelector('.page .cta'):null); if(f&&phone.contains(f)) f.focus({preventScroll:true}); return; } if(started) h.focus({preventScroll:true}); started=true;
   live.textContent=((p.tag?p.tag+'. ':'')+(p.say?p.say+' ':'')+p.h).replace(/<[^>]+>/g,'');
   if(window.__embed && !hist.length && !S.homeMode){ const bk=phone.querySelector('[data-back]'); bk.hidden=false; bk.onclick=()=>parent.postMessage('pr-intro','*'); }
 }
@@ -1337,7 +1347,12 @@ function wire(id){
     /* anything sold or given away comes off the movers' list */
     if(k!=='unsure') S.big=S.big.filter(b=>b.what!==w);
     S.fi++; S.fi<S.lpick.length?show('lfate',true):show('lhelp'); });
-  if(id==='lhelp'){ const set=h=>{ ['donate','sell','unsure'].forEach(k=>{ if((S.lists[k]||[]).length) S.leave[k]={yes:true,help:h}; }); sortEnd(h?'The rabbit will help with all of it.':'Got it.'); }; $('#lhyes').onclick=()=>set(true); $('#lhno').onclick=()=>set(false); }
+  /* tester, 9 Nov: "Yes, please" promised where to donate, what it might sell for and when, then went straight to the
+     tab. Now it walks each list: how the donation leaves, a price for each thing to sell, and the rabbit's take on
+     anything still undecided. */
+  if(id==='lhelp'){ const set=h=>{ ['donate','sell','unsure'].forEach(k=>{ if((S.lists[k]||[]).length) S.leave[k]={yes:true,help:h}; }); if(!h) return sortEnd('Got it.');
+      S.helpQ=['donate','sell','unsure'].filter(k=>k==='unsure'?(S.lists.unsure||[]).some(x=>!x.fate):(S.lists[k]||[]).length); helpNext(); };
+    $('#lhyes').onclick=()=>set(true); $('#lhno').onclick=()=>set(false); }
   if(id==='leave'){ const nextQ=leaveNext;
     if($('#lyes')) { $('#lyes').onclick=()=>{ S.leave[LEAVE[S.li].k]={yes:true}; S.lstage='help'; show('leave',true); }; $('#lno').onclick=()=>nextQ(''); }
     if($('#hyes')) { $('#hyes').onclick=()=>{ const k=LEAVE[S.li].k; S.leave[k].help=true; S.lk=k; S.lpick=S.lists[k].map(x=>x.what); S.li2=0; show('lpick'); }; $('#hno').onclick=()=>nextQ('Got it.'); } }
@@ -1367,7 +1382,7 @@ function wire(id){
   if(id==='uverdict'){ phone.querySelectorAll('[data-uv]').forEach(b=>b.onclick=()=>{ const it=S.lists.unsure[S.li2]; it.fate=b.dataset.uv;
       if(it.fate!=='Keep') S.big=S.big.filter(x=>x.what!==it.what); else if(!S.big.some(x=>x.what===it.what)) S.big.push({what:it.what,room:'',dims:''});
       S.uqi=0; S.ua=[]; S.li2++; S.li2<S.lists.unsure.length?show('uq',true):show('llist'); }); }
-  if(id==='llist'){ $('#llNext').onclick=()=>leaveNext(LEAVE[S.li].ok); }
+  if(id==='llist'){ $('#llNext').onclick=()=>Array.isArray(S.helpQ)?helpNext():leaveNext(LEAVE[S.li].ok); }
   if(id==='notruck'){ $('#ntOk').onclick=finishBig; }
   if($('#howInstall')) $('#howInstall').onclick=()=>{ if(window.__embed) parent.postMessage('pr-install','*'); };
   if(id==='price'){ if(window.__APP&&!window.__BUY_YEAR){ const y=phone.querySelector('[data-plan=year]'); if(y) y.remove(); }
@@ -1467,10 +1482,12 @@ function wire(id){
   if(id==='hstart') calPage('newStart',()=>show('oldplace'));
   if(id==='hclose') calPage('newStart',()=>show('htitle'));
   if(id==='htitle'){ $('#titleNext').onclick=()=>{ S.home.title=$('#htitle').value.trim(); show('oldplace'); }; $('#titleSkip').onclick=()=>show('oldplace'); }
-  if(id==='oldplace') pick(v=>{ S.oldkind=v; S.rent=/rent/.test(v)?'Renting':/own/i.test(v)?'I own it':'Living with someone'; show('moveday'); });
+  /* tester, 9 Nov: since v339 the walk skipped when the old lease ends and when things arrive, so the deposit counted from
+     loading day and the calendar checked deliveries before the keys. Both are asked again, as follow-ups that don't add to the count. */
+  if(id==='oldplace') pick(v=>{ S.oldkind=v; S.rent=/rent/.test(v)?'Renting':/own/i.test(v)?'I own it':'Living with someone'; show(/rent/.test(v)?'oldend':/selling/.test(v)?'oldclose':'moveday'); });
   if(id==='oldend'||id==='oldclose') calPage('oldEnd',afterOld);
-  if(id==='moveday'){ calPage('date',()=>show('mhowfirst')); $('#rough').onchange=e=>{ const v=e.target.value; if(!v) return; if(v==='Not sure yet'){ S.date=''; S.rough=''; } else { S.rough=v; S.date=roughDate(v); } show('mhowfirst'); }; }
-  if(id==='mdeliver'){ calPage('delivery',homeDone); $('#sameDay').onclick=()=>{ S.delivery=S.date; homeDone(); }; }
+  if(id==='moveday'){ calPage('date',()=>show('mdeliver')); $('#rough').onchange=e=>{ const v=e.target.value; if(!v) return; if(v==='Not sure yet'){ S.date=''; S.rough=''; } else { S.rough=v; S.date=roughDate(v); } show('mhowfirst'); }; }
+  if(id==='mdeliver'){ calPage('delivery',()=>show('mhowfirst')); $('#sameDay').onclick=()=>{ S.delivery=S.date; show('mhowfirst'); }; }
   /* alpha test, 8 Nov: "Back to my boxes" left for the app and came back to Welcome home, and it needed a signal.
      From the home it goes straight to the vault; the new box goes to the app the next time the app opens. */
   if(id==='boxSaved'&&$('#backMove')) $('#backMove').onclick=()=>{ if(S.homeMode){ keep(true); hist.length=0; panoAt=null; show('lvault'); return; } finishThread(); };
@@ -1591,6 +1608,8 @@ const QS=w=>APPL.test(w)?{q:`Is the ${w.toLowerCase()} coming with you?`,a:["Com
  :/Bookcase/.test(w)?{q:"How tall is it?",a:["Waist high","Shoulder high","Floor to ceiling"]}
  :/^Sleeper sofa$/.test(w)?{q:"What size is the sleeper sofa?",a:["Twin","Full","Queen"],sub:"Sleeper sofas are much heavier than they look."}
  :{q:"About how big is it?",a:["Small","Medium","Large","Extra large"],sub:"Small fits in a car seat. Extra large takes two people and a dolly."};
+function helpNext(){ const k=(S.helpQ||[]).shift(); if(!k){ S.helpQ=null; return sortEnd('Done. Your Sorting tab has all of it.'); }
+  S.lk=k; S.li2=0; S.uqi=0; S.ua=[]; if(k==='unsure'){ const un=S.lists.unsure||[]; S.li2=Math.max(0,un.findIndex(x=>!x.fate)); } show(k==='donate'?'dhow':k==='sell'?'sprice':'uq'); }
 function sortEnd(said){ S.lsay=said; S.li=LEAVE.length; learn('Sorting'); show('sortTab'); landSoon('Sorting'); }
 function leaveNext(said){ S.lsay=said; S.li++; S.lstage='ask'; if(S.li<LEAVE.length) return show('leave',true); learn('Sorting'); show('sortTab'); landSoon('Sorting'); }
 function goRoom(r,first){ newBatch(); S.bigRoom=r; S.missShown=false; S.queue=[]; if(!S.homeRooms.includes(r)) S.homeRooms.push(r); S.big.filter(b=>b.room===r).forEach(b=>b.batch=S.batch); if(first) return startItem(first); show('roomItem'); }
@@ -1950,7 +1969,7 @@ async function loadHome(){ let st=null; try{ st=JSON.parse(await idbGet('moving-
   const RN={}; Object.keys(CODE).forEach(k=>{ if(!RN[CODE[k]]) RN[CODE[k]]=k; });
   const have=new Set(S.boxes.map(b=>b.code));
   ((st&&st.boxes)||[]).forEach(b=>{ if(!b||!b.code) return; const rc=String(b.room||b.code.split('-')[0]||'MISC');
-    const pre=String(b.preset||'').split('-')[0], bsz=String(b.size||''), kind=pre==='free'?'Used box':pre==='bin'?'Plastic bin':BOXBRAND[pre]?BOXBRAND[pre]+(bsz?' '+bsz.toLowerCase():''):bsz;
+    const pre=String(b.preset||'').split('-')[0], bsz=String(b.size||''), kind=b.brandless?bsz.toLowerCase():pre==='free'?'Used box':pre==='bin'?'Plastic bin':BOXBRAND[pre]?BOXBRAND[pre]+(bsz?' '+bsz.toLowerCase():''):bsz;
     const rec={code:b.code,rc,room:RN[rc]||rc,words:(b.items||[]).map(x=>x.name).filter(Boolean).join(', '),flags:b.withMe?['Goes with me']:[],handed:1,appId:b.id,unpacked:!!b.unpacked,delivered:!!b.delivered,kind};
     if(have.has(b.code)){ const ex=S.boxes.find(x=>x.code===b.code&&x.handed); if(ex) Object.assign(ex,rec); return; }
     have.add(b.code); S.boxes.push(Object.assign(rec,{photos:[],photo:''})); });
@@ -1995,7 +2014,7 @@ const afterOldGo=()=>show('moveday');
 function afterFrom(){ measureMove(); show('mfound'); }
 const SKIP={lgo:()=>sortEnd(''),lpickall:()=>sortEnd(''),lhelp:()=>sortEnd(''),toolkit:()=>window.__APP?finishThread():openSheet('Moving'),mto:()=>show('mfrom'),mfrom:()=>afterFrom(),mfar:()=>show('mfound'),mwhyask:()=>show(isBiz()?'mfound':'mwho'),mwhy:()=>show('mwho'),mwho:()=>show('mfound'),mfound:()=>show('oldplace'),
   hkind:()=>show(S.place==='signed'?'oldplace':(isBiz()?'hbudget':'hbeds')),hbeds:()=>show('hbudget'),hneeds:()=>show('hsearch'),hsearch:()=>show('hshow'),hshow:()=>show('hask'),hask:()=>show('oldplace'),
-  hstart:()=>show('oldplace'),hclose:()=>show('htitle'),oldplace:afterOldGo,oldend:afterOldGo,oldclose:afterOldGo,moveday:()=>show('mhowfirst'),mhowfirst:()=>homeDone(),mpackq:()=>homeDone(),mselfq:()=>homeDone(),mdeliver:()=>homeDone(),
+  hstart:()=>show('oldplace'),hclose:()=>show('htitle'),oldplace:afterOldGo,oldend:afterOldGo,oldclose:afterOldGo,moveday:()=>show('mhowfirst'),mhowfirst:()=>homeDone(),mpackq:()=>homeDone(),mselfq:()=>homeDone(),mdeliver:()=>show('mhowfirst'),
   words:()=>show('dest'),dest:()=>show('photo'),leave:()=>leaveNext(''),mstairs:()=>show('mdoor'),mdoor:()=>MOVERS()&&S.booked!=="Yes, they're booked"&&!S.qtext?show('mpacket'):toRent()};
 const SKIPWORDS=/^(Skip|Later|Not now|Not sure yet|I don't know yet|I'll find it later|Not sold yet|Nothing like that|Not right now)$/;
 function wireSkip(id){ const sk=phone.querySelector('[data-skip]'); if(!sk) return; let fn=SKIP[id];
@@ -2089,7 +2108,7 @@ function sheetBody(n){
       ['Sell',L.sell.map(x=>[x.what,x.price?'$'+x.price:'Price later']).concat(un.filter(x=>x.fate==='Sell').map(x=>[x.what,'Price later']))],
       ['Throw out',un.filter(x=>x.fate==='Trash').map(x=>[x.what,''])],['Not sure yet',un.filter(x=>!x.fate).map(x=>[x.what,'Deciding'])]];
     return groups.filter(([h,r])=>r.length||h!=='Throw out').map(([h,r])=>`<p class="grp">${h}</p>${r.length?`<ul class="list">${r.map(([w,v])=>`<li>${esc(w)}<span>${v}</span></li>`).join('')}</ul>`:'<p style="margin:0">Nothing yet.</p>'}`).join(''); }
-  if(n==='Moving'){ const L=nextSteps(), nx=L[0], soon=L.slice(1).filter(st=>{ const d=dueOf(st); return d&&(d-today0())/864e5<=14; }), later=L.length-1-soon.length;
+  if(n==='Moving'){ const L=nextSteps(), nx=L[0], fw=finalWeek(), soon=fw?L.slice(1,4):L.slice(1).filter(st=>{ const d=dueOf(st); return d&&(d-today0())/864e5<=14; }), later=L.length-1-soon.length;
     const pcs=S.big.reduce((s,b)=>s+pieces(b),0), heavy=S.big.filter(b=>HEAVY.test(b.size||'')), go=S.boxes.filter(b=>(b.flags||[]).includes('Goes with me')), fuel=S.big.filter(b=>FUEL.test(b.what));
     const notes=MSTEPS.filter(st=>S.ma[st.k]!=null&&st.say).map(st=>{ const v=S.ma[st.k], sy=typeof st.say==='function'?st.say():st.say[v]; return sy?fn(sy):''; }).filter(Boolean);
     const row=(a,b)=>b?`<li>${a}<span>${b}</span></li>`:'';
@@ -2097,7 +2116,7 @@ function sheetBody(n){
     return (S.mnote?`<p class="mnote" role="status">${S.mnote}</p>`:'')+(ds.length?`<p class="grp">Your dates</p><ul class="list dates">${ds.map(([d,l])=>`<li>${l}<span>${new Date(d+'T12:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}</span></li>`).join('')}</ul><button class="choice" data-ics style="max-width:none;width:100%;margin:8px 0 6px">Add these to my phone's calendar</button>`:'')
       +`<p class="grp">Next</p>`+(nx?stepCard(nx):`<p>Nothing to do right now. The rabbit asks when it's time.</p>`)
       +(soon.length?`<p class="grp">Coming up</p><ul class="list">${soon.map(st=>`<li>${st.short[0].toUpperCase()+st.short.slice(1,-1)}<span>${dueOf(st)<=today0()?'Now':dueOf(st).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span></li>`).join('')}</ul>`:'')
-      +(later>0?`<p class="swipe">${later} more ${later===1?'step':'steps'}, none due yet.</p>`:'')
+      +(later>0?`<p class="swipe">${later} more ${later===1?'step':'steps'}${fw?' after these':', none due yet'}.</p>`:'')
       +`<p class="grp">Your move</p><ul class="list">${row('Going to',esc(S.to||'')||S.far)}${row('Why',S.why)}${row('New place',S.home.link?`<a href="${esc(S.home.link)}" target="_blank" rel="noopener">${esc(S.home.source||'Listing')}</a>`:(S.place==='signed'?'Signed':S.place==='found'?'Deciding':'Looking'))}${row('Price',esc(S.home.price||''))}${row('Title company',esc(S.home.title||''))}${row('How',S.how)}${row('Mover',esc(S.mname||''))}${row('USDOT number',S.dot?`<a href="${dotUrl(S.dot)}" target="_blank" rel="noopener">${S.dot}</a>`:'')}${row('Truck',S.how==='A rental truck'?truckFor(moveCube()*1.1).replace(/^a /,''):'')}${row('Stairs',S.stairs)}${row('From the truck',S.door)}${row('Boxes',String(S.boxes.length))}${row('Pieces of furniture',String(pcs))}</ul>`
       +(notes.length?`<p class="grp">Good to know</p><ul class="list notes">${notes.map(x=>`<li>${x}</li>`).join('')}</ul>`:'')
       +(heavy.length?`<p class="grp">Tell your mover about</p><ul class="list">${heavy.map(b=>`<li>${esc(b.what)}<span>${esc(b.size)}</span></li>`).join('')}</ul>`:'')

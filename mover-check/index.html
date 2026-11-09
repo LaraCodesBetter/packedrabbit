@@ -350,7 +350,7 @@ addEventListener("DOMContentLoaded", function () {
       say: "Step 1 of 2: the record",
       h: function (S) { return S.kind === "MC_MX" ? "Type their MC number." : "Type their USDOT number."; },
       field: { id: "dot", type: "text", inputmode: "numeric", placeholder: "Numbers only" },
-      cta: { label: "Open their federal record", run: function (S, api) { if (!n(S)) { var i = document.getElementById("wk-dot"); if (i) i.focus(); return false; } openRecord(S); api.go("check"); return false; } },
+      cta: { label: "Open their federal record", run: function (S, api) { if (!n(S)) { var i = document.getElementById("wk-dot"); if (i) { i.focus(); i.setAttribute("aria-invalid", "true"); var f = i.closest(".wk-field") || i.parentNode, e = f.querySelector(".wk-err"); if (!e) { e = document.createElement("p"); e.className = "wk-err"; e.id = "wk-err-dot"; e.setAttribute("role", "alert"); f.appendChild(e); i.setAttribute("aria-describedby", e.id); } e.textContent = "Type the USDOT or MC number from their quote or truck, like 1234567."; } return false; } openRecord(S); api.go("check"); return false; } },
       link: { label: "It's an MC number", run: function (S, api) { S.kind = S.kind === "MC_MX" ? "USDOT" : "MC_MX"; api.replace("num"); return false; } },
       fine: "It opens the government's own page in a new tab. We don't see what you look up.",
       scene: "record"
