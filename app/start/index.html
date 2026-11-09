@@ -35,10 +35,12 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
 .brand{position:absolute;top:0;left:0;right:0;padding-top:24px;text-align:center;font-weight:700;font-size:17px;letter-spacing:.01em;color:var(--ink);z-index:3}
 .street{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
 .street::-webkit-scrollbar{display:none}
-.stop{flex:0 0 100%;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;padding:96px 28px 0;text-align:center;position:relative}
+.stop{flex:0 0 100%;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;align-items:center;padding:96px 28px 0;text-align:center;position:relative}
 .stop h2{font-size:34px;line-height:1.15;font-weight:700;margin:0 0 12px;text-wrap:balance;color:var(--text);letter-spacing:-.01em}
 .stop p{margin:0;color:var(--muted);font-size:20px;line-height:1.4;max-width:24ch;text-wrap:balance}
 .scene{position:absolute;left:0;right:0;bottom:166px;height:330px;pointer-events:none}
+/* alpha test, 8 Nov: on short phones the drawings covered the headings. The drawing gives up height first. */
+.stop > .scene{height:clamp(96px,calc(100% - 456px),330px)}
 .stop::after{content:"";position:absolute;left:0;right:0;bottom:0;height:166px;background:var(--ground)}
 .scene svg{width:100%;height:100%;display:block}
 .back *{stroke:var(--ink-soft);fill:none;stroke-width:1.5}
@@ -194,7 +196,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
 
 <div class="wrap">
 <div class="phone" aria-label="Phone preview">
-  <div class="brand"><img id="wm" src="wordmark-ears.png" alt="The Packed Rabbit" width="168" height="44"></div>
+  <div class="brand"><picture><source srcset="wordmark-ears-cream.png" media="(prefers-color-scheme: dark)"><img id="wm" src="wordmark-ears.png" alt="The Packed Rabbit" width="168" height="44"></picture></div>
   <script>/* the signature: the ears in the two b's wiggle once, then rest */(function(){ try{ if(matchMedia("(prefers-reduced-motion: reduce)").matches) return; }catch(e){} var w=new Image(); w.onload=function(){ var m=document.getElementById("wm"); if(m) m.src=w.src; }; w.src="wordmark-wiggle.webp"; })();</script>
   <div class="street" id="street" tabindex="0" aria-label="Welcome screens, swipe or use arrow keys">
 
@@ -325,7 +327,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   </div></div>
   <div class="foot" id="foot">
     <div class="hint" id="hint">Swipe to continue</div>
-    <div class="dots" role="tablist" aria-label="Screens">
+    <div class="dots" role="group" aria-label="Screens">
       <button class="dot" aria-label="Screen 1" aria-current="true"><i></i></button>
       <button class="dot" aria-label="Screen 2"><i></i></button>
       <button class="dot" aria-label="Screen 3"><i></i></button>
@@ -550,9 +552,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   const thr=document.getElementById('thr');
   /* owner, 7 Nov: start/?home opens the box list, start/?box the next box; the walk inside needs to hear it */
   const walkQ=/[?&](home|box)\b/.test(location.search);
-  /* in the app: someone who left partway through comes straight back to where they were */
+  /* in the app: someone who left partway through comes straight back to where they were.
+     alpha test, 8 Nov: not when this page is framed on the website. There it pulled the whole site into the app. */
   if(window.__APP){ try{ const r=indexedDB.open('moving-command-center',1); r.onupgradeneeded=()=>r.result.createObjectStore('kv');
-    r.onsuccess=()=>{ const q=r.result.transaction('kv','readonly').objectStore('kv').get('pr-thread-state'); q.onsuccess=()=>{ if(q.result||walkQ) document.getElementById('go').click(); }; }; }catch(e){} }
+    r.onsuccess=()=>{ const q=r.result.transaction('kv','readonly').objectStore('kv').get('pr-thread-state'); q.onsuccess=()=>{ let top=false; try{ top=window.top===window; }catch(e){} if((q.result&&top)||walkQ) document.getElementById('go').click(); }; }; }catch(e){} }
   /* on the website the first open is framed: buttons take the whole page into the app */
   const framed=(()=>{ try{ return window.top!==window; }catch(e){ return true; } })();
   const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
@@ -577,7 +580,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   if(window.__APP && !framed){ try{ const r=indexedDB.open('moving-command-center',1); r.onupgradeneeded=()=>r.result.createObjectStore('kv'); r.onsuccess=()=>{ const s=r.result.transaction('kv','readonly').objectStore('kv'); const a=s.get('pr-thread-state'), b=s.get('moving-command-center-v1');
     b.onsuccess=()=>{ if(a.result) return; let st=null; try{ st=JSON.parse(b.result||'null'); }catch(e){} const se=(st&&st.settings)||{}; if(!walkQ&&(se.skipIntro||(st&&st.profile&&st.profile.done))) location.replace(new URL(window.__HOME||'../',location.href).href); }; }; }catch(e){} }
   document.getElementById('go').addEventListener('click',e=>{ if(framed&&window.__APP){ e.stopImmediatePropagation(); window.top.location.href=new URL((window.__HOME||'../')+'start/?begin',location.href).href; } },true);
-  document.getElementById('go').addEventListener('click',()=>{ if(!thr.src) thr.src='thread.html?embed'+(walkQ?'&'+location.search.slice(1):''); thr.hidden=false; foot.hidden=true; requestAnimationFrame(()=>requestAnimationFrame(()=>thr.classList.add('show'))); thr.focus(); });
+  /* alpha test, 8 Nov: with the walk open, the welcome screens behind it were still in the keyboard's Tab order
+     and read by screen readers. They're set aside while the walk is showing. */
+  const behind=on=>{ ['street','foot','first'].forEach(id=>{ const el=document.getElementById(id); if(el) el.inert=on; }); const b=document.querySelector('.phone > .brand'); if(b) b.inert=on; };
+  document.getElementById('go').addEventListener('click',()=>{ if(!thr.src) thr.src='thread.html?embed'+(walkQ?'&'+location.search.slice(1):''); thr.title=/[?&]home\b/.test(location.search)?'The Packed Rabbit':'Your first box'; thr.hidden=false; behind(true); foot.hidden=true; requestAnimationFrame(()=>requestAnimationFrame(()=>thr.classList.add('show'))); thr.focus(); });
   /* the embedded flow asks the rabbit to look up a photo; only this page can reach Claude */
   let sampleP=null; const getSample=()=>sampleP||(sampleP=(window.claude&&claude.use?claude.use('sample'):Promise.resolve(null)).catch(()=>null));
   window.addEventListener('message',async e=>{ const m=e.data; if(!m||m.type!=='pr-ai'||e.source!==thr.contentWindow) return;
@@ -587,7 +593,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
       const json=await s.json(String(m.prompt).slice(0,8000),{images:[new Blob([u],{type:'image/jpeg'})],modelTier:'quick'}); reply({json}); }
     catch(err){ reply({error:(err&&err.code)||'failed'}); } });
   window.addEventListener('message',e=>{ if(e.data==='pr-install'&&e.source===thr.contentWindow){ showInstall('flow'); } });
-  window.addEventListener('message',e=>{ if(e.data!=='pr-intro') return; thr.classList.remove('show'); setTimeout(()=>{ thr.hidden=true; foot.hidden=false; document.getElementById('go').focus(); },400); });
+  window.addEventListener('message',e=>{ if(e.data!=='pr-intro') return; thr.classList.remove('show'); setTimeout(()=>{ thr.hidden=true; behind(false); foot.hidden=false; document.getElementById('go').focus(); },400); });
   document.getElementById('back').addEventListener('click',()=>{ if(si===5){ showStep(4); return; } if(si>0){ showStep(si-1); return; } first.classList.remove('show'); setTimeout(()=>{first.hidden=true; foot.hidden=false; document.getElementById('go').focus();},300); });
   /* members: on a phone that has their move, one tap opens it; on a new phone, a backup or the member code from the receipt */
   const codeSum=b=>{ let n=0; for(let i=0;i<b.length;i++) n=(n*131+b.charCodeAt(i)*7919)%1679616; const A="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"; let o="",v=n; for(let i=0;i<4;i++){ o=A[v%36]+o; v=Math.floor(v/36); } return o; };

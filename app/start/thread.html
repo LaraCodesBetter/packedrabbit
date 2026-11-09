@@ -38,7 +38,7 @@ h2{font-size:31px;line-height:1.15;margin:0;text-wrap:balance}
 .duty{margin-top:10px;width:100%;max-width:310px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .duty .choice{min-height:56px;font-size:17px}.duty .choice small{font-size:13px}
 .cta{margin-top:16px;width:100%;max-width:300px;min-height:56px;border:0;border-radius:14px;background:var(--btn);color:var(--btnfg);font:700 20px var(--sans);cursor:pointer}
-.cta:disabled{opacity:.45;cursor:default}
+.cta:disabled{opacity:.45;cursor:default;background:var(--frame);color:var(--muted)}
 .link{margin-top:4px;background:none;border:0;color:var(--text);font:600 18px var(--sans);text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;min-height:44px;cursor:pointer}
 .knife{display:block;width:220px;height:auto;margin:6px auto 4px;overflow:visible}
 .knife .body{fill:var(--ink,#1E4D33)}.knife .pin{fill:#EADFC9}
@@ -130,9 +130,12 @@ h2{font-size:31px;line-height:1.15;margin:0;text-wrap:balance}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.tags span{border:1.5px solid currentColor;border-radius:6px;padding:2px 8px;font-weight:700;font-size:14px}
 .grp{margin:14px 0 6px;font-size:16px;color:var(--muted);font-weight:700}
 .sheet .list{max-height:none;max-width:none}
-#mbres .list{max-height:none;max-width:none}
+#mbres .list,#hres .list{max-height:none;max-width:none}
 .say .sig{display:block;width:220px;max-width:70%;height:auto;margin:0 auto 4px}
-.list li.tap{cursor:pointer;min-height:52px;align-items:center}.list li em{font-style:normal;flex:1}
+.list li.tap{cursor:pointer;min-height:52px;align-items:center}
+.bkind{margin-left:8px;font-weight:700;color:var(--text)}
+.rcount{float:right;margin-left:12px;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums}
+.hkind{display:block;font-size:22px;font-weight:700;color:var(--ink);margin-top:2px}.list li em{font-style:normal;flex:1}
 .thumb{width:40px;height:40px;border-radius:8px;object-fit:cover;flex:none}
 .pchoose{width:100%;padding:12px;display:grid;gap:8px}.pchoose .lab{margin:0;min-height:46px;max-width:none;font-size:17px}
 .card .pic:has(.pchoose){height:auto}
@@ -148,9 +151,9 @@ a.choice{text-decoration:none}
 .step{display:grid;grid-template-columns:1fr 48px 40px 48px;align-items:center;gap:6px;border:1.5px solid var(--frame);border-radius:14px;padding:4px 6px 4px 14px;font-size:18px;text-align:left}
 .step button{min-height:48px;border-radius:12px;border:1.5px solid var(--ink);background:none;color:var(--ink);font:700 24px var(--sans);cursor:pointer}
 .step b{text-align:center;font-size:20px}
-.choices.two{grid-template-columns:1fr 1fr;max-width:320px}
+.choices.two{grid-template-columns:repeat(2,minmax(0,1fr));max-width:320px}.choices.two .choice{min-width:0;overflow-wrap:anywhere}
 .shots{display:flex;gap:10px;overflow-x:auto;margin-top:14px;padding-bottom:4px;scroll-snap-type:x mandatory}
-.shotw{position:relative;flex:0 0 auto;scroll-snap-align:start}
+.shotw{position:relative;flex:0 0 min(260px,78%);scroll-snap-align:start}.shotw .shot{width:100%;max-width:none}
 .shots .shot{width:220px;height:170px;margin-top:0}
 .shots .shotw:only-child .shot{width:300px}
 .unshot{position:absolute;right:6px;bottom:6px;min-height:44px;padding:0 14px;border-radius:12px;border:0;background:rgba(1,69,30,.86);color:#fff;font:600 15px var(--sans);cursor:pointer}
@@ -169,7 +172,7 @@ a.choice{text-decoration:none}
 .ai b{display:block;color:var(--ink);font-size:18px}.ai p{margin:4px 0 0;font-size:17px}
 .ai .row{display:flex;gap:8px;margin-top:10px}.ai .row>*{flex:1;margin:0;min-height:48px}
 .choice small.guess{display:block;font-size:13px;font-weight:600;color:var(--cta,#2E7D46);margin-top:2px}
-.packtip{margin-top:14px;padding:14px 16px;border-radius:16px;background:#EAF3EC;border:1.5px solid #9DC3A8;text-align:left;max-width:420px}
+.packtip{margin-top:14px;padding:14px 16px;border-radius:16px;background:var(--f1);color:var(--text);border:1.5px solid var(--f3);text-align:left;max-width:420px}
 .packtip b{display:block;color:var(--ink);font-size:17px}.packtip p{margin:4px 0 0;font-size:17px}
 .microw{position:relative}.microw input{padding-right:62px!important}
 .mic{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:50px;height:50px;border-radius:14px;border:0;background:var(--cta,#2E7D46);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
@@ -194,13 +197,13 @@ a.choice{text-decoration:none}
 .land.still .glow{animation:landglowstill 2s ease-out forwards}
 @keyframes landglowstill{0%{opacity:0}25%{opacity:1}100%{opacity:0}}
 .cheerw{position:absolute;inset:0;pointer-events:none;z-index:40;overflow:hidden}
-.cheerp{position:absolute;left:50%;top:64px;transform:translateX(-50%);max-width:86%;padding:12px 20px;border-radius:999px;background:#1C3224;color:#fff;font-weight:700;font-size:16px;line-height:1.3;border:2px solid #EADFC9;box-shadow:0 12px 28px -10px rgba(0,0,0,.5);text-align:center;white-space:normal}
+.cheerp{position:absolute;left:50%;bottom:96px;transform:translateX(-50%);max-width:86%;padding:12px 20px;border-radius:999px;background:#1C3224;color:#fff;font-weight:700;font-size:16px;line-height:1.3;border:2px solid #EADFC9;box-shadow:0 12px 28px -10px rgba(0,0,0,.5);text-align:center;white-space:normal}
 .topr{display:flex;align-items:center;gap:4px;margin-left:auto}
 .navrow{flex:none;display:flex;justify-content:space-between;align-items:center;padding:4px 10px;background:var(--ground);position:relative;z-index:4;min-height:52px}
 .navrow .back,.navrow .skip{min-height:44px;min-width:64px;padding:0 14px;border:0;border-radius:12px;background:none;color:var(--ink);font:700 17px var(--sans);cursor:pointer}
 .navrow .skip{color:var(--muted);margin-left:auto}
 .navrow .back[hidden],.navrow .skip[hidden]{display:none}
-.cal{position:relative;margin:16px -12px 0;width:calc(100% + 24px);max-width:380px;flex:none;align-self:center;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:16px 4px 6px;box-sizing:border-box;perspective:900px}
+.cal{position:relative;margin:16px -12px 0;width:calc(100% + 24px);max-width:380px;flex:none;align-self:center;background:var(--screen);border:2px solid var(--ink);border-radius:14px;padding:16px 4px 6px;box-sizing:border-box;perspective:900px}
 .cal .rings{position:absolute;left:24px;right:24px;top:-9px;display:flex;justify-content:space-between;pointer-events:none}
 .cal .rings i{width:10px;height:18px;border:2px solid var(--ink);border-radius:6px;background:var(--screen)}
 .cal .cover{position:absolute;inset:-2px;border-radius:14px;background:#E7D3B0;border:2px solid var(--ink);display:none;align-items:center;justify-content:center;transform-origin:50% 0;backface-visibility:hidden;z-index:2;pointer-events:none}
@@ -213,10 +216,12 @@ a.choice{text-decoration:none}
 .cnav{min-width:44px;min-height:44px;border:0;background:none;font-size:30px;line-height:1;color:var(--ink);cursor:pointer}
 .cnav:disabled{opacity:.25}
 .cdow,.cgrid{display:grid;grid-template-columns:repeat(7,1fr);text-align:center}
+/* alpha test, 8 Nov: at 320 wide the days were 40px; the calendar uses the full width so each day is 44 */
+@media (max-width:360px){.cal{margin:16px -18px 0;width:calc(100% + 36px);padding:16px 0 6px}}
 .cdow span{font-size:13px;color:var(--muted);font-weight:700;padding-bottom:2px}
 .cd{min-height:44px;min-width:0;padding:0;border:0;background:none;font:600 17px var(--sans);color:var(--text);border-radius:50%;cursor:pointer;aspect-ratio:1;max-width:46px;margin:0 auto;width:100%}
 .cd:disabled{color:#B9C4BC;cursor:default}
-.cd.win{background:#E3F0E6}
+.cd.win{background:var(--f2);color:var(--text)}
 .cd.mk{text-decoration:underline;text-decoration-color:var(--plum);text-decoration-thickness:3px;text-underline-offset:5px}
 .cal.small{margin:12px 0 4px;width:100%;padding:12px 2px 4px}
 .cal.small .cd{font-size:15px}
@@ -265,7 +270,7 @@ textarea{font:inherit;font-size:17px;width:100%;border-radius:14px;border:1.5px 
 .money input{width:160px}
 .list{margin:14px 0 0;padding:0;width:100%;max-width:310px;list-style:none;text-align:left;border:1.5px solid var(--frame);border-radius:16px;max-height:210px;overflow:auto}
 .list li{display:flex;justify-content:space-between;gap:10px;padding:12px 14px;font-size:17px;border-top:1px solid var(--frame)}
-.list li:first-child{border-top:0}.list li span{color:var(--muted);font-weight:700;white-space:nowrap}
+.list li:first-child{border-top:0}.list li span{color:var(--muted);font-weight:700;text-align:right;max-width:45%}
 .choice.hint,.choice.on{background:var(--ink);color:var(--screen);border-color:var(--ink)}.choice.hint small{color:var(--screen)}.choice.hint{margin:0;font-size:19px}.chips .choice.hint{font-size:16px}
 .choices .choice.hint::before,.choices .choice.on::before,.chips .choice.on::before{content:"";display:inline-block;width:.8em;height:.45em;border-left:3px solid currentColor;border-bottom:3px solid currentColor;transform:translateY(-.2em) rotate(-45deg);margin-right:.5em;vertical-align:middle}
 .choice{transition:background .15s,color .15s}@media (prefers-reduced-motion: reduce){.choice{transition:none}}
@@ -274,6 +279,10 @@ textarea{font:inherit;font-size:17px;width:100%;border-radius:14px;border:1.5px 
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 h2:focus,h3:focus{outline:none}
 .page{overflow-y:auto}
+/* alpha test, 8 Nov (small phone, dark): calendar days, tip cards, two-column choices, the photo strip, the viewer's
+   empty photo and disabled buttons all read in dark mode and at 320 wide now. */
+/* tester, 8 Nov: the Undo message covered Back and Skip; on a page it sits below the top buttons instead */
+.phone > .toast{bottom:auto;top:64px}
 .toast{position:absolute;left:12px;right:12px;bottom:12px;background:var(--bar);color:#fff;border-radius:14px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 6px 6px 16px;font-size:17px;z-index:10;animation:rise .3s ease}
 .toast button{min-height:44px;min-width:72px;border-radius:10px;border:1.5px solid #fff;background:none;color:#fff;font:700 16px var(--sans);cursor:pointer}
 .sizes .choice small{font-size:13px;font-weight:600}
@@ -291,6 +300,86 @@ h2:focus,h3:focus{outline:none}
 button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--plum);outline-offset:2px}
 @media (prefers-reduced-motion: reduce){.draw *,.peek,.seal,.text > *,.fresh *,.tabs button.new,.stamp.slam,.sheet,.scrim,.toast{animation:none!important;opacity:1;transform:none;stroke-dashoffset:0;fill-opacity:1}}
 @media (max-width:420px){.phone{height:760px}}
+.fsets{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:4px 0 12px}
+.fsets button{min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid var(--ink);background:var(--screen);color:var(--ink);font:700 15px var(--sans);cursor:pointer}
+.fsets button.on{background:var(--ink);color:var(--screen)}
+.fph{position:relative;margin:0;width:100%;aspect-ratio:4/5;max-height:38vh;border-radius:18px;overflow:hidden;border:1.5px solid var(--frame);background:var(--f1);touch-action:pan-y}
+.fph img{display:block;width:100%;height:100%;object-fit:contain;background:var(--f1)}
+.fnone{display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-weight:700;padding:20px 64px;text-align:center}
+.fnav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:1.5px solid var(--ink);background:var(--screen);color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.fnav svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.fnav[disabled]{opacity:.3;cursor:default}.fprev{left:8px}.fnext{right:8px}
+.fthumbs{display:flex;gap:8px;overflow-x:auto;padding:10px 2px 2px}
+.fthumbs button{flex:none;width:56px;height:56px;padding:0;border-radius:10px;overflow:hidden;border:1.5px solid var(--frame);background:var(--f1);cursor:pointer}
+.fthumbs button.on{border:3px solid var(--ink)}.fthumbs img{width:100%;height:100%;object-fit:cover;display:block}
+.fwords{margin:12px 0 4px;font-size:18px;line-height:1.45;color:var(--text);text-align:left;width:100%}
+/* owner, 8 Nov (Lemonade, second look): one page per part of the move. A title on paper, the drawing on the
+   long horizon, then the ground: one sentence, one button, round badges, one card of rows. A floating bar. */
+.page.lem{background:var(--ground)}
+.lem .ltop{background:var(--screen);padding-bottom:2px}
+.lround{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--ink);background:var(--screen);color:var(--ink);display:grid;place-items:center;cursor:pointer;padding:0;flex:none}
+.lround svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.lmark{position:absolute;left:50%;top:16px;transform:translateX(-50%);line-height:0}
+.lmark img{height:40px;width:auto}
+.ltext{background:var(--screen);padding:4px 22px 0}
+.ltext h2{font-size:34px}
+.lcount{margin:8px 0 0;color:var(--ink);font-size:19px;font-weight:700}
+.lcount b{font-size:30px;margin-right:6px;font-variant-numeric:tabular-nums}
+.pano{position:relative;overflow:hidden;background:var(--screen);flex:none;margin-top:6px;touch-action:pan-y}
+.pano-in{width:442.857%}
+.pano-in.go{transition:transform .55s cubic-bezier(.3,.1,.3,1)}
+.pano-in svg{display:block;width:100%;height:auto}
+.lground{flex:1 0 auto;display:flex;flex-direction:column;align-items:center;text-align:center;padding:14px 22px 20px;background:var(--ground)}
+.lone{margin:0;font-size:22px;line-height:1.3;font-weight:700;color:var(--text);max-width:24ch;text-wrap:balance}
+.lsub{margin:8px 0 0;font-size:19px;line-height:1.4;color:var(--muted);max-width:30ch;text-wrap:balance}
+.hundo{font-size:17px;margin-top:12px}.hundo .link{display:inline-flex;min-height:44px;margin:0 0 0 4px;padding:0 6px;vertical-align:middle}
+.lground .lsub:first-child{margin-top:0;color:var(--text)}
+.lground .lsub b{color:var(--ink)}
+.lground .cta{margin-top:16px}
+.lground .field{margin-top:14px}
+.badges{display:flex;justify-content:center;gap:12px;margin-top:20px;width:100%;max-width:340px}
+.badge{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:8px}
+/* alpha test, 8 Nov: at 320 wide with the largest text, "Tuesday" broke in the middle. Words stay whole; a badge that can't fit moves to the next line. */
+.badges{flex-wrap:wrap}.badge{min-width:92px;overflow-wrap:normal;word-break:normal}
+.bc{width:68px;height:68px;border-radius:50%;background:var(--screen);display:grid;place-items:center}
+.bc svg{width:44px;height:44px}
+.bc svg *{stroke:var(--ink);fill:var(--screen);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bc .f1{fill:var(--f1)} .bc .f2{fill:var(--f2)} .bc .f3{fill:var(--f3)} .bc .tape{fill:var(--tape)} .bc .nf{fill:none}
+.bc svg text{stroke:none;fill:var(--ink);font:800 14px var(--sans)}
+.bl{font-size:15px;line-height:1.25;color:var(--muted);overflow-wrap:anywhere}
+.bl b{display:block;font-size:17px;color:var(--text)}
+.lcard{width:100%;max-width:340px;margin-top:20px;background:var(--screen);border-radius:18px;overflow:hidden;text-align:left}
+.lrow:focus-visible{outline:3px solid var(--plum);outline-offset:-4px;border-radius:16px}
+.lrow .rt{overflow-wrap:break-word;hyphens:auto}.lrow .chev{flex:none}
+.lrow{display:flex;align-items:center;gap:14px;width:100%;min-height:60px;padding:8px 14px;border:0;border-top:1px solid var(--frame);background:none;color:var(--text);font:700 18px var(--sans);cursor:pointer;text-align:left}
+.lrow:first-child{border-top:0}
+.ric{width:40px;height:40px;border-radius:50%;background:var(--f1);display:grid;place-items:center;flex:none}
+.ric svg{width:22px;height:22px;fill:none;stroke:var(--ink);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.rt{flex:1;min-width:0}
+.chev{width:20px;height:20px;flex:none;fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pillbar{flex:none;background:var(--ground);padding:6px 12px 12px}
+.pill{display:flex;justify-content:space-between;background:var(--screen);border-radius:40px;padding:7px 6px 9px;box-shadow:0 12px 28px -14px #0D3B2266}
+.pill button{flex:1 1 0;min-width:0;border:0;background:none;color:var(--ink);font:700 12px var(--sans);white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:0;min-height:60px;position:relative}
+.pill .ic{width:42px;height:42px;border-radius:50%;background:var(--f1);display:grid;place-items:center}
+.pill .ic svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pill .ic svg .tf{fill:currentColor}
+.pill .ic svg .bf{fill:currentColor;fill-opacity:.16}
+.pill button.on .ic{background:var(--f2)}
+.pill button.on::after{content:"";position:absolute;bottom:-6px;left:50%;width:24px;margin-left:-12px;height:4px;border-radius:2px;background:var(--tape)}
+.pill button:focus-visible{outline:3px solid var(--tape);outline-offset:2px;border-radius:14px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pill{background:var(--f1);box-shadow:none;border-top:1px solid #ffffff24} :root:not([data-theme="light"]) .pill .ic{background:var(--f2)} :root:not([data-theme="light"]) .pill button.on .ic{background:var(--f3)}}
+.homemode .sheet,.homemode .scrim{bottom:88px}
+.homemode .sheet.msheet{top:24px;bottom:0}
+.homemode .msheet ~ .scrim,.homemode .scrim:has(+ .msheet){bottom:0}
+.mhandle{width:44px;height:5px;border-radius:3px;background:var(--frame);margin:10px auto 0;flex:none}
+.mhi{font-size:30px;text-align:center;margin:0}
+.mline{text-align:center;color:var(--muted);margin:6px 0 0;font-size:17px}
+.mgroup{margin:22px 4px 0;color:var(--muted);font-size:16px;font-weight:700}
+.msheet .lcard{max-width:none;margin-top:8px;background:var(--ground)}
+.msheet .ric{background:var(--screen)}
+@media (prefers-reduced-motion: reduce){.pano-in.go{transition:none}}
+#hres{width:100%;max-width:310px}
+.fore .ring{fill:none;stroke:var(--tape);stroke-width:2.5}
 </style>
 
 <div id="live" class="sr" aria-live="polite"></div>
@@ -402,6 +491,8 @@ function bigSvg(kind,x,f){
   if(/Bed frame|Mattress|Headboard/.test(kind)) return g(`<rect x="0" y="300" width="100" height="26" rx="4" class="f2"/><rect x="0" y="282" width="10" height="62"/><path class="nf" d="M96 326v18M14 326v18"/><rect x="14" y="290" width="26" height="10" rx="4"/>`);
   if(/lamp/i.test(kind)) return g(`<path d="M10 290h24l-6-18h-12z" class="f2"/><path class="nf" d="M22 290v50M12 344h20"/>`);
   if(/table|Desk|Buffet|Sideboard|Workbench/.test(kind)) return g(`<rect x="0" y="306" width="80" height="8" rx="2" class="f2"/><path class="nf" d="M6 314v30M74 314v30"/>`);
+  /* tester, 8 Nov: "The bookshelf." was drawn as a cushion. A bookcase is shelves with books on them. */
+  if(/book|shel[fv]/i.test(kind)) return g(`<rect x="0" y="262" width="58" height="82" rx="2" class="f1"/><path class="nf" d="M0 290h58M0 316h58"/><rect x="6" y="270" width="7" height="20"/><rect x="14" y="273" width="6" height="17" class="f2"/><rect x="22" y="268" width="8" height="22"/><rect x="40" y="296" width="7" height="20" class="f2"/><rect x="48" y="299" width="6" height="17"/><rect x="8" y="324" width="9" height="20"/><rect x="18" y="327" width="7" height="17" class="f2"/>`);
   if(/Dresser|Chest|Nightstand|Bookcase|cabinet|Shelv|Tool chest|Refrigerator|Washer|Dryer/.test(kind)) return g(`<rect x="0" y="290" width="60" height="54" rx="3" class="f1"/><path class="nf" d="M0 308h60M0 326h60M26 299h8M26 317h8M26 335h8"/>`);
   if(/Wheelchair/.test(kind)) return g(`<circle cx="30" cy="318" r="24" class="nf"/><circle cx="62" cy="336" r="8"/><path class="nf" d="M14 290 h20 l6 24 h24 l-2 22 M18 282 v30"/>`);
   return g(`<rect x="0" y="276" width="70" height="68" rx="6" class="f3"/><path class="nf" d="M6 292 c12 6 22 -6 34 0 s22 6 30 0 M6 316 c12 6 22 -6 34 0 s22 6 30 0"/>`);
@@ -434,7 +525,9 @@ const STAMPS=["Fragile","Heavy","Private","Valuable","Open first","Goes with me"
 const STAMPC={Fragile:"#B3261E",Heavy:"var(--ink)",Private:"var(--plum)",Valuable:"var(--plum)","Open first":"#2E9358","Goes with me":"var(--text)"};
 const specialSub=()=>S.flags.includes("Heavy")&&/^(L|XL)$/.test(S.size)?"Heavy things travel better in small boxes. A big box this heavy can split, or be too much to lift.":"Tap any that apply, or none. Save it either way.";
 let stampAt="";
-function scene(mode){
+/* owner, 8 Nov: "I don't want old drawings where they don't belong." The room with the bookcase and the window is the
+   packing room: it's behind packing a box and nowhere else. Dates, the new place, the truck and the calendar stand on their own. */
+function scene(mode){ if(mode==='none') return '';
   let f="";
   if(mode==="mguide"){
     const room=roomItems(), b=room[S.mi]||{what:""}, k=1.55;
@@ -453,7 +546,7 @@ function scene(mode){
       const tw=Math.max(86,k.length*10.5+20); f+=`<g class="stamp${k===stampAt?' slam':''}" transform="translate(${sx} ${sy}) rotate(${rot})"><rect x="${-tw/2}" y="-13.5" width="${tw}" height="27" rx="5" style="fill:var(--screen);fill-opacity:.85;stroke:${c};stroke-width:3"/><text x="0" y="6" text-anchor="middle" style="fill:${c};font-size:16px;letter-spacing:.05em">${k.toUpperCase()}</text></g>`; });
     return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${ROOM}<rect class="gnd" x="0" y="344" width="360" height="40"/><g class="fore">${f}</g><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
   }
-  if(mode==="blank") return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${ROOM}<rect class="gnd" x="0" y="344" width="360" height="40"/><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
+  if(mode==="blank") return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><rect class="gnd" x="0" y="344" width="360" height="40"/><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
   if(mode==="calendar"){
     /* a desk calendar opens, and the day you pick gets circled */
     const base=S.date?new Date(S.date+'T12:00'):new Date(), y=base.getFullYear(), m=base.getMonth(), first=new Date(y,m,1).getDay(), dim=new Date(y,m+1,0).getDate(), pickD=S.date?base.getDate():0;
@@ -465,7 +558,99 @@ function scene(mode){
     for(let d=1;d<=dim;d++){ const k=first+d-1, cx=X+cw*(k%7)+cw/2, cy=top+rh*Math.floor(k/7)+rh/2+4;
       f+=`<text x="${cx}" y="${cy}" text-anchor="middle" style="font-size:13px${d===pickD?';font-weight:800':''}">${d}</text>`;
       if(d===pickD) f+=`<ellipse class="nf circ" cx="${cx}" cy="${cy-4}" rx="15" ry="12"/>`; }
-    return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${ROOM}<rect class="gnd" x="0" y="344" width="360" height="40"/><g class="fore">${f}</g><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
+    return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><rect class="gnd" x="0" y="344" width="360" height="40"/><g class="fore">${f}</g><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
+  }
+  /* owner, 7 Nov: "can't each scene tell its own story?" then "upgrade the drawings". The move and
+     sorting questions each get a full drawing, outdoors where it belongs, at the same weight and
+     detail as the first screens: big shapes, a few small true details, nothing behind them. */
+  if(/^(mto|mfrom|mfound|mold|mhow|mpack|mself|lgo|lfate|lhelp)$/.test(mode)){
+    const P=(d,c)=>`<path class="${c||''}" d="${d}"/>`, R=(x,y,w,h,c,r)=>`<rect class="${c||''}" x="${x}" y="${y}" width="${w}" height="${h}"${r?` rx="${r}"`:''}/>`, C=(x,y,r,c)=>`<circle class="${c||'nf'}" cx="${x}" cy="${y}" r="${r}"/>`, T=(x,y,t,sz,a)=>`<text x="${x}" y="${y}" text-anchor="${a||'middle'}" style="font-size:${sz||11}px">${t}</text>`;
+    /* a house: eaves, chimney, a door with its knob and step, windows with panes and sills */
+    const house=(x,y,w,c)=>{ const h=w*0.62, ry=y-h, rt=ry-w*0.42; let o='';
+      o+=R(x+w*0.68,rt+w*0.1,w*0.1,w*0.2,'f2');
+      o+=P(`M${x-8} ${ry} L${x+w/2} ${rt} L${x+w+8} ${ry} Z`,'f2')+P(`M${x+w*0.22} ${ry-w*0.1} L${x+w/2} ${rt+w*0.12} M${x+w*0.3} ${ry-w*0.03} L${x+w*0.5} ${rt+w*0.2}`,'nf');
+      o+=R(x,ry,w,h,c||'');
+      const dw=w*0.2, dx=x+w/2-dw/2; o+=R(dx,y-h*0.6,dw,h*0.6,'f2')+R(dx+dw*0.2,y-h*0.52,dw*0.6,h*0.14,'f1')+C(dx+dw*0.8,y-h*0.28,2)+R(dx-6,y-4,dw+12,4,'f3');
+      [x+w*0.1,x+w*0.66].forEach(wx=>{ const ww=w*0.24, wh=h*0.36, wy=ry+h*0.18; o+=R(wx,wy,ww,wh,'f1')+P(`M${wx+ww/2} ${wy} v${wh} M${wx} ${wy+wh/2} h${ww}`,'nf')+R(wx-3,wy+wh,ww+6,4,'f3'); });
+      return o; };
+    const tree=(x,s)=>{ s=s||1; const y=344-56*s; return P(`M${x} 344 v${-40*s} M${x} ${344-30*s} l${-9*s} ${-9*s} M${x} ${344-24*s} l${8*s} ${-8*s}`,'nf')+P(`M${x-24*s} ${y+8*s} c${-10*s} ${-4*s} ${-10*s} ${-22*s} ${4*s} ${-24*s} c${2*s} ${-14*s} ${20*s} ${-18*s} ${28*s} ${-8*s} c${12*s} ${-6*s} ${26*s} ${4*s} ${20*s} ${18*s} c${10*s} ${6*s} ${6*s} ${22*s} ${-8*s} ${22*s} c${-10*s} ${8*s} ${-30*s} ${8*s} ${-44*s} ${-8*s} z`,'f1'); };
+    const bush=(x,w)=>P(`M${x} 344 q0 -18 ${w*0.3} -20 q6 -12 ${w*0.4} -4 q${w*0.3} -2 ${w*0.3} 24 z`,'f1');
+    const cloud=(x,y)=>P(`M${x} ${y} q-14 0 -12 -12 q2 -12 16 -8 q6 -14 22 -8 q14 -2 14 12 q8 2 6 16 z`,'f1');
+    const birds=(x,y)=>P(`M${x} ${y} q6 -6 12 0 q6 -6 12 0 M${x+40} ${y-14} q5 -5 10 0 q5 -5 10 0`,'nf');
+    const pin=(x,y)=>P(`M${x} ${y} c-14 -18 -17 -26 -17 -33 a17 17 0 0 1 34 0 c0 7 -3 15 -17 33 z`,'tape')+C(x,y-33,6,'f1');
+    const box=(x,y,w,lab,t)=>{ const h=Math.round(w*0.78); return R(x,y-h,w,h)+R(x+w/2-w*0.08,y-h,w*0.16,h*0.36,'tape')+(lab?R(x+w*0.1,y-h*0.62,w*0.36,h*0.24,'',2)+T(x+w*0.28,y-h*0.45,lab,Math.max(6,w*0.11)):'')+(t?R(x-3,y-h-5,w+6,5,'f3',2):''); };
+    /* a kraft tag on a string, with a word big enough to read */
+    const tag=(x,y,t,len)=>P(`M${x} ${y-(len||22)} v${(len||22)-14}`,'nf')+P(`M${x-30} ${y-14} h60 v30 h-60 z`,'f3')+C(x,y-6,3)+T(x,y+11,t,13);
+    const sofa=(x,y,s)=>{ s=s||1; const g=v=>v*s; return `<g transform="translate(${x} ${y}) scale(${s})">`+R(6,-74,148,40,'f2',12)+R(0,-44,160,30,'',8)+R(-10,-58,26,54,'f1',10)+R(144,-58,26,54,'f1',10)+P('M70 -70 v30 M40 -70 v30 M100 -70 v30 M130 -70 v30','nf')+P('M4 -4 v6 M156 -4 v6','')+`</g>`; };
+    const lamp=(x)=>P(`M${x-22} 220 h44 l12 30 h-68 z`,'f1')+P(`M${x} 250 v90`,'nf')+R(x-16,338,32,6,'f3',2);
+    const truck=(x,s,open)=>`<g transform="translate(${x} 344) scale(${s||1})">`+R(0,-122,200,104,'',6)+(open?R(8,-114,184,88,'f1',3):P('M100 -122 v104','nf'))+P('M200 -88 h46 l34 36 v34 h-80 z','f2')+P('M210 -78 h30 l24 26 h-54 z','f3')+R(272,-30,12,8,'f3',2)+C(48,-6,17)+C(48,-6,6,'f2')+C(238,-6,17)+C(238,-6,6,'f2')+`</g>`;
+    if(mode==="mto"){
+      /* the road out: over the hill and through the trees to a pin where the new place will be */
+      f+=cloud(70,118)+cloud(262,96)+birds(150,140);
+      f+=P('M-10 250 Q70 214 160 230 T370 222 V344 H-10 Z','f1')+P('M-10 290 Q100 262 200 280 T370 276 V344 H-10 Z','f2');
+      f+=P('M118 344 L170 232 L190 232 L248 344 Z','f1')+P('M180 336 v-14 M180 304 v-12 M180 278 v-9 M180 258 v-7 M180 243 v-5','nf');
+      f+=tree(56,1.1)+tree(318,0.8)+tree(96,0.7);
+      f+=`<g transform="translate(232 0)">${house(0,232,56,'f1')}</g>`+pin(260,166);
+      f+=P('M30 344 V250','')+P('M14 246 h64 l14 14 l-14 14 h-64 z','f3')+T(48,265,'NEXT',12);
+    } else if(mode==="mfrom"){
+      /* here: your house with the boxes by the door. A dotted way across to the new place, far off, under its pin */
+      f+=cloud(250,96)+tree(170,0.9);
+      f+=house(18,344,140,'f1')+box(118,344,40,'KIT',true)+box(154,344,30,'',false)+bush(6,40);
+      for(let i=0;i<9;i++){ const t=i/8, px=150+t*156, py=210-Math.sin(t*Math.PI)*92; f+=C(px,py,2.6,'tape'); }
+      f+=`<g transform="translate(272 0)">${house(0,344,64,'f2')}</g>`+pin(304,238);
+      f+=T(88,168,'Here',13)+(S.to?T(304,184,esc(String(S.to).split(',')[0]).slice(0,16),12):'');
+    } else if(mode==="mfound"){
+      /* the new place, the path to its door, a sign on the lawn, and the rabbit's magnifier still looking */
+      f+=cloud(80,104)+tree(320,1);
+      f+=house(70,344,170,'f1')+P('M146 344 l-14 0 l6 -6 h40 l6 6 z','f3')+bush(36,46)+bush(236,40);
+      f+=P('M282 344 V268','')+R(248,220,72,50,'f3',4)+P('M268 254 l16 -14 l16 14 M272 251 v12 h24 v-12','nf');
+      f+=C(306,186,22)+C(306,186,16,'f1')+P('M322 202 l20 20','" style="stroke-width:7');
+    } else if(mode==="mold"){
+      /* the old place's front door: open onto the hall, a box on the step, keys on their hook, a lamp, a plant */
+      f+=R(84,120,168,224,'f1')+R(102,140,132,204)+P('M102 140 L150 152 V332 L102 344 Z','f2')+C(140,250,3.5);
+      f+=P('M150 152 h84 M150 332 h84','nf')+R(170,170,44,56,'f1')+P('M192 170 v56 M170 198 h44','nf');
+      f+=R(96,338,150,6,'f3',2)+box(176,338,52,'BED',true);
+      f+=P('M42 150 h22 v26 l-11 10 l-11 -10 z','f1')+C(53,194,3,'tape');
+      f+=P('M280 176 h20','')+C(290,190,9)+P('M286 198 l-4 30 h7 v-6 h6 v-6 h-5 l2 -18','f1');
+      f+=R(282,300,30,44,'f2',3)+P('M297 300 c-14 -12 -14 -30 -4 -36 M297 300 c10 -14 18 -20 24 -18 M297 300 c0 -16 2 -28 10 -34','nf');
+    } else if(mode==="mhow"){
+      /* heavy lifting: the truck at the curb, back open, a ramp down, a hand truck with two boxes on its way up */
+      f+=cloud(250,140)+truck(96,0.8,true)+box(116,330,36,'',false)+box(158,330,28,'',false);
+      f+=P('M96 332 L14 344 H96 Z','f2');
+      f+=`<g transform="translate(52 339) rotate(-9)">${P('M-4 -104 v104 h34','" style="stroke-width:3.5;fill:none')}${C(2,6,7)}${box(0,-4,40,'KIT',false)}${box(4,-36,32,'',false)}</g>`;
+    } else if(mode==="mpack"){
+      /* packing: an open box, plates wrapped and going in, the tape gun, and a stack of packing paper */
+      f+=R(30,300,92,44,'f1',2)+P('M36 300 l8 -8 h82 l-6 8','f1')+P('M40 312 h70 M40 324 h56','nf');
+      f+=P('M140 244 L110 212 L158 212 L176 244 Z','f2')+P('M286 244 L316 212 L268 212 L250 244 Z','f2');
+      f+=R(140,244,146,100)+R(206,244,14,34,'tape');
+      f+=`<ellipse class="f1" cx="213" cy="232" rx="44" ry="8"/><ellipse class="f1" cx="213" cy="222" rx="44" ry="8"/><ellipse class="f1" cx="213" cy="212" rx="44" ry="8"/>`+P('M178 206 q35 -18 70 0','nf');
+      f+=C(318,312,20)+C(318,312,9,'tape')+P('M296 330 h46 l6 14 h-58 z','f2')+P('M336 312 l18 -8','');
+    } else if(mode==="mself"){
+      /* on your own: the car with boxes strapped on the roof, and a moving container at the curb */
+      f+=cloud(110,116);
+      f+=P('M16 332 v-28 q0 -10 10 -12 l30 -6 l26 -28 h66 q10 0 16 8 l22 26 q20 2 22 14 v26 z','f1')+P('M88 266 h44 l20 24 h-64 z','f3')+P('M80 290 v40','nf')+R(178,304,10,6,'f3',1);
+      f+=C(64,332,16)+C(64,332,6,'f2')+C(164,332,16)+C(164,332,6,'f2');
+      f+=P('M86 258 h58','')+box(90,258,32,'',false)+box(124,258,26,'',false)+P('M84 250 l10 8 M150 250 l-8 8','nf');
+      f+=R(206,212,124,132,'f2',4)+P('M268 222 v114','nf')+P('M258 268 v22 M278 268 v22','" style="stroke-width:3.5')+R(218,224,40,12,'f1',2)+P('M214 344 v-6 M322 344 v-6','');
+    } else if(mode==="lgo"){
+      /* what stays behind waits by the door: the sofa to sell, a bag to give away, a lamp you're not sure about */
+      f+=R(14,120,98,224,'f1')+R(28,136,70,208)+P('M28 136 L66 148 V332 L28 344 Z','f2');
+      f+=sofa(124,344,0.68)+tag(178,262,'SELL',26);
+      f+=P('M248 344 q-10 -40 6 -60 q16 -12 32 0 q16 20 6 60 z','f1')+P('M262 284 q8 -12 18 0','nf')+tag(270,272,'GIVE',18);
+      f+=lamp(328)+tag(328,212,'?',20);
+    } else if(mode==="lfate"){
+      /* the one thing being decided, drawn big, its tag still blank */
+      const w=(S.lpick||[])[S.fi]||'Sofa';
+      if(/Sofa|Sectional|Couch|Loveseat/i.test(w)) f+=sofa(60,344,1.5)+tag(180,214,'?',30);
+      else { const k=1.9; f+=`<g transform="translate(${180-48*k} ${344-344*k}) scale(${k})">${bigSvg(w,0,false)}</g>`+tag(180,196,'?',30); }
+    } else {
+      /* the pickup: a van at the curb, PICKUP on its side, the GIVE box going in */
+      f+=cloud(250,130);
+      f+=P('M24 334 v-80 q0 -10 10 -10 h170 v90 z','f1')+P('M204 256 h46 l34 34 v44 h-80 z','f2')+P('M214 266 h32 l26 26 h-58 z','f3');
+      f+=T(112,296,'PICKUP',16)+P('M40 310 h150','nf')+C(76,334,16)+C(76,334,6,'f2')+C(244,334,16)+C(244,334,6,'f2');
+      f+=box(286,344,46,'',true)+tag(309,286,'GIVE',16);
+    }
+    return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><rect class="gnd" x="0" y="344" width="360" height="40"/><g class="fore">${f}</g><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
   }
   if(mode==="house"||mode==="house2"){
     /* the new place: a house with its door open; for size, the place you're leaving beside it */
@@ -473,7 +658,7 @@ function scene(mode){
     if(mode==="house") f+=hs(98,164);
     else { const k=({Bigger:1.3,"About the same":1,Smaller:0.74,"A lot smaller":0.55})[S.bigger]||1; f+=hs(24,128,'f2')+`<text x="88" y="214" text-anchor="middle" style="font-size:13px;fill:var(--muted)">Now</text>`; const w=Math.round(128*k); f+=hs(206+Math.round((128-w)/2),w)+`<text x="270" y="${344-w*0.78-12}" text-anchor="middle" style="font-size:13px;fill:var(--muted)">New</text>`; }
     if(S.place==='signed'&&mode==="house") f+=`<g transform="translate(266 214) rotate(18)"><circle class="nf" cx="0" cy="0" r="12"/><path class="nf" d="M12 0 h34 M38 0 v8 M30 0 v6"/></g>`;
-    return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${ROOM}<rect class="gnd" x="0" y="344" width="360" height="40"/><g class="fore">${f}</g><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
+    return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><rect class="gnd" x="0" y="344" width="360" height="40"/><g class="fore">${f}</g><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
   }
   if(mode==="truck"){
     /* a box truck, drawn in; on the tab screen the rabbit's kraft tag hangs from the mirror with the date */
@@ -482,7 +667,7 @@ function scene(mode){
     for(let i=0;i<n;i++){ const bx=58+(i%3)*58, by=i<3?268:226; f+=`<rect x="${bx}" y="${by}" width="48" height="38"/><rect class="tape" x="${bx+19}" y="${by}" width="10" height="38"/>`; }
     f+=`<circle class="nf" cx="96" cy="326" r="18"/><circle class="f2" cx="96" cy="326" r="6"/><circle class="nf" cx="280" cy="326" r="18"/><circle class="f2" cx="280" cy="326" r="6"/>`;
     if(cur==='movingTab'){ const tg=truckTag()||'Soon'; f+=`<path class="nf" d="M262 228 C 262 214, 276 206, 290 196"/><g transform="translate(290 196) rotate(-12)"><path d="M0 -14 h66 v28 h-66 l-12 -14 z"/><circle class="nf" cx="-3" cy="0" r="3"/><text x="30" y="6" text-anchor="middle" style="font-size:15px">${esc(tg)}</text></g>`; }
-    return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${ROOM}<rect class="gnd" x="0" y="344" width="360" height="40"/><g class="fore">${f}</g><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
+    return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><rect class="gnd" x="0" y="344" width="360" height="40"/><g class="fore">${f}</g><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
   }
   if(mode==="toobig"){
     /* a sofa and a bike that will never fit in a box */
@@ -512,15 +697,16 @@ function scene(mode){
   }
   return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><defs><clipPath id="above"><rect x="0" y="0" width="360" height="342"/></clipPath></defs>${ROOM}<rect class="gnd" x="0" y="344" width="360" height="40"/><g class="fore">${f}</g><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
 }
-const TAB={Boxes:'<path class="bf" d="M4.5 10h15v10h-15z"/><path d="M3 6.5h18V10H3z"/><path class="tf" d="M10.25 6.5h3.5v6h-3.5z"/><path d="M8 14.5h8V18H8z"/>',Furniture:'<path d="M4 18v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6M2 14h20M5 18v2M19 18v2M6 10V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3"/>',Moving:'<path d="M4 6h16v14H4zM4 10.5h16M8.5 3.5v5M15.5 3.5v5M8 14h2M12 14h2M16 14h0M8 17h2M12 17h2"/>',Menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',Sorting:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/>'};
-const TABORDER=['Boxes','Furniture','Moving','Sorting','Menu'];
+const TAB={Home:'<path d="M3.5 11.5 12 4.5l8.5 7"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5.5h4V20"/>',Boxes:'<path class="bf" d="M4.5 10h15v10h-15z"/><path d="M3 6.5h18V10H3z"/><path class="tf" d="M10.25 6.5h3.5v6h-3.5z"/><path d="M8 14.5h8V18H8z"/>',Furniture:'<path d="M4 18v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6M2 14h20M5 18v2M19 18v2M6 10V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3"/>',Moving:'<path d="M4 6h16v14H4zM4 10.5h16M8.5 3.5v5M15.5 3.5v5M8 14h2M12 14h2M16 14h0M8 17h2M12 17h2"/>',Menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',Sorting:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/>'};
+const TABORDER=['Home','Boxes','Furniture','Moving','Sorting','Menu'];
 const TABNAME={Furniture:'Big Stuff',Moving:'Calendar'}, nm=n=>TABNAME[n]||n;
-const SECTION={}; [['Furniture',['toobig','bigFirst','bigWhere','roomItem','itemPhoto','itemCond','itemQ','bigMissing']],['Sorting',['leave','lpick','dhow','sprice','uq','uverdict','llist']],['Moving',['mwhyask','hask','mto','mfrom','mwhy','mwho','hplan','hbeds','hbudget','hsearch','hphoto','hlink','hdetails','hstart','hclose','htitle','oldplace','oldend','oldclose','moveday','mfound','msize','hkind','hneeds','hshow','moving','mfar','mhow','mbooked','mname','mdot','mnq','mquote','mread','mstairs','mdoor','mpacket','mtruck','mhelp','mboth','mrent']]].forEach(([n,ids])=>ids.forEach(i=>SECTION[i]=n));
+const SECTION={}; [['Furniture',['toobig','bigFirst','bigWhere','roomItem','itemPhoto','itemCond','itemQ','bigMissing']],['Sorting',['lgo','lpickall','lfate','lhelp','leave','lpick','dhow','sprice','uq','uverdict','llist']],['Moving',['mwhyask','hask','mto','mfrom','mwhy','mwho','hplan','hbeds','hbudget','hsearch','hphoto','hlink','hdetails','hstart','hclose','htitle','oldplace','oldend','oldclose','moveday','mhowfirst','mpackq','mselfq','mfound','msize','hkind','hneeds','hshow','moving','mfar','mhow','mbooked','mname','mdot','mnq','mquote','mread','mstairs','mdoor','mpacket','mtruck','mhelp','mboth','mrent']]].forEach(([n,ids])=>ids.forEach(i=>SECTION[i]=n));
 function bar(){
+  if(S.homeMode) return pillBar();
   if(!S.tabs.length) return '';
-  const t=TABORDER.filter(n=>S.tabs.includes(n)).map(n=>`<button type="button" data-tab="${n}" class="${n===newTab&&!hopping?'new':''} ${hopping===n?'wait':''} ${n===openTab?'on':''}" aria-expanded="${n===openTab}"><svg viewBox="0 0 24 24" aria-hidden="true">${TAB[n]}</svg>${nm(n)}${n==='Moving'&&hopping!=='Moving'&&truckTag()?`<span class="mtag">${truckTag()}</span>`:''}</button>`).join('');
-  const next=TABORDER.find(n=>!S.tabs.includes(n)), ghost=next&&!hopping&&(SECTION[cur]===next)?`<div class="ghosttab" title="Coming next"><svg viewBox="0 0 24 24" aria-hidden="true">${TAB[next]}</svg>${nm(next)}<span class="sr"> is next</span></div>`:'';
-  return `<div class="bar"><nav class="tabs">${t}${ghost}</nav></div>`;
+  const t=TABORDER.filter(n=>S.tabs.includes(n)).map(n=>`<button type="button" data-tab="${n}" class="${n===newTab&&!hopping?'new':''} ${hopping===n?'wait':''} ${n===openTab||(!openTab&&S.homeMode&&((n==='Home'&&cur==='home')||(n==='Boxes'&&(cur==='myBoxes'||cur==='flip'))))?'on':''}" ${S.homeMode&&(n==='Home'||n==='Boxes')?(((n==='Home'&&cur==='home')||(n==='Boxes'&&(cur==='myBoxes'||cur==='flip')))?'aria-current="page"':''):`aria-expanded="${n===openTab}"`}><svg viewBox="0 0 24 24" aria-hidden="true">${TAB[n]}</svg>${nm(n)}${n==='Moving'&&hopping!=='Moving'&&truckTag()?`<span class="mtag">${truckTag()}</span>`:''}</button>`).join('');
+  const next=TABORDER.find(n=>n!=='Home'&&!S.tabs.includes(n)), ghost=next&&!hopping&&(SECTION[cur]===next)?`<div class="ghosttab" title="Coming next"><svg viewBox="0 0 24 24" aria-hidden="true">${TAB[next]}</svg>${nm(next)}<span class="sr"> is next</span></div>`:'';
+  return `<div class="bar"><nav class="tabs${TABORDER.filter(n=>S.tabs.includes(n)).length>5?' six':''}">${t}${ghost}</nav></div>`;
 }
 const learn=(n)=>{ if(!S.tabs.includes(n)){ S.tabs.push(n); newTab=n; } };
 
@@ -565,16 +751,18 @@ function icsText(){ const L=allDates(), stamp=new Date().toISOString().replace(/
   const ev=L.map(([d,l],i)=>{ const a=d.replace(/-/g,''), b=addDays(d,1).replace(/-/g,''); return ['BEGIN:VEVENT',`UID:pr-${a}-${i}@packedrabbit.com`,`DTSTAMP:${stamp}`,`DTSTART;VALUE=DATE:${a}`,`DTEND;VALUE=DATE:${b}`,`SUMMARY:${esc2(l)}`,'DESCRIPTION:From The Packed Rabbit','BEGIN:VALARM','ACTION:DISPLAY',`DESCRIPTION:${esc2(l)}`,'TRIGGER:-PT15H','END:VALARM','END:VEVENT'].join('\r\n'); });
   return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//The Packed Rabbit//Move//EN','CALSCALE:GREGORIAN',...ev,'END:VCALENDAR'].join('\r\n'); }
 function addToCalendar(){ const blob=new Blob([icsText()],{type:'text/calendar'}), u=URL.createObjectURL(blob), a=document.createElement('a'); a.href=u; a.download='my-move.ics'; document.body.appendChild(a); a.click(); setTimeout(()=>{ a.remove(); URL.revokeObjectURL(u); },4000); say('Your dates are ready for your calendar.'); }
-function homeDone(){ if(S.tabs.includes('Moving')){ const r=S.retTo; S.retTo=''; show(r&&P[r]?r:'sortTab'); setTimeout(()=>openSheet('Moving'),50); } else earnMoving(); }
+const STEP6={}; [['mto'],['mfrom','mfar','mwhyask','mwhy','mwho'],['mfound','hkind','hbeds','hbudget','hneeds','hsearch','hshow','hask','hphoto','hlink','hdetails','hplan','hstart','hclose','htitle'],['oldplace','oldend','oldclose'],['moveday','mdeliver'],['mhowfirst','mpackq','mselfq']].forEach((g,i)=>g.forEach(k=>STEP6[k]=i+1));
+function homeDone(){ S.m6=0; if(S.tabs.includes('Moving')){ const r=S.retTo; S.retTo=''; show(r&&P[r]?r:'sortTab'); setTimeout(()=>openSheet('Moving'),50); } else earnMoving(); }
 
-function toSorting(){ S.li=0; S.lstage='ask'; S.lsay=''; show('leave'); }
+function toSorting(){ S.li=0; S.lstage='ask'; S.lsay=''; S.lists=S.lists||{donate:[],sell:[],unsure:[]}; S.leave=S.leave||{}; show('lgo'); }
 /* owner, 8 Nov (on the website): "it asks so many times, are you renting". Asked once: if the place you're leaving was already answered, the second question is skipped. */
 function toRent(){ if(S.rent) earnMoving(); else show('mrent'); }
 function earnMoving(){ S.mover=MOVERS()?(/booked/.test(S.booked)?"Yes, they're booked":/prices/.test(S.booked)?"I'm getting quotes":'Not yet'):/truck|Friends|container/.test(S.how||'')?"I'm moving myself":''; learn('Moving'); hopping=matchMedia('(prefers-reduced-motion: reduce)').matches?'':'Moving'; show('movingTab'); if(hopping) hop('Moving'); else landSoon('Moving'); }
 const KIT=[["fit/","Will it fit through the door?"],["quote-check/","Is this quote a scam?"],["mover-check/","Can I trust this mover?"],["truck/","What size truck?"],["deposit/","When is my deposit due back?"],["tip/","How much to tip"]];
 const HOWS=["Movers pack and move it","Movers move it, I pack","A rental truck","Friends and our cars","A moving container","Not sure yet"];
 const MOVERS=()=>S.place==='signed'&&/^Movers/.test(S.how||''), INTER=()=>S.far==='Another state';
-const fmtD=d=>new Date(d+'T12:00').toLocaleDateString('en-US',{month:'long',day:'numeric'});
+/* tester, 8 Nov: "December" and "1." split across two lines. The month and day stay together. */
+const fmtD=d=>new Date(d+'T12:00').toLocaleDateString('en-US',{month:'long',day:'numeric'}).replace(' ','\u00a0');
 const today0=()=>{ const t=new Date(); t.setHours(12,0,0,0); return t; };
 const daysTo=()=>S.date?Math.round((new Date(S.date+'T12:00')-today0())/864e5):null;
 const dayLine=()=>{ const n=daysTo(); return n==null?'':n>1?`That's ${n} days away.`:n===1?"That's tomorrow.":n===0?"That's today.":''; };
@@ -713,9 +901,10 @@ const P={
     body:`<div class="choices">${(isBiz()?["Supply closet","Storage room"]:["A closet","Garage"]).map(r=>`<button class="choice" data-room="${r}">${r}</button>`).join('')}</div><div class="field"><select id="otherroom" aria-label="Another room">${roomOpts('Another room')}</select></div>`}),
   photo:()=>({say:`${code()}${S.words?': '+esc(S.words):''}. ${destLine(S.dest)}`, h:S.photos.length?"Add another, or go on.":"Let's take a picture.", sub:S.photos.length?(S.photos.length===1?"One photo so far.":`${S.photos.length} photos so far.`):"", body:S.photos.length?`<div class="shots">${S.photos.map((u,i)=>`<div class="shotw"><img class="shot" src="${u}" alt="Photo ${i+1}"><button class="unshot" data-unshot="${i}" aria-label="Remove photo ${i+1}">Remove</button></div>`).join('')}</div><button class="cta" data-go="special">Next</button><label class="choice lab">Add another photo<input type="file" accept="image/*" multiple hidden data-pic></label>`
       :(S.camOk?`<label class="cta lab">Add a photo<input type="file" accept="image/*" multiple hidden data-pic></label>`:`<button class="cta" id="askcam">Add a photo</button><input type="file" accept="image/*" multiple hidden data-pic>`)+`<div class="packtip"><b>Packing a cabinet, a closet or a drawer full of things?</b><p>Take a picture of it as a whole first, before anything is wrapped. Then take one inside the box once it's full, before you close it.</p></div><button class="link" data-go="special">Skip</button>`}),
-  closet:()=>{ const top=["Front hall closet","Primary bedroom closet","Hall closet","Linen closet","Coat closet","Bathroom closet"], rest=["Bedroom closet","Walk-in closet","Basement closet","Attic closet","First floor closet","Second floor closet"];
-    return ({h:"Which closet?", sub:"So the box goes back to the right one.", scene:"start",
-    body:`<div class="choices two">${top.map(r=>`<button class="choice" data-closet="${r}">${r}</button>`).join('')}</div><div class="field"><select id="closetsel" aria-label="Another closet"><option value="" selected disabled>Another closet</option>${rest.map(r=>`<option>${r}</option>`).join('')}</select></div>`}); },
+  closet:()=>{ /* owner, 7 Nov: ask what room the closet is in */
+    const top=[["Primary bedroom","Primary bedroom closet"],["Another bedroom","Bedroom closet"],["Front hall","Front hall closet"],["Hallway","Hall closet"],["Bathroom","Bathroom closet"],["Basement","Basement closet"]], rest=["Linen closet","Coat closet","Walk-in closet","Attic closet","First floor closet","Second floor closet"];
+    return ({h:"What room is the closet in?", sub:"So the box goes back to the right one.", scene:"start",
+    body:`<div class="choices two">${top.map(([l,r])=>`<button class="choice" data-closet="${r}">${l}</button>`).join('')}</div><div class="field"><select id="closetsel" aria-label="Another closet"><option value="" selected disabled>Another closet</option>${rest.map(r=>`<option>${r}</option>`).join('')}</select></div>`}); },
   dest:()=>({say:S.words?`${code()}: ${esc(S.words)}.`:`${code()}.`, h:"Where does it go at the new place?", sub:"Write it on the box too. Movers read it to know where to set it down.",
     body:`<button class="cta" data-dest="${esc(S.room)}">Back in the ${esc(lc(S.room))}</button>
       <div class="field"><select id="destsel" aria-label="A different room">${roomOpts('A different room')}</select></div>
@@ -735,18 +924,101 @@ const P={
     body:`<div class="chips" role="group" aria-label="Marks for this box">${STAMPS.map(k=>`<button class="choice ${S.flags.includes(k)?'on':''}" data-flag="${k}" aria-pressed="${S.flags.includes(k)}">${k}</button>`).join('')}</div><button class="choice tracker ${S.airtag?'on':''}" id="airtag" aria-pressed="${!!S.airtag}"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.2"/></svg>AirTag inside</button><button class="cta" id="saveBox">Save this box</button>`}),
   /* owner, 7 Nov: the app opens on the list of boxes, in the walk's own look. Adding a box or
      something too big is the walk's own screens, then back here. */
+  /* owner, 8 Nov (Lemonade, second look): "I'd like a countdown ... take some examples from this, obviously this is
+     every page, not just the homepage ... we still need access to a menu ... make the homepage welcome home, because
+     all of your stuff is disappearing from your old place into boxes, then reappearing someplace else, and we have to
+     hold them through that calmly." One page per part of the move, never stacked: a title, its own drawing on one
+     shared horizon, then the ground with one sentence, one button, round badges and a card of rows. */
+  home:()=>{ const H=S.hm||{mode:'dates',tasks:[],truck:{},lost:[],next:[],plans:{}}, n=S.boxes.length, vault=S.boxes.filter(b=>!b.unpacked).length, m=coming().length;
+    const pl=(k,w,ws)=>`${k} ${k===1?w:(ws||w+'s')}`, first=x=>{ const r=String(x).match(/^.*?[.!?](?=\s|$)/); return r?r[0]:String(x); };
+    const today=hIso(new Date()); if(S.htiDay!==today){ S.htiDay=today; S.hti=0; }
+    /* tester, 8 Nov: Undo sat under the next task with nothing saying what it undoes, and Not today went away.
+       The finished task is named beside its Undo, and Not today stays. */
+    const T0=H.tasks||[], t=T0[S.hti||0], undo=S.hLast&&Date.now()-S.hLast.at<15000?`<p class="lsub hundo">Done: ${esc(first(S.hLast.t))} <button class="link" id="hUndo" aria-label="Undo ${esc(first(S.hLast.t))}">Undo</button></p>`:'';
+    const taskAct=`<button class="cta" id="hDone">Done</button><button class="link" id="hLater">Not today</button>${undo}`;
+    let cd='', one='', sub='', act='', art='mBefore';
+    if(H.mode==='dates'){ one='When are you moving?'; sub='Everything else counts back from that one date.'; act=`<button class="cta" data-hgo="setup">Pick the date</button>`; art='mNone'; }
+    else if(H.mode==='today'){ cd='<b>Today</b> is loading day'; one=H.truck.left?`${pl(H.truck.left,'thing')} to go on the truck.`:'Everything is on the truck.'; sub=H.truck.left?'Boxes and furniture together.':'Walk the rooms once more before the truck leaves.'; act=`<button class="cta" data-hgo="moveday">Open moving day</button>`; art='mDay'; }
+    else if(H.mode==='transit'){ cd=`<b>${H.dd}</b> ${H.dd===1?'day':'days'} until delivery`; one='Your things are on the road.'; sub=`${H.truck.onTruck?pl(H.truck.onTruck,'thing')+' on the truck. ':''}Tonight, put the room signs up and keep the Open First box where you can reach it.`; act=`<button class="cta" data-hgo="moveday">Get ready for delivery</button>`; art='mRoad'; }
+    else if(H.mode==='delivery'){ cd='<b>Today</b> your things arrive'; const k=H.truck.onTruck||0; one=k?`${pl(k,'thing')} to come off the truck.`:'Everything is in.'; sub=k?'Check each one in as it comes through the door.':'Look it all over before you sign anything.'; act=`<button class="cta" data-hgo="moveday">Open delivery day</button>`; art='mAfter'; }
+    else if(H.mode==='after'){ const since=1-(H.dd!=null?H.dd:(H.dl||0)); cd=since<=60?`<b>Day ${since}</b> in your new home`:''; art='mAfter';
+      if(H.lost.length){ one=`${pl(H.lost.length,'thing')} not checked in yet.`; sub=`${H.lost.slice(0,3).map(esc).join(', ')}${H.lost.length>3?' and more':''} went on the truck. If something is missing, tell the mover in writing. Claims have deadlines.`; act=`<button class="cta" data-hgo="moveday">Check them one by one</button>`; }
+      else if(!H.tracked&&!H.moved&&H.dl>-60){ cd=''; one=`Did you move on ${new Date(H.loadAt||Date.now()).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}?`; sub='If the date changed, put in the new one and everything counts from it.'; act=`<button class="cta" id="hMoved">Yes, we've moved</button><button class="link" data-hgo="setup">Change the date</button>`; art='mBefore'; }
+      else if(t){ one=esc(first(t.t)); sub=esc(String(t.t).slice(first(t.t).length).trim()); act=taskAct; }
+      else if(T0.length){ one="That's all for today."; sub='The rest will be here tomorrow.'; act=`<button class="link" id="hAgain">Show them again</button>${undo}`; }
+      else if(vault){ one='Nothing needs you today.'; sub='Open a box when you feel like it. The vault keeps the rest.'; act=undo; }
+      else { one="Everything's unpacked."; sub="Now get your deposit back. It's the last money on the table."; act=`<button class="cta" data-hgo="moveout">Leaving the old place</button>`; } }
+    else { cd=H.dl>1?`<b>${H.dl}</b> days to go`:'<b>Tomorrow</b> is loading day';
+      if(t){ one=esc(first(t.t)); sub=esc(String(t.t).slice(first(t.t).length).trim()); act=taskAct; }
+      else if(T0.length){ one="That's all for today."; sub='The rest will be here tomorrow.'; act=`<button class="link" id="hAgain">Show them again</button>${undo}`; }
+      else { one='Nothing needs you today.'; sub='Which is allowed. Pack a box if you feel like it.'; act=undo; } }
+    const nx=(H.next||[])[0];
+    const badges=lemBadges([[BIC.box,`${vault} ${vault===1?'box':'boxes'}`,'in the vault'],[BIC.sofa,m,m===1?'big thing':'big things'],nx?[BIC.cal(hDate(nx.d).getDate()),hShort(nx.d),esc(nx.w)]:[BIC.cal(''),H.mode==='dates'?'No dates':'Nothing',H.mode==='dates'?'yet':'coming up']]);
+    return ({lem:1, pi:0, mark:1, h:'Welcome home.', count2:cd, pano:lemPano(H,art), body:`<p class="lone">${one}</p>${sub?`<p class="lsub">${sub}</p>`:''}${act}${badges}`}); },
+  lvault:()=>{ const n=S.boxes.length, vault=S.boxes.filter(b=>!b.unpacked).length, opened=n-vault, H=S.hm||{};
+    const say=!n?'Nothing is in the vault yet. Your first box takes a minute: a photo, a few words, and you never open it to look.':vault?`${vault} ${vault===1?'box is':'boxes are'} in the vault${opened?`, and ${opened} ${opened===1?'is':'are'} unpacked`:''}. Type or say what you need, and the rabbit finds the box.`:`Every box is unpacked. All ${n} are still listed here.`;
+    const find=n?`<div class="field microw"><input id="hfind" value="${esc(S.hq||'')}" placeholder="Try &quot;towels&quot;" aria-label="Find a box"><button type="button" class="mic" data-mic="hfind" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div><div id="hres" aria-live="polite"></div>`:'';
+    const cta=n>1?`<button class="cta" id="hVault">Look through them one by one</button>`:`<button class="cta" data-go="start">${n?'Pack a box':'Pack my first box'}</button>`;
+    return ({lem:1, pi:1, h:'The vault.', pano:lemPano(H), body:`<p class="lsub">${say}</p>${find}${cta}${lemRows([[RIC.box,'Pack a box','data-go="start"'],[RIC.sofa,"Something won't fit in a box",'id="hBigAdd"'],[RIC.list,'Every box, by room','id="hRooms"'],[RIC.tag,'Print labels','data-hgo="labels"']])}`}); },
+  lbig:()=>{ const H=S.hm||{}, m=coming().length, left=S.big.length-m, photos=S.big.filter(b=>b.photo).length;
+    const say=m||left?`${m} ${m===1?'piece is':'pieces are'} coming${left?`, and ${left} ${left===1?'stays':'stay'} behind`:''}${H.wide?`. The widest is the ${esc(H.wide.name.toLowerCase())}, ${H.wide.w} inches`:''}.`:'Anything too big for a box: the sofa, the bed, the TV.';
+    const badges=m?lemBadges([[BIC.door,H.door?H.door+'″':'Measure',H.door?'front door':'the front door'],[BIC.camera,photos||'No photos',photos?(photos===1?'with a photo':'with photos'):'yet'],[BIC.tag,H.value?'$'+Math.round(H.value).toLocaleString('en-US'):'No value',H.value?'to replace':'written yet']]):'';
+    return ({lem:1, pi:2, h:'Big stuff.', pano:lemPano(H), body:`<p class="lsub">${say}</p>${m||left?`<button class="cta" id="hBig">See them all</button>`:`<button class="cta" id="hBigAdd">Something won't fit in a box</button>`}${badges}${m?lemRows([[RIC.sofa,"Something won't fit in a box",'id="hBigAdd"']]):''}`}); },
+  lcal:()=>{ const H=S.hm||{}, nx=H.next||[], end=x=>/[.!?]$/.test(x)?x:x+'.';
+    const say=nx.length?`<b>${esc(hDay(nx[0].d))}:</b> ${esc(end(nx[0].w+(nx[0].win?', '+nx[0].win:'')))}`:'Nothing on the calendar yet. Put in the movers, the internet and the rest, and the rabbit reminds you.';
+    const badges=nx.length>1?lemBadges(nx.slice(1,4).map(x=>[BIC.cal(hDate(x.d).getDate()),hShort(x.d),esc(x.w)])):'';
+    return ({lem:1, pi:3, h:'Calendar.', pano:lemPano(H), body:`<p class="lsub">${say}</p><button class="cta" data-hgo="calendar">Open the calendar</button>${badges}${lemRows([[RIC.plus,'Add an appointment','data-hgo="appts"'],[RIC.truck,'Move day','data-hgo="moveday"']])}`}); },
+  lsort:()=>{ const H=S.hm||{}, pp=H.plans||{}, sell=(pp.sell||0)+(pp.consign||0), give=(pp.donate||0)+(pp.give||0), toss=pp.trash||0, und=pp.undecided||0;
+    const parts=[sell&&`${sell} to sell`,give&&`${give} to give away`,toss&&`${toss} to let go`,und&&`${und} still deciding`].filter(Boolean);
+    const say=parts.length?'What is staying behind, and where each piece is going.':'Anything staying behind? Tag it to sell, give away or let go.';
+    const badges=parts.length?lemBadges([[BIC.tag,sell,'to sell'],[BIC.heart,give,'to give away'],[BIC.ask,und,'still deciding']]):'';
+    /* tester, 8 Nov: "Open sorting" opened a directory of charities, and the treadmill, futon and china cabinet were
+       nowhere. The pieces staying behind are the page now, each opening its own; the directory comes after. */
+    const st=(H.stay||[]).slice(0,8), rows=st.length?lemRows(st.map(g=>[RIC.sofa,`${esc(g.name)}, ${STAYW[g.plan]||'still deciding'}`,`data-bigid="${esc(g.id)}"`])):'';
+    return ({lem:1, pi:4, h:'Sorting.', pano:lemPano(H), body:`<p class="lsub">${say}</p>${rows}${badges}<button class="${st.length?'link':'cta'}" data-hgo="clearout">${st.length?'Where to sell, donate or haul away':'Open sorting'}</button>`}); },
+  /* owner, 8 Nov: "a list of boxes by room. Like before: living room 15, kitchen 22. Then when you click the room,
+     the room opens all boxes within." */
+  vrooms:()=>{ const G={}; S.boxes.forEach(b=>{ const r=b.room||'Other'; G[r]=G[r]||{n:0,u:0}; G[r].n++; if(b.unpacked) G[r].u++; });
+    const R=Object.keys(G).sort((a,b)=>G[b].n-G[a].n||a.localeCompare(b)), n=S.boxes.length;
+    return ({h:'Every box, by room.', sub:n?`${n} ${n===1?'box':'boxes'} in ${R.length} ${R.length===1?'room':'rooms'}.`:'Nothing packed yet.', scene:'none',
+      body:`${R.length?lemRows(R.map(r=>[RIC.box,`${esc(r)}<span class="rcount">${G[r].n}</span>`,`data-vroom="${esc(r)}" aria-label="${esc(r)}, ${G[r].n} ${G[r].n===1?'box':'boxes'}${G[r].u?`, ${G[r].u} unpacked`:''}"`])):''}${n?'<button class="link" id="vAll">Every box in one list</button>':''}`}); },
   myBoxes:()=>{ const n=S.boxes.length, m=S.big.length, q=(S.find||'').trim().toLowerCase();
     const hit=q?S.boxes.filter(b=>(b.words+' '+b.room+' '+b.code).toLowerCase().includes(q)):S.boxes.slice().reverse();
     const bigHit=q?S.big.filter(b=>(b.what+' '+(b.room||'')).toLowerCase().includes(q)):[];
     const free=!S.paid?Math.max(0,3-n):9;
+    /* tester, 8 Nov: "Every box, as a list" showed the last 6 of 140 and repeated the vault. From the home it's
+       the whole list now, room by room, and nothing the vault already says. */
+    if(S.homeMode){ const ro=S.roomOnly||'', inR=ro?S.boxes.filter(b=>(b.room||'Other')===ro):S.boxes, hitR=ro?hit.filter(b=>(b.room||'Other')===ro):hit;
+      const G={}, unp=inR.filter(b=>b.unpacked).length; hitR.forEach(b=>{ const r=b.room||'Other'; (G[r]=G[r]||[]).push(b); });
+      const list=Object.keys(G).sort().map(r=>`${ro?'':`<p class="grp">${esc(r)}</p>`}<ul class="list">${G[r].sort((a,b)=>a.code<b.code?-1:a.code>b.code?1:0).map(boxRow).join('')}</ul>`).join('');
+      return ({h:ro?esc(ro)+'.':'Every box.', sub:inR.length?`${inR.length} ${inR.length===1?'box':'boxes'}${unp?`, ${unp} unpacked`:''}.`:'Nothing packed yet.', scene:'none',
+        body:`${n?`<div class="field microw"><input id="mbfind" value="${esc(S.find||'')}" placeholder="Find a box" aria-label="Find a box"><button type="button" class="mic" data-mic="mbfind" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div>`:''}<div id="mbres" aria-live="polite" style="margin-top:6px;width:100%;max-width:310px">${q&&!hitR.length?'<p class="sub" style="max-width:none">Nothing listed matches that. Try another word from the box.</p>':list}</div>`}); }
     /* owner, 7 Nov: "our signature line on our app somewhere": the script wordmark heads the list */
     return ({say:'<picture><source srcset="wordmark-ears-cream.png" media="(prefers-color-scheme: dark)"><img class="sig" src="wordmark-ears.png" alt="The Packed Rabbit" width="220" height="57"></picture>', h:n?`${n} ${n===1?'box':'boxes'}${m?`, ${m} big ${m===1?'thing':'things'}`:''}.`:'Nothing packed yet.', sub:n?'Type or say what you need, and the rabbit finds the box.':'Your first box takes a minute. A photo, a few words, and you never open it to look.', scene:n?'boxesTab':'firstBox',
     body:`${n?`<div class="field microw"><input id="mbfind" value="${esc(S.find||'')}" placeholder="Try &quot;${esc(((S.boxes[n-1]||{}).words||'coats').split(/[ ,]+/)[0]||'coats')}&quot;" aria-label="Find a box"><button type="button" class="mic" data-mic="mbfind" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div>`:''}
       <button class="cta" data-go="start">${n?'Pack a box':'Pack my first box'}</button>${free<3&&free>0?`<p class="hint" style="text-align:center">${free} free ${free===1?'box':'boxes'} left</p>`:''}
+      ${n>1?`<button class="choice" style="width:100%;margin-top:10px" id="mbFlip">Look through them one by one</button>`:''}
       <button class="choice" style="width:100%;margin-top:10px" id="mbBig">Something won't fit in a box</button>
       <div id="mbres" aria-live="polite" style="margin-top:6px">${q&&!hit.length&&!bigHit.length?'<p class="sub" style="max-width:none">Nothing listed matches that. Try another word from the box.</p>':''}${hit.length?`<ul class="list">${hit.slice(0,q?20:6).map(boxRow).join('')}</ul>`:''}${bigHit.length?`<ul class="list">${bigHit.map(b=>`<li><em><b style="color:var(--ink)">${esc(b.what)}</b></em><span>${esc(b.room||'Big stuff')}</span></li>`).join('')}</ul>`:''}${!q&&n>6?`<p class="hint">Showing the last 6. Type to find any of the ${n}.</p>`:''}</div>
       <button class="link" id="mbApp">The rest of my move</button>`}); },
-  boxSaved:()=>{ const n=S.boxes.length, last=S.boxes[n-1]; return ({say:"Saved.", h:`${last.code} is packed.`, sub:"It's in your Boxes tab, with its photo.", body:`<div class="choices"><button class="cta" style="margin-top:0" data-go="start">Pack the next box</button><button class="choice" data-go="toobig">Something won't fit in a box</button>${S.homeMode?'<button class="choice" id="backMove">Back to my boxes</button>':S.walked?'<button class="choice" id="backMove">Back to my move</button>':''}</div><button class="link" data-go="start">Change room</button>`}); },
+  /* owner, 8 Nov: boxes not yet unpacked are "the vault"; a box leaves the vault when it's unpacked.
+   Owner, 8 Nov, unpacking: "I want to be able to swipe from box to box ... see the full picture ...
+     or just look at what's in the boxes left that I have to unpack." One box at a time, its photo as big
+     as the screen allows, swipe or tap the arrows for the next. Still packed, all, or what you searched. */
+  flip:()=>{ const L=flipList(), n=L.length, sets=[['packed','In the vault'],['all',`All ${S.boxes.length}`]].concat(S.flipQ?[['q',`"${S.flipQ}"`]]:[]);
+    const tabs=`<div class="fsets" role="group" aria-label="Which boxes">${sets.map(([k,l])=>`<button type="button" data-fs="${k}" class="${S.flipSet===k?'on':''}" aria-pressed="${S.flipSet===k}">${esc(l)}</button>`).join('')}</div>`;
+    if(!n) return ({say:'', h:S.flipSet==='packed'?"The vault is empty.":"Nothing here yet.", sub:S.flipSet==='packed'?"Every box is unpacked. You can still look back through all of them.":"", scene:'boxesTab', body:tabs});
+    S.fx=Math.max(0,Math.min(S.fx||0,n-1)); const b=L[S.fx], ph=flipPhotos(b), k=Math.min(S.fpi||0,Math.max(0,ph.length-1)), main=ph[k]||'';
+    const arrow=d=>`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>`;
+    const undo=S.lastUnpack&&Date.now()-S.lastUnpack.at<15000?`<p class="hint" role="status" style="text-align:center;margin:0 0 8px">${esc(S.lastUnpack.code)} is out of the vault. <button type="button" class="link" id="fundo" style="display:inline;margin:0;min-height:44px">Undo</button></p>`:'';
+    return ({count:`${S.fx+1} of ${n}`, say:esc(b.room||'')+'.', h:esc(b.code)+(boxKind(b)?`<span class="hkind">${esc(boxKind(b))}</span>`:''), sub:esc(b.words||'Nothing listed in this one yet.'), scene:'none',
+      body:`${tabs}${undo}<figure class="fph" id="fph" aria-roledescription="carousel">${main?`<img src="${main}" alt="Inside ${esc(b.code)}">`:`<div class="fnone">${PHC[b.appId]===null?'Finding the photo':'No photo of this one yet'}</div>`}
+        <button type="button" class="fnav fprev" id="fprev" aria-label="Previous box" ${S.fx?'':'disabled'}>${arrow('M15 5l-7 7 7 7')}</button>
+        <button type="button" class="fnav fnext" id="fnext" aria-label="Next box" ${S.fx<n-1?'':'disabled'}>${arrow('M9 5l7 7-7 7')}</button></figure>
+      ${ph.length>1?`<div class="fthumbs" role="group" aria-label="Photos of this box">${ph.map((src,j)=>`<button type="button" data-fp="${j}" class="${j===k?'on':''}" aria-label="Photo ${j+1} of ${ph.length}" aria-pressed="${j===k}"><img src="${src}" alt=""></button>`).join('')}</div>`:''}
+      ${b.appId?`<button type="button" class="choice" id="funpack" style="width:100%;margin-top:12px">${b.unpacked?'Put it back in the vault':'I unpacked this one'}</button>`:''}
+      <button type="button" class="link" id="fopen">Open its full page</button>`}); },
+  boxSaved:()=>{ const n=S.boxes.length, last=S.boxes[n-1]; return ({say:"Saved.", h:`${last.code} is packed.`, sub:last.photo||(last.photos&&last.photos.length)?"It's in your Boxes tab, with its photo.":"It's in your Boxes tab.", body:`<div class="choices"><button class="cta" style="margin-top:0" data-go="start">Pack the next box</button><button class="choice" data-go="toobig">Something won't fit in a box</button>${S.homeMode?'<button class="choice" id="backMove">Back to my boxes</button>':S.walked?'<button class="choice" id="backMove">Back to my move</button>':''}</div><button class="link" data-go="start">Change room</button>`}); },
   boxesTab:()=>({say:`${(S.boxes[S.boxes.length-1]||{}).code||'Your box'} is saved.`, h:"Your Boxes tab is ready.", sub:"It's in the bar below.", body:`<button class="cta" data-go="learnAdd">Next</button><button class="link" data-go="start">Pack another box first</button>`}),
   learnAdd:()=>({count:"1 of 2", h:"Tap Boxes, then Add a box.", sub:"Room, size, what's inside, where it goes, a picture.", body:`<button class="cta" data-go="learnFind">Next</button>${needsInstall()?`<div class="packtip keepsafe"><b>Keep your boxes safe.</b><p>Put the app on your home screen. Your phone can clear websites you haven't added, and your list with them.</p><button class="choice" id="howInstall">Show me how</button></div>`:''}`}),
   learnFind:()=>{ const w=((S.boxes[0]||{}).words||'coats').split(/[ ,]+/)[0]||'coats'; return ({count:"2 of 2", h:"To find a box, type or say what's in it.", sub:"Or tap the microphone and say it.", body:`<div class="field microw"><input id="tryfind" placeholder="Try &quot;${esc(w)}&quot;" aria-label="Find a box"><button type="button" class="mic" data-mic="tryfind" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div><div id="tryres" aria-live="polite" style="width:100%;max-width:310px"></div><button class="cta" data-go="toobig">Next: the big stuff</button>`}); },
@@ -763,7 +1035,7 @@ const P={
       <div class="addrow"><input id="addown" placeholder="Or type it" aria-label="Something else"><button id="addbtn">Add</button></div>
       <button class="cta" id="pickNext" ${S.pick.length?'':'disabled'}>Next</button>`}); },
   bigForgot:()=>({say:"Before you go on.", h:"Taking any of these too?", sub:"These are the ones people forget.", body:`<div class="chips" role="group" aria-label="Often forgotten">${S.miss.map(x=>`<button class="choice" aria-pressed="false" data-miss="${esc(x)}">${esc(x)}</button>`).join('')}</div><button class="cta" id="forgotNext">Next</button><button class="link" id="forgotNone">None of these</button>`}),
-  bigFirst:()=>({say:"Big Stuff.", h:"Pick your first big item.", sub:"Something in the room you're standing in that won't fit in a box.", scene:"toobig",
+  bigFirst:()=>({say:"Big Stuff.", h:S.big.length?"What else won't fit in a box?":"Pick your first big item.", sub:"Something in the room you're standing in that won't fit in a box.", scene:"toobig",
     body:`<div class="choices two">${["Sofa","Bed","TV","Dining table","Dresser","Desk"].map(x=>`<button class="choice ${S.firstItem===x?'on':''}" data-first="${x}" aria-pressed="${S.firstItem===x}">${x}</button>`).join('')}</div><div class="field"><select id="firstsel" aria-label="Something else"><option value="" selected disabled>Something else</option>${ALL.map(x=>`<option ${S.firstItem===x?'selected':''}>${esc(x)}</option>`).join('')}</select></div><div class="addrow"><input id="firstown" placeholder="Or type it" aria-label="Or type it"></div><button class="cta" id="firstNext" ${S.firstItem?'':'disabled'}>Next</button>`}),
   bigWhere:()=>{ const g=likelyRoom(S.firstItem), an=/^[AEIOU]/i.test(S.firstItem)?'an':'a';
     return ({say:g?`You picked ${an} ${esc(lc(S.firstItem))}.`:`The ${esc(lc(S.firstItem))}.`, h:g?`Are you in the ${esc(lc(g))}?`:"Which room are you in?", sub:"We'll go room by room from here.", scene:"toobig",
@@ -812,7 +1084,7 @@ const P={
   bedCount:()=>({say:"Room by room.", h:"How many bedrooms are you moving?", sub:"Each bedroom gets its own list, so every bed gets its own size.",
     body:`<div class="choices two">${["1","2","3","4","5","6 or more"].map(n=>`<button class="choice" data-beds="${n}">${n}</button>`).join('')}</div>`}),
   homeRooms:()=>({say:"Room by room.", h:"What other rooms are you moving?", sub:"Select all that apply. We'll do them one at a time.",
-    body:`<div class="chips" role="group" aria-label="Your rooms">${[...new Set(OTHERROOMS.concat(S.homeRooms.filter(r=>!BEDROOMS.includes(r))))].filter(r=>!S.doneRooms.includes(r)).map(r=>`<button class="choice ${S.homeRooms.includes(r)?'on':''}" data-hr="${esc(r)}" aria-pressed="${S.homeRooms.includes(r)}">${esc(r)}</button>`).join('')}</div>
+    body:`<div class="chips" role="group" aria-label="Your rooms">${[...new Set(OTHERROOMS.slice(0,6).concat(S.homeRooms.filter(r=>!BEDROOMS.includes(r))))].filter(r=>!S.doneRooms.includes(r)).map(r=>`<button class="choice ${S.homeRooms.includes(r)?'on':''}" data-hr="${esc(r)}" aria-pressed="${S.homeRooms.includes(r)}">${esc(r)}</button>`).join('')}</div>
       <div class="field"><select id="hrmore" aria-label="Another room">${roomOpts('Another room')}</select></div><button class="cta" id="hrNext">Next</button>`}),
   bigShot:()=>{ const it=shotItems(), b=it[S.si], bed=BEDPART.test(b.what), name=bed?'bed':lc(b.what), sh=b.shots||{};
     return ({count:`${S.si+1} of ${it.length}`, say:`The ${esc(name)}, in the ${esc(lc(S.bigRoom))}.`, h:"How does it look today?", sub:"Photos and its condition now are your proof if anything is damaged in the move.",
@@ -820,6 +1092,15 @@ const P={
       <p class="grp">Condition</p><div class="duty" role="group" aria-label="Condition">${CONDS.map(c=>`<button class="choice ${b.cond===c?'on':''}" data-cond="${c}" aria-pressed="${b.cond===c}">${c}</button>`).join('')}</div>
       <div class="field" style="max-width:none"><input id="smodel" value="${esc(b.model||'')}" placeholder="Make and model (optional)" aria-label="Make and model, optional"></div><p class="hint">Make and model find the replacement cost.</p>
       <button class="cta" id="shotNext">${S.si+1<it.length?'Next':'Done with this room'}</button><button class="link" id="shotLater">Do the photos later</button>`}); },
+  /* owner, 7 Nov ("much better. next"): sorting in a few calm steps. One question, then what isn't coming,
+     then each thing's way out, then one offer of help. Prices and the keep-or-not questions wait in the Sorting tab. */
+  lgo:()=>({say:S.why==='Downsizing'||/smaller/i.test(S.bigger||'')?"Downsizing.":"Not everything is coming.", h:"Is anything staying behind?", sub:"Selling it, giving it away, or not sure yet.", scene:'lgo', body:`<div class="choices"><button class="choice" id="lgyes">Yes</button><button class="choice" id="lgno">No, it all comes</button></div>`}),
+  lpickall:()=>{ const mine=S.big.map(b=>b.what), list=[...new Set(mine.concat(S.lpick||[]))];
+    return ({say:"Staying behind.", h:"What isn't coming?", sub:list.length?"Tap each one, or add your own.":"Add each thing, one at a time.", body:`${list.length?`<div class="chips" role="group" aria-label="Your things">${list.map(x=>`<button class="choice ${(S.lpick||[]).includes(x)?'on':''}" data-lp="${esc(x)}" aria-pressed="${(S.lpick||[]).includes(x)}">${esc(x)}</button>`).join('')}</div>`:''}
+      <div class="addrow"><input id="lown" placeholder="Treadmill" aria-label="Add something"><button id="ladd">Add</button></div><button class="cta" id="lpNext" ${(S.lpick||[]).length?'':'disabled'}>Next</button>`}); },
+  lfate:()=>{ const w=S.lpick[S.fi]; return ({count:S.lpick.length>1?`${S.fi+1} of ${S.lpick.length}`:'', say:`The ${esc(lc(w))}.`, h:"Where is it going?", scene:'lfate', body:pickList(["Selling it","Giving it away","Not sure yet"],'')}); },
+  lhelp:()=>{ const L=S.lists, n=k=>(L[k]||[]).length, parts=[n('sell')?`${n('sell')} to sell`:'',n('donate')?`${n('donate')} to give away`:'',n('unsure')?`${n('unsure')} to decide`:''].filter(Boolean);
+    return ({say:cap1(listAnd(parts))+'.', h:"Do you want help with that?", sub:"Where to donate and who picks up, what it might sell for, and when to sell it by.", scene:'lhelp', body:`<div class="choices"><button class="choice" id="lhyes">Yes, please</button><button class="choice" id="lhno">I've got it</button></div>`}); },
   leave:()=>{ const q=LEAVE[S.li]; return S.lstage==='ask'
     ? ({say:S.lsay||(S.li?"":(S.why==='Downsizing'||/smaller/i.test(S.bigger||'')?"Downsizing. Not everything is coming.":"Not everything is coming.")), h:q.q, sub:q.sub, scene:"toobig", body:`<div class="choices"><button class="choice" id="lyes">Yes</button><button class="choice" id="lno">No</button></div>`})
     : ({say:q.say, h:"Do you need help with that?", sub:q.helpSub, scene:"toobig", body:`<div class="choices"><button class="choice" id="hyes">Yes, please</button><button class="choice" id="hno">I've got it</button></div>`}); },
@@ -847,24 +1128,28 @@ const P={
     body:`<svg class="knife" viewBox="-14 0 240 150" role="img" aria-label="A pocketknife opening into moving tools"><g class="blades">${[['-62','tape'],['-38','truck'],['-14','glass'],['10','list'],['34','key']].map(([a,k],i)=>`<g class="bl" style="--a:${a}deg;--d:${i*90}ms"><path d="M0 0 L0 -86 Q8 -92 14 -84 L14 0 Z" class="blade"/></g>`).join('')}</g><rect x="40" y="96" width="160" height="40" rx="20" class="body"/><circle cx="66" cy="116" r="6" class="pin"/></svg>
     <ul class="kit">${KIT.map(([u,q])=>`<li><a href="https://packedrabbit.com/${u}" target="_blank" rel="noopener">${q}</a></li>`).join('')}<li><a href="https://packedrabbit.com/moving-quietly/" target="_blank" rel="noopener noreferrer">Moving quietly, if you need to leave safely</a></li><li><a href="https://packedrabbit.com/tools/" target="_blank" rel="noopener"><b>Every free tool, in one box</b></a></li></ul>
     <button class="cta" id="kitOpen">Open my move</button>`}),
-  sortTab:()=>({say:"Sorted.", h:"Your Sorting tab is ready.", sub:"What you're donating, selling, and still deciding, each in its own list. That's the heart of it. The Calendar tab asks the next question when it's time.", body:`<button class="cta" id="openMove">Open my move</button><button class="link" data-go="start">Pack the next box</button>`}),
+  sortTab:()=>({say:"Sorted.", h:"Your Sorting tab is ready.", sub:"What you're selling, giving away and still deciding, each in its own list.", body:`<button class="cta" id="openMove">Open my move</button><button class="link" data-go="start">Pack the next box</button>`}),
   notruck:()=>({say:"Before moving day.", h:"Movers won't take gas or propane.", sub:"Run the gas out of anything with an engine, and keep propane tanks off the truck. The rabbit keeps a list of what doesn't go on the truck.", body:`<button class="cta" id="ntOk">Got it</button>`}),
-  price:()=>{ const pcs=S.big.reduce((s,b)=>s+pieces(b),0), d=S.date?new Date(S.date+'T12:00').toLocaleDateString('en-US',{month:'long',day:'numeric'}):'';
-    const have=[`${S.boxes.length} boxes, with photos`, pcs?`${pcs} pieces of furniture`:'', (S.lists.donate.length||S.lists.sell.length)?'Your donate and sell lists':'', d?`Moving day, ${d}`:'', 'Every tab still to come'].filter(Boolean);
+  price:()=>{ const pcs=coming().reduce((s,b)=>s+pieces(b),0), d=S.date?new Date(S.date+'T12:00').toLocaleDateString('en-US',{month:'long',day:'numeric'}):'';
+    /* tester, 8 Nov: "3 boxes, with photos" when one had a photo. Each count says only what's true. */
+    const nb=S.boxes.length, np=S.boxes.filter(b=>b.photo||(b.photos&&b.photos.length)).length;
+    const have=[`${nb} ${nb===1?'box':'boxes'}${np&&np===nb?(nb===1?', with its photo':', with photos'):np?`, ${np} with ${np===1?'a photo':'photos'}`:''}`, pcs?`${pcs} ${pcs===1?'piece':'pieces'} of furniture`:'', (S.lists.donate.length||S.lists.sell.length)?'Your donate and sell lists':'', d?`Moving day, ${d}`:'', 'Every tab still to come'].filter(Boolean);
     return ({say:"Your 3 free boxes are packed.", h:"All of it is $9.99 a month.", scene:"price",
       body:`<ul class="have">${have.map(x=>`<li>${x}</li>`).join('')}</ul>
         <div class="plans"><button class="plan m" data-plan="month">Monthly<small>$9.99 a month</small></button><button class="plan y" data-plan="year"><span class="save">Save $9.99</span>Yearly<small>$109.89 a year</small></button></div>
         <p class="hint" style="margin-top:8px">Renews monthly until you cancel, with a reminder before every charge. Cancel anytime: your list stays yours.</p><button class="link" data-back2>Not now</button>
         <p class="lead">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>`}); },
   furnTab:()=>({say:`The ${esc(itemName(S.cur||{what:'piece'}))} is saved.`, h:"Your Big Stuff tab is ready.", sub:"It's in the bar, next to Boxes.", body:`<button class="cta" id="furnNext">Next</button>`}),
-  roomCheck:()=>{ const left=COMMONROOMS.filter(r=>!S.doneRooms.includes(r)).slice(0,6); return ({say:`Done: ${S.doneRooms.join(', ')}.`, h:"Did we miss a room?", sub:"Garages, basements and patios are the ones people forget.",
+  /* tester, 8 Nov: "Did we miss a room?" offered the garage and office already passed over, and Bedroom 2 in a
+     one-bedroom. Once the rooms were picked, it offers only those still to do; any other room is in the list below. */
+  roomCheck:()=>{ const left=(S.roomsAsked&&(S.homeRooms||[]).length?S.homeRooms:COMMONROOMS).filter(r=>!S.doneRooms.includes(r)).slice(0,6); return ({say:`Done: ${S.doneRooms.join(', ')}.`, h:"Did we miss a room?", sub:"Garages, basements and patios are the ones people forget.",
     body:`<div class="choices two">${left.map(r=>`<button class="choice" data-nextroom="${esc(r)}">${esc(r)}</button>`).join('')}</div><div class="field"><select id="otherroom2" aria-label="Another room">${roomOpts('Another room')}</select></div><button class="cta" id="allRooms">No, that's every room</button>`}); },
   cubic:()=>{ const bx=S.boxes.reduce((s,b)=>s+boxCube(b),0), bg=S.big.reduce((s,b)=>s+cube(b),0), tot=Math.round((bx+bg)/10)*10||0, pcs=S.big.reduce((s,b)=>s+pieces(b),0);
     return ({say:"Your move, measured.", h:`About ${tot.toLocaleString()} cubic feet.`, sub:`That's about ${truckFor(tot*1.1)}. The rabbit plans with the bigger size, so you won't come up short.`,
       body:`<ul class="list"><li>${S.boxes.length} ${S.boxes.length===1?'box':'boxes'}<span>${Math.round(bx)} cu ft</span></li><li>${pcs} pieces of big stuff<span>${Math.round(bg)} cu ft</span></li></ul><button class="cta" id="toLeave">Next: your move</button><button class="link" id="addMore">Add something else</button>`}); },
-  mto:()=>({say:"Next, your move.", h:"Where are you going?", sub:"A city, or a ZIP code.", scene:'house',
+  mto:()=>({count:'1 of 6', say:"Next, your move.", h:"Where are you going?", sub:"A city, or a ZIP code.", scene:'mto',
     body:`${placeField('mto',S.to,'City, state or ZIP','Where you are moving to')}<button class="cta" id="toNext">Next</button><button class="link" id="toNot">Not sure yet</button>`}),
-  mfrom:()=>({say:S.to?esc(S.to)+'.':'', h:"And where are you coming from?", sub:"Your ZIP code is enough.", scene:'house',
+  mfrom:()=>({count:'2 of 6', say:S.to?esc(S.to)+'.':'', h:"And where are you coming from?", sub:"Your ZIP code is enough.", scene:'mfrom',
     body:`${placeField('mfrom',S.from,'ZIP code','Where you are moving from')}<button class="cta" id="fromNext">Next</button>`}),
   mwhyask:()=>({say:milesLine()||(S.far&&S.far!=='Not sure yet'?S.far+'.':''), h:"Do you mind if we ask why you're moving?", sub:"It helps the rabbit know what to help with. It's fine to skip.", scene:'house', body:pickList(["Ask away","I'd rather not say"],'')}),
   mwhy:()=>(WHYS=isBiz()?WHYS_BIZ:WHYS_HOME,{say:milesLine()||(S.far&&S.far!=='Not sure yet'?S.far+'.':""), h:"Why are you moving?", sub:"It changes what the rabbit helps with.", scene:'house2', body:pickList(WHYS,S.why)+`<button class="link" data-v="Something else">Something else</button>`}),
@@ -890,12 +1175,12 @@ const P={
   hclose:()=>({say:"Buying.", h:"When is closing?", sub:dateSub('newStart'), scene:'blank', body:calBody('newStart',{})+`<button class="cta" id="calNext" ${S.newStart?'':'disabled'}>Next</button><button class="link" id="calSkip">I don't know yet</button>`}),
   htitle:()=>({say:`Closing ${S.newStart?fmtD(S.newStart):'is set'}.`, h:"Who's the title company?", sub:"So their name and the closing are in one place.", scene:'house',
     body:`<div class="field microw"><input id="htitle" value="${esc(S.home.title||'')}" placeholder="Title company name" aria-label="Title company"><button type="button" class="mic" data-mic="htitle" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div><p class="hint" id="michint" hidden></p><button class="cta" id="titleNext">Next</button><button class="link" id="titleSkip">Later</button>`}),
-  oldplace:()=>({say:"Now the place you're leaving.", h:"Are you renting it?", scene:'house', body:pickList(["Yes, I rent it","I own it and I'm selling","I own it and I'm keeping it","Living with someone"],S.oldkind)}),
+  oldplace:()=>({count:'4 of 6', say:"Now the place you're leaving.", h:"Are you renting it?", scene:'mold', body:pickList(["Yes, I rent it","I own it and I'm selling","I own it and I'm keeping it","Living with someone"],S.oldkind)}),
   oldend:()=>({say:"The place you're leaving.", h:"When does your lease end?", sub:dateSub('oldEnd'), scene:'blank', body:calBody('oldEnd',{})+`<button class="cta" id="calNext" ${S.oldEnd?'':'disabled'}>Next</button><button class="link" id="calSkip">I don't know yet</button>`}),
   oldclose:()=>({say:"Selling.", h:"When does the sale close?", sub:dateSub('oldEnd'), scene:'blank', body:calBody('oldEnd',{})+`<button class="cta" id="calNext" ${S.oldEnd?'':'disabled'}>Next</button><button class="link" id="calSkip">Not sold yet</button>`}),
-  moveday:()=>({say:windowLine(), h:"When is moving day?", sub:dateSub('date',moveWin()), scene:'blank', body:calBody('date',moveWin())+`<button class="cta" id="calNext" ${S.date?'':'disabled'}>Next</button><div class="field" style="margin-top:10px"><select id="rough" aria-label="No exact day yet"><option value="">No exact day yet</option>${["This month","Next month","In 2 or 3 months","Not sure yet"].map(x=>`<option${S.rough===x?' selected':''}>${x}</option>`).join('')}</select></div>`}),
+  moveday:()=>({count:'5 of 6', say:windowLine(), h:"When is moving day?", sub:dateSub('date',moveWin()), scene:'truck', body:calBody('date',moveWin())+`<button class="cta" id="calNext" ${S.date?'':'disabled'}>Next</button><div class="field" style="margin-top:10px"><select id="rough" aria-label="No exact day yet"><option value="">No exact day yet</option>${["This month","Next month","In 2 or 3 months","Not sure yet"].map(x=>`<option${S.rough===x?' selected':''}>${x}</option>`).join('')}</select></div>`}),
   mdeliver:()=>({say:S.date?`Moving day, ${fmtD(S.date)}.`:'', h:"When does it arrive at the new place?", sub:S.delivery?`${fmtD(S.delivery)}. ${dayLine2(S.delivery)}`:"Across town, it's usually the same day. Farther, the mover gives you a delivery date or a window.", scene:'blank', body:calBody('delivery',{min:S.date})+`<button class="cta" id="calNext" ${S.delivery?'':'disabled'}>Next</button><button class="link" id="sameDay">The same day</button><button class="link" id="calSkip">I don't know yet</button>`}),
-  mfound:()=>({say:(S.who||[]).length?((S.who[0]==='Just me'?'Just you':'You, '+S.who.map(x=>x.toLowerCase()).join(', ').replace(/, ([^,]*)$/,' and $1'))+'.'):'', h:"Have you found your new place?", sub:"Movers, dates and utilities all wait on this.", scene:'house', body:pickList(["Yes, it's signed","Close, deciding between a couple","Not yet, still looking"],{signed:"Yes, it's signed",found:"Close, deciding between a couple",looking:"Not yet, still looking"}[S.place])}),
+  mfound:()=>({count:'3 of 6', say:milesLine(), h:"Have you found your new place?", sub:"Movers, dates and utilities all wait on this.", scene:'mfound', body:pickList(["Yes, it's signed","Close, deciding between a couple","Not yet, still looking"],{signed:"Yes, it's signed",found:"Close, deciding between a couple",looking:"Not yet, still looking"}[S.place])}),
   msize:()=>({say:S.far&&S.far!=='Not sure yet'?S.far+'.':"Noted.", h:"Is the new place bigger or smaller?", sub:"It tells the rabbit how much to let go of.", scene:'house2', body:pickList(["Bigger","About the same","Smaller","A lot smaller","Not sure yet"],S.bigger)}),
   hneeds:()=>({say:S.far&&S.far!=='Not sure yet'?S.far+'.':"Good.", h:"What can't you live without?", sub:"Tap all that apply.", scene:'house',
     body:`<div class="choices two">${["Parking","Laundry inside","No stairs or an elevator","Pets allowed","Outdoor space","Near transit"].map(x=>`<button class="choice${(S.hneeds||[]).includes(x)?' hint':''}" data-need="${x}" aria-pressed="${(S.hneeds||[]).includes(x)}">${x}</button>`).join('')}</div><button class="cta" id="needsNext">Next</button>`}),
@@ -908,6 +1193,9 @@ const P={
     return ({say:S.bigger?({Bigger:"Room to grow.","About the same":"About the same size.",Smaller:"Smaller. Sorting comes next.","A lot smaller":"A lot smaller. Sorting comes next."})[S.bigger]||'':"", h:S.place==='signed'?"When do you move in?":"When would you like to move?", sub:S.date&&!S.rough?`${fmtD(S.date)}. ${dayLine()}`:"Tap the day.", scene:'blank',
     body:calBody()}); },
   mfar:()=>({say:S.to?esc(S.to)+'.':'', h:"How far is that from where you live now?", scene:'house', body:pickList(["Same town","Somewhere else in this state","Another state","Another country","Not sure yet"],S.far)}),
+  mhowfirst:()=>({count:'6 of 6', say:S.date?`Moving day, ${fmtD(S.date)}.`:'Last one.', h:"Who's doing the heavy lifting?", scene:'mhow', body:`<div class="choices"><button class="choice" data-lift="movers">Hiring movers</button><button class="choice" data-lift="me">Moving myself</button><button class="link" data-lift="unsure">Not sure yet</button></div>`}),
+  mpackq:()=>({say:"Hiring movers.", h:"Will they pack too?", scene:'mpack', body:pickList(["Yes, they pack","No, I'll pack"],'')}),
+  mselfq:()=>({say:"Moving yourself.", h:"How will it get there?", scene:'mself', body:pickList(["A rental truck","Friends and our cars","A moving container"],'')}),
   mhow:()=>({say:({"Another state":"Federal rules protect a move between states.","Another country":"The rabbit adds the steps for leaving the country.","Not sure yet":"The rabbit sorts out which rules apply later."})[S.far]||"Your state's rules cover this move.", h:"Who's moving your things?", scene:'truck', body:pickList(HOWS,S.how)}),
   mbooked:()=>({say:"Movers.", h:"Have you booked them?", scene:'truck', body:pickList(["Yes, they're booked","Getting prices","Not started"],S.booked)}),
   mname:()=>({say:"Booked.", h:"Who did you book?", sub:"The company's name. Type it or say it.", scene:'truck',
@@ -922,7 +1210,9 @@ const P={
   mdoor:()=>({say:`${S.stairs||'Stairs'}. Noted.`, h:"How far is the door from where the truck parks?", scene:'truck', body:pickList(["Right outside","Down a driveway or lot","Far, or across a street","Not sure"],S.door)}),
   mpacket:()=>({say:"Your list for movers.", h:"Send this to two or three movers.", sub:"Built from what you've already packed, so every price covers the same move.", scene:'truck',
     body:`<pre class="packet" id="packet">${esc(packetText())}</pre><button class="cta" id="pkCopy">Copy it</button><button class="link" id="pkNext">Next</button>`}),
-  mtruck:()=>{ const t=truckFor(moveCube()*1.1); return ({say:`About ${moveCube().toLocaleString()} cubic feet.`, h:`That's about ${t}. Sound right?`, sub:"From your boxes and big stuff, planned a little big so nothing gets left.", scene:'truck', body:pickList(["Yes","Go bigger","Go smaller"],S.tsize)}); },
+  /* tester, 8 Nov: "About 90 cubic feet. That's about a 15-foot truck." read as a mistake. When the home's size
+     sets the truck because little is counted yet, the page says so. */
+  mtruck:()=>{ const c=moveCube(), t=truckFor(c*1.1), fl=homeFloor(), byHome=!!fl&&c*1.15<fl*0.6; return ({say:`About ${c.toLocaleString()} cubic feet${byHome?' counted so far':''}.`, h:`That's about ${t}. Sound right?`, sub:byHome?"A home your size usually needs that much, even before everything is counted.":"From your boxes and big stuff, planned a little big so nothing gets left.", scene:'truck', body:pickList(["Yes","Go bigger","Go smaller"],S.tsize)}); },
   mhelp:()=>({say:S.how==='Friends and our cars'?"Friends and cars.":"Loading day.", h:"Who's helping you load?", scene:'truck', body:pickList(["Friends or family","Hired help","Just me","Not sure"],S.helpers)}),
   mboth:()=>({say:"Not sure yet is fine.", h:"Here's both, side by side.", sub:`Doing it yourself takes about ${truckFor(moveCube()*1.1)}. For movers, send this list for a price.`, scene:'truck',
     body:`<pre class="packet" id="packet">${esc(packetText())}</pre><button class="cta" id="pkCopy">Copy it</button><button class="link" id="pkNext">Next</button>`}),
@@ -931,19 +1221,34 @@ const P={
     body:`<button class="cta" id="tabNext">Next: what's not coming</button>${ds.length?'<button class="link" id="tabIcs">Add these to my phone\'s calendar</button>':''}`}); },
 };
 const hist=[]; let cur=null, started=false;
-const NOBACK=['myBoxes','price','boxSaved','boxesTab','bigSaved','furnTab','llist','sortTab','movingTab','notruck','mread'];
+const NOBACK=['home','lvault','lbig','lcal','lsort','myBoxes','price','boxSaved','boxesTab','bigSaved','furnTab','llist','sortTab','movingTab','notruck','mread'];
 let lastDrawn="";
 const drawn=(svg,on)=>on?svg.replace('<svg ','<svg class="draw" ').replace(/<(rect|path|line|circle|ellipse|polyline)(?=[\s>\/])/g,'<$1 pathLength="1"'):svg;
 function show(id,back){
+  /* alpha test, 8 Nov: redrawing the same page (after Done, Undo, a search, an unpack) sent focus back to the
+     heading and talked over what just happened. A redraw keeps focus where it was and leaves the announcement. */
+  const same=id===cur&&!!back, fa=document.activeElement, fin=!!(fa&&phone.contains(fa)), fid=same&&fin?(fa.id||''):'';
   if((cur==='boxesTab'||cur==='furnTab'||cur==='movingTab') && id!==cur) hopping='';
   if(id==='start' && S.boxes.length>=3 && !S.paid) id='price';
   if(!back && cur && cur!==id) hist.push(cur);
-  cur=id; openTab=''; const p=P[id]();
-  phone.innerHTML=`<div class="page"><div class="top"><span class="topr">${p.count?`<span class="count">${p.count}</span>`:''}<button class="pause" data-aa aria-label="Text size">Aa</button>${id!=='firstBox'&&id!=='myBoxes'?'<button class="pause" data-pause>Pause</button>':''}</span></div>
+  cur=id; openTab=''; const p=P[id](); phone.classList.toggle('homemode',!!S.homeMode);
+  /* tester, 8 Nov: "1 of 6" covered thirteen pages and seven had no counter. The pages that belong to one of the
+     six questions carry that question's number while the six are being asked. */
+  if(id==='mto') S.m6=1; if(S.m6&&!p.count&&STEP6[id]) p.count=STEP6[id]+' of 6';
+  if(p.lem){ const from=panoAt==null?p.pi:panoAt; panoAt=p.pi;
+    phone.innerHTML=`<div class="page lem" role="main"><div class="top ltop"><button type="button" class="lround" data-menu aria-label="Menu" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7.5h14M5 12h14M5 16.5h14"/></svg></button>${p.mark?'<picture class="lmark"><source srcset="wordmark-ears-cream.png" media="(prefers-color-scheme: dark)"><img src="wordmark-ears.png" alt="The Packed Rabbit" width="150" height="39"></picture>':''}<span class="topr"><button class="pause" data-aa aria-label="Text size">Aa</button></span></div>
+      <div class="text ltext"><h2>${p.h}</h2>${p.count2?`<p class="lcount">${p.count2}</p>`:''}</div>
+      <div class="pano" id="pano"><div class="pano-in" style="transform:translateX(${-panoPct(from)}%)">${p.pano}</div></div>
+      <div class="lground">${p.body}</div></div>${bar()}`;
+    textSize(); lastDrawn=id; fresh=[]; newTab=""; wire(id); wireMics(); keep();
+    if(from!==p.pi){ const pin=phone.querySelector('.pano-in'); requestAnimationFrame(()=>requestAnimationFrame(()=>{ pin.classList.add('go'); pin.style.transform=`translateX(${-panoPct(p.pi)}%)`; })); }
+    const h=phone.querySelector('h2'); h.tabIndex=-1; if(same){ const f=(fid&&document.getElementById(fid))||(fin?phone.querySelector('.page .cta'):null); if(f&&phone.contains(f)) f.focus({preventScroll:true}); return; } if(started) h.focus({preventScroll:true}); started=true;
+    live.textContent=(String(p.h)+' '+String(p.count2||'')).replace(/<[^>]+>/g,''); return; }
+  phone.innerHTML=`<div class="page" role="main"><div class="top"><span class="topr">${p.count?`<span class="count">${p.count}</span>`:''}<button class="pause" data-aa aria-label="Text size">Aa</button>${!['firstBox','myBoxes','vrooms','flip','home'].includes(id)?'<button class="pause" data-pause>Pause</button>':''}</span></div>
     <div class="text">${p.tag?`<p class="itemtag">${esc(p.tag)}</p>`:''}${p.say?`<p class="say">${p.say}</p>`:''}<h2>${p.h}</h2>${p.sub?`<p class="sub">${p.sub}</p>`:''}${p.body}</div>
-    <div class="scene">${drawn(scene(p.scene||id), id!==lastDrawn)}</div><div class="band"></div></div><div class="navrow"><button class="back" ${(hist.length&&!NOBACK.includes(id))?'':'hidden'} data-back>Back</button><button class="skip" data-skip hidden>Skip</button></div>${bar()}`;
+    <div class="scene">${drawn(scene(p.scene||id), id!==lastDrawn)}</div><div class="band"></div></div><div class="navrow${id==='home'?' hn':''}"><button class="back" ${(hist.length&&(!NOBACK.includes(id)||(S.homeMode&&id==='myBoxes')))?'':'hidden'} data-back>Back</button><button class="skip" data-skip hidden>Skip</button></div>${bar()}`;
   textSize(); lastDrawn=id; fresh=[]; newTab=""; wire(id); wireSkip(id); wireMics(); keep();
-  const h=phone.querySelector('h2'); h.tabIndex=-1; if(started) h.focus({preventScroll:true}); started=true;
+  const h=phone.querySelector('h2'); h.tabIndex=-1; if(same){ const f=(fid&&document.getElementById(fid))||(fin?phone.querySelector('.page .cta'):null); if(f&&phone.contains(f)) f.focus({preventScroll:true}); return; } if(started) h.focus({preventScroll:true}); started=true;
   live.textContent=((p.tag?p.tag+'. ':'')+(p.say?p.say+' ':'')+p.h).replace(/<[^>]+>/g,'');
   if(window.__embed && !hist.length && !S.homeMode){ const bk=phone.querySelector('[data-back]'); bk.hidden=false; bk.onclick=()=>parent.postMessage('pr-intro','*'); }
 }
@@ -972,7 +1277,8 @@ function wire(id){
   phone.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go));
   const bk=$('[data-back]'); if(bk) bk.onclick=()=>{ const prev=hist.pop(); if(prev) show(prev,true); };
   phone.querySelectorAll('[data-pic]').forEach(inp=>inp.onchange=async()=>{ const fs=[...(inp.files||[])]; if(!fs.length) return; for(const f of fs){ const u=await shrink(f); if(u) S.photos.push(u); } say(S.photos.length===1?'Photo added.':S.photos.length+' photos.'); show('photo',true); });
-  if($('#askcam')) $('#askcam').onclick=()=>{ const c=document.createElement('div'); c.className='tip camask'; c.setAttribute('role','dialog'); c.setAttribute('aria-labelledby','camh');
+  /* alpha test, 8 Nov: each tap stacked another camera prompt; one is enough */
+  if($('#askcam')) $('#askcam').onclick=()=>{ const was=phone.querySelector('.camask'); if(was){ const f=was.querySelector('button'); if(f) f.focus(); return; } const c=document.createElement('div'); c.className='tip camask'; c.setAttribute('role','dialog'); c.setAttribute('aria-labelledby','camh');
     c.innerHTML=`<b id="camh">Let the rabbit use your camera?</b><p>Your phone will ask once. Your photos stay on your phone.</p><div class="row"><button class="yes">Allow camera</button><button class="no">Not now</button></div>`;
     phone.appendChild(c); c.querySelector('.yes').focus();
     c.querySelector('.yes').onclick=()=>{ camRemember(); c.remove(); $('[data-pic]').click(); };
@@ -996,6 +1302,7 @@ function wire(id){
   if(id==='special'){
     phone.querySelectorAll('[data-flag]').forEach(b=>b.onclick=()=>{ const k=b.dataset.flag, i=S.flags.indexOf(k); i<0?S.flags.push(k):S.flags.splice(i,1); b.classList.toggle('on'); b.setAttribute('aria-pressed',i<0); stampAt=k; phone.querySelector('.scene').innerHTML=scene('special'); stampAt=''; phone.querySelector('.sub').textContent=specialSub(); });
     const save=()=>{ S.boxes.push({code:code(),rc:rcOf(S.room),destRc:S.dest&&!/^(Donate|Sell|Not sure)$/.test(S.dest)?rcOf(S.dest):'',room:S.room,size:S.size,custom:S.size==='Custom'?S.custom:'',brand:S.brand,dims:boxDims(S.brand,S.size,S.duty),duty:S.duty,words:S.words,dest:S.dest||'',airtag:!!S.airtag,flags:[...S.flags],photos:[...S.photos],photo:S.photos[0]||''}); S.photos=[]; S.words=''; S.dest=''; S.airtag=false; S.flags=[]; S.size=''; S.duty=''; S.custom=''; fresh=['box'+(S.boxes.length-1)];
+      if(S.homeMode) handNew(); /* a box packed from the home goes to the app right away, not only when the app is next opened from here */
       if(S.boxes.length===1){ learn('Boxes'); hopping=matchMedia('(prefers-reduced-motion: reduce)').matches?'':'Boxes'; show('boxesTab'); if(hopping) hop('Boxes'); else landSoon('Boxes'); } else show('boxSaved'); };
     $('#airtag').onclick=e=>{ S.airtag=!S.airtag; e.currentTarget.classList.toggle('on',S.airtag); e.currentTarget.setAttribute('aria-pressed',S.airtag); say(S.airtag?'AirTag inside.':'No AirTag.'); };
     $('#saveBox').onclick=save;
@@ -1007,10 +1314,11 @@ function wire(id){
   if(id==='learnFind'){ const i=$('#tryfind'), out=$('#tryres'); i.oninput=()=>{ const q=i.value.trim().toLowerCase(); const hit=q?S.boxes.filter(b=>(b.words+' '+b.room+' '+b.code).toLowerCase().includes(q)):[]; out.innerHTML=q?(hit.length?`<ul class="list">${hit.map(boxRow).join('')}</ul>`:'<p class="sub" style="max-width:none">Nothing yet. Try a word from your first box.</p>'):''; }; }
   if(id==='bigPick'){
     phone.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{ const x=b.dataset.pick, i=S.pick.indexOf(x); i<0?S.pick.push(x):S.pick.splice(i,1); b.classList.toggle('on'); b.setAttribute('aria-pressed',i<0); $('#pickNext').disabled=!S.pick.length; });
-    const add=x=>{ x=(x||'').trim(); if(!x) return; if(!S.pick.includes(x)) S.pick.push(x); const sc=phone.querySelector('.chips').scrollTop; show('bigPick',true); phone.querySelector('.chips').scrollTop=9999; };
+    const add=x=>{ x=canon(x); if(!x) return; if(!S.pick.includes(x)) S.pick.push(x); const sc=phone.querySelector('.chips').scrollTop; show('bigPick',true); phone.querySelector('.chips').scrollTop=9999; };
     $('#allsel').onchange=e=>add(e.target.value); $('#addbtn').onclick=()=>add($('#addown').value); $('#addown').onkeydown=e=>{ if(e.key==='Enter') add(e.target.value); };
     $('#noneHere').onclick=()=>{ S.pick=[]; commit(); };
-    $('#pickNext').onclick=()=>{ const bedOn=S.pick.some(x=>BEDPART.test(x)); S.miss=(bedOn?['Mattress','Box spring','Bed frame','Headboard']:[]).concat(FORGOT[S.bigRoom]||[]).filter((x,i,a)=>!S.pick.includes(x)&&a.indexOf(x)===i).slice(0,4); S.miss.length?show('bigMissing'):commit(); };
+    /* tester, 8 Nov: "Seems like you're missing barstools" right after a page that offered barstools. What was on the page isn't suggested again. */
+    $('#pickNext').onclick=()=>{ const bedOn=S.pick.some(x=>BEDPART.test(x)), seen=[...phone.querySelectorAll('[data-pick]')].map(b=>b.dataset.pick); S.miss=(bedOn?['Mattress','Box spring','Bed frame','Headboard']:[]).concat(FORGOT[S.bigRoom]||[]).filter((x,i,a)=>!S.pick.includes(x)&&!seen.includes(x)&&a.indexOf(x)===i).slice(0,4); S.miss.length?show('bigMissing'):commit(); };
   }
   if(id==='bigMissing'){ phone.querySelectorAll('[data-miss]').forEach(b=>b.onclick=()=>{ b.classList.toggle('on'); b.setAttribute('aria-pressed',b.classList.contains('on')); });
     $('#missNext').onclick=()=>{ S.queue=[...phone.querySelectorAll('[data-miss].on')].map(b=>b.dataset.miss); S.queue.length?startItem(S.queue.shift()):afterRoom(); }; $('#missNone').onclick=afterRoom; }
@@ -1019,6 +1327,15 @@ function wire(id){
     $('#bigSave').onclick=()=>{ const w=$('#dw').value,d=$('#dd').value,h=$('#dh').value; if(w&&d&&h) room[S.mi].dims=`${w} × ${d} × ${h} in`; next(); };
     $('#bigLater').onclick=next; const r=$('#bigRest'); if(r) r.onclick=done; }
   if($('#toLeave')) $('#toLeave').onclick=()=>show('mto');
+  if(id==='lgo'){ $('#lgyes').onclick=()=>{ S.lpick=[]; show('lpickall'); }; $('#lgno').onclick=()=>sortEnd(''); }
+  if(id==='lpickall'){ phone.querySelectorAll('[data-lp]').forEach(b=>b.onclick=()=>{ const x=b.dataset.lp, i=S.lpick.indexOf(x); i<0?S.lpick.push(x):S.lpick.splice(i,1); b.classList.toggle('on'); b.setAttribute('aria-pressed',i<0); $('#lpNext').disabled=!S.lpick.length; });
+    const add=()=>{ const x=$('#lown').value.trim(); if(x&&!S.lpick.includes(x)) S.lpick.push(x); show('lpickall',true); }; $('#ladd').onclick=add; $('#lown').onkeydown=e=>{ if(e.key==='Enter') add(); };
+    $('#lpNext').onclick=()=>{ S.fi=0; ['sell','donate','unsure'].forEach(k=>{ S.lists[k]=(S.lists[k]||[]).filter(x=>!S.lpick.includes(x.what)); }); show('lfate'); }; }
+  if(id==='lfate') phone.querySelectorAll('[data-v]').forEach(bt=>bt.onclick=()=>{ const v=bt.dataset.v; const w=S.lpick[S.fi], k=/Sell/.test(v)?'sell':/Giv/.test(v)?'donate':'unsure'; S.lists[k].push({what:w});
+    /* anything sold or given away comes off the movers' list */
+    if(k!=='unsure') S.big=S.big.filter(b=>b.what!==w);
+    S.fi++; S.fi<S.lpick.length?show('lfate',true):show('lhelp'); });
+  if(id==='lhelp'){ const set=h=>{ ['donate','sell','unsure'].forEach(k=>{ if((S.lists[k]||[]).length) S.leave[k]={yes:true,help:h}; }); sortEnd(h?'The rabbit will help with all of it.':'Got it.'); }; $('#lhyes').onclick=()=>set(true); $('#lhno').onclick=()=>set(false); }
   if(id==='leave'){ const nextQ=leaveNext;
     if($('#lyes')) { $('#lyes').onclick=()=>{ S.leave[LEAVE[S.li].k]={yes:true}; S.lstage='help'; show('leave',true); }; $('#lno').onclick=()=>nextQ(''); }
     if($('#hyes')) { $('#hyes').onclick=()=>{ const k=LEAVE[S.li].k; S.leave[k].help=true; S.lk=k; S.lpick=S.lists[k].map(x=>x.what); S.li2=0; show('lpick'); }; $('#hno').onclick=()=>nextQ('Got it.'); } }
@@ -1106,11 +1423,11 @@ function wire(id){
     $('#shotLater').onclick=()=>{ keep(); S.photoLater=true; afterRoom(); }; }
   if(id==='bigFirst'){ const s=$('#firstsel'), o=$('#firstown'), n=$('#firstNext'); const upd=()=>{ n.disabled=!(s.value||o.value.trim()); }; s.onchange=()=>{ o.value=''; upd(); }; o.oninput=upd;
     phone.querySelectorAll('[data-first]').forEach(c=>c.onclick=()=>{ S.firstItem=c.dataset.first; show('bigWhere'); });
-    n.onclick=()=>{ S.firstItem=o.value.trim()||s.value; show('bigWhere'); }; }
+    n.onclick=()=>{ S.firstItem=canon(o.value)||s.value; show('bigWhere'); }; }
   if($('#startBig')) $('#startBig').onclick=()=>{ S.firstItem=''; show('bigFirst'); };
   if(id==='bigAll'){
     phone.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{ const x=b.dataset.pick, i=S.pick.indexOf(x); i<0?S.pick.push(x):S.pick.splice(i,1); b.classList.toggle('on'); b.setAttribute('aria-pressed',i<0); $('#pickNext').disabled=!S.pick.length; });
-    const add=x=>{ x=(x||'').trim(); if(!x) return; if(!S.pick.includes(x)) S.pick.push(x); show('bigAll',true); const c=phone.querySelector('.groups'); if(c) c.scrollTop=9999; };
+    const add=x=>{ x=canon(x); if(!x) return; if(!S.pick.includes(x)) S.pick.push(x); show('bigAll',true); const c=phone.querySelector('.groups'); if(c) c.scrollTop=9999; };
     $('#allsel').onchange=e=>add(e.target.value); $('#addbtn').onclick=()=>add($('#addown').value); $('#addown').onkeydown=e=>{ if(e.key==='Enter') add(e.target.value); };
     $('#pickNext').onclick=()=>commit(); }
   if(id==='bigForgot'){ phone.querySelectorAll('[data-miss]').forEach(b=>b.onclick=()=>{ b.classList.toggle('on'); b.setAttribute('aria-pressed',b.classList.contains('on')); });
@@ -1124,7 +1441,7 @@ function wire(id){
       phone.querySelectorAll('[data-cal]').forEach(b=>b.onclick=()=>{ const v=S.calView||(S.date?S.date.slice(0,7):today0().toISOString().slice(0,7)); const d=new Date(+v.slice(0,4),+v.slice(5,7)-1+ +b.dataset.cal,1); S.calView=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'); show('moving',true); });
       $('#dateNext').onclick=toSorting;
       $('#rough').onchange=e=>{ const v=e.target.value; if(!v) return; if(v==='Not sure yet'){ S.date=''; S.rough=''; } else { S.rough=v; S.date=roughDate(v); } toSorting(); }; } }
-  const afterOld=()=>S.place==='signed'?show('moveday'):homeDone();
+  const afterOld=()=>show('moveday');
   const calPage=(k,next,skip)=>{ phone.querySelectorAll('.cal [data-day]').forEach(b=>b.onclick=()=>{ S[k]=b.dataset.day; if(k==='date') S.rough=''; show(cur,true); const n=phone.querySelector(`[data-day="${S[k]}"]`); if(n) n.focus(); }); calNav(phone,k,()=>show(cur,true)); $('#calNext').onclick=next; if($('#calSkip')) $('#calSkip').onclick=skip||next; };
   if(id==='mwhat') pick(v=>{ S.mwhat=v; if(v==='A business'){ S.roomsAsked=true; S.homeRooms=['Private office','Open office','Conference room','Reception','Break room','Storage room']; } show('firstBox'); });
   if(id==='mto'){ const get=wirePlace('mto',x=>{ setPlace('to',x); show('mfrom'); }); $('#toNext').onclick=()=>{ setPlace('to',get()); show('mfrom'); }; $('#toNot').onclick=()=>{ setPlace('to',null); show('mfrom'); }; }
@@ -1148,17 +1465,68 @@ function wire(id){
   if(id==='hstart') calPage('newStart',()=>show('oldplace'));
   if(id==='hclose') calPage('newStart',()=>show('htitle'));
   if(id==='htitle'){ $('#titleNext').onclick=()=>{ S.home.title=$('#htitle').value.trim(); show('oldplace'); }; $('#titleSkip').onclick=()=>show('oldplace'); }
-  if(id==='oldplace') pick(v=>{ S.oldkind=v; S.rent=/rent/.test(v)?'Renting':/own/i.test(v)?'I own it':'Living with someone'; if(/rent/.test(v)) show('oldend'); else if(/selling/.test(v)) show('oldclose'); else afterOld(); });
+  if(id==='oldplace') pick(v=>{ S.oldkind=v; S.rent=/rent/.test(v)?'Renting':/own/i.test(v)?'I own it':'Living with someone'; show('moveday'); });
   if(id==='oldend'||id==='oldclose') calPage('oldEnd',afterOld);
-  if(id==='moveday'){ calPage('date',()=>show('mdeliver')); $('#rough').onchange=e=>{ const v=e.target.value; if(!v) return; if(v==='Not sure yet'){ S.date=''; S.rough=''; } else { S.rough=v; S.date=roughDate(v); } homeDone(); }; }
+  if(id==='moveday'){ calPage('date',()=>show('mhowfirst')); $('#rough').onchange=e=>{ const v=e.target.value; if(!v) return; if(v==='Not sure yet'){ S.date=''; S.rough=''; } else { S.rough=v; S.date=roughDate(v); } show('mhowfirst'); }; }
   if(id==='mdeliver'){ calPage('delivery',homeDone); $('#sameDay').onclick=()=>{ S.delivery=S.date; homeDone(); }; }
-  if(id==='boxSaved'&&$('#backMove')) $('#backMove').onclick=()=>finishThread();
+  /* alpha test, 8 Nov: "Back to my boxes" left for the app and came back to Welcome home, and it needed a signal.
+     From the home it goes straight to the vault; the new box goes to the app the next time the app opens. */
+  if(id==='boxSaved'&&$('#backMove')) $('#backMove').onclick=()=>{ if(S.homeMode){ keep(true); hist.length=0; panoAt=null; show('lvault'); return; } finishThread(); };
+  if(PANO.includes(id)){ const first=x=>{ const r=String(x).match(/^.*?[.!?](?=\s|$)/); return r?r[0]:String(x); };
+    const re=()=>{ const pg=phone.querySelector('.page'), y=pg?pg.scrollTop:0; show(id,true); const p2=phone.querySelector('.page'); if(p2) p2.scrollTop=y; };
+    phone.querySelectorAll('[data-hgo]').forEach(b=>b.onclick=()=>toApp('?go='+b.dataset.hgo));
+    /* swipe the drawing to walk along the horizon to the next part */
+    { const pn=$('#pano'); if(pn){ let x0=null, y0=null; pn.addEventListener('touchstart',e=>{ const t=e.touches[0]; x0=t.clientX; y0=t.clientY; },{passive:true});
+        pn.addEventListener('touchend',e=>{ if(x0===null) return; const t=e.changedTouches[0], dx=t.clientX-x0, dy=t.clientY-y0; x0=null; const i=PANO.indexOf(id)+(dx<0?1:-1);
+          if(Math.abs(dx)>48&&Math.abs(dx)>Math.abs(dy)*1.4&&i>=0&&i<PANO.length){ hist.length=0; show(PANO[i]); } },{passive:true}); } }
+    /* tester, 8 Nov: two quick taps finished two tasks. A second tap within a second is ignored. */
+    { const d=$('#hDone'); if(d) d.onclick=async()=>{ if(Date.now()-(S.hTap||0)<1000) return; S.hTap=Date.now(); const t=((S.hm||{}).tasks||[])[S.hti||0]; if(!t) return; d.disabled=true;
+        const st=await homeWrite(s=>{ const x=(s.tasks||[]).find(y=>y&&y.id===t.id); if(!x) return false; x.done=true; x.doneAt=Date.now(); });
+        if(!st){ d.disabled=false; toast(phone,'Your phone would not save that. Try again.'); return; }
+        S.hm=homeRead(st); S.hLast={id:t.id,t:t.t,at:Date.now()}; say(`Done: ${first(t.t)}`); re(); setTimeout(()=>{ if(cur==='home'&&S.hLast&&Date.now()-S.hLast.at>=15000){ S.hLast=null; re(); } },15200); }; }
+    { const u=$('#hUndo'); if(u) u.onclick=async()=>{ const l=S.hLast; if(!l) return; const st=await homeWrite(s=>{ const x=(s.tasks||[]).find(y=>y&&y.id===l.id); if(!x) return false; x.done=false; x.doneAt=0; });
+        if(st){ S.hm=homeRead(st); S.hLast=null; S.hti=0; re(); } }; }
+    { const l=$('#hLater'); if(l) l.onclick=()=>{ S.hti=(S.hti||0)+1; re(); }; }
+    { const a=$('#hAgain'); if(a) a.onclick=()=>{ S.hti=0; re(); }; }
+    { const mv=$('#hMoved'); if(mv) mv.onclick=async()=>{ const st=await homeWrite(s=>{ s.settings=Object.assign({},s.settings,{movedConfirmed:true}); }); if(st){ S.hm=homeRead(st); re(); } }; }
+    { const v=$('#hVault'); if(v) v.onclick=()=>{ S.flipQ=''; S.flipSet=S.boxes.some(b=>!b.unpacked)?'packed':'all'; S.fx=0; S.fpi=0; show('flip'); }; }
+    { const b=$('#hBig'); if(b) b.onclick=()=>openSheet('Furniture',b); }
+    phone.querySelectorAll('#hBigAdd').forEach(b=>b.onclick=()=>{ S.firstItem=''; S.roomsAsked=true; show('bigFirst'); });
+    { const b=$('#hList'); if(b) b.onclick=()=>{ S.find=''; S.roomOnly=''; show('myBoxes'); }; }
+    { const b=$('#hRooms'); if(b) b.onclick=()=>show('vrooms'); }
+    { const hf=$('#hfind'), res=$('#hres'); if(hf&&res){ const draw=()=>{ S.hq=hf.value; const q=hf.value.trim().toLowerCase(); if(!q){ res.innerHTML=''; return; }
+        const hit=S.boxes.filter(b=>(b.words+' '+b.room+' '+b.code).toLowerCase().includes(q)), bh=S.big.filter(b=>(b.what+' '+(b.room||'')).toLowerCase().includes(q));
+        res.innerHTML=(!hit.length&&!bh.length?'<p class="lsub" style="font-size:17px">Nothing listed matches that. Try another word from the box.</p>':'')+(hit.length?`<ul class="list">${hit.slice(0,40).map(boxRow).join('')}</ul>${hit.length>40?`<p class="lsub" style="font-size:17px">And ${hit.length-40} more. Add a word to narrow it down.</p>`:''}`:'')+(bh.length?`<ul class="list">${bh.slice(0,12).map(b=>`<li class="tap" tabindex="0" role="button" data-bpiece="${S.big.indexOf(b)}"><em><b style="color:var(--ink)">${esc(b.what)}</b></em><span>${esc(STAYW[b.plan]?'Staying behind':b.room||'Big stuff')}</span></li>`).join('')}</ul>`:'');
+        res.querySelectorAll('[data-box]').forEach(li=>li.onclick=()=>{ const b=S.boxes[+li.dataset.box]; if(!b) return; S.flipQ=hf.value.trim(); S.flipSet='q'; S.fx=Math.max(0,flipList().indexOf(b)); S.fpi=0; show('flip'); });
+        res.querySelectorAll('[data-bpiece]').forEach(li=>li.onclick=()=>{ const b=S.big[+li.dataset.bpiece]; if(!b) return; if(b.appId) toApp('?big='+encodeURIComponent(b.appId)); else openSheet('Furniture',li); }); };
+      hf.addEventListener('input',draw); if(hf.value) draw(); } }
+  }
+  if(id==='vrooms'){ phone.querySelectorAll('[data-vroom]').forEach(b=>b.onclick=()=>{ S.find=''; S.roomOnly=b.dataset.vroom; show('myBoxes'); });
+    { const b=$('#vAll'); if(b) b.onclick=()=>{ S.find=''; S.roomOnly=''; show('myBoxes'); }; } }
   if(id==='myBoxes'){ const i=$('#mbfind'); if(i){ i.oninput=()=>{ S.find=i.value; const at=i.selectionStart; show('myBoxes',true); const j=$('#mbfind'); if(j){ j.focus(); try{ j.setSelectionRange(at,at); }catch(e){} } }; }
-    phone.querySelectorAll('#mbres [data-box]').forEach(li=>li.onclick=()=>{ const b=S.boxes[+li.dataset.box]; if(b) toApp('?find='+encodeURIComponent(b.code)); });
-    $('#mbBig').onclick=()=>{ S.firstItem=''; S.roomsAsked=true; show('bigFirst'); };
-    $('#mbApp').onclick=()=>toApp('?go=home'); }
+    /* a box in the results opens the flip-through at that box, among the others that matched */
+    phone.querySelectorAll('#mbres [data-box]').forEach(li=>li.onclick=()=>{ const b=S.boxes[+li.dataset.box]; if(!b) return; const q=(S.find||'').trim();
+      S.flipQ=q; S.flipSet=q?'q':'all'; S.fx=Math.max(0,flipList().indexOf(b)); S.fpi=0; show('flip'); });
+    { const f=$('#mbFlip'); if(f) f.onclick=()=>{ S.flipQ=(S.find||'').trim(); S.flipSet=S.boxes.some(b=>!b.unpacked)?'packed':'all'; S.fx=0; S.fpi=0; show('flip'); }; }
+    { const g=$('#mbBig'); if(g) g.onclick=()=>{ S.firstItem=''; S.roomsAsked=true; show('bigFirst'); }; }
+    { const a=$('#mbApp'); if(a) a.onclick=()=>toApp('?go=home'); } }
+  if(id==='flip'){ flipPre();
+    phone.querySelectorAll('[data-fs]').forEach(x=>x.onclick=()=>{ S.flipSet=x.dataset.fs; S.fx=0; S.fpi=0; show('flip',true); });
+    phone.querySelectorAll('[data-fp]').forEach(x=>x.onclick=()=>{ S.fpi=+x.dataset.fp; show('flip',true); });
+    { const a=$('#fprev'), z=$('#fnext'); if(a) a.onclick=()=>flipGo(-1); if(z) z.onclick=()=>flipGo(1); }
+    const fig=$('#fph'); if(fig){ let x0=null, y0=null;
+      fig.addEventListener('touchstart',e=>{ const t=e.touches[0]; x0=t.clientX; y0=t.clientY; },{passive:true});
+      fig.addEventListener('touchend',e=>{ if(x0===null) return; const t=e.changedTouches[0], dx=t.clientX-x0, dy=t.clientY-y0; x0=null; if(Math.abs(dx)>48&&Math.abs(dx)>Math.abs(dy)*1.4) flipGo(dx<0?1:-1); },{passive:true}); }
+    const L=flipList(), b=L[S.fx||0];
+    { const u=$('#funpack'); if(u&&b) u.onclick=async()=>{ const on=!b.unpacked; if(await flipUnpack(b,on)){ if(on){ S.lastUnpack={code:b.code,at:Date.now()}; setTimeout(()=>{ if(cur==='flip') show('flip',true); },15200); } show('flip',true);
+        const nb=flipList()[S.fx]; say(on?`${b.code} is out of the vault.${nb&&nb!==b?` Next, ${nb.code}.`:''}`:`${b.code} is back in the vault.`); } }; }
+    { const u=$('#fundo'); if(u) u.onclick=async()=>{ const was=S.boxes.find(x=>x.code===(S.lastUnpack||{}).code); if(was&&await flipUnpack(was,false)){ S.lastUnpack=null; const i=flipList().indexOf(was); if(i>=0) S.fx=i; show('flip',true); } }; }
+    { const o=$('#fopen'); if(o&&b) o.onclick=()=>toApp(b.appId?'?box='+encodeURIComponent(b.appId):'?find='+encodeURIComponent(b.code)); } }
   if(id==='sortTab') $('#openMove').onclick=()=>show('toolkit');
   if(id==='toolkit') $('#kitOpen').onclick=()=>window.__APP?finishThread():openSheet('Moving',$('#kitOpen'));
+  if(id==='mhowfirst') phone.querySelectorAll('[data-lift]').forEach(b=>b.onclick=()=>{ const v=b.dataset.lift; if(v==='movers') show('mpackq'); else if(v==='me') show('mselfq'); else { S.how='Not sure yet'; homeDone(); } });
+  if(id==='mpackq') pick(v=>{ S.how=/Yes/.test(v)?'Movers pack and move it':'Movers move it, I pack'; homeDone(); });
+  if(id==='mselfq') pick(v=>{ S.how=v; homeDone(); });
   if(id==='mhow') pick(v=>{ S.how=v; show(MOVERS()?'mbooked':v==='A rental truck'?'mtruck':v==='Not sure yet'?'mboth':'mhelp'); });
   if(id==='mbooked') pick(v=>{ S.booked=v; show(/booked/.test(v)?'mname':/prices/.test(v)?'mnq':'mstairs'); });
   if(id==='mname'){ const go=()=>show(INTER()?'mdot':'mstairs'); $('#nameNext').onclick=()=>{ S.mname=$('#mname').value.trim(); go(); }; $('#nameLater').onclick=go; }
@@ -1185,7 +1553,7 @@ const BEDPART=/^(Adjustable base|Bed frame|Box spring|Footboard|Headboard|Mattre
 const BEDPARTS=["Mattress","Box spring","Bed frame","Headboard","Footboard","Adjustable base"];
 /* every question for one piece, in the order a mover's survey asks them */
 function QLIST(b){ const w=b.what, out=[];
-  if(w==='Bed'){ out.push(Object.assign({k:'size'},BEDQ)); out.push({k:'parts',q:"Which parts are coming?",multi:BEDPARTS,sub:"Each part moves separately, so each one is on the list."}); out.push({k:'apart',q:"Does the bed frame come apart?",a:["Yes","No","Not sure"],sub:"Movers bring tools if it does."}); return out; }
+  if(w==='Bed'){ out.push(Object.assign({k:'size'},BEDQ)); out.push({k:'parts',q:"Which parts are coming?",multi:BEDPARTS,sub:"Each part moves separately, so each one is on the list."}); if(!(S.parts||[]).length||(S.parts||[]).includes('Bed frame')) out.push({k:'apart',q:"Does the bed frame come apart?",a:["Yes","No","Not sure"],sub:"Movers bring tools if it does."}); return out; }
   if(!FIXED.test(w)){ const q=QS(w); if(q) out.push(Object.assign({k:'size'},q)); }
   if(w==='TV') out.push({k:'mount',q:"Is it on the wall or on a stand?",a:["On the wall","On a stand"],sub:"Movers need to know if it has to come off the wall."});
   if(GLASS.test(w)) out.push({k:'glass',q:`Any glass or marble on the ${lc(w).replace(/s$/,'')}?`,a:["Glass","Marble or stone","Neither"],sub:"Movers pack glass and stone tops in their own crate."});
@@ -1221,6 +1589,7 @@ const QS=w=>APPL.test(w)?{q:`Is the ${w.toLowerCase()} coming with you?`,a:["Com
  :/Bookcase/.test(w)?{q:"How tall is it?",a:["Waist high","Shoulder high","Floor to ceiling"]}
  :/^Sleeper sofa$/.test(w)?{q:"What size is the sleeper sofa?",a:["Twin","Full","Queen"],sub:"Sleeper sofas are much heavier than they look."}
  :{q:"About how big is it?",a:["Small","Medium","Large","Extra large"],sub:"Small fits in a car seat. Extra large takes two people and a dolly."};
+function sortEnd(said){ S.lsay=said; S.li=LEAVE.length; learn('Sorting'); show('sortTab'); landSoon('Sorting'); }
 function leaveNext(said){ S.lsay=said; S.li++; S.lstage='ask'; if(S.li<LEAVE.length) return show('leave',true); learn('Sorting'); show('sortTab'); landSoon('Sorting'); }
 function goRoom(r,first){ newBatch(); S.bigRoom=r; S.missShown=false; S.queue=[]; if(!S.homeRooms.includes(r)) S.homeRooms.push(r); S.big.filter(b=>b.room===r).forEach(b=>b.batch=S.batch); if(first) return startItem(first); show('roomItem'); }
 /* where a first big piece usually is, so the question can be yes or no */
@@ -1301,7 +1670,7 @@ function aiBox(b){ if(S.aiOk===false||!aiHere()) return '';
   if(a.state==='done'){ const j=a.j, mm=[j.make,j.model].filter(Boolean).join(' ');
     return `<div class="ai" role="status"><b>${esc(j.name)}${mm?', '+esc(mm):''}</b><p>${j.confident?'The rabbit is fairly sure.':'A best guess, so check it.'} Its real size and price come from looking up the brand and name on the next screen.</p><div class="row"><button class="cta" id="aiUse">Use this</button><button class="choice" id="aiNot">Not quite</button></div></div>`; }
   return ''; }
-function startItem(what){ const b={what,room:S.bigRoom,rc:rcOf(S.bigRoom),batch:S.batch,shots:{},dims:'',ans:{},guess:{}}; S.big.push(b); S.cur=b; S.qi=0; S.parts=what==='Bed'?['Mattress','Box spring','Bed frame']:[]; S.lampN={}; show('itemPhoto'); }
+function startItem(what){ const b={what,room:S.bigRoom,rc:rcOf(S.bigRoom),batch:S.batch,shots:{},dims:'',ans:{},guess:{}}; S.big.push(b); S.cur=b; S.qi=0; S.parts=[]; /* tester, 8 Nov: the bed's parts started checked, so tapping the ones coming unchecked them */ S.lampN={}; show('itemPhoto'); }
 function itemNextQ(){ const L=QLIST(S.cur); S.qi++; S.lampN={}; if(S.qi<L.length) return show('itemQ',true); saveItem(); }
 function saveItem(){ const b=S.cur, a=b.ans||{};
   if(b.what==='Bed'){ const i=S.big.indexOf(b); S.big.splice(i,1); const parts=(S.parts&&S.parts.length?S.parts:['Mattress','Box spring','Bed frame']);
@@ -1311,7 +1680,7 @@ function saveItem(){ const b=S.cur, a=b.ans||{};
   if(!S.tabs.includes('Furniture')){ learn('Furniture'); hopping=matchMedia('(prefers-reduced-motion: reduce)').matches?'':'Furniture'; show('furnTab'); if(hopping) hop('Furniture'); else landSoon('Furniture'); return; }
   afterItem(); }
 function afterItem(){ if(S.queue&&S.queue.length) return startItem(S.queue.shift()); show('roomItem'); }
-function roomEnd(){ const have=S.big.filter(b=>b.room===S.bigRoom).map(b=>b.what); S.miss=(FORGOT[S.bigRoom]||[]).filter(x=>!have.includes(x)).slice(0,4); if(S.miss.length&&!S.missShown){ S.missShown=true; return show('bigMissing'); } afterRoom(); }
+function roomEnd(){ const have=S.big.filter(b=>b.room===S.bigRoom).map(b=>b.what), seen=FURN[S.bigRoom]||[]; S.miss=(FORGOT[S.bigRoom]||[]).filter(x=>!have.includes(x)&&!seen.includes(x)).slice(0,4); if(S.miss.length&&!S.missShown){ S.missShown=true; return show('bigMissing'); } afterRoom(); }
 function newBatch(){ S.batch=(S.batch||0)+1; S.pick=[]; S.lastRoom=''; }
 /* the pieces that get photos: every piece, but a bed's parts share one set */
 const shotItems=()=>{ const it=roomItems(); let bed=false; return it.filter(b=>{ if(!BEDPART.test(b.what)) return true; if(bed) return false; bed=true; return true; }); };
@@ -1321,24 +1690,280 @@ function afterRoom(){ if(S.bigRoom&&!S.doneRooms.includes(S.bigRoom)){ S.doneRoo
   fresh=S.big.map((b,i)=>b.batch===S.batch?'big'+i:'').filter(Boolean);
   if(!S.roomsAsked) return show('bedCount'); show('bigSaved'); }
 /* home mode: the app's own boxes and big stuff, read from the phone, so numbers, search and the free count are right */
+/* the flip-through: which boxes, in label order, and their photos read from the app as they're needed */
+const PHC={};
+function flipList(){ const by=(a,b)=>String(a.code).localeCompare(String(b.code),'en',{numeric:true});
+  if(S.flipSet==='q'&&S.flipQ){ const q=S.flipQ.toLowerCase(); return S.boxes.filter(b=>(b.words+' '+b.room+' '+b.code).toLowerCase().includes(q)).sort(by); }
+  if(S.flipSet==='all') return S.boxes.slice().sort(by);
+  return S.boxes.filter(b=>!b.unpacked).sort(by); }
+function flipPhotos(b){ if(!b) return [];
+  if(!b.appId) return (b.photos&&b.photos.length?b.photos:(b.photo?[b.photo]:[])).filter(Boolean);
+  const c=PHC[b.appId]; if(Array.isArray(c)) return c;
+  if(c!==null){ PHC[b.appId]=null; loadFlipPhotos(b.appId).then(()=>{ if(cur==='flip'){ const L=flipList(), now=L[S.fx||0]; if(now&&now.appId===b.appId) show('flip',true); } }); }
+  return b.photo?[b.photo]:[]; }
+async function loadFlipPhotos(id){ try{ const o=JSON.parse(await idbGet('moving-command-center-v1-photos-'+id)||'null')||{};
+  const a=['open','open2','side','top','sealed','label','detail'].map(k=>o[k]).filter(x=>typeof x==='string'&&x);
+  (o.more||[]).forEach(m=>{ if(m&&m.src) a.push(m.src); }); PHC[id]=a; }catch(e){ PHC[id]=[]; } }
+function flipPre(){ const L=flipList(); [S.fx-1,S.fx+1,S.fx+2].forEach(i=>{ const b=L[i]; if(b&&b.appId&&PHC[b.appId]===undefined){ PHC[b.appId]=null; loadFlipPhotos(b.appId); } }); }
+function flipGo(d){ const n=flipList().length; const x=(S.fx||0)+d; if(x<0||x>=n) return; S.fx=x; S.fpi=0; show('flip',true); }
+/* ===== owner, 8 Nov: "We need a homepage please." Then: "the same pages that we had before, just not stacked,
+   so you go vertical instead ... be sure that each drawing matches each scene. I don't want old drawings where
+   they don't belong." One scroll: the move, the vault, big stuff, the calendar, sorting. Each part has its own
+   drawing in its own place, and none of them stands in front of the box room. ===== */
+const HPH=['Planning','6–8 weeks before','2–4 weeks before','Final week','Moving day','Delivery day','First week after'];
+const HBOOKED=["Reserve movers","Get written estimates","Price hired labor by the hour before ruling out a container"];
+const HBOL="Get the bill of lading at least 3 days before loading. You have 3 days to cancel.";
+const hDays=t=>{ if(t==null) return null; const a=new Date(t); if(isNaN(a)) return null; a.setHours(0,0,0,0); const b=new Date(); b.setHours(0,0,0,0); return Math.round((a-b)/864e5); };
+const hIso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const hCity=(name,addr)=>{ const n=String(name||'').split(',')[0].trim(); if(n&&!/\d/.test(n)) return n.slice(0,18);
+  const parts=String(addr||'').split(/\n|,/).map(x=>x.trim()).filter(Boolean), si=parts.findIndex((p,i)=>i>0&&/^[A-Z]{2}(\s+\d{5}(-\d{4})?)?$/.test(p));
+  return (si>0?parts[si-1]:parts.find(p=>!/\d/.test(p))||'').slice(0,18); };
+const hHand=b=>!!(b&&(b.withMe||b.room==='HAND'||b.destRoom==='HAND'||((b.room==='MED'||b.room==='PET')&&!b.onTruck)));
+/* where the move stands, read the way the app reads it: the same dates, phases and next step, so the two always agree. Nothing new is stored. */
+function homeRead(st){ if(!st) return null; const mv=st.move||{}, at=d=>new Date(d+'T08:00:00').getTime(), M=[];
+  if(st.moveday&&st.moveday.arrive){ const t=new Date(st.moveday.arrive).getTime(); if(!isNaN(t)) M.push({k:'crew',t}); }
+  if(mv.date) M.push({k:'out',t:at(mv.date)}); if(mv.delivery) M.push({k:'in',t:at(mv.delivery)});
+  const ms=M.filter(m=>!isNaN(m.t)).sort((a,b)=>a.t-b.t), lo=ms.find(m=>m.k==='out')||ms[0], de=ms.find(m=>m.k==='in');
+  const dl=lo?hDays(lo.t):null, dd=de?hDays(de.t):null;
+  let pi; if(!lo) pi=Math.max(0,HPH.indexOf(mv.phase)); else if(dl>0) pi=dl<=7?3:dl<=28?2:dl<=56?1:0; else if(dd===0&&dl<0) pi=5; else if(dl===0) pi=4; else if(dd!==null&&dd>0) pi=5; else pi=6;
+  /* tester, 8 Nov: on day 9 the one thing still offered "Plan the journey itself". Once the truck is loaded,
+     tasks from before moving day are over; after delivery, moving day's are too. */
+  const hide=t=>((st.profile||{}).stage==='booked'&&HBOOKED.includes(t.t))||(pi>=3&&t.phase===HPH[0])||(pi>=5&&HPH.indexOf(t.phase)>=0&&HPH.indexOf(t.phase)<(pi>=6?5:4));
+  const open=(st.tasks||[]).filter(t=>t&&t.t&&!t.done&&!t.who&&!hide(t)), ph=HPH[pi];
+  const inPh=open.filter(t=>t.phase===ph), crit=open.filter(t=>t.critical&&t.phase!==ph), behind=open.filter(t=>!t.critical&&HPH.indexOf(t.phase)>=0&&HPH.indexOf(t.phase)<pi);
+  const pool=mv.energy==='red'?[...inPh.filter(t=>t.critical),...inPh,...crit,...behind]:[...inPh,...crit,...behind], seen=new Set();
+  const tasks=pool.filter(t=>seen.has(t.id)?false:(seen.add(t.id),true)).slice(0,12).map(t=>({id:t.id,t:t.t===HBOL&&dl!==null&&dl<3?"Ask the mover for the bill of lading today. Read every line before you sign.":t.t}));
+  const mode=!ms.length?'dates':(pi===5&&dd===0)?'delivery':pi===5?'transit':(dl!==null&&dl<0)?'after':dl===0?'today':'plan';
+  const bx=(st.boxes||[]).filter(b=>!hHand(b)), bg=(st.bigs||[]).filter(g=>{ const p=g.plan||'move'; return p==='move'||p==='store'; });
+  const truck={left:bx.filter(b=>!b.loaded).length+bg.filter(g=>!g.loaded).length, onTruck:bx.filter(b=>b.loaded&&!b.delivered).length+bg.filter(g=>g.loaded&&!g.delivered).length};
+  const lost=[...(st.boxes||[]).filter(b=>b.loaded&&!b.delivered&&!b.claimed).map(b=>b.code),...bg.filter(g=>g.loaded&&!g.delivered&&!g.claimed).map(g=>g.name)].filter(Boolean);
+  const td=hIso(new Date()), next=(st.appts||[]).filter(a=>a&&a.date&&!a.done&&String(a.date).slice(0,10)>=td).map(a=>({d:String(a.date).slice(0,10),w:String(a.what||'An appointment'),win:String(a.win||'')}));
+  /* tester, 8 Nov: December 12 showed twice, "Movers, loading" and "Loading day". The day is listed once. */
+  if(mv.date&&mv.date>=td&&!next.some(a=>a.d===mv.date&&/load|mover/i.test(a.w))) next.push({d:mv.date,w:'Loading day'}); if(mv.delivery&&mv.delivery>=td&&mv.delivery!==mv.date&&!next.some(a=>a.d===mv.delivery&&/deliver|unload/i.test(a.w))) next.push({d:mv.delivery,w:'Delivery day'});
+  next.sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);
+  const plans={}; (st.bigs||[]).forEach(g=>{ if(g&&g.plan) plans[g.plan]=(plans[g.plan]||0)+1; });
+  const wide=(st.bigs||[]).filter(g=>g&&g.name&&+g.w>0&&(g.measured||!g.fromPreset)).sort((a,b)=>+b.w - +a.w)[0];
+  const stay=(st.bigs||[]).filter(g=>g&&g.name&&g.plan&&!/^(move|store)$/.test(g.plan)).map(g=>({id:g.id,name:String(g.name),plan:g.plan}));
+  return {mode,dl,dd,tasks,truck,lost,tracked:(st.boxes||[]).some(b=>b.loaded||b.delivered||b.unpacked),moved:!!(st.settings||{}).movedConfirmed,next,plans,stay,
+    wide:wide?{name:String(wide.name),w:+wide.w}:null,value:(st.bigs||[]).reduce((a,g)=>a+(parseFloat(String((g&&(g.repl||g.price))||'').replace(/[^\d.]/g,''))||0),0),door:String(mv.doorway||'').replace(/[^\d.]/g,'').slice(0,4),
+    from:hCity(mv.fromName,mv.from),to:hCity(mv.toName,mv.to)||hCity('',(st.newhome||{}).address),loadAt:lo&&lo.k==='out'?lo.t:null}; }
+async function homeWrite(fn){ try{ const st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); if(!st||fn(st)===false) return null; await idbSet('moving-command-center-v1',JSON.stringify(st)); return st; }catch(e){ return null; } }
+const hDay=d=>{ const n=hDays(d+'T12:00:00'), dt=new Date(d+'T12:00:00'); return n===0?'Today':n===1?'Tomorrow':n>1&&n<7?dt.toLocaleDateString('en-US',{weekday:'long'}):dt.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'}); };
+/* the home's own drawings. Each part of the move in its own place: outdoors for the move, the stack for the vault,
+   your own furniture with the tape for big stuff, the wall calendar, the front door for sorting. */
+function hArtF(kind,H){ H=H||{}; const GY=196;
+  const P=(d,c)=>`<path class="${c||''}" d="${d}"/>`, R=(x,y,w,h,c,r)=>`<rect class="${c||''}" x="${x}" y="${y}" width="${w}" height="${h}"${r?` rx="${r}"`:''}/>`, C=(x,y,r,c)=>`<circle class="${c||'nf'}" cx="${x}" cy="${y}" r="${r}"/>`;
+  const T=(x,y,t,sz,a)=>`<text x="${x}" y="${y}" text-anchor="${a||'middle'}" style="font-size:${sz||11}px">${esc(t)}</text>`;
+  const L=(x,y,t)=>{ const half=String(t).length*4.2+4; return T(Math.max(half,Math.min(360-half,x)),y,t,12); };
+  const house=(x,w,c,open)=>{ const h=w*0.62, ry=GY-h, rt=ry-w*0.42; let o=R(x+w*0.68,rt+w*0.1,w*0.1,w*0.2,'f2');
+    o+=P(`M${x-8} ${ry} L${x+w/2} ${rt} L${x+w+8} ${ry} Z`,'f2')+P(`M${x+w*0.22} ${ry-w*0.1} L${x+w/2} ${rt+w*0.12} M${x+w*0.3} ${ry-w*0.03} L${x+w*0.5} ${rt+w*0.2}`,'nf')+R(x,ry,w,h,c||'');
+    const dw=w*0.2, dx=x+w/2-dw/2, dt=GY-h*0.6;
+    o+=open?R(dx,dt,dw,h*0.6,'f3')+P(`M${dx} ${dt} L${dx-dw*0.5} ${dt+4} V${GY+1} L${dx} ${GY} Z`,'f1'):R(dx,dt,dw,h*0.6,'f2')+R(dx+dw*0.2,GY-h*0.52,dw*0.6,h*0.14,'f1')+C(dx+dw*0.8,GY-h*0.28,2);
+    o+=R(dx-6,GY-4,dw+12,4,'f3');
+    [x+w*0.1,x+w*0.66].forEach(wx=>{ const ww=w*0.24, wh=h*0.36, wy=ry+h*0.18; o+=R(wx,wy,ww,wh,'f1')+P(`M${wx+ww/2} ${wy} v${wh} M${wx} ${wy+wh/2} h${ww}`,'nf')+R(wx-3,wy+wh,ww+6,4,'f3'); });
+    return o; };
+  const tree=(x,s)=>{ s=s||1; const y=GY-56*s; return P(`M${x} ${GY} v${-40*s} M${x} ${GY-30*s} l${-9*s} ${-9*s} M${x} ${GY-24*s} l${8*s} ${-8*s}`,'nf')+P(`M${x-24*s} ${y+8*s} c${-10*s} ${-4*s} ${-10*s} ${-22*s} ${4*s} ${-24*s} c${2*s} ${-14*s} ${20*s} ${-18*s} ${28*s} ${-8*s} c${12*s} ${-6*s} ${26*s} ${4*s} ${20*s} ${18*s} c${10*s} ${6*s} ${6*s} ${22*s} ${-8*s} ${22*s} c${-10*s} ${8*s} ${-30*s} ${8*s} ${-44*s} ${-8*s} z`,'f1'); };
+  const bush=(x,w)=>P(`M${x} ${GY} q0 -18 ${w*0.3} -20 q6 -12 ${w*0.4} -4 q${w*0.3} -2 ${w*0.3} 24 z`,'f1');
+  const cloud=(x,y)=>P(`M${x} ${y} q-14 0 -12 -12 q2 -12 16 -8 q6 -14 22 -8 q14 -2 14 12 q8 2 6 16 z`,'f1');
+  const birds=(x,y)=>P(`M${x} ${y} q6 -6 12 0 q6 -6 12 0 M${x+40} ${y-14} q5 -5 10 0 q5 -5 10 0`,'nf');
+  const pin=(x,y)=>P(`M${x} ${y} c-14 -18 -17 -26 -17 -33 a17 17 0 0 1 34 0 c0 7 -3 15 -17 33 z`,'tape')+C(x,y-33,6,'f1');
+  const box=(x,y,w,lab,open)=>{ const h=Math.round(w*0.78); let o=R(x,y-h,w,h);
+    /* tester, 8 Nov: on the small boxes the tape ran through the room label; a small labeled box has no tape */
+    o+=open?P(`M${x} ${y-h} L${x-w*0.16} ${y-h-h*0.34} L${x+w*0.3} ${y-h-h*0.34} L${x+w*0.42} ${y-h} Z M${x+w} ${y-h} L${x+w*1.16} ${y-h-h*0.34} L${x+w*0.7} ${y-h-h*0.34} L${x+w*0.58} ${y-h} Z`,'f2'):(lab&&w<56?'':R(x+w/2-w*0.08,y-h,w*0.16,h*0.36,'tape'));
+    if(lab) o+=R(x+w*0.1,y-h*0.64,w*0.5,h*0.3,'',2)+T(x+w*0.35,y-h*0.42,lab,Math.max(8,Math.min(11,w*0.17)));
+    return o; };
+  const tag=(x,y,t,len)=>P(`M${x} ${y-(len||22)} v${(len||22)-14}`,'nf')+P(`M${x-26} ${y-14} h52 v28 h-52 z`,'f3')+C(x,y-7,2.5)+T(x,y+10,t,12);
+  const sofa=(x,s)=>`<g transform="translate(${x} ${GY}) scale(${s||1})">`+R(6,-74,148,40,'f2',12)+R(0,-44,160,30,'',8)+R(-10,-58,26,54,'f1',10)+R(144,-58,26,54,'f1',10)+P('M70 -70 v30 M40 -70 v30 M100 -70 v30 M130 -70 v30','nf')+P('M4 -4 v6 M156 -4 v6','')+`</g>`;
+  const lamp=(x)=>P(`M${x-20} ${GY-120} h40 l11 28 h-62 z`,'f1')+P(`M${x} ${GY-92} v86`,'nf')+R(x-15,GY-6,30,6,'f3',2);
+  const truck=(x,s,open)=>`<g transform="translate(${x} ${GY}) scale(${s||1})">`+R(0,-122,200,104,'',6)+(open?R(8,-114,184,88,'f1',3):P('M100 -122 v104','nf'))+P('M200 -88 h46 l34 36 v34 h-80 z','f2')+P('M210 -78 h30 l24 26 h-54 z','f3')+R(272,-30,12,8,'f3',2)+C(48,-6,17)+C(48,-6,6,'f2')+C(238,-6,17)+C(238,-6,6,'f2')+`</g>`;
+  let f='';
+  if(kind==='mNone'){
+    /* no date yet: the road out over the hill, a pin where the new place will be, the signpost */
+    f+=cloud(84,46)+cloud(286,34)+birds(170,58);
+    f+=P('M-10 140 Q70 114 160 126 T370 118 V196 H-10 Z','f1')+P('M-10 168 Q100 150 200 160 T370 156 V196 H-10 Z','f2');
+    f+=P('M128 196 L170 128 L184 128 L232 196 Z','f1')+P('M177 190 v-10 M177 170 v-8 M177 152 v-6 M177 139 v-4','nf');
+    f+=tree(58,0.9)+tree(320,0.75)+tree(98,0.6)+house(232,44,'f1')+pin(254,112);
+    f+=P('M30 196 V146','')+P('M12 132 h58 l12 12 l-12 12 h-58 z','f3')+T(44,149,'NEXT',11);
+  } else if(kind==='mBefore'){
+    /* your place with boxes by the door, the way across, the new place under its pin */
+    f+=cloud(196,32)+cloud(118,96)+birds(236,62);
+    f+=P('M-10 152 Q90 132 180 142 T370 136 V196 H-10 Z','f1');
+    f+=house(18,118,'f1')+box(114,GY,32,'KIT')+box(146,GY,24,'')+bush(2,30);
+    for(let i=0;i<10;i++){ const t=i/9, px=160+t*128, py=118-Math.sin(t*Math.PI)*64; f+=C(px,py,2.4,'tape'); }
+    f+=house(282,54,'f2')+pin(309,126);
+    f+=L(77,52,H.from||'Here')+(H.to?L(309,72,H.to):'');
+  } else if(kind==='mDay'){
+    /* loading day: the truck at the curb, back open, a ramp, the hand truck going up with two boxes */
+    f+=cloud(250,40)+cloud(96,28);
+    f+=house(4,86,'f1')+truck(150,0.7,true)+box(166,GY-14,28,'')+box(200,GY-14,22,'');
+    f+=P(`M150 ${GY-12} L100 ${GY} H150 Z`,'f2');
+    f+=`<g transform="translate(116 ${GY-4}) rotate(-12)">${P('M-3 -74 v74 h26','" style="stroke-width:3;fill:none')}${C(2,3,5)}${box(0,-3,30,'KIT')}${box(3,-26,24,'')}</g>`;
+  } else if(kind==='mRoad'){
+    /* on the road: the truck between the place you left and the pin */
+    f+=cloud(80,38)+cloud(232,30)+birds(170,56);
+    f+=P('M-10 158 Q90 138 180 148 T370 144 V196 H-10 Z','f1')+house(6,44,'f2');
+    for(let i=0;i<6;i++) f+=P(`M${62+i*12} ${GY-6} h6`,'nf');
+    f+=truck(120,0.54,false)+house(298,50,'f2')+pin(323,130)+(H.to?L(323,76,H.to):'');
+  } else if(kind==='mAfter'){
+    /* the new place: the door open, boxes on the walk waiting to go in */
+    f+=cloud(66,40)+cloud(300,30)+birds(226,50);
+    f+=house(104,150,'f1',true)+box(54,GY,36,'KIT')+box(60,GY-28,28,'')+box(264,GY,30,'BED')+tree(330,0.95)+bush(8,32);
+  } else if(kind==='vault'){
+    /* the vault: your boxes stacked, labeled with your own rooms. One stands open once you've started unpacking */
+    const codes=(H.codes||[]).concat(['KIT','BED','LIV','BATH','OFF','DIN','CLO','GAR']).filter((c,i,a)=>c&&a.indexOf(c)===i).slice(0,8);
+    const opened=H.opened>0, x0=opened?26:44, bw=60, bh=Math.round(bw*0.78), mw=56, mh=Math.round(mw*0.78), tw=50, span=4*(bw+4)-4; let k=0;
+    for(let i=0;i<4;i++) f+=box(x0+i*(bw+4),GY,bw,codes[k++]);
+    const x1=x0+(span-(3*(mw+4)-4))/2; for(let i=0;i<3;i++) f+=box(x1+i*(mw+4),GY-bh,mw,codes[k++]);
+    f+=box(x0+(span-tw)/2,GY-bh-mh,tw,codes[k++]);
+    if(opened){ const ox=x0+span+18; f+=box(ox,GY,44,'',true)+P(`M${ox+8} ${GY-34} q6 -10 14 -4 q8 -8 16 2`,'f1')+P(`M${ox+12} ${GY-36} v-4 M${ox+22} ${GY-40} v-4`,'nf'); }
+  } else if(kind==='big'){
+    /* big stuff: your own pieces on the floor, the tape across the widest, the doorway they have to get through */
+    const seen=new Set(), pcs=[];
+    for(const w of (H.pieces||[])){ const k=/Sofa|Sectional|Couch|Loveseat/i.test(w)?'Sofa':/Armchair|Recliner/i.test(w)?'Armchair':/Bed|Mattress|Headboard/i.test(w)?'Bed frame':/Dresser|Chest|Nightstand|Bookcase|cabinet|Shelv|Refrigerator|Washer|Dryer/i.test(w)?'Dresser':/table|Desk|Buffet|Sideboard/i.test(w)?'table':/TV/i.test(w)?'TV':/lamp/i.test(w)?'lamp':''; if(k&&!seen.has(k)){ seen.add(k); pcs.push(k); } }
+    if(!pcs.length) pcs.push('Sofa','Dresser','lamp');
+    f+=P(`M10 ${GY} V62 H66 V${GY}`,'')+P(`M16 ${GY} V68 H60 V${GY}`,'nf');
+    f+=P('M16 52 h44 M16 47 v10 M60 47 v10','nf')+(H.door?T(38,42,H.door+'″',11):'');
+    const BW={Sofa:[4,104],Armchair:[0,56],'Bed frame':[0,100],lamp:[0,44],table:[0,80],Dresser:[0,60],TV:[0,80]};
+    let x=90, drawnN=0; pcs.forEach((k,i)=>{ const [o,w]=BW[k]; if(drawnN>=3||x+w>352) return; drawnN++; const gx=x+o; f+=`<g transform="translate(0 ${GY-344})">${bigSvg(k,gx,false)}</g>`;
+      if(i===0) f+=P(`M${x} 112 h${w} M${x} 106 v12 M${x+w} 106 v12`,'nf')+(H.wide?T(x+w/2,100,H.wide.w+'″',11):''); x+=w+14; });
+  } else if(kind==='cal'){
+    /* the calendar on the wall, the next date circled */
+    const d0=H.at?new Date(H.at+'T12:00:00'):new Date(), y=d0.getFullYear(), m=d0.getMonth(), first=new Date(y,m,1).getDay(), dim=new Date(y,m+1,0).getDate(), pick=H.at?d0.getDate():0;
+    const X=78,Y=24,W=204,HH=166,top=Y+52,cw=W/7,rh=(HH-58)/6;
+    f+=P(`M180 6 L${X+46} ${Y} M180 6 L${X+W-46} ${Y}`,'nf')+C(180,6,3,'f3');
+    f+=R(X,Y,W,HH,'',8)+R(X,Y,W,32,'f2',8)+P(`M${X} ${Y+24} h${W}`,'nf')+T(X+W/2,Y+22,d0.toLocaleDateString('en-US',{month:'long'}),15);
+    'SMTWTFS'.split('').forEach((c,i)=>{ f+=T(X+cw*i+cw/2,Y+45,c,9); });
+    for(let d=1;d<=dim;d++){ const p=first+d-1, cx=X+cw*(p%7)+cw/2, cy=top+rh*Math.floor(p/7)+rh*0.62; f+=T(cx,cy,String(d),10); if(d===pick) f+=`<circle class="nf ring" cx="${cx}" cy="${cy-3.5}" r="10.5"/>`; }
+  } else if(kind==='vaultOut'){
+    /* owner, 8 Nov: "I don't want it to look like a store ... a small box on top of a really big box, next to a medium
+       box, with three other boxes piled and one open, in someone's living room." The vault is the pile in your living
+       room, labeled with your own rooms. It gets smaller as you unpack, and the open box is always there. */
+    const codes=(H.codes||[]).concat(['KIT','BED','LIV','BATH','OFF','DIN','CLO','GAR','MISC']).filter((c,i,a)=>c&&a.indexOf(c)===i);
+    /* the room: a window with curtains, a floor lamp, a rug */
+    f+=R(22,34,82,92,'f1',2)+P('M63 34 v92 M22 80 h82','nf')+P('M14 28 h98','')+P('M16 30 c6 30 -2 64 4 100 h12 c-4 -36 2 -70 -4 -100 z M110 30 c-6 30 2 64 -4 100 h-12 c4 -36 -2 -70 4 -100 z','f2')+R(18,126,90,5,'f3',2);
+    f+=P(`M326 ${GY} v-104`,'nf')+P(`M308 ${GY-104} h36 l9 -26 h-54 z`,'f1')+R(316,GY-5,20,5,'f3',2);
+    f+=P(`M80 ${GY-2} q120 -14 236 0`,'f2');
+    /* the pile, biggest first, so unpacking takes the top ones away */
+    const pile=[[146,GY,104],[258,GY,62],[88,GY,58],[93,GY-45,48],[176,GY-81,42],[98,GY-82,38]];
+    /* tester, 8 Nov: one box drew a pile of six. Up to six boxes, the pile is the boxes themselves. */
+    const shown=H.total?(H.total<=pile.length?Math.max(0,H.held):Math.max(H.held>0?1:0,Math.round(pile.length*H.held/H.total))):0;
+    pile.slice(0,shown).forEach(([x,y,w],i)=>{ f+=box(x,y,w,codes[i%codes.length]); });
+    /* the open one, flaps up, something folded on top */
+    f+=box(30,GY,46,'',true)+P(`M38 ${GY-36} q8 -10 16 -3 q8 -8 16 1`,'f1')+P(`M41 ${GY-36} v-4 M55 ${GY-39} v-4`,'nf');
+  } else if(kind==='calSign'){
+    /* the calendar, standing on the lawn like a sign, the next date circled */
+    const d0=H.at?new Date(H.at+'T12:00:00'):new Date(), y=d0.getFullYear(), m=d0.getMonth(), first=new Date(y,m,1).getDay(), dim=new Date(y,m+1,0).getDate(), pick=H.at?d0.getDate():0;
+    const X=70,Y=12,W=220,HH=162,top=Y+52,cw=W/7,rh=(HH-58)/6;
+    f+=bush(8,34)+tree(338,0.75)+P(`M${X+34} ${Y+HH} V${GY} M${X+W-34} ${Y+HH} V${GY}`,'')+R(X+28,GY-4,12,4,'f3')+R(X+W-40,GY-4,12,4,'f3');
+    f+=R(X,Y,W,HH,'',8)+R(X,Y,W,32,'f2',8)+P(`M${X} ${Y+24} h${W}`,'nf')+T(X+W/2,Y+22,d0.toLocaleDateString('en-US',{month:'long'}),15);
+    'SMTWTFS'.split('').forEach((c,i)=>{ f+=T(X+cw*i+cw/2,Y+45,c,9); });
+    for(let d=1;d<=dim;d++){ const p=first+d-1, cx=X+cw*(p%7)+cw/2, cy=top+rh*Math.floor(p/7)+rh*0.66; f+=T(cx,cy,String(d),10.5); if(d===pick) f+=`<circle class="nf ring" cx="${cx}" cy="${cy-3.6}" r="10.5"/>`; }
+  } else if(kind==='sort'){
+    /* what stays behind waits by the front door: the sofa to sell, the vase to give away, a lamp you're not sure about */
+    f+=R(10,46,84,150,'f1')+R(22,58,60,138)+P('M22 58 L52 66 V188 L22 196 Z','f2')+C(46,128,2.5);
+    f+=sofa(116,0.62)+tag(166,122,'SELL',20);
+    f+=P(`M246 ${GY} q-10 -40 6 -60 q16 -12 32 0 q16 20 6 60 z`,'f1')+P(`M260 ${GY-60} q8 -12 18 0`,'nf')+tag(268,108,'GIVE',18);
+    f+=lamp(330)+tag(330,58,'?',18);
+  }
+  return f; }
+function hArt(kind,H){ const GY=196; return `<svg viewBox="0 0 360 204" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><g class="fore">${hArtF(kind,H)}</g><rect class="gnd" x="0" y="${GY}" width="360" height="8"/><line class="gline" x1="0" y1="${GY}" x2="360" y2="${GY}"/></svg>`; }
+/* ===== owner, 8 Nov (Lemonade, second look): one page per part of the move. The drawings stand on one long
+   horizon, in the order of the bar, and the view slides along it to the page you pick, so the next part peeks in
+   at the edge. Home is "Welcome home." with the countdown. The menu is the round button top left. ===== */
+const PANO=['home','lvault','lbig','lcal','lsort'], PSEG=360, PWIN=420, PW=PSEG*PANO.length+(PWIN-PSEG);
+let panoAt=null;
+const panoPct=i=>i*PSEG/PW*100;
+const hDate=d=>new Date(d+'T12:00:00');
+const hShort=d=>{ const n=hDays(d+'T12:00:00'); return n===0?'Today':n===1?'Tomorrow':n>1&&n<7?hDate(d).toLocaleDateString('en-US',{weekday:'long'}):hDate(d).toLocaleDateString('en-US',{month:'short',day:'numeric'}); };
+/* the round badges: a small drawing in a circle, two short lines under it */
+const BIC={
+  box:'<rect x="10" y="19" width="28" height="21" rx="2"/><path class="f2" d="M8 13h32v6H8z"/><rect class="tape" x="21" y="13" width="6" height="10"/>',
+  sofa:'<rect class="f2" x="11" y="15" width="26" height="12" rx="3"/><rect x="11" y="25" width="26" height="9" rx="2"/><rect class="f1" x="6" y="21" width="8" height="15" rx="3"/><rect class="f1" x="34" y="21" width="8" height="15" rx="3"/><path d="M10 36v3M38 36v3"/>',
+  cal:d=>`<rect x="9" y="12" width="30" height="27" rx="3"/><path class="f2" d="M9 15a3 3 0 0 1 3-3h24a3 3 0 0 1 3 3v6H9z"/><path class="nf" d="M17 9v6M31 9v6"/>${d!==''?`<text x="24" y="35" text-anchor="middle">${d}</text>`:''}`,
+  door:'<rect class="f2" x="15" y="9" width="18" height="30"/><circle cx="28.5" cy="25" r="1.6"/><path class="nf" d="M9 39h30M15 5h18M15 3v4M33 3v4"/>',
+  camera:'<rect class="f2" x="7" y="16" width="34" height="22" rx="4"/><circle cx="24" cy="27" r="7"/><path class="nf" d="M18 16l3-5h6l3 5"/>',
+  tag:'<path class="f3" d="M9 25V12h13l16 16-13 13z"/><circle cx="15.5" cy="18.5" r="2.5"/>',
+  heart:'<path class="f2" d="M24 38s-13-7.5-13-17a7 7 0 0 1 13-3.6A7 7 0 0 1 37 21c0 9.5-13 17-13 17z"/>',
+  ask:'<path class="f3" d="M9 25V12h13l16 16-13 13z"/><text x="21" y="31" text-anchor="middle">?</text>'
+};
+const lemBadges=L=>`<div class="badges">${L.map(([ic,big,lab])=>`<div class="badge"><span class="bc"><svg viewBox="0 0 48 48" aria-hidden="true">${ic}</svg></span><span class="bl"><b>${big}</b>${lab}</span></div>`).join('')}</div>`;
+/* rows inside one card, each with a round icon */
+const RIC={box:'<path d="M4.5 10h15v10h-15zM3 6.5h18V10H3zM10.25 6.5h3.5v6h-3.5z"/>',sofa:'<path d="M4 18v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6M2 14h20M5 18v2M19 18v2M6 10V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3"/>',list:'<path d="M9 7h11M9 12h11M9 17h11M4.5 7h.01M4.5 12h.01M4.5 17h.01"/>',tag:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/>',plus:'<path d="M12 5v14M5 12h14"/>',truck:'<path d="M3 6h11v10H3zM14 9h4l3 3v4h-7zM6.5 18.5a1.5 1.5 0 1 0 0-.01M17.5 18.5a1.5 1.5 0 1 0 0-.01"/>',house:'<path d="M3.5 11.5 12 4.5l8.5 7M5.5 10v10h13V10M10 20v-5.5h4V20"/>',doc:'<path d="M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h6"/>',wallet:'<path d="M3 7h16a2 2 0 0 1 2 2v9H3zM3 7l12-3v3M16 13h2"/>',grid:'<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>',help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17h.01"/>',key:'<circle cx="8" cy="14" r="4"/><path d="M11 11l8-8M16 6l3 3M14 8l2 2"/>',save:'<path d="M12 3v12M7 10l5 5 5-5M4 19h16"/>',mail:'<path d="M3 6h18v12H3zM3 7l9 6 9-6"/>',share:'<path d="M12 15V3M7 8l5-5 5 5M5 12v8h14v-8"/>'};
+const lemRow=([ic,t,attr])=>`<button type="button" class="lrow" ${attr}><span class="ric"><svg viewBox="0 0 24 24" aria-hidden="true">${ic}</svg></span><span class="rt">${t}</span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>`;
+const lemRows=L=>`<div class="lcard">${L.map(lemRow).join('')}</div>`;
+/* owner, 8 Nov: "when I am looking with my eyes I look for Lowe's and the size, then the label." Every box says its
+   store and size right beside its number. */
+const BOXBRAND={uh:'U-Haul',hd:'Home Depot',lo:"Lowe's",wm:'Walmart',tg:'Target',sta:'Staples',cos:'Costco'};
+const SIZEW={XS:'extra small',S:'small',M:'medium',L:'large',XL:'extra large'};
+function boxKind(b){ if(!b) return ''; if(b.kind) return b.kind; const sz=SIZEW[b.size]||String(b.size||'').toLowerCase(); const br0=b.brand&&!/^(Yours|Measured|Other|Not sure)$/i.test(b.brand)?b.brand:'', br={'Free or secondhand':'Used','Costco or club':'Costco'}[br0]||br0;
+  return (br?br+(sz&&sz!=='custom'?' '+sz:''):sz&&sz!=='custom'?sz.charAt(0).toUpperCase()+sz.slice(1):'')||''; }
+const STAYW={sell:'to sell',consign:'to sell',donate:'to give away',give:'to give away',trash:'to let go',undecided:'still deciding'};
+const coming=()=>S.big.filter(b=>!STAYW[b.plan]);
+/* the long horizon: the move, the vault, big stuff, the calendar, sorting, each in its own place */
+function lemPano(H,art){ H=H||{}; const n=S.boxes.length, held=S.boxes.filter(b=>!b.unpacked).length, codes=[];
+  S.boxes.filter(b=>!b.unpacked).forEach(b=>{ const c=String(b.code||'').split('-')[0]; if(c&&!codes.includes(c)) codes.push(c); });
+  const pieces=S.big.slice().sort((a,b)=>(parseFloat(String(b.size||'').split('×')[0])||0)-(parseFloat(String(a.size||'').split('×')[0])||0)).map(b=>b.what);
+  const home=art||({dates:'mNone',today:'mDay',transit:'mRoad',delivery:'mAfter',after:'mAfter'})[H.mode]||'mBefore';
+  const segs=[[home,H],['vaultOut',{codes,held,total:n}],['big',{pieces,wide:H.wide,door:H.door}],['calSign',{at:(H.next||[]).length?H.next[0].d:''}],['sort',{}]];
+  const off=(PWIN-PSEG)/2, GY=196;
+  return `<svg viewBox="0 0 ${PW} 204" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><g class="fore">${segs.map(([k,o],i)=>`<g transform="translate(${off+i*PSEG} 0)">${hArtF(k,o)}</g>`).join('')}</g><rect class="gnd" x="0" y="${GY}" width="${PW}" height="8"/><line class="gline" x1="0" y1="${GY}" x2="${PW}" y2="${GY}"/></svg>`; }
+/* the bar in your move: round buttons on one floating strip, a short line under the page you're on */
+const LEMTAB={Home:'home',Boxes:'lvault',Furniture:'lbig',Moving:'lcal',Sorting:'lsort'};
+const LEMON={home:'Home',lvault:'Boxes',flip:'Boxes',myBoxes:'Boxes',lbig:'Furniture',lcal:'Moving',lsort:'Sorting'};
+function pillBar(){ const on=LEMON[cur]||'';
+  return `<div class="pillbar"><nav class="pill" aria-label="Your move">${Object.keys(LEMTAB).map(n=>`<button type="button" data-tab="${n}" class="${n===on?'on':''}"${n===on?' aria-current="page"':''}><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true">${TAB[n]}</svg></span>${nm(n)}</button>`).join('')}</nav></div>`; }
+/* the menu: one sheet, a greeting, then plain rows in groups */
+function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, hr=new Date().getHours();
+  const hi=hr<12?'Good morning.':hr<18?'Good afternoon.':'Good evening.';
+  const line=H.mode==='after'||H.mode==='delivery'?(H.to?`Home in ${esc(H.to)}.`:''):H.loadAt?`Moving${H.to?` to ${esc(H.to)}`:''} on ${new Date(H.loadAt).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}.`:'';
+  const s=document.createElement('div'); s.className='sheet msheet'; s.setAttribute('role','dialog'); s.setAttribute('aria-modal','true'); s.setAttribute('aria-label','Menu');
+  s.innerHTML=`<div class="mhandle" aria-hidden="true"></div><div class="top"><button class="back" data-close style="margin-left:auto">Close</button></div><div class="in">
+    <h3 id="sheet-h" tabindex="-1" class="mhi">${hi}</h3>${line?`<p class="mline">${line}</p>`:''}
+    <p class="mgroup">Your move</p>${lemRows([[RIC.house,'Moving day and addresses','data-hgo="setup"'],[RIC.truck,'Move day','data-hgo="moveday"'],[RIC.doc,'Papers and proof','data-hgo="papers"'],[RIC.wallet,'Money','data-hgo="money"']])}
+    <p class="mgroup">Everything else</p>${lemRows([[RIC.grid,'Every part of the app','data-hgo="home"'],[RIC.help,'I need help','data-hgo="help"']])}
+    <p class="mgroup">Your account</p>${lemRows([[RIC.key,'Membership','data-hgo="pack"'],[RIC.save,'Backups and sharing','data-hgo="share"']])}
+    <p class="mgroup">Support</p>${lemRows([[RIC.mail,'Write to us','data-mail'],[RIC.share,'Share The Packed Rabbit','data-share']])}</div>`;
+  const sc=document.createElement('div'); sc.className='scrim'; sc.onclick=()=>closeSheet(); phone.appendChild(sc); phone.appendChild(s);
+  s.querySelector('[data-close]').onclick=()=>closeSheet();
+  s.querySelectorAll('[data-hgo]').forEach(b=>b.onclick=()=>toApp('?go='+b.dataset.hgo));
+  s.querySelector('[data-mail]').onclick=()=>{ (window.top||window).location.href='mailto:hello@packedrabbit.com'; };
+  s.querySelector('[data-share]').onclick=async()=>{ const url='https://packedrabbit.com/'; try{ if(navigator.share){ await navigator.share({title:'The Packed Rabbit',url}); return; } }catch(e){ return; }
+    try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
+  shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
+async function flipUnpack(b,on){ try{ const st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); if(!st||!Array.isArray(st.boxes)) return false;
+    const x=st.boxes.find(y=>y&&y.id===b.appId); if(!x) return false;
+    if(on){ b.prevDelivered=!!x.delivered; x.unpacked=true; x.delivered=true; } else { x.unpacked=false; if(b.prevDelivered===false) x.delivered=false; }
+    await idbSet('moving-command-center-v1',JSON.stringify(st)); b.unpacked=!!x.unpacked; b.delivered=!!x.delivered; return true; }catch(e){ return false; } }
+addEventListener('keydown',e=>{ if(cur!=='flip'||e.target&&/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return; if(e.key==='ArrowRight') flipGo(1); else if(e.key==='ArrowLeft') flipGo(-1); });
 async function loadHome(){ let st=null; try{ st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); }catch(e){}
   const RN={}; Object.keys(CODE).forEach(k=>{ if(!RN[CODE[k]]) RN[CODE[k]]=k; });
   const have=new Set(S.boxes.map(b=>b.code));
-  ((st&&st.boxes)||[]).forEach(b=>{ if(!b||!b.code||have.has(b.code)) return; have.add(b.code); const rc=String(b.room||b.code.split('-')[0]||'MISC');
-    S.boxes.push({code:b.code,rc,room:RN[rc]||rc,words:(b.items||[]).map(x=>x.name).filter(Boolean).join(', '),flags:b.withMe?['Goes with me']:[],photos:[],photo:'',handed:1,appId:b.id}); });
-  const hb=new Set(S.big.map(b=>b.what+'|'+(b.rc||'')));
+  ((st&&st.boxes)||[]).forEach(b=>{ if(!b||!b.code) return; const rc=String(b.room||b.code.split('-')[0]||'MISC');
+    const pre=String(b.preset||'').split('-')[0], bsz=String(b.size||''), kind=pre==='free'?'Used box':pre==='bin'?'Plastic bin':BOXBRAND[pre]?BOXBRAND[pre]+(bsz?' '+bsz.toLowerCase():''):bsz;
+    const rec={code:b.code,rc,room:RN[rc]||rc,words:(b.items||[]).map(x=>x.name).filter(Boolean).join(', '),flags:b.withMe?['Goes with me']:[],handed:1,appId:b.id,unpacked:!!b.unpacked,delivered:!!b.delivered,kind};
+    if(have.has(b.code)){ const ex=S.boxes.find(x=>x.code===b.code&&x.handed); if(ex) Object.assign(ex,rec); return; }
+    have.add(b.code); S.boxes.push(Object.assign(rec,{photos:[],photo:''})); });
+  /* a box or piece removed in the app leaves this list too */
+  if(st){ const ab=new Set((st.boxes||[]).map(b=>b&&b.id)), ag=new Set((st.bigs||[]).map(g=>g&&g.id)); S.boxes=S.boxes.filter(b=>!b.appId||ab.has(b.appId)); S.big=S.big.filter(b=>!b.appId||ag.has(b.appId)); }
+  /* tester, 8 Nov: "couch" and "couch (extra large)" were listed twice. The app adds the size class to the
+     name, so pieces are matched without it. A size the app guessed from the kind of piece is labeled a guess. */
+  const nk=(n,r)=>String(n||'').replace(/\s*\([^)]*\)\s*$/,'').trim().toLowerCase()+'|'+(r||'');
+  const hb=new Set(S.big.map(b=>nk(b.what,b.rc)));
   /* owner, 8 Nov: "all my pictures for all my furniture ... measurements ... brand names ... value ... missing".
      They were never gone: they live in the app, and this list only copied the names. Now each piece
      carries its app id, size, brand and value, refreshed every time, and its photo is read below. */
-  ((st&&st.bigs)||[]).forEach(g=>{ if(!g||!g.name) return; const k=(g.name||'')+'|'+(g.room||'');
-    const size=(g.w&&g.d&&g.h)?`${g.w}″ × ${g.d}″ × ${g.h}″`:'';
-    const ex=S.big.find(b=>b.appId===g.id)||(hb.has(k)?S.big.find(b=>b.handed&&(b.what+'|'+(b.rc||''))===k&&!b.appId):null);
-    const rec={what:g.name,rc:g.room||'',room:RN[g.room]||'',handed:1,appId:g.id,size,brand:g.brand||'',value:g.repl||g.price||''};
+  ((st&&st.bigs)||[]).forEach(g=>{ if(!g||!g.name) return; const k=nk(g.name,g.room), k0=nk(g.name,'');
+    const size=(g.w&&g.d&&g.h)?(g.measured||!g.fromPreset?`${g.w}″ × ${g.d}″ × ${g.h}″`:`About ${g.w}″ wide, a guess`):'';
+    const ex=S.big.find(b=>b.appId===g.id)||S.big.find(b=>b.handed&&!b.appId&&(nk(b.what,b.rc)===k||(!b.rc&&nk(b.what,'')===k0)));
+    const rec={what:g.name,rc:g.room||'',room:RN[g.room]||'',handed:1,appId:g.id,size,brand:g.brand||'',value:g.repl||g.price||'',plan:g.plan||'move'};
     if(ex) Object.assign(ex,rec); else { hb.add(k); S.big.push(rec); } });
   for(const b of S.big.filter(x=>x.appId&&!x.photo)){ try{ const o=JSON.parse(await idbGet('moving-command-center-v1-photos-'+b.appId)||'null'); const src=o&&(o.open||o.side||o.sealed||o.top||o.label||o.detail||(o.more&&o.more[0]&&o.more[0].src)); if(src) b.photo=src; }catch(e){} }
   for(const b of S.boxes.filter(x=>x.appId&&!x.photo).slice(-12)){ try{ const o=JSON.parse(await idbGet('moving-command-center-v1-photos-'+b.appId)||'null'); const src=o&&(o.open||o.open2||o.side||o.top); if(src) b.photo=src; }catch(e){} }
   const se=(st&&st.settings)||{}; if(se.licence||se.storeFull) S.paid=S.paid||'licence';
+  /* alpha test, 8 Nov: the app's largest text didn't carry into the walk, so it had to be set twice */
+  try{ if(!localStorage.getItem('pr-walk-zoom')){ const sc=+se.scale||1; if(sc>1.05) localStorage.setItem('pr-walk-zoom',String(sc>=1.25?1.3:1.15)); } }catch(e){}
   if(!S.mwhat) S.mwhat='A home'; ['Boxes','Furniture'].forEach(t=>{ if((st&&st.boxes||[]).length&&!S.tabs.includes(t)) S.tabs.push(t); }); if(st) ['Moving','Sorting','Menu'].forEach(t=>{ if(!S.tabs.includes(t)) S.tabs.push(t); });
+  S.hm=homeRead(st)||S.hm; if(st&&!S.tabs.includes('Home')) S.tabs.unshift('Home');
   S.walked=1; S.homeMode=1; S.find=''; }
 function finishBig(){ if(!S.ntShown && S.big.some(b=>FUEL.test(b.what))){ S.ntShown=true; return show('notruck'); }
   if(S.homeMode) return finishThread(); show('cubic'); }
@@ -1348,16 +1973,18 @@ const _fits=d=>{ const s=[...d].sort((a,b)=>a-b); return s[0]<=30 && s[1]<=78; }
 function pauseCard(back){ keep(true); const old=phone.querySelector('.paused'); if(old) old.remove(); const p=P[cur](), where=(p.tag?p.tag+'. ':'')+String(p.h).replace(/<[^>]+>/g,'');
   const c=document.createElement('div'); c.className='paused'; c.setAttribute('role','dialog'); c.setAttribute('aria-modal','true'); c.setAttribute('aria-labelledby','pzh');
   c.innerHTML=`<div class="pin"><p class="say">${back?'Welcome back.':'Paused.'}</p><h2 id="pzh" tabindex="-1">${back?'You were here:':'This screen is saved.'}</h2><p class="pwhere">${esc(where)}</p><p class="sub">${back?'Pick up right where you stopped.':'Close the app whenever you like. It opens right here.'}</p><button class="cta" data-resume>Resume</button></div>`;
-  phone.appendChild(c); const pg=phone.querySelector('.page'); if(pg) pg.inert=true; c.querySelector('h2').focus();
-  c.querySelector('[data-resume]').onclick=()=>{ c.remove(); if(pg) pg.inert=false; const h=phone.querySelector('.page h2'); if(h) h.focus(); }; }
+  phone.appendChild(c); const pg=phone.querySelector('.page'); shut([c],true); c.querySelector('h2').focus();
+  c.querySelector('[data-resume]').onclick=()=>{ c.remove(); shut([],false); const h=phone.querySelector('.page h2'); if(h) h.focus(); }; }
 phone.addEventListener('click',e=>{ if(e.target.closest('[data-pause]')) pauseCard(false); if(e.target.closest('[data-aa]')){ const z=[1,1.15,1.3], i=z.indexOf(+(localStorage.getItem('pr-walk-zoom')||1)); try{ localStorage.setItem('pr-walk-zoom',String(z[(i+1)%z.length])); }catch(x){} textSize(); say(['Regular text.','Larger text.','Largest text.'][(i+1)%z.length]); } });
 /* tester, 7 Nov: nobody could make the walk's text bigger until they were in the app */
-function textSize(){ let z=1; try{ z=+(localStorage.getItem('pr-walk-zoom')||1)||1; }catch(e){} const t=phone.querySelector('.page .text'); if(t) t.style.zoom=z===1?'':String(z); }
-const afterOldGo=()=>S.place==='signed'?show('moveday'):homeDone();
-function afterFrom(){ if(measureMove()) show('mwhyask'); else if(S.to&&!S.toLL) show('mfar'); else { if(!S.to) S.far='Not sure yet'; show('mwhyask'); } }
-const SKIP={toolkit:()=>window.__APP?finishThread():openSheet('Moving'),mto:()=>show('mfrom'),mfrom:()=>afterFrom(),mfar:()=>show('mwhyask'),mwhyask:()=>show(isBiz()?'mfound':'mwho'),mwhy:()=>show('mwho'),mwho:()=>show('mfound'),mfound:()=>show('oldplace'),
+function textSize(){ let z=1; try{ z=+(localStorage.getItem('pr-walk-zoom')||1)||1; }catch(e){} phone.querySelectorAll('.page .text, .page .lground, .sheet .in').forEach(t=>{ t.style.zoom=z===1?'':String(z); }); }
+const afterOldGo=()=>show('moveday');
+/* owner, 7 Nov: the move in five questions: where to, where from, found the place, the place you're leaving, moving day.
+   The rest (why, who, the new place's details, lease dates, delivery) is asked on the Calendar tab, one at a time, when it matters. */
+function afterFrom(){ measureMove(); show('mfound'); }
+const SKIP={lgo:()=>sortEnd(''),lpickall:()=>sortEnd(''),lhelp:()=>sortEnd(''),toolkit:()=>window.__APP?finishThread():openSheet('Moving'),mto:()=>show('mfrom'),mfrom:()=>afterFrom(),mfar:()=>show('mfound'),mwhyask:()=>show(isBiz()?'mfound':'mwho'),mwhy:()=>show('mwho'),mwho:()=>show('mfound'),mfound:()=>show('oldplace'),
   hkind:()=>show(S.place==='signed'?'oldplace':(isBiz()?'hbudget':'hbeds')),hbeds:()=>show('hbudget'),hneeds:()=>show('hsearch'),hsearch:()=>show('hshow'),hshow:()=>show('hask'),hask:()=>show('oldplace'),
-  hstart:()=>show('oldplace'),hclose:()=>show('htitle'),oldplace:afterOldGo,oldend:afterOldGo,oldclose:afterOldGo,moveday:()=>homeDone(),mdeliver:()=>homeDone(),
+  hstart:()=>show('oldplace'),hclose:()=>show('htitle'),oldplace:afterOldGo,oldend:afterOldGo,oldclose:afterOldGo,moveday:()=>show('mhowfirst'),mhowfirst:()=>homeDone(),mpackq:()=>homeDone(),mselfq:()=>homeDone(),mdeliver:()=>homeDone(),
   words:()=>show('dest'),dest:()=>show('photo'),leave:()=>leaveNext(''),mstairs:()=>show('mdoor'),mdoor:()=>MOVERS()&&S.booked!=="Yes, they're booked"&&!S.qtext?show('mpacket'):toRent()};
 const SKIPWORDS=/^(Skip|Later|Not now|Not sure yet|I don't know yet|I'll find it later|Not sold yet|Nothing like that|Not right now)$/;
 function wireSkip(id){ const sk=phone.querySelector('[data-skip]'); if(!sk) return; let fn=SKIP[id];
@@ -1428,8 +2055,9 @@ function show_bar(){ const b=phone.querySelector('.bar'); if(b) b.outerHTML=bar(
 let openTab="";
 const SIZEN={XS:'Extra small',S:'Small',M:'Medium',L:'Large',XL:'Extra large',Custom:'Custom'};
 /* how movers count: a 3-piece sectional is 3 pieces, 2 nightstands are 2 */
-const pieces=b=>{ const s=b.size||''; if(/^Lamps$/.test(b.what)) return (s.match(/\d+/g)||['1']).reduce((a,x)=>a+ +x,0); if(/^Sectional$|Nightstands|End tables|^Chairs$|chairs|Barstools/.test(b.what)||COUNTED.test(b.what)){ const m=s.match(/\d+/); return m?+m[0]:1; } return 1; };
-function boxRow(b){ return `<li class="tap" data-box="${S.boxes.indexOf(b)}">${b.photo?`<img class="thumb" src="${b.photo}" alt="">`:`<svg class="thumb" viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="10" width="28" height="24" rx="2" fill="var(--f1)" stroke="var(--ink)" stroke-width="2"/><rect x="17" y="10" width="6" height="9" fill="var(--tape)"/></svg>`}<em><b style="color:var(--ink)">${b.code}</b><br>${esc(b.words||'Nothing written yet')}</em><span>${(b.flags||[]).includes('Goes with me')?'With you':esc(b.room)}</span></li>`; }
+/* tester, 8 Nov: a 35-inch armchair was counted as 35 chairs. A size in inches is a size, not a count. */
+const pieces=b=>{ const s=b.size||''; if(/[″×]|inch/.test(s)) return 1; if(/^Lamps$/.test(b.what)) return (s.match(/\d+/g)||['1']).reduce((a,x)=>a+ +x,0); if(/^Sectional$|Nightstands|End tables|^Chairs$|chairs|Barstools/.test(b.what)||COUNTED.test(b.what)){ const m=s.match(/\d+/); return m?+m[0]:1; } return 1; };
+function boxRow(b){ return `<li class="tap" tabindex="0" role="button" data-box="${S.boxes.indexOf(b)}">${b.photo?`<img class="thumb" src="${b.photo}" alt="">`:`<svg class="thumb" viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="10" width="28" height="24" rx="2" fill="var(--f1)" stroke="var(--ink)" stroke-width="2"/><rect x="17" y="10" width="6" height="9" fill="var(--tape)"/></svg>`}<em><b style="color:var(--ink)">${b.code}</b>${boxKind(b)?`<span class="bkind">${esc(boxKind(b))}</span>`:''}<br>${esc(b.words||'Nothing written yet')}</em><span>${b.unpacked?'Unpacked':(b.flags||[]).includes('Goes with me')?'With you':S.roomOnly&&cur==='myBoxes'?'':esc(b.room)}</span></li>`; }
 function findRes(){ const q=(S.find||'').trim().toLowerCase(), bx=S.boxes.filter(b=>!q||(b.words+' '+b.room+' '+b.code+' '+(b.flags||[]).join(' ')).toLowerCase().includes(q)).slice().reverse(), fu=q?S.big.filter(b=>(b.what+' '+(b.room||'')+' '+(b.model||'')).toLowerCase().includes(q)):[];
   return (bx.length?`<ul class="list">${bx.map(boxRow).join('')}</ul>`:'')+(fu.length?`<p class="grp">Furniture</p><ul class="list">${fu.map(b=>`<li>${esc(b.what)}<span>${esc(b.room||'')}</span></li>`).join('')}</ul>`:'')+(!bx.length&&!fu.length?`<p>Nothing matches that yet.</p>`:'')+(bx.length&&!q?'<p class="swipe">Tap a box to see its photo.</p>':''); }
 function sheetBody(n){
@@ -1444,7 +2072,7 @@ function sheetBody(n){
   if(n==='Furniture'){
     if(S.fsel>=0 && S.big[S.fsel]) return pieceBody(S.big[S.fsel]);
     const rooms=[...new Set(S.big.map(b=>b.room||''))];
-    return rooms.map(r=>`${r?`<p class="grp">${r}</p>`:''}<ul class="list">${S.big.map((b,i)=>[b,i]).filter(([b])=>(b.room||'')===r).map(([b,i])=>`<li class="tap" data-piece="${i}">${b.photo?`<img class="thumb" src="${b.photo}" alt="">`:''}<em>${esc(b.what)}</em><span>${esc(b.size||(FIXED.test(b.what)?(b.cond||''):'Size later'))}</span></li>`).join('')}</ul>`).join('')+(S.big.length?'<p class="swipe">Tap a piece to add a photo or look it up.</p>':'<p>Nothing listed yet.</p>'); }
+    return rooms.map(r=>`${r?`<p class="grp">${r}</p>`:''}<ul class="list">${S.big.map((b,i)=>[b,i]).filter(([b])=>(b.room||'')===r).map(([b,i])=>`<li class="tap" tabindex="0" role="button" data-piece="${i}">${b.photo?`<img class="thumb" src="${b.photo}" alt="">`:''}<em>${esc(b.what)}</em><span>${esc(STAYW[b.plan]?'Staying behind, '+STAYW[b.plan]:!b.appId&&Array.isArray(b.dims)&&b.dims.length===3?b.dims.join('″ × ')+'″':b.size||(FIXED.test(b.what)?(b.cond||''):'Size later'))}</span></li>`).join('')}</ul>`).join('')+(S.big.length?'<p class="swipe">Tap a piece to add a photo or look it up.</p>':'<p>Nothing listed yet.</p>'); }
   if(n==='Sorting'){ const L=S.lists, un=L.unsure, how=S.dhow==='Picked up from my door'?'Pickup':S.dhow?'Drop off':'';
     const groups=[['Donate',L.donate.map(x=>[x.what,how]).concat(un.filter(x=>x.fate==='Donate').map(x=>[x.what,how]))],
       ['Sell',L.sell.map(x=>[x.what,x.price?'$'+x.price:'Price later']).concat(un.filter(x=>x.fate==='Sell').map(x=>[x.what,'Price later']))],
@@ -1465,7 +2093,7 @@ function sheetBody(n){
       +(go.length?`<p class="grp">Goes with you, not on the truck</p><ul class="list">${go.map(b=>`<li>${b.code}<span>${esc(b.words||'')}</span></li>`).join('')}</ul>`:'')
       +(fuel.length?`<p class="grp">Doesn't go on the truck</p><ul class="list">${fuel.map(b=>`<li>${/Grill/.test(b.what)?'Propane tank':'Gas in the '+b.what.toLowerCase()}<span>${/Grill/.test(b.what)?'Leave off':'Run it dry'}</span></li>`).join('')}</ul>`:'')
       +(MOVERS()?`<p class="grp">For movers</p><button class="choice" data-mpacket style="max-width:none;width:100%">Copy the list to send movers</button>`:''); }
-  return `<ul class="list">${["Print box labels","Back up your list","Settings"].map(x=>`<li class="tap">${x}<span aria-hidden="true">&rsaquo;</span></li>`).join('')}</ul>`;
+  return `<ul class="list">${["Print box labels","Back up your list","Settings"].map(x=>`<li class="tap" tabindex="0" role="button">${x}<span aria-hidden="true">&rsaquo;</span></li>`).join('')}</ul>`;
 }
 /* one piece: its photo, its size, and a look-up for dimensions and value */
 const BEDDIMS={"Twin":"38 × 75","Twin XL":"38 × 80","Full":"54 × 75","Queen":"60 × 80","King":"76 × 80","California king":"72 × 84"};
@@ -1507,10 +2135,15 @@ function wireMics(){ phone.querySelectorAll('[data-mic]').forEach(btn=>{ const i
 /* in the app, until it's on the home screen: one gentle line after the first box, never again once installed */
 function needsInstall(){ if(!window.__APP) return false; try{ if(matchMedia('(display-mode: standalone)').matches||navigator.standalone) return false; }catch(e){} return true; }
 function say(m){ live.textContent=m; }
+/* tester, 8 Nov: a typed "couch" got generic sizes while the Sofa chip asked what kind. Everyday names for the
+   pieces the walk already knows are read as those pieces. */
+const SYN={bookshelf:'Bookcase',bookshelves:'Bookcase',shelves:'Bookcase',couch:'Sofa',settee:'Sofa',davenport:'Sofa',sofa:'Sofa',tv:'TV',television:'TV','flat screen':'TV','kitchen table':'Dining table','dining table':'Dining table','chest of drawers':'Dresser',bureau:'Dresser',dresser:'Dresser',desk:'Desk',bed:'Bed'};
+function canon(x){ x=String(x||'').trim(); return SYN[x.toLowerCase()]||x; }
 function undo(msg,fn){ toast(phone,msg,fn); }
 function shrink(f){ return new Promise(res=>{ const r=new FileReader(); r.onerror=()=>res(''); r.onload=()=>{ const im=new Image(); im.onerror=()=>res(r.result); im.onload=()=>{ const k=Math.min(1,1200/Math.max(im.width,im.height)); const c=document.createElement('canvas'); c.width=Math.round(im.width*k); c.height=Math.round(im.height*k); c.getContext('2d').drawImage(im,0,0,c.width,c.height); res(c.toDataURL('image/jpeg',0.82)); }; im.src=r.result; }; r.readAsDataURL(f); }); }
 function toast(s,msg,undo){ const old=s.querySelector('.toast'); if(old) old.remove(); const t=document.createElement('div'); t.className='toast'; t.setAttribute('role','status');
-  t.innerHTML=`<span>${msg}</span><button>Undo</button>`; s.appendChild(t); const tm=setTimeout(()=>t.remove(),15000); t.querySelector('button').onclick=()=>{ clearTimeout(tm); t.remove(); undo(); }; }
+  /* alpha test, 8 Nov: a message with nothing to undo has no Undo, and a short one goes away sooner */
+  t.innerHTML=`<span>${msg}</span>${undo?'<button>Undo</button>':''}`; s.appendChild(t); const tm=setTimeout(()=>t.remove(),undo?15000:5000); if(undo) t.querySelector('button').onclick=()=>{ clearTimeout(tm); t.remove(); undo(); }; }
 function wireSheet(s,n){
   if(n==='Moving'){ const re=()=>{ s.querySelector('.in').innerHTML=sheetBody('Moving'); wireSheet(s,'Moving'); }, st=nextSteps()[0];
     const answer=v=>{ if(st.set) st.set(v); const k=st.k, sy=st.say?(typeof st.say==='function'?st.say():st.say[v]):''; if(!st.keep||st.keep(v)) S.ma[k]=v; else if(!S.go) S.snooze[k]=1; if(k==='exact'&&v){ S.date=v; S.rough=''; } S.mnote=sy?fn(sy):'Saved.'; S.msel=[]; keep(); re(); s.querySelector('.nextq b,.in p')&&s.querySelector('.in').scrollTo(0,0);
@@ -1539,11 +2172,17 @@ function wireSheet(s,n){
   const b=S.big[S.fsel]; if(!b||n!=='Furniture') return;
   const back=s.querySelector('[data-plist]'); if(back) back.onclick=()=>{ S.fsel=-1; re(); };
   const ap=s.querySelector('[data-addpic]'); if(ap) ap.onclick=()=>{ S.pphoto=true; re(); };
-  s.querySelectorAll('[data-ppic]').forEach(inp=>inp.onchange=()=>{ const f=inp.files&&inp.files[0]; if(!f) return; shrink(f).then(u=>{ if(u){ b.photo=u; re(); } }); });
-  const rp=s.querySelector('[data-prepic]'); if(rp) rp.onclick=()=>{ b.photo=''; S.pphoto=true; re(); };
-  const m=s.querySelector('#pmodel'); m.onchange=()=>{ b.model=m.value.trim(); re(); };
-  s.querySelector('#pworth').oninput=e=>b.worth=e.target.value;
-  ['#pw','#pd','#ph'].forEach((id,i)=>s.querySelector(id).oninput=e=>{ b.exact=b.exact||[]; b.exact[i]=e.target.value; });
+  /* review, 8 Nov: "the disappearing furniture photo". A photo added here was kept only by the walk, so the app never
+     got it and it vanished once the walk's own copy was cleared. It's saved as the piece's front photo, which goes
+     to the app with the piece. */
+  s.querySelectorAll('[data-ppic]').forEach(inp=>inp.onchange=()=>{ const f=inp.files&&inp.files[0]; if(!f) return; shrink(f).then(u=>{ if(u){ b.photo=u; b.shots=Object.assign({},b.shots,{Front:u}); keep(true); re(); } }); });
+  const rp=s.querySelector('[data-prepic]'); if(rp) rp.onclick=()=>{ b.photo=''; if(b.shots) delete b.shots.Front; S.pphoto=true; keep(true); re(); };
+  /* tester, 8 Nov: typed sizes were lost on Close, kept only if another page's Next was tapped. They save as
+     they're typed now, and a full width, depth and height becomes the piece's size for the app too. */
+  const m=s.querySelector('#pmodel'); m.onchange=()=>{ b.model=m.value.trim(); keep(); re(); };
+  s.querySelector('#pworth').oninput=e=>{ b.worth=e.target.value; keep(); };
+  ['#pw','#pd','#ph'].forEach((id,i)=>s.querySelector(id).oninput=e=>{ b.exact=b.exact||[]; b.exact[i]=e.target.value;
+    const d=[0,1,2].map(j=>parseFloat(b.exact[j])); if(d.every(x=>x>0)) b.dims=d; keep(); });
 }
 let opener=null;
 function openSheet(n,from){ closeSheet(true); openTab=n; S.fsel=-1; S.bsel=-1; opener=from||null;
@@ -1551,9 +2190,9 @@ function openSheet(n,from){ closeSheet(true); openTab=n; S.fsel=-1; S.bsel=-1; o
   s.innerHTML=`<div class="top"><h3 id="sheet-h" tabindex="-1" style="padding-left:6px">${nm(n)}</h3><button class="back" data-close>Close</button></div><div class="in">${sheetBody(n)}</div>`;
   const sc=document.createElement('div'); sc.className='scrim'; sc.onclick=()=>closeSheet(); phone.appendChild(sc);
   phone.appendChild(s); s.querySelector('[data-close]').onclick=()=>closeSheet(); wireSheet(s,n);
-  const pg=phone.querySelector('.page'); if(pg) pg.inert=true; s.querySelector('h3').focus();
+  const pg=phone.querySelector('.page'); if(pg) pg.inert=true; textSize(); s.querySelector('h3').focus();
   phone.querySelectorAll('[data-tab]').forEach(a=>{ a.classList.toggle('on',a.dataset.tab===n); a.setAttribute('aria-expanded',a.dataset.tab===n); }); }
-function closeSheet(quiet){ const s=phone.querySelector('.sheet'); if(s) s.remove(); const sc=phone.querySelector('.scrim'); if(sc) sc.remove(); openTab=""; const pg=phone.querySelector('.page'); if(pg) pg.inert=false;
+function closeSheet(quiet){ const s=phone.querySelector('.sheet'); if(s) s.remove(); const sc=phone.querySelector('.scrim'); if(sc) sc.remove(); openTab=""; shut([],false);
   phone.querySelectorAll('[data-tab]').forEach(a=>{ a.classList.remove('on'); a.setAttribute('aria-expanded','false'); });
   if(!quiet && opener && document.contains(opener)) opener.focus(); }
 /* owner, 8 Nov: "we don't have Calendar and Sort". In your move, those tabs open the app's own screens, with everything you've saved. */
@@ -1561,12 +2200,26 @@ const HOMEGO={Moving:'calendar',Sorting:'clearout',Menu:'home'};
 /* owner, 8 Nov: "when I tapped on my furniture, it brought me to a page with boxes." Leaving for one
    of the app's screens first notes the list that was open, so Back from the app lands on that list again. */
 function toApp(q,sheet){ const t=window.top||window;
-  try{ t.history.replaceState(t.history.state,'',t.location.pathname+'?home'+(sheet?'&sheet='+encodeURIComponent(sheet):'')); }catch(e){}
-  keep(true).finally(()=>{ t.location.href=new URL((window.__HOME||'../')+q,location.href).href; }); }
-phone.addEventListener('click',e=>{ const a=e.target.closest('[data-tab]'); if(!a) return; e.preventDefault();
+  try{ t.history.replaceState(t.history.state,'',t.location.pathname+'?home'+(['myBoxes','vrooms','flip','lvault','lbig','lcal','lsort'].includes(cur)?'&page='+cur:'')+(sheet?'&sheet='+encodeURIComponent(sheet):'')); }catch(e){}
+  handNew().then(()=>keep(true)).finally(()=>{ t.location.href=new URL((window.__HOME||'../')+q,location.href).href; }); }
+/* tester, 8 Nov: boxes packed from the home stayed in the walk's own storage, so the app never listed them.
+   Anything new goes to the app before the app opens. Only the new boxes and pieces travel, never the walk's
+   older answers, so a date changed in the app isn't put back. A handover the app hasn't read yet is kept. */
+function handPack(){ return {boxes:S.boxes.filter(b=>!b.handed),big:S.big.filter(b=>!b.handed),lists:S.lists,memberCode:S.memberCode}; }
+async function handNew(){ if(!window.__APP||!S.homeMode) return; const T=handPack(); if(!T.boxes.length&&!T.big.length) return;
+  try{ let old=null; try{ old=JSON.parse(await idbGet('pr-thread-handoff')||'null'); }catch(e){}
+    if(old&&old.done&&old.S){ const have=new Set((old.S.boxes||[]).map(b=>b.code)); T.boxes=[...(old.S.boxes||[]),...T.boxes.filter(b=>!have.has(b.code))]; T.big=[...(old.S.big||[]),...T.big]; }
+    await idbSet('pr-thread-handoff',JSON.stringify({v:1,done:true,at:Date.now(),S:T})); S.boxes.forEach(b=>b.handed=1); S.big.forEach(b=>b.handed=1); }catch(e){} }
+/* alpha test, 8 Nov: rows that open a box or a piece work from the keyboard too */
+phone.addEventListener('keydown',e=>{ const t=e.target; if((e.key==='Enter'||e.key===' ')&&t&&t.matches&&t.matches('li.tap[role="button"]')){ e.preventDefault(); t.click(); } });
+phone.addEventListener('click',e=>{ const mb=e.target.closest('[data-menu]'); if(mb){ e.preventDefault(); openMenu(mb); return; }
+  const a=e.target.closest('[data-tab]'); if(!a) return; e.preventDefault();
+  if(S.homeMode&&LEMTAB[a.dataset.tab]){ closeSheet(true); hist.length=0; show(LEMTAB[a.dataset.tab]); return; }
   if(S.homeMode&&HOMEGO[a.dataset.tab]){ toApp('?go='+HOMEGO[a.dataset.tab]); return; }
   a.dataset.tab===openTab?closeSheet():openSheet(a.dataset.tab,a); });
-document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&phone.querySelector('.sheet')) closeSheet(); });
+document.addEventListener('keydown',e=>{ if(e.key!=='Escape') return; if(phone.querySelector('.sheet')){ closeSheet(); return; } const pz=phone.querySelector('.paused [data-resume]'); if(pz) pz.click(); });
+/* alpha test, 8 Nov: Tab left an open sheet for the bar hidden under it. Everything behind a sheet or the pause card is set aside. */
+function shut(keep,on){ [...phone.children].forEach(el=>{ if(!keep.includes(el)) el.inert=on; }); }
 document.getElementById('restart').onclick=()=>{ try{ sessionStorage.removeItem('pr-thread'); if(window.__APP) idbDel('pr-thread-state'); }catch(e){} reset(); hist.length=0; cur=null; show('mwhat'); };
 /* the app's own database: same name and store as the app, so nothing new is created */
 function idb(){ return new Promise((res,rej)=>{ const r=indexedDB.open('moving-command-center',1); r.onupgradeneeded=()=>r.result.createObjectStore('kv'); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
@@ -1581,7 +2234,7 @@ async function finishThread(){ if(!window.__APP){ toast(phone,'In the app, this 
   /* tester, 7 Nov: with free boxes left, the walk stays on the phone so "Pack my next free box" comes back to it.
      What's handed over is marked, so the app never adds it twice. */
   const more=!S.paid&&S.boxes.length<3; S.walked=1; S.cube=moveCube();
-  try{ S.dates=allDates(); await idbSet('pr-thread-handoff',JSON.stringify({v:1,done:true,at:Date.now(),S})); S.boxes.forEach(b=>b.handed=1); S.big.forEach(b=>b.handed=1); if(more) await idbSet('pr-thread-state',snap()); else await idbDel('pr-thread-state'); }catch(e){ toast(phone,'Your phone would not save that. Try again.'); return; }
+  try{ if(S.homeMode) await handNew(); else { S.dates=allDates(); await idbSet('pr-thread-handoff',JSON.stringify({v:1,done:true,at:Date.now(),S})); S.boxes.forEach(b=>b.handed=1); S.big.forEach(b=>b.handed=1); } if(more||S.homeMode) await idbSet('pr-thread-state',snap()); else await idbDel('pr-thread-state'); }catch(e){ toast(phone,'Your phone would not save that. Try again.'); return; }
   (window.top||window).location.replace(window.__HOME||'../'); }
 window.addEventListener('pagehide',()=>{ if(window.__APP) idbSet('pr-thread-state',snap()).catch(()=>{}); });
 (async function(){ let d=null;
@@ -1589,7 +2242,7 @@ window.addEventListener('pagehide',()=>{ if(window.__APP) idbSet('pr-thread-stat
   if(window.__APP){ try{ const st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); const se=(st&&st.settings)||{}; if(se.licence||se.storeFull) S.paid=S.paid||'licence'; }catch(e){} }
   if(window.__APP){ try{ const mc=await idbGet('pr-member-code'); if(mc){ S.paid=S.paid||'licence'; S.memberCode=mc; } }catch(e){} }
   const nextBox=/[?&]box\b/.test(location.search), homeQ=/[?&]home\b/.test(location.search);
-  if(window.__APP&&homeQ){ if(d&&d.S){ const paid=S.paid; Object.assign(S,d.S); if(paid) S.paid=paid; } try{ await loadHome(); }catch(e){} cur=null; hist.length=0; hopping=''; show('myBoxes');
+  if(window.__APP&&homeQ){ if(d&&d.S){ const paid=S.paid; Object.assign(S,d.S); if(paid) S.paid=paid; } try{ await loadHome(); }catch(e){} cur=null; hist.length=0; hopping=''; show('home'); { const pg=(location.search.match(/[?&]page=(myBoxes|vrooms|flip|lvault|lbig|lcal|lsort)\b/)||[])[1]; if(pg&&(pg!=='flip'||flipList().length)){ panoAt=null; if(/^(flip|myBoxes|vrooms)$/.test(pg)) show('lvault'); if(pg==='myBoxes'&&S.roomOnly) show('vrooms'); show(pg); } }
     if(nextBox){ show('start'); } else if(/[?&]big\b/.test(location.search)){ S.firstItem=''; S.roomsAsked=true; show('bigFirst'); }
     else { const sq=(location.search.match(/[?&]sheet=([A-Za-z]+)/)||[])[1]; if(sq&&S.tabs.includes(sq)) openSheet(sq); }
     return; }

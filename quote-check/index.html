@@ -156,7 +156,7 @@ addEventListener("DOMContentLoaded", function () {
     S.found = fl.filter(function (x) { return x.tone !== "good" && !miss(x); }).sort(function (a, b) { return (a.tone === "bad" ? 0 : 1) - (b.tone === "bad" ? 0 : 1); });
     S.miss = fl.filter(miss); S.good = fl.filter(function (x) { return x.tone === "good"; });
   }
-  function toTool(S, api) { var ta = document.getElementById("qtext"), f = document.getElementById("qform"); if (ta && f) { ta.value = S.qt || ""; if (f.requestSubmit) f.requestSubmit(); else f.dispatchEvent(new Event("submit", { cancelable: true })); var o = document.getElementById("qout"); if (o) { o.scrollIntoView({ block: "start" }); return false; } } api.tool(); return false; }
+  function toTool(S, api) { document.body.classList.remove("wk-closed"); var ta = document.getElementById("qtext"), f = document.getElementById("qform"); if (ta && f) { ta.value = S.qt || ""; if (f.requestSubmit) f.requestSubmit(); else f.dispatchEvent(new Event("submit", { cancelable: true })); var o = document.getElementById("qout"); if (o) { o.scrollIntoView({ block: "start" }); return false; } } api.tool(); return false; }
   /* the drawing: a quote on a clipboard; the magnifier reads it; what needs you is circled */
   function paper(n, glass) {
     var X = 112, Y = 132, W = 136, f = "";
@@ -195,7 +195,7 @@ addEventListener("DOMContentLoaded", function () {
           { label: "Not yet", small: "I'm still getting quotes", go: "watch" }
         ],
         link: { label: "Try a sample quote", run: function (S, api) { S.qt = SAMPLE; S.sample = 1; read(S); api.go("found"); return false; } },
-        scene: "paper"
+        scene: "paper", room: false
       },
       paste: {
         say: "Paste it here",
@@ -204,7 +204,7 @@ addEventListener("DOMContentLoaded", function () {
         field: { id: "qt", type: "textarea", label: "The quote's text", placeholder: "Paste the text of the quote or estimate here." },
         cta: { label: "Read it for me", run: function (S, api) { if (!(S.qt || "").trim()) { var t = document.getElementById("wk-qt"); if (t) t.focus(); return false; } S.sample = 0; read(S); api.go("found"); return false; } },
         fine: "On a phone, open the quote, press and hold the text, then Copy.<br>It's read right here. Nothing you paste is sent anywhere.",
-        scene: "paste"
+        scene: "paste", room: false
       },
       found: {
         say: function (S) { return S.sample ? "A sample quote, built from real ones" : "Your quote, read"; },
@@ -216,7 +216,7 @@ addEventListener("DOMContentLoaded", function () {
         },
         cta: { label: "See everything we found", run: toTool },
         link: { label: "Check another quote", run: function (S, api) { S.qt = ""; api.go("paste"); return false; } },
-        scene: "found"
+        scene: "found", room: false
       },
       watch: {
         say: "While the quotes come in",
@@ -230,7 +230,7 @@ addEventListener("DOMContentLoaded", function () {
         ],
         cta: { label: "Check the mover first", href: "../mover-check/" },
         link: { label: "See it on a sample quote", run: function (S, api) { S.qt = SAMPLE; S.sample = 1; read(S); api.go("found"); return false; } },
-        scene: "watch"
+        scene: "watch", room: false
       }
     }
   });
