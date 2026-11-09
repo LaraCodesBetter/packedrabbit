@@ -4,7 +4,8 @@ const SHELL = ["./", "./index.html", "./app.js", "./manifest.webmanifest",
   "./icon.svg", "./icon-192.png", "./icon-512.png", "./icon-180.png", "./icon-maskable.png", "./fonts/atkinson-next.woff",
   "./calm/walk.webp", "./calm/walk-end.jpg", "./calm/peek.png",
   "./start/", "./start/index.html", "./start/thread.html", "./start/wordmark-green.png", "./start/wordmark-cream.png",
-  "./start/rabbit-walks-in.webp", "./start/rabbit-walks-in-end.jpg"];
+  "./start/rabbit-walks-in.webp", "./start/rabbit-walks-in-end.jpg", "./start/wordmark-ears.png", "./start/wordmark-ears-cream.png",
+  "./start/tab1.mp3", "./start/tab2.mp3", "./start/tab3.mp3", "./start/tab4.mp3"];
 
 self.addEventListener("message", (e) => {
   if (e.data === "skip-waiting") self.skipWaiting();
@@ -26,13 +27,17 @@ self.addEventListener("fetch", (e) => {
   const req = e.request;
   if (req.method !== "GET" || new URL(req.url).origin !== self.location.origin) return;
   e.respondWith(
-    caches.match(req).then((hit) => {
+    /* alpha test, 8 Nov: with no signal the app wouldn't open. The copy for the cache was made after the page had
+       started reading the response, so it failed and nothing new was ever saved; and start/?home didn't match the
+       saved start/. The copy is made first now, a saved page matches whatever follows the "?", and a page that
+       can't be reached falls back to its own part of the app. */
+    caches.match(req, { ignoreSearch: true }).then((hit) => {
       const live = fetch(req)
         .then((res) => {
-          if (res && res.ok) caches.open(CACHE).then((c) => c.put(req, res.clone()));
+          if (res && res.ok) { const copy = res.clone(); caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {}); }
           return res;
         })
-        .catch(() => hit || caches.match("./index.html"));
+        .catch(() => hit || caches.match(new URL(req.url).pathname.indexOf("/start/") >= 0 ? "./start/index.html" : "./index.html"));
       return hit || live;
     })
   );
