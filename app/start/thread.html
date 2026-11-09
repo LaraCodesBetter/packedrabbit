@@ -134,6 +134,8 @@ h2{font-size:31px;line-height:1.15;margin:0;text-wrap:balance}
 .say .sig{display:block;width:220px;max-width:70%;height:auto;margin:0 auto 4px}
 .list li.tap{cursor:pointer;min-height:52px;align-items:center}
 .bkind{margin-left:8px;font-weight:700;color:var(--text)}
+/* ad capture, 9 Nov: a found box's number broke in two ("BED1-" / "08") beside its photo */
+.list li em b{white-space:nowrap}.list li .thumb{flex:none}
 .rcount{float:right;margin-left:12px;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums}
 .hkind{display:block;font-size:22px;font-weight:700;color:var(--ink);margin-top:2px}.list li em{font-style:normal;flex:1}
 .thumb{width:40px;height:40px;border-radius:8px;object-fit:cover;flex:none}
@@ -1514,7 +1516,9 @@ function wire(id){
     { const b=$('#hList'); if(b) b.onclick=()=>{ S.find=''; S.roomOnly=''; show('myBoxes'); }; }
     { const b=$('#hRooms'); if(b) b.onclick=()=>show('vrooms'); }
     { const hf=$('#hfind'), res=$('#hres'); if(hf&&res){ const draw=()=>{ S.hq=hf.value; const q=hf.value.trim().toLowerCase(); if(!q){ res.innerHTML=''; return; }
-        const hit=S.boxes.filter(b=>(b.words+' '+b.room+' '+b.code).toLowerCase().includes(q)), bh=S.big.filter(b=>(b.what+' '+(b.room||'')).toLowerCase().includes(q));
+        /* owner's ad, 9 Nov: "towels, white" has to find the box marked "white towels". Every word counts, in any order; commas don't. */
+        const qw=q.split(/[\s,]+/).filter(Boolean), has=t=>{ t=String(t).toLowerCase(); return qw.every(w=>t.includes(w)); };
+        const hit=S.boxes.filter(b=>has(b.words+' '+b.room+' '+b.code)), bh=S.big.filter(b=>has(b.what+' '+(b.room||'')));
         res.innerHTML=(!hit.length&&!bh.length?'<p class="lsub" style="font-size:17px">Nothing listed matches that. Try another word from the box.</p>':'')+(hit.length?`<ul class="list">${hit.slice(0,40).map(boxRow).join('')}</ul>${hit.length>40?`<p class="lsub" style="font-size:17px">And ${hit.length-40} more. Add a word to narrow it down.</p>`:''}`:'')+(bh.length?`<ul class="list">${bh.slice(0,12).map(b=>`<li class="tap" tabindex="0" role="button" data-bpiece="${S.big.indexOf(b)}"><em><b style="color:var(--ink)">${esc(b.what)}</b></em><span>${esc(STAYW[b.plan]?'Staying behind':b.room||'Big stuff')}</span></li>`).join('')}</ul>`:'');
         res.querySelectorAll('[data-box]').forEach(li=>li.onclick=()=>{ const b=S.boxes[+li.dataset.box]; if(!b) return; S.flipQ=hf.value.trim(); S.flipSet='q'; S.fx=Math.max(0,flipList().indexOf(b)); S.fpi=0; show('flip'); });
         res.querySelectorAll('[data-bpiece]').forEach(li=>li.onclick=()=>{ const b=S.big[+li.dataset.bpiece]; if(!b) return; if(b.appId) toApp('?big='+encodeURIComponent(b.appId)); else openSheet('Furniture',li); }); };
@@ -1714,7 +1718,7 @@ function afterRoom(){ if(S.bigRoom&&!S.doneRooms.includes(S.bigRoom)){ S.doneRoo
 /* the flip-through: which boxes, in label order, and their photos read from the app as they're needed */
 const PHC={};
 function flipList(){ const by=(a,b)=>String(a.code).localeCompare(String(b.code),'en',{numeric:true});
-  if(S.flipSet==='q'&&S.flipQ){ const q=S.flipQ.toLowerCase(); return S.boxes.filter(b=>(b.words+' '+b.room+' '+b.code).toLowerCase().includes(q)).sort(by); }
+  if(S.flipSet==='q'&&S.flipQ){ const qw=S.flipQ.toLowerCase().split(/[\s,]+/).filter(Boolean); return S.boxes.filter(b=>{ const t=(b.words+' '+b.room+' '+b.code).toLowerCase(); return qw.every(w=>t.includes(w)); }).sort(by); }
   if(S.flipSet==='all') return S.boxes.slice().sort(by);
   return S.boxes.filter(b=>!b.unpacked).sort(by); }
 function flipPhotos(b){ if(!b) return [];
