@@ -197,7 +197,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   84%{transform:translate(-190px,-46px)}
   100%{transform:translate(-330px,0)}}
 .phone.lit .dot i{background:#F2E8D555}.phone.lit .dot[aria-current="true"] i{background:#F2E8D5}.phone.lit .hint{color:#E6EFE4}.phone.lit .brand{color:#F2E8D5}.brand{transition:color 1s ease .3s}
-@media (prefers-reduced-motion: reduce){.s4name{opacity:1!important;transform:none!important;filter:none!important;animation:none!important}.stop.last .s4tag,.stop.last #go{transition:none!important}.fore :is(rect,path,line,circle,ellipse,polyline),.rabbit,.first,.dot i{transition:none!important}.pre .fore :is(rect,path,line,circle,ellipse,polyline){stroke-dashoffset:0;fill-opacity:1}.pre .rabbit{transform:none}}
+@media (prefers-reduced-motion: reduce){.s4name{opacity:1!important;transform:none!important;filter:none!important;animation:none!important}.stop.last .s4tag,.stop.last #go{transition:none!important}.rabbit,.first,.dot i{transition:none!important}.pre .rabbit{transform:none}.pre>h2,.pre>p{transform:none}}
+/* owner, 10 Nov: "The green line drawing in was the key to the whole visual." The lines draw themselves in for everyone,
+   Reduce Motion included: it is ink appearing in place, nothing travels across the screen. Reduce Motion still stops what moves:
+   the words sliding up, the rabbit popping up, the name flying in, smooth scrolling. */
 @media (max-width:420px){.phone{height:740px}.notes{padding-top:8px}}
 </style>
 
@@ -502,10 +505,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
 (()=>{
   const st=document.getElementById('street'), stops=[...st.querySelectorAll('.stop')], dots=[...document.querySelectorAll('.dot')];
   const hint=document.getElementById('hint'), foot=document.getElementById('foot'), first=document.getElementById('first');
-  let cur=-1; if(!matchMedia("(prefers-reduced-motion: reduce)").matches) stops.slice(0,-1).forEach(s=>s.classList.add("pre"));
+  let cur=-1; stops.slice(0,-1).forEach(s=>s.classList.add("pre"));
   const go=i=>{i=Math.max(0,Math.min(stops.length-1,i)); st.scrollTo({left:i*st.clientWidth,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});};
   const mark=i=>{ if(i===cur && !stops[i].classList.contains('pre')) return; cur=i;
-    stops.forEach((s,k)=>{ if(k!==i && k<stops.length-1 && !matchMedia('(prefers-reduced-motion: reduce)').matches) s.classList.add('pre'); }); requestAnimationFrame(()=>requestAnimationFrame(()=>stops[i].classList.remove('pre')));
+    stops.forEach((s,k)=>{ if(k!==i && k<stops.length-1) s.classList.add('pre'); }); requestAnimationFrame(()=>requestAnimationFrame(()=>stops[i].classList.remove('pre')));
     dots.forEach((d,k)=>d.setAttribute('aria-current',k===i?'true':'false'));
     hint.textContent = i===stops.length-1 ? '' : 'Swipe to continue'; document.getElementById('next').hidden = i===stops.length-1; document.querySelector('.phone').classList.toggle('lit', i===stops.length-1 && stops[i].classList.contains('alive')); if(i===stops.length-1) arrive(stops[i]); };
   try{ const pre=new Image(); pre.src='rabbit-walks-in.webp'; }catch(e){}
@@ -513,13 +516,21 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   let played=false;
   /* the signature again at the end: once the name has flown in, the ears wiggle */
   function wiggle4(){ try{ if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; }catch(e){} const m=document.getElementById('wm4'); if(!m||m.dataset.w) return; m.dataset.w='1'; setTimeout(()=>{ const w=new Image(); w.onload=()=>{ m.src=w.src; }; w.src='wordmark-wiggle-cream.webp?'+Date.now(); },2100); }
-  function wake(s){ s.classList.add('alive'); if(s.classList.contains('last')) wiggle4(); document.querySelector('.phone').classList.add('lit');
+  function wake(s){ fitWalk(); s.classList.add('alive'); if(s.classList.contains('last')) wiggle4(); document.querySelector('.phone').classList.add('lit');
     const v=s.querySelector('.walk'); if(!v.dataset.played){ v.dataset.played='1'; if(RM) v.src='rabbit-walks-in-end.jpg'; else setTimeout(()=>{ v.src='rabbit-walks-in.webp'; },800); } }
   function arrive(s){ if(played){ if(!s.classList.contains('alive')) wake(s); return; } played=true;
     if(RM){ wake(s); return; }
     wake(s); }
   document.getElementById('next').onclick=()=>go(Math.max(cur,0)+1);
-  setTimeout(()=>mark(0),250);
+  /* the first screen draws itself in once it is actually on screen (on the website it sits in a frame that may paint late) */
+  { let began=false; const begin=()=>{ if(began) return; began=true; setTimeout(()=>mark(0),250); };
+    try{ new IntersectionObserver((es,o)=>{ if(es.some(e=>e.isIntersecting)){ o.disconnect(); if(document.readyState==='complete') begin(); else window.addEventListener('load',begin,{once:true}); } }).observe(st); }catch(e){ begin(); }
+    setTimeout(begin,2500); }
+  /* the last screen: the rabbit gets the room under the words, so the button never covers him on a shorter phone */
+  const fitWalk=()=>{ const s=stops[stops.length-1], w=document.getElementById('walkimg'), t=s&&s.querySelector('.s4text'); if(!s||!w||!t) return;
+    const room=s.clientHeight-86-(t.offsetTop+t.offsetHeight)-4, size=Math.round(Math.max(160,Math.min(s.clientWidth,room)));
+    w.style.width=size+'px'; w.style.left=Math.round((s.clientWidth-size)/2)+'px'; };
+  fitWalk(); window.addEventListener('resize',fitWalk); window.addEventListener('load',fitWalk);
   let t; st.addEventListener('scroll',()=>{clearTimeout(t); t=setTimeout(()=>mark(Math.round(st.scrollLeft/st.clientWidth)),80);},{passive:true});
   dots.forEach((d,k)=>d.addEventListener('click',()=>go(k)));
   st.addEventListener('keydown',e=>{ if(e.key==='ArrowRight'){go(cur+1);e.preventDefault();} if(e.key==='ArrowLeft'){go(cur-1);e.preventDefault();} });
