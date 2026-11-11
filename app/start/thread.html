@@ -269,7 +269,7 @@ a.choice{text-decoration:none}
 .more summary span{font-weight:600;color:var(--muted);margin-left:4px}
 .links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;width:100%;max-width:300px}
 .links .choice{min-width:0;padding-left:6px;padding-right:6px;font-size:16px}
-.homepic{width:100%;max-width:340px;max-height:30vh;object-fit:cover;border-radius:16px;margin-top:14px;border:1.5px solid #9DC3A8}
+.aplist li.aprow{display:flex;align-items:flex-start;gap:12px;text-align:left}.apchk{flex:none;width:44px;height:44px;border-radius:12px;border:2px solid var(--ink,#1E4D33);background:transparent;margin:-4px 0}.apchk.on{background:var(--ink,#1E4D33)}.apchk.on::after{content:'';display:block;width:12px;height:20px;margin:6px auto 0;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}.mddmg{flex:none;min-height:44px;font-size:16px}.mddmg.on{color:var(--plum);font-weight:700}.apt{flex:1;display:flex;flex-direction:column;gap:2px;font-size:17px;text-align:left;color:var(--text)}.apt b{font-size:18px;color:var(--ink,#1E4D33)}.apt small{font-size:15px;color:var(--muted)}.homepic{width:100%;max-width:340px;max-height:30vh;object-fit:cover;border-radius:16px;margin-top:14px;border:1.5px solid #9DC3A8}
 .cd.on{background:none;box-shadow:inset 0 0 0 3px #2E9358;color:var(--ink);font-weight:800}
 .pause{min-height:44px;min-width:44px;border:0;background:none;color:var(--muted);font:700 16px var(--sans);cursor:pointer;padding:0 6px}
 .paused{position:absolute;inset:0;z-index:9;background:var(--screen);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center}
@@ -738,7 +738,7 @@ function scene(mode){ if(mode==='none') return '';
 const TAB={Home:'<path d="M3.5 11.5 12 4.5l8.5 7"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5.5h4V20"/>',Boxes:'<path class="bf" d="M4.5 10h15v10h-15z"/><path d="M3 6.5h18V10H3z"/><path class="tf" d="M10.25 6.5h3.5v6h-3.5z"/><path d="M8 14.5h8V18H8z"/>',Furniture:'<path d="M4 18v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6M2 14h20M5 18v2M19 18v2M6 10V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3"/>',Moving:'<path d="M4 6h16v14H4zM4 10.5h16M8.5 3.5v5M15.5 3.5v5M8 14h2M12 14h2M16 14h0M8 17h2M12 17h2"/>',Menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',Sorting:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/>'};
 const TABORDER=['Home','Boxes','Furniture','Moving','Sorting','Menu'];
 const TABNAME={Furniture:'Big Stuff',Moving:'Calendar'}, nm=n=>TABNAME[n]||n;
-const SECTION={}; [['Furniture',['toobig','bigFirst','bigWhere','roomItem','itemPhoto','itemCond','itemQ','bigMissing']],['Sorting',['lgo','lpickall','lfate','lhelp','leave','lpick','dhow','sprice','uq','uverdict','llist']],['Moving',['mwhyask','hask','mto','mfrom','mwhy','mwho','hplan','hbeds','hbudget','hsearch','hphoto','hlink','hdetails','hstart','hclose','htitle','oldplace','oldend','oldclose','moveday','mhowfirst','mpackq','mselfq','mfound','msize','hkind','hneeds','hshow','moving','mfar','mhow','mbooked','mname','mdot','mnq','mquote','mread','mstairs','mdoor','mpacket','mtruck','mhelp','mboth','mrent']]].forEach(([n,ids])=>ids.forEach(i=>SECTION[i]=n));
+const SECTION={}; [['Furniture',['toobig','bigFirst','bigWhere','roomItem','itemPhoto','itemCond','itemQ','bigMissing']],['Sorting',['lgo','lpickall','lfate','lhelp','leave','lpick','dhow','sprice','uq','uverdict','llist']],['Moving',['mdOut','mdLoad','mdHand','mdLeave','mdCrew','mdIn','mdCheck','mdSign','mdSetup','mdNight','mdClaim','apWhat','apDay','apTime','apWho','apPrep','apSaved','apList','mwhyask','hask','mto','mfrom','mwhy','mwho','hplan','hbeds','hbudget','hsearch','hphoto','hlink','hdetails','hstart','hclose','htitle','oldplace','oldend','oldclose','moveday','mhowfirst','mpackq','mselfq','mfound','msize','hkind','hneeds','hshow','moving','mfar','mhow','mbooked','mname','mdot','mnq','mquote','mread','mstairs','mdoor','mpacket','mtruck','mhelp','mboth','mrent']]].forEach(([n,ids])=>ids.forEach(i=>SECTION[i]=n));
 function bar(){
   if(S.homeMode) return pillBar();
   if(!S.tabs.length) return '';
@@ -788,6 +788,41 @@ function allDates(){ const L=[]; const add=(d,l)=>{ if(d&&/^\d{4}-\d\d-\d\d$/.te
 function icsText(){ const L=allDates(), stamp=new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z', esc2=s=>String(s).replace(/[,;\\]/g,m=>'\\'+m);
   const ev=L.map(([d,l],i)=>{ const a=d.replace(/-/g,''), b=addDays(d,1).replace(/-/g,''); return ['BEGIN:VEVENT',`UID:pr-${a}-${i}@packedrabbit.com`,`DTSTAMP:${stamp}`,`DTSTART;VALUE=DATE:${a}`,`DTEND;VALUE=DATE:${b}`,`SUMMARY:${esc2(l)}`,'DESCRIPTION:From The Packed Rabbit','BEGIN:VALARM','ACTION:DISPLAY',`DESCRIPTION:${esc2(l)}`,'TRIGGER:-PT15H','END:VALARM','END:VEVENT'].join('\r\n'); });
   return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//The Packed Rabbit//Move//EN','CALSCALE:GREGORIAN',...ev,'END:VCALENDAR'].join('\r\n'); }
+function mdRoom(c){ if(!c) return ''; if(!mdRoom.RN){ mdRoom.RN={MED:'Medical and Mobility',PET:'Pets',DOC:'Documents',OPEN:'Open First',HAND:'Hand Carry',MISC:'Miscellaneous'}; Object.keys(CODE).forEach(k=>{ if(!mdRoom.RN[CODE[k]]) mdRoom.RN[CODE[k]]=k; }); } return mdRoom.RN[c]||c; }
+/* the app's loadGroups: what rides with you, then the truck in loading order */
+function mdGroups(st){ const nm=b=>mdRoom(b.destRoom||b.room)||'Other';
+  const boxes=(st.boxes||[]).filter(b=>b&&b.code).slice().sort((a,b)=>nm(a).localeCompare(nm(b))||String(a.code).localeCompare(String(b.code)));
+  const bigs=(st.bigs||[]).filter(g=>g&&g.name&&/^(move|store)$/.test(g.plan||'move'));
+  const used=new Set(), take=f=>boxes.filter(b=>!used.has(b.id)&&f(b)).map(b=>{ used.add(b.id); return b; });
+  const wt=b=>{ const w=parseFloat(b.weight); if(w>0) return w; const d=b.dims||[]; return d.length>=3?d[0]*d[1]*d[2]/1728*7:0; };
+  const hand=take(hHand), last=take(b=>b.essential||b.room==='OPEN'||b.destRoom==='OPEN'), top=take(b=>b.fragile||b.noStack), hv=take(b=>wt(b)>=35||HEAVYP.includes(b.preset)||b.size==='Small'), rest=take(()=>true);
+  const G={big:{bigs,boxes:[]},heavy:{bigs:[],boxes:hv},mid:{bigs:[],boxes:rest},top:{bigs:[],boxes:top},last:{bigs:[],boxes:last}};
+  return {hand, groups:MD_GROUPS.map(([k,n,why])=>Object.assign({k,n,why},G[k])).filter(g=>g.boxes.length||g.bigs.length)}; }
+/* what went on the truck, by the room it goes to, and how many are in */
+function mdComing(st){ const L=[...(st.bigs||[]).filter(g=>g&&g.loaded&&/^(move|store)$/.test(g.plan||'move')).map(g=>({t:'g',id:g.id,label:g.name,room:mdRoom(g.room)||'Furniture',on:!!g.delivered,claimed:!!g.claimed})),
+    ...(st.boxes||[]).filter(b=>b&&b.loaded).map(b=>({t:'b',id:b.id,label:b.code,room:mdRoom(b.destRoom||b.room)||'Other',on:!!b.delivered,dmg:!!b.damaged,claimed:!!b.claimed,flag:b.fragile?'Fragile':b.essential?'Open first':''}))];
+  const by={}; L.forEach(x=>(by[x.room]=by[x.room]||[]).push(x));
+  return {tot:L.length, inn:L.filter(x=>x.on).length, left:L.filter(x=>!x.on), rooms:Object.keys(by).sort().map(r=>[r,by[r]])}; }
+function mdTicks(items,f,dmg){ return `<ul class="list aplist">${items.map(x=>`<li class="aprow"><button type="button" class="apchk${x.on?' on':''}" role="checkbox" aria-checked="${x.on}" data-mdtick="${x.t}:${esc(x.id)}" data-f="${f}" aria-label="${esc(x.label)}"></button><div class="apt"><b>${esc(x.label)}</b>${esc(x.room)}${x.flag?`<small>${x.flag}</small>`:''}</div>${dmg&&x.t==='b'?`<button type="button" class="link mddmg${x.dmg?' on':''}" data-mddmg="${esc(x.id)}" aria-pressed="${!!x.dmg}">${x.dmg?'Damaged':'Damaged?'}</button>`:''}</li>`).join('')}</ul>`; }
+function mdChecks(L){ const on=((((S.mdSt||{}).moveday)||{}).checks)||[]; return `<ul class="list aplist">${L.map(x=>`<li class="aprow"><button type="button" class="apchk${on.includes(x)?' on':''}" role="checkbox" aria-checked="${on.includes(x)}" data-mdchk="${esc(x)}" aria-label="${esc(x)}"></button><div class="apt">${esc(x)}</div></li>`).join('')}</ul>`; }
+const mdPets=st=>!!(((st||{}).pets||[]).length||String(((st||{}).profile||{}).petsCount||'').trim());
+function mdPetNames(st){ const n=((st||{}).pets||[]).map(p=>(p.name||'').trim()).filter(Boolean); return !n.length?'your pets':n.length===1?n[0]:n.slice(0,-1).join(', ')+' and '+n[n.length-1]; }
+function mdSetupList(st){ const nd=k=>(((st.profile||{}).needs)||[]).includes(k);
+  return [...(nd('wheels')?['Clear paths through every room']:[]),...(nd('equipment')||nd('wheels')?['Equipment plugged in and charging']:[]),'Medications out and visible','Bed made','Bathroom usable',...(mdPets(st)?[`${cap1(mdPetNames(st))} settled with food and water`]:[]),'Food and water for you']; }
+/* opens moving day from the home, the calendar or the menu: loading until the truck leaves, then the coming-in half */
+async function mdGo(which){ let st=null; try{ st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); }catch(e){}
+  S.mdSt=st||{}; S.hm=homeRead(st)||S.hm; S.mdg=0; const m=(S.hm||{}).mode; show(which==='in'||(!which&&/^(transit|delivery|after)$/.test(m||''))?'mdIn':'mdOut'); }
+async function mdWrite(fn){ const st=await homeWrite(fn); if(!st){ toast(phone,'Your phone would not save that. Try again.'); return null; } S.mdSt=st; S.hm=homeRead(st); return st; }
+function mdReport(st){ const R=mdComing(st), dam=(st.boxes||[]).filter(b=>b&&b.damaged), mv=st.move||{}, md=st.moveday||{}, after=(S.hm||{}).mode==='after';
+  const line=b=>`- ${b.code}, ${mdRoom(b.destRoom||b.room)}${b.private?'':`: ${(b.items||[]).map(i=>i.name).filter(Boolean).slice(0,5).join(', ')}`}${b.value?` (value $${b.value})`:''}`;
+  const byId=Object.fromEntries((st.boxes||[]).map(b=>[b.id,b])), miss=after?R.left:[];
+  return [`Missing and damaged items, move ${mv.date||''} to ${mv.delivery||''}`,`From: ${mv.fromName||mv.from||''}`,`To: ${mv.toName||mv.to||''}`,md.truck||md.plate?`Truck: ${[md.truck,md.plate].filter(Boolean).join(', ')}`:'','',
+    miss.length?`NOT DELIVERED (${miss.length}):`:'',...miss.map(x=>x.t==='b'&&byId[x.id]?line(byId[x.id]):`- ${x.label}`),dam.length?'':'',dam.length?`ARRIVED DAMAGED (${dam.length}), photographs available:`:'',...dam.map(line),'',
+    'Please treat this as written notice of a claim and confirm you\'ve received it.'].filter(x=>x!=='').join('\n'); }
+function apIcs(a){ if(!a||!a.date) return; const esc2=x=>String(x).replace(/[,;\\]/g,m=>'\\'+m), d=a.date.replace(/-/g,''), e=addDays(a.date,1).replace(/-/g,''), stamp=new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z';
+  const desc=[a.win&&`Arrives ${a.win}`,a.who,a.phone,a.prep&&`Before this: ${a.prep}`].filter(Boolean).join('\\n')||'From The Packed Rabbit';
+  const t=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//The Packed Rabbit//Move//EN','BEGIN:VEVENT',`UID:${a.id}@packedrabbit.com`,`DTSTAMP:${stamp}`,`DTSTART;VALUE=DATE:${d}`,`DTEND;VALUE=DATE:${e}`,`SUMMARY:${esc2(a.what)}`,`DESCRIPTION:${esc2(desc)}`,'BEGIN:VALARM','ACTION:DISPLAY',`DESCRIPTION:${esc2(a.what)} tomorrow`,'TRIGGER:-P1D','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const u=URL.createObjectURL(new Blob([t],{type:'text/calendar'})), l=document.createElement('a'); l.href=u; l.download='appointment.ics'; document.body.appendChild(l); l.click(); setTimeout(()=>{ l.remove(); URL.revokeObjectURL(u); },4000); say('Open it to add it to your calendar.'); }
 function addToCalendar(){ const blob=new Blob([icsText()],{type:'text/calendar'}), u=URL.createObjectURL(blob), a=document.createElement('a'); a.href=u; a.download='my-move.ics'; document.body.appendChild(a); a.click(); setTimeout(()=>{ a.remove(); URL.revokeObjectURL(u); },4000); say('Your dates are ready for your calendar.'); }
 const STEP6={}; [['mto'],['mfrom','mfar','mwhyask','mwhy','mwho'],['mfound','hkind','hbeds','hbudget','hneeds','hsearch','hshow','hask','hphoto','hlink','hdetails','hplan','hstart','hclose','htitle'],['oldplace','oldend','oldclose'],['moveday','mdeliver'],['mhowfirst','mpackq','mselfq']].forEach((g,i)=>g.forEach(k=>STEP6[k]=i+1));
 function homeDone(){ S.m6=0; if(S.tabs.includes('Moving')){ const r=S.retTo; S.retTo=''; show(r&&P[r]?r:'sortTab'); setTimeout(()=>openSheet('Moving'),50); } else earnMoving(); }
@@ -796,6 +831,17 @@ function toSorting(){ S.li=0; S.lstage='ask'; S.lsay=''; S.lists=S.lists||{donat
 /* owner, 8 Nov (on the website): "it asks so many times, are you renting". Asked once: if the place you're leaving was already answered, the second question is skipped. */
 function toRent(){ if(S.rent) earnMoving(); else show('mrent'); }
 function earnMoving(){ S.mover=MOVERS()?(/booked/.test(S.booked)?"Yes, they're booked":/prices/.test(S.booked)?"I'm getting quotes":'Not yet'):/truck|Friends|container/.test(S.how||'')?"I'm moving myself":''; learn('Moving'); hopping=matchMedia('(prefers-reduced-motion: reduce)').matches?'':'Moving'; show('movingTab'); if(hopping) hop('Moving'); else landSoon('Moving'); }
+/* owner, 11 Nov: moving day as the new flow. The words, the loading order and the checklists are the app's own
+   (MoveDay, loadGroups), so a check made here shows there and in a backup. */
+const MD_GROUPS=[["big","First on: furniture and appliances","Biggest and heaviest, against the front wall of the truck."],["heavy","Then: small and heavy boxes","On the floor, tight against the furniture."],["mid","Then: everyday boxes","Stacked on the heavy ones."],["top","On top: fragile and do-not-stack","Nothing goes on these."],["last","Last on, first off: the first night","Bedding and Open First. By the door, so they're the first thing out at the other end."]];
+const MD_LEAVE=["Walk every room, every closet, every cabinet — empty","Meter readings photographed","Keys you're handing back in one place","Your own copy of the inventory and bill of lading"];
+const MD_SIGN=["Every box on the inventory is here","Anything missing or damaged is written on the paperwork","Damage photographed — now, not later","No blank lines: anything empty is crossed out before you sign","You have your own copy of the bill of lading"];
+const HEAVYP=["hd-mh", "lo-l", "lo-m", "lo-s", "lo-xs", "uh-xs", "wm-lh", "wm-mh", "wm-sh"];
+const AP_KINDS=["The movers","Internet install","Utilities on or off","Elevator or loading dock","Donation pickup","Cleaning"];
+const AP_WHEN=["Morning","Afternoon","Evening","All day"];
+const MICSVG='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg>';
+const AP_PREP={"The movers":"Reserve parking, clear a path","Internet install":"Know where the router goes","Utilities on or off":"Write down the meter reading","Elevator or loading dock":"Get the reservation in writing","Donation pickup":"Put everything by the door","Cleaning":"Leave the keys and the code"};
+const apPrepHint=w=>AP_PREP[w]||"Like: bring the paperwork";
 const KIT=[["fit/","Will it fit through the door?"],["quote-check/","Is this quote a scam?"],["mover-check/","Can I trust this mover?"],["truck/","What size truck?"],["deposit/","When is my deposit due back?"],["tip/","How much to tip"]];
 const HOWS=["Movers pack and move it","Movers move it, I pack","A rental truck","Friends and our cars","A moving container","Not sure yet"];
 const MOVERS=()=>S.place==='signed'&&/^Movers/.test(S.how||''), INTER=()=>S.far==='Another state';
@@ -983,11 +1029,11 @@ const P={
     const taskAct=`<button class="cta" id="hDone">Done</button><button class="link" id="hLater">Not today</button>${undo}`;
     let cd='', one='', sub='', act='', art='mBefore';
     if(H.mode==='dates'){ one='When are you moving?'; sub='Everything else counts back from that one date.'; act=`<button class="cta" data-hgo="setup">Pick the date</button>`; art='mNone'; }
-    else if(H.mode==='today'){ cd='<b>Today</b> is loading day'; one=H.truck.left?`${pl(H.truck.left,'thing')} to go on the truck.`:'Everything is on the truck.'; sub=H.truck.left?'Boxes and furniture together.':'Walk the rooms once more before the truck leaves.'; act=`<button class="cta" data-hgo="moveday">Open moving day</button>`; art='mDay'; }
-    else if(H.mode==='transit'){ cd=`<b>${H.dd}</b> ${H.dd===1?'day':'days'} until delivery`; one='Your things are on the road.'; sub=`${H.truck.onTruck?pl(H.truck.onTruck,'thing')+' on the truck. ':''}Tonight, put the room signs up and keep the Open First box where you can reach it.`; act=`<button class="cta" data-hgo="moveday">Get ready for delivery</button>`; art='mRoad'; }
-    else if(H.mode==='delivery'){ cd='<b>Today</b> your things arrive'; const k=H.truck.onTruck||0; one=k?`${pl(k,'thing')} to come off the truck.`:'Everything is in.'; sub=k?'Check each one in as it comes through the door.':'Look it all over before you sign anything.'; act=`<button class="cta" data-hgo="moveday">Open delivery day</button>`; art='mAfter'; }
+    else if(H.mode==='today'){ cd='<b>Today</b> is loading day'; one=H.truck.left?`${pl(H.truck.left,'thing')} to go on the truck.`:'Everything is on the truck.'; sub=H.truck.left?'Boxes and furniture together.':'Walk the rooms once more before the truck leaves.'; act=`<button class="cta" data-mdgo="">Open moving day</button>`; art='mDay'; }
+    else if(H.mode==='transit'){ cd=`<b>${H.dd}</b> ${H.dd===1?'day':'days'} until delivery`; one='Your things are on the road.'; sub=`${H.truck.onTruck?pl(H.truck.onTruck,'thing')+' on the truck. ':''}Tonight, put the room signs up and keep the Open First box where you can reach it.`; act=`<button class="cta" data-mdgo="">Get ready for delivery</button>`; art='mRoad'; }
+    else if(H.mode==='delivery'){ cd='<b>Today</b> your things arrive'; const k=H.truck.onTruck||0; one=k?`${pl(k,'thing')} to come off the truck.`:'Everything is in.'; sub=k?'Check each one in as it comes through the door.':'Look it all over before you sign anything.'; act=`<button class="cta" data-mdgo="">Open delivery day</button>`; art='mAfter'; }
     else if(H.mode==='after'){ const since=1-(H.dd!=null?H.dd:(H.dl||0)); cd=since<=60?`<b>Day ${since}</b> in your new home`:''; art='mAfter';
-      if(H.lost.length){ one=`${pl(H.lost.length,'thing')} not checked in yet.`; sub=`${H.lost.slice(0,3).map(esc).join(', ')}${H.lost.length>3?' and more':''} went on the truck. If something is missing, tell the mover in writing. Claims have deadlines.`; act=`<button class="cta" data-hgo="moveday">Check them one by one</button>`; }
+      if(H.lost.length){ one=`${pl(H.lost.length,'thing')} not checked in yet.`; sub=`${H.lost.slice(0,3).map(esc).join(', ')}${H.lost.length>3?' and more':''} went on the truck. If something is missing, tell the mover in writing. Claims have deadlines.`; act=`<button class="cta" data-mdgo="">Check them one by one</button>`; }
       else if(!H.tracked&&!H.moved&&H.dl>-60){ cd=''; one=`Did you move on ${new Date(H.loadAt||Date.now()).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}?`; sub='If the date changed, put in the new one and everything counts from it.'; act=`<button class="cta" id="hMoved">Yes, we've moved</button><button class="link" data-hgo="setup">Change the date</button>`; art='mBefore'; }
       else if(t){ one=esc(first(t.t)); sub=esc(String(t.t).slice(first(t.t).length).trim()); act=taskAct; }
       else if(T0.length){ one="That's all for today."; sub='The rest will be here tomorrow.'; act=`<button class="link" id="hAgain">Show them again</button>${undo}`; }
@@ -1018,7 +1064,7 @@ const P={
   lcal:()=>{ const H=S.hm||{}, nx=H.next||[], end=x=>/[.!?]$/.test(x)?x:x+'.';
     const say=nx.length?`<b>${esc(hDay(nx[0].d))}:</b> ${esc(end(nx[0].w+(nx[0].win?', '+nx[0].win:'')))}`:'Nothing on the calendar yet. Put in the movers, the internet and the rest, and the rabbit reminds you.';
     const badges=nx.length>1?lemBadges(nx.slice(1,4).map(x=>[BIC.cal(hDate(x.d).getDate()),hShort(x.d),esc(x.w)])):'';
-    return ({lem:1, pi:3, h:'Calendar.', pano:lemPano(H), body:`<p class="lsub">${say}</p><button class="cta" data-hgo="calendar">Open the calendar</button>${badges}${lemRows([[RIC.plus,'Add an appointment','data-hgo="appts"'],[RIC.truck,'Move day','data-hgo="moveday"']])}`}); },
+    return ({lem:1, pi:3, h:'Calendar.', pano:lemPano(H), body:`<p class="lsub">${say}</p><button class="cta" data-hgo="calendar">Open the calendar</button>${badges}${lemRows([[RIC.plus,'Add an appointment','data-go="apWhat" id="hApAdd"'],[RIC.list,'Every appointment','id="hApList"'],[RIC.truck,'Move day','data-mdgo=""']])}`}); },
   lsort:()=>{ const H=S.hm||{}, pp=H.plans||{}, sell=(pp.sell||0)+(pp.consign||0), give=(pp.donate||0)+(pp.give||0), toss=pp.trash||0, und=pp.undecided||0;
     const parts=[sell&&`${sell} to sell`,give&&`${give} to give away`,toss&&`${toss} to let go`,und&&`${und} still deciding`].filter(Boolean);
     const say=parts.length?'What is staying behind, and where each piece is going.':'Anything staying behind? Tag it to sell, give away or let go.';
@@ -1273,11 +1319,61 @@ const P={
   mboth:()=>({say:"Not sure yet is fine.", h:"Here's both, side by side.", sub:`Doing it yourself takes about ${truckFor(moveCube()*1.1)}. For movers, send this list for a price.`, scene:'truck',
     body:`<pre class="packet" id="packet">${esc(packetText())}</pre><button class="cta" id="pkCopy">Copy it</button><button class="link" id="pkNext">Next</button>`}),
   mrent:()=>({say:"Last one.", h:"Are you renting the place you're leaving?", scene:'truck', body:pickList(["Renting","I own it","Living with someone","Not sure yet"],S.rent)}),
+  /* owner, 11 Nov: "I'm going to patiently wait" for Android to have every part of the move. The full app's screens
+     become the new flow, one question at a time, here first and then on Android. An appointment: what it is, which
+     day, when they come, who, and what to do first; it goes into the move's own appointments, where the calendar,
+     the home and a backup all read it. */
+  mdOut:()=>{ const st=S.mdSt||{}, M=mdGroups(st), all=M.groups.flatMap(g=>[...g.bigs,...g.boxes]), left=all.filter(x=>!x.loaded).length;
+    return ({say:'Moving day.', h:all.length?(left?`${left} ${left===1?'thing':'things'} to go on the truck.`:"Everything's on the truck."):'Nothing to load yet.',
+      sub:all.length?(left?'Load in this order, and read it to the crew from the top. The last on is the first off.':'Nothing left off. Walk the rooms once more before the truck leaves.'):'Boxes and furniture show up here as you add them.', scene:'truck',
+      body:`${left?'<button class="cta" id="mdLoad">Start loading</button>':''}${lemRows([...(M.hand.length?[[RIC.box,`Riding with you: ${M.hand.length}`,'data-go="mdHand"']]:[]),[RIC.check,'Before the truck leaves','data-go="mdLeave"'],[RIC.truck,'The crew','data-go="mdCrew"'],[RIC.house,'The coming-in list','data-go="mdIn"']])}`}); },
+  mdLoad:()=>{ const st=S.mdSt||{}, G=mdGroups(st).groups, i=Math.max(0,Math.min(S.mdg||0,G.length-1)), g=G[i]; if(!g) return P.mdOut();
+    const items=[...g.bigs.map(x=>({t:'g',id:x.id,label:x.name,room:mdRoom(x.room)||'Furniture',on:!!x.loaded})),...g.boxes.map(b=>({t:'b',id:b.id,label:b.code,room:mdRoom(b.room),on:!!b.loaded,flag:b.fragile?'Fragile':b.essential?'Open first':''}))], done=items.filter(x=>x.on).length;
+    return ({count:`${i+1} of ${G.length}`, say:`${done} of ${items.length} on.`, h:esc(g.n)+'.', sub:esc(g.why), scene:'none', body:mdTicks(items,'loaded')+`<button class="cta" id="mdNextG">${i<G.length-1?'Next':'That was the last'}</button>`}); },
+  mdHand:()=>{ const H=mdGroups(S.mdSt||{}).hand; return ({say:'Riding with you.', h:'These go with you, not on the truck.', sub:'Medicine, papers, chargers and anything marked Goes with me.', scene:'none',
+    body:`<ul class="list">${H.map(b=>`<li>${esc(b.code)}<span>${esc(mdRoom(b.room))}</span></li>`).join('')}</ul><button class="cta" data-go="mdOut">Back to loading</button>`}); },
+  mdLeave:()=>({say:'Moving day.', h:'Before the truck leaves.', sub:'Tap each one when it\'s done.', scene:'truck', body:mdChecks(MD_LEAVE)+'<button class="cta" data-go="mdOut">Done</button>'}),
+  mdCrew:()=>{ const m=((S.mdSt||{}).moveday)||{}; return ({say:'Moving day.', h:'The crew.', sub:'Their names, their number and the truck, in one place.', scene:'truck',
+    body:`<div class="field"><input id="mdCrewIn" value="${esc(m.crew||'')}" placeholder="Crew names" aria-label="Crew names"></div><div class="field"><input id="mdPhone" type="tel" inputmode="tel" value="${esc(m.phone||'')}" placeholder="Their phone number" aria-label="Their phone number"></div>${m.phone?`<a class="choice lab" href="tel:${esc(m.phone)}" style="margin-top:10px;max-width:300px">Call the crew</a>`:''}<div class="field"><input id="mdTruck" value="${esc(m.truck||'')}" placeholder="Truck number" aria-label="Truck number"></div><div class="field"><input id="mdPlate" value="${esc(m.plate||'')}" placeholder="License plate" aria-label="License plate"></div><div class="choices two" style="margin-top:12px"><button class="choice" id="mdStarted">${m.started?'Started '+esc(m.started):'They started'}</button><button class="choice" id="mdEnded">${m.ended?'Finished '+esc(m.ended):'They finished'}</button></div><button class="cta" id="mdCrewSave">Save</button>`}); },
+  mdIn:()=>{ const st=S.mdSt||{}, R=mdComing(st), tot=R.tot, inn=R.inn, H=S.hm||{}, miss=H.mode==='after'?tot-inn:0, dam=(st.boxes||[]).filter(b=>b&&b.damaged).length;
+    return ({say:'Delivery.', h:tot?(inn<tot?`${inn} of ${tot} in.`:'Everything that went on the truck is in.'):'Nothing went on the truck yet.',
+      sub:tot?(inn<tot?'Check each one off as it comes through the door, and point the crew at the room on its label.':'Look it all over before you sign anything.'):'Check things onto the truck on loading day, and this list fills itself.', scene:'truck',
+      body:`${tot&&inn<tot?'<button class="cta" id="mdCheck">Check them in</button>':''}${lemRows([[RIC.check,'Before you sign anything','data-go="mdSign"'],[RIC.house,'Set up first','data-go="mdSetup"'],[RIC.clock,'The night before','data-go="mdNight"'],[RIC.doc,`Missing or damaged${miss+dam?': '+(miss+dam):''}`,'data-go="mdClaim"'],[RIC.truck,'The crew','data-go="mdCrew"'],[RIC.box,'The going-out list','data-go="mdOut"']])}`}); },
+  mdCheck:()=>{ const st=S.mdSt||{}, R=mdComing(st);
+    return ({say:`${R.inn} of ${R.tot} in.`, h:'Check them in.', sub:'Tap each one as it comes through the door. Broken or crushed? Tap Damaged.', scene:'none',
+      body:R.rooms.map(([r,L])=>`<p class="grp">${esc(r)}</p>${mdTicks(L,'delivered',true)}`).join('')+'<button class="cta" data-go="mdIn">Done</button>'}); },
+  mdSign:()=>({say:'Delivery.', h:'Before you sign anything.', sub:'Once you sign, it gets much harder to claim.', scene:'truck', body:mdChecks(MD_SIGN)+'<button class="cta" data-go="mdIn">Done</button>'}),
+  mdSetup:()=>{ const L=mdSetupList(S.mdSt||{}); return ({say:'Delivery.', h:'Set up first, in this order.', sub:`Nothing else matters until these ${L.length} are done.`, scene:'house', body:mdChecks(L)+'<button class="cta" data-go="mdIn">Done</button>'}); },
+  mdNight:()=>{ const st=S.mdSt||{}, today=(S.hm||{}).mode==='delivery', L=["Room signs on every door","Open First box and Stays with me beside you, not in a pile",mdPets(st)?`${cap1(mdPetNames(st))} shut in a quiet room`:null,"A clear path from the door to every room","Somewhere for the truck to park"].filter(Boolean);
+    return ({say:'Delivery.', h:today?'Before the truck pulls up.':'The night before delivery.', sub:'Tap each one when it\'s done.', scene:'house', body:mdChecks(L)+'<button class="cta" data-go="mdIn">Done</button>'}); },
+  mdClaim:()=>{ const st=S.mdSt||{}, H=S.hm||{}, R=mdComing(st), miss=H.mode==='after'?R.left:[], dam=(st.boxes||[]).filter(b=>b&&b.damaged), pr=st.profile||{}, far=/^(far|cross|abroad)$/.test(pr.distance||'');
+    const dl=((st.move||{}).delivery)||((st.move||{}).date)||'', by=dl?(()=>{ const d=new Date(dl+'T12:00'); d.setMonth(d.getMonth()+9); return d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}); })():'';
+    const any=miss.length||dam.length, open=miss.some(x=>!x.claimed)||dam.some(x=>!x.claimed);
+    return ({say:'Delivery.', h:'If something is missing or broken.', sub:far?`On a move between states, federal rules give you nine months from delivery to file a written claim${by?`, so by ${by}`:''}. The mover has 30 days to answer it and 120 days to pay or refuse.`:'On a local move, your state and your contract set the deadline. Look on the bill of lading, and don\'t wait for it.', scene:'none',
+      body:`${miss.length?`<p class="grp">Never checked in</p><ul class="list">${miss.map(x=>`<li>${esc(x.label)}<span>${esc(x.room)}</span></li>`).join('')}</ul>`:''}${dam.length?`<p class="grp">Arrived damaged</p><ul class="list">${dam.map(b=>`<li>${esc(b.code)}<span>${esc(mdRoom(b.destRoom||b.room))}</span></li>`).join('')}</ul>`:''}
+        <p class="lsub" style="font-size:17px">Write it on the delivery paperwork before you sign, photograph it today, then send it in writing. A phone call is not a claim.</p>
+        ${any?`<button class="cta" id="mdCopy">Copy the list for the mover</button>${open?'<button class="link" id="mdReported">I\'ve reported these in writing</button>':'<p class="lsub" style="font-size:17px">Reported. Keep the reply, and keep checking them in if they turn up.</p>'}`:'<p class="lsub" style="font-size:17px">Nothing marked missing or damaged.</p>'}<button class="link" data-go="mdIn">Back</button>`}); },
+  apWhat:()=>{ const A=S.ap||(S.ap={}); return ({say:'Calendar.', h:"What's the appointment?", sub:'Pick one, or type your own.', scene:'blank',
+    body:`<div class="choices two">${AP_KINDS.map(x=>`<button class="choice${A.what===x?' hint':''}" data-v="${esc(x)}">${esc(x)}</button>`).join('')}</div><div class="field microw"><input id="apOwn" value="${esc(AP_KINDS.includes(A.what||'')?'':(A.what||''))}" placeholder="Or type it" aria-label="What the appointment is"><button type="button" class="mic" data-mic="apOwn" aria-label="Say it out loud">${MICSVG}</button></div><p class="hint" id="michint" hidden></p><button class="cta" id="apNext">Next</button>`}); },
+  apDay:()=>({say:`${esc((S.ap||{}).what||'The appointment')}.`, h:'Which day?', sub:dateSub('apDate'), scene:'blank', body:calBody('apDate',{})+`<button class="cta" id="calNext" ${S.apDate?'':'disabled'}>Next</button><button class="link" id="calSkip">No day yet</button>`}),
+  apTime:()=>{ const A=S.ap||{}; return ({say:S.apDate?`${fmtD(S.apDate)}.`:`${esc(A.what||'The appointment')}.`, h:'When do they come?', sub:'A time or a window is fine, like 8 to 10 am.', scene:'blank',
+    body:`<div class="choices two">${AP_WHEN.map(x=>`<button class="choice${A.win===x?' hint':''}" data-v="${esc(x)}">${esc(x)}</button>`).join('')}</div><div class="field"><input id="apWin" value="${esc(AP_WHEN.includes(A.win||'')?'':(A.win||''))}" placeholder="Or type it, like 8 to 10 am" aria-label="When they come"></div><button class="cta" id="apNext">Next</button><button class="link" id="apSkip">Not sure yet</button>`}); },
+  apWho:()=>{ const A=S.ap||{}; return ({say:[A.what,S.apDate?fmtD(S.apDate):''].filter(Boolean).map(esc).join(', ')+'.', h:"Who's coming?", sub:'A company or a name, and their number if you have it.', scene:'calendar',
+    body:`<div class="field microw"><input id="apWhoIn" value="${esc(A.who||'')}" placeholder="Company or name" aria-label="Who is coming"><button type="button" class="mic" data-mic="apWhoIn" aria-label="Say it out loud">${MICSVG}</button></div><p class="hint" id="michint" hidden></p><div class="field"><input id="apPhone" type="tel" inputmode="tel" value="${esc(A.phone||'')}" placeholder="Their number (optional)" aria-label="Their phone number, optional"></div><button class="cta" id="apNext">Next</button><button class="link" id="apSkip">Skip</button>`}); },
+  apPrep:()=>{ const A=S.ap||{}; return ({say:A.who?`${esc(A.who)}.`:'Almost done.', h:'Anything to do before they come?', sub:'The rabbit puts it with the appointment.', scene:'calendar',
+    body:`<div class="field microw"><input id="apPrepIn" value="${esc(A.prep||'')}" placeholder="${esc(apPrepHint(A.what))}" aria-label="What to do before"><button type="button" class="mic" data-mic="apPrepIn" aria-label="Say it out loud">${MICSVG}</button></div><p class="hint" id="michint" hidden></p><button class="cta" id="apSave">Save it</button><button class="link" id="apSkip">Nothing to do</button>`}); },
+  apSaved:()=>{ const A=S.apLast||{}; const when=[A.date?fmtD(A.date):'No day yet',A.win].filter(Boolean).join(', ');
+    return ({say:'Saved.', h:`${esc(A.what||'It')} is on your calendar.`, sub:`${esc(when)}.${A.date?' '+dayLine2(A.date):''}`, scene:'calendar',
+    body:`${A.date?'<button class="cta" id="apIcs">Add it to my phone\'s calendar</button>':''}<button class="${A.date?'link':'cta'}" id="apMore">Add another</button><button class="link" id="apDone">Done</button>`}); },
+  apList:()=>{ const L=(S.apps||[]).slice().sort((a,b)=>(a.date||'9').localeCompare(b.date||'9')), up=L.filter(a=>!a.done), done=L.filter(a=>a.done);
+    const row=a=>`<li class="aprow"><button type="button" class="apchk${a.done?' on':''}" role="checkbox" aria-checked="${!!a.done}" data-apdone="${esc(a.id)}" aria-label="${esc(a.what)}${a.done?', done':''}"></button><div class="apt"><b>${esc(a.what)}</b>${esc([a.date?fmtD(a.date):'No day yet',a.win,a.who].filter(Boolean).join(', '))}${a.prep?`<small>Before: ${esc(a.prep)}</small>`:''}</div></li>`;
+    return ({say:'Calendar.', h:'Your appointments.', sub:L.length?(up.length?`${up.length} coming up${done.length?`, ${done.length} done`:''}.`:'All done.'):'Nothing yet.', scene:'none',
+    body:`${up.length?`<ul class="list aplist">${up.map(row).join('')}</ul>`:''}${done.length?`<p class="grp">Done</p><ul class="list aplist">${done.map(row).join('')}</ul>`:''}${S.apUndo&&Date.now()-S.apUndo.at<15000?`<p class="lsub hundo">${esc(S.apUndo.msg)} <button class="link" id="apUndo">Undo</button></p>`:''}<button class="cta" id="apAdd">Add an appointment</button>`}); },
   movingTab:()=>{ const n=nextSteps()[0], ds=allDates(); return ({say:"Your Calendar tab is ready.", h:ds.length?"Your dates, in one place.":"Your calendar is ready.", sub:ds.length?ds.slice(0,3).map(([d,l])=>`${fmtD(d)}: ${l.toLowerCase()}`).join('<br>'):(n?`First up: ${n.short}`:''), scene:'calendar',
     body:`<button class="cta" id="tabNext">Next: what's not coming</button>${ds.length?'<button class="link" id="tabIcs">Add these to my phone\'s calendar</button>':''}`}); },
 };
 const hist=[]; let cur=null, started=false;
-const NOBACK=['home','lvault','lbig','lcal','lsort','myBoxes','price','boxSaved','boxesTab','bigSaved','furnTab','llist','sortTab','movingTab','notruck','mread'];
+const NOBACK=['home','lvault','lbig','lcal','lsort','myBoxes','price','boxSaved','boxesTab','bigSaved','furnTab','llist','sortTab','movingTab','notruck','mread','apSaved'];
 let lastDrawn="";
 const drawn=(svg,on)=>on?svg.replace('<svg ','<svg class="draw" ').replace(/<(rect|path|line|circle|ellipse|polyline)(?=[\s>\/])/g,'<$1 pathLength="1"'):svg;
 function show(id,back){
@@ -1334,6 +1430,7 @@ function hop(name){ name=name||'Boxes';
 function wire(id){
   const $=s=>phone.querySelector(s);
   phone.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go));
+  phone.querySelectorAll('[data-mdgo]').forEach(b=>b.onclick=()=>mdGo(b.dataset.mdgo));
   const bk=$('[data-back]'); if(bk) bk.onclick=()=>{ const prev=hist.pop(); if(prev) show(prev,true); };
   phone.querySelectorAll('[data-pic]').forEach(inp=>inp.onchange=async()=>{ const fs=[...(inp.files||[])]; if(!fs.length) return; for(const f of fs){ const u=await shrink(f); if(u) S.photos.push(u); } say(S.photos.length===1?'Photo added.':S.photos.length+' photos.'); show('photo',true); });
   /* alpha test, 8 Nov: each tap stacked another camera prompt; one is enough */
@@ -1571,6 +1668,7 @@ function wire(id){
     { const mv=$('#hMoved'); if(mv) mv.onclick=async()=>{ const st=await homeWrite(s=>{ s.settings=Object.assign({},s.settings,{movedConfirmed:true}); }); if(st){ S.hm=homeRead(st); re(); } }; }
     { const v=$('#hVault'); if(v) v.onclick=()=>{ S.flipQ=''; S.flipSet=S.boxes.some(b=>!b.unpacked)?'packed':'all'; S.fx=0; S.fpi=0; show('flip'); }; }
     { const b=$('#hBig'); if(b) b.onclick=()=>openSheet('Furniture',b); }
+    { const b=$('#hApList'); if(b) b.onclick=async()=>{ try{ const st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); S.apps=(st&&st.appts)||[]; }catch(e){ S.apps=[]; } S.apUndo=null; show('apList'); }; }
     phone.querySelectorAll('#hBigAdd').forEach(b=>b.onclick=()=>{ S.firstItem=''; S.roomsAsked=true; show('bigFirst'); });
     { const b=$('#hList'); if(b) b.onclick=()=>{ S.find=''; S.roomOnly=''; show('myBoxes'); }; }
     { const b=$('#hRooms'); if(b) b.onclick=()=>show('vrooms'); }
@@ -1627,6 +1725,42 @@ function wire(id){
   if(id==='mtruck') pick(v=>{ S.tsize=v; show('mhelp'); });
   if(id==='mhelp') pick(v=>{ S.helpers=v; toRent(); });
   if(id==='mrent') pick(v=>{ S.rent=v; earnMoving(); });
+  if(/^md/.test(id)){
+    phone.querySelectorAll('[data-mdtick]').forEach(b=>b.onclick=async()=>{ const [t,k]=b.dataset.mdtick.split(':'), f=b.dataset.f, coll=t==='g'?'bigs':'boxes'; let label='', now=false;
+      const st=await mdWrite(s=>{ const x=(s[coll]||[]).find(y=>y&&y.id===k); if(!x) return false; x[f]=!x[f]; now=x[f]; label=x.code||x.name||''; if(f==='delivered'&&!now) x.damaged=false; });
+      if(st){ say(now?`${label} ${f==='loaded'?'is on the truck':'is in'}.`:`${label} unchecked.`); show(cur,true); } });
+    phone.querySelectorAll('[data-mddmg]').forEach(b=>b.onclick=async()=>{ const k=b.dataset.mddmg; let label='', now=false;
+      const st=await mdWrite(s=>{ const x=(s.boxes||[]).find(y=>y&&y.id===k); if(!x) return false; x.damaged=!x.damaged; now=x.damaged; if(now) x.delivered=true; label=x.code||''; });
+      if(st){ say(now?`${label} marked damaged. Photograph it now.`:`${label} not damaged.`); show(cur,true); } });
+    phone.querySelectorAll('[data-mdchk]').forEach(b=>b.onclick=async()=>{ const x=b.dataset.mdchk;
+      const st=await mdWrite(s=>{ s.moveday=Object.assign({},s.moveday); const c=s.moveday.checks||[]; s.moveday.checks=c.includes(x)?c.filter(y=>y!==x):[...c,x]; }); if(st) show(cur,true); });
+    if($('#mdLoad')) $('#mdLoad').onclick=()=>{ S.mdg=0; show('mdLoad'); };
+    if($('#mdNextG')) $('#mdNextG').onclick=()=>{ const n=mdGroups(S.mdSt||{}).groups.length; if((S.mdg||0)<n-1){ S.mdg=(S.mdg||0)+1; show('mdLoad'); } else show('mdLeave'); };
+    if($('#mdCheck')) $('#mdCheck').onclick=()=>show('mdCheck');
+    if(id==='mdCrew'){ const v=()=>({crew:$('#mdCrewIn').value.trim(),phone:$('#mdPhone').value.trim(),truck:$('#mdTruck').value.trim(),plate:$('#mdPlate').value.trim()});
+      const save=async extra=>{ const p=Object.assign(v(),extra||{}); return mdWrite(s=>{ s.moveday=Object.assign({},s.moveday,p); }); };
+      const t=()=>new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+      $('#mdStarted').onclick=async()=>{ if(await save({started:t()})) show('mdCrew',true); };
+      $('#mdEnded').onclick=async()=>{ if(await save({ended:t()})) show('mdCrew',true); };
+      $('#mdCrewSave').onclick=async()=>{ if(await save()){ say('Saved.'); const prev=hist.pop(); show(prev||'mdOut',true); } }; }
+    if($('#mdCopy')) $('#mdCopy').onclick=()=>{ const tx=mdReport(S.mdSt||{}); (navigator.clipboard?navigator.clipboard.writeText(tx):Promise.reject()).then(()=>say('Copied. Paste it into an email to the mover.'),()=>{}).finally(()=>{ $('#mdCopy').textContent='Copied'; }); };
+    if($('#mdReported')) $('#mdReported').onclick=async()=>{ const R=mdComing(S.mdSt||{}), ids=new Set([...(((S.hm||{}).mode==='after')?R.left.map(x=>x.id):[]),...((S.mdSt||{}).boxes||[]).filter(b=>b&&b.damaged).map(b=>b.id)]);
+      const st=await mdWrite(s=>{ ['boxes','bigs'].forEach(c=>(s[c]||[]).forEach(x=>{ if(x&&ids.has(x.id)) x.claimed=true; })); }); if(st) show(cur,true); };
+  }
+  if(id==='apWhat'){ const go=v=>{ S.ap.what=v; show('apDay'); }; pick(v=>go(v)); $('#apNext').onclick=()=>{ const v=$('#apOwn').value.trim()||S.ap.what; if(!v){ say('Pick one, or type what it is.'); $('#apOwn').focus(); return; } go(v); }; }
+  if(id==='apDay') calPage('apDate',()=>show('apTime'),()=>{ S.apDate=''; show('apTime'); });
+  if(id==='apTime'){ pick(v=>{ S.ap.win=v; show('apWho'); }); $('#apNext').onclick=()=>{ S.ap.win=$('#apWin').value.trim()||S.ap.win||''; show('apWho'); }; $('#apSkip').onclick=()=>{ S.ap.win=''; show('apWho'); }; }
+  if(id==='apWho'){ $('#apNext').onclick=()=>{ S.ap.who=$('#apWhoIn').value.trim(); S.ap.phone=$('#apPhone').value.trim(); show('apPrep'); }; $('#apSkip').onclick=()=>show('apPrep'); }
+  if(id==='apPrep'){ const save=async prep=>{ const A=S.ap||{}, a={id:'ap'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),what:A.what||'An appointment',who:A.who||'',phone:A.phone||'',date:S.apDate||'',win:A.win||'',where:'',conf:'',prep:prep||'',done:false};
+      const st=await homeWrite(s=>{ s.appts=(s.appts||[]).concat(a); }); if(!st){ toast(phone,'Your phone would not save that. Try again.'); return; }
+      S.hm=homeRead(st); S.apps=st.appts; S.apLast=a; S.ap={}; S.apDate=''; show('apSaved'); };
+    $('#apSave').onclick=()=>save($('#apPrepIn').value.trim()); $('#apSkip').onclick=()=>save(''); }
+  if(id==='apSaved'){ if($('#apIcs')) $('#apIcs').onclick=()=>apIcs(S.apLast); $('#apMore').onclick=()=>{ S.ap={}; S.apDate=''; show('apWhat'); }; $('#apDone').onclick=()=>{ hist.length=0; show(S.homeMode?'lcal':'start'); }; }
+  if(id==='apList'){ phone.querySelectorAll('[data-apdone]').forEach(b=>b.onclick=async()=>{ const k=b.dataset.apdone, was=(S.apps||[]).find(x=>x.id===k); if(!was) return; const on=!was.done;
+      const st=await homeWrite(s=>{ const x=(s.appts||[]).find(y=>y&&y.id===k); if(!x) return false; x.done=on; }); if(!st) return;
+      S.apps=st.appts; S.hm=homeRead(st); S.apUndo={id:k,was:!on,at:Date.now(),msg:on?`Done: ${was.what}.`:`${was.what} is back on the list.`}; say(S.apUndo.msg); show('apList',true); });
+    if($('#apUndo')) $('#apUndo').onclick=async()=>{ const u=S.apUndo; if(!u) return; const st=await homeWrite(s=>{ const x=(s.appts||[]).find(y=>y&&y.id===u.id); if(!x) return false; x.done=u.was; }); if(st){ S.apps=st.appts; S.hm=homeRead(st); } S.apUndo=null; show('apList',true); };
+    $('#apAdd').onclick=()=>{ S.ap={}; S.apDate=''; show('apWhat'); }; }
   if(id==='movingTab'){ $('#tabNext').onclick=toSorting; if($('#tabIcs')) $('#tabIcs').onclick=addToCalendar; }
 }
 function commit(){ const had=roomItems(); S.big=S.big.filter(b=>b.batch!==S.batch).concat(S.pick.map(what=>had.find(o=>o.what===what)||({what,room:S.bigRoom||'',dims:'',batch:S.batch}))); S.mi=0; S.md=0; S.dims=[];
@@ -2054,13 +2188,14 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
   const s=document.createElement('div'); s.className='sheet msheet'; s.setAttribute('role','dialog'); s.setAttribute('aria-modal','true'); s.setAttribute('aria-label','Menu');
   s.innerHTML=`<div class="mhandle" aria-hidden="true"></div><div class="top"><button class="back" data-close style="margin-left:auto">Close</button></div><div class="in">
     <h3 id="sheet-h" tabindex="-1" class="mhi">${hi}</h3>${line?`<p class="mline">${line}</p>`:''}
-    <p class="mgroup">Your move</p>${lemRows([[RIC.house,'Moving day and addresses','data-hgo="setup"'],[RIC.truck,'Move day','data-hgo="moveday"'],[RIC.doc,'Papers and proof','data-hgo="papers"'],[RIC.wallet,'Money','data-hgo="money"']])}
+    <p class="mgroup">Your move</p>${lemRows([[RIC.house,'Moving day and addresses','data-hgo="setup"'],[RIC.truck,'Move day','data-mdgo=""'],[RIC.doc,'Papers and proof','data-hgo="papers"'],[RIC.wallet,'Money','data-hgo="money"']])}
     <p class="mgroup">Everything else</p>${lemRows([[RIC.grid,'Every part of the app','data-hgo="home"'],[RIC.help,'I need help','data-hgo="help"']])}
     <p class="mgroup">Your account</p>${lemRows([[RIC.key,'Membership','data-hgo="pack"'],[RIC.save,'Backups and sharing','data-hgo="share"']])}
     <p class="mgroup">Support</p>${lemRows([[RIC.mail,'Write to us','data-mail'],[RIC.share,'Share The Packed Rabbit','data-share']])}</div>`;
   const sc=document.createElement('div'); sc.className='scrim'; sc.onclick=()=>closeSheet(); phone.appendChild(sc); phone.appendChild(s);
   s.querySelector('[data-close]').onclick=()=>closeSheet();
   s.querySelectorAll('[data-hgo]').forEach(b=>b.onclick=()=>toApp('?go='+b.dataset.hgo));
+  s.querySelectorAll('[data-mdgo]').forEach(b=>b.onclick=()=>{ closeSheet(true); mdGo(b.dataset.mdgo); });
   s.querySelector('[data-mail]').onclick=()=>{ (window.top||window).location.href='mailto:hello@packedrabbit.com'; };
   s.querySelector('[data-share]').onclick=async()=>{ const url='https://packedrabbit.com/'; try{ if(navigator.share){ await navigator.share({title:'The Packed Rabbit',url}); return; } }catch(e){ return; }
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
