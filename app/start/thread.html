@@ -370,6 +370,10 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 .lone{margin:0;font-size:22px;line-height:1.3;font-weight:700;color:var(--text);max-width:24ch;text-wrap:balance}
 .lsub{margin:8px 0 0;font-size:19px;line-height:1.4;color:var(--muted);max-width:30ch;text-wrap:balance}
 .hnote{font-size:17px;margin-top:14px;color:var(--text)}.hnote .link{display:inline-flex;min-height:44px;margin:0 0 0 4px;padding:0 6px;vertical-align:middle}
+.lcard .fsum{display:block;font-weight:600;font-size:15px;line-height:1.3;color:var(--muted);margin-top:2px}
+.mktot{width:100%;max-width:340px;margin:14px auto 0;text-align:left}.mktot div{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:8px 2px;border-bottom:1px solid var(--frame)}.mktot span{font-size:17px;color:var(--text)}.mktot b{font-size:24px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.apt.late{color:var(--plum)}.mklist{max-width:380px;width:100%;margin:0 auto;text-align:left;border-top:1px solid var(--frame)}.mkrow{border-bottom:1px solid var(--frame)}.mkhead{display:block;width:100%;min-height:48px;padding:12px 4px;background:none;border:0;text-align:left;font:inherit;color:var(--text);cursor:pointer}.mkhead b{display:block;font-size:17px;color:var(--ink)}.mkhead span{display:block;font-size:16px;line-height:1.35;color:var(--muted);margin-top:2px}.mkhead .mkn{font-size:19px;font-weight:800;color:var(--ink)}.mkproof{padding:0 4px 14px}.mkproof p{margin:4px 0;font-size:16px;color:var(--text)}.mkproof .mksrc{color:var(--muted);font-size:15px}.mkproof .choice{max-width:300px;margin-top:10px}
+.buoffer{display:flex;flex-direction:column;gap:8px;align-items:center;width:100%;margin-top:12px}.buoffer .choice{max-width:320px;width:100%}
 .hundo{font-size:17px;margin-top:12px}.hundo .link{display:inline-flex;min-height:44px;margin:0 0 0 4px;padding:0 6px;vertical-align:middle}
 .lground .lsub:first-child{margin-top:0;color:var(--text)}
 .lground .lsub b{color:var(--ink)}
@@ -582,6 +586,15 @@ function scene(mode){ if(mode==='none') return '';
     f+=`<rect x="${x}" y="${y}" width="${w}" height="${h}"/><rect class="tape" x="${x+w/2-9}" y="${y}" width="18" height="22"/><rect x="${x+10}" y="${y+8}" width="62" height="20" rx="3"/><text x="${x+41}" y="${y+22}" text-anchor="middle" style="font-size:11px">${code()}</text>`;
     S.flags.forEach((k,i)=>{ const c=STAMPC[k], rot=[-6,5,4,-5,-4,6][i%6], sx=x+(i%2?w*0.74:w*0.27), sy=y+46+Math.floor(i/2)*31;
       const tw=Math.max(86,k.length*10.5+20); f+=`<g class="stamp${k===stampAt?' slam':''}" transform="translate(${sx} ${sy}) rotate(${rot})"><rect x="${-tw/2}" y="-13.5" width="${tw}" height="27" rx="5" style="fill:var(--screen);fill-opacity:.85;stroke:${c};stroke-width:3"/><text x="0" y="6" text-anchor="middle" style="fill:${c};font-size:16px;letter-spacing:.05em">${k.toUpperCase()}</text></g>`; });
+    return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${ROOM}<rect class="gnd" x="0" y="344" width="360" height="40"/><g class="fore">${f}</g><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
+  }
+  if(mode==="money"){
+    /* money as the new flow: indoors, a jar on the table with KEPT on its label and coins inside, the receipt beside it */
+    f+=`<path class="f2" d="M58 270 h244 v12 h-244 z"/><path d="M76 282 v62 M284 282 v62"/>`;
+    f+=`<path d="M122 270 v-80 q0 -12 12 -12 h64 q12 0 12 12 v80 z"/><rect class="f3" x="128" y="166" width="76" height="14" rx="4"/>`;
+    [262,252,242,232].forEach((y,i)=>f+=`<ellipse class="f3" cx="${166+(i%2?4:-3)}" cy="${y}" rx="30" ry="6"/>`);
+    f+=`<rect class="tape" x="138" y="196" width="56" height="24" rx="3"/><text x="166" y="213" text-anchor="middle" style="font-size:13px;font-weight:800;letter-spacing:.06em">KEPT</text>`;
+    f+=`<path class="nf" d="M232 270 v-66 h40 v66 l-6.5 -5 l-6.5 5 l-6.5 -5 l-6.5 5 l-6.5 -5 l-7.5 5 z"/><path class="nf" d="M240 218 h24 M240 229 h24 M240 240 h16"/><text x="252" y="258" text-anchor="middle" style="font-size:11px;font-weight:700">$</text>`;
     return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${ROOM}<rect class="gnd" x="0" y="344" width="360" height="40"/><g class="fore">${f}</g><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
   }
   if(mode==="blank") return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><rect class="gnd" x="0" y="344" width="360" height="40"/><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
@@ -865,6 +878,207 @@ const MOVEOUT_TASKS=[
   { k: "meters", n: "Meter readings photographed", why: "Stops a bill for someone else's usage.", pro: false },
   { k: "address", n: "Forwarding address given in writing", why: "It's where the deposit check goes.", pro: false },
 ];
+/* owner, 11 Nov: money as the new flow: the budget, money owed to you, and what the move kept. Every figure is the
+   app's own field (budget, owed, saves), and what it kept is the app's own moneyKept with its deposit law, copied in
+   by make-start.py, so the app, the home and a backup agree. */
+const MK=(()=>{ function amt(v) {
+  const n = parseFloat(String(v == null ? "" : v).replace(/[$,\s]/g, ""));
+  return isNaN(n) ? 0 : n;
+}
+const plural = (n, one, many) => `${n} ${n === 1 ? one : many || one + (/(?:s|x|z|ch|sh)$/i.test(one) ? "es" : "s")}`;
+const money = (n) => "$" + n.toLocaleString(undefined, { maximumFractionDigits: 0 });
+function daysUntil(t) {
+  if (t === null || t === undefined) return null;
+  const a = new Date(t); if (isNaN(a)) return null;
+  a.setHours(0, 0, 0, 0);
+  const b = new Date(); b.setHours(0, 0, 0, 0);
+  return Math.round((a - b) / 86400000);
+}
+
+const STATES = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","District of Columbia","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"];
+const STATE_ABBR = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
+const STATE_CODES = "AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY PR".split(" ");
+const tidyAddr = (s) => String(s || "").replace(/(^|[^,\s])(,?\s+)([A-Za-z]{2})(\s+\d{5}(?:-\d{4})?)?\s*$/, (m, a, sep, code, zip) => STATE_CODES.includes(code.toUpperCase()) ? `${a}, ${code.toUpperCase()}${zip || ""}` : m);
+const addrFrom = (st) => tidyAddr((st.move.from || "").trim() || (st.move.fromName || "").split(",").slice(0, 2).join(",").trim() || "");
+const addrTo = (st) => tidyAddr((st.move.to || "").trim() || (st.move.toName || "").split(",").slice(0, 2).join(",").trim() || ((st.newhome || {}).address || "").trim() || "");
+function stateOfAddress(a) {
+  const m = String(a || "").toUpperCase().match(/,\s*([A-Z]{2})\b(?:\s+\d{5}(?:-\d{4})?)?\s*$/m);
+  if (m) return m[1];
+  /* the map lookup writes "Williamsburg, Virginia" — the full name counts too */
+  const t = String(a || "").toLowerCase();
+  /* longest names first, so "West Virginia" isn't read as Virginia */
+  const order = STATES.map((n, i) => i).sort((x, y) => STATES[y].length - STATES[x].length);
+  const i = order.find((k) => new RegExp(`\\b${STATES[k].toLowerCase()}\\b`).test(t));
+  return i !== undefined ? STATE_ABBR[i] : "";
+}
+const DEPOSIT_LAW = {
+  NJ: { days: 30, cite: "N.J.S.A. 46:8-21.1" },
+  VA: { days: 45, cite: "Va. Code § 55.1-1226" },
+};
+const DEPOSIT_RULES = [["AL", "Alabama", 0, "u", 0, "", "Ala. Code § 35-9A-201", "We could not confirm the current deadline on an official page. Older official copies of the law say 35 days, and a later change is reported to have made it longer, so read the current section before you count on a date."], ["AK", "Alaska", 30, "c", 14, "14 days after the lease ends and you hand back the home, if you gave proper notice and nothing is kept. Otherwise 30 days after you move out.", "AS 34.03.070", ""], ["AZ", "Arizona", 14, "b", 0, "After the lease ends, you hand back the home, and you ask for the deposit.", "A.R.S. § 33-1321", "The law counts business days, so weekends and holidays don't count. This page skips weekends but not holidays."], ["AR", "Arkansas", 60, "c", 0, "After you move out.", "Ark. Code § 18-16-305", "The Attorney General says this rule covers landlords with six or more units."], ["CA", "California", 21, "c", 0, "After you move out.", "Cal. Civ. Code § 1950.5", "Deductions over $125 need receipts or invoices."], ["CO", "Colorado", 30, "c", 0, "After the lease ends or you hand back the keys.", "C.R.S. § 38-12-103", "30 days since January 1, 2026. A lease can allow up to 60 days."], ["CT", "Connecticut", 21, "c", 0, "21 days after the lease ends, or 15 days after the landlord gets your forwarding address in writing, whichever is later.", "Conn. Gen. Stat. § 47a-21", "Cut from 30 days to 21 in 2023."], ["DE", "Delaware", 20, "c", 0, "After the lease ends.", "25 Del. C. § 5514", "Give your forwarding address in writing before you leave."], ["DC", "District of Columbia", 45, "c", 0, "After the lease ends.", "D.C. Code § 42-3502.17", "Within 45 days the landlord returns it with interest, or tells you in writing what they plan to keep. The rest is due within 30 days after that."], ["FL", "Florida", 30, "c", 15, "After the lease ends and you move out.", "Fla. Stat. § 83.49(3)", "15 days if nothing is kept. To keep any of it, the landlord must send notice by certified mail within 30 days. You then have 15 days to object in writing."], ["GA", "Georgia", 30, "c", 0, "After the lease ends or you move out, whichever is later.", "O.C.G.A. § 44-7-34", ""], ["HI", "Hawaii", 14, "c", 0, "After the lease ends.", "HRS § 521-44", "A landlord who misses it loses the right to keep any of it."], ["ID", "Idaho", 21, "c", 0, "After you hand back the home.", "Idaho Code § 6-321", "Your lease can set a longer time, up to 30 days."], ["IL", "Illinois", 30, "c", 45, "After you move out.", "765 ILCS 710/1", "45 days if nothing is kept. If anything is kept, the itemized statement with receipts is due in 30 days and the rest of the money within 45. Covers all landlords since 2024."], ["IN", "Indiana", 45, "c", 0, "After the lease ends and you hand back the home. Give a forwarding address in writing.", "Ind. Code § 32-31-3-12", ""], ["IA", "Iowa", 30, "c", 0, "After the lease ends and the landlord has your mailing address.", "Iowa Code § 562A.12", "A landlord who sends no written reasons in 30 days loses the right to keep any of it."], ["KS", "Kansas", 30, "c", 0, "After the lease ends, you hand back the home, and you ask for it. Due 14 days after the landlord works out what to keep, and no later than 30 days.", "K.S.A. 58-2550", ""], ["KY", "Kentucky", 0, "x", 0, "", "KRS 383.580", "Kentucky's law doesn't set one return date. It sets rules for move-in and move-out inspections, and lets a landlord keep a deposit you don't claim within 60 days of their notice. It applies where the city or county has adopted the state's Uniform Residential Landlord and Tenant Act."], ["LA", "Louisiana", 1, "m", 0, "After the lease ends. Give a forwarding address.", "La. R.S. 9:3251", "The law says one month, not a number of days. A 2026 change may allow a little extra time for the itemized list."], ["ME", "Maine", 30, "c", 0, "After the lease ends or you hand back the home.", "14 M.R.S. § 6033", "With a written lease, 30 days unless the lease says sooner. With no written lease (a tenancy at will), 21 days. A landlord who misses it loses the right to keep any of it."], ["MD", "Maryland", 45, "c", 0, "After the lease ends.", "Md. Code, Real Prop. § 8-203", "Returned with interest."], ["MA", "Massachusetts", 30, "c", 0, "After the lease ends.", "Mass. Gen. Laws c. 186, § 15B", "The list of damage must be signed under penalty of perjury, with estimates or receipts."], ["MI", "Michigan", 30, "c", 0, "After you move out. Give a forwarding address in writing within 4 days of moving out.", "MCL 554.609", "You have 7 days to answer the landlord's list of damage in writing."], ["MN", "Minnesota", 21, "c", 0, "After the lease ends and the landlord has your mailing address, whichever is later.", "Minn. Stat. § 504B.178", "The law says three weeks."], ["MS", "Mississippi", 45, "c", 0, "After the lease ends, you hand back the home, and you ask for the deposit.", "Miss. Code Ann. § 89-8-21", ""], ["MO", "Missouri", 30, "c", 0, "After the lease ends.", "Mo. Rev. Stat. § 535.300", ""], ["MT", "Montana", 30, "c", 10, "After the lease ends or the landlord accepts the keys, whichever is first.", "Mont. Code Ann. § 70-25-202", "10 days if nothing is owed for damage, cleaning, rent or utilities."], ["NE", "Nebraska", 14, "c", 0, "After the lease ends.", "Neb. Rev. Stat. § 76-1416", ""], ["NV", "Nevada", 30, "c", 0, "After the lease ends.", "NRS 118A.242", ""], ["NH", "New Hampshire", 30, "c", 0, "After the lease ends.", "RSA 540-A:7", "Deductions need receipts or estimates."], ["NJ", "New Jersey", 30, "c", 0, "After the lease ends.", "N.J.S.A. 46:8-21.1", "Sent by hand, or registered or certified mail. 5 business days if you had to leave because of a fire, flood, condemnation or evacuation."], ["NM", "New Mexico", 30, "c", 0, "After the lease ends or you move out, whichever is later.", "NMSA 1978, § 47-8-18", ""], ["NY", "New York", 14, "c", 0, "After you move out.", "N.Y. Gen. Oblig. Law § 7-108", "Rent-stabilized leases follow the same 14-day rule under § 7-107."], ["NC", "North Carolina", 30, "c", 0, "After the lease ends and you hand back the home.", "N.C.G.S. § 42-52", "If damage can't be worked out in 30 days, an interim list is due then and a final one within 60."], ["ND", "North Dakota", 30, "c", 0, "After the lease ends and you hand back the home.", "N.D.C.C. § 47-16-07.1", ""], ["OH", "Ohio", 30, "c", 0, "After the lease ends and you hand back the home.", "Ohio Rev. Code § 5321.16", ""], ["OK", "Oklahoma", 45, "c", 0, "After the lease ends, you hand back the home, and you ask for it in writing.", "41 O.S. § 115", "Ask in writing within 6 months, or the landlord may keep it."], ["OR", "Oregon", 31, "c", 0, "After the lease ends and you hand back the home.", "ORS 90.300", "31 days, not 30."], ["PA", "Pennsylvania", 30, "c", 0, "After the lease ends or the landlord accepts the keys, whichever is first.", "68 P.S. § 250.512", "Give a forwarding address in writing, or these protections may not apply."], ["RI", "Rhode Island", 20, "c", 0, "After the lease ends, you hand back the home, and you give a forwarding address, whichever is latest.", "R.I. Gen. Laws § 34-18-19", ""], ["SC", "South Carolina", 30, "c", 0, "After you move out or ask for the deposit, whichever is later.", "S.C. Code § 27-40-410", ""], ["SD", "South Dakota", 21, "c", 0, "After the lease ends and the landlord has your mailing address, whichever is later.", "SDCL 43-32-24", "Changed from two weeks to 21 days in 2026. Older guides still say two weeks."], ["TN", "Tennessee", 0, "u", 0, "", "Tenn. Code Ann. § 66-28-301", "We could not open Tennessee's official code to confirm the deadline, and its deposit rules apply only in some counties. Ask a local legal aid office or read the current section."], ["TX", "Texas", 30, "c", 0, "After you move out. The landlord doesn't have to pay until you give a forwarding address in writing.", "Tex. Prop. Code § 92.103", ""], ["UT", "Utah", 30, "c", 0, "After you move out and hand back the home.", "Utah Code § 57-17-3", ""], ["VT", "Vermont", 14, "c", 0, "After you move out.", "9 V.S.A. § 4461", "60 days for seasonal rentals."], ["VA", "Virginia", 45, "c", 0, "After the lease ends or you move out, whichever is later.", "Va. Code § 55.1-1226", "You can ask in writing to be at the move-out inspection."], ["WA", "Washington", 30, "c", 0, "After the lease ends and you move out.", "RCW 59.18.280", "Raised from 21 days to 30 in 2023."], ["WV", "West Virginia", 60, "c", 0, "After the lease ends, or 45 days after a new tenant moves in, whichever is sooner.", "W. Va. Code § 37-6A-2", ""], ["WI", "Wisconsin", 21, "c", 0, "After the lease ends. If you leave early, the end date or a new tenant's start, if that is sooner.", "Wis. Admin. Code ATCP 134.06", "The statement must list each item and the amount kept for it."], ["WY", "Wyoming", 30, "c", 0, "30 days after the lease ends, or 15 days after the landlord gets your new address, whichever is later.", "Wyo. Stat. § 1-21-1208", "Checked only against a 2005 official memo, so read the current law. Up to 60 days if there is damage."]];
+function depositRule(code) { return DEPOSIT_RULES.find((r) => r[0] === code) || null; }
+function depositWords(code, n) {
+  const r = depositRule(code) || [];
+  return r[3] === "m" ? (n === 1 ? "one month" : `${n} months`) : r[3] === "b" ? `${n} business days` : `${n} days`;
+}
+function depositDueFor(code, outISO) {
+  const r = depositRule(code); if (!r || !outISO || r[3] === "u" || r[3] === "x") return null;
+  const d = new Date(outISO + "T12:00:00"); if (isNaN(d)) return null;
+  if (r[3] === "m") d.setMonth(d.getMonth() + r[2]);
+  else if (r[3] === "b") { let n = r[2]; while (n > 0) { d.setDate(d.getDate() + 1); const w = d.getDay(); if (w !== 0 && w !== 6) n--; } }
+  else d.setDate(d.getDate() + r[2]);
+  return d;
+}
+
+function depositDue(st) {
+  const s = stateOfAddress(addrFrom(st));
+  /* Fix list B10: the clock starts when the lease ends and the keys go back,
+     not on loading day. Count from the later of the two. */
+  const leaseEnd = ((st.move || {}).forcing === "lease-end" && (st.move || {}).deadline) || (((st.files || []).find((x) => x.kind === "lease-old" && x.lease && x.lease.end) || {}).lease || {}).end || "";
+  const out = [(st.move || {}).date, leaseEnd].filter(Boolean).sort().pop();
+  if (!s || !out) return null;
+  const law = DEPOSIT_LAW[s];
+  if (law) { const d = new Date(out + "T12:00"); d.setDate(d.getDate() + law.days); return { state: s, ...law, date: d.toISOString().slice(0, 10) }; }
+  /* v280: every other state, from the same checked data as the website */
+  const r = depositRule(s), d = depositDueFor(s, out);
+  if (!r || !d) return null;
+  return { state: s, days: r[2], cite: r[6], date: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}` };
+}
+const OWED_KINDS = [
+  { k: "lease", n: "Security deposit on the old place", hint: "Your lease and your state's law set the deadline. Many states give the landlord 14 to 30 days after you move out; a few allow longer." },
+  { k: "mover", n: "Deposit paid to the mover", hint: "Usually taken off the final bill. If you canceled, the contract's cancellation terms say when it's due back." },
+  { k: "truck", n: "Truck or trailer rental deposit", hint: "Usually released within days of the return. Keep the return receipt." },
+  { k: "util", n: "Utility deposit", hint: "Returned on the final bill, or as a check, after service ends." },
+  { k: "return", n: "Unused supplies to return", hint: "Most stores take unopened boxes back. The receipt shows the return deadline." },
+  { k: "other", n: "Something else", hint: "" },
+];
+const COVER_PER_LB = 0.6;
+const SAVE_KINDS = [
+  ["boxes", "Got boxes free instead of buying them", "back", "You got boxes free instead of buying them."],
+  ["lowball", "Walked away from a lowball quote", "not", "You walked away from a quote that would have cost more by moving day."],
+  ["fee", "Caught a fee on a quote", "not", "You caught a fee before you signed, and had it corrected or waived."],
+  ["deposit", "Got a deposit back", "back", "Money that came back to you."],
+  ["truck", "Avoided a truck too small or a crew a day early", "not", "You caught it before it cost you a second trip or a lost day."],
+  ["sold", "Sold something instead of moving it", "back", "You sold it instead of paying to move it."],
+  ["other", "Something else", "not", "A saving you recorded."],
+];
+function moneyKept(st) {
+  const back = [], notSpent = [], kept = [], warn = [];
+  const nm = (x) => x.name || x.n || "Item";
+  const when = (d) => (d ? new Date(d + "T12:00").toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" }) : "");
+  const bigs = st.bigs || [];
+  bigs.forEach((x) => {
+    const got = amt(x.got);
+    if (got > 0 && (x.plan === "sell" || x.plan === "consign")) back.push({ id: "b" + x.id, what: `Sold: ${nm(x)}`, n: got,
+      how: "You sold it instead of paying to move it.",
+      proof: [x.price ? `Asking price you set: ${money(amt(x.price))}` : "", `What you got: ${money(got)}`, x.status ? `Status: ${x.status}` : ""], open: ["big", x.id] });
+  });
+  (st.rigs || []).forEach((x) => {
+    const got = amt(x.got);
+    if (got > 0) back.push({ id: "r" + x.id, what: `Sold: ${nm(x)}`, n: got, how: "You sold it instead of moving it.",
+      proof: [x.price ? `Asking price you set: ${money(amt(x.price))}` : "", `What you got: ${money(got)}`], open: ["rigs"] });
+  });
+  (st.owed || []).filter((x) => x.got).forEach((x) => {
+    const n = amt(x.gotAmt || x.amount);
+    if (n > 0) back.push({ id: "o" + x.id, what: `Came back: ${x.what}`, n, how: "Money owed to you from the move, tracked until it came back.",
+      proof: [x.who ? `From: ${x.who}` : "", x.amount ? `Owed: ${money(amt(x.amount))}` : "", `Came back: ${money(n)}`, x.dueBy ? `Was due by ${when(x.dueBy)}` : ""], open: ["owed"] });
+  });
+  const q = st.quote || {};
+  const bids = (q.bids || []).filter((b) => amt(b.total) > 0);
+  const bk = bids.find((b) => b.id === q.booked);
+  if (bk && bids.length >= 2) {
+    const hi = Math.max(...bids.map((b) => amt(b.total)));
+    const d = hi - amt(bk.total);
+    if (d > 0) notSpent.push({ id: "quotes", what: "Comparing written quotes", n: d,
+      how: `You got ${bids.length} written quotes. The one you booked is ${money(d)} less than the highest.`,
+      proof: bids.map((b) => `${b.name || "A mover"}: ${money(amt(b.total))}${b.id === bk.id ? " (the one you booked)" : ""}${b.binding ? ", binding" : ""}`), open: ["quotes"] });
+  }
+  /* the deposit, until it's back */
+  const lease = (st.owed || []).find((x) => x.kind === "lease");
+  const dep = amt((lease && lease.amount) || (st.moveout || {}).deposit);
+  if (dep > 0 && !(lease && lease.got)) {
+    const law = depositDue(st);
+    kept.push({ id: "dep", what: "Security deposit, waiting to come back", n: dep,
+      how: "Your move-out record and the date it's due back are on this phone. If it's late, the app writes the letter.",
+      proof: [`Deposit: ${money(dep)}`, lease && lease.dueBy ? `Due back by ${when(lease.dueBy)}` : "", law ? `${law.state} law: within ${law.days} days of moving out (${law.cite}).` : ""], open: [lease ? "owed" : "moveout"] });
+  }
+  /* counted on, counted off */
+  const items = [
+    ...(st.boxes || []).map((b) => ({ k: "box", id: b.id, name: `${b.code}${b.contents ? ` (${String(b.contents).slice(0, 40)})` : ""}`, v: amt(b.value), l: b.loaded, d: b.delivered })),
+    ...bigs.map((x) => ({ k: "big", id: x.id, name: nm(x), v: amt(x.repl), l: x.loaded, d: x.delivered })),
+  ];
+  const arrived = items.filter((i) => i.l && i.d);
+  const missing = items.filter((i) => i.l && !i.d);
+  const sum = (a) => a.reduce((t, i) => t + (i.v || 0), 0);
+  if (arrived.length && sum(arrived) > 0) kept.push({ id: "both", what: "Counted at both ends", n: sum(arrived),
+    how: `${plural(arrived.length, "thing")} checked onto the truck and off again at the new place.`,
+    proof: arrived.filter((i) => i.v > 0).sort((a, b) => b.v - a.v).slice(0, 12).map((i) => `${i.name}: ${money(i.v)}`), open: ["moveday"] });
+  if (items.some((i) => i.d) && missing.length) warn.push({ id: "miss", what: `Missing: ${plural(missing.length, "thing")} on the truck, not checked off`, n: sum(missing),
+    how: "Write it on the delivery paperwork before you sign, and photograph anything damaged the same day. On a move between states, a claim must be in writing within nine months.",
+    proof: missing.map((i) => `${i.name}${i.v ? `: ${money(i.v)}` : ""}`), src: "49 CFR Part 1005", open: ["moveday"] });
+  /* belongings with a value on record, until they've arrived */
+  const recorded = [
+    ...(st.boxes || []).filter((b) => amt(b.value) > 0 && !b.delivered).map((b) => [`${b.code}`, amt(b.value)]),
+    ...bigs.filter((x) => amt(x.repl) > 0 && !x.delivered && !["sell", "consign", "donate", "give", "trash"].includes(x.plan)).map((x) => [nm(x), amt(x.repl)]),
+    ...(st.valuables || []).filter((v) => amt(v.cost) > 0).map((v) => [v.n || "Valuable", amt(v.cost)]),
+  ];
+  const recTotal = recorded.reduce((t, r) => t + r[1], 0);
+  if (recTotal > 0) kept.push({ id: "rec", what: "Belongings with their value on record", n: recTotal,
+    how: "If something is lost or broken, the value, the photos and the dates are already together for a claim or your insurer.",
+    proof: recorded.sort((a, b) => b[1] - a[1]).slice(0, 12).map((r) => `${r[0]}: ${money(r[1])}`), open: ["bigs"] });
+  /* coverage: what basic mover coverage would actually pay */
+  const full = bk && /full/i.test(bk.valuation || "");
+  if (!full) bigs.filter((x) => amt(x.repl) >= 300 && (x.plan === "move" || x.plan === "undecided" || !x.plan)).forEach((x) => {
+    const lb = amt(x.weight), repl = amt(x.repl);
+    const cover = lb > 0 ? Math.round(lb * COVER_PER_LB) : 0;
+    if (lb > 0 && cover >= repl * 0.8) return;
+    warn.push({ id: "c" + x.id, what: `${nm(x)}: worth ${money(repl)}`, n: lb > 0 ? repl - cover : 0, gap: true,
+      how: lb > 0 ? `If you sign for released value, the mover pays only 60 cents a pound: about ${money(cover)} for ${Math.round(lb)} lb. Full value protection is the default on a move between states; check which one your paperwork says.`
+        : "If you sign for released value, the mover pays 60 cents a pound, not what it's worth. Put in its weight to see the number.",
+      proof: [`Value you entered: ${money(repl)}`, lb > 0 ? `Weight you entered: ${Math.round(lb)} lb` : "No weight entered yet", lb > 0 ? `60 cents x ${Math.round(lb)} lb = ${money(cover)}` : ""],
+      src: "FMCSA, Your Rights and Responsibilities When You Move (49 CFR Part 375)", open: ["big", x.id] });
+  });
+  /* savings the person added themselves */
+  (st.saves || []).forEach((x) => {
+    const k = SAVE_KINDS.find((z) => z[0] === x.kind) || SAVE_KINDS[SAVE_KINDS.length - 1];
+    const n = amt(x.n);
+    if (!(n > 0)) return;
+    (k[2] === "back" ? back : notSpent).push({ id: "s" + x.id, what: k[1], n, how: k[3],
+      proof: [x.how ? `How you know: ${x.how}` : "", x.date ? `Added ${when(x.date)}` : ""], open: ["money"] });
+  });
+  const t = (a) => a.reduce((x, r) => x + (r.n || 0), 0);
+  return { back, notSpent, kept, warn, counted: t(back) + t(notSpent), backTotal: t(back), notSpentTotal: t(notSpent), protectedTotal: t(kept) };
+}
+
+const BUDGET_NAMES = ["Movers", "Packing help", "Supplies", "Storage", "Insurance", "Travel", "Pet care", "Cleaning", "Deposits", "Utilities", "Tips", "Food", "Accessibility services", "Furniture assembly", "Junk removal", "Unexpected"];
+  return {amt,money,plural,daysUntil,moneyKept,depositDue,depositWords,addrTo,OWED_KINDS,SAVE_KINDS,BUDGET_NAMES}; })();
+const mnSt=()=>{ const s=S.mnSt||{}; return s.move?s:Object.assign({},s,{move:{}}); };
+async function mnLoad(){ let st=null; try{ st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); }catch(e){} S.mnSt=st||{}; return S.mnSt; }
+async function mnGo(which){ await mnLoad(); S.mkOpen=''; S.mnUndo=null; S.mk=null; show(which==='budget'?'buHome':which==='owed'?'owHome':'mnHome'); }
+async function mnWrite(fn){ const st=await homeWrite(fn); if(!st){ toast(phone,'Your phone would not save that. Try again.'); return null; } S.mnSt=st; S.hm=homeRead(st); return st; }
+const mnId=p=>p+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+/* Undo is kept as data (the list, the thing and where it was), so it survives the page being drawn again */
+const mnRestore=s=>{ const u=S.mnUndo; if(!u||!u.coll||!u.x) return false; s[u.coll]=s[u.coll]||[]; s[u.coll].splice(Math.min(u.i,s[u.coll].length),0,u.x); };
+const mnUndoLine=()=>S.mnUndo&&Date.now()-S.mnUndo.at<15000?`<p class="lsub hundo">${esc(S.mnUndo.msg)} <button class="link" id="mnUndo">Undo</button></p>`:'';
+const mnDay=d=>new Date(d+'T12:00').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+/* the budget: the app's sixteen lines, each with an estimate, what was spent, and a tick when it's paid */
+const buLines=()=>{ const b=mnSt().budget; return Array.isArray(b)&&b.length?b:MK.BUDGET_NAMES.map((n,i)=>({id:'bu'+i,n,est:'',actual:'',paid:false})); };
+const buSum=k=>buLines().reduce((a,b)=>a+MK.amt(b[k]),0);
+const buSet=(id,p)=>mnWrite(s=>{ if(!Array.isArray(s.budget)||!s.budget.length) s.budget=buLines().map(b=>Object.assign({},b)); const x=s.budget.find(b=>b&&b.id===id); if(!x) return false; Object.assign(x,p); });
+const buFig=b=>{ const e=MK.amt(b.est), a=MK.amt(b.actual); return (a>0?`${MK.money(a)} spent${e>0?` of ${MK.money(e)}`:''}`:e>0?`${MK.money(e)} estimated`:'No figure yet')+(a>e&&e>0?', over':''); };
+function buMovers(){ const st=mnSt(), q=st.quote||{}, bid=(q.bids||[]).find(b=>b.id===q.booked); return {quoted:bid?MK.amt(bid.total):0, bill:MK.amt((st.moveday||{}).bill)}; }
+/* money owed to you: deposits and refunds, each with the date it's due back */
+const owList=()=>mnSt().owed||[];
+const owKind=k=>MK.OWED_KINDS.find(x=>x.k===k)||MK.OWED_KINDS[MK.OWED_KINDS.length-1];
+const owDd=x=>x&&x.dueBy?MK.daysUntil(new Date(x.dueBy+'T23:59')):null;
+const owLine=x=>{ if(x.got) return 'Back.'; const d=owDd(x); return d===null?'No due date yet.':d<0?`Overdue by ${MK.plural(-d,'day')}.`:d===0?'Due today.':`Due in ${MK.plural(d,'day')}.`; };
+const owLetter=x=>[`${x.who?x.who+',':'Hello,'}`,'',`I'm writing about the ${String(x.what||'').toLowerCase()}${x.amount?` of ${MK.money(MK.amt(x.amount))}`:''}.${x.dueBy?` It was due back by ${mnDay(x.dueBy)}.`:''} I haven't received it.`,'','Please send it, or an itemized list of any deductions, to the address below within 10 days, and confirm by reply.','',String(MK.addrTo(mnSt())||'').trim(),'','Thank you.'].join('\n');
+/* the app's own add(): a deposit on the old place comes in with the landlord, the amount and the date the law gives */
+function owDraft(k){ const st=mnSt(), kind=owKind(k), mo=st.moveout||{}, q=st.quote||{}, bid=(q.bids||[]).find(b=>b.id===q.booked), law=k==='lease'?MK.depositDue(st):null;
+  return {kind:k, what:kind.n, who:k==='lease'?(mo.landlord||''):k==='mover'&&bid?(bid.name||''):'', amount:k==='lease'?(mo.deposit||''):'', dueBy:law?law.date:'', got:false,
+    note:law?`${law.state} law: ${MK.depositWords(law.state,law.days)} after you move out (${law.cite}). Counted from loading day; change it if you hand the keys back later.`:''}; }
+/* what it kept: where "Open the record" goes in the new flow, when that part is here */
+const mkOpen=o=>!o?'':o[0]==='owed'?'data-mngo="owed"':o[0]==='moveout'?'data-mogo="1"':o[0]==='moveday'?'data-mdgo=""':o[0]==='bigs'||o[0]==='big'?'data-go="lbig"':'';
 const AP_KINDS=["The movers","Internet install","Utilities on or off","Elevator or loading dock","Donation pickup","Cleaning"];
 const AP_WHEN=["Morning","Afternoon","Evening","All day"];
 const MICSVG='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg>';
@@ -1367,6 +1581,54 @@ const P={
     body:`<div class="field" style="max-width:420px"><textarea id="moCl" rows="5" placeholder="Tenant shall have carpets professionally cleaned and provide a receipt" aria-label="The lease's move-out wording">${esc(moM().clause||'')}</textarea></div><button class="cta" id="moNext">Save</button><button class="link" id="moSkip">Later</button>`}),
   moRights:()=>{ const os=moState(); return ({say:'Leaving the old place.', h:'If they keep it anyway.', sub:'Most states give a landlord a set number of days to return the deposit with an itemized list of deductions, often 14 to 30. Miss that deadline and in many places they lose the right to deduct at all.', scene:'house',
     body:`<p class="lsub" style="font-size:17px">Your evidence is the photographs, the signed walkthrough, and the lease wording. That usually settles it without anyone going near a court.</p><a class="choice lab" target="_blank" rel="noopener noreferrer" href="https://www.google.com/search?q=${encodeURIComponent(`${os||'my state'} security deposit return law tenant rights`)}" style="margin-top:12px;max-width:320px">${os?`The rules in ${esc(os)}`:'The rules in your state'}</a><button class="cta" id="moCopy">Copy my move-out record</button><button class="link" data-go="moHome">Back</button>`}); },
+  mnHome:()=>{ const st=mnSt(), m=MK.moneyKept(st), est=buSum('est'), act=buSum('actual'), ow=owList().filter(x=>!x.got), owT=ow.reduce((a,x)=>a+MK.amt(x.amount),0), lines=m.back.length+m.notSpent.length+m.kept.length+m.warn.length;
+    const rows=[[RIC.wallet,`The budget<span class="fsum">${est||act?`${MK.money(act)} spent of ${MK.money(est)} estimated`:'What each part should cost, and what it did'}</span>`,'data-go="buHome"'],
+      [RIC.coin,`Money owed to you<span class="fsum">${ow.length?`${MK.money(owT)} still owed`:'Deposits and refunds, with the date each is due back'}</span>`,'data-mngo="owed"'],
+      [RIC.plus,'Add a saving<span class="fsum">Free boxes, a fee waived, a quote you walked away from</span>','data-go="mkWhat"']];
+    if(lines) rows.push([RIC.check,`What it kept, line by line<span class="fsum">${m.warn.length?`${MK.plural(m.warn.length,'thing')} to look at`:MK.plural(lines,'line')}</span>`,'data-go="mkList"']);
+    const tot=[['Back in your pocket',m.backTotal],['Not spent',m.notSpentTotal],['Protected',m.protectedTotal]];
+    return ({say:'Money.', h:m.counted>0?`${MK.money(m.counted)} kept so far.`:'Where the money goes.', sub:m.counted>0||m.protectedTotal>0?'Only amounts you entered are counted. Nothing is a guess.':'This fills in as you go: furniture you sell, quotes you compare, your deposit coming back.', scene:'money',
+      body:`${m.counted>0||m.protectedTotal>0?`<div class="mktot">${tot.map(([l,n])=>`<div><span>${l}</span><b>${MK.money(n)}</b></div>`).join('')}</div>`:''}${mnUndoLine()}${lemRows(rows)}`}); },
+  mkList:()=>{ const m=MK.moneyKept(mnSt()), o=S.mkOpen||'';
+    const row=(r,tone)=>`<div class="mkrow"><button type="button" class="mkhead" data-mkopen="${esc(r.id)}" aria-expanded="${o===r.id}"><b>${esc(r.what)}</b>${r.n>0?`<span class="mkn"${tone?` style="color:var(${tone})"`:''}>${r.gap?`${MK.money(r.n)} not covered`:MK.money(r.n)}</span>`:''}<span>${esc(r.how)}</span></button>${o===r.id?`<div class="mkproof">${(r.proof||[]).filter(Boolean).map(l=>`<p>${esc(l)}</p>`).join('')}${r.src?`<p class="mksrc">Source: ${esc(r.src)}</p>`:''}${mkOpen(r.open)?`<button class="choice" ${mkOpen(r.open)}>Open the record</button>`:''}${/^s/.test(r.id)?`<button class="link" data-mkdel="${esc(r.id.slice(1))}">Remove this saving</button>`:''}</div>`:''}</div>`;
+    const sec=(t,L,tone)=>L.length?`<p class="grp">${t}</p><div class="mklist">${L.map(r=>row(r,tone)).join('')}</div>`:'';
+    return ({say:'Money.', h:'What it kept, line by line.', sub:'Tap a line to see the record behind it.', scene:'none',
+      body:`${sec('Needs you',m.warn,'--plum')}${sec('Back in your pocket',m.back,'')}${sec('Not spent',m.notSpent,'')}${sec('Protected',m.kept,'')}${mnUndoLine()}<button class="cta" data-go="mnHome">Done</button>`}); },
+  mkWhat:()=>({say:'Add a saving.', h:'What happened?', sub:'Pick one, or say it in your own words.', scene:'money',
+    body:`<div class="choices two">${MK.SAVE_KINDS.filter(k=>k[0]!=='other').map(k=>`<button class="choice${(S.mk||{}).kind===k[0]?' hint':''}" data-mkkind="${k[0]}">${esc(k[1])}</button>`).join('')}</div><div class="field microw"><input id="mkOwn" value="${esc((S.mk||{}).kind==='other'?(S.mk.how||''):'')}" placeholder="Or type what happened" aria-label="What happened, in your own words"><button type="button" class="mic" data-mic="mkOwn" aria-label="Say it out loud">${MICSVG}</button></div><p class="hint" id="michint" hidden></p><button class="cta" id="mkNext">Next</button>`}),
+  mkAmt:()=>{ const k=MK.SAVE_KINDS.find(z=>z[0]===(S.mk||{}).kind)||MK.SAVE_KINDS[MK.SAVE_KINDS.length-1];
+    return ({say:k[0]==='other'?'A saving.':`${k[1]}.`, h:'How much did it save you?', sub:'What you would have paid, less what you did. Only what you put in is counted.', scene:'money',
+      body:`<div class="field"><input id="mkN" inputmode="decimal" value="${esc((S.mk||{}).n||'')}" placeholder="$" aria-label="How much it saved, in dollars"></div><button class="cta" id="mkNext" ${MK.amt((S.mk||{}).n)>0?'':'disabled'}>Next</button>`}); },
+  mkHow:()=>({say:`${MK.money(MK.amt((S.mk||{}).n))}.`, h:'How do you know?', sub:'One line is plenty, so you can see it with your own eyes later.', scene:'money',
+    body:`<div class="field microw"><input id="mkHowIn" value="${esc((S.mk||{}).how||'')}" placeholder="Store price was $2 a box; got 40 free" aria-label="How you know, optional"><button type="button" class="mic" data-mic="mkHowIn" aria-label="Say it out loud">${MICSVG}</button></div><p class="hint" id="michint" hidden></p><button class="cta" id="mkSave">Add it</button><button class="link" id="mkSkip">Add it without a note</button>`}),
+  buHome:()=>{ const L=buLines(), est=buSum('est'), act=buSum('actual'), over=L.filter(b=>MK.amt(b.actual)>MK.amt(b.est)&&MK.amt(b.est)>0), unpaid=L.filter(b=>!b.paid&&(MK.amt(b.actual)||MK.amt(b.est))>0);
+    const cap=MK.amt((mnSt().profile||{}).budget), top=Math.max(est,act), {quoted,bill}=buMovers(), mv=L.find(b=>/^movers?$/i.test(b.n||''));
+    const offer=mv?[quoted>0&&!MK.amt(mv.est)?`<button class="choice" data-buuse="est:${quoted}">Movers: use the booked quote, ${MK.money(quoted)}</button>`:'',bill>0&&!MK.amt(mv.actual)?`<button class="choice" data-buuse="actual:${bill}">Movers: use the bill, ${MK.money(bill)}</button>`:''].join(''):'';
+    const next=L.findIndex(b=>!MK.amt(b.est)&&!MK.amt(b.actual));
+    return ({say:'The budget.', h:est||act?`${MK.money(act)} spent of ${MK.money(est)} estimated.`:'What this move costs.',
+      sub:cap?`Your budget is ${MK.money(cap)}. ${top>cap?`That's ${MK.money(top-cap)} over.`:top>0?`${MK.money(cap-top)} left.`:'Put in the figures and this keeps count.'}`:'Put in what each part should cost, then what it did. Tick it when it\'s paid.', scene:'money',
+      body:`${over.length?`<p class="lsub" style="color:var(--plum)">${MK.plural(over.length,'line')} over the estimate: ${esc(over.slice(0,3).map(b=>b.n.toLowerCase()).join(', '))}${over.length>3?' and more':''}.</p>`:''}${unpaid.length?`<p class="lsub">${MK.plural(unpaid.length,'thing')} still to pay.</p>`:''}${offer?`<div class="buoffer">${offer}</div>`:''}${next>=0?`<button class="cta" data-bui="${next}">${est||act?'Keep going':'Put in the figures'}</button>`:''}${lemRows([[RIC.list,`Every line<span class="fsum">${L.filter(b=>b.paid).length} of ${L.length} paid</span>`,'data-go="buList"']])}`}); },
+  buLine:()=>{ const L=buLines(), i=Math.max(0,Math.min(S.bui||0,L.length-1)), b=L[i], mov=/^movers?$/i.test(b.n||''), {quoted,bill}=mov?buMovers():{quoted:0,bill:0};
+    return ({count:`${i+1} of ${L.length}`, say:'The budget.', h:`${b.n}.`, sub:buFig(b)+'.', scene:'money',
+      body:`<div class="field"><input id="buEst" inputmode="decimal" value="${esc(b.est||'')}" placeholder="What it should cost" aria-label="${esc(b.n)}: estimate, in dollars"></div>${quoted>0&&!MK.amt(b.est)?`<button class="link" data-bufill="buEst:${quoted}">Use the booked quote, ${MK.money(quoted)}</button>`:''}<div class="field"><input id="buAct" inputmode="decimal" value="${esc(b.actual||'')}" placeholder="What it did cost" aria-label="${esc(b.n)}: spent, in dollars"></div>${bill>0&&!MK.amt(b.actual)?`<button class="link" data-bufill="buAct:${bill}">Use the bill, ${MK.money(bill)}</button>`:''}<button type="button" class="choice${b.paid?' on':''}" id="buPaid" aria-pressed="${!!b.paid}" style="margin-top:12px;max-width:300px">${b.paid?'Paid':'Not paid yet'}</button><button class="cta" id="buNext">${i<L.length-1?'Next':'Done'}</button><button class="link" id="buEnough">That's all for now</button>`}); },
+  buList:()=>{ const L=buLines(); return ({say:'The budget.', h:'Every line.', sub:'Tick it when it\'s paid. Tap it to put the numbers in.', scene:'none',
+    body:`<ul class="list aplist">${L.map((b,i)=>`<li class="aprow"><button type="button" class="apchk${b.paid?' on':''}" role="checkbox" aria-checked="${!!b.paid}" data-bupaid="${esc(b.id)}" aria-label="Paid: ${esc(b.n)}"></button><button type="button" class="apt molink" data-bui="${i}"><b>${esc(b.n)}</b>${esc(buFig(b))}</button></li>`).join('')}</ul><button class="cta" data-go="buHome">Done</button>`}); },
+  owHome:()=>{ const L=owList(), open=L.filter(x=>!x.got), total=open.reduce((a,x)=>a+MK.amt(x.amount),0), back=L.filter(x=>x.got).reduce((a,x)=>a+MK.amt(x.gotAmt||x.amount),0), late=open.filter(x=>{ const d=owDd(x); return d!==null&&d<0; });
+    return ({say:'Money owed to you.', h:open.length?`${MK.money(total)} still owed to you.`:L.length?'Everything has come back.':'Money owed to you.', sub:late.length?`${MK.plural(late.length,'thing')} overdue. Open it and the letter is written for you.`:'Deposits and refunds from the move, each with the date it\'s due back. When a date passes, the letter is written for you.', scene:'house',
+      body:`${back>0?`<p class="lsub"><b>${MK.money(back)}</b> back so far.</p>`:''}${L.length?`<ul class="list aplist">${L.map(x=>{ const d=owDd(x), warn=!x.got&&d!==null&&d<0; return `<li class="aprow"><button type="button" class="apchk${x.got?' on':''}" role="checkbox" aria-checked="${!!x.got}" data-owgot="${esc(x.id)}" aria-label="Got it back: ${esc(x.what)}"></button><button type="button" class="apt molink${warn?' late':''}" data-owi="${esc(x.id)}"><b>${esc(x.what)}${x.amount?`, ${MK.money(MK.amt(x.amount))}`:''}</b>${esc(owLine(x))}</button></li>`; }).join('')}</ul>`:''}${mnUndoLine()}<button class="cta" data-go="owAdd">Add something owed to you</button>`}); },
+  owAdd:()=>({say:'Money owed to you.', h:'What is it?', sub:'Each comes with the date it\'s due back.', scene:'house',
+    body:`<div class="choices">${MK.OWED_KINDS.map(k=>`<button class="choice" data-owkind="${k.k}">${esc(k.n)}</button>`).join('')}</div>`}),
+  owAmt:()=>{ const x=S.ow||{}, k=owKind(x.kind); return ({say:`${x.what||k.n}.`, h:'How much?', sub:k.hint||'What you paid, or what you are owed.', scene:'house',
+    body:`<div class="field"><input id="owAmtIn" inputmode="decimal" value="${esc(x.amount||'')}" placeholder="$" aria-label="How much, in dollars"></div><button class="cta" id="owNext">Next</button><button class="link" id="owSkip">I don't know yet</button>`}); },
+  owDue:()=>{ const x=S.ow||{}; return ({say:`${x.what||'It'}.`, h:'When is it due back?', sub:S.owDue?`${dateSub('owDue')}${x.note&&S.owDue===S.owLaw?` ${x.note.split(' Counted')[0]}`:''}`:'Your lease, the contract or the receipt says. Tap the day.', scene:'blank',
+    body:calBody('owDue',{past:1})+`<button class="cta" id="calNext" ${S.owDue?'':'disabled'}>Next</button><button class="link" id="calSkip">I don't know</button>`}); },
+  owWho:()=>{ const x=S.ow||{}; return ({say:`${x.what||'It'}.`, h:'Who owes it?', sub:'A name or a company, so the letter has someone to go to.', scene:'house',
+    body:`<div class="field microw"><input id="owWhoIn" value="${esc(x.who||'')}" placeholder="Name or company" aria-label="Who owes it"><button type="button" class="mic" data-mic="owWhoIn" aria-label="Say it out loud">${MICSVG}</button></div><p class="hint" id="michint" hidden></p><button class="cta" id="owSave">${x.id?'Save':'Add it'}</button>`}); },
+  owItem:()=>{ const x=owList().find(y=>y.id===S.owi); if(!x) return P.owHome(); const d=owDd(x), late=!x.got&&d!==null&&d<0;
+    return ({say:'Money owed to you.', h:`${x.what}${x.amount?`, ${MK.money(MK.amt(x.amount))}`:''}.`, sub:x.got?`Back${MK.amt(x.gotAmt)>0?`: ${MK.money(MK.amt(x.gotAmt))}`:''}.`:owLine(x)+(x.who?` From ${x.who}.`:''), scene:'house',
+      body:`${x.note&&!x.got?`<p class="lsub" style="font-size:16px">${esc(x.note)}</p>`:''}${late?`<button class="cta" id="owLetter">Copy the letter</button>`:''}${x.got?`<button class="${late?'choice':'cta'}" data-go="owBack">How much came back</button><button class="link" id="owNotBack">Not back after all</button>`:`<button class="${late?'choice':'cta'}" id="owGot" ${late?'style="margin-top:12px;max-width:300px"':''}>It came back</button>`}<button class="link" id="owEdit">Change the amount, date or who</button><button class="link" id="owDel">Remove</button><button class="link" data-mngo="owed">Back to the list</button>`}); },
+  owBack:()=>{ const x=owList().find(y=>y.id===S.owi)||{}; return ({say:`${x.what||'It'} came back.`, h:'How much came back?', sub:x.amount?`You were owed ${MK.money(MK.amt(x.amount))}. If they kept some, put in what you got.`:'Put in what you got.', scene:'house',
+    body:`<div class="field"><input id="owBackIn" inputmode="decimal" value="${esc(x.gotAmt||x.amount||'')}" placeholder="$" aria-label="How much came back, in dollars"></div><button class="cta" id="owBackSave">Save</button>`}); },
   mdOut:()=>{ const st=S.mdSt||{}, M=mdGroups(st), all=M.groups.flatMap(g=>[...g.bigs,...g.boxes]), left=all.filter(x=>!x.loaded).length;
     return ({say:'Moving day.', h:all.length?(left?`${left} ${left===1?'thing':'things'} to go on the truck.`:"Everything's on the truck."):'Nothing to load yet.',
       sub:all.length?(left?'Load in this order, and read it to the crew from the top. The last on is the first off.':'Nothing left off. Walk the rooms once more before the truck leaves.'):'Boxes and furniture show up here as you add them.', scene:'truck',
@@ -1476,6 +1738,7 @@ function wire(id){
   phone.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go));
   phone.querySelectorAll('[data-mdgo]').forEach(b=>b.onclick=()=>mdGo(b.dataset.mdgo));
   phone.querySelectorAll('[data-mogo]').forEach(b=>b.onclick=()=>moGo());
+  phone.querySelectorAll('[data-mngo]').forEach(b=>b.onclick=()=>mnGo(b.dataset.mngo));
   const bk=$('[data-back]'); if(bk) bk.onclick=()=>{ const prev=hist.pop(); if(prev) show(prev,true); };
   phone.querySelectorAll('[data-pic]').forEach(inp=>inp.onchange=async()=>{ const fs=[...(inp.files||[])]; if(!fs.length) return; for(const f of fs){ const u=await shrink(f); if(u) S.photos.push(u); } say(S.photos.length===1?'Photo added.':S.photos.length+' photos.'); show('photo',true); });
   /* alpha test, 8 Nov: each tap stacked another camera prompt; one is enough */
@@ -1785,6 +2048,47 @@ function wire(id){
     if(id==='moWho'){ $('#moNext').onclick=async()=>{ if(await moSet({landlord:$('#moLl').value.trim(),phone:$('#moPh').value.trim()})) show('moClause'); }; $('#moSkip').onclick=()=>show('moClause'); }
     if(id==='moClause'){ $('#moNext').onclick=async()=>{ if(await moSet({clause:$('#moCl').value})){ say('Saved.'); show('moHome'); } }; $('#moSkip').onclick=()=>show('moHome'); }
     if($('#moCopy')) $('#moCopy').onclick=()=>{ const tx=moRecord(); (navigator.clipboard?navigator.clipboard.writeText(tx):Promise.reject()).then(()=>say('Copied. Paste it into an email to your landlord.'),()=>{}).finally(()=>{ $('#moCopy').textContent='Copied'; }); };
+  }
+  if(/^(mn|mk|bu|ow)[A-Z]/.test(id)){
+    if($('#mnUndo')) $('#mnUndo').onclick=async()=>{ const u=S.mnUndo; if(u&&await mnWrite(mnRestore)) say(`${u.name} is back.`); S.mnUndo=null; show(id,true); };
+    phone.querySelectorAll('[data-bui]').forEach(b=>b.onclick=()=>{ S.bui=+b.dataset.bui; show('buLine'); });
+    if(id==='mkList'){ phone.querySelectorAll('[data-mkopen]').forEach(b=>b.onclick=()=>{ S.mkOpen=S.mkOpen===b.dataset.mkopen?'':b.dataset.mkopen; show('mkList',true); });
+      phone.querySelectorAll('[data-mkdel]').forEach(b=>b.onclick=async()=>{ const k=b.dataset.mkdel, L=mnSt().saves||[], i=L.findIndex(x=>x.id===k), x=L[i]; if(!x) return;
+        const kk=MK.SAVE_KINDS.find(z=>z[0]===x.kind)||MK.SAVE_KINDS[MK.SAVE_KINDS.length-1];
+        if(await mnWrite(s=>{ s.saves=(s.saves||[]).filter(y=>y.id!==k); })){ S.mkOpen=''; S.mnUndo={at:Date.now(),coll:'saves',x,i,name:kk[1],msg:`Removed: ${kk[1]}, ${MK.money(MK.amt(x.n))}.`}; say(S.mnUndo.msg); show('mkList',true); } }); }
+    if(id==='mkWhat'){ phone.querySelectorAll('[data-mkkind]').forEach(b=>b.onclick=()=>{ S.mk=Object.assign({},S.mk,{kind:b.dataset.mkkind,how:(S.mk||{}).kind==='other'?'':((S.mk||{}).how||'')}); show('mkAmt'); });
+      $('#mkNext').onclick=()=>{ const v=$('#mkOwn').value.trim(); if(v){ S.mk=Object.assign({},S.mk,{kind:'other',how:v}); show('mkAmt'); } else if((S.mk||{}).kind) show('mkAmt'); else say('Pick one, or type what happened.'); }; }
+    if(id==='mkAmt'){ const i=$('#mkN'); i.oninput=()=>{ S.mk=Object.assign({},S.mk,{n:i.value}); $('#mkNext').disabled=!(MK.amt(i.value)>0); };
+      $('#mkNext').onclick=()=>{ if(MK.amt(i.value)>0){ S.mk=Object.assign({},S.mk,{n:i.value}); show('mkHow'); } }; }
+    if(id==='mkHow'){ const save=async how=>{ const m=S.mk||{}, n=MK.amt(m.n); if(!(n>0)){ show('mkAmt'); return; }
+        const t=new Date(), d=`${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`;
+        if(await mnWrite(s=>{ s.saves=[{id:mnId('sv'),kind:m.kind||'other',n,how,date:d},...(s.saves||[])]; })){ S.mk=null; say(`Added ${MK.money(n)}.`); show('mnHome'); } };
+      $('#mkSave').onclick=()=>save($('#mkHowIn').value.trim()); $('#mkSkip').onclick=()=>save((S.mk||{}).kind==='other'?((S.mk||{}).how||''):''); }
+    if(id==='buHome') phone.querySelectorAll('[data-buuse]').forEach(b=>b.onclick=async()=>{ const [f,v]=b.dataset.buuse.split(':'), mv=buLines().find(x=>/^movers?$/i.test(x.n||'')); if(mv&&await buSet(mv.id,{[f]:v})){ say('Put in.'); show('buHome',true); } });
+    if(id==='buLine'){ const L=buLines(), i=Math.max(0,Math.min(S.bui||0,L.length-1)), b=L[i]; let paid=!!b.paid;
+      phone.querySelectorAll('[data-bufill]').forEach(x=>x.onclick=()=>{ const [f,v]=x.dataset.bufill.split(':'); $('#'+f).value=v; x.remove(); $('#'+f).focus(); });
+      $('#buPaid').onclick=()=>{ paid=!paid; const p=$('#buPaid'); p.classList.toggle('on',paid); p.setAttribute('aria-pressed',String(paid)); p.textContent=paid?'Paid':'Not paid yet'; };
+      const save=()=>buSet(b.id,{est:$('#buEst').value.trim(),actual:$('#buAct').value.trim(),paid});
+      $('#buNext').onclick=async()=>{ if(!await save()) return; if(i<L.length-1){ S.bui=i+1; show('buLine'); } else { say('Every line is in.'); show('buHome'); } };
+      $('#buEnough').onclick=async()=>{ if(await save()) show('buHome'); }; }
+    if(id==='buList') phone.querySelectorAll('[data-bupaid]').forEach(b=>b.onclick=async()=>{ const x=buLines().find(y=>y.id===b.dataset.bupaid); if(x&&await buSet(x.id,{paid:!x.paid})){ say(x.paid?`${x.n}: not paid yet.`:`${x.n}: paid.`); show('buList',true); } });
+    if(id==='owHome'){ phone.querySelectorAll('[data-owgot]').forEach(b=>b.onclick=async()=>{ const k=b.dataset.owgot, x=owList().find(y=>y.id===k); if(!x) return; const now=!x.got;
+        if(await mnWrite(s=>{ const y=(s.owed||[]).find(z=>z.id===k); if(!y) return false; y.got=now; })){ say(now?`${x.what}: back.`:`${x.what}: not back yet.`); show('owHome',true); } });
+      phone.querySelectorAll('[data-owi]').forEach(b=>b.onclick=()=>{ S.owi=b.dataset.owi; show('owItem'); }); }
+    if(id==='owAdd') phone.querySelectorAll('[data-owkind]').forEach(b=>b.onclick=()=>{ S.ow=owDraft(b.dataset.owkind); S.owDue=S.ow.dueBy||''; S.owLaw=S.ow.dueBy||''; show('owAmt'); });
+    if(id==='owAmt'){ $('#owNext').onclick=()=>{ S.ow=Object.assign({},S.ow,{amount:$('#owAmtIn').value.trim()}); show('owDue'); }; $('#owSkip').onclick=()=>show('owDue'); }
+    if(id==='owDue') calPage('owDue',()=>{ S.ow=Object.assign({},S.ow,{dueBy:S.owDue}); show('owWho'); },()=>{ S.ow=Object.assign({},S.ow,{dueBy:''}); S.owDue=''; show('owWho'); });
+    if(id==='owWho') $('#owSave').onclick=async()=>{ const x=Object.assign({},S.ow,{who:$('#owWhoIn').value.trim()}), isNew=!x.id; if(isNew) x.id=mnId('ow');
+      if(await mnWrite(s=>{ s.owed=s.owed||[]; if(isNew){ s.owed.push(x); return; } const j=s.owed.findIndex(y=>y.id===x.id); if(j<0) return false; s.owed[j]=Object.assign({},s.owed[j],x); })){
+        S.ow=null; say(isNew?(x.dueBy?`Added, due back by ${new Date(x.dueBy+'T12:00').toLocaleDateString('en-US',{month:'long',day:'numeric'})}.`:"Added. Put in when it's due back."):'Saved.'); show('owHome'); } };
+    if(id==='owItem'){ const x=owList().find(y=>y.id===S.owi); if(x){
+      const setGot=v=>mnWrite(s=>{ const y=(s.owed||[]).find(z=>z.id===x.id); if(!y) return false; y.got=v; });
+      if($('#owLetter')) $('#owLetter').onclick=()=>{ const tx=owLetter(x); (navigator.clipboard?navigator.clipboard.writeText(tx):Promise.reject()).then(()=>say('Copied. Paste it into an email or a letter to them.'),()=>{}).finally(()=>{ $('#owLetter').textContent='Copied'; }); };
+      if($('#owGot')) $('#owGot').onclick=async()=>{ if(await setGot(true)) show('owBack'); };
+      if($('#owNotBack')) $('#owNotBack').onclick=async()=>{ if(await setGot(false)){ say('Not back yet.'); show('owItem',true); } };
+      $('#owEdit').onclick=()=>{ S.ow=Object.assign({},x); S.owDue=x.dueBy||''; S.owLaw=''; show('owAmt'); };
+      $('#owDel').onclick=async()=>{ const i=owList().findIndex(y=>y.id===x.id); if(await mnWrite(s=>{ s.owed=(s.owed||[]).filter(y=>y.id!==x.id); })){ S.mnUndo={at:Date.now(),coll:'owed',x,i,name:x.what,msg:`Removed: ${x.what}.`}; say(S.mnUndo.msg); show('owHome'); } }; } }
+    if(id==='owBack') $('#owBackSave').onclick=async()=>{ const v=$('#owBackIn').value.trim(); if(await mnWrite(s=>{ const y=(s.owed||[]).find(z=>z.id===S.owi); if(!y) return false; y.got=true; y.gotAmt=v; })){ say(MK.amt(v)>0?`${MK.money(MK.amt(v))} back. It counts in what the move kept.`:'Saved.'); show('owHome'); } };
   }
   if(/^md/.test(id)){
     phone.querySelectorAll('[data-mdtick]').forEach(b=>b.onclick=async()=>{ const [t,k]=b.dataset.mdtick.split(':'), f=b.dataset.f, coll=t==='g'?'bigs':'boxes'; let label='', now=false;
@@ -2201,8 +2505,8 @@ function foldRows(H,cur1){ const D=HD||{}, R=[], en=H.energy&&HEN[H.energy]?H.en
   if(ev.length){ const tod=ev.filter(e=>new Date(e.t).getDate()===t0.getDate()).length;
     R.push(['coming',RIC.cal,'On the calendar',tod?`${tod} today`:`${ev.length} tomorrow`,
       ev.slice(0,6).map(e=>{ const d=new Date(e.t), today=d.getDate()===t0.getDate(); return `<div class="fline"><span><span class="fk">${esc(e.label)}</span>${e.extra?`<br><span class="fnote">${esc(e.extra)}</span>`:''}</span><span class="fv">${today?(clock(e.t)||'Today'):'Tomorrow'}</span></div>`; }).join('')+`<button class="choice" data-hgo="calendar">Open the calendar</button>`]); }
-  if((D.money||[]).length) R.push(['money',RIC.coin,'Money',esc(D.money[0]),D.money.map(m=>`<div class="fline"><span>${esc(m)}</span></div>`).join('')+`<button class="choice" data-hgo="budget">Open the budget</button>`]);
-  if((D.owed||[]).length) R.push(['owed',RIC.wallet,'Money owed to you',`${D.owed.length} to watch`,D.owed.map(r=>`<div class="fline"><span><span class="fk">${esc(r.t)}</span><br><span class="fnote"${r.warn?' style="color:var(--plum)"':''}>${esc(r.d)}</span></span></div>`).join('')+`<button class="choice" data-hgo="owed">Track what's owed</button>`]);
+  if((D.money||[]).length) R.push(['money',RIC.coin,'Money',esc(D.money[0]),D.money.map(m=>`<div class="fline"><span>${esc(m)}</span></div>`).join('')+`<button class="choice" data-mngo="budget">Open the budget</button>`]);
+  if((D.owed||[]).length) R.push(['owed',RIC.wallet,'Money owed to you',`${D.owed.length} to watch`,D.owed.map(r=>`<div class="fline"><span><span class="fk">${esc(r.t)}</span><br><span class="fnote"${r.warn?' style="color:var(--plum)"':''}>${esc(r.d)}</span></span></div>`).join('')+`<button class="choice" data-mngo="owed">Track what's owed</button>`]);
   if(D.pickup&&D.pickup.code) R.push(['pickup',RIC.box,'Where you left off',esc(D.pickup.code),`<p><b style="color:var(--ink)">${esc(D.pickup.code)}</b>${D.pickup.what?`<br>${esc(D.pickup.what)}`:''}</p><p class="fnote">${esc(D.pickup.where)}</p><button class="choice" data-hbox="${esc(D.pickup.id)}">Open ${esc(D.pickup.code)}</button>`]);
   if((D.places||[]).length) R.push(['places',RIC.pin,'Where your boxes are',`${D.places.length} ${D.places.length===1?'place':'places'}`,D.places.map(x=>`<button type="button" class="fline" ${x.k?`data-hfind="${esc(x.k)}"`:'data-hgo="boxes"'}><span class="fk">${esc(x.n)}</span><span class="fv">${x.c} ${x.c===1?'box':'boxes'}</span></button>`).join('')+`<button class="link" data-hgo="roomcheck">Check room by room</button>`]);
   if((D.fornow||[]).length) R.push(['fornow',RIC.grid,'For where you are',esc(D.fornow.map(x=>x.n).slice(0,2).join(', ')),D.fornow.map(x=>`<button type="button" class="fline" data-hgo="${esc(x.k)}"><span><span class="fk">${esc(x.n)}</span><br><span class="fnote">${esc(x.s)}</span></span></button>`).join('')]);
@@ -2249,7 +2553,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
   const s=document.createElement('div'); s.className='sheet msheet'; s.setAttribute('role','dialog'); s.setAttribute('aria-modal','true'); s.setAttribute('aria-label','Menu');
   s.innerHTML=`<div class="mhandle" aria-hidden="true"></div><div class="top"><button class="back" data-close style="margin-left:auto">Close</button></div><div class="in">
     <h3 id="sheet-h" tabindex="-1" class="mhi">${hi}</h3>${line?`<p class="mline">${line}</p>`:''}
-    <p class="mgroup">Your move</p>${lemRows([[RIC.house,'Moving day and addresses','data-hgo="setup"'],[RIC.truck,'Move day','data-mdgo=""'],[RIC.doc,'Papers and proof','data-hgo="papers"'],[RIC.wallet,'Money','data-hgo="money"']])}
+    <p class="mgroup">Your move</p>${lemRows([[RIC.house,'Moving day and addresses','data-hgo="setup"'],[RIC.truck,'Move day','data-mdgo=""'],[RIC.check,'Leaving the old place','data-mogo="1"'],[RIC.doc,'Papers and proof','data-hgo="papers"'],[RIC.wallet,'Money','data-mngo=""']])}
     <p class="mgroup">Everything else</p>${lemRows([[RIC.grid,'Every part of the app','data-hgo="home"'],[RIC.help,'I need help','data-hgo="help"']])}
     <p class="mgroup">Your account</p>${lemRows([[RIC.key,'Membership','data-hgo="pack"'],[RIC.save,'Backups and sharing','data-hgo="share"']])}
     <p class="mgroup">Support</p>${lemRows([[RIC.mail,'Write to us','data-mail'],[RIC.share,'Share The Packed Rabbit','data-share']])}</div>`;
@@ -2257,6 +2561,8 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
   s.querySelector('[data-close]').onclick=()=>closeSheet();
   s.querySelectorAll('[data-hgo]').forEach(b=>b.onclick=()=>toApp('?go='+b.dataset.hgo));
   s.querySelectorAll('[data-mdgo]').forEach(b=>b.onclick=()=>{ closeSheet(true); mdGo(b.dataset.mdgo); });
+  s.querySelectorAll('[data-mogo]').forEach(b=>b.onclick=()=>{ closeSheet(true); moGo(); });
+  s.querySelectorAll('[data-mngo]').forEach(b=>b.onclick=()=>{ closeSheet(true); mnGo(b.dataset.mngo); });
   s.querySelector('[data-mail]').onclick=()=>{ (window.top||window).location.href='mailto:hello@packedrabbit.com'; };
   s.querySelector('[data-share]').onclick=async()=>{ const url='https://packedrabbit.com/'; try{ if(navigator.share){ await navigator.share({title:'The Packed Rabbit',url}); return; } }catch(e){ return; }
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
