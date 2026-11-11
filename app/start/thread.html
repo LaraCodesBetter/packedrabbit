@@ -1388,7 +1388,10 @@ function wire(id){
   if(id==='notruck'){ $('#ntOk').onclick=finishBig; }
   if($('#howInstall')) $('#howInstall').onclick=()=>{ if(window.__embed) parent.postMessage('pr-install','*'); };
   if(id==='price'){ if(window.__APP&&!window.__BUY_YEAR){ const y=phone.querySelector('[data-plan=year]'); if(y) y.remove(); }
-    phone.querySelectorAll('[data-plan]').forEach(b=>b.onclick=()=>{ if(window.__APP){ keep(true).then(()=>{ location.href=b.dataset.plan==='year'?window.__BUY_YEAR:window.__BUY; }); return; } S.paid=b.dataset.plan; show('start'); });
+    /* growth review, 10 Nov: the flow runs in a frame, and Stripe's checkout won't open inside one (a blank page).
+       The whole window goes to Stripe, and Stripe brings it back to the app, unlocked. */
+    phone.querySelectorAll('[data-plan]').forEach(b=>b.onclick=()=>{ if(window.__APP){ keep(true).then(()=>{ const u=b.dataset.plan==='year'?window.__BUY_YEAR:window.__BUY;
+      try{ (window.top||window).location.href=u; }catch(e){ window.open(u,'_top'); } }); return; } S.paid=b.dataset.plan; show('start'); });
     $('[data-back2]').onclick=()=>{ const prev=hist.pop(); show(prev||'boxesTab',true); }; }
   if(id==='bigSaved'||id==='roomCheck'){ phone.querySelectorAll('[data-nextroom]').forEach(n=>n.onclick=()=>goRoom(n.dataset.nextroom)); const o=$('#otherroom2'); if(o) o.onchange=e=>goRoom(e.target.value); if($('#allRooms')) $('#allRooms').onclick=finishBig; }
   if(id==='roomItem'){ phone.querySelectorAll('[data-item]').forEach(c=>c.onclick=()=>startItem(c.dataset.item)); $('#itemsel').onchange=e=>startItem(e.target.value);
