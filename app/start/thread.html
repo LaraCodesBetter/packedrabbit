@@ -375,6 +375,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 .apt.late{color:var(--plum)}.mklist{max-width:380px;width:100%;margin:0 auto;text-align:left;border-top:1px solid var(--frame)}.mkrow{border-bottom:1px solid var(--frame)}.mkhead{display:block;width:100%;min-height:48px;padding:12px 4px;background:none;border:0;text-align:left;font:inherit;color:var(--text);cursor:pointer}.mkhead b{display:block;font-size:17px;color:var(--ink)}.mkhead span{display:block;font-size:16px;line-height:1.35;color:var(--muted);margin-top:2px}.mkhead .mkn{font-size:19px;font-weight:800;color:var(--ink)}.mkproof{padding:0 4px 14px}.mkproof p{margin:4px 0;font-size:16px;color:var(--text)}.mkproof .mksrc{color:var(--muted);font-size:15px}.mkproof .choice{max-width:300px;margin-top:10px}
 .buoffer{display:flex;flex-direction:column;gap:8px;align-items:center;width:100%;margin-top:12px}.buoffer .choice{max-width:320px;width:100%}
 #prsheet{display:none}@media print{html.printing body>*:not(#prsheet){display:none!important}html.printing #prsheet{display:block!important}html.printing,html.printing body{background:#fff!important;padding:0!important;margin:0!important;height:auto!important}}
+.rcrow{display:flex;flex-wrap:wrap;gap:8px}.rcb{width:auto!important;min-height:44px;padding:0 14px;font-size:16px}
 .hundo{font-size:17px;margin-top:12px}.hundo .link{display:inline-flex;min-height:44px;margin:0 0 0 4px;padding:0 6px;vertical-align:middle}
 .lground .lsub:first-child{margin-top:0;color:var(--text)}
 .lground .lsub b{color:var(--ink)}
@@ -587,6 +588,12 @@ function scene(mode){ if(mode==='none') return '';
     f+=`<rect x="${x}" y="${y}" width="${w}" height="${h}"/><rect class="tape" x="${x+w/2-9}" y="${y}" width="18" height="22"/><rect x="${x+10}" y="${y+8}" width="62" height="20" rx="3"/><text x="${x+41}" y="${y+22}" text-anchor="middle" style="font-size:11px">${code()}</text>`;
     S.flags.forEach((k,i)=>{ const c=STAMPC[k], rot=[-6,5,4,-5,-4,6][i%6], sx=x+(i%2?w*0.74:w*0.27), sy=y+46+Math.floor(i/2)*31;
       const tw=Math.max(86,k.length*10.5+20); f+=`<g class="stamp${k===stampAt?' slam':''}" transform="translate(${sx} ${sy}) rotate(${rot})"><rect x="${-tw/2}" y="-13.5" width="${tw}" height="27" rx="5" style="fill:var(--screen);fill-opacity:.85;stroke:${c};stroke-width:3"/><text x="0" y="6" text-anchor="middle" style="fill:${c};font-size:16px;letter-spacing:.05em">${k.toUpperCase()}</text></g>`; });
+    return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${ROOM}<rect class="gnd" x="0" y="344" width="360" height="40"/><g class="fore">${f}</g><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
+  }
+  if(mode==="help"){
+    /* help: a quiet corner, the armchair, the lamp lit, a mug on the side table */
+    f+=`<g transform="translate(64 -172) scale(1.5)">${bigSvg('Armchair',0,false)}</g><g transform="translate(176 -172) scale(1.5)">${bigSvg('Floor lamp',0,false)}</g>`;
+    f+=`<rect class="f2" x="248" y="298" width="60" height="8" rx="2"/><path class="nf" d="M254 306v38M302 306v38"/><path d="M268 298v-16h18v16z"/><path class="nf" d="M286 286h4a5 5 0 0 1 0 10h-4M272 274c-3 -4 3 -6 0 -10M280 274c-3 -4 3 -6 0 -10"/>`;
     return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${ROOM}<rect class="gnd" x="0" y="344" width="360" height="40"/><g class="fore">${f}</g><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
   }
   if(mode==="labels"){
@@ -1069,7 +1076,7 @@ function moneyKept(st) {
 }
 
 const BUDGET_NAMES = ["Movers", "Packing help", "Supplies", "Storage", "Insurance", "Travel", "Pet care", "Cleaning", "Deposits", "Utilities", "Tips", "Food", "Accessibility services", "Furniture assembly", "Junk removal", "Unexpected"];
-  return {amt,money,plural,daysUntil,moneyKept,depositDue,depositWords,addrTo,OWED_KINDS,SAVE_KINDS,BUDGET_NAMES}; })();
+  return {amt,money,plural,daysUntil,moneyKept,depositDue,depositWords,addrFrom,addrTo,OWED_KINDS,SAVE_KINDS,BUDGET_NAMES}; })();
 const mnSt=()=>{ const s=S.mnSt||{}; return s.move?s:Object.assign({},s,{move:{}}); };
 async function mnLoad(){ let st=null; try{ st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); }catch(e){} S.mnSt=st||{}; return S.mnSt; }
 async function mnGo(which){ await mnLoad(); S.mkOpen=''; S.mnUndo=null; S.mk=null; show(which==='budget'?'buHome':which==='owed'?'owHome':'mnHome'); }
@@ -1302,6 +1309,17 @@ function prQr(text,label){ const m=qrEncode(text); if(!m) return ''; const n=m.l
 function prLabels(L){ return L.map(b=>`<div class="prl" style="border-color:${prEsc(b.col)}"><div class="t"><div class="c">${prEsc(b.code)}</div><div class="d" style="color:${prEsc(b.col)}">${prEsc(b.dest)}</div>${b.loc?`<div class="l">${prEsc(b.loc)}</div>`:''}${b.items?`<div class="i">${prEsc(b.items)}</div>`:''}<div>${b.chips.map(c=>`<span class="ch">${prEsc(c)}</span>`).join('')}</div></div>${prQr(b.qr,`Scan code for ${b.code}`)}</div>`).join(''); }
 function prSigns(R){ return R.map(r=>`<div class="prs" style="border-color:${prEsc(r.col)};background:${prEsc(r.col)}1A"><div class="nm" style="color:${prEsc(r.col)}">${prEsc(r.n.toUpperCase())}</div><div class="ct">${prEsc(r.code)}, ${r.count} ${r.count===1?'box':'boxes'}</div><div class="nt">Boxes with this color go in this room. Keep the middle of the floor clear.</div></div>`).join(''); }
 /*PRINT:end*/
+/* room by room (the app's RoomCheck): which boxes are in the room they belong in, which are somewhere else, and
+   which never checked in at the new place */
+const rcSpot=b=>b.unpacked?'unpacked':String(b.nowAt||'').trim()?'away':b.loaded&&!b.delivered?'truck':'here';
+const rcAt=k=>{ const t=String(k||'').trim().toLowerCase(); return /^(upstairs|downstairs)$/.test(t)?t:/floor$/.test(t)?`on the ${t}`:`in the ${t}`; };
+function rcRooms(){ const by={}; lbBoxes().forEach(b=>{ const r=b.destRoom||b.room||'MISC'; (by[r]=by[r]||[]).push(b); });
+  return Object.keys(by).map(c=>{ const L=by[c]; return {c,n:lbRoom(c).n,L,here:L.filter(b=>['here','unpacked'].includes(rcSpot(b))),away:L.filter(b=>rcSpot(b)==='away'),truck:L.filter(b=>rcSpot(b)==='truck')}; })
+    .sort((a,b)=>(b.away.length+b.truck.length)-(a.away.length+a.truck.length)||b.L.length-a.L.length); }
+function rcText(){ return rcRooms().map(r=>{ let line=`${r.n}: ${MK.plural(r.L.length,'box')}`; const p={}; r.away.forEach(b=>{ const k=String(b.nowAt).trim(); (p[k]=p[k]||[]).push(b); });
+  Object.keys(p).forEach(k=>{ line+=`. ${p[k].length} ${rcAt(k)}: ${p[k].map(b=>b.code).join(', ')}`; }); if(r.truck.length) line+=`. Not checked in yet: ${r.truck.map(b=>b.code).join(', ')}`; return line+'.'; }).join('\n'); }
+/* a box from the saved move, opened on its own card in the vault when it's there (the full app otherwise) */
+function hboxGo(id){ const x=S.boxes.find(y=>y.appId===id); if(!x){ toApp('?box='+encodeURIComponent(id)); return; } S.flipQ=x.code; S.flipSet='q'; S.fx=Math.max(0,flipList().indexOf(x)); S.fpi=0; show('flip'); }
 async function ppOpen(x){ try{ const o=JSON.parse(await idbGet('moving-command-center-v1-photos-file-'+x.id)||'null'); if(!o||!o.data){ say("That file isn't on this phone."); return; }
   const blob=await (await fetch(o.data)).blob(), name=x.name||o.name||'document', file=new File([blob],name,{type:blob.type});
   if(navigator.canShare&&navigator.canShare({files:[file]})){ try{ await navigator.share({files:[file],title:name}); return; }catch(e){ if(e&&e.name==='AbortError') return; } }
@@ -1880,6 +1898,28 @@ const P={
       body:B.length?`${rooms.length>1?pick:''}${hand.length?`<button class="choice${S.lbHand?' on':''}" id="lbHand" aria-pressed="${!!S.lbHand}" style="margin-top:12px;max-width:320px">Print the ${hand.length===1?'one':hand.length} marked to write by hand too</button>`:''}${list.length?'<button class="cta" id="lbPrint">Print these labels</button>':''}${lemRows([[RIC.house,'Room signs to match<span class="fsum">One for each door, in the same colors</span>','data-go="lbSigns"']])}`:'<button class="cta" data-go="start">Pack a box</button>'}); },
   lbSigns:()=>{ const R=lbSigns(); return ({say:'Room signs.', h:R.length?`${MK.plural(R.length,'sign')} to print.`:'No rooms yet.', sub:'Tape one on each door before the movers arrive. They match the colors on your box labels, so nobody has to ask where anything goes.', scene:'labels',
     body:`${R.length?`<p class="lsub" style="font-size:17px">${esc(R.map(r=>r.n).join(', '))}.</p>`:''}<button class="choice${S.lbAll?' on':''}" id="lbAll" aria-pressed="${!!S.lbAll}" style="margin-top:12px;max-width:300px">Every room, not only the ones in use</button>${R.length?'<button class="cta" id="lbSignPrint">Print the signs</button>':''}<button class="link" data-go="lbHome">Back to the labels</button>`}); },
+  hlHome:()=>({say:'Help.', h:'What would help?', sub:'Pick one, or write to a person. Nothing here changes your move.', scene:'help',
+    body:`${lemRows([[RIC.clock,'Today is too much<span class="fsum">One thing, or none. The move still happens.</span>','data-go="hlToday"'],[RIC.box,'I can\'t find something<span class="fsum">One word finds the box, its room and its photo</span>','data-go="lvault"'],[RIC.help,'I\'m stuck<span class="fsum">Where people get stuck, and the way out</span>','data-go="hlStuck"'],[RIC.house,'Where things are<span class="fsum">Your addresses and the boxes to open first</span>','data-go="hlWhere"'],[RIC.mail,'Write to a person<span class="fsum">Answered within two business days</span>','id="hlMail"']])}<p class="lsub" style="font-size:16px;margin-top:16px">If you feel unwell (a bad migraine, chest pain, a fall), stop and call for help. The boxes will wait.</p>`}),
+  hlToday:()=>{ const en=(((S.mnSt||{}).move)||{}).energy; return ({say:'Help.', h:'Today is too much.', sub:'Set today to a few minutes and the home shows just one thing. Or none. Anything not done waits for another day, never marked late.', scene:'help',
+    body:`${en==='red'?'<p class="lsub"><b>Today is set to a few minutes.</b></p><button class="cta" data-hgo2="home">Go to the home</button>':'<button class="cta" id="hlRed">Set today to a few minutes</button>'}<button class="link" data-go="hlHome">Back</button>`}); },
+  hlStuck:()=>({say:'Help.', h:'Where people get stuck.', sub:'And the way out of each.', scene:'none',
+    body:`<div class="mklist">${[["I can't find something","Open Boxes at the bottom and type one word. The box, its room and its photo come up."],["I don't know what to do next","The home shows one thing at a time. That's all you have to look at."],["I tapped the wrong thing","Most changes show Undo for a few seconds. Tap it and it's put back."],["The words are too small","Tap Aa at the top and pick a bigger size."],["Something is broken or missing","Open the Menu, then Move day, then Missing or damaged. It writes the list for the mover."],["The movers are confusing me","Open the Menu, then Move day. Read them the loading order from the top."]].map(([a,b])=>`<div class="mkrow"><div class="mkhead" style="cursor:default"><b>${esc(a)}</b><span>${esc(b)}</span></div></div>`).join('')}</div><button class="cta" data-go="hlHome">Done</button>`}),
+  hlWhere:()=>{ const st=mnSt(), from=MK.addrFrom(st), to=MK.addrTo(st), ess=(st.boxes||[]).filter(b=>b&&b.essential).map(b=>b.code);
+    return ({say:'Help.', h:'Where things are.', sub:'The two addresses, and the boxes you marked to open first.', scene:'house',
+      body:`<div class="mktot"><div><span>Moving from</span><b style="font-size:17px">${esc(from||'Not filled in yet')}</b></div><div><span>Moving to</span><b style="font-size:17px">${esc(to||'Not filled in yet')}</b></div><div><span>Open first</span><b style="font-size:17px">${esc(ess.length?ess.join(', '):'None marked yet')}</b></div></div>${!from||!to?'<button class="cta" data-hgo="setup">Fill in the addresses</button>':''}${!ess.length&&(st.boxes||[]).length?'<button class="choice" data-go="lvault" style="margin-top:12px;max-width:300px">Find a box to open first</button>':''}<button class="link" data-go="hlHome">Back</button>`}); },
+  parts:()=>({say:'Every part of your move.', h:'Every part, in one place.', sub:'Each one opens where you left it.', scene:'none',
+    body:lemRows([[RIC.box,'Boxes','data-go="lvault"'],[RIC.sofa,'Big stuff','data-go="lbig"'],[RIC.cal,'Calendar','data-go="lcal"'],[RIC.list,'The whole plan','data-tlgo="1"'],[RIC.list,'Appointments','id="hApList"'],[RIC.tag,'Sorting','data-go="lsort"'],[RIC.truck,'Move day','data-mdgo=""'],[RIC.check,'Leaving the old place','data-mogo="1"'],[RIC.wallet,'Money','data-mngo=""'],[RIC.doc,'Papers and proof','data-ppgo="1"'],[RIC.tag,'Labels and room signs','data-lbgo="1"'],[RIC.pin,'Room by room','data-rcgo="1"'],[RIC.help,'Help','data-go="hlHome"']])+`<button class="link" data-hgo="home">The full app, with everything in it</button>`}),
+  tlHome:()=>{ const st=S.mnSt||{}, T=(st.tasks||[]).filter(t=>t&&t.t), done=T.filter(t=>t.done).length, pi=(S.hm||{}).pi||0, o=S.tlOpen===undefined?HPH[pi]:S.tlOpen;
+    const G=HPH.map(p=>({p,L:T.filter(t=>t.phase===p)})).filter(g=>g.L.length), first=t=>String(t).split(/(?<=[.!?])\s+(?=[A-Z])/)[0];
+    return ({say:'The whole plan.', h:T.length?`${done} of ${T.length} done.`:'No plan yet.', sub:T.length?'Every step, phase by phase. Tick what\'s done. Anything not done waits for another day, never marked late.':'Pick your moving day and the plan counts back from it.', scene:'none',
+      body:`${T.length?`<div class="lcard fold">${G.map(({p,L})=>{ const op=o===p, d=L.filter(t=>t.done).length; return `<div class="fitem${op?' open':''}"><button type="button" class="lrow" data-tlph="${esc(p)}" aria-expanded="${op}"><span class="ric"><svg viewBox="0 0 24 24" aria-hidden="true">${RIC.cal}</svg></span><span class="rt">${esc(p)}${p===HPH[pi]?', now':''}<span class="fsum">${d} of ${L.length} done</span></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>${op?`<div class="fpanel"><ul class="list aplist" style="border:0;max-width:none;margin-top:0">${L.map(t=>`<li class="aprow"><button type="button" class="apchk${t.done?' on':''}" role="checkbox" aria-checked="${!!t.done}" data-tltick="${esc(t.id)}" aria-label="${esc(first(t.t))}"></button><div class="apt">${esc(t.t)}${t.who?`<small>With ${esc(t.who)}</small>`:''}</div></li>`).join('')}</ul></div>`:''}</div>`; }).join('')}</div>`:''}<button class="cta" data-go="home">Done</button>`}); },
+  rcHome:()=>{ const B=lbBoxes(); if(!B.length) return ({say:'Room by room.', h:'No boxes yet.', sub:'Once boxes have a room, this shows which ones are where they belong.', scene:'labels', body:'<button class="cta" data-go="start">Pack a box</button>'});
+    const R=rcRooms(), off=R.filter(r=>r.away.length||r.truck.length), done=R.filter(r=>!r.away.length&&!r.truck.length), awayN=off.reduce((n,r)=>n+r.away.length,0), truckN=off.reduce((n,r)=>n+r.truck.length,0), okN=B.length-awayN-truckN, arrived=B.some(b=>b.delivered||b.unpacked);
+    const code=b=>`<button type="button" class="choice rcb" data-hbox="${esc(b.id)}" aria-label="Open ${esc(b.code)}">${esc(b.code)}</button>`;
+    return ({say:'Room by room.', h:!arrived?'Nothing has arrived yet.':off.length?`${MK.plural(awayN+truckN,'box')} not in ${awayN+truckN===1?'its room':'their rooms'}.`:'Every box is in its room.',
+      sub:!arrived?(B.length===1?"Once your box is checked in at the new place, this shows whether it's in the right room.":`Once boxes are checked in at the new place, this shows which of your ${B.length} boxes are in the right room.`):`${okN} of ${MK.plural(B.length,'box')} ${okN===1?'is':'are'} where ${okN===1?'it belongs':'they belong'}${truckN?`. ${truckN} never checked in at the new place`:''}.`, scene:'labels',
+      body:`<button class="cta" id="rcSend">Send this to the crew</button>${off.length?`<div class="mklist" style="margin-top:14px">${off.map(r=>{ const p={}; r.away.forEach(b=>{ const k=String(b.nowAt).trim(); (p[k]=p[k]||[]).push(b); });
+        return `<div class="mkrow" style="padding:12px 4px"><b style="color:var(--ink);font-size:18px">${esc(r.n)}</b> <span style="color:var(--muted)">${r.here.length} of ${r.L.length} here</span>${Object.keys(p).map(k=>`<p style="margin:8px 0 4px">${p[k].length} ${esc(rcAt(k))}</p><div class="rcrow">${p[k].map(code).join('')}</div><button class="link" data-rcback="${esc(r.c)}|${esc(k)}">${p[k].length===1?"It's in the room now":"They're in the room now"}</button>`).join('')}${r.truck.length?`<p style="margin:8px 0 4px;color:var(--plum)">Not checked in yet</p><div class="rcrow">${r.truck.map(code).join('')}</div>`:''}</div>`; }).join('')}</div>`:''}${done.length?`<p class="grp">All here</p><p class="lsub" style="font-size:17px">${esc(done.map(r=>`${r.n} (${r.L.length})`).join(', '))}</p>`:''}${truckN?'<p class="lsub" style="font-size:16px">A box that never checked in may still be on the truck or in another room. You have nine months to file a claim for anything lost.</p>':''}${mnUndoLine()}`}); },
   mdOut:()=>{ const st=S.mdSt||{}, M=mdGroups(st), all=M.groups.flatMap(g=>[...g.bigs,...g.boxes]), left=all.filter(x=>!x.loaded).length;
     return ({say:'Moving day.', h:all.length?(left?`${left} ${left===1?'thing':'things'} to go on the truck.`:"Everything's on the truck."):'Nothing to load yet.',
       sub:all.length?(left?'Load in this order, and read it to the crew from the top. The last on is the first off.':'Nothing left off. Walk the rooms once more before the truck leaves.'):'Boxes and furniture show up here as you add them.', scene:'truck',
@@ -1992,6 +2032,8 @@ function wire(id){
   phone.querySelectorAll('[data-mngo]').forEach(b=>b.onclick=()=>mnGo(b.dataset.mngo));
   phone.querySelectorAll('[data-ppgo]').forEach(b=>b.onclick=()=>ppGo());
   phone.querySelectorAll('[data-lbgo]').forEach(b=>b.onclick=()=>lbGo());
+  phone.querySelectorAll('[data-rcgo]').forEach(b=>b.onclick=async()=>{ await mnLoad(); S.mnUndo=null; show('rcHome'); });
+  phone.querySelectorAll('[data-tlgo]').forEach(b=>b.onclick=async()=>{ await mnLoad(); S.tlOpen=undefined; show('tlHome'); });
   const bk=$('[data-back]'); if(bk) bk.onclick=()=>{ const prev=hist.pop(); if(prev) show(prev,true); };
   phone.querySelectorAll('[data-pic]').forEach(inp=>inp.onchange=async()=>{ const fs=[...(inp.files||[])]; if(!fs.length) return; for(const f of fs){ const u=await shrink(f); if(u) S.photos.push(u); } say(S.photos.length===1?'Photo added.':S.photos.length+' photos.'); show('photo',true); });
   /* alpha test, 8 Nov: each tap stacked another camera prompt; one is enough */
@@ -2220,7 +2262,7 @@ function wire(id){
       if(!st){ toast(phone,'Your phone would not save that. Try again.'); return; } S.hm=homeRead(st); S.hti=0; say(`Today: ${HEN[k][0].toLowerCase()}.`); re(); });
     phone.querySelectorAll('[data-redo]').forEach(b=>b.onclick=async()=>{ const id=b.dataset.redo; const st=await homeWrite(s=>{ const x=(s.tasks||[]).find(y=>y&&y.id===id); if(!x) return false; x.done=false; x.doneAt=0; });
       if(st){ S.hm=homeRead(st); say('Back on the list.'); re(); } });
-    phone.querySelectorAll('[data-hbox]').forEach(b=>b.onclick=()=>toApp('?box='+encodeURIComponent(b.dataset.hbox)));
+    phone.querySelectorAll('[data-hbox]').forEach(b=>b.onclick=()=>hboxGo(b.dataset.hbox));
     phone.querySelectorAll('[data-hfind]').forEach(b=>b.onclick=()=>toApp('?find='+encodeURIComponent(b.dataset.hfind)));
     phone.querySelectorAll('[data-ctask]').forEach(b=>b.onclick=async()=>{ const id=b.dataset.ctask, x0=((HD||{}).catchup||{tasks:[]}).tasks.find(y=>y.id===id); if(!x0) return; const on=!x0.done;
       const st=await homeWrite(s=>{ const x=(s.tasks||[]).find(y=>y&&y.id===id); if(!x) return false; x.done=on; x.doneAt=on?Date.now():0; }); if(st){ x0.done=on; S.hm=homeRead(st); re(); } });
@@ -2374,6 +2416,18 @@ function wire(id){
     if($('#lbPrint')) $('#lbPrint').onclick=()=>{ const r=S.lbRoom||'all', inR=lbBoxes().filter(b=>r==='all'||b.room===r), list=S.lbHand?inR:inR.filter(b=>b.qr!==false); prPrint(prLabels(lbData(list))); };
     if($('#lbSignPrint')) $('#lbSignPrint').onclick=()=>prPrint(prSigns(lbSigns()));
   }
+  if(/^hl[A-Z]/.test(id)||id==='parts'){
+    if($('#hlMail')) $('#hlMail').onclick=()=>{ (window.top||window).location.href='mailto:hello@packedrabbit.com'; };
+    if($('#hlRed')) $('#hlRed').onclick=async()=>{ if(await mnWrite(s=>{ s.move=Object.assign({},s.move,{energy:'red'}); })){ S.hti=0; say('Today: a few minutes.'); show('hlToday',true); } };
+    phone.querySelectorAll('[data-hgo2="home"]').forEach(b=>b.onclick=()=>show('home'));
+    if(id==='parts'){ const b=$('#hApList'); if(b) b.onclick=async()=>{ try{ const st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); S.apps=(st&&st.appts)||[]; }catch(e){ S.apps=[]; } S.apUndo=null; show('apList'); }; }
+  }
+  if(id==='tlHome'){ phone.querySelectorAll('[data-tlph]').forEach(b=>b.onclick=()=>{ const p=b.dataset.tlph, cur=S.tlOpen===undefined?HPH[(S.hm||{}).pi||0]:S.tlOpen; S.tlOpen=cur===p?'':p; show('tlHome',true); });
+    phone.querySelectorAll('[data-tltick]').forEach(b=>b.onclick=async()=>{ const k=b.dataset.tltick; let now=false, tx=''; const st=await mnWrite(s=>{ const x=(s.tasks||[]).find(y=>y&&y.id===k); if(!x) return false; x.done=!x.done; x.doneAt=x.done?Date.now():0; now=x.done; tx=String(x.t).split(/(?<=[.!?])\s+(?=[A-Z])/)[0]; }); if(st){ say(now?`Done: ${tx}`:`Not done yet: ${tx}`); show('tlHome',true); } }); }
+  if(id==='rcHome'){ phone.querySelectorAll('[data-hbox]').forEach(b=>b.onclick=()=>hboxGo(b.dataset.hbox)); if($('#rcSend')) $('#rcSend').onclick=async()=>{ const body=`Boxes by room\n\n${rcText()}`; try{ if(navigator.share){ await navigator.share({text:body}); return; } }catch(e){ return; } try{ await navigator.clipboard.writeText(body); say('Copied. Paste it in a text to the crew.'); }catch(e){ say("Couldn't copy on this phone."); } };
+    phone.querySelectorAll('[data-rcback]').forEach(b=>b.onclick=async()=>{ const [c,k]=b.dataset.rcback.split('|'), ids=lbBoxes().filter(x=>(x.destRoom||x.room||'MISC')===c&&String(x.nowAt||'').trim()===k).map(x=>x.id);
+      if(await mnWrite(s=>{ (s.boxes||[]).forEach(x=>{ if(ids.includes(x.id)) x.nowAt=''; }); })){ S.mnUndo={at:Date.now(),rc:{ids,k},name:ids.length===1?'The box':'The boxes',msg:`${ids.length===1?'1 box':ids.length+' boxes'} put back in the room.`}; say(S.mnUndo.msg); show('rcHome',true); } });
+    if($('#mnUndo')) $('#mnUndo').onclick=async()=>{ const u=S.mnUndo; S.mnUndo=null; if(u&&u.rc&&await mnWrite(s=>{ (s.boxes||[]).forEach(x=>{ if(u.rc.ids.includes(x.id)) x.nowAt=u.rc.k; }); })) say(`${u.name} ${u.rc.ids.length===1?'is':'are'} back ${rcAt(u.rc.k)}.`); show('rcHome',true); }; }
   if(/^md/.test(id)){
     phone.querySelectorAll('[data-mdtick]').forEach(b=>b.onclick=async()=>{ const [t,k]=b.dataset.mdtick.split(':'), f=b.dataset.f, coll=t==='g'?'bigs':'boxes'; let label='', now=false;
       const st=await mdWrite(s=>{ const x=(s[coll]||[]).find(y=>y&&y.id===k); if(!x) return false; x[f]=!x[f]; now=x[f]; label=x.code||x.name||''; if(f==='delivered'&&!now) x.damaged=false; });
@@ -2625,7 +2679,7 @@ function homeRead(st){ if(!st) return null; const mv=st.move||{}, at=d=>new Date
   const wide=(st.bigs||[]).filter(g=>g&&g.name&&+g.w>0&&(g.measured||!g.fromPreset)).sort((a,b)=>+b.w - +a.w)[0];
   const stay=(st.bigs||[]).filter(g=>g&&g.name&&g.plan&&!/^(move|store)$/.test(g.plan)).map(g=>({id:g.id,name:String(g.name),plan:g.plan}));
   const recent=(st.tasks||[]).filter(x=>x&&x.done&&x.doneAt&&Date.now()-x.doneAt<48*3600000).sort((a,b)=>b.doneAt-a.doneAt).slice(0,3).map(x=>({id:x.id,t:String(x.t||'')}));
-  return {energy:mv.energy||'green',recent,mode,dl,dd,tasks,truck,lost,note,tracked:(st.boxes||[]).some(b=>b.loaded||b.delivered||b.unpacked),moved:!!(st.settings||{}).movedConfirmed,next,plans,stay,
+  return {pi,energy:mv.energy||'green',recent,mode,dl,dd,tasks,truck,lost,note,tracked:(st.boxes||[]).some(b=>b.loaded||b.delivered||b.unpacked),moved:!!(st.settings||{}).movedConfirmed,next,plans,stay,
     wide:wide?{name:String(wide.name),w:+wide.w}:null,value:(st.bigs||[]).reduce((a,g)=>a+(parseFloat(String((g&&(g.repl||g.price))||'').replace(/[^\d.]/g,''))||0),0),door:String(mv.doorway||'').replace(/[^\d.]/g,'').slice(0,4),
     from:hCity(mv.fromName,mv.from),to:hCity(mv.toName,mv.to)||hCity('',(st.newhome||{}).address),loadAt:lo&&lo.k==='out'?lo.t:null}; }
 async function homeWrite(fn){ try{ const st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); if(!st||fn(st)===false) return null; await idbSet('moving-command-center-v1',JSON.stringify(st)); return st; }catch(e){ return null; } }
@@ -2779,7 +2833,7 @@ function foldRows(H,cur1){ const D=HD||{}, R=[], en=H.energy&&HEN[H.energy]?H.en
   if(H.mode&&H.mode!=='dates') R.push(['time',RIC.clock,'How much time today?',HEN[en][0],
     `<div class="fgrid">${Object.keys(HEN).map(k=>`<button type="button" class="choice${en===k?' on':''}" data-energy="${k}" aria-pressed="${en===k}">${HEN[k][0]}<small>${HEN[k][1]}</small></button>`).join('')}</div>
     <p class="fnote">The list below follows this. Anything not done waits for another day, never marked late.</p>
-    <div style="display:flex;gap:18px;flex-wrap:wrap"><button class="link" data-hgo="focus">One at a time</button><button class="link" data-hgo="timeline">The whole plan</button></div>
+    <div style="display:flex;gap:18px;flex-wrap:wrap"><button class="link" data-tlgo="1">The whole plan</button></div>
     ${(H.recent||[]).length?`<p class="fh">Just finished</p>${H.recent.map(r=>`<div class="fline"><span>${esc(r.t)}</span><button class="link" data-redo="${esc(r.id)}" aria-label="Undo ${esc(r.t)}">Undo</button></div>`).join('')}`:''}`]);
   const nb=en==='red'?1:en==='yellow'?2:3, cur1t=cur1&&cur1.t?String(cur1.t).split(/(?<=[.!?])\s+(?=[A-Z])/)[0]:'';
   const br=(D.brief||[]).filter(x=>x.t&&x.t!==cur1t).slice(0,nb);
@@ -2792,7 +2846,7 @@ function foldRows(H,cur1){ const D=HD||{}, R=[], en=H.energy&&HEN[H.energy]?H.en
   if((D.money||[]).length) R.push(['money',RIC.coin,'Money',esc(D.money[0]),D.money.map(m=>`<div class="fline"><span>${esc(m)}</span></div>`).join('')+`<button class="choice" data-mngo="budget">Open the budget</button>`]);
   if((D.owed||[]).length) R.push(['owed',RIC.wallet,'Money owed to you',`${D.owed.length} to watch`,D.owed.map(r=>`<div class="fline"><span><span class="fk">${esc(r.t)}</span><br><span class="fnote"${r.warn?' style="color:var(--plum)"':''}>${esc(r.d)}</span></span></div>`).join('')+`<button class="choice" data-mngo="owed">Track what's owed</button>`]);
   if(D.pickup&&D.pickup.code) R.push(['pickup',RIC.box,'Where you left off',esc(D.pickup.code),`<p><b style="color:var(--ink)">${esc(D.pickup.code)}</b>${D.pickup.what?`<br>${esc(D.pickup.what)}`:''}</p><p class="fnote">${esc(D.pickup.where)}</p><button class="choice" data-hbox="${esc(D.pickup.id)}">Open ${esc(D.pickup.code)}</button>`]);
-  if((D.places||[]).length) R.push(['places',RIC.pin,'Where your boxes are',`${D.places.length} ${D.places.length===1?'place':'places'}`,D.places.map(x=>`<button type="button" class="fline" ${x.k?`data-hfind="${esc(x.k)}"`:'data-hgo="boxes"'}><span class="fk">${esc(x.n)}</span><span class="fv">${x.c} ${x.c===1?'box':'boxes'}</span></button>`).join('')+`<button class="link" data-hgo="roomcheck">Check room by room</button>`]);
+  if((D.places||[]).length) R.push(['places',RIC.pin,'Where your boxes are',`${D.places.length} ${D.places.length===1?'place':'places'}`,D.places.map(x=>`<button type="button" class="fline" ${x.k?`data-hfind="${esc(x.k)}"`:'data-hgo="boxes"'}><span class="fk">${esc(x.n)}</span><span class="fv">${x.c} ${x.c===1?'box':'boxes'}</span></button>`).join('')+`<button class="link" data-rcgo="1">Check room by room</button>`]);
   if((D.fornow||[]).length) R.push(['fornow',RIC.grid,'For where you are',esc(D.fornow.map(x=>x.n).slice(0,2).join(', ')),D.fornow.map(x=>`<button type="button" class="fline" data-hgo="${esc(x.k)}"><span><span class="fk">${esc(x.n)}</span><br><span class="fnote">${esc(x.s)}</span></span></button>`).join('')]);
   if(D.weather) R.push(['weather',RIC.cloud,'Weather on moving day',esc(D.weather.h),`<p>${esc(D.weather.p)}</p>${(D.weather.risks||[]).map(r=>`<p><b>${esc(r.n)}</b><br>${esc(r.d)}</p>`).join('')}${(D.weather.links||[]).map(([u,n])=>`<a class="choice" style="display:grid;place-items:center;text-decoration:none" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(n)}</a>`).join('')}<p class="fnote">Forecasts from the National Weather Service. Opening one sends that town to weather.gov.</p>`]);
   if(D.tip&&D.tip.t) R.push(['tip',RIC.bulb,'Did you know','One tip a day',`<p>${esc(D.tip.t)}</p>${D.tip.go?`<button class="link" data-hgo="${esc(D.tip.go)}">Show me</button>`:''}`]);
@@ -2838,7 +2892,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
   s.innerHTML=`<div class="mhandle" aria-hidden="true"></div><div class="top"><button class="back" data-close style="margin-left:auto">Close</button></div><div class="in">
     <h3 id="sheet-h" tabindex="-1" class="mhi">${hi}</h3>${line?`<p class="mline">${line}</p>`:''}
     <p class="mgroup">Your move</p>${lemRows([[RIC.house,'Moving day and addresses','data-hgo="setup"'],[RIC.truck,'Move day','data-mdgo=""'],[RIC.check,'Leaving the old place','data-mogo="1"'],[RIC.doc,'Papers and proof','data-ppgo="1"'],[RIC.wallet,'Money','data-mngo=""']])}
-    <p class="mgroup">Everything else</p>${lemRows([[RIC.grid,'Every part of the app','data-hgo="home"'],[RIC.help,'I need help','data-hgo="help"']])}
+    <p class="mgroup">Everything else</p>${lemRows([[RIC.grid,'Every part of the app','data-sgo="parts"'],[RIC.help,'I need help','data-sgo="hlHome"']])}
     <p class="mgroup">Your account</p>${lemRows([[RIC.key,'Membership','data-hgo="pack"'],[RIC.save,'Backups and sharing','data-hgo="share"']])}
     <p class="mgroup">Support</p>${lemRows([[RIC.mail,'Write to us','data-mail'],[RIC.share,'Share The Packed Rabbit','data-share']])}</div>`;
   const sc=document.createElement('div'); sc.className='scrim'; sc.onclick=()=>closeSheet(); phone.appendChild(sc); phone.appendChild(s);
@@ -2848,6 +2902,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
   s.querySelectorAll('[data-mogo]').forEach(b=>b.onclick=()=>{ closeSheet(true); moGo(); });
   s.querySelectorAll('[data-mngo]').forEach(b=>b.onclick=()=>{ closeSheet(true); mnGo(b.dataset.mngo); });
   s.querySelectorAll('[data-ppgo]').forEach(b=>b.onclick=()=>{ closeSheet(true); ppGo(); });
+  s.querySelectorAll('[data-sgo]').forEach(b=>b.onclick=async()=>{ closeSheet(true); await mnLoad(); S.mnUndo=null; show(b.dataset.sgo); });
   s.querySelector('[data-mail]').onclick=()=>{ (window.top||window).location.href='mailto:hello@packedrabbit.com'; };
   s.querySelector('[data-share]').onclick=async()=>{ const url='https://packedrabbit.com/'; try{ if(navigator.share){ await navigator.share({title:'The Packed Rabbit',url}); return; } }catch(e){ return; }
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
