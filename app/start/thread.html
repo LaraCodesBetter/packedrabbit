@@ -269,7 +269,7 @@ a.choice{text-decoration:none}
 .more summary span{font-weight:600;color:var(--muted);margin-left:4px}
 .links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;width:100%;max-width:300px}
 .links .choice{min-width:0;padding-left:6px;padding-right:6px;font-size:16px}
-.aplist li.aprow{display:flex;align-items:flex-start;gap:12px;text-align:left}.apchk{flex:none;width:44px;height:44px;border-radius:12px;border:2px solid var(--ink,#1E4D33);background:transparent;margin:-4px 0}.apchk.on{background:var(--ink,#1E4D33)}.apchk.on::after{content:'';display:block;width:12px;height:20px;margin:6px auto 0;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}.mddmg{flex:none;min-height:44px;font-size:16px}.mddmg.on{color:var(--plum);font-weight:700}.apt{flex:1;display:flex;flex-direction:column;gap:2px;font-size:17px;text-align:left;color:var(--text)}.apt b{font-size:18px;color:var(--ink,#1E4D33)}.apt small{font-size:15px;color:var(--muted)}.homepic{width:100%;max-width:340px;max-height:30vh;object-fit:cover;border-radius:16px;margin-top:14px;border:1.5px solid #9DC3A8}
+.aplist li.aprow{display:flex;align-items:flex-start;gap:12px;text-align:left}.apchk{flex:none;width:44px;height:44px;border-radius:12px;border:2px solid var(--ink,#1E4D33);background:transparent;margin:-4px 0}.apchk.on{background:var(--ink,#1E4D33)}.apchk.on::after{content:'';display:block;width:12px;height:20px;margin:6px auto 0;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}.molink{background:none;border:0;padding:0;font:inherit;cursor:pointer;min-height:44px}.mddmg{flex:none;min-height:44px;font-size:16px}.mddmg.on{color:var(--plum);font-weight:700}.apt{flex:1;display:flex;flex-direction:column;gap:2px;font-size:17px;text-align:left;color:var(--text)}.apt b{font-size:18px;color:var(--ink,#1E4D33)}.apt small{font-size:15px;color:var(--muted)}.homepic{width:100%;max-width:340px;max-height:30vh;object-fit:cover;border-radius:16px;margin-top:14px;border:1.5px solid #9DC3A8}
 .cd.on{background:none;box-shadow:inset 0 0 0 3px #2E9358;color:var(--ink);font-weight:800}
 .pause{min-height:44px;min-width:44px;border:0;background:none;color:var(--muted);font:700 16px var(--sans);cursor:pointer;padding:0 6px}
 .paused{position:absolute;inset:0;z-index:9;background:var(--screen);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center}
@@ -738,7 +738,7 @@ function scene(mode){ if(mode==='none') return '';
 const TAB={Home:'<path d="M3.5 11.5 12 4.5l8.5 7"/><path d="M5.5 10v10h13V10"/><path d="M10 20v-5.5h4V20"/>',Boxes:'<path class="bf" d="M4.5 10h15v10h-15z"/><path d="M3 6.5h18V10H3z"/><path class="tf" d="M10.25 6.5h3.5v6h-3.5z"/><path d="M8 14.5h8V18H8z"/>',Furniture:'<path d="M4 18v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6M2 14h20M5 18v2M19 18v2M6 10V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3"/>',Moving:'<path d="M4 6h16v14H4zM4 10.5h16M8.5 3.5v5M15.5 3.5v5M8 14h2M12 14h2M16 14h0M8 17h2M12 17h2"/>',Menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',Sorting:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/>'};
 const TABORDER=['Home','Boxes','Furniture','Moving','Sorting','Menu'];
 const TABNAME={Furniture:'Big Stuff',Moving:'Calendar'}, nm=n=>TABNAME[n]||n;
-const SECTION={}; [['Furniture',['toobig','bigFirst','bigWhere','roomItem','itemPhoto','itemCond','itemQ','bigMissing']],['Sorting',['lgo','lpickall','lfate','lhelp','leave','lpick','dhow','sprice','uq','uverdict','llist']],['Moving',['mdOut','mdLoad','mdHand','mdLeave','mdCrew','mdIn','mdCheck','mdSign','mdSetup','mdNight','mdClaim','apWhat','apDay','apTime','apWho','apPrep','apSaved','apList','mwhyask','hask','mto','mfrom','mwhy','mwho','hplan','hbeds','hbudget','hsearch','hphoto','hlink','hdetails','hstart','hclose','htitle','oldplace','oldend','oldclose','moveday','mhowfirst','mpackq','mselfq','mfound','msize','hkind','hneeds','hshow','moving','mfar','mhow','mbooked','mname','mdot','mnq','mquote','mread','mstairs','mdoor','mpacket','mtruck','mhelp','mboth','mrent']]].forEach(([n,ids])=>ids.forEach(i=>SECTION[i]=n));
+const SECTION={}; [['Furniture',['toobig','bigFirst','bigWhere','roomItem','itemPhoto','itemCond','itemQ','bigMissing']],['Sorting',['lgo','lpickall','lfate','lhelp','leave','lpick','dhow','sprice','uq','uverdict','llist']],['Moving',['moHome','moTask','moList','moDep','moNotice','moWho','moClause','moRights','mdOut','mdLoad','mdHand','mdLeave','mdCrew','mdIn','mdCheck','mdSign','mdSetup','mdNight','mdClaim','apWhat','apDay','apTime','apWho','apPrep','apSaved','apList','mwhyask','hask','mto','mfrom','mwhy','mwho','hplan','hbeds','hbudget','hsearch','hphoto','hlink','hdetails','hstart','hclose','htitle','oldplace','oldend','oldclose','moveday','mhowfirst','mpackq','mselfq','mfound','msize','hkind','hneeds','hshow','moving','mfar','mhow','mbooked','mname','mdot','mnq','mquote','mread','mstairs','mdoor','mpacket','mtruck','mhelp','mboth','mrent']]].forEach(([n,ids])=>ids.forEach(i=>SECTION[i]=n));
 function bar(){
   if(S.homeMode) return pillBar();
   if(!S.tabs.length) return '';
@@ -788,6 +788,16 @@ function allDates(){ const L=[]; const add=(d,l)=>{ if(d&&/^\d{4}-\d\d-\d\d$/.te
 function icsText(){ const L=allDates(), stamp=new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z', esc2=s=>String(s).replace(/[,;\\]/g,m=>'\\'+m);
   const ev=L.map(([d,l],i)=>{ const a=d.replace(/-/g,''), b=addDays(d,1).replace(/-/g,''); return ['BEGIN:VEVENT',`UID:pr-${a}-${i}@packedrabbit.com`,`DTSTAMP:${stamp}`,`DTSTART;VALUE=DATE:${a}`,`DTEND;VALUE=DATE:${b}`,`SUMMARY:${esc2(l)}`,'DESCRIPTION:From The Packed Rabbit','BEGIN:VALARM','ACTION:DISPLAY',`DESCRIPTION:${esc2(l)}`,'TRIGGER:-PT15H','END:VALARM','END:VEVENT'].join('\r\n'); });
   return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//The Packed Rabbit//Move//EN','CALSCALE:GREGORIAN',...ev,'END:VCALENDAR'].join('\r\n'); }
+/* leaving the old place: the move's own moveout, read once when it opens and kept fresh after each answer */
+const moM=()=>((S.moSt||{}).moveout)||{};
+const moAmt=v=>parseFloat(String(v||'').replace(/[^\d.]/g,''))||0;
+const moMoney=n=>'$'+Math.round(n).toLocaleString('en-US');
+function moState(){ const mv=(S.moSt||{}).move||{}, a=String(mv.fromName||mv.from||S.from||'').trim(), m=a.match(/,\s*([A-Za-z .]+?)(?:\s+\d{5})?$/), x=m?m[1].trim():(S.fromSt||''); return STN[x.toUpperCase()]||x; }
+async function moGo(){ let st=null; try{ st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); }catch(e){} S.moSt=st||{}; const m=moM(); S.moNoticeBy=m.noticeBy||''; show('moHome'); }
+async function moSet(p){ const st=await homeWrite(s=>{ s.moveout=Object.assign({},s.moveout,p); }); if(!st){ toast(phone,'Your phone would not save that. Try again.'); return null; } S.moSt=st; S.hm=homeRead(st); return st; }
+const moNextUndone=from=>{ const m=moM(); for(let k=1;k<=MOVEOUT_TASKS.length;k++){ const j=(from+k)%MOVEOUT_TASKS.length; if(!m[MOVEOUT_TASKS[j].k]) return j; } return -1; };
+function moRecord(){ const st=S.moSt||{}, m=moM(), mv=st.move||{}, dep=moAmt(m.deposit);
+  return [`Move-out record: ${String(mv.fromName||mv.from||'the property').split('\n')[0]}`,'','Completed before handover:',...(MOVEOUT_TASKS.filter(t=>m[t.k]).map(t=>`- ${t.n}${m[t.k+'_who']?`, ${m[t.k+'_who']}`:''}`)),'','Photographs of every room were taken on handover day.',`Forwarding address: ${String(mv.toName||mv.to||'').split('\n')[0]}`,`Deposit: ${dep?moMoney(dep):'as per lease'}`].join('\n'); }
 function mdRoom(c){ if(!c) return ''; if(!mdRoom.RN){ mdRoom.RN={MED:'Medical and Mobility',PET:'Pets',DOC:'Documents',OPEN:'Open First',HAND:'Hand Carry',MISC:'Miscellaneous'}; Object.keys(CODE).forEach(k=>{ if(!mdRoom.RN[CODE[k]]) mdRoom.RN[CODE[k]]=k; }); } return mdRoom.RN[c]||c; }
 /* the app's loadGroups: what rides with you, then the truck in loading order */
 function mdGroups(st){ const nm=b=>mdRoom(b.destRoom||b.room)||'Other';
@@ -837,6 +847,24 @@ const MD_GROUPS=[["big","First on: furniture and appliances","Biggest and heavie
 const MD_LEAVE=["Walk every room, every closet, every cabinet — empty","Meter readings photographed","Keys you're handing back in one place","Your own copy of the inventory and bill of lading"];
 const MD_SIGN=["Every box on the inventory is here","Anything missing or damaged is written on the paperwork","Damage photographed — now, not later","No blank lines: anything empty is crossed out before you sign","You have your own copy of the bill of lading"];
 const HEAVYP=["hd-mh", "lo-l", "lo-m", "lo-s", "lo-xs", "uh-xs", "wm-lh", "wm-mh", "wm-sh"];
+/* owner, 11 Nov: leaving the old place as the new flow. The checklist is the app's own (MOVEOUT_TASKS, copied in
+   by make-start.py), and every answer is the app's own field in moveout, so the app, the home and a backup agree. */
+const MOVEOUT_TASKS=[
+  { k: "read", n: "Read the move-out clause in the lease", why: "It says exactly what they can charge you for. Most people never look.", pro: false },
+  { k: "notice", n: "Give written notice by the date in the lease", why: "Usually 30 or 60 days. Late notice can cost a whole month's rent.", pro: false },
+  { k: "carpet", n: "Carpets professionally cleaned", why: "Many leases require a receipt from a company, not a rented machine.", pro: true },
+  { k: "deep", n: "Deep clean — or a cleaner booked", why: "Ovens, extractor, inside cabinets, baseboards, windows, blinds.", pro: true },
+  { k: "paint", n: "Walls patched and touched up", why: "Nail holes are normal wear in some states and chargeable in others.", pro: false },
+  { k: "pest", n: "Pest or flea treatment if you had pets", why: "Common lease clause where pets were allowed.", pro: true },
+  { k: "yard", n: "Yard, gutters and trash cans as the lease says", why: "Houses more than apartments.", pro: true },
+  { k: "bulbs", n: "Light bulbs, batteries, filters replaced", why: "Small charges they add up fast.", pro: false },
+  { k: "holes", n: "Everything you mounted taken down", why: "TV brackets, shelves, grab rails — and the holes filled.", pro: false },
+  { k: "keys", n: "All keys, fobs, remotes, mailbox key returned", why: "A missing fob can be a few hundred on its own.", pro: false },
+  { k: "photos", n: "Photograph every room, empty and clean", why: "Timestamped, every wall and floor. This is the evidence.", pro: false },
+  { k: "walk", n: "Final walkthrough with the landlord, in person", why: "Ask them to sign something saying it's clean. Do not skip this.", pro: false },
+  { k: "meters", n: "Meter readings photographed", why: "Stops a bill for someone else's usage.", pro: false },
+  { k: "address", n: "Forwarding address given in writing", why: "It's where the deposit check goes.", pro: false },
+];
 const AP_KINDS=["The movers","Internet install","Utilities on or off","Elevator or loading dock","Donation pickup","Cleaning"];
 const AP_WHEN=["Morning","Afternoon","Evening","All day"];
 const MICSVG='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg>';
@@ -1038,7 +1066,7 @@ const P={
       else if(t){ one=esc(first(t.t)); sub=esc(String(t.t).slice(first(t.t).length).trim()); act=taskAct; }
       else if(T0.length){ one="That's all for today."; sub='The rest will be here tomorrow.'; act=`<button class="link" id="hAgain">Show them again</button>${undo}`; }
       else if(vault){ one='Nothing needs you today.'; sub='Open a box when you feel like it. The vault keeps the rest.'; act=undo; }
-      else { one="Everything's unpacked."; sub="Now get your deposit back. It's the last money on the table."; act=`<button class="cta" data-hgo="moveout">Leaving the old place</button>`; } }
+      else { one="Everything's unpacked."; sub="Now get your deposit back. It's the last money on the table."; act=`<button class="cta" data-mogo="1">Leaving the old place</button>`; } }
     else { cd=H.dl>1?`<b>${H.dl}</b> days to go`:'<b>Tomorrow</b> is loading day';
       if(t){ one=esc(first(t.t)); sub=esc(String(t.t).slice(first(t.t).length).trim()); act=taskAct; }
       else if(T0.length){ one="That's all for today."; sub='The rest will be here tomorrow.'; act=`<button class="link" id="hAgain">Show them again</button>${undo}`; }
@@ -1323,6 +1351,22 @@ const P={
      become the new flow, one question at a time, here first and then on Android. An appointment: what it is, which
      day, when they come, who, and what to do first; it goes into the move's own appointments, where the calendar,
      the home and a backup all read it. */
+  moHome:()=>{ const m=moM(), done=MOVEOUT_TASKS.filter(t=>m[t.k]).length, dep=moAmt(m.deposit), spent=MOVEOUT_TASKS.filter(t=>t.pro).reduce((a,t)=>a+moAmt(m[t.k+'_cost']),0);
+    return ({say:'Leaving the old place.', h:dep?`Getting your ${moMoney(dep)} deposit back.`:'Getting your deposit back.', sub:'Deposits are lost on small things nobody wrote down. Every one of these is something a landlord can charge for, and each is cheaper to do than to be billed for.', scene:'house',
+      body:`<p class="lsub" style="font-size:18px"><b>${done} of ${MOVEOUT_TASKS.length}</b> done${spent?`, ${moMoney(spent)} spent`:''}.</p>${done<MOVEOUT_TASKS.length?'<button class="cta" id="moGoOn">'+(done?'Keep going':'Go through it')+'</button>':''}${lemRows([[RIC.check,'The whole list','data-go="moList"'],[RIC.doc,'Your lease and landlord','id="moLeaseGo"'],[RIC.help,'If they keep it anyway','data-go="moRights"']])}`}); },
+  moTask:()=>{ const m=moM(), i=Math.max(0,Math.min(S.moi||0,MOVEOUT_TASKS.length-1)), t=MOVEOUT_TASKS[i];
+    return ({count:`${i+1} of ${MOVEOUT_TASKS.length}`, say:m[t.k]?'Done.':'Before you hand the keys back.', h:esc(t.n)+'.', sub:esc(t.why), scene:'house',
+      body:`${t.pro?`<div class="field"><input id="moWho" value="${esc(m[t.k+'_who']||'')}" placeholder="Company (optional)" aria-label="Company, optional"></div><div class="field"><input id="moCost" inputmode="decimal" value="${esc(m[t.k+'_cost']||'')}" placeholder="Cost (optional)" aria-label="Cost in dollars, optional"></div>`:''}<button class="cta" id="moDone">${m[t.k]?'Next':'Done'}</button>${m[t.k]?'<button class="link" id="moUndone">Not done after all</button>':'<button class="link" id="moLater">Not yet</button>'}<button class="link" data-go="moList">The whole list</button>`}); },
+  moList:()=>{ const m=moM(); return ({say:'Leaving the old place.', h:'Before you hand the keys back.', sub:'Keep every receipt. Some leases require you to hand them over.', scene:'none',
+    body:`<ul class="list aplist">${MOVEOUT_TASKS.map((t,i)=>`<li class="aprow"><button type="button" class="apchk${m[t.k]?' on':''}" role="checkbox" aria-checked="${!!m[t.k]}" data-mochk="${t.k}" aria-label="${esc(t.n)}"></button><button type="button" class="apt molink" data-moi="${i}"><b>${esc(t.n)}</b>${m[t.k]?[m[t.k+'_who'],m[t.k+'_cost']?moMoney(moAmt(m[t.k+'_cost'])):''].filter(Boolean).map(esc).join(', '):esc(t.why)}</button></li>`).join('')}</ul><button class="cta" data-go="moHome">Done</button>`}); },
+  moDep:()=>({say:'Your lease and landlord.', h:"What's your deposit?", sub:'The amount you paid when you moved in.', scene:'house', body:`<div class="field"><input id="moDepIn" inputmode="decimal" value="${esc(moM().deposit||'')}" placeholder="1,800" aria-label="Deposit in dollars"></div><button class="cta" id="moNext">Next</button><button class="link" id="moSkip">Skip</button>`}),
+  moNotice:()=>({say:'Your lease and landlord.', h:'When is written notice due?', sub:dateSub('moNoticeBy'), scene:'blank', body:calBody('moNoticeBy',{past:1})+`<button class="cta" id="calNext" ${S.moNoticeBy?'':'disabled'}>Next</button><button class="link" id="calSkip">I don't know</button>`}),
+  moWho:()=>{ const m=moM(); return ({say:'Your lease and landlord.', h:'Who is the landlord or agent?', sub:'Their name and number, so they are in one place.', scene:'house',
+    body:`<div class="field microw"><input id="moLl" value="${esc(m.landlord||'')}" placeholder="Name or company" aria-label="Landlord or agent"><button type="button" class="mic" data-mic="moLl" aria-label="Say it out loud">${MICSVG}</button></div><p class="hint" id="michint" hidden></p><div class="field"><input id="moPh" type="tel" inputmode="tel" value="${esc(m.phone||'')}" placeholder="Their phone (optional)" aria-label="Their phone, optional"></div>${m.phone?`<a class="choice lab" href="tel:${esc(m.phone)}" style="margin-top:10px;max-width:300px">Call them</a>`:''}<button class="cta" id="moNext">Next</button><button class="link" id="moSkip">Skip</button>`}); },
+  moClause:()=>({say:'Your lease and landlord.', h:'What does the lease say about moving out?', sub:'Copy the wording in, word for word. If they charge for something that isn\'t in there, you have the lease in your hand.', scene:'house',
+    body:`<div class="field" style="max-width:420px"><textarea id="moCl" rows="5" placeholder="Tenant shall have carpets professionally cleaned and provide a receipt" aria-label="The lease's move-out wording">${esc(moM().clause||'')}</textarea></div><button class="cta" id="moNext">Save</button><button class="link" id="moSkip">Later</button>`}),
+  moRights:()=>{ const os=moState(); return ({say:'Leaving the old place.', h:'If they keep it anyway.', sub:'Most states give a landlord a set number of days to return the deposit with an itemized list of deductions, often 14 to 30. Miss that deadline and in many places they lose the right to deduct at all.', scene:'house',
+    body:`<p class="lsub" style="font-size:17px">Your evidence is the photographs, the signed walkthrough, and the lease wording. That usually settles it without anyone going near a court.</p><a class="choice lab" target="_blank" rel="noopener noreferrer" href="https://www.google.com/search?q=${encodeURIComponent(`${os||'my state'} security deposit return law tenant rights`)}" style="margin-top:12px;max-width:320px">${os?`The rules in ${esc(os)}`:'The rules in your state'}</a><button class="cta" id="moCopy">Copy my move-out record</button><button class="link" data-go="moHome">Back</button>`}); },
   mdOut:()=>{ const st=S.mdSt||{}, M=mdGroups(st), all=M.groups.flatMap(g=>[...g.bigs,...g.boxes]), left=all.filter(x=>!x.loaded).length;
     return ({say:'Moving day.', h:all.length?(left?`${left} ${left===1?'thing':'things'} to go on the truck.`:"Everything's on the truck."):'Nothing to load yet.',
       sub:all.length?(left?'Load in this order, and read it to the crew from the top. The last on is the first off.':'Nothing left off. Walk the rooms once more before the truck leaves.'):'Boxes and furniture show up here as you add them.', scene:'truck',
@@ -1431,6 +1475,7 @@ function wire(id){
   const $=s=>phone.querySelector(s);
   phone.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go));
   phone.querySelectorAll('[data-mdgo]').forEach(b=>b.onclick=()=>mdGo(b.dataset.mdgo));
+  phone.querySelectorAll('[data-mogo]').forEach(b=>b.onclick=()=>moGo());
   const bk=$('[data-back]'); if(bk) bk.onclick=()=>{ const prev=hist.pop(); if(prev) show(prev,true); };
   phone.querySelectorAll('[data-pic]').forEach(inp=>inp.onchange=async()=>{ const fs=[...(inp.files||[])]; if(!fs.length) return; for(const f of fs){ const u=await shrink(f); if(u) S.photos.push(u); } say(S.photos.length===1?'Photo added.':S.photos.length+' photos.'); show('photo',true); });
   /* alpha test, 8 Nov: each tap stacked another camera prompt; one is enough */
@@ -1725,6 +1770,22 @@ function wire(id){
   if(id==='mtruck') pick(v=>{ S.tsize=v; show('mhelp'); });
   if(id==='mhelp') pick(v=>{ S.helpers=v; toRent(); });
   if(id==='mrent') pick(v=>{ S.rent=v; earnMoving(); });
+  if(/^mo/.test(id)){
+    if($('#moGoOn')) $('#moGoOn').onclick=()=>{ const j=moNextUndone(-1); S.moi=j<0?0:j; show('moTask'); };
+    if($('#moLeaseGo')) $('#moLeaseGo').onclick=()=>show('moDep');
+    if(id==='moTask'){ const t=MOVEOUT_TASKS[S.moi||0], extra=()=>t.pro?{[t.k+'_who']:$('#moWho').value.trim(),[t.k+'_cost']:$('#moCost').value.trim()}:{};
+      const go=()=>{ const j=moNextUndone(S.moi||0); if(j<0){ say('Every one is done.'); show('moHome'); } else { S.moi=j; show('moTask'); } };
+      $('#moDone').onclick=async()=>{ if(await moSet(Object.assign({[t.k]:true},extra()))) go(); };
+      if($('#moLater')) $('#moLater').onclick=async()=>{ if(t.pro) await moSet(extra()); go(); };
+      if($('#moUndone')) $('#moUndone').onclick=async()=>{ if(await moSet({[t.k]:false})) show('moTask',true); }; }
+    if(id==='moList'){ phone.querySelectorAll('[data-mochk]').forEach(b=>b.onclick=async()=>{ const k=b.dataset.mochk; if(await moSet({[k]:!moM()[k]})) show('moList',true); });
+      phone.querySelectorAll('[data-moi]').forEach(b=>b.onclick=()=>{ S.moi=+b.dataset.moi; show('moTask'); }); }
+    if(id==='moDep'){ $('#moNext').onclick=async()=>{ if(await moSet({deposit:$('#moDepIn').value.trim()})) show('moNotice'); }; $('#moSkip').onclick=()=>show('moNotice'); }
+    if(id==='moNotice') calPage('moNoticeBy',async()=>{ if(await moSet({noticeBy:S.moNoticeBy})) show('moWho'); },()=>show('moWho'));
+    if(id==='moWho'){ $('#moNext').onclick=async()=>{ if(await moSet({landlord:$('#moLl').value.trim(),phone:$('#moPh').value.trim()})) show('moClause'); }; $('#moSkip').onclick=()=>show('moClause'); }
+    if(id==='moClause'){ $('#moNext').onclick=async()=>{ if(await moSet({clause:$('#moCl').value})){ say('Saved.'); show('moHome'); } }; $('#moSkip').onclick=()=>show('moHome'); }
+    if($('#moCopy')) $('#moCopy').onclick=()=>{ const tx=moRecord(); (navigator.clipboard?navigator.clipboard.writeText(tx):Promise.reject()).then(()=>say('Copied. Paste it into an email to your landlord.'),()=>{}).finally(()=>{ $('#moCopy').textContent='Copied'; }); };
+  }
   if(/^md/.test(id)){
     phone.querySelectorAll('[data-mdtick]').forEach(b=>b.onclick=async()=>{ const [t,k]=b.dataset.mdtick.split(':'), f=b.dataset.f, coll=t==='g'?'bigs':'boxes'; let label='', now=false;
       const st=await mdWrite(s=>{ const x=(s[coll]||[]).find(y=>y&&y.id===k); if(!x) return false; x[f]=!x[f]; now=x[f]; label=x.code||x.name||''; if(f==='delivered'&&!now) x.damaged=false; });
