@@ -332,6 +332,12 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 @media (prefers-reduced-motion: reduce){.draw *,.peek,.seal,.text > *,.fresh *,.tabs button.new,.stamp.slam,.sheet,.scrim,.toast{animation:none!important;opacity:1;transform:none;stroke-dashoffset:0;fill-opacity:1}}
 @media (max-width:420px){.phone{height:760px}}
 .fsets{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:4px 0 12px}
+.fnow{margin:10px 0 0;color:var(--ink);font-weight:700;font-size:17px;text-align:center}
+.fask{width:100%;margin:14px 0 0;padding:14px;border-radius:16px;background:var(--f1);text-align:center}
+.fask-h{margin:0 0 10px;font-weight:700;font-size:19px;color:var(--text)}
+.fask-ch{display:grid;gap:8px}.fask-ch.two{grid-template-columns:1fr 1fr}
+.fask .choice{width:100%;min-height:52px;font-size:17px;padding:0 10px}.fask .link{margin:0 auto}
+.fask .field{margin:0 auto;max-width:none}.fask .addrow{max-width:none}
 .fsets button{min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid var(--ink);background:var(--screen);color:var(--ink);font:700 15px var(--sans);cursor:pointer}
 .fsets button.on{background:var(--ink);color:var(--screen)}
 .fph{position:relative;margin:0;width:100%;aspect-ratio:4/5;max-height:38vh;border-radius:18px;overflow:hidden;border:1.5px solid var(--frame);background:var(--f1);touch-action:pan-y}
@@ -1065,7 +1071,8 @@ const P={
         <button type="button" class="fnav fprev" id="fprev" aria-label="Previous box" ${S.fx?'':'disabled'}>${arrow('M15 5l-7 7 7 7')}</button>
         <button type="button" class="fnav fnext" id="fnext" aria-label="Next box" ${S.fx<n-1?'':'disabled'}>${arrow('M9 5l7 7-7 7')}</button></figure>
       ${ph.length>1?`<div class="fthumbs" role="group" aria-label="Photos of this box">${ph.map((src,j)=>`<button type="button" data-fp="${j}" class="${j===k?'on':''}" aria-label="Photo ${j+1} of ${ph.length}" aria-pressed="${j===k}"><img src="${src}" alt=""></button>`).join('')}</div>`:''}
-      ${b.appId?`<button type="button" class="choice" id="funpack" style="width:100%;margin-top:12px">${b.unpacked?'Put it back in the vault':'I unpacked this one'}</button>`:''}
+      ${boxNow(b)?`<p class="fnow">${esc(boxNow(b))}</p>`:''}${markUndo()}
+      ${faskFor(b)||(b.appId?`<button type="button" class="choice" id="funpack" style="width:100%;margin-top:12px">${b.unpacked?'Put it back in the vault':'I unpacked this one'}</button>`:'')}
       <button type="button" class="link" id="fopen">Open its full page</button>`}); },
   boxSaved:()=>{ const n=S.boxes.length, last=S.boxes[n-1]; return ({say:"Saved.", h:`${last.code} is packed.`, sub:last.photo||(last.photos&&last.photos.length)?"It's in your Boxes tab, with its photo.":"It's in your Boxes tab.", body:`<div class="choices"><button class="cta" style="margin-top:0" data-go="start">Pack the next box</button><button class="choice" data-go="toobig">Something won't fit in a box</button>${S.homeMode?'<button class="choice" id="backMove">Back to my boxes</button>':S.walked?'<button class="choice" id="backMove">Back to my move</button>':''}</div><button class="link" data-go="start">Change room</button>`}); },
   boxesTab:()=>({say:`${(S.boxes[S.boxes.length-1]||{}).code||'Your box'} is saved.`, h:"Your Boxes tab is ready.", sub:"It's in the bar below.", body:`<button class="cta" data-go="learnAdd">Next</button><button class="link" data-go="start">Pack another box first</button>`}),
@@ -1599,7 +1606,8 @@ function wire(id){
     { const u=$('#funpack'); if(u&&b) u.onclick=async()=>{ const on=!b.unpacked; if(await flipUnpack(b,on)){ if(on){ S.lastUnpack={code:b.code,at:Date.now()}; setTimeout(()=>{ if(cur==='flip') show('flip',true); },15200); } show('flip',true);
         const nb=flipList()[S.fx]; say(on?`${b.code} is out of the vault.${nb&&nb!==b?` Next, ${nb.code}.`:''}`:`${b.code} is back in the vault.`); } }; }
     { const u=$('#fundo'); if(u) u.onclick=async()=>{ const was=S.boxes.find(x=>x.code===(S.lastUnpack||{}).code); if(was&&await flipUnpack(was,false)){ S.lastUnpack=null; const i=flipList().indexOf(was); if(i>=0) S.fx=i; show('flip',true); } }; }
-    { const o=$('#fopen'); if(o&&b) o.onclick=()=>toApp(b.appId?'?box='+encodeURIComponent(b.appId):'?find='+encodeURIComponent(b.code)); } }
+    { const o=$('#fopen'); if(o&&b) o.onclick=()=>toApp(b.appId?'?box='+encodeURIComponent(b.appId):'?find='+encodeURIComponent(b.code)); }
+    if(b) wireAsk(b); }
   if(id==='sortTab') $('#openMove').onclick=()=>show('toolkit');
   if(id==='toolkit') $('#kitOpen').onclick=()=>window.__APP?finishThread():openSheet('Moving',$('#kitOpen'));
   if(id==='mhowfirst') phone.querySelectorAll('[data-lift]').forEach(b=>b.onclick=()=>{ const v=b.dataset.lift; if(v==='movers') show('mpackq'); else if(v==='me') show('mselfq'); else { S.how='Not sure yet'; homeDone(); } });
@@ -2057,6 +2065,48 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
   s.querySelector('[data-share]').onclick=async()=>{ const url='https://packedrabbit.com/'; try{ if(navigator.share){ await navigator.share({title:'The Packed Rabbit',url}); return; } }catch(e){ return; }
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
+/* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
+   as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
+   time; each answer is marked in the app at once, with an undo for 15 seconds. "Not yet" closes it until the next search. */
+const NOW_PLACES=['Garage','Storage unit','Basement','First floor','Upstairs'];
+function boxNow(b){ if(!b) return ''; const a=[];
+  if(b.unpacked) a.push('Unpacked.');
+  if(b.opened){ const d=new Date(b.opened), day=isNaN(d)?'':d.toLocaleDateString('en-US',{month:'short',day:'numeric'}); if(!b.unpacked) a.push(`Opened${day?' '+day:''}${b.openedFor?`, for ${String(b.openedFor).toLowerCase()}`:''}.`); }
+  if(b.nowAt&&!b.unpacked) a.push(`Right now: ${b.nowAt}.`);
+  return a.join(' '); }
+function faskFor(b){ if(!(S.flipSet==='q'&&S.flipQ&&b&&b.appId&&!b.unpacked)) return '';
+  const F=S.fask&&S.fask.q===S.flipQ?S.fask:null; if(F&&(F.done||{})[b.code]) return '';
+  const step=(F&&F.code===b.code&&F.step)||'open', B=(k,l,cls)=>`<button type="button" class="${cls||'choice'}" data-fa="${k}">${l}</button>`;
+  if(step==='where') return `<div class="fask" role="group" aria-labelledby="faskh"><p class="fask-h" id="faskh">Marked opened. Is it still where it was?</p><div class="fask-ch">${B('stay',"Yes, it's still there")}${B('moved','I moved it')}</div></div>`;
+  if(step==='place'){ const mine=[...new Set(S.boxes.map(x=>String(x.nowAt||'').trim()).filter(Boolean))], opts=NOW_PLACES.concat(mine.filter(m=>!NOW_PLACES.some(d=>d.toLowerCase()===m.toLowerCase())));
+    const pick=opts.length>6?`<div class="field"><select id="faskSel" aria-label="Where is it now"><option value="">Choose a place</option>${opts.map(w=>`<option>${esc(w)}</option>`).join('')}</select></div>`:`<div class="fask-ch two">${opts.map(w=>`<button type="button" class="choice" data-fplace="${esc(w)}">${esc(w)}</button>`).join('')}</div>`;
+    return `<div class="fask" role="group" aria-labelledby="faskh"><p class="fask-h" id="faskh">Where is it now?</p>${pick}<div class="addrow"><input id="faskTxt" placeholder="or type it: the barn, the car" aria-label="Or type the place"><button type="button" id="faskSave">Save</button></div></div>`; }
+  return `<div class="fask" role="group" aria-labelledby="faskh"><p class="fask-h" id="faskh">Did you open it?</p><div class="fask-ch">${B('empty',"Yes, it's empty now")}${B('more',"Yes, there's more in it")}${B('no','Not yet','link')}</div></div>`; }
+function markUndo(){ const m=S.lastMark; if(!m||Date.now()-m.at>15000) return ''; return `<p class="hint" role="status" style="text-align:center;margin:8px 0 0">${esc(m.msg)} <button type="button" class="link" id="fmundo" style="display:inline;margin:0;min-height:44px">Undo</button></p>`; }
+async function flipMark(b,patch){ try{ const st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); if(!st||!Array.isArray(st.boxes)) return null;
+    const x=st.boxes.find(y=>y&&y.id===b.appId); if(!x) return null; const prev={};
+    Object.keys(patch).forEach(k=>{ prev[k]=x[k]===undefined?null:x[k]; if(patch[k]===null) delete x[k]; else x[k]=patch[k]; });
+    await idbSet('moving-command-center-v1',JSON.stringify(st));
+    Object.keys(patch).forEach(k=>{ if(patch[k]===null) delete b[k]; else b[k]=patch[k]; }); return prev; }catch(e){ return null; } }
+function wireAsk(b){ const $=s=>phone.querySelector(s), q=S.flipQ;
+  const F=()=>{ if(!S.fask||S.fask.q!==q) S.fask={q,done:{}}; return S.fask; };
+  const close=()=>{ const f=F(); f.done[b.code]=1; f.step=''; f.code=''; };
+  /* the next question, or what was marked, stays in view after the card redraws */
+  const land=()=>requestAnimationFrame(()=>{ const el=phone.querySelector('.fask')||phone.querySelector('.fnow'); if(!el) return; el.scrollIntoView({block:'center'}); const h=el.querySelector('.fask-h')||el; h.tabIndex=-1; h.focus({preventScroll:true}); });
+  const keepMark=(msg,first)=>{ S.lastMark={code:b.code,at:Date.now(),prev:Object.assign({},first,(S.lastMark&&S.lastMark.code===b.code&&Date.now()-S.lastMark.at<15000?S.lastMark.prev:{})),msg}; setTimeout(()=>{ if(cur==='flip') show('flip',true); },15200); say(msg); };
+  const mark=async(patch,msg,next)=>{ const prev=await flipMark(b,patch); if(!prev){ toast(phone,'Your phone would not save that. Try again.'); return; }
+    keepMark(msg,prev); if(next){ const f=F(); f.code=b.code; f.step=next; } else close(); keep(); show('flip',true); land(); };
+  phone.querySelectorAll('[data-fa]').forEach(x=>x.onclick=()=>{ const k=x.dataset.fa, now=Date.now(), why=String(q||'').trim().slice(0,60);
+    if(k==='empty') mark({unpacked:true,delivered:true,opened:now,openedFor:why},`${b.code} is unpacked and out of the vault.`);
+    else if(k==='more') mark({opened:now,openedFor:why},`${b.code} is marked opened.`,'where');
+    else if(k==='stay'){ close(); keep(); show('flip',true); land(); }
+    else if(k==='moved'){ const f=F(); f.code=b.code; f.step='place'; show('flip',true); land(); }
+    else { close(); keep(); say(`${b.code} stays sealed.`); show('flip',true); } });
+  const put=w=>{ const v=String(w||'').trim(); if(v) mark({nowAt:v},`${b.code} is opened. Right now: ${v}.`); };
+  phone.querySelectorAll('[data-fplace]').forEach(x=>x.onclick=()=>put(x.dataset.fplace));
+  { const sl=$('#faskSel'); if(sl) sl.onchange=()=>put(sl.value); }
+  { const t=$('#faskTxt'), sv=$('#faskSave'); if(t&&sv){ sv.onclick=()=>put(t.value); t.onkeydown=e=>{ if(e.key==='Enter') put(t.value); }; } }
+  { const u=$('#fmundo'); if(u) u.onclick=async()=>{ const m=S.lastMark, w=m&&S.boxes.find(x=>x.code===m.code); if(!w) return; if(await flipMark(w,m.prev)){ S.lastMark=null; const f=F(); delete f.done[w.code]; f.step=''; f.code=''; keep(); show('flip',true); say(`${w.code} is back as it was.`); } }; } }
 async function flipUnpack(b,on){ try{ const st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); if(!st||!Array.isArray(st.boxes)) return false;
     const x=st.boxes.find(y=>y&&y.id===b.appId); if(!x) return false;
     if(on){ b.prevDelivered=!!x.delivered; x.unpacked=true; x.delivered=true; } else { x.unpacked=false; if(b.prevDelivered===false) x.delivered=false; }
@@ -2067,7 +2117,7 @@ async function loadHome(){ let st=null; try{ st=JSON.parse(await idbGet('moving-
   const have=new Set(S.boxes.map(b=>b.code));
   ((st&&st.boxes)||[]).forEach(b=>{ if(!b||!b.code) return; const rc=String(b.room||b.code.split('-')[0]||'MISC');
     const pre=String(b.preset||'').split('-')[0], bsz=String(b.size||''), kind=b.brandless?bsz.toLowerCase():pre==='free'?'Used box':pre==='bin'?'Plastic bin':BOXBRAND[pre]?BOXBRAND[pre]+(bsz?' '+bsz.toLowerCase():''):bsz;
-    const rec={code:b.code,rc,room:RN[rc]||rc,words:(b.items||[]).map(x=>x.name).filter(Boolean).join(', '),flags:b.withMe?['Goes with me']:[],handed:1,appId:b.id,unpacked:!!b.unpacked,delivered:!!b.delivered,kind};
+    const rec={code:b.code,rc,room:RN[rc]||rc,words:(b.items||[]).map(x=>x.name).filter(Boolean).join(', '),flags:b.withMe?['Goes with me']:[],handed:1,appId:b.id,unpacked:!!b.unpacked,delivered:!!b.delivered,kind,opened:+b.opened||0,openedFor:String(b.openedFor||''),nowAt:String(b.nowAt||'')};
     if(have.has(b.code)){ const ex=S.boxes.find(x=>x.code===b.code&&x.handed); if(ex) Object.assign(ex,rec); return; }
     have.add(b.code); S.boxes.push(Object.assign(rec,{photos:[],photo:''})); });
   /* a box or piece removed in the app leaves this list too */
@@ -2191,7 +2241,7 @@ const SIZEN={XS:'Extra small',S:'Small',M:'Medium',L:'Large',XL:'Extra large',Cu
 /* how movers count: a 3-piece sectional is 3 pieces, 2 nightstands are 2 */
 /* tester, 8 Nov: a 35-inch armchair was counted as 35 chairs. A size in inches is a size, not a count. */
 const pieces=b=>{ const s=b.size||''; if(/[″×]|inch/.test(s)) return 1; if(/^Lamps$/.test(b.what)) return (s.match(/\d+/g)||['1']).reduce((a,x)=>a+ +x,0); if(/^Sectional$|Nightstands|End tables|^Chairs$|chairs|Barstools/.test(b.what)||COUNTED.test(b.what)){ const m=s.match(/\d+/); return m?+m[0]:1; } return 1; };
-function boxRow(b){ return `<li class="tap" tabindex="0" role="button" data-box="${S.boxes.indexOf(b)}">${b.photo?`<img class="thumb" src="${b.photo}" alt="">`:`<svg class="thumb" viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="10" width="28" height="24" rx="2" fill="var(--f1)" stroke="var(--ink)" stroke-width="2"/><rect x="17" y="10" width="6" height="9" fill="var(--tape)"/></svg>`}<em><b style="color:var(--ink)">${b.code}</b>${boxKind(b)?`<span class="bkind">${esc(boxKind(b))}</span>`:''}<br>${esc(b.words||'Nothing written yet')}</em><span>${b.unpacked?'Unpacked':(b.flags||[]).includes('Goes with me')?'With you':S.roomOnly&&cur==='myBoxes'?'':esc(b.room)}</span></li>`; }
+function boxRow(b){ return `<li class="tap" tabindex="0" role="button" data-box="${S.boxes.indexOf(b)}">${b.photo?`<img class="thumb" src="${b.photo}" alt="">`:`<svg class="thumb" viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="10" width="28" height="24" rx="2" fill="var(--f1)" stroke="var(--ink)" stroke-width="2"/><rect x="17" y="10" width="6" height="9" fill="var(--tape)"/></svg>`}<em><b style="color:var(--ink)">${b.code}</b>${boxKind(b)?`<span class="bkind">${esc(boxKind(b))}</span>`:''}<br>${esc(b.words||'Nothing written yet')}</em><span>${b.unpacked?'Unpacked':b.nowAt?esc(b.nowAt):b.opened?'Opened':(b.flags||[]).includes('Goes with me')?'With you':S.roomOnly&&cur==='myBoxes'?'':esc(b.room)}</span></li>`; }
 function findRes(){ const q=(S.find||'').trim().toLowerCase(), bx=S.boxes.filter(b=>!q||(b.words+' '+b.room+' '+b.code+' '+(b.flags||[]).join(' ')).toLowerCase().includes(q)).slice().reverse(), fu=q?S.big.filter(b=>(b.what+' '+(b.room||'')+' '+(b.model||'')).toLowerCase().includes(q)):[];
   return (bx.length?`<ul class="list">${bx.map(boxRow).join('')}</ul>`:'')+(fu.length?`<p class="grp">Furniture</p><ul class="list">${fu.map(b=>`<li>${esc(b.what)}<span>${esc(b.room||'')}</span></li>`).join('')}</ul>`:'')+(!bx.length&&!fu.length?`<p>Nothing matches that yet.</p>`:'')+(bx.length&&!q?'<p class="swipe">Tap a box to see its photo.</p>':''); }
 function sheetBody(n){
