@@ -149,6 +149,25 @@ h2{font-size:31px;line-height:1.15;margin:0;text-wrap:balance}
 .rph img{width:100%;height:100%;object-fit:cover}
 .rph svg{width:24px;height:24px;fill:none;stroke:var(--ink);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .rcn{flex:none;color:var(--muted);font-weight:700;font-size:17px;font-variant-numeric:tabular-nums;white-space:nowrap}
+/* owner, 11 Nov: the old home's sections come back as rows that unfold in place, one open at a time,
+   never stacked: "I'd rather have buttons that open or unfold." */
+.fold .fitem{border-top:1px solid var(--frame)}.fold .fitem:first-child{border-top:0}.fold .fitem .lrow{border-top:0}
+.fold .fsum{display:block;font-weight:600;font-size:15px;line-height:1.3;color:var(--muted);margin-top:2px}
+.fold .chev{transition:transform .2s ease}.fold .open>.lrow .chev{transform:rotate(90deg)}
+@media (prefers-reduced-motion:reduce){.fold .chev{transition:none}}
+.fpanel{padding:2px 16px 16px;font:400 17px/1.45 var(--sans);color:var(--text)}
+.fpanel p{margin:6px 0}.fpanel .fh{font-weight:800;margin:14px 0 2px}
+.fpanel .choice{width:100%;margin-top:10px;font-size:17px}
+.fpanel .link{min-height:44px}
+.fline{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:9px 0;border-top:1px solid var(--frame)}
+.fline:first-of-type{border-top:0}.fline .fk{font-weight:700}.fline .fv{color:var(--muted);text-align:right}
+button.fline{width:100%;background:none;border-left:0;border-right:0;border-bottom:0;font:inherit;color:inherit;text-align:left;cursor:pointer;min-height:48px}
+.fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}.fgrid .choice{margin:0;min-height:68px;font-size:16px;padding:6px 4px;line-height:1.2}
+.fnum{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--f1);color:var(--ink);font-weight:800;font-size:15px;flex:none}
+.fcheck{width:28px;height:28px;border-radius:8px;border:2px solid var(--ink);background:var(--screen);flex:none;display:grid;place-items:center;cursor:pointer;padding:0}
+.fcheck[aria-checked="true"]{background:var(--ink)}.fcheck svg{width:18px;height:18px;fill:none;stroke:var(--screen);stroke-width:3}
+.fplan{width:100%;border-radius:12px;border:1px solid var(--frame);margin-top:6px}
+.fnote{font-size:15px;color:var(--muted)}
 .pchoose{width:100%;padding:12px;display:grid;gap:8px}.pchoose .lab{margin:0;min-height:46px;max-width:none;font-size:17px}
 .card .pic:has(.pchoose){height:auto}
 a.choice{text-decoration:none}
@@ -975,7 +994,7 @@ const P={
     const nx=(H.next||[])[0];
     const badges=lemBadges([[BIC.box,`${vault} ${vault===1?'box':'boxes'}`,'in the vault'],[BIC.sofa,m,m===1?'big thing':'big things'],nx?[BIC.cal(hDate(nx.d).getDate()),hShort(nx.d),esc(nx.w)]:[BIC.cal(''),H.mode==='dates'?'No dates':'Nothing',H.mode==='dates'?'yet':'coming up']]);
     const nt=H.note&&H.mode!=='dates'?`<p class="lsub hnote">${esc(H.note.t)} <button class="link" data-hgo="${H.note.go}">${H.note.b}</button></p>`:'';
-    return ({lem:1, pi:0, mark:1, h:'Welcome home.', count2:cd, pano:lemPano(H,art), body:`<p class="lone">${one}</p>${sub?`<p class="lsub">${sub}</p>`:''}${act}${nt}${badges}`}); },
+    return ({lem:1, pi:0, mark:1, h:'Welcome home.', count2:cd, pano:lemPano(H,art), body:`<p class="lone">${one}</p>${sub?`<p class="lsub">${sub}</p>`:''}${act}${nt}${badges}${foldCard(foldRows(H,t))}`}); },
   lvault:()=>{ const n=S.boxes.length, vault=S.boxes.filter(b=>!b.unpacked).length, opened=n-vault, H=S.hm||{};
     const say=!n?'Nothing is in the vault yet. Your first box takes a minute: a photo, a few words, and you never open it to look.':vault?`${vault} ${vault===1?'box is':'boxes are'} in the vault${opened?`, and ${opened} ${opened===1?'is':'are'} unpacked`:''}. Type or say what you need, and the rabbit finds the box.`:`Every box is unpacked. All ${n} are still listed here.`;
     const find=n?`<div class="field microw"><input id="hfind" value="${esc(S.hq||'')}" placeholder="Try &quot;towels&quot;" aria-label="Find a box"><button type="button" class="mic" data-mic="hfind" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div><div id="hres" aria-live="polite"></div>`:'';
@@ -1530,6 +1549,17 @@ function wire(id){
     { const u=$('#hUndo'); if(u) u.onclick=async()=>{ const l=S.hLast; if(!l) return; const st=await homeWrite(s=>{ const x=(s.tasks||[]).find(y=>y&&y.id===l.id); if(!x) return false; x.done=false; x.doneAt=0; });
         if(st){ S.hm=homeRead(st); S.hLast=null; S.hti=0; re(); } }; }
     { const l=$('#hLater'); if(l) l.onclick=()=>{ S.hti=(S.hti||0)+1; re(); }; }
+    /* owner, 11 Nov: the rows that unfold. One open at a time; the same button closes it. */
+    phone.querySelectorAll('[data-fold]').forEach(b=>b.onclick=()=>{ const k=b.dataset.fold; S.fold=S.fold===k?'':k; re(); const nb=phone.querySelector(`[data-fold="${k}"]`); if(nb) nb.focus(); });
+    phone.querySelectorAll('[data-energy]').forEach(b=>b.onclick=async()=>{ const k=b.dataset.energy; const st=await homeWrite(s=>{ s.move=Object.assign({},s.move,{energy:k}); });
+      if(!st){ toast(phone,'Your phone would not save that. Try again.'); return; } S.hm=homeRead(st); S.hti=0; say(`Today: ${HEN[k][0].toLowerCase()}.`); re(); });
+    phone.querySelectorAll('[data-redo]').forEach(b=>b.onclick=async()=>{ const id=b.dataset.redo; const st=await homeWrite(s=>{ const x=(s.tasks||[]).find(y=>y&&y.id===id); if(!x) return false; x.done=false; x.doneAt=0; });
+      if(st){ S.hm=homeRead(st); say('Back on the list.'); re(); } });
+    phone.querySelectorAll('[data-hbox]').forEach(b=>b.onclick=()=>toApp('?box='+encodeURIComponent(b.dataset.hbox)));
+    phone.querySelectorAll('[data-hfind]').forEach(b=>b.onclick=()=>toApp('?find='+encodeURIComponent(b.dataset.hfind)));
+    phone.querySelectorAll('[data-ctask]').forEach(b=>b.onclick=async()=>{ const id=b.dataset.ctask, x0=((HD||{}).catchup||{tasks:[]}).tasks.find(y=>y.id===id); if(!x0) return; const on=!x0.done;
+      const st=await homeWrite(s=>{ const x=(s.tasks||[]).find(y=>y&&y.id===id); if(!x) return false; x.done=on; x.doneAt=on?Date.now():0; }); if(st){ x0.done=on; S.hm=homeRead(st); re(); } });
+    { const c=phone.querySelector('[data-caught]'); if(c) c.onclick=async()=>{ const st=await homeWrite(s=>{ s.profile=Object.assign({},s.profile,{caughtUp:true}); }); if(st){ if(HD) HD.catchup=null; S.fold=''; say('Your list starts from here now.'); re(); } }; }
     { const a=$('#hAgain'); if(a) a.onclick=()=>{ S.hti=0; re(); }; }
     { const mv=$('#hMoved'); if(mv) mv.onclick=async()=>{ const st=await homeWrite(s=>{ s.settings=Object.assign({},s.settings,{movedConfirmed:true}); }); if(st){ S.hm=homeRead(st); re(); } }; }
     { const v=$('#hVault'); if(v) v.onclick=()=>{ S.flipQ=''; S.flipSet=S.boxes.some(b=>!b.unpacked)?'packed':'all'; S.fx=0; S.fpi=0; show('flip'); }; }
@@ -1803,7 +1833,8 @@ function homeRead(st){ if(!st) return null; const mv=st.move||{}, at=d=>new Date
   const plans={}; (st.bigs||[]).forEach(g=>{ if(g&&g.plan) plans[g.plan]=(plans[g.plan]||0)+1; });
   const wide=(st.bigs||[]).filter(g=>g&&g.name&&+g.w>0&&(g.measured||!g.fromPreset)).sort((a,b)=>+b.w - +a.w)[0];
   const stay=(st.bigs||[]).filter(g=>g&&g.name&&g.plan&&!/^(move|store)$/.test(g.plan)).map(g=>({id:g.id,name:String(g.name),plan:g.plan}));
-  return {mode,dl,dd,tasks,truck,lost,note,tracked:(st.boxes||[]).some(b=>b.loaded||b.delivered||b.unpacked),moved:!!(st.settings||{}).movedConfirmed,next,plans,stay,
+  const recent=(st.tasks||[]).filter(x=>x&&x.done&&x.doneAt&&Date.now()-x.doneAt<48*3600000).sort((a,b)=>b.doneAt-a.doneAt).slice(0,3).map(x=>({id:x.id,t:String(x.t||'')}));
+  return {energy:mv.energy||'green',recent,mode,dl,dd,tasks,truck,lost,note,tracked:(st.boxes||[]).some(b=>b.loaded||b.delivered||b.unpacked),moved:!!(st.settings||{}).movedConfirmed,next,plans,stay,
     wide:wide?{name:String(wide.name),w:+wide.w}:null,value:(st.bigs||[]).reduce((a,g)=>a+(parseFloat(String((g&&(g.repl||g.price))||'').replace(/[^\d.]/g,''))||0),0),door:String(mv.doorway||'').replace(/[^\d.]/g,'').slice(0,4),
     from:hCity(mv.fromName,mv.from),to:hCity(mv.toName,mv.to)||hCity('',(st.newhome||{}).address),loadAt:lo&&lo.k==='out'?lo.t:null}; }
 async function homeWrite(fn){ try{ const st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); if(!st||fn(st)===false) return null; await idbSet('moving-command-center-v1',JSON.stringify(st)); return st; }catch(e){ return null; } }
@@ -1947,7 +1978,41 @@ const BIC={
 };
 const lemBadges=L=>`<div class="badges">${L.map(([ic,big,lab])=>`<div class="badge"><span class="bc"><svg viewBox="0 0 48 48" aria-hidden="true">${ic}</svg></span><span class="bl"><b>${big}</b>${lab}</span></div>`).join('')}</div>`;
 /* rows inside one card, each with a round icon */
-const RIC={box:'<path d="M4.5 10h15v10h-15zM3 6.5h18V10H3zM10.25 6.5h3.5v6h-3.5z"/>',sofa:'<path d="M4 18v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6M2 14h20M5 18v2M19 18v2M6 10V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3"/>',list:'<path d="M9 7h11M9 12h11M9 17h11M4.5 7h.01M4.5 12h.01M4.5 17h.01"/>',tag:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/>',plus:'<path d="M12 5v14M5 12h14"/>',truck:'<path d="M3 6h11v10H3zM14 9h4l3 3v4h-7zM6.5 18.5a1.5 1.5 0 1 0 0-.01M17.5 18.5a1.5 1.5 0 1 0 0-.01"/>',house:'<path d="M3.5 11.5 12 4.5l8.5 7M5.5 10v10h13V10M10 20v-5.5h4V20"/>',doc:'<path d="M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h6"/>',wallet:'<path d="M3 7h16a2 2 0 0 1 2 2v9H3zM3 7l12-3v3M16 13h2"/>',grid:'<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>',help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17h.01"/>',key:'<circle cx="8" cy="14" r="4"/><path d="M11 11l8-8M16 6l3 3M14 8l2 2"/>',save:'<path d="M12 3v12M7 10l5 5 5-5M4 19h16"/>',mail:'<path d="M3 6h18v12H3zM3 7l9 6 9-6"/>',share:'<path d="M12 15V3M7 8l5-5 5 5M5 12v8h14v-8"/>'};
+const RIC={clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',cal:'<rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>',cloud:'<path d="M7 18h10a4 4 0 0 0 .5-8 5.5 5.5 0 0 0-10.6 1.5A3.3 3.3 0 0 0 7 18z"/>',bulb:'<path d="M9 17h6M10 20.5h4M8.5 14a6 6 0 1 1 7 0c-.8.6-1 1.4-1 2.2V17h-5v-.8c0-.8-.2-1.6-1-2.2z"/>',pin:'<path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',plan:'<path d="M4 4h16v16H4zM4 12h7M11 4v11M15 12h5"/>',check:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12.5l2.8 2.8L16 9.5"/>',gift:'<rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 9h18M12 9v11M12 9c-1.5-3-5-4-5-1.5S10 9 12 9zM12 9c1.5-3 5-4 5-1.5S14 9 12 9z"/>',spark:'<path d="M12 3.5l1.9 5.6 5.6 1.9-5.6 1.9L12 18.5l-1.9-5.6L4.5 11l5.6-1.9z"/>',coin:'<circle cx="12" cy="12" r="8.5"/><path d="M14.5 9.2c-.6-.8-1.5-1.2-2.5-1.2-1.4 0-2.5.8-2.5 2s1.1 1.7 2.5 2 2.5.8 2.5 2-1.1 2-2.5 2c-1 0-1.9-.4-2.5-1.2M12 6.5v11"/>',box:'<path d="M4.5 10h15v10h-15zM3 6.5h18V10H3zM10.25 6.5h3.5v6h-3.5z"/>',sofa:'<path d="M4 18v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6M2 14h20M5 18v2M19 18v2M6 10V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3"/>',list:'<path d="M9 7h11M9 12h11M9 17h11M4.5 7h.01M4.5 12h.01M4.5 17h.01"/>',tag:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/>',plus:'<path d="M12 5v14M5 12h14"/>',truck:'<path d="M3 6h11v10H3zM14 9h4l3 3v4h-7zM6.5 18.5a1.5 1.5 0 1 0 0-.01M17.5 18.5a1.5 1.5 0 1 0 0-.01"/>',house:'<path d="M3.5 11.5 12 4.5l8.5 7M5.5 10v10h13V10M10 20v-5.5h4V20"/>',doc:'<path d="M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h6"/>',wallet:'<path d="M3 7h16a2 2 0 0 1 2 2v9H3zM3 7l12-3v3M16 13h2"/>',grid:'<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>',help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17h.01"/>',key:'<circle cx="8" cy="14" r="4"/><path d="M11 11l8-8M16 6l3 3M14 8l2 2"/>',save:'<path d="M12 3v12M7 10l5 5 5-5M4 19h16"/>',mail:'<path d="M3 6h18v12H3zM3 7l9 6 9-6"/>',share:'<path d="M12 15V3M7 8l5-5 5 5M5 12v8h14v-8"/>'};
+/* the old home's sections, each a row that unfolds (owner, 11 Nov). The app writes what they hold (HD) after
+   every save; the floor plan is read from its photo. Only rows with something in them are shown. */
+let HD=null, HPLAN='';
+const HEN={red:['A few minutes','just one thing'],yellow:['An hour or two','two things'],green:['All day','three things']};
+function foldRows(H,cur1){ const D=HD||{}, R=[], en=H.energy&&HEN[H.energy]?H.energy:'green';
+  const clock=t=>{ const d=new Date(t); return d.getHours()===9&&d.getMinutes()===0?'':d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}); };
+  if(H.mode&&H.mode!=='dates') R.push(['time',RIC.clock,'How much time today?',HEN[en][0],
+    `<div class="fgrid">${Object.keys(HEN).map(k=>`<button type="button" class="choice${en===k?' on':''}" data-energy="${k}" aria-pressed="${en===k}">${HEN[k][0]}<small>${HEN[k][1]}</small></button>`).join('')}</div>
+    <p class="fnote">The list below follows this. Anything not done waits for another day, never marked late.</p>
+    <div style="display:flex;gap:18px;flex-wrap:wrap"><button class="link" data-hgo="focus">One at a time</button><button class="link" data-hgo="timeline">The whole plan</button></div>
+    ${(H.recent||[]).length?`<p class="fh">Just finished</p>${H.recent.map(r=>`<div class="fline"><span>${esc(r.t)}</span><button class="link" data-redo="${esc(r.id)}" aria-label="Undo ${esc(r.t)}">Undo</button></div>`).join('')}`:''}`]);
+  const nb=en==='red'?1:en==='yellow'?2:3, cur1t=cur1&&cur1.t?String(cur1.t).split(/(?<=[.!?])\s+(?=[A-Z])/)[0]:'';
+  const br=(D.brief||[]).filter(x=>x.t&&x.t!==cur1t).slice(0,nb);
+  if(br.length) R.push(['brief',RIC.list,en==='red'?'Just this today':'Next, in this order',`${br.length} ${br.length===1?'thing':'things'}`,
+    br.map((x,i)=>`<button type="button" class="fline" ${x.go?`data-hgo="${esc(x.go)}"`:'disabled'}><span class="fnum">${i+1}</span><span style="flex:1"><span class="fk">${esc(x.t)}</span>${x.why?`<br><span class="fnote">${esc(x.why)}</span>`:''}</span></button>`).join('')+`<button class="link" data-hgo="nudges">See everything that needs you</button>`]);
+  const t0=new Date(); t0.setHours(0,0,0,0); const ev=(D.events||[]).filter(e=>e.t>=t0.getTime()&&e.t<t0.getTime()+2*864e5);
+  if(ev.length){ const tod=ev.filter(e=>new Date(e.t).getDate()===t0.getDate()).length;
+    R.push(['coming',RIC.cal,'On the calendar',tod?`${tod} today`:`${ev.length} tomorrow`,
+      ev.slice(0,6).map(e=>{ const d=new Date(e.t), today=d.getDate()===t0.getDate(); return `<div class="fline"><span><span class="fk">${esc(e.label)}</span>${e.extra?`<br><span class="fnote">${esc(e.extra)}</span>`:''}</span><span class="fv">${today?(clock(e.t)||'Today'):'Tomorrow'}</span></div>`; }).join('')+`<button class="choice" data-hgo="calendar">Open the calendar</button>`]); }
+  if((D.money||[]).length) R.push(['money',RIC.coin,'Money',esc(D.money[0]),D.money.map(m=>`<div class="fline"><span>${esc(m)}</span></div>`).join('')+`<button class="choice" data-hgo="budget">Open the budget</button>`]);
+  if((D.owed||[]).length) R.push(['owed',RIC.wallet,'Money owed to you',`${D.owed.length} to watch`,D.owed.map(r=>`<div class="fline"><span><span class="fk">${esc(r.t)}</span><br><span class="fnote"${r.warn?' style="color:var(--plum)"':''}>${esc(r.d)}</span></span></div>`).join('')+`<button class="choice" data-hgo="owed">Track what's owed</button>`]);
+  if(D.pickup&&D.pickup.code) R.push(['pickup',RIC.box,'Where you left off',esc(D.pickup.code),`<p><b style="color:var(--ink)">${esc(D.pickup.code)}</b>${D.pickup.what?`<br>${esc(D.pickup.what)}`:''}</p><p class="fnote">${esc(D.pickup.where)}</p><button class="choice" data-hbox="${esc(D.pickup.id)}">Open ${esc(D.pickup.code)}</button>`]);
+  if((D.places||[]).length) R.push(['places',RIC.pin,'Where your boxes are',`${D.places.length} ${D.places.length===1?'place':'places'}`,D.places.map(x=>`<button type="button" class="fline" ${x.k?`data-hfind="${esc(x.k)}"`:'data-hgo="boxes"'}><span class="fk">${esc(x.n)}</span><span class="fv">${x.c} ${x.c===1?'box':'boxes'}</span></button>`).join('')+`<button class="link" data-hgo="roomcheck">Check room by room</button>`]);
+  if((D.fornow||[]).length) R.push(['fornow',RIC.grid,'For where you are',esc(D.fornow.map(x=>x.n).slice(0,2).join(', ')),D.fornow.map(x=>`<button type="button" class="fline" data-hgo="${esc(x.k)}"><span><span class="fk">${esc(x.n)}</span><br><span class="fnote">${esc(x.s)}</span></span></button>`).join('')]);
+  if(D.weather) R.push(['weather',RIC.cloud,'Weather on moving day',esc(D.weather.h),`<p>${esc(D.weather.p)}</p>${(D.weather.risks||[]).map(r=>`<p><b>${esc(r.n)}</b><br>${esc(r.d)}</p>`).join('')}${(D.weather.links||[]).map(([u,n])=>`<a class="choice" style="display:grid;place-items:center;text-decoration:none" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(n)}</a>`).join('')}<p class="fnote">Forecasts from the National Weather Service. Opening one sends that town to weather.gov.</p>`]);
+  if(D.tip&&D.tip.t) R.push(['tip',RIC.bulb,'Did you know','One tip a day',`<p>${esc(D.tip.t)}</p>${D.tip.go?`<button class="link" data-hgo="${esc(D.tip.go)}">Show me</button>`:''}`]);
+  if(HPLAN) R.push(['plan',RIC.plan,'Your floor plan','Where everything goes',`<img class="fplan" src="${HPLAN}" alt="Your floor plan"><button class="choice" data-hgo="newhome">Open the floor plan</button>`]);
+  if(D.sharpen) R.push(['sharpen',RIC.spark,'Sharpen your plan','A few quick questions',`<p>How far, how big, who's helping. A few answers make the truck size, costs and timeline yours.</p><button class="choice" data-hgo="setup">Answer them</button>`]);
+  if(D.catchup&&(D.catchup.tasks||[]).length) R.push(['catchup',RIC.check,esc(D.catchup.h),'Check off what\'s done',`<p class="fnote">So the list starts where you are, not at the beginning.</p>${D.catchup.tasks.map(x=>`<div class="fline" style="justify-content:flex-start"><button type="button" class="fcheck" role="checkbox" aria-checked="${!!x.done}" data-ctask="${esc(x.id)}" aria-label="${esc(x.t)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button><span${x.done?' style="text-decoration:line-through;color:var(--muted)"':''}>${esc(x.t)}</span></div>`).join('')}<button class="choice" data-caught>That's everything. Start from here</button>`]);
+  if(D.gift&&D.gift.who) R.push(['gift',RIC.gift,D.gift.company?'A gift from':'Your agent',esc(D.gift.who),`<p><b>${esc(D.gift.who)}</b></p>${D.gift.tel?`<a class="choice" style="display:grid;place-items:center;text-decoration:none" href="tel:${esc(D.gift.tel)}">Call</a>`:''}`]);
+  return R; }
+function foldCard(R){ if(!R.length) return '';
+  return `<div class="lcard fold">${R.map(([k,ic,t,sm,body])=>{ const o=S.fold===k;
+    return `<div class="fitem${o?' open':''}"><button type="button" class="lrow" data-fold="${k}" aria-expanded="${o}" aria-controls="fp-${k}"><span class="ric"><svg viewBox="0 0 24 24" aria-hidden="true">${ic}</svg></span><span class="rt">${t}${sm?`<span class="fsum">${sm}</span>`:''}</span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>${o?`<div class="fpanel" id="fp-${k}" role="region" aria-label="${t}">${body}</div>`:''}</div>`; }).join('')}</div>`; }
 const lemRow=([ic,t,attr])=>`<button type="button" class="lrow" ${attr}><span class="ric"><svg viewBox="0 0 24 24" aria-hidden="true">${ic}</svg></span><span class="rt">${t}</span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>`;
 const lemRows=L=>`<div class="lcard">${L.map(lemRow).join('')}</div>`;
 /* a room, its photo, how many are in it: [photo, icon, name, count words, attrs] */
@@ -2020,6 +2085,8 @@ async function loadHome(){ let st=null; try{ st=JSON.parse(await idbGet('moving-
     const rec={what:g.name,rc:g.room||'',room:RN[g.room]||'',handed:1,appId:g.id,size,brand:g.brand||'',value:g.repl||g.price||'',plan:g.plan||'move'};
     if(ex) Object.assign(ex,rec); else { hb.add(k); S.big.push(rec); } });
   for(const b of S.big.filter(x=>x.appId&&!x.photo)){ try{ const o=JSON.parse(await idbGet('moving-command-center-v1-photos-'+b.appId)||'null'); const src=o&&(o.open||o.side||o.sealed||o.top||o.label||o.detail||(o.more&&o.more[0]&&o.more[0].src)); if(src) b.photo=src; }catch(e){} }
+  try{ HD=JSON.parse(await idbGet('pr-home-digest')||'null'); }catch(e){ HD=null; }
+  try{ const np=JSON.parse(await idbGet('moving-command-center-v1-photos-newhome')||'null'); HPLAN=(np&&typeof np.plan==='string'&&/^data:image\//.test(np.plan))?np.plan:''; }catch(e){ HPLAN=''; }
   /* owner, 11 Nov: each room in the vault shows a photo from one of its boxes */
   { const seen=new Set(S.boxes.filter(b=>b.photo).map(b=>b.room||'Other'));
     const tries={};
