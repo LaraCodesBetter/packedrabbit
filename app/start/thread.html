@@ -374,6 +374,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 .mktot{width:100%;max-width:340px;margin:14px auto 0;text-align:left}.mktot div{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:8px 2px;border-bottom:1px solid var(--frame)}.mktot span{font-size:17px;color:var(--text)}.mktot b{font-size:24px;font-variant-numeric:tabular-nums;color:var(--ink)}
 .apt.late{color:var(--plum)}.mklist{max-width:380px;width:100%;margin:0 auto;text-align:left;border-top:1px solid var(--frame)}.mkrow{border-bottom:1px solid var(--frame)}.mkhead{display:block;width:100%;min-height:48px;padding:12px 4px;background:none;border:0;text-align:left;font:inherit;color:var(--text);cursor:pointer}.mkhead b{display:block;font-size:17px;color:var(--ink)}.mkhead span{display:block;font-size:16px;line-height:1.35;color:var(--muted);margin-top:2px}.mkhead .mkn{font-size:19px;font-weight:800;color:var(--ink)}.mkproof{padding:0 4px 14px}.mkproof p{margin:4px 0;font-size:16px;color:var(--text)}.mkproof .mksrc{color:var(--muted);font-size:15px}.mkproof .choice{max-width:300px;margin-top:10px}
 .buoffer{display:flex;flex-direction:column;gap:8px;align-items:center;width:100%;margin-top:12px}.buoffer .choice{max-width:320px;width:100%}
+#prsheet{display:none}@media print{html.printing body>*:not(#prsheet){display:none!important}html.printing #prsheet{display:block!important}html.printing,html.printing body{background:#fff!important;padding:0!important;margin:0!important;height:auto!important}}
 .hundo{font-size:17px;margin-top:12px}.hundo .link{display:inline-flex;min-height:44px;margin:0 0 0 4px;padding:0 6px;vertical-align:middle}
 .lground .lsub:first-child{margin-top:0;color:var(--text)}
 .lground .lsub b{color:var(--ink)}
@@ -586,6 +587,23 @@ function scene(mode){ if(mode==='none') return '';
     f+=`<rect x="${x}" y="${y}" width="${w}" height="${h}"/><rect class="tape" x="${x+w/2-9}" y="${y}" width="18" height="22"/><rect x="${x+10}" y="${y+8}" width="62" height="20" rx="3"/><text x="${x+41}" y="${y+22}" text-anchor="middle" style="font-size:11px">${code()}</text>`;
     S.flags.forEach((k,i)=>{ const c=STAMPC[k], rot=[-6,5,4,-5,-4,6][i%6], sx=x+(i%2?w*0.74:w*0.27), sy=y+46+Math.floor(i/2)*31;
       const tw=Math.max(86,k.length*10.5+20); f+=`<g class="stamp${k===stampAt?' slam':''}" transform="translate(${sx} ${sy}) rotate(${rot})"><rect x="${-tw/2}" y="-13.5" width="${tw}" height="27" rx="5" style="fill:var(--screen);fill-opacity:.85;stroke:${c};stroke-width:3"/><text x="0" y="6" text-anchor="middle" style="fill:${c};font-size:16px;letter-spacing:.05em">${k.toUpperCase()}</text></g>`; });
+    return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${ROOM}<rect class="gnd" x="0" y="344" width="360" height="40"/><g class="fore">${f}</g><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
+  }
+  if(mode==="labels"){
+    /* labels: a box with its label and code, and the matching sign on the door behind it */
+    f+=`<rect class="f2" x="34" y="150" width="86" height="194"/><circle class="nf" cx="108" cy="254" r="4"/><rect class="f1" x="46" y="176" width="62" height="30" rx="3"/><text x="77" y="196" text-anchor="middle" style="font-size:11px;font-weight:800;letter-spacing:.05em">KITCHEN</text>`;
+    f+=`<rect x="160" y="236" width="156" height="108"/><rect class="tape" x="231" y="236" width="14" height="40"/>`;
+    f+=`<rect class="f1" x="172" y="262" width="110" height="60" rx="4"/><text x="208" y="286" text-anchor="middle" style="font-size:15px;font-weight:800;letter-spacing:.04em">KIT-01</text><text x="208" y="305" text-anchor="middle" style="font-size:10px;font-weight:700">KITCHEN</text>`;
+    f+=`<rect class="nf" x="250" y="276" width="24" height="24"/><path class="f3" d="M253 279h7v7h-7zM264 279h7v7h-7zM253 290h7v7h-7zM265 291h4v4h-4z"/>`;
+    return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${ROOM}<rect class="gnd" x="0" y="344" width="360" height="40"/><g class="fore">${f}</g><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
+  }
+  if(mode==="papers"){
+    /* papers and proof: indoors, the lease in its folder on the table, a page showing, and a clipboard beside it, ticked */
+    f+=`<path class="f2" d="M58 270 h244 v12 h-244 z"/><path d="M76 282 v62 M284 282 v62"/>`;
+    f+=`<rect class="f1" x="112" y="200" width="88" height="70" rx="2"/><path class="nf" d="M122 212 h60 M122 222 h68 M122 232 h48"/>`;
+    f+=`<path class="tape" d="M98 270 v-44 h40 l8 -8 h70 v52 z"/><text x="157" y="256" text-anchor="middle" style="font-size:13px;font-weight:800;letter-spacing:.06em">LEASE</text>`;
+    f+=`<rect class="f2" x="238" y="196" width="50" height="74" rx="4"/><rect class="f1" x="245" y="206" width="36" height="56"/><rect class="f3" x="253" y="190" width="20" height="11" rx="3"/>`;
+    f+=`<path class="nf" d="M250 222 l4 4 l7 -8 M265 223 h11 M250 240 l4 4 l7 -8 M265 241 h11"/>`;
     return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${ROOM}<rect class="gnd" x="0" y="344" width="360" height="40"/><g class="fore">${f}</g><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
   }
   if(mode==="money"){
@@ -1079,6 +1097,216 @@ function owDraft(k){ const st=mnSt(), kind=owKind(k), mo=st.moveout||{}, q=st.qu
     note:law?`${law.state} law: ${MK.depositWords(law.state,law.days)} after you move out (${law.cite}). Counted from loading day; change it if you hand the keys back later.`:''}; }
 /* what it kept: where "Open the record" goes in the new flow, when that part is here */
 const mkOpen=o=>!o?'':o[0]==='owed'?'data-mngo="owed"':o[0]==='moveout'?'data-mogo="1"':o[0]==='moveday'?'data-mdgo=""':o[0]==='bigs'||o[0]==='big'?'data-go="lbig"':'';
+/* owner, 11 Nov: papers and proof as the new flow. Leases, the mover's contract, receipts and insurance, kept on this
+   phone and in the backup, exactly where the app keeps them (files, and each file under its own -photos-file- key),
+   so the app, the home and a backup agree. Never shared, whatever is ticked. */
+const PAPER_KINDS=[
+  { k: "lease-old", n: "Lease, the old place" }, { k: "lease-new", n: "Lease, the new place" },
+  { k: "estimate", n: "Mover's estimate or contract" }, { k: "bol", n: "Bill of lading" }, { k: "inventory", n: "Mover's inventory" },
+  { k: "receipt", n: "Receipt" }, { k: "insurance", n: "Insurance" }, { k: "utility", n: "Utility or service" },
+  { k: "condition", n: "Condition report" }, { k: "other", n: "Something else" },
+];
+const ppKind=k=>PAPER_KINDS.find(x=>x.k===k)||PAPER_KINDS[PAPER_KINDS.length-1];
+const ppList=()=>(S.mnSt||{}).files||[];
+async function ppGo(){ await mnLoad(); S.mnUndo=null; S.ppk=S.ppk||'lease-old'; show('ppHome'); }
+const ppSize=n=>!n?'':n<1e5?`${Math.max(1,Math.round(n/1e3))} KB`:`${(n/1e6).toFixed(1)} MB`;
+const ppWhen=t=>new Date(t).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+const ppNotice=L=>L&&L.end&&parseInt(L.notice,10)>0?new Date(new Date(L.end+'T12:00').getTime()-parseInt(L.notice,10)*86400000).toISOString().slice(0,10):'';
+const ppSet=(id,p)=>mnWrite(s=>{ const x=(s.files||[]).find(y=>y&&y.id===id); if(!x) return false; Object.assign(x,p); });
+/* owner, 11 Nov: labels and room signs as the new flow. What's on a label is the app's own (Labels and Signs): the
+   box number, the room it goes to in that room's color, the spot, what's in it unless it's private, the warnings,
+   and a code that holds the box number and nothing else. The renderer between the PRINT markers is plain and
+   self-contained: make-flow-assets copies it, with the app's QR encoder, into Android's print page, so a label
+   printed from Android is the same label. */
+const PR_ROOMS=[{"c": "KIT", "n": "Kitchen", "col": "#00A884"}, {"c": "LIV", "n": "Living Room", "col": "#9E3D5A"}, {"c": "DIN", "n": "Dining Room", "col": "#7A3CFF"}, {"c": "FAM", "n": "Family Room", "col": "#8C3A6B"}, {"c": "BED1", "n": "Primary Bedroom", "col": "#8E44FF"}, {"c": "BED2", "n": "Second Bedroom", "col": "#B05CFF"}, {"c": "BATH1", "n": "Primary Bathroom", "col": "#2F8A78"}, {"c": "BATH2", "n": "Second Bathroom", "col": "#5C9E8C"}, {"c": "CLO", "n": "Closets", "col": "#C04DD8"}, {"c": "HALL", "n": "Hall Closet", "col": "#7D4E9E"}, {"c": "OFF", "n": "Office", "col": "#2E6B4F"}, {"c": "GAR", "n": "Garage", "col": "#4F5551"}, {"c": "LAU", "n": "Laundry", "col": "#00A99D"}, {"c": "ENT", "n": "Entryway", "col": "#5E4B8B"}, {"c": "PAT", "n": "Patio", "col": "#2EAD4B"}, {"c": "BASE", "n": "Basement", "col": "#6B6F6C"}, {"c": "ATT", "n": "Attic", "col": "#8A8F8B"}, {"c": "SHED", "n": "Shed", "col": "#2D844D"}, {"c": "POOL", "n": "Pool and yard", "col": "#3C9A6A"}, {"c": "KIDS", "n": "Kids' room", "col": "#D0607A"}, {"c": "SPORT", "n": "Sports and outdoor", "col": "#3E8E5E"}, {"c": "MED", "n": "Medical and Mobility", "col": "#E0263F"}, {"c": "PET", "n": "Pets", "col": "#E06C8E"}, {"c": "DOC", "n": "Documents", "col": "#5B4A6B"}, {"c": "OPEN", "n": "Open First", "col": "#B0287A"}, {"c": "HAND", "n": "Hand Carry", "col": "#E0263F"}, {"c": "MISC", "n": "Miscellaneous", "col": "#6E7370"}];
+const lbRoom=c=>PR_ROOMS.find(r=>r.c===c)||PR_ROOMS[PR_ROOMS.length-1];
+async function lbGo(){ await mnLoad(); S.lbRoom=S.lbRoom||'all'; show('lbHome'); }
+const lbBoxes=()=>((S.mnSt||{}).boxes||[]).filter(b=>b&&b.code);
+const lbData=list=>list.map(b=>{ const d=lbRoom(b.destRoom||b.room), its=Array.isArray(b.items)?b.items.map(i=>i&&i.name).filter(Boolean):String(b.contents||'').split('\n').map(s=>s.trim()).filter(Boolean);
+  return {code:b.code, dest:d.n, col:d.col, loc:b.destLoc||'', items:b.private?'Private':its.slice(0,8).join(' · '),
+    chips:[b.fragile?'FRAGILE':'',b.noStack?'DO NOT STACK':'',b.essential?'OPEN FIRST':'',b.size||'',b.weight?(/[a-z]/i.test(String(b.weight))?String(b.weight):b.weight+' lb'):''].filter(Boolean),
+    qr:`https://packedrabbit.com/b/#${b.code}/${encodeURIComponent(d.n)}`}; });
+const lbSigns=()=>{ const B=lbBoxes(); return PR_ROOMS.filter(r=>S.lbAll||B.some(b=>(b.destRoom||b.room)===r.c)).map(r=>({n:r.n,col:r.col,code:r.c,count:B.filter(b=>(b.destRoom||b.room)===r.c).length})); };
+/* printing from the page: the sheet is drawn outside the phone and only it prints */
+function prPrint(html){ let d=document.getElementById('prsheet'); if(!d){ d=document.createElement('div'); d.id='prsheet'; document.body.appendChild(d); }
+  d.innerHTML=`<style>${PR_CSS}</style>${html}`; document.documentElement.classList.add('printing');
+  const off=()=>{ document.documentElement.classList.remove('printing'); d.innerHTML=''; window.removeEventListener('afterprint',off); }; window.addEventListener('afterprint',off);
+  setTimeout(()=>{ try{ window.print(); }catch(e){ off(); say("This browser can't print from here. Open the app in your browser to print."); } },80); }
+/*PRINT:start*/
+const QR_ECC_M = {
+  // version: [ec codewords per block, blocks in group 1, data cw per block g1, blocks g2, data cw per block g2]
+  1: [10, 1, 16, 0, 0], 2: [16, 1, 28, 0, 0], 3: [26, 1, 44, 0, 0], 4: [18, 2, 32, 0, 0],
+  5: [24, 2, 43, 0, 0], 6: [16, 4, 27, 0, 0], 7: [18, 4, 31, 0, 0], 8: [22, 2, 38, 2, 39],
+  9: [22, 3, 36, 2, 37], 10: [26, 4, 43, 1, 44],
+};
+const QR_ALIGN = { 1: [], 2: [6, 18], 3: [6, 22], 4: [6, 26], 5: [6, 30], 6: [6, 34], 7: [6, 22, 38], 8: [6, 24, 42], 9: [6, 26, 46], 10: [6, 28, 50] };
+
+function qrRsMul(x, y) {
+  let z = 0;
+  for (let i = 7; i >= 0; i--) { z = (z << 1) ^ ((z >>> 7) * 0x11d); z ^= ((y >>> i) & 1) * x; }
+  return z & 0xff;
+}
+function qrRsDivisor(deg) {
+  const r = new Array(deg).fill(0); r[deg - 1] = 1;
+  let root = 1;
+  for (let i = 0; i < deg; i++) {
+    for (let j = 0; j < r.length; j++) { r[j] = qrRsMul(r[j], root); if (j + 1 < r.length) r[j] ^= r[j + 1]; }
+    root = qrRsMul(root, 0x02);
+  }
+  return r;
+}
+function qrRsRemainder(data, div) {
+  const r = div.map(() => 0);
+  for (const b of data) {
+    const f = b ^ r.shift(); r.push(0);
+    div.forEach((c, i) => { r[i] ^= qrRsMul(c, f); });
+  }
+  return r;
+}
+
+function qrEncode(text) {
+  const bytes = Array.from(new TextEncoder().encode(String(text)));
+  let ver = 0, spec = null;
+  for (let v = 1; v <= 10; v++) {
+    const s = QR_ECC_M[v];
+    const cap = s[1] * s[2] + s[3] * s[4];
+    const ccBits = v <= 9 ? 8 : 16;
+    if (4 + ccBits + bytes.length * 8 <= cap * 8) { ver = v; spec = s; break; }
+  }
+  if (!ver) return null;
+  const [ecLen, g1, d1, g2, d2] = spec;
+  const dataCap = g1 * d1 + g2 * d2;
+
+  // bit stream
+  const bits = [];
+  const put = (val, n) => { for (let i = n - 1; i >= 0; i--) bits.push((val >>> i) & 1); };
+  put(0b0100, 4); put(bytes.length, ver <= 9 ? 8 : 16); bytes.forEach((b) => put(b, 8));
+  put(0, Math.min(4, dataCap * 8 - bits.length));
+  put(0, (8 - bits.length % 8) % 8);
+  for (let pad = 0xec; bits.length < dataCap * 8; pad ^= 0xec ^ 0x11) put(pad, 8);
+  const data = [];
+  for (let i = 0; i < bits.length; i += 8) data.push(parseInt(bits.slice(i, i + 8).join(""), 2));
+
+  // blocks, error correction, interleave
+  const div = qrRsDivisor(ecLen);
+  const blocks = []; let k = 0;
+  for (let i = 0; i < g1 + g2; i++) {
+    const n = i < g1 ? d1 : d2;
+    const dat = data.slice(k, k + n); k += n;
+    blocks.push({ dat, ec: qrRsRemainder(dat, div) });
+  }
+  const final = [];
+  const maxD = Math.max(d1, d2);
+  for (let i = 0; i < maxD; i++) blocks.forEach((b) => { if (i < b.dat.length) final.push(b.dat[i]); });
+  for (let i = 0; i < ecLen; i++) blocks.forEach((b) => final.push(b.ec[i]));
+
+  // matrix
+  const size = ver * 4 + 17;
+  const m = Array.from({ length: size }, () => new Array(size).fill(false));
+  const fn = Array.from({ length: size }, () => new Array(size).fill(false));
+  const set = (x, y, d) => { m[y][x] = d; fn[y][x] = true; };
+  for (let i = 0; i < size; i++) { set(6, i, i % 2 === 0); set(i, 6, i % 2 === 0); }
+  const finder = (cx, cy) => {
+    for (let dy = -4; dy <= 4; dy++) for (let dx = -4; dx <= 4; dx++) {
+      const d = Math.max(Math.abs(dx), Math.abs(dy)), x = cx + dx, y = cy + dy;
+      if (x >= 0 && x < size && y >= 0 && y < size) set(x, y, d !== 2 && d !== 4);
+    }
+  };
+  finder(3, 3); finder(size - 4, 3); finder(3, size - 4);
+  const al = QR_ALIGN[ver];
+  al.forEach((ay, i) => al.forEach((ax, j) => {
+    if ((i === 0 && j === 0) || (i === 0 && j === al.length - 1) || (i === al.length - 1 && j === 0)) return;
+    for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) set(ax + dx, ay + dy, Math.max(Math.abs(dx), Math.abs(dy)) !== 1);
+  }));
+  const drawFormat = (mask) => {
+    const dataBits = (0 << 3) | mask; // ECC M = 00
+    let rem = dataBits;
+    for (let i = 0; i < 10; i++) rem = (rem << 1) ^ ((rem >>> 9) * 0x537);
+    const b = ((dataBits << 10) | rem) ^ 0x5412;
+    const bit = (i) => ((b >>> i) & 1) !== 0;
+    for (let i = 0; i <= 5; i++) set(8, i, bit(i));
+    set(8, 7, bit(6)); set(8, 8, bit(7)); set(7, 8, bit(8));
+    for (let i = 9; i < 15; i++) set(14 - i, 8, bit(i));
+    for (let i = 0; i < 8; i++) set(size - 1 - i, 8, bit(i));
+    for (let i = 8; i < 15; i++) set(8, size - 15 + i, bit(i));
+    set(8, size - 8, true);
+  };
+  drawFormat(0);
+  if (ver >= 7) {
+    let rem = ver;
+    for (let i = 0; i < 12; i++) rem = (rem << 1) ^ ((rem >>> 11) * 0x1f25);
+    const b = (ver << 12) | rem;
+    for (let i = 0; i < 18; i++) {
+      const bt = ((b >>> i) & 1) !== 0, a = size - 11 + (i % 3), c = Math.floor(i / 3);
+      set(a, c, bt); set(c, a, bt);
+    }
+  }
+  // place data
+  let i = 0;
+  for (let right = size - 1; right >= 1; right -= 2) {
+    if (right === 6) right = 5;
+    for (let vert = 0; vert < size; vert++) for (let j = 0; j < 2; j++) {
+      const x = right - j, up = ((right + 1) & 2) === 0, y = up ? size - 1 - vert : vert;
+      if (!fn[y][x] && i < final.length * 8) { m[y][x] = ((final[i >>> 3] >>> (7 - (i & 7))) & 1) !== 0; i++; }
+    }
+  }
+  const masks = [
+    (x, y) => (x + y) % 2 === 0, (x, y) => y % 2 === 0, (x) => x % 3 === 0, (x, y) => (x + y) % 3 === 0,
+    (x, y) => (Math.floor(x / 3) + Math.floor(y / 2)) % 2 === 0, (x, y) => (x * y) % 2 + (x * y) % 3 === 0,
+    (x, y) => ((x * y) % 2 + (x * y) % 3) % 2 === 0, (x, y) => ((x + y) % 2 + (x * y) % 3) % 2 === 0,
+  ];
+  const applyMask = (k) => { for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) if (!fn[y][x] && masks[k](x, y)) m[y][x] = !m[y][x]; };
+  const penalty = () => {
+    let p = 0;
+    const runs = (get) => {
+      for (let a = 0; a < size; a++) {
+        let run = 1;
+        for (let b = 1; b <= size; b++) {
+          if (b < size && get(a, b) === get(a, b - 1)) run++;
+          else { if (run >= 5) p += run - 2; run = 1; }
+        }
+      }
+    };
+    runs((a, b) => m[a][b]); runs((a, b) => m[b][a]);
+    for (let y = 0; y < size - 1; y++) for (let x = 0; x < size - 1; x++) {
+      const c = m[y][x]; if (c === m[y][x + 1] && c === m[y + 1][x] && c === m[y + 1][x + 1]) p += 3;
+    }
+    const pat = [true, false, true, true, true, false, true];
+    const finderLike = (get) => {
+      for (let a = 0; a < size; a++) for (let b = 0; b + 7 <= size; b++) {
+        if (!pat.every((v, t) => get(a, b + t) === v)) continue;
+        const before = b >= 4 && [1, 2, 3, 4].every((t) => !get(a, b - t));
+        const after = b + 11 <= size && [7, 8, 9, 10].every((t) => !get(a, b + t));
+        if (before || after) p += 40;
+      }
+    };
+    finderLike((a, b) => m[a][b]); finderLike((a, b) => m[b][a]);
+    let dark = 0; m.forEach((r) => r.forEach((c) => { if (c) dark++; }));
+    p += Math.floor(Math.abs(dark * 20 - size * size * 10) / (size * size)) * 10;
+    return p;
+  };
+  let best = 0, bestP = Infinity;
+  for (let k = 0; k < 8; k++) {
+    applyMask(k); drawFormat(k);
+    const pp = penalty();
+    if (pp < bestP) { bestP = pp; best = k; }
+    applyMask(k);
+  }
+  applyMask(best); drawFormat(best);
+  return m;
+}
+const PR_CSS=`.prl{display:flex;gap:16px;align-items:flex-start;border:4px solid #000;border-radius:14px;padding:14px 16px;margin:0 0 14px;break-inside:avoid;page-break-inside:avoid;font-family:system-ui,-apple-system,sans-serif;color:#000;background:#fff}.prl .t{flex:1;min-width:0}.prl .c{font-size:30px;font-weight:800;letter-spacing:.04em}.prl .d{font-size:22px;font-weight:800;margin-top:2px}.prl .l{font-size:16px;margin-top:2px}.prl .i{font-size:15px;line-height:1.35;margin-top:8px}.prl .ch{display:inline-block;border:2px solid #000;border-radius:999px;padding:2px 10px;margin:8px 6px 0 0;font-size:13px;font-weight:800}.prl svg{flex:none;width:1.5in;height:1.5in}.prs{border:8px solid #000;border-radius:28px;padding:56px 24px;text-align:center;margin:0 0 24px;break-after:page;page-break-after:always;break-inside:avoid;font-family:system-ui,-apple-system,sans-serif;color:#000}.prs .nm{font-size:64px;font-weight:800;line-height:1.1;letter-spacing:.02em}.prs .ct{font-size:24px;margin-top:16px;font-weight:700}.prs .nt{font-size:19px;margin-top:10px;color:#333}`;
+const prEsc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function prQr(text,label){ const m=qrEncode(text); if(!m) return ''; const n=m.length, q=4, s=n+q*2; let d=''; m.forEach((row,y)=>row.forEach((on,x)=>{ if(on) d+=`M${x+q} ${y+q}h1v1h-1z`; }));
+  return `<svg viewBox="0 0 ${s} ${s}" role="img" aria-label="${prEsc(label)}" shape-rendering="crispEdges" style="background:#fff"><path d="${d}" fill="#000"/></svg>`; }
+function prLabels(L){ return L.map(b=>`<div class="prl" style="border-color:${prEsc(b.col)}"><div class="t"><div class="c">${prEsc(b.code)}</div><div class="d" style="color:${prEsc(b.col)}">${prEsc(b.dest)}</div>${b.loc?`<div class="l">${prEsc(b.loc)}</div>`:''}${b.items?`<div class="i">${prEsc(b.items)}</div>`:''}<div>${b.chips.map(c=>`<span class="ch">${prEsc(c)}</span>`).join('')}</div></div>${prQr(b.qr,`Scan code for ${b.code}`)}</div>`).join(''); }
+function prSigns(R){ return R.map(r=>`<div class="prs" style="border-color:${prEsc(r.col)};background:${prEsc(r.col)}1A"><div class="nm" style="color:${prEsc(r.col)}">${prEsc(r.n.toUpperCase())}</div><div class="ct">${prEsc(r.code)}, ${r.count} ${r.count===1?'box':'boxes'}</div><div class="nt">Boxes with this color go in this room. Keep the middle of the floor clear.</div></div>`).join(''); }
+/*PRINT:end*/
+async function ppOpen(x){ try{ const o=JSON.parse(await idbGet('moving-command-center-v1-photos-file-'+x.id)||'null'); if(!o||!o.data){ say("That file isn't on this phone."); return; }
+  const blob=await (await fetch(o.data)).blob(), name=x.name||o.name||'document', file=new File([blob],name,{type:blob.type});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){ try{ await navigator.share({files:[file],title:name}); return; }catch(e){ if(e&&e.name==='AbortError') return; } }
+  const u=URL.createObjectURL(blob), a=document.createElement('a'); a.href=u; a.target='_blank'; a.rel='noopener'; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),60000);
+}catch(e){ say("That file couldn't be opened."); } }
 const AP_KINDS=["The movers","Internet install","Utilities on or off","Elevator or loading dock","Donation pickup","Cleaning"];
 const AP_WHEN=["Morning","Afternoon","Evening","All day"];
 const MICSVG='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg>';
@@ -1295,7 +1523,7 @@ const P={
     const cta=n>1?`<button class="cta" id="hVault">Look through them one by one</button>`:`<button class="cta" data-go="start">${n?'Pack a box':'Pack my first box'}</button>`;
     const rooms=n?`<div class="lhead"><h2>Your boxes</h2><button class="link" id="hList">All ${n}</button></div>${roomRows(byRoom(S.boxes,b=>b.room).map(([r,L])=>{ const ph=(L.find(b=>b.photo)||{}).photo, u=L.filter(b=>b.unpacked).length;
       return [ph,RIC.box,esc(r),`${L.length} ${L.length===1?'box':'boxes'}`,`data-vroom="${esc(r)}" aria-label="${esc(r)}, ${L.length} ${L.length===1?'box':'boxes'}${u?`, ${u} unpacked`:''}"`]; }))}`:'';
-    return ({lem:1, pi:1, h:'The vault.', pano:lemPano(H), body:`<p class="lsub">${say}</p>${find}${rooms}${cta}${lemRows([[RIC.box,'Pack a box','data-go="start"'],[RIC.sofa,"Something won't fit in a box",'id="hBigAdd"'],[RIC.tag,'Print labels','data-hgo="labels"']])}`}); },
+    return ({lem:1, pi:1, h:'The vault.', pano:lemPano(H), body:`<p class="lsub">${say}</p>${find}${rooms}${cta}${lemRows([[RIC.box,'Pack a box','data-go="start"'],[RIC.sofa,"Something won't fit in a box",'id="hBigAdd"'],[RIC.tag,'Print labels','data-lbgo="1"']])}`}); },
   lbig:()=>{ const H=S.hm||{}, m=coming().length, left=S.big.length-m, photos=S.big.filter(b=>b.photo).length;
     const say=m||left?`${m} ${m===1?'piece is':'pieces are'} coming${left?`, and ${left} ${left===1?'stays':'stay'} behind`:''}${H.wide?`. The widest is the ${esc(H.wide.name.toLowerCase())}, ${H.wide.w} inches`:''}.`:'Anything too big for a box: the sofa, the bed, the TV.';
     const badges=m?lemBadges([[BIC.door,H.door?H.door+'″':'Measure',H.door?'front door':'the front door'],[BIC.camera,photos||'No photos',photos?(photos===1?'with a photo':'with photos'):'yet'],[BIC.tag,H.value?'$'+Math.round(H.value).toLocaleString('en-US'):'No value',H.value?'to replace':'written yet']]):'';
@@ -1629,6 +1857,29 @@ const P={
       body:`${x.note&&!x.got?`<p class="lsub" style="font-size:16px">${esc(x.note)}</p>`:''}${late?`<button class="cta" id="owLetter">Copy the letter</button>`:''}${x.got?`<button class="${late?'choice':'cta'}" data-go="owBack">How much came back</button><button class="link" id="owNotBack">Not back after all</button>`:`<button class="${late?'choice':'cta'}" id="owGot" ${late?'style="margin-top:12px;max-width:300px"':''}>It came back</button>`}<button class="link" id="owEdit">Change the amount, date or who</button><button class="link" id="owDel">Remove</button><button class="link" data-mngo="owed">Back to the list</button>`}); },
   owBack:()=>{ const x=owList().find(y=>y.id===S.owi)||{}; return ({say:`${x.what||'It'} came back.`, h:'How much came back?', sub:x.amount?`You were owed ${MK.money(MK.amt(x.amount))}. If they kept some, put in what you got.`:'Put in what you got.', scene:'house',
     body:`<div class="field"><input id="owBackIn" inputmode="decimal" value="${esc(x.gotAmt||x.amount||'')}" placeholder="$" aria-label="How much came back, in dollars"></div><button class="cta" id="owBackSave">Save</button>`}); },
+  ppHome:()=>{ const L=ppList(), G=PAPER_KINDS.map(k=>({k,rows:L.filter(x=>x.kind===k.k)})).filter(g=>g.rows.length);
+    return ({say:'Papers and proof.', h:L.length?`${MK.plural(L.length,'paper')} on this phone.`:'Your papers.', sub:'Leases, the mover\'s contract, receipts and insurance, kept on this phone and in your backup. Nothing here is ever shared.', scene:'papers',
+      body:`${L.length?G.map(g=>`<p class="grp">${esc(g.k.n)}</p><div class="lcard">${g.rows.map(x=>`<button type="button" class="lrow" data-ppi="${esc(x.id)}"><span class="ric"><svg viewBox="0 0 24 24" aria-hidden="true">${RIC.doc}</svg></span><span class="rt">${esc(x.name||g.k.n)}<span class="fsum">Added ${ppWhen(x.at)}${x.size?`, ${ppSize(x.size)}`:''}${/^lease/.test(x.kind)&&ppNotice(x.lease)?`. Notice by ${fmtD(ppNotice(x.lease))}`:''}</span></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>`).join('')}</div>`).join(''):'<p class="lsub">Nothing here yet. Start with both leases: the old one decides your deposit, the new one your next notice date.</p>'}${mnUndoLine()}<button class="cta" data-go="ppKind">Add a PDF or photos</button>`}); },
+  ppKind:()=>({say:'Papers and proof.', h:'What are you adding?', sub:'Each kind gets its own place in your papers.', scene:'papers',
+    body:`<div class="field"><select id="ppKindIn" aria-label="What you are adding">${PAPER_KINDS.map(k=>`<option value="${k.k}"${(S.ppk||'lease-old')===k.k?' selected':''}>${esc(k.n)}</option>`).join('')}</select></div><button class="cta" id="ppNext">Next</button>`}),
+  ppAdd:()=>({say:`${ppKind(S.ppk).n}.`, h:'Add the PDF or photos.', sub:'From Files, Mail or Photos. On paper? Take a photo of each page.', scene:'papers',
+    body:`<label class="cta lab" id="ppPick">Choose a PDF or photos<input type="file" accept="application/pdf,image/*" multiple hidden id="ppFile"></label><p class="hint" id="ppBusy" hidden>Saving on this phone.</p>`}),
+  ppItem:()=>{ const x=ppList().find(y=>y.id===S.ppi); if(!x) return P.ppHome(); const lease=/^lease/.test(x.kind), L=x.lease||{}, due=ppNotice(L);
+    return ({say:`${ppKind(x.kind).n}.`, h:`${x.name||ppKind(x.kind).n}.`, sub:`Added ${ppWhen(x.at)}${x.size?`, ${ppSize(x.size)}`:''}.${x.note?` ${x.note}`:''}`, scene:'papers',
+      body:`${lease&&(L.end||L.rent||L.deposit||L.notice)?`<p class="lsub">${esc([L.end?`Ends ${fmtD(L.end)}`:'',L.rent?`${MK.money(MK.amt(L.rent))} a month`:'',L.deposit?`${MK.money(MK.amt(L.deposit))} deposit`:'',L.notice?`${L.notice} days' notice`:''].filter(Boolean).join(', '))}.${due?` Written notice is due by <b>${esc(fmtD(due))}</b>.`:''}</p>`:''}<button class="cta" id="ppOpen">Open it</button>${lease?`<button class="choice" data-go="ppEnd" style="margin-top:12px;max-width:300px">The numbers that matter</button>`:''}${lease&&x.kind==='lease-old'&&(L.deposit||due)?`<button class="choice" id="ppUse" style="margin-top:10px;max-width:300px">Use these for the deposit</button>`:''}<button class="link" data-go="ppName">Name and note</button><button class="link" id="ppDel">Remove</button><button class="link" data-go="ppHome">Back to your papers</button>`}); },
+  ppEnd:()=>({say:`${ppKind((ppList().find(y=>y.id===S.ppi)||{}).kind).n}.`, h:'When does the lease end?', sub:S.ppEnd?dateSub('ppEnd'):'The end date on the lease. Notice is counted back from it.', scene:'blank',
+    body:calBody('ppEnd',{past:1})+`<button class="cta" id="calNext" ${S.ppEnd?'':'disabled'}>Next</button><button class="link" id="calSkip">It doesn't say</button>`}),
+  ppNums:()=>{ const L=(ppList().find(y=>y.id===S.ppi)||{}).lease||{}; return ({say:'The numbers that matter.', h:'Rent, deposit and notice.', sub:'Copy them from the lease. Leave out any it doesn\'t say.', scene:'papers',
+    body:`<div class="field"><input id="ppRent" inputmode="decimal" value="${esc(L.rent||'')}" placeholder="Rent a month" aria-label="Rent a month, in dollars"></div><div class="field"><input id="ppDep" inputmode="decimal" value="${esc(L.deposit||'')}" placeholder="Security deposit" aria-label="Security deposit, in dollars"></div><div class="field"><input id="ppNot" inputmode="numeric" value="${esc(L.notice||'')}" placeholder="Days of notice, usually 30 or 60" aria-label="Days of notice the lease requires"></div><button class="cta" id="ppSaveNums">Save</button>`}); },
+  ppName:()=>{ const x=ppList().find(y=>y.id===S.ppi)||{}; return ({say:`${ppKind(x.kind).n}.`, h:'Name and note.', sub:'So you know which one it is at a glance.', scene:'papers',
+    body:`<div class="field"><input id="ppNameIn" value="${esc(x.name||'')}" placeholder="Name" aria-label="Name"></div><div class="field microw"><input id="ppNoteIn" value="${esc(x.note||'')}" placeholder="Signed copy, page 4 has the pet clause" aria-label="Note, optional"><button type="button" class="mic" data-mic="ppNoteIn" aria-label="Say it out loud">${MICSVG}</button></div><p class="hint" id="michint" hidden></p><button class="cta" id="ppSaveName">Save</button>`}); },
+  lbHome:()=>{ const B=lbBoxes(), rooms=[...new Set(B.map(b=>b.room))].filter(Boolean), r=S.lbRoom||'all', inR=B.filter(b=>r==='all'||b.room===r), hand=inR.filter(b=>b.qr===false), list=S.lbHand?inR:inR.filter(b=>b.qr!==false);
+    const opts=[['all','All boxes'],...rooms.map(c=>[c,lbRoom(c).n])];
+    const pick=opts.length<=6?`<div class="chips">${opts.map(([c,n])=>`<button class="choice${r===c?' on':''}" data-lbroom="${esc(c)}" aria-pressed="${r===c}">${esc(n)}</button>`).join('')}</div>`:`<div class="field"><select id="lbRoomIn" aria-label="Which labels">${opts.map(([c,n])=>`<option value="${esc(c)}"${r===c?' selected':''}>${esc(n)}</option>`).join('')}</select></div>`;
+    return ({say:'Labels.', h:B.length?(list.length?`${MK.plural(list.length,'label')} to print.`:'Nothing to print here.'):'Nothing to print yet.', sub:B.length?'Tape one on the top and one on the side, so you can read it whichever way the box sits. The square code holds the box number and nothing else.':'Each box you pack gets its label here.', scene:'labels',
+      body:B.length?`${rooms.length>1?pick:''}${hand.length?`<button class="choice${S.lbHand?' on':''}" id="lbHand" aria-pressed="${!!S.lbHand}" style="margin-top:12px;max-width:320px">Print the ${hand.length===1?'one':hand.length} marked to write by hand too</button>`:''}${list.length?'<button class="cta" id="lbPrint">Print these labels</button>':''}${lemRows([[RIC.house,'Room signs to match<span class="fsum">One for each door, in the same colors</span>','data-go="lbSigns"']])}`:'<button class="cta" data-go="start">Pack a box</button>'}); },
+  lbSigns:()=>{ const R=lbSigns(); return ({say:'Room signs.', h:R.length?`${MK.plural(R.length,'sign')} to print.`:'No rooms yet.', sub:'Tape one on each door before the movers arrive. They match the colors on your box labels, so nobody has to ask where anything goes.', scene:'labels',
+    body:`${R.length?`<p class="lsub" style="font-size:17px">${esc(R.map(r=>r.n).join(', '))}.</p>`:''}<button class="choice${S.lbAll?' on':''}" id="lbAll" aria-pressed="${!!S.lbAll}" style="margin-top:12px;max-width:300px">Every room, not only the ones in use</button>${R.length?'<button class="cta" id="lbSignPrint">Print the signs</button>':''}<button class="link" data-go="lbHome">Back to the labels</button>`}); },
   mdOut:()=>{ const st=S.mdSt||{}, M=mdGroups(st), all=M.groups.flatMap(g=>[...g.bigs,...g.boxes]), left=all.filter(x=>!x.loaded).length;
     return ({say:'Moving day.', h:all.length?(left?`${left} ${left===1?'thing':'things'} to go on the truck.`:"Everything's on the truck."):'Nothing to load yet.',
       sub:all.length?(left?'Load in this order, and read it to the crew from the top. The last on is the first off.':'Nothing left off. Walk the rooms once more before the truck leaves.'):'Boxes and furniture show up here as you add them.', scene:'truck',
@@ -1739,6 +1990,8 @@ function wire(id){
   phone.querySelectorAll('[data-mdgo]').forEach(b=>b.onclick=()=>mdGo(b.dataset.mdgo));
   phone.querySelectorAll('[data-mogo]').forEach(b=>b.onclick=()=>moGo());
   phone.querySelectorAll('[data-mngo]').forEach(b=>b.onclick=()=>mnGo(b.dataset.mngo));
+  phone.querySelectorAll('[data-ppgo]').forEach(b=>b.onclick=()=>ppGo());
+  phone.querySelectorAll('[data-lbgo]').forEach(b=>b.onclick=()=>lbGo());
   const bk=$('[data-back]'); if(bk) bk.onclick=()=>{ const prev=hist.pop(); if(prev) show(prev,true); };
   phone.querySelectorAll('[data-pic]').forEach(inp=>inp.onchange=async()=>{ const fs=[...(inp.files||[])]; if(!fs.length) return; for(const f of fs){ const u=await shrink(f); if(u) S.photos.push(u); } say(S.photos.length===1?'Photo added.':S.photos.length+' photos.'); show('photo',true); });
   /* alpha test, 8 Nov: each tap stacked another camera prompt; one is enough */
@@ -2089,6 +2342,37 @@ function wire(id){
       $('#owEdit').onclick=()=>{ S.ow=Object.assign({},x); S.owDue=x.dueBy||''; S.owLaw=''; show('owAmt'); };
       $('#owDel').onclick=async()=>{ const i=owList().findIndex(y=>y.id===x.id); if(await mnWrite(s=>{ s.owed=(s.owed||[]).filter(y=>y.id!==x.id); })){ S.mnUndo={at:Date.now(),coll:'owed',x,i,name:x.what,msg:`Removed: ${x.what}.`}; say(S.mnUndo.msg); show('owHome'); } }; } }
     if(id==='owBack') $('#owBackSave').onclick=async()=>{ const v=$('#owBackIn').value.trim(); if(await mnWrite(s=>{ const y=(s.owed||[]).find(z=>z.id===S.owi); if(!y) return false; y.got=true; y.gotAmt=v; })){ say(MK.amt(v)>0?`${MK.money(MK.amt(v))} back. It counts in what the move kept.`:'Saved.'); show('owHome'); } };
+  }
+  if(/^pp[A-Z]/.test(id)){
+    if($('#mnUndo')) $('#mnUndo').onclick=async()=>{ const u=S.mnUndo; if(u&&await mnWrite(mnRestore)) say(`${u.name} is back.`); S.mnUndo=null; show(id,true); };
+    phone.querySelectorAll('[data-ppi]').forEach(b=>b.onclick=()=>{ S.ppi=b.dataset.ppi; show('ppItem'); });
+    if(id==='ppKind') $('#ppNext').onclick=()=>{ S.ppk=$('#ppKindIn').value; show('ppAdd'); };
+    if(id==='ppAdd') $('#ppFile').onchange=async e=>{ const fs=[...(e.target.files||[])]; e.target.value=''; if(!fs.length) return; $('#ppBusy').hidden=false; const added=[];
+      for(const f of fs){ if(f.size>12e6){ say('That one is over 12 MB. A photo of each page works instead.'); continue; }
+        try{ const data=/^image\//.test(f.type)?await shrink(f):await new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(f); });
+          if(!data) throw new Error('read'); const fid=mnId('pp'); await idbSet('moving-command-center-v1-photos-file-'+fid,JSON.stringify({name:f.name,type:f.type,data}));
+          added.push({id:fid,kind:S.ppk||'other',name:f.name.replace(/\.[a-z0-9]+$/i,''),type:f.type,size:f.size,at:Date.now(),note:''}); }
+        catch(err){ say(err&&/quota/i.test(String(err.name||err.message))?'This phone is out of room for files.':"That file couldn't be saved."); } }
+      $('#ppBusy').hidden=true; if(!added.length) return;
+      if(await mnWrite(s=>{ s.files=[...added,...(s.files||[])]; })){ say(added.length===1?'Saved on this phone.':`${added.length} files saved on this phone.`);
+        if(added.length===1&&/^lease/.test(added[0].kind)){ S.ppi=added[0].id; S.ppEnd=''; show('ppEnd'); } else if(added.length===1){ S.ppi=added[0].id; show('ppItem'); } else show('ppHome'); } };
+    if(id==='ppItem'){ const x=ppList().find(y=>y.id===S.ppi); if(x){
+      $('#ppOpen').onclick=()=>ppOpen(x);
+      if($('#ppUse')) $('#ppUse').onclick=async()=>{ const L=x.lease||{}, due=ppNotice(L); if(await mnWrite(s=>{ s.moveout=Object.assign({},s.moveout); if(L.deposit) s.moveout.deposit=L.deposit; if(due) s.moveout.noticeBy=due; })){ say('Deposit and notice date added to Leaving the old place.'); $('#ppUse').textContent='Added to Leaving the old place'; } };
+      if($('[data-go="ppEnd"]')) $('[data-go="ppEnd"]').onclick=()=>{ S.ppEnd=(x.lease||{}).end||''; show('ppEnd'); };
+      $('#ppDel').onclick=async()=>{ const i=ppList().findIndex(y=>y.id===x.id); if(await mnWrite(s=>{ s.files=(s.files||[]).filter(y=>y.id!==x.id); })){ S.mnUndo={at:Date.now(),coll:'files',x,i,name:x.name||'It',msg:`Removed: ${x.name||ppKind(x.kind).n}.`}; say(S.mnUndo.msg); show('ppHome'); } }; } }
+    if(id==='ppEnd') calPage('ppEnd',async()=>{ const x=ppList().find(y=>y.id===S.ppi); if(x&&await ppSet(x.id,{lease:Object.assign({},x.lease,{end:S.ppEnd})})) show('ppNums'); },()=>show('ppNums'));
+    if(id==='ppNums') $('#ppSaveNums').onclick=async()=>{ const x=ppList().find(y=>y.id===S.ppi); if(!x) return show('ppHome');
+      if(await ppSet(x.id,{lease:Object.assign({},x.lease,{rent:$('#ppRent').value.trim(),deposit:$('#ppDep').value.trim(),notice:$('#ppNot').value.trim()})})){ const due=ppNotice((ppList().find(y=>y.id===S.ppi)||{}).lease); say(due?`Written notice is due by ${fmtD(due)}.`:'Saved.'); show('ppItem'); } };
+    if(id==='ppName') $('#ppSaveName').onclick=async()=>{ if(await ppSet(S.ppi,{name:$('#ppNameIn').value.trim(),note:$('#ppNoteIn').value.trim()})){ say('Saved.'); show('ppItem'); } };
+  }
+  if(/^lb[A-Z]/.test(id)){
+    phone.querySelectorAll('[data-lbroom]').forEach(b=>b.onclick=()=>{ S.lbRoom=b.dataset.lbroom; show(id,true); });
+    if($('#lbRoomIn')) $('#lbRoomIn').onchange=e=>{ S.lbRoom=e.target.value; show(id,true); };
+    if($('#lbHand')) $('#lbHand').onclick=()=>{ S.lbHand=!S.lbHand; show(id,true); };
+    if($('#lbAll')) $('#lbAll').onclick=()=>{ S.lbAll=!S.lbAll; show(id,true); };
+    if($('#lbPrint')) $('#lbPrint').onclick=()=>{ const r=S.lbRoom||'all', inR=lbBoxes().filter(b=>r==='all'||b.room===r), list=S.lbHand?inR:inR.filter(b=>b.qr!==false); prPrint(prLabels(lbData(list))); };
+    if($('#lbSignPrint')) $('#lbSignPrint').onclick=()=>prPrint(prSigns(lbSigns()));
   }
   if(/^md/.test(id)){
     phone.querySelectorAll('[data-mdtick]').forEach(b=>b.onclick=async()=>{ const [t,k]=b.dataset.mdtick.split(':'), f=b.dataset.f, coll=t==='g'?'bigs':'boxes'; let label='', now=false;
@@ -2553,7 +2837,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
   const s=document.createElement('div'); s.className='sheet msheet'; s.setAttribute('role','dialog'); s.setAttribute('aria-modal','true'); s.setAttribute('aria-label','Menu');
   s.innerHTML=`<div class="mhandle" aria-hidden="true"></div><div class="top"><button class="back" data-close style="margin-left:auto">Close</button></div><div class="in">
     <h3 id="sheet-h" tabindex="-1" class="mhi">${hi}</h3>${line?`<p class="mline">${line}</p>`:''}
-    <p class="mgroup">Your move</p>${lemRows([[RIC.house,'Moving day and addresses','data-hgo="setup"'],[RIC.truck,'Move day','data-mdgo=""'],[RIC.check,'Leaving the old place','data-mogo="1"'],[RIC.doc,'Papers and proof','data-hgo="papers"'],[RIC.wallet,'Money','data-mngo=""']])}
+    <p class="mgroup">Your move</p>${lemRows([[RIC.house,'Moving day and addresses','data-hgo="setup"'],[RIC.truck,'Move day','data-mdgo=""'],[RIC.check,'Leaving the old place','data-mogo="1"'],[RIC.doc,'Papers and proof','data-ppgo="1"'],[RIC.wallet,'Money','data-mngo=""']])}
     <p class="mgroup">Everything else</p>${lemRows([[RIC.grid,'Every part of the app','data-hgo="home"'],[RIC.help,'I need help','data-hgo="help"']])}
     <p class="mgroup">Your account</p>${lemRows([[RIC.key,'Membership','data-hgo="pack"'],[RIC.save,'Backups and sharing','data-hgo="share"']])}
     <p class="mgroup">Support</p>${lemRows([[RIC.mail,'Write to us','data-mail'],[RIC.share,'Share The Packed Rabbit','data-share']])}</div>`;
@@ -2563,6 +2847,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
   s.querySelectorAll('[data-mdgo]').forEach(b=>b.onclick=()=>{ closeSheet(true); mdGo(b.dataset.mdgo); });
   s.querySelectorAll('[data-mogo]').forEach(b=>b.onclick=()=>{ closeSheet(true); moGo(); });
   s.querySelectorAll('[data-mngo]').forEach(b=>b.onclick=()=>{ closeSheet(true); mnGo(b.dataset.mngo); });
+  s.querySelectorAll('[data-ppgo]').forEach(b=>b.onclick=()=>{ closeSheet(true); ppGo(); });
   s.querySelector('[data-mail]').onclick=()=>{ (window.top||window).location.href='mailto:hello@packedrabbit.com'; };
   s.querySelector('[data-share]').onclick=async()=>{ const url='https://packedrabbit.com/'; try{ if(navigator.share){ await navigator.share({title:'The Packed Rabbit',url}); return; } }catch(e){ return; }
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
