@@ -174,7 +174,7 @@
       var cu=k[2]*(p.n||1), cost=r*cu, rep=num(p.r);
       var v="";
       if(r&&rep>0){
-        if(rep<cost){ v='<div class="tlv leave"><b>Leave it</b>Moving '+(p.n>1?"them":"it")+' costs about '+money(cost)+'. Replacing costs '+money(rep)+'. Sell or donate '+(p.n>1?"them":"it")+' and keep about '+money(cost-rep)+'.</div>'; save+=cost-rep; }
+        if(rep<cost){ v='<div class="tlv leave"><b>Leave it</b>'+(p.n>1?"These account":"This accounts")+' for about '+money(cost)+' of your moving price. Replacing '+(p.n>1?"them":"it")+' costs '+money(rep)+'. Selling or donating '+(p.n>1?"them":"it")+' could save about '+money(cost-rep)+', if your mover lowers the quote. Ask how much it drops without '+(p.n>1?"them":"it")+'.</div>'; save+=cost-rep; }
         else if(rep<cost*1.5){ v='<div class="tlv close"><b>Close call</b>Moving costs about '+money(cost)+'; replacing, '+money(rep)+'. Count the time to shop and set up, and what you could sell '+(p.n>1?"them":"it")+' for.</div>'; }
         else { v='<div class="tlv take"><b>Take it</b>Moving costs about '+money(cost)+', far less than the '+money(rep)+' to replace.'+(rep>=1000?'<span class="cover">Basic coverage pays 60 cents a pound, not '+money(rep)+'. Ask the price of Full Value Protection.</span>':'')+'</div>'; }
         moveAll+=cost;
@@ -186,7 +186,8 @@
         '</div>'+v+(list.length>1?'<button class="btn ghost dark rm" type="button" data-rm="'+i+'">Remove this piece</button>':'')+'</div>';
     });
     $("pieces").innerHTML=html;
-    $("tot").textContent=save>0?("Leaving what's marked Leave it keeps about "+money(save)+" in your pocket."):"";
+    /* review, 11 Nov: a piece's share of the price isn't money back until the mover takes it off the quote */
+    $("tot").textContent=save>0?("Leaving what's marked Leave it could save about "+money(save)+", if your mover lowers the quote. Ask them how much it drops before you decide."):"";
   }
   $("pieces").addEventListener("change",function(e){var t=e.target,i=+t.getAttribute("data-i"),f=t.getAttribute("data-f");if(!f)return;list[i][f]=f==="k"?t.value:num(t.value);draw();var el=$(t.id);if(el)el.focus();});
   $("pieces").addEventListener("click",function(e){var i=e.target.getAttribute("data-rm");if(i===null)return;list.splice(+i,1);draw();});

@@ -35,7 +35,20 @@ function parseQuote(raw, myCube) {
   if (dot) out.dot = dot[1];
   const mc = t.match(/\bMC\s*(?:#|no\.?|number)?\s*[-:]?\s*(\d{5,7})\b/i);
   if (mc) out.mc = mc[1];
-  out.broker = /\bbroker(age)?\b|not a motor carrier|carrier (will be|is) assigned|network of (carriers|movers)|we (arrange|coordinate) (your|the) (move|carrier)|third[\s-]party carrier/i.test(t);
+  /* review, 11 Nov: "No broker is involved." was read as a broker. A phrase only counts when the words just
+     before it, in the same clause, don't deny it (no, not, never, without, unlike, isn't...) and it isn't
+     followed by "none" or "N/A". "We are a broker, not a motor carrier" (the wording brokers must use) still
+     counts. The same goes for cash-only wording: "We never ask for Zelle" is not a cash-only quote. */
+  const saidPlainly = (s, re, always) => {
+    const NEG = /\b(no|not|never|without|neither|nor|unlike|instead of|rather than)\b|n['’]t\b/i;
+    return s.split(/[.!?;]\s+|\n+/).some((line) => [...line.matchAll(re)].some((m) => {
+      if (always && always.test(m[0])) return true;
+      const before = line.slice(Math.max(0, m.index - 48), m.index).split(/[,:(]/).pop();
+      const after = line.slice(m.index + m[0].length, m.index + m[0].length + 16);
+      return !NEG.test(before) && !/^\s*(?:fee\s*)?[:\-–]?\s*(?:none|n\/?a|no)\b/i.test(after);
+    }));
+  };
+  out.broker = saidPlainly(t, /\bbroker(age)?\b|not a motor carrier|carrier (will be|is) assigned|network of (carriers|movers)|we (arrange|coordinate) (your|the) (move|carrier)|third[\s-]party carrier/gi, /^not a motor carrier$/i);
   const dep = t.match(/deposit[^$%\n]{0,40}?(?:\$\s?(\d[\d,]*(?:\.\d{2})?)|\b(\d{1,3})\s?%)/i);
   if (dep) { if (dep[1]) out.deposit = num(dep[1]); if (dep[2]) out.depositPct = num(dep[2]); }
   const depBefore = t.match(/(\d{1,3})(?:\s*(?:-|to)\s*(\d{1,3}))?\s?%\s+deposit(?!\s*(?:refund|return|back))/i);
@@ -57,7 +70,7 @@ function parseQuote(raw, myCube) {
   const FEES = [["stairs", /stair|flight|walk[\s-]?up/i], ["long carry", /long[\s-]?carry/i], ["shuttle", /shuttle/i], ["bulky item", /bulky|oversize/i],
     ["fuel", /fuel/i], ["packing materials", /packing (material|supplies)|materials/i], ["elevator", /elevator/i], ["storage", /storage[\s-]in[\s-]transit|\bSIT\b|storage (fee|charge|cost|rate)|monthly storage/i], ["travel time", /travel (time|fee|charge)|drive time/i]];
   out.fees = FEES.filter(([, re]) => re.test(t)).map(([n]) => n);
-  out.cashOnly = /cash only|cash payment (only|required)|wire transfer|zelle|venmo|cash app|money order|cashier'?s check/i.test(t);
+  out.cashOnly = saidPlainly(t, /cash only|cash payment (only|required)|wire transfer|zelle|venmo|cash app|money order|cashier'?s check/gi);
   out.rights = /rights and responsibilities/i.test(t);
   const nm = t.split("\n").map((l) => l.trim()).find((l) => /\b(moving|movers|van lines|relocation|transfer|storage)\b/i.test(l) && l.length < 60 && !/\$/.test(l));
   if (nm) out.name = nm.replace(/^(from|company)\s*:\s*/i, "");
