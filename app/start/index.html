@@ -174,12 +174,25 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
 .phone.lit .brand{opacity:0;transition:opacity .5s}
 .flood{position:absolute;inset:0;z-index:1;background:#0A3B1F;clip-path:circle(0px at 50% 100%);transition:clip-path 1s cubic-bezier(.6,0,.3,1)}
 .stop.last.alive .flood{clip-path:circle(150% at 50% 100%)}
-.walk{position:absolute;left:0;bottom:86px;width:100%;aspect-ratio:1;object-fit:cover;z-index:3;opacity:0;transition:opacity .6s ease .85s;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 30%,#000 90%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 30%,#000 90%,transparent 100%)}
+/* owner, 11 Nov: "the rabbit doesn't walk in from the outside of the screen and it's a weird little box".
+   The room behind him now runs the full width of the screen: it is the picture's own backdrop carried out
+   to both sides, so no edge of the picture ever shows. When the picture is narrower than the screen, it starts
+   against the left edge, so he walks in from outside the screen, and glides to the middle once he is all the
+   way in. Its top fades under the words, so on a shorter phone he is as big as the room allows. */
+.walkroom{position:absolute;left:0;right:0;bottom:86px;height:100vw;z-index:3;opacity:0;transition:opacity .6s ease .85s;
+  background:url(rabbit-walks-in-room.jpg) center bottom/auto 100% no-repeat;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 18%,#000 90%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 18%,#000 90%,transparent 100%)}
+/* both side edges are soft while he walks in; the right one opens out as he glides, because the box ends up right at that edge */
+.walk{position:absolute;top:0;left:0;height:100%;width:auto;aspect-ratio:1;object-fit:cover;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 6%,#000 88%,transparent 100%);mask-image:linear-gradient(to right,transparent 0,#000 6%,#000 88%,transparent 100%);
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:0 0;mask-position:0 0;-webkit-mask-size:100% 100%;mask-size:100% 100%}
+.walk.glide{transition:transform .95s cubic-bezier(.45,0,.35,1),-webkit-mask-size .95s ease,mask-size .95s ease;-webkit-mask-size:116% 100%;mask-size:116% 100%}
+.stop.last.short .s4text{padding-top:44px}.stop.last.short #wm4{width:250px}.stop.last.short .s4tag{margin-bottom:0}.stop.last.short #go{margin-top:20px}
 /* owner, 6 Nov: the green looked choppy. The picture now melts into the room at its top edge, and its background is smoothed. */
 .walkfade{display:none!important}
 .walkfade{position:absolute;left:0;right:0;bottom:374px;height:72px;z-index:3;background:linear-gradient(#0A3B1F,rgba(10,59,31,0));opacity:0;transition:opacity .6s ease .85s}
 .stop.last.alive .walkfade{opacity:1}
-.stop.last.alive .walk{opacity:1}
+.stop.last.alive .walkroom{opacity:1}
 .cut-box{position:absolute;left:calc(50% - 60px);bottom:140px;width:120px;z-index:4;transition:opacity .4s}
 .cut-rab{position:absolute;left:calc(50% - 48px);bottom:166px;height:170px;z-index:1;transform:translateY(118px);transform-origin:50% 100%}
 .s4line{position:absolute;left:0;bottom:140px;width:100%;height:4px;z-index:3;transition:opacity .4s}
@@ -316,7 +329,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
     <!-- stop 4: the box comes to life -->
     <section class="stop last" aria-label="4 of 4">
       <div class="flood" aria-hidden="true"></div>
-      <img class="walk" id="walkimg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="">
+      <div class="walkroom" id="walkroom" aria-hidden="true"><img class="walk" id="walkimg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt=""></div>
       <div class="walkfade" aria-hidden="true"></div>
       <div class="s4text">
         <p class="s4name"><img id="wm4" src="wordmark-ears-cream.png" alt="The Packed Rabbit" width="300" height="78" style="display:block;height:auto"></p>
@@ -517,7 +530,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   /* the signature again at the end: once the name has flown in, the ears wiggle */
   function wiggle4(){ try{ if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; }catch(e){} const m=document.getElementById('wm4'); if(!m||m.dataset.w) return; m.dataset.w='1'; setTimeout(()=>{ const w=new Image(); w.onload=()=>{ m.src=w.src; }; w.src='wordmark-wiggle-cream.webp?'+Date.now(); },2100); }
   function wake(s){ fitWalk(); s.classList.add('alive'); if(s.classList.contains('last')) wiggle4(); document.querySelector('.phone').classList.add('lit');
-    const v=s.querySelector('.walk'); if(!v.dataset.played){ v.dataset.played='1'; if(RM) v.src='rabbit-walks-in-end.jpg'; else setTimeout(()=>{ v.src='rabbit-walks-in.webp'; },800); } }
+    const v=s.querySelector('.walk'); if(!v.dataset.played){ v.dataset.played='1';
+      /* he is all the way into the picture about 1.95s after it starts; only then may the picture glide off the screen's edge */
+      const glide=()=>{ v.dataset.glided='1'; v.classList.add('glide'); v.style.transform=''; };
+      if(RM){ v.src='rabbit-walks-in-end.jpg'; v.style.transition='none'; glide(); }
+      else setTimeout(()=>{ v.onload=()=>{ v.onload=null; setTimeout(glide,1950); }; v.src='rabbit-walks-in.webp'; },800); } }
   function arrive(s){ if(played){ if(!s.classList.contains('alive')) wake(s); return; } played=true;
     if(RM){ wake(s); return; }
     wake(s); }
@@ -526,10 +543,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   { let began=false; const begin=()=>{ if(began) return; began=true; setTimeout(()=>mark(0),250); };
     try{ new IntersectionObserver((es,o)=>{ if(es.some(e=>e.isIntersecting)){ o.disconnect(); if(document.readyState==='complete') begin(); else window.addEventListener('load',begin,{once:true}); } }).observe(st); }catch(e){ begin(); }
     setTimeout(begin,2500); }
-  /* the last screen: the rabbit gets the room under the words, so the button never covers him on a shorter phone */
-  const fitWalk=()=>{ const s=stops[stops.length-1], w=document.getElementById('walkimg'), t=s&&s.querySelector('.s4text'); if(!s||!w||!t) return;
-    const room=s.clientHeight-86-(t.offsetTop+t.offsetHeight)-4, size=Math.round(Math.max(160,Math.min(s.clientWidth,room)));
-    w.style.width=size+'px'; w.style.left=Math.round((s.clientWidth-size)/2)+'px'; };
+  /* the last screen: the rabbit gets the room under the words, so the button never covers him on a shorter phone.
+     The room behind him is always the full width; only the picture of him shrinks, and the top 18% of it
+     (plain backdrop above his ears) may sit under the words, where it fades out. */
+  const fitWalk=()=>{ const s=stops[stops.length-1], w=document.getElementById('walkimg'), r=document.getElementById('walkroom'), t=s&&s.querySelector('.s4text'); if(!s||!w||!r||!t) return;
+    s.classList.toggle('short',s.clientHeight<720);
+    const W=s.clientWidth, room=s.clientHeight-86-(t.offsetTop+t.offsetHeight)-6, size=Math.round(Math.max(160,Math.min(W,room/0.82))), gap=Math.max(0,Math.round((W-size)/2));
+    r.style.height=size+'px'; w.style.left=gap+'px';
+    if(!w.dataset.glided){ w.classList.remove('glide'); w.style.transform=gap?`translateX(${-gap}px)`:''; } };
   fitWalk(); window.addEventListener('resize',fitWalk); window.addEventListener('load',fitWalk);
   let t; st.addEventListener('scroll',()=>{clearTimeout(t); t=setTimeout(()=>mark(Math.round(st.scrollLeft/st.clientWidth)),80);},{passive:true});
   dots.forEach((d,k)=>d.addEventListener('click',()=>go(k)));
