@@ -665,6 +665,7 @@ div.door em{color:var(--green); margin-top:6px}
 /* Lumi's review, 5 Nov: results grouped by found / not in what you pasted / good signs. Plum, not alarm red. */
 .qgroup{font-size:1rem; font-weight:800; margin:16px 0 2px}
 .qflag span a{color:inherit; font-weight:700; text-decoration:underline; text-underline-offset:2px}
+.qsaid{display:block; margin-top:6px; padding-left:10px; border-left:3px solid var(--line, #DDE3EA); color:var(--ink2, #4A5A50); font-size:.9rem; line-height:1.4}
 
 /* Owner, 7 Nov 2026: every tool in the new format. The signature wordmark in the
    header (green on light, cream on dark) and the deep green last page with the
