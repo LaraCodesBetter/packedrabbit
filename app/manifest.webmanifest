@@ -48,7 +48,7 @@
       "sizes": "1170x2532",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Every box numbered, with a photo of what's inside."
+      "label": "Every box numbered, and what's inside it."
     },
     {
       "src": "./shot-ask.png",
