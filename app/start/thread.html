@@ -2894,7 +2894,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     <p class="mgroup">Your move</p>${lemRows([[RIC.house,'Moving day and addresses','data-hgo="setup"'],[RIC.truck,'Move day','data-mdgo=""'],[RIC.check,'Leaving the old place','data-mogo="1"'],[RIC.doc,'Papers and proof','data-ppgo="1"'],[RIC.wallet,'Money','data-mngo=""']])}
     <p class="mgroup">Everything else</p>${lemRows([[RIC.grid,'Every part of the app','data-sgo="parts"'],[RIC.help,'I need help','data-sgo="hlHome"']])}
     <p class="mgroup">Your account</p>${lemRows([[RIC.key,'Membership','data-hgo="pack"'],[RIC.save,'Backups and sharing','data-hgo="share"']])}
-    <p class="mgroup">Support</p>${lemRows([[RIC.mail,'Write to us','data-mail'],[RIC.share,'Share The Packed Rabbit','data-share']])}</div>`;
+    <p class="mgroup">Support</p>${lemRows([[RIC.mail,'Send feedback','data-feedback'],[RIC.mail,'Write to us','data-mail'],[RIC.share,'Share The Packed Rabbit','data-share']])}</div>`;
   const sc=document.createElement('div'); sc.className='scrim'; sc.onclick=()=>closeSheet(); phone.appendChild(sc); phone.appendChild(s);
   s.querySelector('[data-close]').onclick=()=>closeSheet();
   s.querySelectorAll('[data-hgo]').forEach(b=>b.onclick=()=>toApp('?go='+b.dataset.hgo));
@@ -2904,9 +2904,14 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
   s.querySelectorAll('[data-ppgo]').forEach(b=>b.onclick=()=>{ closeSheet(true); ppGo(); });
   s.querySelectorAll('[data-sgo]').forEach(b=>b.onclick=async()=>{ closeSheet(true); await mnLoad(); S.mnUndo=null; show(b.dataset.sgo); });
   s.querySelector('[data-mail]').onclick=()=>{ (window.top||window).location.href='mailto:hello@packedrabbit.com'; };
+  /* the beta (owner, 11 Nov): feedback by email, with the build and the kind of phone filled in. Nothing is sent until they press send. */
+  s.querySelector('[data-feedback]').onclick=()=>{ (window.top||window).location.href=feedbackMail(); };
   s.querySelector('[data-share]').onclick=async()=>{ const url='https://packedrabbit.com/'; try{ if(navigator.share){ await navigator.share({title:'The Packed Rabbit',url}); return; } }catch(e){ return; }
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
+const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
+  const sub=`Feedback (v365, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
    time; each answer is marked in the app at once, with an undo for 15 seconds. "Not yet" closes it until the next search. */
