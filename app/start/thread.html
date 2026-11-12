@@ -134,6 +134,7 @@ h2{font-size:31px;line-height:1.15;margin:0;text-wrap:balance}
 .say .sig{display:block;width:220px;max-width:70%;height:auto;margin:0 auto 4px}
 .list li.tap{cursor:pointer;min-height:52px;align-items:center}
 .bkind{margin-left:8px;font-weight:700;color:var(--text)}
+.bput{display:inline-block;margin-top:3px;font-weight:700;color:var(--ink)}
 /* ad capture, 9 Nov: a found box's number broke in two ("BED1-" / "08") beside its photo */
 .list li em b{white-space:nowrap}.list li .thumb{flex:none}
 .rcount{float:right;margin-left:12px;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums}
@@ -1536,7 +1537,7 @@ const P={
     const nt=H.note&&H.mode!=='dates'?`<p class="lsub hnote">${esc(H.note.t)} <button class="link" data-hgo="${H.note.go}">${H.note.b}</button></p>`:'';
     return ({lem:1, pi:0, mark:1, h:'Welcome home.', count2:cd, pano:lemPano(H,art), body:`<p class="lone">${one}</p>${sub?`<p class="lsub">${sub}</p>`:''}${act}${nt}${badges}${foldCard(foldRows(H,t))}`}); },
   lvault:()=>{ const n=S.boxes.length, vault=S.boxes.filter(b=>!b.unpacked).length, opened=n-vault, H=S.hm||{};
-    const say=!n?'Nothing is in the vault yet. Your first box takes a minute: a photo, a few words, and you never open it to look.':vault?`${vault} ${vault===1?'box is':'boxes are'} in the vault${opened?`, and ${opened} ${opened===1?'is':'are'} unpacked`:''}. Type or say what you need, and the rabbit finds the box.`:`Every box is unpacked. All ${n} are still listed here.`;
+    const say=!n?'Nothing is in the vault yet. Your first box takes a minute: a photo, a few words, and you never open it to look.':vault?`${vault} ${vault===1?'box is':'boxes are'} in the vault${opened?`, and ${opened} ${opened===1?'is':'are'} unpacked`:''}. Type or say what you need, and the rabbit finds the box${opened?', or where you put it':''}.`:`Every box is unpacked. All ${n} are still listed here.`;
     const find=n?`<div class="field microw"><input id="hfind" value="${esc(S.hq||'')}" placeholder="Try &quot;towels&quot;" aria-label="Find a box"><button type="button" class="mic" data-mic="hfind" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div><div id="hres" aria-live="polite"></div>`:'';
     const cta=n>1?`<button class="cta" id="hVault">Look through them one by one</button>`:`<button class="cta" data-go="start">${n?'Pack a box':'Pack my first box'}</button>`;
     const rooms=n?`<div class="lhead"><h2>Your boxes</h2><button class="link" id="hList">All ${n}</button></div>${roomRows(byRoom(S.boxes,b=>b.room).map(([r,L])=>{ const ph=(L.find(b=>b.photo)||{}).photo, u=L.filter(b=>b.unpacked).length;
@@ -1572,7 +1573,7 @@ const P={
     return ({h:'Every box, by room.', sub:n?`${n} ${n===1?'box':'boxes'} in ${R.length} ${R.length===1?'room':'rooms'}.`:'Nothing packed yet.', scene:'none',
       body:`${R.length?lemRows(R.map(r=>[RIC.box,`${esc(r)}<span class="rcount">${G[r].n}</span>`,`data-vroom="${esc(r)}" aria-label="${esc(r)}, ${G[r].n} ${G[r].n===1?'box':'boxes'}${G[r].u?`, ${G[r].u} unpacked`:''}"`])):''}${n?'<button class="link" id="vAll">Every box in one list</button>':''}`}); },
   myBoxes:()=>{ const n=S.boxes.length, m=S.big.length, q=(S.find||'').trim().toLowerCase();
-    const hit=q?S.boxes.filter(b=>(b.words+' '+b.room+' '+b.code).toLowerCase().includes(q)):S.boxes.slice().reverse();
+    const hit=q?S.boxes.filter(b=>btext(b).toLowerCase().includes(q)):S.boxes.slice().reverse();
     const bigHit=q?S.big.filter(b=>(b.what+' '+(b.room||'')).toLowerCase().includes(q)):[];
     const free=!S.paid?Math.max(0,3-n):9;
     /* tester, 8 Nov: "Every box, as a list" showed the last 6 of 140 and repeated the vault. From the home it's
@@ -1606,8 +1607,15 @@ const P={
         <button type="button" class="fnav fnext" id="fnext" aria-label="Next box" ${S.fx<n-1?'':'disabled'}>${arrow('M9 5l7 7-7 7')}</button></figure>
       ${ph.length>1?`<div class="fthumbs" role="group" aria-label="Photos of this box">${ph.map((src,j)=>`<button type="button" data-fp="${j}" class="${j===k?'on':''}" aria-label="Photo ${j+1} of ${ph.length}" aria-pressed="${j===k}"><img src="${src}" alt=""></button>`).join('')}</div>`:''}
       ${boxNow(b)?`<p class="fnow">${esc(boxNow(b))}</p>`:''}${markUndo()}
+      ${b.unpacked&&b.appId?`<button type="button" class="${b.putAway?'link':'choice'}" id="fput" style="width:100%;margin-top:12px">${b.putAway?'Change where it went':'Where did it go?'}</button>`:''}
       ${faskFor(b)||(b.appId?`<button type="button" class="choice" id="funpack" style="width:100%;margin-top:12px">${b.unpacked?'Put it back in the vault':'I unpacked this one'}</button>`:'')}
       <button type="button" class="link" id="fopen">Open its full page</button>`}); },
+  putaway:()=>{ const b=S.boxes.find(x=>x.code===S.putCode); if(!b) return ({h:'That box is gone.', sub:'', scene:'none', body:'<button class="cta" id="putSkip">Back</button>'});
+    const o=putOpts(b);
+    return ({say:esc(b.code)+(b.words?': '+esc(b.words):'')+'.', h:'Where did everything go?', sub:'Say it the way you would tell a friend. Next time you search, the rabbit tells you.', scene:'none',
+      body:`${o.length?`<div class="choices" role="group" aria-label="Places you've used">${o.map(w=>`<button type="button" class="choice" data-pput="${esc(w)}">${esc(w)}</button>`).join('')}</div>`:''}
+      <div class="field microw"><input id="putTxt" value="${esc(b.putAway||'')}" maxlength="120" placeholder="kitchen, cabinet left of the sink" aria-label="Where everything went"><button type="button" class="mic" data-mic="putTxt" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div>
+      <button class="cta" id="putSave">Save</button><button class="link" id="putSkip">Not now</button>`}); },
   boxSaved:()=>{ const n=S.boxes.length, last=S.boxes[n-1]; return ({say:"Saved.", h:`${last.code} is packed.`, sub:last.photo||(last.photos&&last.photos.length)?"It's in your Boxes tab, with its photo.":"It's in your Boxes tab.", body:`<div class="choices"><button class="cta" style="margin-top:0" data-go="start">Pack the next box</button><button class="choice" data-go="toobig">Something won't fit in a box</button>${S.homeMode?'<button class="choice" id="backMove">Back to my boxes</button>':S.walked?'<button class="choice" id="backMove">Back to my move</button>':''}</div><button class="link" data-go="start">Change room</button>`}); },
   boxesTab:()=>({say:`${(S.boxes[S.boxes.length-1]||{}).code||'Your box'} is saved.`, h:"Your Boxes tab is ready.", sub:"It's in the bar below.", body:`<button class="cta" data-go="learnAdd">Next</button><button class="link" data-go="start">Pack another box first</button>`}),
   learnAdd:()=>({count:"1 of 2", h:"Tap Boxes, then Add a box.", sub:"Room, size, what's inside, where it goes, a picture.", body:`<button class="cta" data-go="learnFind">Next</button>${needsInstall()?`<div class="packtip keepsafe"><b>Keep your boxes safe.</b><p>Put the app on your home screen. Your phone can clear websites you haven't added, and your list with them.</p><button class="choice" id="howInstall">Show me how</button></div>`:''}`}),
@@ -2000,7 +2008,7 @@ function show(id,back){
     if(from!==p.pi){ const pin=phone.querySelector('.pano-in'); requestAnimationFrame(()=>requestAnimationFrame(()=>{ pin.classList.add('go'); pin.style.transform=`translateX(${-panoPct(p.pi)}%)`; })); }
     const h=phone.querySelector('h2'); h.tabIndex=-1; if(same&&h.textContent===was){ const f=(fid&&document.getElementById(fid))||(fin?phone.querySelector('.page .cta'):null); if(f&&phone.contains(f)) f.focus({preventScroll:true}); return; } if(started) h.focus({preventScroll:true}); started=true;
     live.textContent=(String(p.h)+' '+String(p.count2||'')).replace(/<[^>]+>/g,''); return; }
-  phone.innerHTML=`<div class="page" role="main"><div class="top"><span class="topr">${p.count?`<span class="count">${p.count}</span>`:''}<button class="pause" data-aa aria-label="Text size">Aa</button>${!['firstBox','myBoxes','vrooms','flip','home'].includes(id)?'<button class="pause" data-pause>Pause</button>':''}</span></div>
+  phone.innerHTML=`<div class="page" role="main"><div class="top"><span class="topr">${p.count?`<span class="count">${p.count}</span>`:''}<button class="pause" data-aa aria-label="Text size">Aa</button>${!['firstBox','myBoxes','vrooms','flip','putaway','home'].includes(id)?'<button class="pause" data-pause>Pause</button>':''}</span></div>
     <div class="text">${p.tag?`<p class="itemtag">${esc(p.tag)}</p>`:''}${p.say?`<p class="say">${p.say}</p>`:''}<h2>${p.h}</h2>${p.sub?`<p class="sub">${p.sub}</p>`:''}${p.body}</div>
     <div class="scene">${drawn(scene(p.scene||id), id!==lastDrawn)}</div><div class="band"></div></div><div class="navrow${id==='home'?' hn':''}"><button class="back" ${(hist.length&&(!NOBACK.includes(id)||(S.homeMode&&id==='myBoxes')))?'':'hidden'} data-back>Back</button><button class="skip" data-skip hidden>Skip</button></div>${bar()}`;
   textSize(); lastDrawn=id; fresh=[]; newTab=""; wire(id); wireSkip(id); wireMics(); keep();
@@ -2284,10 +2292,10 @@ function wire(id){
     { const hf=$('#hfind'), res=$('#hres'); if(hf&&res){ const draw=()=>{ S.hq=hf.value; const q=hf.value.trim().toLowerCase(); if(!q){ res.innerHTML=''; return; }
         /* owner's ad, 9 Nov: "towels, white" has to find the box marked "white towels". Every word counts, in any order; commas don't. */
         const qw=q.split(/[\s,]+/).filter(Boolean), has=t=>{ t=String(t).toLowerCase(); return qw.every(w=>t.includes(w)); };
-        const hit=S.boxes.filter(b=>has(b.words+' '+b.room+' '+b.code)), bh=S.big.filter(b=>has(b.what+' '+(b.room||'')));
+        const hit=S.boxes.filter(b=>has(btext(b))), bh=S.big.filter(b=>has(b.what+' '+(b.room||'')));
         /* owner, 12 Nov: say what the list is, and one tap back to the rooms */
         const k=hit.length+bh.length, clr=' <button type="button" class="link" id="hqClear">Clear</button>';
-        res.innerHTML=(!k?`<p class="lsub" style="font-size:17px">Nothing listed matches that. Try another word from the box.${clr}</p>`:`<p class="lsub" style="font-size:17px">${k} ${k===1?'match':'matches'} for “${esc(hf.value.trim())}”.${clr}</p>`)+(hit.length?`<ul class="list">${hit.slice(0,40).map(boxRow).join('')}</ul>${hit.length>40?`<p class="lsub" style="font-size:17px">And ${hit.length-40} more. Add a word to narrow it down.</p>`:''}`:'')+(bh.length?`<ul class="list">${bh.slice(0,12).map(b=>`<li class="tap" tabindex="0" role="button" data-bpiece="${S.big.indexOf(b)}"><em><b style="color:var(--ink)">${esc(b.what)}</b></em><span>${esc(STAYW[b.plan]?'Staying behind':b.room||'Big stuff')}</span></li>`).join('')}</ul>`:'');
+        res.innerHTML=(!k?`<p class="lsub" style="font-size:17px">Nothing listed matches that. Try another word from the box.${clr}</p>`:`<p class="lsub" style="font-size:17px">${k} ${k===1?'match':'matches'} for “${esc(hf.value.trim())}”.${clr}</p>`)+(hit.length?`<ul class="list">${hit.slice(0,40).map(b=>boxRow(b,hf.value)).join('')}</ul>${hit.length>40?`<p class="lsub" style="font-size:17px">And ${hit.length-40} more. Add a word to narrow it down.</p>`:''}`:'')+(bh.length?`<ul class="list">${bh.slice(0,12).map(b=>`<li class="tap" tabindex="0" role="button" data-bpiece="${S.big.indexOf(b)}"><em><b style="color:var(--ink)">${esc(b.what)}</b></em><span>${esc(STAYW[b.plan]?'Staying behind':b.room||'Big stuff')}</span></li>`).join('')}</ul>`:'');
         { const c=res.querySelector('#hqClear'); if(c) c.onclick=()=>{ hf.value=''; draw(); hf.focus(); }; }
         res.querySelectorAll('[data-box]').forEach(li=>li.onclick=()=>{ const b=S.boxes[+li.dataset.box]; if(!b) return; S.flipQ=hf.value.trim(); S.flipSet='q'; S.fx=Math.max(0,flipList().indexOf(b)); S.fpi=0; show('flip'); });
         res.querySelectorAll('[data-bpiece]').forEach(li=>li.onclick=()=>{ const b=S.big[+li.dataset.bpiece]; if(!b) return; if(b.appId) toApp('?big='+encodeURIComponent(b.appId)); else openSheet('Furniture',li); }); };
@@ -2311,11 +2319,24 @@ function wire(id){
       fig.addEventListener('touchstart',e=>{ const t=e.touches[0]; x0=t.clientX; y0=t.clientY; },{passive:true});
       fig.addEventListener('touchend',e=>{ if(x0===null) return; const t=e.changedTouches[0], dx=t.clientX-x0, dy=t.clientY-y0; x0=null; if(Math.abs(dx)>48&&Math.abs(dx)>Math.abs(dy)*1.4) flipGo(dx<0?1:-1); },{passive:true}); }
     const L=flipList(), b=L[S.fx||0];
-    { const u=$('#funpack'); if(u&&b) u.onclick=async()=>{ const on=!b.unpacked; if(await flipUnpack(b,on)){ if(on){ S.lastUnpack={code:b.code,at:Date.now()}; setTimeout(()=>{ if(cur==='flip') show('flip',true); },15200); } show('flip',true);
+    { const p=$('#fput'); if(p&&b) p.onclick=()=>{ S.putCode=b.code; S.putFrom=''; show('putaway'); }; }
+    { const u=$('#funpack'); if(u&&b) u.onclick=async()=>{ const on=!b.unpacked; if(await flipUnpack(b,on)){ if(on){ S.lastUnpack={code:b.code,at:Date.now()}; setTimeout(()=>{ if(cur==='flip') show('flip',true); },15200); S.putCode=b.code; S.putFrom='unpack'; show('putaway'); return; } show('flip',true);
         const nb=flipList()[S.fx]; say(on?`${b.code} is out of the vault.${nb&&nb!==b?` Next, ${nb.code}.`:''}`:`${b.code} is back in the vault.`); } }; }
     { const u=$('#fundo'); if(u) u.onclick=async()=>{ const was=S.boxes.find(x=>x.code===(S.lastUnpack||{}).code); if(was&&await flipUnpack(was,false)){ S.lastUnpack=null; const i=flipList().indexOf(was); if(i>=0) S.fx=i; show('flip',true); } }; }
     { const o=$('#fopen'); if(o&&b) o.onclick=()=>toApp(b.appId?'?box='+encodeURIComponent(b.appId):'?find='+encodeURIComponent(b.code)); }
     if(b) wireAsk(b); }
+  if(id==='putaway'){ const b=S.boxes.find(x=>x.code===S.putCode), t=$('#putTxt'), from=S.putFrom;
+    const back=()=>{ S.putFrom=''; const prev=hist.pop(); show(prev||'lvault',true); };
+    { const k=$('#putSkip'); if(k) k.onclick=back; }
+    phone.querySelectorAll('[data-pput]').forEach(x=>x.onclick=()=>{ if(!t) return; t.value=x.dataset.pput; say(`${x.dataset.pput}. Add more if you like, then Save.`); });
+    { const sv=$('#putSave'); if(sv&&t&&b){ sv.onclick=async()=>{ const v=t.value.trim().slice(0,120); if(!v){ toast(phone,'Type or say where it went, or tap Not now.'); t.focus(); return; }
+        const prev=await flipMark(b,{putAway:v,putAt:Date.now()}); if(!prev){ toast(phone,'Your phone would not save that. Try again.'); return; }
+        /* one Undo takes back what this visit did: the place, and the unpacking too if it came with it */
+        const was=S.lastMark&&S.lastMark.code===b.code&&Date.now()-S.lastMark.at<15000?S.lastMark.prev:{};
+        const und=from==='unpack'?{unpacked:false,delivered:b.prevDelivered===false?false:true}:{};
+        S.lastUnpack=null; S.lastMark={code:b.code,at:Date.now(),prev:Object.assign({},prev,und,was),msg:from?`${b.code} is unpacked. Put away: ${v}.`:`Saved where ${b.code} went.`};
+        setTimeout(()=>{ if(cur==='flip') show('flip',true); },15200); keep(); say(S.lastMark.msg); back(); };
+      t.onkeydown=e=>{ if(e.key==='Enter') sv.click(); }; } } }
   if(id==='sortTab') $('#openMove').onclick=()=>show('toolkit');
   if(id==='toolkit') $('#kitOpen').onclick=()=>window.__APP?finishThread():openSheet('Moving',$('#kitOpen'));
   if(id==='mhowfirst') phone.querySelectorAll('[data-lift]').forEach(b=>b.onclick=()=>{ const v=b.dataset.lift; if(v==='movers') show('mpackq'); else if(v==='me') show('mselfq'); else { S.how='Not sure yet'; homeDone(); } });
@@ -2625,7 +2646,7 @@ function afterRoom(){ if(S.bigRoom&&!S.doneRooms.includes(S.bigRoom)){ S.doneRoo
 /* the flip-through: which boxes, in label order, and their photos read from the app as they're needed */
 const PHC={};
 function flipList(){ const by=(a,b)=>String(a.code).localeCompare(String(b.code),'en',{numeric:true});
-  if(S.flipSet==='q'&&S.flipQ){ const qw=S.flipQ.toLowerCase().split(/[\s,]+/).filter(Boolean); return S.boxes.filter(b=>{ const t=(b.words+' '+b.room+' '+b.code).toLowerCase(); return qw.every(w=>t.includes(w)); }).sort(by); }
+  if(S.flipSet==='q'&&S.flipQ){ const qw=S.flipQ.toLowerCase().split(/[\s,]+/).filter(Boolean); return S.boxes.filter(b=>{ const t=btext(b).toLowerCase(); return qw.every(w=>t.includes(w)); }).sort(by); }
   if(S.flipSet==='all') return S.boxes.slice().sort(by);
   return S.boxes.filter(b=>!b.unpacked).sort(by); }
 function flipPhotos(b){ if(!b) return [];
@@ -2917,14 +2938,25 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v368, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v369, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
    time; each answer is marked in the app at once, with an undo for 15 seconds. "Not yet" closes it until the next search. */
 const NOW_PLACES=['Garage','Storage unit','Basement','First floor','Upstairs'];
+/* owner, 12 Nov: "after I've unpacked it, where it is. I go looking for boxes and I forgot I unpacked it already,
+   and then I don't know where I unpacked it." Unpacking asks where everything went, in her words, and search answers
+   with that: "Unpacked Nov 12. Put away: kitchen, cabinet left of the sink." A thing that went somewhere else
+   (set on the box's full page) answers with its own place. */
+function btext(b){ return [b.words,b.room,b.code,b.putAway||''].concat((b.iput||[]).map(x=>x[1])).join(' '); }
+function putOf(b,q){ if(!b||!b.unpacked) return ''; const qw=String(q||'').toLowerCase().split(/[\s,]+/).filter(Boolean);
+  const it=qw.length&&(b.iput||[]).find(x=>qw.every(w=>(x[0]+' '+x[1]).toLowerCase().includes(w)));
+  if(it) return `${it[0]}: ${it[1]}`; return b.putAway?`Put away: ${b.putAway}`:''; }
+function putDay(b){ const d=new Date(b&&b.putAt||0); return b&&b.putAt&&!isNaN(d)?d.toLocaleDateString('en-US',{month:'short',day:'numeric'}):''; }
+function putOpts(b){ const o=[], add=w=>{ w=String(w||'').trim(); if(w&&!o.some(x=>x.toLowerCase()===w.toLowerCase())) o.push(w); };
+  add(b.dest||b.room); S.boxes.filter(x=>x.putAway).sort((x,y)=>(y.putAt||0)-(x.putAt||0)).forEach(x=>add(x.putAway)); return o.slice(0,6); }
 function boxNow(b){ if(!b) return ''; const a=[];
-  if(b.unpacked) a.push('Unpacked.');
+  if(b.unpacked){ const pt=putOf(b,S.flipSet==='q'?S.flipQ:''), d=putDay(b); a.push(`Unpacked${d?' '+d:''}.`+(pt?' '+pt+'.':' Where it went isn\'t written down yet.')); }
   if(b.opened){ const d=new Date(b.opened), day=isNaN(d)?'':d.toLocaleDateString('en-US',{month:'short',day:'numeric'}); if(!b.unpacked) a.push(`Opened${day?' '+day:''}${b.openedFor?`, for ${String(b.openedFor).toLowerCase()}`:''}.`); }
   if(b.nowAt&&!b.unpacked) a.push(`Right now: ${b.nowAt}.`);
   return a.join(' '); }
@@ -2949,9 +2981,9 @@ function wireAsk(b){ const $=s=>phone.querySelector(s), q=S.flipQ;
   const land=()=>requestAnimationFrame(()=>{ const el=phone.querySelector('.fask')||phone.querySelector('.fnow'); if(!el) return; el.scrollIntoView({block:'center'}); const h=el.querySelector('.fask-h')||el; h.tabIndex=-1; h.focus({preventScroll:true}); });
   const keepMark=(msg,first)=>{ S.lastMark={code:b.code,at:Date.now(),prev:Object.assign({},first,(S.lastMark&&S.lastMark.code===b.code&&Date.now()-S.lastMark.at<15000?S.lastMark.prev:{})),msg}; setTimeout(()=>{ if(cur==='flip') show('flip',true); },15200); say(msg); };
   const mark=async(patch,msg,next)=>{ const prev=await flipMark(b,patch); if(!prev){ toast(phone,'Your phone would not save that. Try again.'); return; }
-    keepMark(msg,prev); if(next){ const f=F(); f.code=b.code; f.step=next; } else close(); keep(); show('flip',true); land(); };
+    keepMark(msg,prev); if(next==='put'){ close(); keep(); S.putCode=b.code; S.putFrom='ask'; show('putaway'); return; } if(next){ const f=F(); f.code=b.code; f.step=next; } else close(); keep(); show('flip',true); land(); };
   phone.querySelectorAll('[data-fa]').forEach(x=>x.onclick=()=>{ const k=x.dataset.fa, now=Date.now(), why=String(q||'').trim().slice(0,60);
-    if(k==='empty') mark({unpacked:true,delivered:true,opened:now,openedFor:why},`${b.code} is unpacked and out of the vault.`);
+    if(k==='empty') mark({unpacked:true,delivered:true,opened:now,openedFor:why},`${b.code} is unpacked and out of the vault.`,'put');
     else if(k==='more') mark({opened:now,openedFor:why},`${b.code} is marked opened.`,'where');
     else if(k==='stay'){ close(); keep(); show('flip',true); land(); }
     else if(k==='moved'){ const f=F(); f.code=b.code; f.step='place'; show('flip',true); land(); }
@@ -2971,7 +3003,7 @@ async function loadHome(){ let st=null; try{ st=JSON.parse(await idbGet('moving-
   const have=new Set(S.boxes.map(b=>b.code));
   ((st&&st.boxes)||[]).forEach(b=>{ if(!b||!b.code) return; const rc=String(b.room||b.code.split('-')[0]||'MISC');
     const pre=String(b.preset||'').split('-')[0], bsz=String(b.size||''), kind=b.brandless?bsz.toLowerCase():pre==='free'?'Used box':pre==='bin'?'Plastic bin':BOXBRAND[pre]?BOXBRAND[pre]+(bsz?' '+bsz.toLowerCase():''):bsz;
-    const rec={code:b.code,rc,room:RN[rc]||rc,words:(b.items||[]).map(x=>x.name).filter(Boolean).join(', '),flags:b.withMe?['Goes with me']:[],handed:1,appId:b.id,unpacked:!!b.unpacked,delivered:!!b.delivered,kind,opened:+b.opened||0,openedFor:String(b.openedFor||''),nowAt:String(b.nowAt||'')};
+    const rec={code:b.code,rc,room:RN[rc]||rc,words:(b.items||[]).map(x=>x.name).filter(Boolean).join(', '),flags:b.withMe?['Goes with me']:[],handed:1,appId:b.id,unpacked:!!b.unpacked,delivered:!!b.delivered,kind,opened:+b.opened||0,openedFor:String(b.openedFor||''),nowAt:String(b.nowAt||''),putAway:String(b.putAway||''),putAt:+b.putAt||0,iput:(b.items||[]).filter(x=>x&&x.name&&x.put).map(x=>[String(x.name),String(x.put)]),dest:RN[b.destRoom]||''};
     if(have.has(b.code)){ const ex=S.boxes.find(x=>x.code===b.code&&x.handed); if(ex) Object.assign(ex,rec); return; }
     have.add(b.code); S.boxes.push(Object.assign(rec,{photos:[],photo:''})); });
   /* a box or piece removed in the app leaves this list too */
@@ -3095,7 +3127,7 @@ const SIZEN={XS:'Extra small',S:'Small',M:'Medium',L:'Large',XL:'Extra large',Cu
 /* how movers count: a 3-piece sectional is 3 pieces, 2 nightstands are 2 */
 /* tester, 8 Nov: a 35-inch armchair was counted as 35 chairs. A size in inches is a size, not a count. */
 const pieces=b=>{ const s=b.size||''; if(/[″×]|inch/.test(s)) return 1; if(/^Lamps$/.test(b.what)) return (s.match(/\d+/g)||['1']).reduce((a,x)=>a+ +x,0); if(/^Sectional$|Nightstands|End tables|^Chairs$|chairs|Barstools/.test(b.what)||COUNTED.test(b.what)){ const m=s.match(/\d+/); return m?+m[0]:1; } return 1; };
-function boxRow(b){ return `<li class="tap" tabindex="0" role="button" data-box="${S.boxes.indexOf(b)}">${b.photo?`<img class="thumb" src="${b.photo}" alt="">`:`<svg class="thumb" viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="10" width="28" height="24" rx="2" fill="var(--f1)" stroke="var(--ink)" stroke-width="2"/><rect x="17" y="10" width="6" height="9" fill="var(--tape)"/></svg>`}<em><b style="color:var(--ink)">${b.code}</b>${boxKind(b)?`<span class="bkind">${esc(boxKind(b))}</span>`:''}<br>${esc(b.words||'Nothing written yet')}</em><span>${b.unpacked?'Unpacked':b.nowAt?esc(b.nowAt):b.opened?'Opened':(b.flags||[]).includes('Goes with me')?'With you':S.roomOnly&&cur==='myBoxes'?'':esc(b.room)}</span></li>`; }
+function boxRow(b,q){ q=typeof q==='string'?q:(S.find||''); const pt=putOf(b,q); return `<li class="tap" tabindex="0" role="button" data-box="${S.boxes.indexOf(b)}">${b.photo?`<img class="thumb" src="${b.photo}" alt="">`:`<svg class="thumb" viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="10" width="28" height="24" rx="2" fill="var(--f1)" stroke="var(--ink)" stroke-width="2"/><rect x="17" y="10" width="6" height="9" fill="var(--tape)"/></svg>`}<em><b style="color:var(--ink)">${b.code}</b>${boxKind(b)?`<span class="bkind">${esc(boxKind(b))}</span>`:''}<br>${esc(b.words||'Nothing written yet')}${pt?`<br><span class="bput">${esc(pt)}</span>`:b.unpacked&&q?'<br><span class="bput">Unpacked. Where it went isn\'t written down.</span>':''}</em><span>${b.unpacked?'Unpacked':b.nowAt?esc(b.nowAt):b.opened?'Opened':(b.flags||[]).includes('Goes with me')?'With you':S.roomOnly&&cur==='myBoxes'?'':esc(b.room)}</span></li>`; }
 function findRes(){ const q=(S.find||'').trim().toLowerCase(), bx=S.boxes.filter(b=>!q||(b.words+' '+b.room+' '+b.code+' '+(b.flags||[]).join(' ')).toLowerCase().includes(q)).slice().reverse(), fu=q?S.big.filter(b=>(b.what+' '+(b.room||'')+' '+(b.model||'')).toLowerCase().includes(q)):[];
   return (bx.length?`<ul class="list">${bx.map(boxRow).join('')}</ul>`:'')+(fu.length?`<p class="grp">Furniture</p><ul class="list">${fu.map(b=>`<li>${esc(b.what)}<span>${esc(b.room||'')}</span></li>`).join('')}</ul>`:'')+(!bx.length&&!fu.length?`<p>Nothing matches that yet.</p>`:'')+(bx.length&&!q?'<p class="swipe">Tap a box to see its photo.</p>':''); }
 function sheetBody(n){
