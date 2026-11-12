@@ -12,6 +12,19 @@ function parseQuote(raw, myCube) {
     return after ? after.v : 0;
   };
   const out = { total: 0, binding: "", dot: "", mc: "", broker: false, deposit: 0, depositPct: 0, hourly: 0, cube: 0, lbs: 0, valuation: "", fees: [], cashOnly: false, rights: false, name: "", flags: [] };
+  /* review, 11 Nov (her yes, 12 Nov): each warning carries the words on the quote it came from, so a person
+     can see why and judge it. The sentence or line around the match, shortened around it if it runs long.
+     Shown on the phone only; the share picture never includes it. */
+  const seen = {};
+  const clause = (m) => {
+    if (!m || m.index == null) return "";
+    const B = /[.!?;](?=\s)|\n/g; let a = 0, b = t.length, x;
+    while ((x = B.exec(t))) { if (x.index < m.index) a = x.index + 1; else if (x.index >= m.index + m[0].length) { b = x.index + 1; break; } }
+    let s = t.slice(a, b).replace(/\s+/g, " ").trim();
+    if (s.length > 170) { const i0 = Math.max(a, m.index - 60), i1 = Math.min(b, m.index + m[0].length + 90); s = (i0 > a ? "…" : "") + t.slice(i0, i1).replace(/\s+/g, " ").trim() + (i1 < b ? "…" : ""); }
+    return s;
+  };
+  const at = (re) => { const m = t.match(new RegExp(re.source, re.flags.replace("g", ""))); return m ? clause(m) : ""; };
 
   /* the most specific total wins: a quote can list a "Total Tariff" before
      the "Total Moving Estimate" you'd actually pay (owner's broker quote did) */
@@ -39,30 +52,33 @@ function parseQuote(raw, myCube) {
      before it, in the same clause, don't deny it (no, not, never, without, unlike, isn't...) and it isn't
      followed by "none" or "N/A". "We are a broker, not a motor carrier" (the wording brokers must use) still
      counts. The same goes for cash-only wording: "We never ask for Zelle" is not a cash-only quote. */
-  const saidPlainly = (s, re, always) => {
+  const saidPlainly = (s, re, always, key) => {
     const NEG = /\b(no|not|never|without|neither|nor|unlike|instead of|rather than)\b|n['’]t\b/i;
     return s.split(/[.!?;]\s+|\n+/).some((line) => [...line.matchAll(re)].some((m) => {
-      if (always && always.test(m[0])) return true;
-      const before = line.slice(Math.max(0, m.index - 48), m.index).split(/[,:(]/).pop();
-      const after = line.slice(m.index + m[0].length, m.index + m[0].length + 16);
-      return !NEG.test(before) && !/^\s*(?:fee\s*)?[:\-–]?\s*(?:none|n\/?a|no)\b/i.test(after);
+      const yes = (always && always.test(m[0])) || (() => {
+        const before = line.slice(Math.max(0, m.index - 48), m.index).split(/[,:(]/).pop();
+        const after = line.slice(m.index + m[0].length, m.index + m[0].length + 16);
+        return !NEG.test(before) && !/^\s*(?:fee\s*)?[:\-–]?\s*(?:none|n\/?a|no)\b/i.test(after);
+      })();
+      if (yes && key) seen[key] = line.replace(/\s+/g, " ").trim().slice(0, 170);
+      return yes;
     }));
   };
-  out.broker = saidPlainly(t, /\bbroker(age)?\b|not a motor carrier|carrier (will be|is) assigned|network of (carriers|movers)|we (arrange|coordinate) (your|the) (move|carrier)|third[\s-]party carrier/gi, /^not a motor carrier$/i);
+  out.broker = saidPlainly(t, /\bbroker(age)?\b|not a motor carrier|carrier (will be|is) assigned|network of (carriers|movers)|we (arrange|coordinate) (your|the) (move|carrier)|third[\s-]party carrier/gi, /^not a motor carrier$/i, "broker");
   const dep = t.match(/deposit[^$%\n]{0,40}?(?:\$\s?(\d[\d,]*(?:\.\d{2})?)|\b(\d{1,3})\s?%)/i);
-  if (dep) { if (dep[1]) out.deposit = num(dep[1]); if (dep[2]) out.depositPct = num(dep[2]); }
+  if (dep) { if (dep[1]) out.deposit = num(dep[1]); if (dep[2]) out.depositPct = num(dep[2]); seen.deposit = clause(dep); }
   const depBefore = t.match(/(\d{1,3})(?:\s*(?:-|to)\s*(\d{1,3}))?\s?%\s+deposit(?!\s*(?:refund|return|back))/i);
-  if (depBefore && !out.depositPct) out.depositPct = num(depBefore[2] || depBefore[1]);
+  if (depBefore && !out.depositPct) { out.depositPct = num(depBefore[2] || depBefore[1]); seen.deposit = clause(depBefore); }
   const depAfter = t.match(/deposit[^\n%]{0,60}?\(?\s?(\d{1,3})\s?%/i);
-  if (depAfter && !out.depositPct) out.depositPct = num(depAfter[1]);
+  if (depAfter && !out.depositPct) { out.depositPct = num(depAfter[1]); seen.deposit = clause(depAfter); }
   const pay = t.match(/(?:customer\s+payment|due\s+(?:at|upon)\s+booking|payment\s+(?:due\s+)?today)[^$\n]{0,40}\$\s?(\d[\d,]*(?:\.\d{2})?)/i);
-  if (pay && !out.deposit) out.deposit = num(pay[1]);
+  if (pay && !out.deposit) { out.deposit = num(pay[1]); seen.deposit = seen.deposit || clause(pay); }
   if (out.deposit && out.total && !out.depositPct && !out.totalGuess) out.depositPct = Math.round((out.deposit / out.total) * 100);
   if (out.depositPct > 100) out.depositPct = 0;
   const hr = t.match(/\$\s?(\d+(?:\.\d{2})?)\s*(?:\/|per|an?)\s*(?:hour|hr)\b/i);
-  if (hr) out.hourly = num(hr[1]);
+  if (hr) { out.hourly = num(hr[1]); seen.hourly = clause(hr); }
   const cu = t.match(/(\d[\d,]*(?:\.\d+)?)\s*(?:cu\.?\s*ft|cubic\s+f(?:ee|oo)t|cf)\b/i);
-  if (cu) out.cube = num(cu[1]);
+  if (cu) { out.cube = num(cu[1]); seen.cube = clause(cu); }
   const lb = t.match(/(\d[\d,]{2,})\s*(?:lbs?|pounds)\b/i);
   if (lb) out.lbs = num(lb[1]);
   if (/full\s+(?:value|replacement)\s+protection|\bfvp\b/i.test(t)) out.valuation = "Full value protection";
@@ -70,21 +86,22 @@ function parseQuote(raw, myCube) {
   const FEES = [["stairs", /stair|flight|walk[\s-]?up/i], ["long carry", /long[\s-]?carry/i], ["shuttle", /shuttle/i], ["bulky item", /bulky|oversize/i],
     ["fuel", /fuel/i], ["packing materials", /packing (material|supplies)|materials/i], ["elevator", /elevator/i], ["storage", /storage[\s-]in[\s-]transit|\bSIT\b|storage (fee|charge|cost|rate)|monthly storage/i], ["travel time", /travel (time|fee|charge)|drive time/i]];
   out.fees = FEES.filter(([, re]) => re.test(t)).map(([n]) => n);
-  out.cashOnly = saidPlainly(t, /cash only|cash payment (only|required)|wire transfer|zelle|venmo|cash app|money order|cashier'?s check/gi);
+  if (out.fees.length === 1) seen.fees = at(FEES.find(([n]) => n === out.fees[0])[1]);
+  out.cashOnly = saidPlainly(t, /cash only|cash payment (only|required)|wire transfer|zelle|venmo|cash app|money order|cashier'?s check/gi, null, "cash");
   out.rights = /rights and responsibilities/i.test(t);
   const nm = t.split("\n").map((l) => l.trim()).find((l) => /\b(moving|movers|van lines|relocation|transfer|storage)\b/i.test(l) && l.length < 60 && !/\$/.test(l));
   if (nm) out.name = nm.replace(/^(from|company)\s*:\s*/i, "");
 
-  const F = (tone, text) => out.flags.push({ tone, text });
+  const F = (tone, text, said) => out.flags.push(said ? { tone, text, said } : { tone, text });
   if (!out.total || out.totalGuess) F("warn", "No total found. Ask for one figure, in writing, that includes everything.");
-  if (out.binding === "not-to-exceed") F("good", "Binding not-to-exceed — the strongest kind. The bill can go down, not up.");
-  else if (out.binding === "binding") F("good", "Binding — the price is fixed unless you add things.");
-  else if (out.binding === "non-binding") F("warn", "Non-binding — the final bill can legally be higher. On a move between states it can't be more than 10% over at delivery, and the rest gets billed later.");
+  if (out.binding === "not-to-exceed") F("good", "Binding not-to-exceed — the strongest kind. The bill can go down, not up.", at(/not[\s-]+to[\s-]+exceed/i));
+  else if (out.binding === "binding") F("good", "Binding — the price is fixed unless you add things.", clause({ index: iBind + (low[iBind] === "b" ? 0 : 1), 0: "binding" }));
+  else if (out.binding === "non-binding") F("warn", "Non-binding — the final bill can legally be higher. On a move between states it can't be more than 10% over at delivery, and the rest gets billed later.", clause({ index: iNon, 0: "non-binding" }));
   else F("warn", "It doesn't say binding or non-binding. Ask, and get the answer in writing.");
-  if (out.dot) F("good", `USDOT ${out.dot} — check it on the federal SAFER site before you book.`);
+  if (out.dot) F("good", `USDOT ${out.dot} — check it on the federal SAFER site before you book.`, clause(dot));
   else F("bad", "No USDOT number. Any mover crossing state lines must have one. Ask for it before anything else.");
   if (out.broker && out.binding && out.binding !== "non-binding") F("warn", "A broker's \"binding\" estimate only holds if the mover they hand your job to honors it. Ask for the carrier's own binding estimate before pickup.");
-  if (out.broker) F("bad", "This reads like a broker — someone who sells your move to a different company. You may not know who turns up. Ask who the actual carrier is.");
+  if (out.broker) F("bad", "This reads like a broker — someone who sells your move to a different company. You may not know who turns up. Ask who the actual carrier is.", seen.broker);
   /* owner, 28 Oct 2026: a quote asked for 50% down at booking, then 70% more
      before the crew arrived: your money and everything you own, both in their
      hands before anything moves. */
@@ -92,51 +109,51 @@ function parseQuote(raw, myCube) {
     || t.match(/\b(?:before|prior to)\b[^.\n]{0,30}?\b(?:pick\s?-?up|loading|the move|move date|arrival)[^.\n]{0,40}?(\d{1,3})\s?%/i);
   if (pre) {
     const pct = num(pre[1]);
-    if (pct >= 25 && pct <= 100) F("bad", `${pct}% due before your things are even loaded${out.depositPct ? `, on top of a ${out.depositPct}% deposit` : ""}. They'd have your money and everything you own before anything moves. On a move between states the balance is normally paid at delivery, before unloading. Ask why they want it early, and pay by credit card.`);
+    if (pct >= 25 && pct <= 100) F("bad", `${pct}% due before your things are even loaded${out.depositPct ? `, on top of a ${out.depositPct}% deposit` : ""}. They'd have your money and everything you own before anything moves. On a move between states the balance is normally paid at delivery, before unloading. Ask why they want it early, and pay by credit card.`, clause(pre));
   }
-  if (out.depositPct >= 20) F("bad", `A ${out.depositPct}% deposit. Reputable movers usually take little or nothing up front — a big deposit is one of the federal warning signs.`);
-  else if (out.deposit || out.depositPct) F("warn", `Deposit${out.deposit ? ` of ${money(out.deposit)}` : ""}${out.depositPct ? ` (${out.depositPct}%)` : ""}. Pay it by card, never cash.`);
-  if (out.cashOnly) F("bad", "It asks for cash, a money order, a wire or an app payment. Pay by credit card so you can dispute it, and never pay the balance before your things are off the truck and checked.");
-  if (out.valuation.startsWith("60")) F("warn", "Basic coverage only — 60 cents a pound. A 10 lb laptop is worth $6 to them. Ask the price of full value protection.");
-  else if (out.valuation) F("good", "Full value protection is offered.");
+  if (out.depositPct >= 20) F("bad", `A ${out.depositPct}% deposit. Reputable movers usually take little or nothing up front — a big deposit is one of the federal warning signs.`, seen.deposit);
+  else if (out.deposit || out.depositPct) F("warn", `Deposit${out.deposit ? ` of ${money(out.deposit)}` : ""}${out.depositPct ? ` (${out.depositPct}%)` : ""}. Pay it by card, never cash.`, seen.deposit);
+  if (out.cashOnly) F("bad", "It asks for cash, a money order, a wire or an app payment. Pay by credit card so you can dispute it, and never pay the balance before your things are off the truck and checked.", seen.cash);
+  if (out.valuation.startsWith("60")) F("warn", "Basic coverage only — 60 cents a pound. A 10 lb laptop is worth $6 to them. Ask the price of full value protection.", at(/\$?0?\.60|60\s*(?:cents|¢)|released\s+value/i));
+  else if (out.valuation) F("good", "Full value protection is offered.", at(/full\s+(?:value|replacement)\s+protection|\bfvp\b/i));
   else F("warn", "No valuation (coverage) mentioned. Ask what's included and what full value protection costs.");
   if (out.cube && myCube) {
     const r = out.cube / myCube;
-    if (r < 0.85) F("bad", `They priced ${Math.round(out.cube)} cubic feet. You've counted ${myCube}. A quote built on less than you own is how a price grows on the day.`);
-    else if (r > 1.3) F("warn", `They priced ${Math.round(out.cube)} cubic feet against your ${myCube}. Room for things you haven't counted yet — or padding. Ask.`);
-    else F("good", `They priced ${Math.round(out.cube)} cubic feet — close to the ${myCube} you've counted.`);
+    if (r < 0.85) F("bad", `They priced ${Math.round(out.cube)} cubic feet. You've counted ${myCube}. A quote built on less than you own is how a price grows on the day.`, seen.cube);
+    else if (r > 1.3) F("warn", `They priced ${Math.round(out.cube)} cubic feet against your ${myCube}. Room for things you haven't counted yet — or padding. Ask.`, seen.cube);
+    else F("good", `They priced ${Math.round(out.cube)} cubic feet — close to the ${myCube} you've counted.`, seen.cube);
   } else if (!out.cube && !out.lbs && !out.hourly) F("warn", "It doesn't say what volume or weight it's based on. Send them your count so the price is tied to it.");
-  if (out.hourly) F("warn", `Hourly at ${money(out.hourly)}. The total depends on the crew's pace — ask for a not-to-exceed figure.`);
-  if (out.fees.length) F("warn", `Extra fees named: ${out.fees.join(", ")}. Make sure each has a price next to it.`);
-  if (out.rights) F("good", "Mentions the Rights and Responsibilities booklet — interstate movers are required to give it to you.");
+  if (out.hourly) F("warn", `Hourly at ${money(out.hourly)}. The total depends on the crew's pace — ask for a not-to-exceed figure.`, seen.hourly);
+  if (out.fees.length) F("warn", `Extra fees named: ${out.fees.join(", ")}. Make sure each has a price next to it.`, seen.fees);
+  if (out.rights) F("good", "Mentions the Rights and Responsibilities booklet — interstate movers are required to give it to you.", at(/rights and responsibilities/i));
 
   /* owner, 19–20 Oct: what a real broker quote hid. Each of these was on it. */
   const feeLine = [...t.matchAll(/((?:binding\s+estimate|estimate|booking|reservation|administrative|admin|processing|service|dispatch|coordination)\s+fee)[^$\n]{0,90}\$\s?(\d[\d,]*(?:\.\d{2})?)/gi)].find((m) => num(m[2]) > 0);
-  if (feeLine) F("bad", `A "${feeLine[1].replace(/\s+/g, " ")}" of $${num(feeLine[2]).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}. That's a charge for paperwork, not for moving anything. Ask what it is for. If it's wrong, have it corrected. If you don't agree with it, ask them to waive it.`);
+  if (feeLine) F("bad", `A "${feeLine[1].replace(/\s+/g, " ")}" of $${num(feeLine[2]).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}. That's a charge for paperwork, not for moving anything. Ask what it is for. If it's wrong, have it corrected. If you don't agree with it, ask them to waive it.`, clause(feeLine));
   if (/discount/i.test(t) && dollars.length > 3) F("warn", "Discounts are listed. Add every line up yourself: a fee hidden between discounts can cancel them out.");
   const days = t.match(/(\d{1,2}|thirty|twenty|fifteen|ten)\s+business\s+(?:week)?days?/i);
   if (days) {
     const word = { thirty: 30, twenty: 20, fifteen: 15, ten: 10 }[String(days[1]).toLowerCase()];
     const n = word || parseInt(days[1], 10);
-    if (n >= 10) F("bad", `Delivery can take up to ${n} business days — about ${Math.round(n / 5)} weeks. Ask for a delivery date in writing on the bill of lading, not a window.`);
+    if (n >= 10) F("bad", `Delivery can take up to ${n} business days — about ${Math.round(n / 5)} weeks. Ask for a delivery date in writing on the bill of lading, not a window.`, clause(days));
   }
-  if (/first\s+(?:date\s+)?available\s+for\s+delivery|not\s+guaranteed|delivery\s+window/i.test(t)) F("warn", "Delivery isn't guaranteed. The window can start on a date they pick. Get a latest delivery date in writing.");
+  { const m = t.match(/first\s+(?:date\s+)?available\s+for\s+delivery|not\s+guaranteed|delivery\s+window/i); if (m) F("warn", "Delivery isn't guaranteed. The window can start on a date they pick. Get a latest delivery date in writing.", clause(m)); }
   /* Fix list: "Delivery spread … 72 hours" was read as a pickup window. Only near "pickup". */
-  if (/pick[\s-]?up[^.\n]{0,40}(?:72|48)\s*hour|(?:72|48)\s*hour[^.\n]{0,40}pick[\s-]?up|pick[\s-]?up\s+(?:window|spread)/i.test(t)) F("warn", "A pickup window, not a pickup time. Plan to be ready on every day of it.");
-  if (/(?:only|valid)\s+(?:good\s+)?(?:today|while|for\s+24)|book\s+now|availability\s+discount|expires?\s+(?:today|tonight|in\s+24)/i.test(t)) F("bad", "Pressure to decide now. A real price is still there tomorrow. Don't book or pay on the first call.");
-  if (/non[\s-]?refundable|not\s+refundable/i.test(t)) F("bad", "Part of what you pay can't be refunded. Find out exactly when you could still cancel and get the deposit back.");
-  if (/waive[sd]?\s+(?:a\s+|the\s+)?(?:physical|in[\s-]home|virtual)?\s*survey|survey[^.\n]{0,30}waived/i.test(t)) F("warn", "The in-home or video survey is waived. The price is only as good as the list you gave them; anything missing can mean a new, higher estimate on pickup day.");
-  if (/transfer(?:red)?\s+to\s+(?:another|a\s+different)\s+(?:truck|vehicle)|offloaded|consolidat(?:e|ed|ion)\s+with\s+other|storage\s+facility/i.test(t)) F("warn", "Your things may be unloaded at a warehouse and moved to another truck. Every extra handling is another chance for damage or delay.");
+  { const m = t.match(/pick[\s-]?up[^.\n]{0,40}(?:72|48)\s*hour|(?:72|48)\s*hour[^.\n]{0,40}pick[\s-]?up|pick[\s-]?up\s+(?:window|spread)/i); if (m) F("warn", "A pickup window, not a pickup time. Plan to be ready on every day of it.", clause(m)); }
+  { const m = t.match(/(?:only|valid)\s+(?:good\s+)?(?:today|while|for\s+24)|book\s+now|availability\s+discount|expires?\s+(?:today|tonight|in\s+24)/i); if (m) F("bad", "Pressure to decide now. A real price is still there tomorrow. Don't book or pay on the first call.", clause(m)); }
+  { const m = t.match(/non[\s-]?refundable|not\s+refundable/i); if (m) F("bad", "Part of what you pay can't be refunded. Find out exactly when you could still cancel and get the deposit back.", clause(m)); }
+  { const m = t.match(/waive[sd]?\s+(?:a\s+|the\s+)?(?:physical|in[\s-]home|virtual)?\s*survey|survey[^.\n]{0,30}waived/i); if (m) F("warn", "The in-home or video survey is waived. The price is only as good as the list you gave them; anything missing can mean a new, higher estimate on pickup day.", clause(m)); }
+  { const m = t.match(/transfer(?:red)?\s+to\s+(?:another|a\s+different)\s+(?:truck|vehicle)|offloaded|consolidat(?:e|ed|ion)\s+with\s+other|storage\s+facility/i); if (m) F("warn", "Your things may be unloaded at a warehouse and moved to another truck. Every extra handling is another chance for damage or delay.", clause(m)); }
   const venue = t.match(/(?:county|courts?)\s+(?:of\s+|in\s+(?:and\s+for\s+)?)?([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\s+County|in\s+and\s+for\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\s+County/);
-  if (/jurisdiction|venue/i.test(t) && venue) F("warn", `Any lawsuit has to be filed in ${venue[1] || venue[2]} County, which may be far from you. Read that clause before you sign.`);
+  if (/jurisdiction|venue/i.test(t) && venue) F("warn", `Any lawsuit has to be filed in ${venue[1] || venue[2]} County, which may be far from you. Read that clause before you sign.`, clause(venue));
   /* owner, 26 Oct: what a mover's own contract hid, and how a deposit was kept */
   const payee = t.match(/payable\s+to\s*:?\s*["“]?([A-Za-z0-9&.,' ]{3,60}?)["”]?(?:[.\n]|\s+if\b)/i);
   if (payee && out.name && !String(out.name).toLowerCase().split(/\W+/).filter((w) => w.length > 3 && !/moving|movers|storage|relocation|transfer/.test(w)).some((w) => payee[1].toLowerCase().includes(w)))
-    F("bad", `Payments go to "${payee[1].trim()}", not the company on the quote. Ask who that is before you pay anyone.`);
+    F("bad", `Payments go to "${payee[1].trim()}", not the company on the quote. Ask who that is before you pay anyone.`, clause(payee));
   const claimDays = t.match(/(?:claim|notice of claim)[^.\n]{0,80}?within\s+(\d{1,3})\s+days/i);
-  if (claimDays && parseInt(claimDays[1], 10) < 270) F("bad", `It gives you ${claimDays[1]} days to file a damage claim. On a move between states, federal law gives you at least 9 months (49 U.S.C. 14706). Ask them to change it.`);
-  if (/\bX\s+Basic\s+Value\s+Protection|\[x\]\s*(?:basic|released)/i.test(t)) F("bad", "The weakest coverage is already checked for you. Full value protection is the default on a move between states unless you choose otherwise in writing. Ask its price.");
-  if (/grand\s+total\s*(?:-{1,2}|—|\$?0\.00)(?:\s|$)/i.test(t)) F("bad", "The total on the contract is blank or $0. A binding price must be written on it before you sign.");
+  if (claimDays && parseInt(claimDays[1], 10) < 270) F("bad", `It gives you ${claimDays[1]} days to file a damage claim. On a move between states, federal law gives you at least 9 months (49 U.S.C. 14706). Ask them to change it.`, clause(claimDays));
+  { const m = t.match(/\bX\s+Basic\s+Value\s+Protection|\[x\]\s*(?:basic|released)/i); if (m) F("bad", "The weakest coverage is already checked for you. Full value protection is the default on a move between states unless you choose otherwise in writing. Ask its price.", clause(m)); }
+  { const m = t.match(/grand\s+total\s*(?:-{1,2}|—|\$?0\.00)(?:\s|$)/i); if (m) F("bad", "The total on the contract is blank or $0. A binding price must be written on it before you sign.", clause(m)); }
   return out;
 }
 window.prReadQuote = parseQuote;

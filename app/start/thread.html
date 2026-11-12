@@ -2910,7 +2910,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v366, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v367, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
