@@ -142,6 +142,8 @@
     window.addEventListener("message", function (m) { if (m.source === f.contentWindow && m.data && m.data.prEmbedHeight) f.style.height = Math.min(4000, m.data.prEmbedHeight + 8) + "px"; });
     return f;
   }
+  /* tools rebuilt as walk-throughs open on their own pages */
+  var WALKED = ["quote-check/", "truck/", "movers-vs-brokers/"];
   function render(list, q0) {
     out.textContent = "";
     if (!list.length) {
@@ -154,7 +156,7 @@
     var r = el("article", "res" + (d.t === "tool" ? " tool" : ""));
     /* alpha test, 8 Nov: the hub opened every tool in a card in its old look, so the new walk-throughs never showed.
        A tool rebuilt as a walk opens on its own page. */
-    var walked = ["quote-check/", "truck/", "movers-vs-brokers/"].indexOf(d.u) >= 0;
+    var walked = WALKED.indexOf(d.u) >= 0;
     if (d.t === "tool" && !walked) { r.appendChild(frameFor(d)); }
     else if (d.t === "tool") { r.appendChild(el("p", "kind", KIND[d.t])); r.appendChild(el("h2", null, d.h)); if (d.a && d.a !== d.h) r.appendChild(el("p", null, d.a)); }
     else {
@@ -191,7 +193,7 @@
   $("f").addEventListener("submit", function (e) { e.preventDefault(); q.blur(); run(true); });
   $("clr").addEventListener("click", function () { q.value = ""; run(true); q.focus(); });
   document.querySelectorAll("#tries button").forEach(function (b) { b.addEventListener("click", function () { q.value = b.textContent; run(true); }); });
-  document.addEventListener("click", function (e) { var a = e.target.closest && e.target.closest("a[data-u]"); if (!a || e.metaKey || e.ctrlKey) return; if (openDoc(a.dataset.u)) e.preventDefault(); });
+  document.addEventListener("click", function (e) { var a = e.target.closest && e.target.closest("a[data-u]"); if (!a || e.metaKey || e.ctrlKey) return; /* review, 11 Nov: picking a walk-through from the list opens it, with no card and second Start in between */ if (WALKED.indexOf(a.dataset.u) >= 0) return; if (openDoc(a.dataset.u)) e.preventDefault(); });
   // Ask out loud, where the browser can listen.
   var SR = window.SpeechRecognition || window.webkitSpeechRecognition, rec = null;
   if (SR) {
