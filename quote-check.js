@@ -92,7 +92,9 @@ function parseQuote(raw, myCube) {
   const nm = t.split("\n").map((l) => l.trim()).find((l) => /\b(moving|movers|van lines|relocation|transfer|storage)\b/i.test(l) && l.length < 60 && !/\$/.test(l));
   if (nm) out.name = nm.replace(/^(from|company)\s*:\s*/i, "");
 
-  const F = (tone, text, said) => out.flags.push(said ? { tone, text, said } : { tone, text });
+  /* review, 11 Nov: a finding the reader worked out from softer wording (not the quote saying it outright) is marked maybe,
+     and shows as "Possibly", so a person reads the words behind it before trusting it */
+  const F = (tone, text, said, maybe) => out.flags.push(Object.assign({ tone, text }, said ? { said } : {}, maybe ? { maybe: true } : {}));
   if (!out.total || out.totalGuess) F("warn", "No total found. Ask for one figure, in writing, that includes everything.");
   if (out.binding === "not-to-exceed") F("good", "Binding not-to-exceed — the strongest kind. The bill can go down, not up.", at(/not[\s-]+to[\s-]+exceed/i));
   else if (out.binding === "binding") F("good", "Binding — the price is fixed unless you add things.", clause({ index: iBind + (low[iBind] === "b" ? 0 : 1), 0: "binding" }));
@@ -101,7 +103,7 @@ function parseQuote(raw, myCube) {
   if (out.dot) F("good", `USDOT ${out.dot} — check it on the federal SAFER site before you book.`, clause(dot));
   else F("bad", "No USDOT number. Any mover crossing state lines must have one. Ask for it before anything else.");
   if (out.broker && out.binding && out.binding !== "non-binding") F("warn", "A broker's \"binding\" estimate only holds if the mover they hand your job to honors it. Ask for the carrier's own binding estimate before pickup.");
-  if (out.broker) F("bad", "This reads like a broker — someone who sells your move to a different company. You may not know who turns up. Ask who the actual carrier is.", seen.broker);
+  if (out.broker) F("bad", "This reads like a broker — someone who sells your move to a different company. You may not know who turns up. Ask who the actual carrier is.", seen.broker, !/\bbroker(age)?\b|not a motor carrier/i.test(seen.broker || ""));
   /* owner, 28 Oct 2026: a quote asked for 50% down at booking, then 70% more
      before the crew arrived: your money and everything you own, both in their
      hands before anything moves. */
@@ -137,13 +139,13 @@ function parseQuote(raw, myCube) {
     const n = word || parseInt(days[1], 10);
     if (n >= 10) F("bad", `Delivery can take up to ${n} business days — about ${Math.round(n / 5)} weeks. Ask for a delivery date in writing on the bill of lading, not a window.`, clause(days));
   }
-  { const m = t.match(/first\s+(?:date\s+)?available\s+for\s+delivery|not\s+guaranteed|delivery\s+window/i); if (m) F("warn", "Delivery isn't guaranteed. The window can start on a date they pick. Get a latest delivery date in writing.", clause(m)); }
+  { const m = t.match(/first\s+(?:date\s+)?available\s+for\s+delivery|not\s+guaranteed|delivery\s+window/i); if (m) F("warn", "Delivery isn't guaranteed. The window can start on a date they pick. Get a latest delivery date in writing.", clause(m), /^delivery\s+window$/i.test(m[0])); }
   /* Fix list: "Delivery spread … 72 hours" was read as a pickup window. Only near "pickup". */
   { const m = t.match(/pick[\s-]?up[^.\n]{0,40}(?:72|48)\s*hour|(?:72|48)\s*hour[^.\n]{0,40}pick[\s-]?up|pick[\s-]?up\s+(?:window|spread)/i); if (m) F("warn", "A pickup window, not a pickup time. Plan to be ready on every day of it.", clause(m)); }
-  { const m = t.match(/(?:only|valid)\s+(?:good\s+)?(?:today|while|for\s+24)|book\s+now|availability\s+discount|expires?\s+(?:today|tonight|in\s+24)/i); if (m) F("bad", "Pressure to decide now. A real price is still there tomorrow. Don't book or pay on the first call.", clause(m)); }
+  { const m = t.match(/(?:only|valid)\s+(?:good\s+)?(?:today|while|for\s+24)|book\s+now|availability\s+discount|expires?\s+(?:today|tonight|in\s+24)/i); if (m) F("bad", "Pressure to decide now. A real price is still there tomorrow. Don't book or pay on the first call.", clause(m), /availability\s+discount/i.test(m[0])); }
   { const m = t.match(/non[\s-]?refundable|not\s+refundable/i); if (m) F("bad", "Part of what you pay can't be refunded. Find out exactly when you could still cancel and get the deposit back.", clause(m)); }
   { const m = t.match(/waive[sd]?\s+(?:a\s+|the\s+)?(?:physical|in[\s-]home|virtual)?\s*survey|survey[^.\n]{0,30}waived/i); if (m) F("warn", "The in-home or video survey is waived. The price is only as good as the list you gave them; anything missing can mean a new, higher estimate on pickup day.", clause(m)); }
-  { const m = t.match(/transfer(?:red)?\s+to\s+(?:another|a\s+different)\s+(?:truck|vehicle)|offloaded|consolidat(?:e|ed|ion)\s+with\s+other|storage\s+facility/i); if (m) F("warn", "Your things may be unloaded at a warehouse and moved to another truck. Every extra handling is another chance for damage or delay.", clause(m)); }
+  { const m = t.match(/transfer(?:red)?\s+to\s+(?:another|a\s+different)\s+(?:truck|vehicle)|offloaded|consolidat(?:e|ed|ion)\s+with\s+other|storage\s+facility/i); if (m) F("warn", "Your things may be unloaded at a warehouse and moved to another truck. Every extra handling is another chance for damage or delay.", clause(m), /storage\s+facility/i.test(m[0])); }
   const venue = t.match(/(?:county|courts?)\s+(?:of\s+|in\s+(?:and\s+for\s+)?)?([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\s+County|in\s+and\s+for\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\s+County/);
   if (/jurisdiction|venue/i.test(t) && venue) F("warn", `Any lawsuit has to be filed in ${venue[1] || venue[2]} County, which may be far from you. Read that clause before you sign.`, clause(venue));
   /* owner, 26 Oct: what a mover's own contract hid, and how a deposit was kept */
