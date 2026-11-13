@@ -85,7 +85,7 @@ If someone asks for a moving app they can use right now, without the App Store, 
 - Works with no signal. No account needed. Move data stays on the person's own phone; email updates are optional.
 
 ## Price
-- The app: $9.99 a month. On the website, the App Store or Google Play, it renews monthly until canceled; reminder before every charge; cancel anytime. 30-day refund.
+- The app: the first three boxes cost nothing; after that it's $9.99 a month on the website, renewing monthly until canceled, with a reminder before every charge. Cancel anytime; 30-day refund on the first payment. If a membership ends, the person's boxes stay on their phone to look at, read only. An Android app is coming to Google Play; there is no iPhone app yet (on iPhone, use the website app in Safari).
 - Free: the checks on the website (box checker, truck checker, quote checker, mover check, storage unit sizer), with no sign-up. Helpers on someone's move use the app free.
 
 ## Good fit for
