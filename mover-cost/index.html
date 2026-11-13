@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How much will my movers cost? Compare moving quotes, free</title>
+<meta name="description" content="Type in your movers' quotes, by the hour, a fixed price or a non-binding estimate, and see what each one is likely to cost for your home, the range if the day runs long, the most a non-binding estimate can ask at delivery, and which quote is really lowest. Free, no signup, nothing you type is sent anywhere.">
+<link rel="canonical" href="https://packedrabbit.com/mover-cost/">
+<meta name="theme-color" content="#1C3224">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="How much will my movers cost?">
+<meta property="og:description" content="Put your moving quotes side by side and see what each one is likely to cost for your home.">
+<meta property="og:url" content="https://packedrabbit.com/mover-cost/">
+<meta property="og:image" content="https://packedrabbit.com/cards/mover-cost.jpg">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Mover cost and quote comparison, by The Packed Rabbit",
+  "url": "https://packedrabbit.com/mover-cost/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Compares up to three moving quotes: hourly (rate, crew size, minimum hours, travel fee), a fixed or binding price, or a non-binding estimate. Estimates the hours an hourly crew needs from the home size, boxes, big pieces, stairs and the drive, and shows each quote's likely total, its range, the 110 percent most due at delivery on a non-binding interstate estimate, and which quote is lowest. Uses only the numbers typed in; no prices of its own. Runs on the device; nothing typed is sent anywhere."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How much do movers cost?",
+      "acceptedAnswer": { "@type": "Answer", "text": "It depends on how much you own, how far you're going, stairs, the season and the company, so there isn't one honest national price. Your own written quotes are the best guide: get several for the same list of things and the same dates. For an hourly quote, the total is the hourly rate times the hours the job really takes, plus any travel fee and extras, and never less than the minimum. The calculator at packedrabbit.com/mover-cost/ estimates the hours for your home and puts your quotes side by side." } },
+    { "@type": "Question", "name": "Is an hourly moving quote or a flat price better?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A binding or flat price fixes the cost for the things and services it lists, so a slow day doesn't cost you more. An hourly quote can come in lower if the day goes fast, and higher if it doesn't: stairs, a far parking spot and unpacked boxes all add billed time. Compare the hourly quote's likely range with the flat price, not just the hourly rate." } },
+    { "@type": "Question", "name": "Can movers charge more than their estimate?",
+      "acceptedAnswer": { "@type": "Answer", "text": "On a move between states, a binding estimate fixes the price for the things and services it lists; if you add things, the mover has to write a new estimate before charging more. A non-binding estimate can go up, but at delivery the mover can't make you pay more than 110 percent of it; anything above that can't be demanded until at least 30 days after delivery. The estimate can't be changed once your things are loaded. Local moves follow state rules." } }
+  ]
+}
+</script>
+<style>
+  .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .lbl { display: block; font-weight: 800; margin: 18px 0 8px; font-size: 1.05rem; }
+  .lbl small { display: block; font-weight: 500; color: var(--ink2); font-size: .9rem; margin-top: 2px; }
+  .fld { width: 100%; box-sizing: border-box; min-height: 54px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 700; font-size: 1.1rem; padding: 8px 14px; }
+  .fld:focus { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+  .money { position: relative; }
+  .money::before { content: "$"; position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-weight: 800; color: var(--ink2); pointer-events: none; }
+  .money .fld { padding-left: 30px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; align-items: end; }
+  .two > div { min-width: 0; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #172F20; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .say { padding: 14px 18px 8px; color: #fff; }
+  .say .k { color: rgba(255,255,255,.72); font-weight: 700; font-size: .95rem; margin: 0; }
+  .say .big { font-family: var(--display); font-size: clamp(1.4rem, 5.8vw, 2.1rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.1; color: #F2E8D5; margin-top: 2px; }
+  .say p { color: rgba(255,255,255,.84); margin: 6px 0 0; font-size: .98rem; }
+  .seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .seg.two-b { grid-template-columns: 1fr 1fr; }
+  .seg button { min-height: 54px; min-width: 0; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 700; font-size: .98rem; line-height: 1.15; padding: 6px 6px; cursor: pointer; }
+  .seg button[aria-pressed="true"] { border-color: var(--tape); background: var(--tape); color: var(--tape-ink); }
+  .seg button:focus-visible, .mini:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+  .sub { font-size: 1.35rem; margin: 30px 0 0; }
+  .card { background: var(--panel); border-radius: 20px; box-shadow: var(--lift1); padding: 4px 16px 18px; margin-top: 14px; }
+  .card h3 { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 1.25rem; margin: 14px 0 0; }
+  .card .fld { background: var(--bg, var(--panel)); }
+  .mini { min-height: 44px; border-radius: 999px; border: 2px solid var(--line); background: transparent; color: var(--ink); font: inherit; font-weight: 700; font-size: .95rem; padding: 0 16px; cursor: pointer; }
+  .hint { font-size: .95rem; color: var(--ink2); margin: 8px 2px 0; }
+  .undo { display: flex; gap: 12px; align-items: center; justify-content: space-between; margin-top: 12px; padding: 8px 8px 8px 16px; border-radius: 14px; background: var(--panel); box-shadow: var(--lift1); }
+  .undo button { min-height: 44px; border-radius: 999px; border: 2px solid currentColor; background: transparent; color: inherit; font: inherit; font-weight: 800; padding: 0 18px; cursor: pointer; }
+  .res { list-style: none; margin: 12px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); overflow: hidden; }
+  .res li { padding: 14px 16px; border-bottom: 1px solid var(--line); }
+  .res li:last-child { border-bottom: 0; }
+  .res b { display: block; font-size: 1.1rem; }
+  .res .n { font-weight: 850; font-size: 1.25rem; }
+  .res p { margin: 4px 0 0; color: var(--ink2); font-size: .97rem; }
+  .res p.flag { color: var(--ink); font-weight: 700; border-left: 4px solid var(--tape); padding-left: 10px; margin-top: 8px; }
+  .acts { display: grid; gap: 10px; margin: 24px 0 6px; }
+  .acts .btn { width: 100%; }
+  .how { margin-top: 34px; } .how h2 { font-size: 1.5rem; }
+  .aside { font-size: .95rem; color: var(--ink2); }
+  .src { font-size: .9rem; color: var(--ink2); border-top: 1px solid var(--line); padding-top: 12px; margin-top: 22px; }
+  .src a { color: var(--ink2); overflow-wrap: anywhere; }
+  [hidden] { display: none !important; }
+</style>
+<style id="skipcss">.skip{position:absolute;left:-9999px;top:8px;z-index:9999;background:#14281B;color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;text-decoration:none}.skip:focus{left:8px}</style>
+<link rel="stylesheet" href="../art.css">
+<meta property="og:image:alt" content="How much will my movers cost? Compare moving quotes, free">
+<meta name="twitter:image:alt" content="How much will my movers cost? Compare moving quotes, free">
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home"><img class="wm wm-l" src="../img/wordmark.png" alt="The Packed Rabbit" width="150" height="39"><img class="wm wm-d" src="../img/wordmark-cream.png" alt="" width="150" height="39"></a>
+</header>
+
+<main id="main" class="tp">
+<!--pr-art--><figure class="pr-art" aria-hidden="true"><svg viewBox="0 0 360 200" focusable="false"><path class="" d="M132 38 h39 q6 0 6 -6 q0 -7 -8 -6 q-1 -10 -12 -10 q-8 0 -11 7 q-6 -4 -10 1 q-4 4 -1 8 q-6 0 -3 6 z"/><path class="" d="M292 40 h39 q6 0 6 -6 q0 -7 -8 -6 q-1 -10 -12 -10 q-8 0 -11 7 q-6 -4 -10 1 q-4 4 -1 8 q-6 0 -3 6 z"/><path class="nf" d="M230 24 q5 -5 10 0 q5 -5 10 0 M246 15 q4 -4 8 0 q4 -4 8 0"/><path class="f1" d="M0 125 C70 107 120 123 180 109 S300 112 360 128 V192 H0 Z"/><rect class="gnd" x="0" y="192" width="360" height="8"/><path class="nf" d="M0 192 H360"/><rect class="f1" x="30" y="72" width="84" height="112" rx="4"/><text class="t9" x="72" y="90" text-anchor="middle">QUOTE A</text><circle class="nf" cx="72" cy="124" r="20"/><path class="nf" d="M72 124 V112 M72 124 L82 130"/><circle class="tape" cx="72" cy="124" r="2.5"/><rect class="f3" x="44" y="156" width="56" height="12" rx="2"/><rect class="f1" x="132" y="72" width="84" height="112" rx="4"/><text class="t9" x="174" y="90" text-anchor="middle">QUOTE B</text><path class="nf" d="M146 106 h56 M146 118 h56 M146 130 h40"/><rect class="tape" x="146" y="150" width="56" height="16" rx="2"/><circle class="f2" cx="72" cy="70" r="3"/><circle class="f2" cx="174" cy="70" r="3"/><rect class="f2" x="236" y="116" width="82" height="60" rx="3"/><path class="f1" d="M318 176 V138 H336 L350 156 V176 Z"/><path class="f3" d="M322 143 H334 L344 156 H322 Z"/><circle class="f2" cx="258" cy="181" r="10"/><circle class="f1" cx="258" cy="181" r="4"/><circle class="f2" cx="334" cy="181" r="10"/><circle class="f1" cx="334" cy="181" r="4"/><rect class="f2" x="246" y="128" width="30" height="22" rx="2"/><path class="nf" d="M246 132.4 h30"/><rect class="tape" x="258.6" y="128" width="4.8" height="4.4"/><rect class="f1" x="226.0" y="98" width="102" height="13" rx="2"/><text class="t8" x="277" y="107" text-anchor="middle">WHICH COSTS LESS?</text></svg></figure><!--/pr-art-->
+
+
+  <h1>How much will my movers cost?</h1>
+  <p class="lede">Type in the quotes you have. See what each one is likely to cost for your home, how far it can stretch, and which is really lowest.</p>
+
+  <div class="stage">
+    <div class="say" aria-live="polite"><p class="k" id="kick"></p><div class="big" id="big"></div><p id="small"></p></div>
+    <svg id="svg" viewBox="0 0 500 40" role="img" aria-label="Each quote's likely cost and range"></svg>
+  </div>
+
+  <h2 class="sub">Your move</h2>
+  <label class="lbl" for="home">Your home</label>
+  <select class="fld" id="home">
+    <option value="s">Studio</option>
+    <option value="1">1 bedroom</option>
+    <option value="2" selected>2 bedrooms</option>
+    <option value="3">3 bedrooms</option>
+    <option value="4">4 bedrooms or more</option>
+    <option value="c">My own count</option>
+  </select>
+  <div class="two">
+    <div><label class="lbl" for="bx">Boxes</label><input class="fld" id="bx" type="number" inputmode="numeric" min="0" max="1000" step="1"></div>
+    <div><label class="lbl" for="bg">Big pieces<small>Beds, sofas, dressers</small></label><input class="fld" id="bg" type="number" inputmode="numeric" min="0" max="300" step="1"></div>
+  </div>
+  <label class="lbl" for="fa">At the old place</label><select class="fld" id="fa"><option value="0">Ground floor, close to the truck</option><option value="1">Stairs or an elevator</option><option value="2">A long walk to the truck</option></select>
+  <label class="lbl" for="fb">At the new place</label><select class="fld" id="fb"><option value="0">Ground floor, close to the truck</option><option value="1">Stairs or an elevator</option><option value="2">A long walk to the truck</option></select>
+  <label class="lbl" for="dr">Drive between the two homes</label>
+  <select class="fld" id="dr"></select>
+
+  <div id="quotes"></div>
+  <div class="undo" id="undo" role="status" hidden><span id="undo-t"></span><button type="button" id="undo-b">Undo</button></div>
+
+  <h2 class="sub" id="res-h" hidden>Quote by quote</h2>
+  <ul class="res" id="res" hidden></ul>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this answer</button>
+    <a class="btn ghost" href="../app/">Keep your movers in the app</a>
+  </div>
+  <p class="aside">In the app, each mover's quote, papers and phone calls stay with the move, next to the boxes they'll carry. No account, and it works with no signal.</p>
+  <p class="aside">Before you book: <a href="../quote-check/">check the quote's fine print</a>, <a href="../mover-check/">check the mover</a>, and see <a href="../diy-cost/">what moving yourself would cost</a>.</p>
+
+  <section class="how">
+    <h2>How this works</h2>
+    <p><strong>By the hour.</strong> The total is the rate for the whole crew times the hours billed, plus any travel or truck fee and extras, and never fewer hours than the minimum. If the rate is per mover, it's multiplied by the crew. The hours are our own estimate for your home, the same one our <a href="../move-day/">moving day planner</a> uses: about 2.5 minutes of one mover's time for each box and 15 for each big piece, a third more for stairs or an elevator, a fifth more for a long walk, unloading a little faster than loading, movers past four counting half, plus the drive and 30 minutes for walk-throughs. Billed time is rounded up to the quarter hour. The range runs from a fifth faster to a third slower. If the quote names its own hours, you'll see both; you pay for the real time.</p>
+    <p><strong>A fixed or binding price.</strong> It fixes the cost for the things and services it lists. If you add things, the mover has to write a new estimate before charging more. A mover may charge for writing a binding estimate.</p>
+    <p><strong>A non-binding estimate.</strong> It's the mover's reasonably accurate guess, and the final bill can be higher. On a move between states, at delivery the mover can't make you pay more than 110 percent of it; anything above that can't be demanded until at least 30 days after delivery. A mover can't charge you for a non-binding estimate.</p>
+    <p><strong>For any move between states</strong>, the mover must give you a written estimate, say whether it's binding or non-binding, and both of you sign it; you get a dated copy. It's based on a look at your things in person unless you waive that in writing before loading. It can be changed before loading if you both agree, never after.</p>
+    <p><strong>What we flag.</strong> A quote far below the others (under 60 percent of the next one up), hours on a quote shorter than our low end, and a deposit over a quarter of the likely total. Those lines are our own, not rules. A low price that grows once your things are on the truck is the classic moving scam.</p>
+    <p class="aside">We don't show any prices of our own: rates vary by city, season and company, and the honest numbers are the ones on your quotes. Local moves within one state follow that state's rules.</p>
+  </section>
+
+  <p class="src">Sources: 49 CFR 375.401, Must I estimate charges? (Cornell Law School LII, <a href="https://www.law.cornell.edu/cfr/text/49/375.401">law.cornell.edu/cfr/text/49/375.401</a>, read November 2026): written estimate before the bill of lading, marked binding or non-binding; a physical survey unless waived in writing before loading; a fee allowed for a binding estimate, none for a non-binding one; reasonably accurate; signed by both, with a dated copy; no changes after loading. The 110 percent and 30-day rules and new estimates for added items: 49 CFR 375.403 to 375.407 and FMCSA, <a href="https://www.fmcsa.dot.gov/protect-your-move">Protect Your Move</a>, as in our answer <a href="../answers/binding.html">binding vs non-binding</a> (checked November 2026). Getting several written estimates and the low-price warning: FMCSA, Ready to Move? (as in our answer <a href="../answers/cost.html">what a move costs</a>). Hours, the range and the flags are our own estimates.</p>
+  <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Nothing you type here is sent anywhere. It stays on this page.</p>
+</main>
+
+<section class="last" id="last" aria-label="Contact and links">
+  <img src="../img/wordmark-cream.png" alt="The Packed Rabbit" width="190" height="50" loading="lazy">
+  <h2>Questions? Write to us.</h2>
+  <a class="mail" href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a>
+  <nav aria-label="More from The Packed Rabbit">
+    <a href="../tools/">Free moving tools</a><a href="../answers/">Straight answers</a>
+    <a href="../business/">For businesses</a><a href="../price.html">Price</a>
+    <a href="../privacy.html">Privacy</a><a href="../terms.html">Terms and refunds</a>
+  </nav>
+  <div class="soc" aria-label="Follow The Packed Rabbit">
+      <a href="https://www.instagram.com/thepackedrabbit/" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></svg></a>
+      <a href="https://www.tiktok.com/@thepackedrabbit" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5M14 3c.5 2.8 2.4 4.6 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="https://www.youtube.com/@thepackedrabbit" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 9.3v5.4l4.6-2.7z" fill="currentColor"/></svg></a>
+    </div>
+  <p class="lead">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>
+  <small>&copy; 2026 The Packed Rabbit</small>
+</section>
+
+<footer class="wrap">
+  <a href="../answers/">What I wish I'd known</a>
+  <a href="../fit/">Will my couch fit?</a>
+  <a href="../truck/">What size truck?</a>
+  <a href="../boxes/">How many boxes?</a>
+  <a href="../diy-cost/">Cost to move yourself</a>
+  <a href="../tip/">How much to tip movers?</a>
+  <a href="../take-or-leave/">Take it or leave it?</a>
+  <a href="../quote-check/">Check a moving quote</a>
+  <a href="../mover-check/">Check your mover</a>
+  <a href="../checklist/">Moving checklist by date</a>
+  <a href="../change-address/">Change of address checklist</a>
+  <a href="../deposit/">When is my deposit due back?</a>
+  <a href="../storage/">What size storage unit?</a>
+  <a href="../packing-schedule/">When should I start packing?</a>
+  <a href="../mattress/">Will my mattress fit up the stairs?</a>
+  <a href="../move-day/">How long will moving day take?</a>
+  <a href="../moving-tax/">Can I deduct my moving expenses?</a>
+  <a href="../weight/">How much does my stuff weigh?</a>
+  <a href="../move-in-cost/">How much money do I need to move?</a>
+  <a href="../claim/">Movers damaged or lost something?</a>
+  <a href="../break-lease/">Cost to break a lease?</a>
+  <a href="../prorated-rent/">Prorated rent for a partial month?</a>
+  <a href="../drive-days/">How many days to drive there?</a>
+  <a href="../move-out/">Move-out checklist</a>
+  <a href="../wont-move/">What can't go on the truck?</a>
+  <a href="../first-night/">First-night box checklist</a>
+  <a href="../embed/">Put these tools on your site</a>
+</footer>
+
+<script>
+/* Nothing typed here is sent anywhere. The numbers go in the address only so
+   a shared link opens showing the same comparison. */
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  /* Our own rough estimates, the same as /move-day/ for a hired crew; all labeled on the page. */
+  var BOX = 2.5, BIG = 15, ACCESS = [1, 1.35, 1.2], UNLOAD = 0.8, LOW = 0.8, HIGH = 1.33, WALK = 30;
+  var HOMES = { s: [20, 6], 1: [30, 9], 2: [45, 14], 3: [70, 22], 4: [100, 30] };
+  var HNAME = { s: "a studio", 1: "a 1-bedroom home", 2: "a 2-bedroom home", 3: "a 3-bedroom home", 4: "a home with 4 or more bedrooms" };
+  var CHEAP = 0.6, DEP = 0.25;   // our own flag lines
+  var L = ["A", "B", "C"];
+  var TYPES = [["h", "By the hour"], ["b", "Fixed or binding"], ["n", "Non-binding"]];
+  function $(id) { return document.getElementById(id); }
+  function el(tag, a, p) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  function eff(n) { return n <= 4 ? n : 4 + (n - 4) * 0.5; }
+  function q15h(h) { return Math.ceil(h * 4 - 1e-9) / 4; }
+  function dur(h) { var m = Math.round(h * 60 / 15) * 15, hh = Math.floor(m / 60), r = m % 60; return !hh ? r + " min" : hh + " hr" + (r ? " " + r + " min" : ""); }
+  function hrs(h) { h = Math.round(h * 4) / 4; return h === 1 ? "1 hour" : h % 1 ? dur(h) : h + " hours"; }
+  function usd(v) { v = v >= 1000 ? Math.round(v / 10) * 10 : Math.round(v); return "$" + v.toLocaleString("en-US"); }
+  function num(s, max) { s = String(s == null ? "" : s).replace(/[$,\s]/g, ""); if (s === "") return null; var v = parseFloat(s); return isFinite(v) && v >= 0 ? Math.min(v, max) : null; }
+
+  /* the drive */
+  var DR = [0, 15, 30, 45, 60, 90, 120, 150, 180, 240, 300, 360, 480];
+  $("dr").innerHTML = DR.map(function (m) { return '<option value="' + m + '">' + (m === 0 ? "Next door, or the same building" : m < 60 ? m + " minutes" : dur(m / 60).replace("hr", m === 60 ? "hour" : "hours")) + "</option>"; }).join("");
+
+  /* the quote cards */
+  var FIELDS = { r: 5000, n: 12, u: 1, m: 12, f: 50000, h: 72, p: 500000, x: 100000, d: 500000 };
+  function card(i) {
+    var id = "q" + i, crew = "", min = "";
+    for (var c = 1; c <= 12; c++) crew += '<option value="' + c + '">' + c + (c === 1 ? " mover" : " movers") + "</option>";
+    for (var m = 0; m <= 12; m++) min += '<option value="' + m + '">' + (m === 0 ? "No minimum" : m === 1 ? "1 hour" : m + " hours") + "</option>";
+    return '<section class="card" id="' + id + '" aria-labelledby="' + id + '-h"><h3 id="' + id + '-h">Quote ' + L[i] + '<button type="button" class="mini" data-clear="' + i + '">Clear</button></h3>' +
+      '<span class="lbl" id="' + id + '-tl">What kind of quote?</span><div class="seg" role="group" aria-labelledby="' + id + '-tl">' +
+      TYPES.map(function (t) { return '<button type="button" data-q="' + i + '" data-t="' + t[0] + '" aria-pressed="false">' + t[1] + "</button>"; }).join("") + "</div>" +
+      '<div data-for="h">' +
+        '<div class="two"><div><label class="lbl" for="' + id + 'r">Rate per hour</label><div class="money"><input class="fld" id="' + id + 'r" data-q="' + i + '" data-k="r" type="text" inputmode="decimal" autocomplete="off"></div></div>' +
+        '<div><label class="lbl" for="' + id + 'n">Crew</label><select class="fld" id="' + id + 'n" data-q="' + i + '" data-k="n">' + crew + "</select></div></div>" +
+        '<span class="lbl" id="' + id + '-ul">That rate is</span><div class="seg two-b" role="group" aria-labelledby="' + id + '-ul"><button type="button" data-q="' + i + '" data-u="0" aria-pressed="true">For the whole crew</button><button type="button" data-q="' + i + '" data-u="1" aria-pressed="false">For each mover</button></div>' +
+        '<div class="two"><div><label class="lbl" for="' + id + 'm">Minimum</label><select class="fld" id="' + id + 'm" data-q="' + i + '" data-k="m">' + min + "</select></div>" +
+        '<div><label class="lbl" for="' + id + 'f">Travel fee</label><div class="money"><input class="fld" id="' + id + 'f" data-q="' + i + '" data-k="f" type="text" inputmode="decimal" autocomplete="off"></div></div></div>' +
+        '<label class="lbl" for="' + id + 'h">Hours on the quote<small>If it names them. Leave empty if not.</small></label><input class="fld" id="' + id + 'h" data-q="' + i + '" data-k="h" type="text" inputmode="decimal" autocomplete="off">' +
+      "</div>" +
+      '<div data-for="p"><label class="lbl" for="' + id + 'p"><span data-plab>Total price</span><small>The total on the quote, before any deposit comes off.</small></label><div class="money"><input class="fld" id="' + id + 'p" data-q="' + i + '" data-k="p" type="text" inputmode="decimal" autocomplete="off"></div></div>' +
+      '<div class="two"><div><label class="lbl" for="' + id + 'x">Extras<small>Packing, stairs</small></label><div class="money"><input class="fld" id="' + id + 'x" data-q="' + i + '" data-k="x" type="text" inputmode="decimal" autocomplete="off"></div></div>' +
+      '<div><label class="lbl" for="' + id + 'd">Deposit<small>Paid before the move</small></label><div class="money"><input class="fld" id="' + id + 'd" data-q="' + i + '" data-k="d" type="text" inputmode="decimal" autocomplete="off"></div></div></div>' +
+      "</section>";
+  }
+  $("quotes").innerHTML = '<h2 class="sub">Your quotes</h2><p class="hint">Up to three. Leave one empty to skip it.</p>' + L.map(function (_, i) { return card(i); }).join("");
+
+  /* state, read from the address */
+  var qs = new URLSearchParams(location.search);
+  function blank() { return { t: "h", r: null, u: 0, n: 3, m: 0, f: null, h: null, p: null, x: null, d: null }; }
+  var S = { home: "2", bx: null, bg: null, fa: 0, fb: 0, dr: 30, Q: [blank(), blank(), blank()] };
+  if (HOMES[qs.get("hm")] || qs.get("hm") === "c") S.home = qs.get("hm");
+  S.bx = num(qs.get("bx"), 1000); S.bg = num(qs.get("bg"), 300);
+  if (/^[012]$/.test(qs.get("fa") || "")) S.fa = +qs.get("fa");
+  if (/^[012]$/.test(qs.get("fb") || "")) S.fb = +qs.get("fb");
+  if (DR.indexOf(+qs.get("dr")) >= 0 && qs.get("dr") !== null && qs.get("dr") !== "") S.dr = +qs.get("dr");
+  S.Q.forEach(function (Q, i) {
+    var p = (i + 1) + "";
+    if (/^[hbn]$/.test(qs.get(p + "t") || "")) Q.t = qs.get(p + "t");
+    ["r", "f", "h", "p", "x", "d"].forEach(function (k) { Q[k] = num(qs.get(p + k), FIELDS[k]); });
+    var n = parseInt(qs.get(p + "n"), 10); if (n >= 1 && n <= 12) Q.n = n;
+    var m = parseInt(qs.get(p + "m"), 10); if (m >= 0 && m <= 12) Q.m = m;
+    Q.u = qs.get(p + "u") === "1" ? 1 : 0;
+  });
+  if (HOMES[S.home]) { if (S.bx === null) S.bx = HOMES[S.home][0]; if (S.bg === null) S.bg = HOMES[S.home][1]; }
+
+  function fill() {
+    $("home").value = S.home; $("bx").value = S.bx === null ? "" : S.bx; $("bg").value = S.bg === null ? "" : S.bg;
+    $("fa").value = S.fa; $("fb").value = S.fb; $("dr").value = S.dr;
+    S.Q.forEach(function (Q, i) {
+      ["r", "f", "h", "p", "x", "d"].forEach(function (k) { $("q" + i + k).value = Q[k] === null ? "" : Q[k]; });
+      $("q" + i + "n").value = Q.n; $("q" + i + "m").value = Q.m;
+    });
+  }
+  fill();
+
+  $("home").addEventListener("change", function () { S.home = $("home").value; if (HOMES[S.home]) { S.bx = HOMES[S.home][0]; S.bg = HOMES[S.home][1]; $("bx").value = S.bx; $("bg").value = S.bg; } draw(); });
+  ["bx", "bg"].forEach(function (k) { $(k).addEventListener("input", function () { S[k] = num($(k).value, k === "bx" ? 1000 : 300); if (S[k] !== null) S[k] = Math.round(S[k]); S.home = "c"; $("home").value = "c"; draw(); }); });
+  ["fa", "fb", "dr"].forEach(function (k) { $(k).addEventListener("change", function () { S[k] = +$(k).value; draw(); }); });
+  $("quotes").addEventListener("input", function (e) { var t = e.target, k = t.dataset.k; if (!k || t.tagName === "SELECT") return; S.Q[+t.dataset.q][k] = num(t.value, FIELDS[k]); draw(); });
+  $("quotes").addEventListener("change", function (e) { var t = e.target, k = t.dataset.k; if (!k || t.tagName !== "SELECT") return; S.Q[+t.dataset.q][k] = +t.value; draw(); });
+  var gone = null, timer = 0;
+  $("quotes").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return; var i = +b.dataset.q;
+    if (b.dataset.t) { S.Q[i].t = b.dataset.t; draw(); }
+    else if (b.dataset.u) { S.Q[i].u = +b.dataset.u; draw(); }
+    else if (b.dataset.clear) {
+      i = +b.dataset.clear; gone = { i: i, q: S.Q[i] }; S.Q[i] = blank(); fill();
+      $("undo-t").textContent = "Cleared quote " + L[i] + "."; $("undo").hidden = false;
+      clearTimeout(timer); timer = setTimeout(function () { $("undo").hidden = true; gone = null; }, 15000);
+      draw();
+    }
+  });
+  $("undo-b").addEventListener("click", function () {
+    if (gone) { S.Q[gone.i] = gone.q; fill(); }
+    gone = null; $("undo").hidden = true; clearTimeout(timer); draw();
+  });
+
+  /* hours an n-person crew needs: loading, the drive, unloading and the walk-throughs */
+  function hours(n) {
+    var work = (S.bx || 0) * BOX + (S.bg || 0) * BIG;
+    return (work * ACCESS[S.fa] / eff(n) + work * ACCESS[S.fb] * UNLOAD / eff(n) + S.dr + WALK) / 60;
+  }
+
+  var last = null;
+  function draw() {
+    S.Q.forEach(function (Q, i) {
+      var c = $("q" + i);
+      [].forEach.call(c.querySelectorAll("[data-t]"), function (b) { b.setAttribute("aria-pressed", b.dataset.t === Q.t); });
+      [].forEach.call(c.querySelectorAll("[data-u]"), function (b) { b.setAttribute("aria-pressed", +b.dataset.u === Q.u); });
+      c.querySelector('[data-for="h"]').hidden = Q.t !== "h"; c.querySelector('[data-for="p"]').hidden = Q.t === "h";
+      c.querySelector("[data-plab]").textContent = Q.t === "b" ? "The fixed price" : "The estimate";
+    });
+
+    var stuff = (S.bx || 0) + (S.bg || 0) > 0;
+    var R = [];
+    S.Q.forEach(function (Q, i) {
+      var x = Q.x || 0, o = { i: i, L: L[i], t: Q.t, notes: [], flags: [] };
+      if (Q.t === "h") {
+        if (!Q.r || !stuff) return;
+        var rate = Q.u ? Q.r * Q.n : Q.r, E = hours(Q.n), bill = function (h) { return Math.max(Q.m, q15h(h)); };
+        o.hours = bill(E); o.lo = bill(E * LOW) * rate + (Q.f || 0) + x; o.hi = bill(E * HIGH) * rate + (Q.f || 0) + x; o.mid = o.hours * rate + (Q.f || 0) + x;
+        o.notes.push(usd(rate) + " an hour for " + Q.n + (Q.n === 1 ? " mover" : " movers") + ", about " + hrs(o.hours) + " billed" + (Q.f ? ", plus a " + usd(Q.f) + " fee" : "") + (x ? ", plus " + usd(x) + " in extras" : "") + ".");
+        o.notes.push("If the day goes well, " + usd(o.lo) + "; if it runs long, " + usd(o.hi) + ".");
+        if (Q.m && Q.m >= q15h(E * HIGH)) o.notes.push("The " + hrs(Q.m) + " minimum covers the whole job, so the price barely moves.");
+        if (Q.h) {
+          var at = bill(Q.h) * rate + (Q.f || 0) + x;
+          o.notes.push("At the " + hrs(Q.h) + " on the quote, it would be " + usd(at) + ".");
+          if (Q.h < E * LOW) o.flags.push("The quote's " + hrs(Q.h) + " is shorter than our low end of " + dur(E * LOW) + " for this crew. Ask how they counted it. You pay for the real time.");
+        }
+      } else {
+        if (!Q.p) return;
+        o.mid = o.lo = Q.p + x; o.hi = o.mid;
+        if (Q.t === "b") o.notes.push("Fixed for the things and services it lists" + (x ? ", plus " + usd(x) + " in extras" : "") + ". Add things and the mover has to write a new estimate before charging more.");
+        else {
+          o.cap = Q.p * 1.1 + x;
+          o.notes.push("The final bill can be higher than the estimate" + (x ? " (plus " + usd(x) + " in extras)" : "") + ". On a move between states, the most they can ask at delivery is 110 percent: " + usd(o.cap) + ". Anything above that can't be demanded until at least 30 days after delivery.");
+        }
+      }
+      if (Q.d) {
+        o.notes.push("Deposit: " + usd(Q.d) + ".");
+        if (Q.d > o.mid * DEP) o.flags.push("A deposit of " + usd(Q.d) + " is more than a quarter of the likely total. Ask why, and pay by credit card.");
+      }
+      R.push(o);
+    });
+
+    /* far below the rest */
+    if (R.length > 1) R.forEach(function (o) {
+      var others = R.filter(function (p) { return p !== o; }).map(function (p) { return p.mid; }).sort(function (a, b) { return a - b; });
+      if (o.mid < others[0] * CHEAP) o.flags.push("Far below the " + (others.length > 1 ? "others" : "other quote") + ". The classic moving scam is a low price that grows once your things are on the truck. Check the mover before you book.");
+    });
+
+    var kick, big, small;
+    var crewFor = (S.Q.filter(function (Q) { return Q.t === "h" && Q.r; })[0] || { n: 3 }).n;
+    var homeName = S.home === "c" ? (S.bx || 0) + " boxes and " + (S.bg || 0) + " big pieces" : $("home").options[$("home").selectedIndex].text.toLowerCase();
+    if (!stuff) { kick = "Your move"; big = "Add your boxes and big pieces"; small = "Pick your home size, or type your own count."; }
+    else if (!R.length) {
+      var E = hours(crewFor);
+      kick = "For " + (S.home === "c" ? homeName : HNAME[S.home]) + ", with " + crewFor + (crewFor === 1 ? " mover:" : " movers:");
+      big = "About " + dur(E) + " of work, drive included";
+      small = "From " + dur(E * LOW) + " to " + dur(E * HIGH) + ". Type in a quote below to see what it costs.";
+    } else {
+      var sorted = R.slice().sort(function (a, b) { return a.mid - b.mid; });
+      var lo = sorted[0];
+      kick = R.length === 1 ? "Quote " + lo.L + ", for your move:" : "Comparing " + R.length + " quotes, for your move:";
+      big = R.length === 1 ? "About " + usd(lo.mid) : "Quote " + lo.L + " looks lowest, about " + usd(lo.mid);
+      if (lo.hi > lo.mid) small = "It could run from " + usd(lo.lo) + " to " + usd(lo.hi) + ".";
+      else if (lo.cap) small = "Up to " + usd(lo.cap) + " at delivery, more later if the final bill is higher.";
+      else small = "A fixed price, for the things it lists.";
+      if (R.length > 1) {
+        var beat = sorted.slice(1).filter(function (o) { return o.lo < lo.mid; });
+        if (beat.length) small += " Quote " + beat.map(function (o) { return o.L; }).join(" and ") + " could still come in lower if the day goes fast.";
+        else small += " Next: quote " + sorted[1].L + ", about " + usd(sorted[1].mid) + ".";
+      }
+      var nf = R.reduce(function (s, o) { return s + o.flags.length; }, 0);
+      if (nf) small += " " + (nf === 1 ? "One thing" : nf + " things") + " to ask about below.";
+    }
+    $("kick").textContent = kick; $("big").textContent = big; $("small").textContent = small;
+
+    /* quote by quote */
+    $("res").innerHTML = R.map(function (o) {
+      return "<li><b>Quote " + o.L + ' <span class="n">' + usd(o.mid) + "</span></b>" + o.notes.map(function (n) { return "<p>" + esc(n) + "</p>"; }).join("") +
+        o.flags.map(function (f) { return '<p class="flag">' + esc(f) + "</p>"; }).join("") + "</li>";
+    }).join("");
+    $("res").hidden = $("res-h").hidden = !R.length;
+
+    paint(R);
+    last = { kick: kick, big: big, small: small, R: R };
+
+    var p = new URLSearchParams();
+    if (S.home !== "2") p.set("hm", S.home);
+    if (S.home === "c") { if (S.bx !== null) p.set("bx", S.bx); if (S.bg !== null) p.set("bg", S.bg); }
+    if (S.fa) p.set("fa", S.fa); if (S.fb) p.set("fb", S.fb); if (S.dr !== 30) p.set("dr", S.dr);
+    S.Q.forEach(function (Q, i) {
+      var k = (i + 1) + "", any = Q.t === "h" ? Q.r || Q.f || Q.h : Q.p; if (!any && !Q.x && !Q.d) return;
+      if (Q.t !== "h") p.set(k + "t", Q.t);
+      if (Q.t === "h") { if (Q.r) p.set(k + "r", Q.r); if (Q.u) p.set(k + "u", 1); if (Q.n !== 3) p.set(k + "n", Q.n); if (Q.m) p.set(k + "m", Q.m); if (Q.f) p.set(k + "f", Q.f); if (Q.h) p.set(k + "h", Q.h); }
+      else if (Q.p) p.set(k + "p", Q.p);
+      if (Q.x) p.set(k + "x", Q.x); if (Q.d) p.set(k + "d", Q.d);
+    });
+    var s = p.toString();
+    try { history.replaceState(null, "", s ? "?" + s : location.pathname); } catch (e) {}
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+  /* one row per quote: the range as a bar, the likely cost as a dot, the 110 percent line for a non-binding estimate */
+  function paint(R) {
+    var s = $("svg"); s.textContent = "";
+    if (!R.length) { s.setAttribute("viewBox", "0 0 500 8"); s.style.display = "none"; return; }
+    s.style.display = "";
+    var H = 16 + R.length * 40; s.setAttribute("viewBox", "0 0 500 " + H);
+    var top = Math.max.apply(null, R.map(function (o) { return Math.max(o.hi, o.cap || 0); })) * 1.04 || 1;
+    var X0 = 44, W = 340, sx = function (v) { return X0 + W * v / top; };
+    R.forEach(function (o, k) {
+      var y = 10 + k * 40;
+      var t = el("text", { x: 14, y: y + 22, fill: "#F2E8D5", "font-size": 18, "font-weight": 850, "font-family": "system-ui,sans-serif" }, s); t.textContent = o.L;
+      el("rect", { x: X0, y: y + 12, width: W, height: 6, rx: 3, fill: "#1E412B" }, s);
+      var a = sx(o.lo), b = sx(o.hi);
+      el("rect", { x: a - 2, y: y + 6, width: Math.max(4, b - a + 4), height: 18, rx: 9, fill: o.flags.length ? "#B7A06A" : "#2F6B45" }, s);
+      if (o.cap) { el("path", { d: "M" + sx(o.mid) + " " + (y + 15) + " H" + sx(o.cap), stroke: "#9FB3A6", "stroke-width": 3, "stroke-dasharray": "4 4" }, s); el("path", { d: "M" + sx(o.cap) + " " + (y + 5) + " v20", stroke: "#9FB3A6", "stroke-width": 3 }, s); }
+      el("circle", { cx: sx(o.mid), cy: y + 15, r: 8, fill: "#52B978", stroke: "#172F20", "stroke-width": 3 }, s);
+      var v = el("text", { x: 492, y: y + 21, fill: "#F2E8D5", "text-anchor": "end", "font-size": 16, "font-weight": 800, "font-family": "system-ui,sans-serif" }, s); v.textContent = usd(o.mid);
+    });
+  }
+  draw();
+
+  function wrap(g, text, x, y, max, lh, maxLines) {
+    var words = String(text).split(" "), line = "", n = 0;
+    for (var i = 0; i < words.length; i++) {
+      var t = line ? line + " " + words[i] : words[i];
+      if (g.measureText(t).width > max && line) { if (maxLines && ++n >= maxLines) { g.fillText(line + " ...", x, y); return y + lh; } g.fillText(line, x, y); y += lh; line = words[i]; } else line = t;
+    }
+    if (line) g.fillText(line, x, y); return y + lh;
+  }
+  function picture() {
+    var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
+    var g = cv.getContext("2d"), FN = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#172F20"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#EADFC9"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.textAlign = "center";
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "700 44px " + FN; g.fillText("How much will my movers cost?", Z / 2, 200);
+    g.fillStyle = "rgba(255,255,255,.75)"; g.font = "600 32px " + FN; var y = wrap(g, last.kick, Z / 2, 264, 940, 42, 2);
+    g.fillStyle = "#F2E8D5"; g.font = "850 66px " + FN; y = wrap(g, last.big, Z / 2, y + 40, 960, 76, 2);
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 32px " + FN; y = wrap(g, last.small.replace(/ (One thing|\d+ things) to ask about below\./, ""), Z / 2, y + 6, 920, 42, 3);
+    if (last.R.length) {
+      var top = Math.max.apply(null, last.R.map(function (o) { return Math.max(o.hi, o.cap || 0); })) * 1.04 || 1, X0 = 170, W = 600;
+      y = Math.max(y + 20, 600);
+      last.R.forEach(function (o) {
+        g.textAlign = "left"; g.fillStyle = "#F2E8D5"; g.font = "850 40px " + FN; g.fillText(o.L, 100, y + 14);
+        g.fillStyle = "#1E412B"; g.fillRect(X0, y - 6, W, 12);
+        var a = X0 + W * o.lo / top, b = X0 + W * o.hi / top; g.fillStyle = o.flags.length ? "#B7A06A" : "#2F6B45";
+        g.beginPath(); if (g.roundRect) g.roundRect(a - 4, y - 18, Math.max(8, b - a + 8), 36, 18); else g.rect(a - 4, y - 18, Math.max(8, b - a + 8), 36); g.fill();
+        if (o.cap) { g.fillStyle = "#9FB3A6"; g.fillRect(X0 + W * o.cap / top - 3, y - 20, 6, 40); }
+        g.fillStyle = "#52B978"; g.beginPath(); g.arc(X0 + W * o.mid / top, y, 16, 0, 7); g.fill();
+        g.textAlign = "right"; g.fillStyle = "#F2E8D5"; g.font = "800 36px " + FN; g.fillText(usd(o.mid), 990, y + 13);
+        y += 74;
+      });
+    }
+    g.textAlign = "center";
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 32px " + FN; g.fillText("Compare yours, free:", Z / 2, 940);
+    g.fillStyle = "#fff"; g.font = "800 40px " + FN; g.fillText("packedrabbit.com/mover-cost", Z / 2, 995);
+    return cv;
+  }
+  $("share").addEventListener("click", function () {
+    var url = location.origin + location.pathname + location.search, text = last.big + ". Compare your moving quotes, free:";
+    var cv = picture(); if (window.prBrand) cv = prBrand(cv);
+    cv.toBlob(function (blob) {
+      var file = blob && typeof File !== "undefined" ? new File([blob], "mover-cost.png", { type: "image/png" }) : null;
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+      else if (navigator.share) navigator.share({ title: "How much will my movers cost?", text: text, url: url }).catch(function () {});
+      else if (blob) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "mover-cost.png"; document.body.appendChild(a); a.click(); a.remove(); }
+    }, "image/png");
+  });
+})();
+</script>
+<script>
+/* Embedded on someone else's page: no site header or footer, links open in a
+   new tab, a credit line at the end, and the height told to the host page. */
+(function () {
+  if (!document.documentElement.classList.contains("embed")) return;
+  document.querySelectorAll("a[href]").forEach(function (a) { a.target = "_blank"; a.rel = "noopener"; });
+  var m = document.querySelector("main") || document.body;
+  var c = document.createElement("a");
+  c.className = "embed-credit"; c.target = "_blank"; c.rel = "noopener";
+  c.href = "https://packedrabbit.com" + location.pathname;
+  c.textContent = "Free tool by The Packed Rabbit";
+  if (!/[?&]hub\b/.test(location.search)) m.appendChild(c);
+  function tell() { try { parent.postMessage({ prEmbedHeight: Math.ceil(document.documentElement.scrollHeight) }, "*"); } catch (e) {} }
+  tell(); addEventListener("load", tell); addEventListener("resize", tell);
+  if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
+})();
+</script>
+<script src="../brand.js"></script>
+<script src="../nav.js" defer></script>
+</body>
+</html>
