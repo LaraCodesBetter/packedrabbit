@@ -623,6 +623,15 @@ function scene(mode){ if(mode==='none') return '';
     f+=`<path class="nf" d="M232 270 v-66 h40 v66 l-6.5 -5 l-6.5 5 l-6.5 -5 l-6.5 5 l-6.5 -5 l-7.5 5 z"/><path class="nf" d="M240 218 h24 M240 229 h24 M240 240 h16"/><text x="252" y="258" text-anchor="middle" style="font-size:11px;font-weight:700">$</text>`;
     return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${ROOM}<rect class="gnd" x="0" y="344" width="360" height="40"/><g class="fore">${f}</g><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
   }
+  if(mode==="needs"){
+    /* what needs you: indoors, a clipboard on the table, two lines ticked and one still open, and a magnifying glass over that one */
+    f+=`<path class="f2" d="M58 270 h244 v12 h-244 z"/><path d="M76 282 v62 M284 282 v62"/>`;
+    f+=`<rect class="f2" x="118" y="160" width="108" height="110" rx="5"/><rect class="f1" x="127" y="172" width="90" height="90"/><rect class="f3" x="154" y="153" width="36" height="13" rx="4"/>`;
+    [190,212,234].forEach((y,i)=>{ f+=`<rect class="nf" x="136" y="${y-7}" width="14" height="14" rx="2"/><path class="nf" d="M157 ${y} h${i===2?36:48}"/>`; if(i<2) f+=`<path class="nf" d="M139 ${y} l3.5 3.5 l7 -8"/>`; });
+    f+=`<circle class="nf" cx="206" cy="236" r="19"/><path class="nf" d="M196 228 a12 12 0 0 1 9 -5"/><path class="tape" d="M219 250 l5 -5 l28 28 l-5 5 z"/>`;
+    f+=`<path class="f3" d="M254 270 l4 -26 h22 l4 26 z"/><path class="nf" d="M262 244 c-2 -10 6 -14 4 -24 M274 244 c3 -8 -4 -12 0 -20"/>`;
+    return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${ROOM}<rect class="gnd" x="0" y="344" width="360" height="40"/><g class="fore">${f}</g><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
+  }
   if(mode==="blank") return `<svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><rect class="gnd" x="0" y="344" width="360" height="40"/><line class="gline" x1="0" y1="344" x2="360" y2="344"/></svg>`;
   if(mode==="calendar"){
     /* a desk calendar opens, and the day you pick gets circled */
@@ -1117,6 +1126,9 @@ const PAPER_KINDS=[
 const ppKind=k=>PAPER_KINDS.find(x=>x.k===k)||PAPER_KINDS[PAPER_KINDS.length-1];
 const ppList=()=>(S.mnSt||{}).files||[];
 async function ppGo(){ await mnLoad(); S.mnUndo=null; S.ppk=S.ppk||'lease-old'; show('ppHome'); }
+/* owner, 12 Nov: "Everything that needs you" was the last part the new home still handed to the full app. It reads the list
+   the app writes with the home's summary (the same gaps as the app's What needs you), and adds a to-do to the move. */
+async function ndGo(){ await mnLoad(); S.ndUndo=null; show('needs'); }
 const ppSize=n=>!n?'':n<1e5?`${Math.max(1,Math.round(n/1e3))} KB`:`${(n/1e6).toFixed(1)} MB`;
 const ppWhen=t=>new Date(t).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
 const ppNotice=L=>L&&L.end&&parseInt(L.notice,10)>0?new Date(new Date(L.end+'T12:00').getTime()-parseInt(L.notice,10)*86400000).toISOString().slice(0,10):'';
@@ -1916,7 +1928,7 @@ const P={
     return ({say:'Help.', h:'Where things are.', sub:'The two addresses, and the boxes you marked to open first.', scene:'house',
       body:`<div class="mktot"><div><span>Moving from</span><b style="font-size:17px">${esc(from||'Not filled in yet')}</b></div><div><span>Moving to</span><b style="font-size:17px">${esc(to||'Not filled in yet')}</b></div><div><span>Open first</span><b style="font-size:17px">${esc(ess.length?ess.join(', '):'None marked yet')}</b></div></div>${!from||!to?'<button class="cta" data-hgo="setup">Fill in the addresses</button>':''}${!ess.length&&(st.boxes||[]).length?'<button class="choice" data-go="lvault" style="margin-top:12px;max-width:300px">Find a box to open first</button>':''}<button class="link" data-go="hlHome">Back</button>`}); },
   parts:()=>({say:'Every part of your move.', h:'Every part, in one place.', sub:'Each one opens where you left it.', scene:'none',
-    body:lemRows([[RIC.box,'Boxes','data-go="lvault"'],[RIC.sofa,'Big stuff','data-go="lbig"'],[RIC.cal,'Calendar','data-go="lcal"'],[RIC.list,'The whole plan','data-tlgo="1"'],[RIC.list,'Appointments','id="hApList"'],[RIC.tag,'Sorting','data-go="lsort"'],[RIC.truck,'Move day','data-mdgo=""'],[RIC.check,'Leaving the old place','data-mogo="1"'],[RIC.wallet,'Money','data-mngo=""'],[RIC.doc,'Papers and proof','data-ppgo="1"'],[RIC.tag,'Labels and room signs','data-lbgo="1"'],[RIC.pin,'Room by room','data-rcgo="1"'],[RIC.help,'Help','data-go="hlHome"']])+`<button class="link" data-hgo="home">The full app, with everything in it</button>`}),
+    body:lemRows([[RIC.box,'Boxes','data-go="lvault"'],[RIC.sofa,'Big stuff','data-go="lbig"'],[RIC.cal,'Calendar','data-go="lcal"'],[RIC.list,'The whole plan','data-tlgo="1"'],[RIC.bell,'What needs you','data-ndgo="1"'],[RIC.list,'Appointments','id="hApList"'],[RIC.tag,'Sorting','data-go="lsort"'],[RIC.truck,'Move day','data-mdgo=""'],[RIC.check,'Leaving the old place','data-mogo="1"'],[RIC.wallet,'Money','data-mngo=""'],[RIC.doc,'Papers and proof','data-ppgo="1"'],[RIC.tag,'Labels and room signs','data-lbgo="1"'],[RIC.pin,'Room by room','data-rcgo="1"'],[RIC.help,'Help','data-go="hlHome"']])+`<button class="link" data-hgo="home">The full app, with everything in it</button>`}),
   tlHome:()=>{ const st=S.mnSt||{}, T=(st.tasks||[]).filter(t=>t&&t.t), done=T.filter(t=>t.done).length, pi=(S.hm||{}).pi||0, o=S.tlOpen===undefined?HPH[pi]:S.tlOpen;
     const G=HPH.map(p=>({p,L:T.filter(t=>t.phase===p)})).filter(g=>g.L.length), first=t=>String(t).split(/(?<=[.!?])\s+(?=[A-Z])/)[0];
     return ({say:'The whole plan.', h:T.length?`${done} of ${T.length} done.`:'No plan yet.', sub:T.length?'Every step, phase by phase. Tick what\'s done. Anything not done waits for another day, never marked late.':'Pick your moving day and the plan counts back from it.', scene:'none',
@@ -1928,6 +1940,21 @@ const P={
       sub:!arrived?(B.length===1?"Once your box is checked in at the new place, this shows whether it's in the right room.":`Once boxes are checked in at the new place, this shows which of your ${B.length} boxes are in the right room.`):`${okN} of ${MK.plural(B.length,'box')} ${okN===1?'is':'are'} where ${okN===1?'it belongs':'they belong'}${truckN?`. ${truckN} never checked in at the new place`:''}.`, scene:'labels',
       body:`<button class="cta" id="rcSend">Send this to the crew</button>${off.length?`<div class="mklist" style="margin-top:14px">${off.map(r=>{ const p={}; r.away.forEach(b=>{ const k=String(b.nowAt).trim(); (p[k]=p[k]||[]).push(b); });
         return `<div class="mkrow" style="padding:12px 4px"><b style="color:var(--ink);font-size:18px">${esc(r.n)}</b> <span style="color:var(--muted)">${r.here.length} of ${r.L.length} here</span>${Object.keys(p).map(k=>`<p style="margin:8px 0 4px">${p[k].length} ${esc(rcAt(k))}</p><div class="rcrow">${p[k].map(code).join('')}</div><button class="link" data-rcback="${esc(r.c)}|${esc(k)}">${p[k].length===1?"It's in the room now":"They're in the room now"}</button>`).join('')}${r.truck.length?`<p style="margin:8px 0 4px;color:var(--plum)">Not checked in yet</p><div class="rcrow">${r.truck.map(code).join('')}</div>`:''}</div>`; }).join('')}</div>`:''}${done.length?`<p class="grp">All here</p><p class="lsub" style="font-size:17px">${esc(done.map(r=>`${r.n} (${r.L.length})`).join(', '))}</p>`:''}${truckN?'<p class="lsub" style="font-size:16px">A box that never checked in may still be on the truck or in another room. You have nine months to file a claim for anything lost.</p>':''}${mnUndoLine()}`}); },
+  /* owner, 12 Nov: "Everything that needs you". The gaps the app can see, most pressing first. A gap a to-do can close adds one
+     to the move (and Undo takes it off); a gap that's fixed somewhere else opens that place. */
+  needs:()=>{ const N=(HD&&Array.isArray(HD.needs))?HD.needs.filter(x=>x&&x.t):null, st=S.mnSt||{}, onList=t=>(st.tasks||[]).some(y=>y&&!y.done&&String(y.t||'').trim()===String(t).trim());
+    const foot=`<p class="fnote" style="margin-top:18px">This is a checklist over what you've entered, not a person watching your move. It can't book anything, or reach you when the app is closed.</p>`;
+    if(!N) return ({say:'What needs you.', h:'What needs you.', sub:'The rabbit makes this list in the full app. Open it once, then come back here.', scene:'needs', body:'<button class="cta" data-hgo="nudges">Open the full app</button>'});
+    const u=S.ndUndo&&Date.now()-S.ndUndo.at<15000?S.ndUndo:null, und=u?`<p class="lsub hnote" role="status">Added to your list: ${esc(u.t)} <button class="link" id="ndUndo">Undo</button></p>`:'';
+    if(!N.length) return ({say:'What needs you.', h:'Nothing slipping.', sub:'Everything the rabbit can check looks handled.', scene:'needs', body:und+foot});
+    const act=x=>{ const g=x.go; if(g&&g[0]){ const k=g[0], a=k==='papers'?'data-ppgo="1"':k==='owed'?'data-mngo="owed"':k==='boxes'?'data-go="lvault"':k==='moveday'?'data-mdgo="in"':k==='appts'?'data-ndap="1"':`data-hgo="${esc(k)}"`;
+        return `<button class="choice" style="margin-top:10px;max-width:300px" ${a}>${esc(g[1]||'Open it')}</button>`; }
+      if(x.task) return onList(x.task)?`<p class="fnote" style="margin:8px 0 0">On your list. <button class="link" data-tlgo="1">The whole plan</button></p>`:`<button class="choice" style="margin-top:10px;max-width:300px" data-ntask="${HD.needs.indexOf(x)}">Add it to my list</button>`;
+      return ''; };
+    const row=x=>`<div class="mkrow" style="padding:14px 4px"><p style="margin:0;font-size:18px;line-height:1.4;color:var(--text)">${esc(x.t)}</p>${act(x)}</div>`;
+    const A=N.filter(x=>x.l>1), B=N.filter(x=>!(x.l>1));
+    return ({say:'What needs you.', h:`${N.length===1?'One thing needs':`${N.length} things need`} you.`, sub:"The gaps the rabbit can see in what you've entered, the most pressing first.", scene:'needs',
+      body:und+(A.length?`${B.length?'<p class="grp">First</p>':''}<div class="mklist">${A.map(row).join('')}</div>`:'')+(B.length?`${A.length?'<p class="grp">When you can</p>':''}<div class="mklist">${B.map(row).join('')}</div>`:'')+foot}); },
   mdOut:()=>{ const st=S.mdSt||{}, M=mdGroups(st), all=M.groups.flatMap(g=>[...g.bigs,...g.boxes]), left=all.filter(x=>!x.loaded).length;
     return ({say:'Moving day.', h:all.length?(left?`${left} ${left===1?'thing':'things'} to go on the truck.`:"Everything's on the truck."):'Nothing to load yet.',
       sub:all.length?(left?'Load in this order, and read it to the crew from the top. The last on is the first off.':'Nothing left off. Walk the rooms once more before the truck leaves.'):'Boxes and furniture show up here as you add them.', scene:'truck',
@@ -2046,6 +2073,7 @@ function wire(id){
   phone.querySelectorAll('[data-lbgo]').forEach(b=>b.onclick=()=>lbGo());
   phone.querySelectorAll('[data-rcgo]').forEach(b=>b.onclick=async()=>{ await mnLoad(); S.mnUndo=null; show('rcHome'); });
   phone.querySelectorAll('[data-tlgo]').forEach(b=>b.onclick=async()=>{ await mnLoad(); S.tlOpen=undefined; show('tlHome'); });
+  phone.querySelectorAll('[data-ndgo]').forEach(b=>b.onclick=()=>ndGo());
   const bk=$('[data-back]'); if(bk) bk.onclick=()=>{ const prev=hist.pop(); if(prev) show(prev,true); };
   phone.querySelectorAll('[data-pic]').forEach(inp=>inp.onchange=async()=>{ const fs=[...(inp.files||[])]; if(!fs.length) return; for(const f of fs){ const u=await shrink(f); if(u) S.photos.push(u); } say(S.photos.length===1?'Photo added.':S.photos.length+' photos.'); show('photo',true); });
   /* alpha test, 8 Nov: each tap stacked another camera prompt; one is enough */
@@ -2487,6 +2515,13 @@ function wire(id){
       S.hm=homeRead(st); S.apps=st.appts; S.apLast=a; S.ap={}; S.apDate=''; show('apSaved'); };
     $('#apSave').onclick=()=>save($('#apPrepIn').value.trim()); $('#apSkip').onclick=()=>save(''); }
   if(id==='apSaved'){ if($('#apIcs')) $('#apIcs').onclick=()=>apIcs(S.apLast); $('#apMore').onclick=()=>{ S.ap={}; S.apDate=''; show('apWhat'); }; $('#apDone').onclick=()=>{ hist.length=0; show(S.homeMode?'lcal':'start'); }; }
+  if(id==='needs'){ phone.querySelectorAll('[data-hgo]').forEach(b=>b.onclick=()=>toApp('?go='+b.dataset.hgo));
+    phone.querySelectorAll('[data-ndap]').forEach(b=>b.onclick=async()=>{ try{ const st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); S.apps=(st&&st.appts)||[]; }catch(e){ S.apps=[]; } S.apUndo=null; show('apList'); });
+    phone.querySelectorAll('[data-ntask]').forEach(b=>b.onclick=async()=>{ /* by place in the list: two of the app's gaps share an id */ const x=((HD||{}).needs||[])[+b.dataset.ntask]; if(!x||!x.task) return; b.disabled=true; const tid=mnId('t');
+      const st=await mnWrite(s=>{ s.tasks=Array.isArray(s.tasks)?s.tasks:[]; s.tasks.push({id:tid,phase:HPH[(homeRead(s)||{}).pi||0],t:x.task,done:false,critical:x.l>1,who:''}); });
+      if(!st){ b.disabled=false; return; } S.ndUndo={id:tid,t:x.task,at:Date.now()}; say(`Added to your list: ${x.task}`); show('needs',true);
+      setTimeout(()=>{ if(cur==='needs'&&S.ndUndo&&Date.now()-S.ndUndo.at>=15000){ S.ndUndo=null; show('needs',true); } },15200); });
+    if($('#ndUndo')) $('#ndUndo').onclick=async()=>{ const u=S.ndUndo; if(!u) return; S.ndUndo=null; const st=await mnWrite(s=>{ s.tasks=(s.tasks||[]).filter(y=>!(y&&y.id===u.id)); }); if(st) say('Taken off your list.'); show('needs',true); }; }
   if(id==='apList'){ phone.querySelectorAll('[data-apdone]').forEach(b=>b.onclick=async()=>{ const k=b.dataset.apdone, was=(S.apps||[]).find(x=>x.id===k); if(!was) return; const on=!was.done;
       const st=await homeWrite(s=>{ const x=(s.appts||[]).find(y=>y&&y.id===k); if(!x) return false; x.done=on; }); if(!st) return;
       S.apps=st.appts; S.hm=homeRead(st); S.apUndo={id:k,was:!on,at:Date.now(),msg:on?`Done: ${was.what}.`:`${was.what} is back on the list.`}; say(S.apUndo.msg); show('apList',true); });
@@ -2851,7 +2886,7 @@ const BIC={
 };
 const lemBadges=L=>`<div class="badges">${L.map(([ic,big,lab])=>`<div class="badge"><span class="bc"><svg viewBox="0 0 48 48" aria-hidden="true">${ic}</svg></span><span class="bl"><b>${big}</b>${lab}</span></div>`).join('')}</div>`;
 /* rows inside one card, each with a round icon */
-const RIC={clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',cal:'<rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>',cloud:'<path d="M7 18h10a4 4 0 0 0 .5-8 5.5 5.5 0 0 0-10.6 1.5A3.3 3.3 0 0 0 7 18z"/>',bulb:'<path d="M9 17h6M10 20.5h4M8.5 14a6 6 0 1 1 7 0c-.8.6-1 1.4-1 2.2V17h-5v-.8c0-.8-.2-1.6-1-2.2z"/>',pin:'<path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',plan:'<path d="M4 4h16v16H4zM4 12h7M11 4v11M15 12h5"/>',check:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12.5l2.8 2.8L16 9.5"/>',gift:'<rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 9h18M12 9v11M12 9c-1.5-3-5-4-5-1.5S10 9 12 9zM12 9c1.5-3 5-4 5-1.5S14 9 12 9z"/>',spark:'<path d="M12 3.5l1.9 5.6 5.6 1.9-5.6 1.9L12 18.5l-1.9-5.6L4.5 11l5.6-1.9z"/>',coin:'<circle cx="12" cy="12" r="8.5"/><path d="M14.5 9.2c-.6-.8-1.5-1.2-2.5-1.2-1.4 0-2.5.8-2.5 2s1.1 1.7 2.5 2 2.5.8 2.5 2-1.1 2-2.5 2c-1 0-1.9-.4-2.5-1.2M12 6.5v11"/>',box:'<path d="M4.5 10h15v10h-15zM3 6.5h18V10H3zM10.25 6.5h3.5v6h-3.5z"/>',sofa:'<path d="M4 18v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6M2 14h20M5 18v2M19 18v2M6 10V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3"/>',list:'<path d="M9 7h11M9 12h11M9 17h11M4.5 7h.01M4.5 12h.01M4.5 17h.01"/>',tag:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/>',plus:'<path d="M12 5v14M5 12h14"/>',truck:'<path d="M3 6h11v10H3zM14 9h4l3 3v4h-7zM6.5 18.5a1.5 1.5 0 1 0 0-.01M17.5 18.5a1.5 1.5 0 1 0 0-.01"/>',house:'<path d="M3.5 11.5 12 4.5l8.5 7M5.5 10v10h13V10M10 20v-5.5h4V20"/>',doc:'<path d="M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h6"/>',wallet:'<path d="M3 7h16a2 2 0 0 1 2 2v9H3zM3 7l12-3v3M16 13h2"/>',grid:'<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>',help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17h.01"/>',key:'<circle cx="8" cy="14" r="4"/><path d="M11 11l8-8M16 6l3 3M14 8l2 2"/>',save:'<path d="M12 3v12M7 10l5 5 5-5M4 19h16"/>',mail:'<path d="M3 6h18v12H3zM3 7l9 6 9-6"/>',share:'<path d="M12 15V3M7 8l5-5 5 5M5 12v8h14v-8"/>'};
+const RIC={bell:'<path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/>',clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',cal:'<rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>',cloud:'<path d="M7 18h10a4 4 0 0 0 .5-8 5.5 5.5 0 0 0-10.6 1.5A3.3 3.3 0 0 0 7 18z"/>',bulb:'<path d="M9 17h6M10 20.5h4M8.5 14a6 6 0 1 1 7 0c-.8.6-1 1.4-1 2.2V17h-5v-.8c0-.8-.2-1.6-1-2.2z"/>',pin:'<path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',plan:'<path d="M4 4h16v16H4zM4 12h7M11 4v11M15 12h5"/>',check:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12.5l2.8 2.8L16 9.5"/>',gift:'<rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 9h18M12 9v11M12 9c-1.5-3-5-4-5-1.5S10 9 12 9zM12 9c1.5-3 5-4 5-1.5S14 9 12 9z"/>',spark:'<path d="M12 3.5l1.9 5.6 5.6 1.9-5.6 1.9L12 18.5l-1.9-5.6L4.5 11l5.6-1.9z"/>',coin:'<circle cx="12" cy="12" r="8.5"/><path d="M14.5 9.2c-.6-.8-1.5-1.2-2.5-1.2-1.4 0-2.5.8-2.5 2s1.1 1.7 2.5 2 2.5.8 2.5 2-1.1 2-2.5 2c-1 0-1.9-.4-2.5-1.2M12 6.5v11"/>',box:'<path d="M4.5 10h15v10h-15zM3 6.5h18V10H3zM10.25 6.5h3.5v6h-3.5z"/>',sofa:'<path d="M4 18v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6M2 14h20M5 18v2M19 18v2M6 10V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3"/>',list:'<path d="M9 7h11M9 12h11M9 17h11M4.5 7h.01M4.5 12h.01M4.5 17h.01"/>',tag:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/>',plus:'<path d="M12 5v14M5 12h14"/>',truck:'<path d="M3 6h11v10H3zM14 9h4l3 3v4h-7zM6.5 18.5a1.5 1.5 0 1 0 0-.01M17.5 18.5a1.5 1.5 0 1 0 0-.01"/>',house:'<path d="M3.5 11.5 12 4.5l8.5 7M5.5 10v10h13V10M10 20v-5.5h4V20"/>',doc:'<path d="M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h6"/>',wallet:'<path d="M3 7h16a2 2 0 0 1 2 2v9H3zM3 7l12-3v3M16 13h2"/>',grid:'<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>',help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17h.01"/>',key:'<circle cx="8" cy="14" r="4"/><path d="M11 11l8-8M16 6l3 3M14 8l2 2"/>',save:'<path d="M12 3v12M7 10l5 5 5-5M4 19h16"/>',mail:'<path d="M3 6h18v12H3zM3 7l9 6 9-6"/>',share:'<path d="M12 15V3M7 8l5-5 5 5M5 12v8h14v-8"/>'};
 /* the old home's sections, each a row that unfolds (owner, 11 Nov). The app writes what they hold (HD) after
    every save; the floor plan is read from its photo. Only rows with something in them are shown. */
 let HD=null, HPLAN='';
@@ -2866,7 +2901,7 @@ function foldRows(H,cur1){ const D=HD||{}, R=[], en=H.energy&&HEN[H.energy]?H.en
   const nb=en==='red'?1:en==='yellow'?2:3, cur1t=cur1&&cur1.t?String(cur1.t).split(/(?<=[.!?])\s+(?=[A-Z])/)[0]:'';
   const br=(D.brief||[]).filter(x=>x.t&&x.t!==cur1t).slice(0,nb);
   if(br.length) R.push(['brief',RIC.list,en==='red'?'Just this today':'Next, in this order',`${br.length} ${br.length===1?'thing':'things'}`,
-    br.map((x,i)=>`<button type="button" class="fline" ${x.go?`data-hgo="${esc(x.go)}"`:'disabled'}><span class="fnum">${i+1}</span><span style="flex:1"><span class="fk">${esc(x.t)}</span>${x.why?`<br><span class="fnote">${esc(x.why)}</span>`:''}</span></button>`).join('')+`<button class="link" data-hgo="nudges">See everything that needs you</button>`]);
+    br.map((x,i)=>`<button type="button" class="fline" ${x.go?`data-hgo="${esc(x.go)}"`:'disabled'}><span class="fnum">${i+1}</span><span style="flex:1"><span class="fk">${esc(x.t)}</span>${x.why?`<br><span class="fnote">${esc(x.why)}</span>`:''}</span></button>`).join('')+`<button class="link" data-ndgo="1">See everything that needs you</button>`]);
   const t0=new Date(); t0.setHours(0,0,0,0); const ev=(D.events||[]).filter(e=>e.t>=t0.getTime()&&e.t<t0.getTime()+2*864e5);
   if(ev.length){ const tod=ev.filter(e=>new Date(e.t).getDate()===t0.getDate()).length;
     R.push(['coming',RIC.cal,'On the calendar',tod?`${tod} today`:`${ev.length} tomorrow`,
@@ -2919,7 +2954,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
   const s=document.createElement('div'); s.className='sheet msheet'; s.setAttribute('role','dialog'); s.setAttribute('aria-modal','true'); s.setAttribute('aria-label','Menu');
   s.innerHTML=`<div class="mhandle" aria-hidden="true"></div><div class="top"><button class="back" data-close style="margin-left:auto">Close</button></div><div class="in">
     <h3 id="sheet-h" tabindex="-1" class="mhi">${hi}</h3>${line?`<p class="mline">${line}</p>`:''}
-    <p class="mgroup">Your move</p>${lemRows([[RIC.house,'Moving day and addresses','data-hgo="setup"'],[RIC.truck,'Move day','data-mdgo=""'],[RIC.check,'Leaving the old place','data-mogo="1"'],[RIC.doc,'Papers and proof','data-ppgo="1"'],[RIC.wallet,'Money','data-mngo=""']])}
+    <p class="mgroup">Your move</p>${lemRows([[RIC.bell,'What needs you','data-ndgo="1"'],[RIC.house,'Moving day and addresses','data-hgo="setup"'],[RIC.truck,'Move day','data-mdgo=""'],[RIC.check,'Leaving the old place','data-mogo="1"'],[RIC.doc,'Papers and proof','data-ppgo="1"'],[RIC.wallet,'Money','data-mngo=""']])}
     <p class="mgroup">Everything else</p>${lemRows([[RIC.grid,'Every part of the app','data-sgo="parts"'],[RIC.help,'I need help','data-sgo="hlHome"']])}
     <p class="mgroup">Your account</p>${lemRows([[RIC.key,'Membership','data-hgo="pack"'],[RIC.save,'Backups and sharing','data-hgo="share"']])}
     <p class="mgroup">Support</p>${lemRows([[RIC.mail,'Send feedback','data-feedback'],[RIC.mail,'Write to us','data-mail'],[RIC.share,'Share The Packed Rabbit','data-share']])}</div>`;
@@ -2930,6 +2965,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
   s.querySelectorAll('[data-mogo]').forEach(b=>b.onclick=()=>{ closeSheet(true); moGo(); });
   s.querySelectorAll('[data-mngo]').forEach(b=>b.onclick=()=>{ closeSheet(true); mnGo(b.dataset.mngo); });
   s.querySelectorAll('[data-ppgo]').forEach(b=>b.onclick=()=>{ closeSheet(true); ppGo(); });
+  s.querySelectorAll('[data-ndgo]').forEach(b=>b.onclick=()=>{ closeSheet(true); ndGo(); });
   s.querySelectorAll('[data-sgo]').forEach(b=>b.onclick=async()=>{ closeSheet(true); await mnLoad(); S.mnUndo=null; show(b.dataset.sgo); });
   s.querySelector('[data-mail]').onclick=()=>{ (window.top||window).location.href='mailto:hello@packedrabbit.com'; };
   /* the beta (owner, 11 Nov): feedback by email, with the build and the kind of phone filled in. Nothing is sent until they press send. */
@@ -2938,7 +2974,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v369, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v370, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
