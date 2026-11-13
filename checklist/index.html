@@ -307,7 +307,9 @@
       else {
         var mon = add(e.at, -((e.at.getDay() + 6) % 7));
         key = "w" + iso(mon); h = "Week of " + MO[mon.getMonth()] + " " + mon.getDate() + (mon.getFullYear() !== now.getFullYear() ? ", " + mon.getFullYear() : "");
-        var wk = Math.ceil(-rel / 7); w = wk + (wk === 1 ? " week" : " weeks") + " before the move";
+        /* panel review, 13 Nov: count whole calendar weeks back from the move's own week, so two weeks never share a label */
+        var dmon = add(day, -((day.getDay() + 6) % 7)), wk = Math.round(-diff(mon, dmon) / 7);
+        w = wk <= 0 ? "The week of the move" : wk + (wk === 1 ? " week" : " weeks") + " before the move";
       }
       if (key === "now") { start.items.push(e); return; }
       var g = groups.filter(function (x) { return x.k === key; })[0];
