@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0D3B22"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../icon-180.png"><meta name="apple-mobile-web-app-capable" content="yes"><title>The Packed Rabbit</title><script>window.__APP=1;window.__HOME="../";window.__BUY="https://buy.stripe.com/14AaEZaqk99kgzX9Faa3u01";window.__BUY_YEAR="";window.__embed=/embed/.test(location.search);if(window.__embed)document.documentElement.classList.add("embed");</script><style>@font-face{font-family:"Atkinson Hyperlegible Next";src:url("../fonts/atkinson-next.woff") format("woff");font-weight:200 800;font-display:swap}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0D3B22"><link rel="manifest" href="../manifest.webmanifest"><link rel="apple-touch-icon" href="../icon-180.png"><meta name="apple-mobile-web-app-capable" content="yes"><title>The Packed Rabbit</title><script>window.__APP=1;window.__HOME="../";window.__BUY="https://buy.stripe.com/14AaEZaqk99kgzX9Faa3u01";window.__embed=/embed/.test(location.search);if(window.__embed)document.documentElement.classList.add("embed");</script><style>@font-face{font-family:"Atkinson Hyperlegible Next";src:url("../fonts/atkinson-next.woff") format("woff");font-weight:200 800;font-display:swap}</style></head><body>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
 /* Layout: one phone. Boxes first, then the things too big for a box, then the move. The bar along the bottom earns a tab each time something is learned. */
@@ -93,9 +93,8 @@ h2{font-size:31px;line-height:1.15;margin:0;text-wrap:balance}
 .tabs .ghosttab svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .plans{margin-top:14px;width:100%;max-width:310px;display:grid;gap:10px}
 .plan{position:relative;min-height:60px;border-radius:14px;font:700 19px var(--sans);cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
-.plan.m{background:var(--btn);color:var(--btnfg);border:0}.plan.y{background:var(--screen);color:var(--ink);border:1.5px solid var(--ink)}
+.plan.m{background:var(--btn);color:var(--btnfg);border:0}
 .plan small{font-size:15px;font-weight:600}
-.save{position:absolute;top:-11px;right:12px;background:var(--gold);color:#3A2E00;font-size:13px;font-weight:700;border-radius:999px;padding:2px 10px}
 .have{margin:12px 0 0;padding:0;list-style:none;width:100%;max-width:310px;text-align:left;font-size:17px;display:grid;gap:4px}
 .have li{padding-left:22px;position:relative}.have li:before{content:"";position:absolute;left:4px;top:.45em;width:9px;height:5px;border-left:2.5px solid var(--btn);border-bottom:2.5px solid var(--btn);transform:rotate(-45deg)}
 .lead{margin:12px 0 0;font-size:14px;color:var(--muted);max-width:300px}
@@ -1758,7 +1757,7 @@ const P={
     const have=[`${nb} ${nb===1?'box':'boxes'}${np&&np===nb?(nb===1?', with its photo':', with photos'):np?`, ${np} with ${np===1?'a photo':'photos'}`:''}`, pcs?`${pcs} ${pcs===1?'piece':'pieces'} of furniture`:'', (S.lists.donate.length||S.lists.sell.length)?'Your donate and sell lists':'', d?`Moving day, ${d}`:'', 'Every tab still to come'].filter(Boolean);
     return ({say:"Your first 3 boxes are packed.", h:"All of it is $9.99 a month.", scene:"price",
       body:`<ul class="have">${have.map(x=>`<li>${x}</li>`).join('')}</ul>
-        <div class="plans"><button class="plan m" data-plan="month">Monthly<small>$9.99 a month</small></button><button class="plan y" data-plan="year"><span class="save">Save $9.99</span>Yearly<small>$109.89 a year</small></button></div>
+        <div class="plans"><button class="plan m" data-plan="month">Make it mine<small>$9.99 a month</small></button></div>
         <p class="hint" style="margin-top:8px">Renews monthly until you cancel, with a reminder before every charge. Cancel anytime: your list stays yours.</p><button class="link" data-back2>Not now</button>
         <p class="lead">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>`}); },
   furnTab:()=>({say:`The ${esc(itemName(S.cur||{what:'piece'}))} is saved.`, h:"Your Big Stuff tab is ready.", sub:"It's in the bar, next to Boxes.", body:`<button class="cta" id="furnNext">Next</button>`}),
@@ -2187,10 +2186,10 @@ function wire(id){
   if(id==='llist'){ $('#llNext').onclick=()=>Array.isArray(S.helpQ)?helpNext():leaveNext(LEAVE[S.li].ok); }
   if(id==='notruck'){ $('#ntOk').onclick=finishBig; }
   if($('#howInstall')) $('#howInstall').onclick=()=>{ if(window.__embed) parent.postMessage('pr-install','*'); };
-  if(id==='price'){ if(window.__APP&&!window.__BUY_YEAR){ const y=phone.querySelector('[data-plan=year]'); if(y) y.remove(); }
+  if(id==='price'){ /* owner, 13 Nov 2026: one price, $9.99 a month. No yearly plan. */
     /* growth review, 10 Nov: the flow runs in a frame, and Stripe's checkout won't open inside one (a blank page).
        The whole window goes to Stripe, and Stripe brings it back to the app, unlocked. */
-    phone.querySelectorAll('[data-plan]').forEach(b=>b.onclick=()=>{ if(window.__APP){ keep(true).then(()=>{ const u=b.dataset.plan==='year'?window.__BUY_YEAR:window.__BUY;
+    phone.querySelectorAll('[data-plan]').forEach(b=>b.onclick=()=>{ if(window.__APP){ keep(true).then(()=>{ const u=window.__BUY;
       try{ (window.top||window).location.href=u; }catch(e){ window.open(u,'_top'); } }); return; } S.paid=b.dataset.plan; show('start'); });
     $('[data-back2]').onclick=()=>{ const prev=hist.pop(); show(prev||'boxesTab',true); }; }
   if(id==='bigSaved'||id==='roomCheck'){ phone.querySelectorAll('[data-nextroom]').forEach(n=>n.onclick=()=>goRoom(n.dataset.nextroom)); const o=$('#otherroom2'); if(o) o.onchange=e=>goRoom(e.target.value); if($('#allRooms')) $('#allRooms').onclick=finishBig; }
@@ -3032,7 +3031,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v373, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v374, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
