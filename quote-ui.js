@@ -22,7 +22,9 @@
     var more=function(x){return /broker/i.test(x.text)?' <a href="'+B+'movers-vs-brokers/">What a broker is</a>':/USDOT/.test(x.text)?' <a href="'+B+'mover-check/">How to check a mover</a>':/coverage|valuation|value protection/i.test(x.text)?' <a href="'+B+'answers/valuation.html">How coverage works</a>':'';};
     /* review, 11 Nov: the words on the quote behind each finding, so a person can see why and judge it */
     var said=function(x){return x.said?'<small class="qsaid">Your quote says: \u201c'+esc(x.said)+'\u201d</small>':'';};
-    var row=function(x,miss){return '<div class="qflag '+(miss?"warn":x.tone)+'"><i>'+(miss?"Not found":lab[x.tone])+'</i><span>'+esc(x.text)+more(x)+said(x)+'</span></div>';};
+    /* review, 11 Nov: what the reader worked out from softer wording says so */
+    var unsure=function(x){return x.maybe?'<small class="qsaid">The reader isn\u2019t certain here. Read those words, then ask the mover.</small>':'';};
+    var row=function(x,miss){return '<div class="qflag '+(miss?"warn":x.tone)+'"><i>'+(miss?"Not found":x.maybe?"Possibly":lab[x.tone])+'</i><span>'+esc(x.text)+more(x)+said(x)+unsure(x)+'</span></div>';};
     var h='<div class="qsum">'+(found.length?'<span class="b">'+found.length+' found to check</span>':'')+(miss.length?'<span class="w">'+miss.length+' not in what you pasted</span>':'')+(good.length?'<span class="g">'+good.length+' good sign'+(good.length>1?'s':'')+'</span>':'')+'</div>';
     h+='<p class="qfine" style="margin-top:4px">These are things to check and questions to ask before you book. A flag on its own doesn\'t mean a mover is dishonest.</p>';
     var sec=function(title,list,isMiss,note,open){if(!list.length)return "";var first=quiet?list.slice(0,3):list,rest=quiet?list.slice(3):[];return '<h3 class="qgroup">'+title+'</h3>'+(note?'<p class="qfine">'+note+'</p>':'')+first.map(function(x){return row(x,isMiss);}).join("")+(rest.length?'<details class="qmore"><summary>Show '+rest.length+' more</summary>'+rest.map(function(x){return row(x,isMiss);}).join("")+'</details>':'');};
