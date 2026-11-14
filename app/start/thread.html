@@ -1670,7 +1670,7 @@ const P={
     body:`<div class="chips" role="group" aria-label="Things you might be taking">${S.miss.map(x=>`<button class="choice" aria-pressed="false" data-miss="${esc(x)}">${esc(x)}</button>`).join('')}</div><button class="cta" id="missNext">Next</button><button class="link" id="missNone">None of these</button>`}),
   bigMeasure:()=>{ const room=S.big.filter(b=>b.room===S.bigRoom), b=room[S.mi]; return ({count:`${S.mi+1} of ${room.length}`, h:`How big is the ${esc(lc(b.what))}?`, sub:"In inches, at its widest. It sizes the truck, storage and doorways.",
     body:`<div class="dims"><label>Wide<input inputmode="decimal" id="dw"></label><label>Deep<input inputmode="decimal" id="dd"></label><label>High<input inputmode="decimal" id="dh"></label></div><button class="cta" id="bigSave">Save it</button><button class="link" id="bigLater">Measure it later</button>${room.length-S.mi>1?'<button class="link" id="bigRest">Measure the rest later</button>':''}`}); },
-  bigSaved:()=>{ const done=S.big.filter(b=>b.room===S.bigRoom), n=nextRoom(); return ({say:`The ${lc(S.bigRoom)} is done.`, h:n?`Next: the ${lc(n)}.`:"Which room next?", sub:done.length?cap1(listAnd(done.map(b=>b.size&&!BEDPART.test(b.what)?`${lc(b.what)} (${b.size.toLowerCase()})`:lc(b.what))))+'. On the list.':'Nothing big in there.',
+  bigSaved:()=>{ const done=S.big.filter(b=>b.room===S.bigRoom), n=nextRoom(); return ({say:`The ${lc(S.bigRoom)} is saved.`, h:n?`Next: the ${lc(n)}.`:"Which room next?", sub:done.length?cap1(listAnd(done.map(b=>b.size&&!BEDPART.test(b.what)?`${lc(b.what)} (${b.size.toLowerCase()})`:lc(b.what))))+'. On the list.':'Nothing big in there.',
     body:`${n?`<button class="cta" data-nextroom="${esc(n)}">Go to the ${esc(lc(n))}</button>`:''}<div class="field"><select id="otherroom2" aria-label="${n?'Or pick another room':'Pick a room'}">${roomOpts(n?'Or pick another room':'Pick a room')}</select></div>${S.homeMode?'<button class="link" id="allRooms">Back to my boxes</button>':'<button class="link" data-go="roomCheck">That\'s every room</button>'}`}); },
   roomItem:()=>{ const done=S.big.filter(b=>b.room===S.bigRoom&&b.batch===S.batch), dw=done.map(b=>b.what), bedroom=(FURN[S.bigRoom]||[]).some(x=>BEDPART.test(x));
     let opts=(FURN[S.bigRoom]||[]).filter(x=>!BEDPART.test(x)); if(bedroom) opts=["Bed"].concat(opts);
@@ -1766,7 +1766,8 @@ const P={
   roomCheck:()=>{ const left=(S.roomsAsked&&(S.homeRooms||[]).length?S.homeRooms:COMMONROOMS).filter(r=>!S.doneRooms.includes(r)).slice(0,6); return ({say:`Done: ${S.doneRooms.join(', ')}.`, h:"Did we miss a room?", sub:"Garages, basements and patios are the ones people forget.",
     body:`<div class="choices two">${left.map(r=>`<button class="choice" data-nextroom="${esc(r)}">${esc(r)}</button>`).join('')}</div><div class="field"><select id="otherroom2" aria-label="Another room">${roomOpts('Another room')}</select></div><button class="cta" id="allRooms">No, that's every room</button>`}); },
   cubic:()=>{ const bx=S.boxes.reduce((s,b)=>s+boxCube(b),0), bg=S.big.reduce((s,b)=>s+cube(b),0), tot=Math.round((bx+bg)/10)*10||0, pcs=S.big.reduce((s,b)=>s+pieces(b),0);
-    return ({say:"Your move, measured.", h:`About ${tot.toLocaleString()} cubic feet.`, sub:`That's about ${truckFor(tot*1.1)}. The rabbit plans with the bigger size, so you won't come up short.`,
+    const fl=homeFloor(), byHome=!!fl&&tot*1.1*1.15<fl*0.6;
+    return ({say:"Your move, measured.", h:`About ${tot.toLocaleString()} cubic feet${byHome?' so far':''}.`, sub:byHome?`A home your size usually needs ${truckFor(tot*1.1)}, even before everything is counted.`:`That's about ${truckFor(tot*1.1)}. The rabbit plans with the bigger size, so you won't come up short.`,
       body:`<ul class="list"><li>${S.boxes.length} ${S.boxes.length===1?'box':'boxes'}<span>${Math.round(bx)} cu ft</span></li><li>${pcs} pieces of big stuff<span>${Math.round(bg)} cu ft</span></li></ul><button class="cta" id="toLeave">Next: your move</button><button class="link" id="addMore">Add something else</button>`}); },
   mto:()=>({count:'1 of 6', say:"Next, your move.", h:"Where are you going?", sub:"A city, or a ZIP code.", scene:'mto',
     body:`${placeField('mto',S.to,'City, state or ZIP','Where you are moving to')}<button class="cta" id="toNext">Next</button><button class="link" id="toNot">Not sure yet</button>`}),
@@ -2049,7 +2050,7 @@ function show(id,back){
     if(from!==p.pi){ const pin=phone.querySelector('.pano-in'); requestAnimationFrame(()=>requestAnimationFrame(()=>{ pin.classList.add('go'); pin.style.transform=`translateX(${-panoPct(p.pi)}%)`; })); }
     const h=phone.querySelector('h2'); h.tabIndex=-1; if(same&&h.textContent===was){ const f=(fid&&document.getElementById(fid))||(fin?phone.querySelector('.page .cta'):null); if(f&&phone.contains(f)) f.focus({preventScroll:true}); return; } if(started) h.focus({preventScroll:true}); started=true;
     live.textContent=(String(p.h)+' '+String(p.count2||'')).replace(/<[^>]+>/g,''); return; }
-  phone.innerHTML=`<div class="page" role="main"><div class="top"><span class="topr">${p.count?`<span class="count">${p.count}</span>`:''}<button class="pause" data-aa aria-label="Text size">Aa</button>${!['firstBox','myBoxes','vrooms','flip','putaway','home'].includes(id)?'<button class="pause" data-pause>Pause</button>':''}</span></div>
+  phone.innerHTML=`<div class="page" role="main"><div class="top"><span class="topr">${p.count?`<span class="count">${p.count}</span>`:''}<button class="pause" data-aa aria-label="Text size">Aa</button>${!['firstBox','myBoxes','vrooms','flip','putaway','home'].includes(id)?'<button class="pause" data-pause>Finish later</button>':''}</span></div>
     <div class="text">${p.tag?`<p class="itemtag">${esc(p.tag)}</p>`:''}${p.say?`<p class="say">${p.say}</p>`:''}<h2>${p.h}</h2>${p.sub?`<p class="sub">${p.sub}</p>`:''}${p.body}</div>
     <div class="scene">${drawn(scene(p.scene||id), id!==lastDrawn)}</div><div class="band"></div></div><div class="navrow${id==='home'?' hn':''}"><button class="back" ${(hist.length&&(!NOBACK.includes(id)||(S.homeMode&&id==='myBoxes')))?'':'hidden'} data-back>Back</button><button class="skip" data-skip hidden>Skip</button></div>${bar()}`;
   textSize(); lastDrawn=id; fresh=[]; newTab=""; wire(id); wireSkip(id); wireMics(); keep();
@@ -2691,7 +2692,7 @@ function newBatch(){ S.batch=(S.batch||0)+1; S.pick=[]; S.lastRoom=''; }
 const shotItems=()=>{ const it=roomItems(); let bed=false; return it.filter(b=>{ if(!BEDPART.test(b.what)) return true; if(bed) return false; bed=true; return true; }); };
 /* a room's sizes are done: photos and condition, then the next room */
 function roomFinish(){ const it=shotItems(); if(S.photoLater||!it.length) return afterRoom(); S.si=it.findIndex(b=>!b.shotDone); if(S.si<0) return afterRoom(); show('bigShot'); }
-function afterRoom(){ if(S.bigRoom&&!S.doneRooms.includes(S.bigRoom)){ S.doneRooms.push(S.bigRoom); say(`The ${lc(S.bigRoom)} is done.`); }
+function afterRoom(){ if(S.bigRoom&&!S.doneRooms.includes(S.bigRoom)){ S.doneRooms.push(S.bigRoom); say(`The ${lc(S.bigRoom)} is saved.`); }
   fresh=S.big.map((b,i)=>b.batch===S.batch?'big'+i:'').filter(Boolean);
   if(!S.roomsAsked) return show('bedCount'); show('bigSaved'); }
 /* home mode: the app's own boxes and big stuff, read from the phone, so numbers, search and the free count are right */
@@ -2923,7 +2924,7 @@ const NDPRE=new Set(['d1','d2','d3','d4','d5','p1','b1','b2','u1','u2','g1','t1'
    wrote before it named them. */
 const NDGO={d2:['setup','Set the delivery day'],p1:['boxes','Open boxes'],q2:['quotes','Getting quotes'],u1:['utils','Open the list'],u2:['utils','Forward your mail'],g1:['gobag','Stays with me'],dl:['setup','Check the dates'],dl2:['setup','Move details'],h1:['hunting','Finding a place'],mo2:['moveout','Leaving the old place'],i2:['insure','Your insurance'],h3:['health','Doctors and medicine'],e1:['people','Add a contact'],e2:['people','Add someone'],s1b:['supplies','Supplies'],k1:['docs','Mover paperwork'],s0:['start','Set up my move']};
 const hMonthDay=d=>new Date(d+'T12:00:00').toLocaleDateString('en-US',{month:'long',day:'numeric'});
-const hNames=a=>a.length<=2?a.join(' and '):`${a.slice(0,2).join(', ')} and ${a.length-2} more`;
+const hNames=a=>a.length<=2?a.join(' and '):a.length<=4?`${a.slice(0,-1).join(', ')} and ${a[a.length-1]}`:`${a.slice(0,3).join(', ')} and ${a.length-3} more`;
 /* worked out from today, never from the app's last visit: what didn't arrive, what never went on, the deposit */
 function ndLive(H){ const L=[]; if(!H) return L;
   if((H.mode==='delivery'||H.mode==='after')&&(H.lost||[]).length) L.push({id:'m1',l:2,t:`${hNames(H.lost)} went on the truck and ${H.lost.length===1?"hasn't":"haven't"} been checked in. If something is missing, tell the mover in writing. Claims have deadlines.`,go:['moveday','Check them in']});
@@ -3031,7 +3032,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v375, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v376, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
@@ -3139,7 +3140,7 @@ const roomItems=()=>S.big.filter(b=>b.batch===S.batch);
 const _fits=d=>{ const s=[...d].sort((a,b)=>a-b); return s[0]<=30 && s[1]<=78; };
 function pauseCard(back){ keep(true); const old=phone.querySelector('.paused'); if(old) old.remove(); const p=P[cur](), where=(p.tag?p.tag+'. ':'')+String(p.h).replace(/<[^>]+>/g,'');
   const c=document.createElement('div'); c.className='paused'; c.setAttribute('role','dialog'); c.setAttribute('aria-modal','true'); c.setAttribute('aria-labelledby','pzh');
-  c.innerHTML=`<div class="pin"><p class="say">${back?'Welcome back.':'Paused.'}</p><h2 id="pzh" tabindex="-1">${back?'You were here:':'This screen is saved.'}</h2><p class="pwhere">${esc(where)}</p><p class="sub">${back?'Pick up right where you stopped.':'Close the app whenever you like. It opens right here.'}</p><button class="cta" data-resume>Resume</button></div>`;
+  c.innerHTML=`<div class="pin"><p class="say">${back?'Welcome back.':'Saved for later.'}</p><h2 id="pzh" tabindex="-1">${back?'You were here:':'This screen is saved.'}</h2><p class="pwhere">${esc(where)}</p><p class="sub">${back?'Pick up right where you stopped.':'Close the app whenever you like. It opens right here.'}</p><button class="cta" data-resume>Resume</button></div>`;
   phone.appendChild(c); const pg=phone.querySelector('.page'); shut([c],true); c.querySelector('h2').focus();
   c.querySelector('[data-resume]').onclick=()=>{ c.remove(); shut([],false); const h=phone.querySelector('.page h2'); if(h) h.focus(); }; }
 phone.addEventListener('click',e=>{ if(e.target.closest('[data-pause]')) pauseCard(false); if(e.target.closest('[data-aa]')){ const z=[1,1.15,1.3], i=z.indexOf(+(localStorage.getItem('pr-walk-zoom')||1)); try{ localStorage.setItem('pr-walk-zoom',String(z[(i+1)%z.length])); }catch(x){} textSize(); say(['Regular text.','Larger text.','Largest text.'][(i+1)%z.length]); } });
