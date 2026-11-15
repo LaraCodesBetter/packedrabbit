@@ -19,10 +19,10 @@
 
   window.prFacts = {
     truck: {
-      q: "Does every moving company own a truck?",
+      q: "Is every moving company allowed to move your things?",
       c: ["Yes, of course", "No"], r: 1,
-      a: "No. A broker owns none.",
-      why: "It sells your move to a company that does. You may not know which one until the truck pulls up.",
+      a: "No. A broker only arranges the move.",
+      why: "It isn't authorized to carry your things, so it sells your move to a mover who is. You may not know which one until the truck pulls up.",
       src: ["FMCSA: Movers vs. brokers", "https://www.fmcsa.dot.gov/protect-your-move/movers-vs-brokers"],
       more: ["Mover or broker? How to tell", "movers-vs-brokers/"],
       /* the truck that isn't there: a dashed outline with a question mark in the box */
