@@ -1568,7 +1568,7 @@ const P={
     const T0=H.tasks||[], t=T0[S.hti||0], undo=S.hLast&&Date.now()-S.hLast.at<15000?`<p class="lsub hundo">Done: ${esc(first(S.hLast.t))} <button class="link" id="hUndo" aria-label="Undo ${esc(first(S.hLast.t))}">Undo</button></p>`:'';
     const taskAct=`<button class="cta" id="hDone">Done</button><button class="link" id="hLater">Not today</button>${undo}`;
     let cd='', one='', sub='', act='', art='mBefore';
-    if(H.mode==='dates'){ one='When are you moving?'; sub='Everything else counts back from that one date.'; act=`<button class="cta" data-hgo="setup">Pick the date</button>`; art='mNone'; }
+    if(H.mode==='dates'){ one='When are you moving?'; sub='Everything else counts back from that one date.'; act=`<button class="cta" data-go="hdate">Pick the date</button>`; art='mNone'; }
     else if(H.mode==='today'){ cd='<b>Today</b> is loading day'; one=H.truck.left?`${pl(H.truck.left,'thing')} to go on the truck.`:'Everything is on the truck.'; sub=H.truck.left?'Boxes and furniture together.':'Walk the rooms once more before the truck leaves.'; act=`<button class="cta" data-mdgo="">Open moving day</button>`; art='mDay'; }
     else if(H.mode==='transit'){ cd=`<b>${H.dd}</b> ${H.dd===1?'day':'days'} until delivery`; one='Your things are on the road.'; sub=`${H.truck.onTruck?pl(H.truck.onTruck,'thing')+' on the truck. ':''}Tonight, put the room signs up and keep the Open First box where you can reach it.`; act=`<button class="cta" data-mdgo="">Get ready for delivery</button>`; art='mRoad'; }
     else if(H.mode==='delivery'){ cd='<b>Today</b> your things arrive'; const k=H.truck.onTruck||0, inN=H.truck.inN||0;
@@ -1578,7 +1578,7 @@ const P={
     else if(H.mode==='after'){ const since=1-(H.dd!=null?H.dd:(H.dl||0)); cd=since<=60?`<b>Day ${since}</b> in your new home`:''; art='mAfter';
       if(H.lost.length){ one=`${pl(H.lost.length,'thing')} not checked in yet.`; sub=`${H.lost.slice(0,3).map(esc).join(', ')}${H.lost.length>3?' and more':''} went on the truck. If something is missing, tell the mover in writing. Claims have deadlines.`; act=`<button class="cta" data-mdgo="">Check them one by one</button>`; }
       else if((H.never||[]).length){ one=`${pl(H.never.length,'thing')} never went on the truck.`; sub=`${H.never.slice(0,3).map(esc).join(', ')}${H.never.length>3?' and more':''} ${H.never.length===1?'was':'were'} never ticked onto the truck. Look at the old place, and in the car.`; act=`<button class="cta" data-mdgo="out">See the going-out list</button>`; }
-      else if(!H.tracked&&!H.moved&&H.dl>-60){ cd=''; one=`Did you move on ${new Date(H.loadAt||Date.now()).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}?`; sub='If the date changed, put in the new one and everything counts from it.'; act=`<button class="cta" id="hMoved">Yes, we've moved</button><button class="link" data-hgo="setup">Change the date</button>`; art='mBefore'; }
+      else if(!H.tracked&&!H.moved&&H.dl>-60){ cd=''; one=`Did you move on ${new Date(H.loadAt||Date.now()).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}?`; sub='If the date changed, put in the new one and everything counts from it.'; act=`<button class="cta" id="hMoved">Yes, we've moved</button><button class="link" data-go="hdate">Change the date</button>`; art='mBefore'; }
       else if(t){ one=esc(first(t.t)); sub=esc(String(t.t).slice(first(t.t).length).trim()); act=taskAct; }
       else if(T0.length){ one="That's all for today."; sub='The rest will be here tomorrow.'; act=`<button class="link" id="hAgain">Show them again</button>${undo}`; }
       else if(vault){ one='Nothing needs you today.'; sub='Open a box when you feel like it. The vault keeps the rest.'; act=undo; }
@@ -1832,6 +1832,9 @@ const P={
   oldplace:()=>({count:'4 of 6', say:"Now the place you're leaving.", h:"Are you renting it?", scene:'mold', body:pickList(["Yes, I rent it","I own it and I'm selling","I own it and I'm keeping it","Living with someone"],S.oldkind)}),
   oldend:()=>({say:"The place you're leaving.", h:"When does your lease end?", sub:dateSub('oldEnd'), scene:'blank', body:calBody('oldEnd',{})+`<button class="cta" id="calNext" ${S.oldEnd?'':'disabled'}>Next</button><button class="link" id="calSkip">I don't know yet</button>`}),
   oldclose:()=>({say:"Selling.", h:"When does the sale close?", sub:dateSub('oldEnd'), scene:'blank', body:calBody('oldEnd',{})+`<button class="cta" id="calNext" ${S.oldEnd?'':'disabled'}>Next</button><button class="link" id="calSkip">Not sold yet</button>`}),
+  /* roadmap, 15 Nov: "Pick the date" on the home stays in the walk. It used to open the app's setup, which a phone
+     past its three free boxes can't open, so the price showed instead of a calendar. The date is the person's own. */
+  hdate:()=>({say:"Moving day.", h:"When is moving day?", sub:dateSub('date',moveWin()), scene:'truck', body:calBody('date',moveWin())+`<button class="cta" id="calNext" ${S.date?'':'disabled'}>Save the date</button>`}),
   moveday:()=>({count:'5 of 6', say:windowLine(), h:"When is moving day?", sub:dateSub('date',moveWin()), scene:'truck', body:calBody('date',moveWin())+`<button class="cta" id="calNext" ${S.date?'':'disabled'}>Next</button><div class="field" style="margin-top:10px"><select id="rough" aria-label="No exact day yet"><option value="">No exact day yet</option>${["This month","Next month","In 2 or 3 months","Not sure yet"].map(x=>`<option${S.rough===x?' selected':''}>${x}</option>`).join('')}</select></div>`}),
   mdeliver:()=>({say:S.date?`Moving day, ${fmtD(S.date)}.`:'', h:"When does it arrive at the new place?", sub:S.delivery?`${fmtD(S.delivery)}. ${dayLine2(S.delivery)}`:"Across town, it's usually the same day. Farther, the mover gives you a delivery date or a window.", scene:'blank', body:calBody('delivery',{min:S.date})+`<button class="cta" id="calNext" ${S.delivery?'':'disabled'}>Next</button><button class="link" id="sameDay">The same day</button><button class="link" id="calSkip">I don't know yet</button>`}),
   mfound:()=>({count:'3 of 6', say:milesLine(), h:"Have you found your new place?", sub:"Movers, dates and utilities all wait on this.", scene:'mfound', body:pickList(["Yes, it's signed","Close, deciding between a couple","Not yet, still looking"],{signed:"Yes, it's signed",found:"Close, deciding between a couple",looking:"Not yet, still looking"}[S.place])}),
@@ -2366,6 +2369,7 @@ function wire(id){
      loading day and the calendar checked deliveries before the keys. Both are asked again, as follow-ups that don't add to the count. */
   if(id==='oldplace') pick(v=>{ S.oldkind=v; S.rent=/rent/.test(v)?'Renting':/own/i.test(v)?'I own it':'Living with someone'; show(/rent/.test(v)?'oldend':/selling/.test(v)?'oldclose':'moveday'); });
   if(id==='oldend'||id==='oldclose') calPage('oldEnd',afterOld);
+  if(id==='hdate') calPage('date',async()=>{ const v=S.date; if(!v) return; const st=await homeWrite(x=>{ x.move=Object.assign({},x.move,{date:v}); }); if(!st){ toast(phone,'Your phone would not save that. Try again.'); return; } S.hm=homeRead(st); show('home'); });
   if(id==='moveday'){ calPage('date',()=>show('mdeliver')); $('#rough').onchange=e=>{ const v=e.target.value; if(!v) return; if(v==='Not sure yet'){ S.date=''; S.rough=''; } else { S.rough=v; S.date=roughDate(v); } show('mhowfirst'); }; }
   if(id==='mdeliver'){ calPage('delivery',()=>show('mhowfirst')); $('#sameDay').onclick=()=>{ S.delivery=S.date; show('mhowfirst'); }; }
   /* alpha test, 8 Nov: "Back to my boxes" left for the app and came back to Welcome home, and it needed a signal.
@@ -2729,7 +2733,8 @@ function aiSet(v){ S.aiOk=v; try{ localStorage.setItem('pr-ai',v?'1':'0'); }catc
 let SAMPLE=undefined; const aiWaits={};
 if(window.__embed){ window.addEventListener('message',e=>{ const m=e.data; if(m&&m.type==='pr-ai-res'&&aiWaits[m.id]){ aiWaits[m.id](m); delete aiWaits[m.id]; } }); }
 else { try{ (window.claude&&claude.use?claude.use('sample'):Promise.resolve(null)).then(s=>{ SAMPLE=s; if(cur==='itemPhoto') show('itemPhoto',true); }).catch(()=>{ SAMPLE=null; }); }catch(e){ SAMPLE=null; } }
-const aiHere=()=>window.__embed?S.aiParent!==false:!!SAMPLE;
+/* roadmap, 15 Nov: no page that embeds the walk answers a look-up, so in an embed "Look it up" spun and then failed. Offered only where it can run. */
+const aiHere=()=>!window.__embed&&!!SAMPLE;
 function aiPrompt(b){ const L=QLIST(b);
   return `You are looking at a photo someone took of a piece of furniture or a large household item they are moving. They called it "${b.what}". Identify it as specifically as you honestly can.
 Reply with JSON only, no prose: {"name": short plain name of what it is, "make": brand if you can tell, else "", "model": model or product line if you can tell, else "", "confident": true or false${L.map(x=>x.a||x.sel?`, "${x.k}": one of ${JSON.stringify(x.a||x.sel)} or null`:'').join('')}}
@@ -3107,7 +3112,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v380, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v381, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
