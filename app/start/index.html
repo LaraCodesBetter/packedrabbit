@@ -61,12 +61,17 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
 .gline{stroke:var(--ink)!important;stroke-width:2}
 .tape{fill:var(--tape)!important}
 /* ink-in: shapes rest fully drawn; only a stop you haven't reached yet waits undrawn */
-.fore :is(rect,path,line,circle,ellipse,polyline){stroke-dasharray:1;stroke-dashoffset:0;transition:stroke-dashoffset 1.1s ease-out, fill-opacity .6s ease .5s}
+.fore :is(rect,path,line,circle,ellipse,polyline){stroke-dasharray:1;stroke-dashoffset:0;transition:stroke-dashoffset 1.1s ease-out, fill-opacity .6s ease .5s, stroke-opacity 0s linear .07s} /* the lines show a beat after they start drawing, so their round ends never flash as dots */
 .pre .fore :is(rect,path,line,circle,ellipse,polyline){stroke-dashoffset:1;fill-opacity:0}
+/* before a drawing draws itself, its lines are hidden outright: an undrawn line with round ends showed as a scatter of dots */
+.pre .fore :is(rect,path,line,circle,ellipse,polyline){stroke-opacity:0}
 .rabbit{transition:transform .8s cubic-bezier(.3,1.3,.5,1) .7s}
 .pre .rabbit{transform:translateY(46px)}
 .stop>h2,.stop>p{transition:opacity .5s ease .1s, transform .5s ease .1s}.stop>p{transition-delay:.3s}
 .pre>h2,.pre>p{opacity:0;transform:translateY(8px)}
+/* panel, 14 Nov: after the opening the headline is already there as the room dissolves; only the drawing draws in */
+.pre.settled>h2,.pre.settled>p{opacity:1;transform:none;transition:none}
+.stop h2[tabindex="-1"]:focus{outline:none}
 
 .cta{margin-top:28px;width:100%;max-width:280px;min-height:52px;border:0;border-radius:14px;background:var(--btn);color:var(--btn-fg);
   font:700 20px/1.1 var(--sans);cursor:pointer;position:relative;z-index:2}
@@ -78,6 +83,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
 .foot .restore{margin-top:2px;font-size:16px}
 .phone.lit .foot .restore{color:#E6EFE4}.phone.lit .foot .restore b{color:#F2E8D5}
 .hint{display:none}
+/* panel, 14 Nov: one quiet line under Next, card one only, after 8 s with no touch; gone at the first touch, never again */
+.nudge{margin:6px 0 0;font-size:16px;line-height:1.3;color:var(--muted);opacity:0;transition:opacity .6s ease}.nudge.on{opacity:1}
+@media (prefers-reduced-motion: reduce){.nudge{transition:none}}
 /* funnel test, 9 Nov: on a small phone (iPhone SE) the drawing covered the last line of the words */
 @media (max-height:600px){.stop{padding-top:74px}.stop h2{font-size:28px;margin-bottom:8px}.stop p{font-size:17px}}
 .foot .next{width:auto;min-width:200px;margin:0 0 8px;padding-left:40px;padding-right:40px}.foot .next[hidden]{display:none}
@@ -215,18 +223,116 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
    Reduce Motion included: it is ink appearing in place, nothing travels across the screen. Reduce Motion still stops what moves:
    the words sliding up, the rabbit popping up, the name flying in, smooth scrolling. */
 @media (max-width:420px){.phone{height:740px}.notes{padding-top:8px}}
+/* owner, 13 Nov 2026: the rabbit introduces the app like a teacher. The film is silent and plays once per phone. The words
+   are real text: his in thought clouds; the questions one at a time above his head, in the green line-drawing style, and
+   listed on his board, which shows only the five questions, from his first tap (owner, 8:18pm). Owner, 8:10pm: a classroom, not
+   an interrogation room: a chalkboard and a clock in green line drawing cover the hanging lamp, and seats face him.
+   Owner, 8:47pm: no book on the laptop. He stands behind a podium (her first idea), drawn in the same line style; it hides
+   the stool, the laptop and the book he sets down.
+   Board in the 1080x1920 film: x 105-542, y 907-1451. His head is near 66% across, his ears' tips near 36% down.
+   Owner, 14 Nov: no drawn podium ("like a bad tattoo cover-up"): the book stays on the laptop as filmed, and the film
+   holds at 7.5 s, pointing at the board, so his paws never come down to the laptop. The words are set onto the canvas in its own perspective:
+   its corners in the film are 106,934 / 481,910 / 508,1399 / 162,1448. */
+.prof{position:absolute;inset:0;z-index:30;background:#183A21;overflow:hidden;transition:opacity .6s ease}
+.prof.gone{opacity:0;pointer-events:none}
+.pwrap{position:absolute;top:0;bottom:0;left:50%;height:100%;aspect-ratio:9/16;transform:translateX(-50%)}
+.pin{position:absolute;inset:0}
+.pin video,.pin img.pst{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.proom{position:absolute;inset:0;width:100%;height:100%}
+.proom .ln{fill:none;stroke:#8FC59B;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.proom .ch{fill:none;stroke:#CFE6D2;stroke-width:4;stroke-linecap:round;opacity:.55}
+.pboard{position:absolute;left:0;top:0;width:375px;height:514px;transform-origin:0 0;container-type:inline-size}
+.pdraw{position:absolute;left:14%;right:8%;top:6%;height:44%;overflow:visible}
+.pdraw *{fill:none;stroke:#2E7D46;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
+.pdraw .fl{fill:#FBF7EE;fill-opacity:0;transition:fill-opacity .5s ease .9s}.prof.lit .pdraw .fl{fill-opacity:1}.pdraw .dash{stroke-dasharray:3 4;stroke-dashoffset:0;opacity:0;transition:opacity .4s ease 1.1s}
+.pdraw text{stroke:none;fill:#2E7D46;font:700 7.5px/1 "Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,-apple-system,sans-serif;opacity:0;transition:opacity .4s ease 1.2s}
+.pdraw *{stroke-opacity:0}.prof.lit .pdraw *{transition:stroke-dashoffset 1.2s ease,fill-opacity .5s ease .9s;stroke-dashoffset:0;stroke-opacity:1}.prof.lit .pdraw .dash,.prof.lit .pdraw text{opacity:1}
+/* owner, 14 Nov: the board shows one green line drawing and its word at a time: Pack it, fade, Snap it, fade, Find it.
+   The drawings are make-art.py's own boxes, codes and walls, so the board matches the website. */
+.pnoanim,.pnoanim *{transition:none!important}
+/* owner, 14 Nov: the rabbit's laser keeps guiding. One red dot marks the one next tap, a green one marks the price once
+   it has been earned. It sits before the words, never on them; it fades in once and then stays still (no pulsing). */
+.gdot{display:inline-block;position:relative;flex:none;width:13px;height:13px;margin:0 10px 0 0;vertical-align:-1px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,#FFE6E3 0 22%,#FF3B30 34% 100%);box-shadow:0 0 0 2.5px #FFFDF8,0 0 14px 5px rgba(255,59,48,.38);animation:gdin .35s ease-out both}
+.phone.opening .street .gdot,.phone.opening .foot .gdot{visibility:hidden;animation:none}
+.gdot.g{background:radial-gradient(circle,#F2FFF6 0 22%,#36D27A 34% 100%);box-shadow:0 0 0 3px #FFFDF8,0 0 14px 6px rgba(54,210,122,.55)}
+@keyframes gdin{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.gdot{animation:none}}
+.pslides{position:absolute;inset:0}
+.psl{position:absolute;inset:0;opacity:0;transition:opacity .3s ease}
+.psl.now{opacity:1;transition:opacity .45s ease .3s}
+.psl .pdr{position:absolute;left:5%;top:5%;width:80%;height:auto;overflow:visible}
+.psl .pdr *{stroke:#1F5A37;fill:#EFE3D2;stroke-width:4.2;stroke-linecap:round;stroke-linejoin:round}
+.psl .pdr .nf{fill:none}.psl .pdr .f1{fill:#E3DEC6}.psl .pdr .f2{fill:#D3D5B8}.psl .pdr .f3{fill:#BCCBA8}.psl .pdr .tape{fill:#4FA06C}
+.psl .pdr .dash{stroke-dasharray:9 11}.psl .pdr .gnd{fill:#DED0B6;stroke:none}.psl .pdr .bk{opacity:.42}.psl .pdr .pt{fill:none;stroke:none}
+.psl .pdr text{stroke:none;fill:#1F5A37;font:800 18px "Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,-apple-system,sans-serif}
+.psl .pdr .t14{font-size:14px}.psl .pdr .t16{font-size:16px}.psl .pdr .t18{font-size:18px}
+.psl .pwd{position:absolute;left:0;right:10%;top:51%;margin:0;text-align:center;white-space:nowrap;font:800 16.5cqw/1 "Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,-apple-system,sans-serif;color:#2E5A3C}
+@media (prefers-reduced-motion: reduce){.psl,.psl.now{transition:none}}
+.plist{position:absolute;left:13%;right:1%;top:21%;margin:0;padding:0;list-style:none;font:800 11cqw/2.05 "Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,-apple-system,sans-serif;color:#2E5A3C}
+.plist li{position:relative;z-index:1;white-space:nowrap;overflow:hidden;clip-path:inset(0 100% 0 0);transition:clip-path .55s steps(14,end) var(--d,0s),color .35s ease}
+.prof.lit .plist li{clip-path:inset(0 0 0 0)}
+/* the pointer is drawn in the film's own pixels (SVG over the video): one length, shaded like the filmed one, his paw on top */
+.pstk{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none;transition:opacity .6s ease}.prof.lit .pstk{opacity:1}
+#pdot{opacity:0;transition:opacity .35s ease}#pdot.on{opacity:1}
+@media (prefers-reduced-motion: reduce){.pcvs,.pstk,#pdot{transition:none}}
+.plist .bl{display:inline-block;width:0;height:0;vertical-align:baseline}
+/* owner, 14 Nov: three words on the board, each with its picture: the Packed Rabbit, the camera, the magnifying glass */
+.plist .pw{display:inline-block}
+.plist .pico{display:inline-block;width:1.05em;height:1.05em;margin-right:.32em;vertical-align:-.17em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.plist .pico.pr{width:auto;height:1.5em;vertical-align:-.36em;margin-right:.22em}
+/* owner, 14 Nov: the pointer moves to each question. The film's own pointer is painted out of the canvas (professor-canvas.png),
+   and the cut-out pointer turns at his paw to the row being asked */
+.pcvs{position:absolute;left:28.0556%;top:50.4687%;width:19.537%;height:12.9688%;opacity:0;pointer-events:none;transition:opacity .6s ease}.prof.lit .pcvs{opacity:1}.plist li.now{color:#0F3A22}
+.phl{position:absolute;left:4.5%;right:3%;border-radius:2cqw;background:#9FD0A9;opacity:0;transition:top .45s cubic-bezier(.4,0,.2,1),opacity .3s ease}.phl.on{opacity:1}
+.pq{position:absolute;margin:0;padding:12px 18px 12px 46px;border:0;border-radius:26px;background:#1F4D30;color:#FFFDF8;box-shadow:0 10px 26px -14px #0008;
+  font:800 21px/1.2 "Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,-apple-system,sans-serif;white-space:nowrap;opacity:0;transform:translateY(8px) scale(.96);transition:opacity .35s ease,transform .35s ease}
+.pq.on{opacity:1;transform:none}
+.pq svg{position:absolute;left:14px;top:50%;width:22px;height:22px;transform:translateY(-50%)}
+.pq svg *{fill:none;stroke:#CFE6D2;stroke-width:2.4;stroke-linecap:round}
+.pq::after{content:"";position:absolute;left:58%;top:calc(100% + 6px);width:14px;height:14px;border-radius:50%;background:#1F4D30;box-shadow:10px 14px 0 -3px #1F4D30}
+.pcloud{position:absolute;right:5%;top:30%;max-width:58%;margin:0;padding:14px 18px;border-radius:26px;background:#1F4D30;color:#FFFDF8;
+  font:700 19px/1.3 "Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,-apple-system,sans-serif;text-align:center;box-shadow:0 10px 26px -14px #0008;opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
+.pcloud::after{content:"";position:absolute;right:30%;bottom:-16px;width:14px;height:14px;border-radius:50%;background:#1F4D30;box-shadow:-10px 14px 0 -3px #1F4D30}
+.pcloud.on{opacity:1;transform:none}
+.pbtns{position:absolute;left:0;right:0;bottom:22px;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 24px}
+.pbtns .cta{margin:0;width:min(300px,100%);background:#F2E8D5;color:#0A3B1F}
+.pbtns .link{color:#F2E8D5;min-height:44px}
+/* panel, 14 Nov: Skip is a real button, not small text on the pattern */
+.pskip{min-height:44px;min-width:44px;padding:0 22px;border:1.5px solid rgba(242,232,213,.6);border-radius:999px;background:rgba(10,40,24,.55);color:#FFFDF8;font:600 16px/1 "Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,-apple-system,sans-serif;cursor:pointer}
+.pskip:focus-visible{outline:3px solid #F2E8D5;outline-offset:2px}
+.go2{display:block;margin:6px auto 0;min-height:44px}
+.pgrow{position:absolute;background:var(--screen);border-radius:6px;transition:all 1s cubic-bezier(.4,0,.2,1);z-index:2}
+@media (prefers-reduced-motion: reduce){.pq,.plist li,.pcloud,.prof,.pdraw *,.pdraw text{transition:none!important}}
+
 </style>
 
 <div class="wrap">
 <div class="phone" aria-label="Phone preview">
   <div class="brand"><picture><source srcset="wordmark-ears-cream.png" media="(prefers-color-scheme: dark)"><img id="wm" src="wordmark-ears.png" alt="The Packed Rabbit" width="168" height="44"></picture></div>
   <script>/* the signature: the ears in the two b's wiggle once, then rest */(function(){ try{ if(matchMedia("(prefers-reduced-motion: reduce)").matches) return; }catch(e){} var w=new Image(); w.onload=function(){ var m=document.getElementById("wm"); if(m) m.src=w.src; }; w.src="wordmark-wiggle.webp"; })();</script>
+  <div class="prof" id="prof" role="region" aria-label="The rabbit introduces The Packed Rabbit" hidden>
+    <p class="sr">A felt rabbit in a monocle walks into a green room to an easel. He bows. On his board, one drawing at a time: Pack it, a box being packed. Snap it, a camera. Find it, a magnifying glass on the right box.</p>
+    <div class="pwrap" aria-hidden="true"><div class="pin" id="pin">
+      <video id="pvid" muted playsinline preload="auto" poster="professor-first.jpg"><source src="professor.webm" type="video/webm"><source src="professor.mp4" type="video/mp4"></video>
+      <svg class="proom" viewBox="0 0 1080 1920" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="pwall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#183A21"/><stop offset=".72" stop-color="#1A3F24"/><stop offset="1" stop-color="#1A3F24" stop-opacity="0"/></linearGradient></defs>
+        <rect x="0" y="0" width="1080" height="600" fill="url(#pwall)"/>
+        <path class="ln" d="M-20 1760 v-46 a26 26 0 0 1 52 0 v46 M58 1760 v-46 a26 26 0 0 1 52 0 v46 M136 1760 v-46 a26 26 0 0 1 52 0 v46 M214 1760 v-46 a26 26 0 0 1 52 0 v46 M292 1760 v-46 a26 26 0 0 1 52 0 v46 M370 1760 v-46 a26 26 0 0 1 52 0 v46 M448 1760 v-46 a26 26 0 0 1 52 0 v46 M526 1760 v-46 a26 26 0 0 1 52 0 v46 M604 1760 v-46 a26 26 0 0 1 52 0 v46 M682 1760 v-46 a26 26 0 0 1 52 0 v46 M760 1760 v-46 a26 26 0 0 1 52 0 v46 M838 1760 v-46 a26 26 0 0 1 52 0 v46 M916 1760 v-46 a26 26 0 0 1 52 0 v46 M994 1760 v-46 a26 26 0 0 1 52 0 v46 M1072 1760 v-46 a26 26 0 0 1 52 0 v46 M-60 1890 v-50 a30 30 0 0 1 60 0 v50 M26 1890 v-50 a30 30 0 0 1 60 0 v50 M112 1890 v-50 a30 30 0 0 1 60 0 v50 M198 1890 v-50 a30 30 0 0 1 60 0 v50 M284 1890 v-50 a30 30 0 0 1 60 0 v50 M370 1890 v-50 a30 30 0 0 1 60 0 v50 M456 1890 v-50 a30 30 0 0 1 60 0 v50 M542 1890 v-50 a30 30 0 0 1 60 0 v50 M628 1890 v-50 a30 30 0 0 1 60 0 v50 M714 1890 v-50 a30 30 0 0 1 60 0 v50 M800 1890 v-50 a30 30 0 0 1 60 0 v50 M886 1890 v-50 a30 30 0 0 1 60 0 v50 M972 1890 v-50 a30 30 0 0 1 60 0 v50 M1058 1890 v-50 a30 30 0 0 1 60 0 v50" style="opacity:.7"/></svg>
+      <img class="pcvs" src="professor-hand.png" alt=""><div class="pboard"><div class="phl" id="phl"></div><div class="pslides" id="plist"><div class="psl"><svg class="pdr" viewBox="0 0 360 236" aria-hidden="true"><g class="bk"><path class="nf" d="M0 216 H360"/><rect class="f1" x="262" y="30" width="72" height="60" rx="1"/><path class="nf" d="M298.0 30 v60 M262 60.0 h72"/><rect class="f2" x="259" y="90" width="78" height="4" rx="1"/><path class="f2" d="M254 26 q9 34 0 72 h10 q-5 -36 0 -72 z M342 26 q-9 34 0 72 h-10 q5 -36 0 -72 z"/><circle class="f1" cx="54" cy="52" r="17"/><path class="nf" d="M54 52 v-10 M54 52 l8 4"/></g><rect class="gnd" x="0" y="228" width="360" height="8"/><path class="nf" d="M0 228 H360"/><rect class="f2" x="22" y="178" width="64" height="50" rx="3"/><path class="nf" d="M22 188.0 h64"/><rect class="tape" x="48.9" y="178" width="10.2" height="10.0"/><rect class="f1" x="162" y="34" width="36" height="40" rx="6"/><path class="nf" d="M198 44 q15 2 13 15 q-2 10 -13 10"/><path class="nf dash" d="M170 86 v20 M190 86 v20"/><path class="nf" d="M122 134 l12 -16 h92 l12 16"/><path class="f1" d="M112 134 l-26 -28 h46 l12 28 z"/><path class="f1" d="M248 134 l26 -28 h-46 l-12 28 z"/><rect class="f2" x="112" y="134" width="136" height="94" rx="3"/><rect class="f1" x="138.5" y="167.8" width="83" height="23" rx="2"/><text class="t18" x="180.0" y="186.8" text-anchor="middle">KIT-01</text><circle class="f2" cx="308" cy="210" r="18"/><circle class="f1" cx="308" cy="210" r="8"/><circle class="pt" cx="180" cy="54" r=".5"/></svg><p class="pwd">Pack it</p></div><div class="psl"><svg class="pdr" viewBox="0 0 360 236" aria-hidden="true"><g class="bk"><path class="nf" d="M0 216 H360"/><rect class="f1" x="24" y="30" width="72" height="60" rx="1"/><path class="nf" d="M60.0 30 v60 M24 60.0 h72"/><rect class="f2" x="21" y="90" width="78" height="4" rx="1"/><rect class="f2" x="24" y="30" width="72" height="26" rx="1"/><path class="nf" d="M24 38 h72 M24 46 h72 M60 56 v8"/></g><rect class="gnd" x="0" y="228" width="360" height="8"/><path class="nf" d="M0 228 H360"/><rect class="f2" x="148" y="26" width="40" height="14" rx="4"/><rect class="f2" x="112" y="36" width="136" height="88" rx="14"/><circle class="f1" cx="180" cy="80" r="31"/><circle class="f3" cx="180" cy="80" r="17"/><circle class="f1" cx="180" cy="80" r="6"/><rect class="tape" x="216" y="46" width="18" height="11" rx="2"/><path class="nf" d="M256 32 l11 -9 M260 48 h14 M256 64 l11 8"/><path class="nf dash" d="M160 114 L132 160 M200 114 L228 160"/><path class="nf" d="M134 170 l12 -16 h68 l12 16"/><path class="f1" d="M124 170 l-26 -28 h46 l12 28 z"/><path class="f1" d="M236 170 l26 -28 h-46 l-12 28 z"/><rect class="f2" x="124" y="170" width="112" height="58" rx="3"/><rect class="f1" x="138.5" y="190.9" width="83" height="23" rx="2"/><text class="t18" x="180.0" y="209.9" text-anchor="middle">BED-02</text><circle class="pt" cx="180" cy="80" r=".5"/></svg><p class="pwd">Snap it</p></div><div class="psl"><svg class="pdr" viewBox="0 0 360 236" aria-hidden="true"><g class="bk"><path class="nf" d="M0 216 H360"/><rect class="f1" x="26" y="30" width="72" height="60" rx="1"/><path class="nf" d="M62.0 30 v60 M26 60.0 h72"/><rect class="f2" x="23" y="90" width="78" height="4" rx="1"/><path class="f2" d="M18 26 q9 34 0 72 h10 q-5 -36 0 -72 z M106 26 q-9 34 0 72 h-10 q5 -36 0 -72 z"/><rect class="f1" x="280" y="32" width="50" height="40" rx="2"/><path class="nf" d="M292 64 v-12 l13 -10 l13 10 v12 z"/></g><rect class="gnd" x="0" y="228" width="360" height="8"/><path class="nf" d="M0 228 H360"/><rect class="f2" x="18" y="164" width="98" height="64" rx="3"/><path class="nf" d="M18 176.8 h98"/><rect class="tape" x="59.2" y="164" width="15.7" height="12.8"/><rect class="f1" x="33.5" y="192.2" width="67" height="19" rx="2"/><text class="t14" x="67.0" y="207.2" text-anchor="middle">LIV-01</text><rect class="f2" x="264" y="174" width="80" height="54" rx="3"/><path class="nf" d="M264 184.8 h80"/><rect class="tape" x="297.6" y="174" width="12.8" height="10.8"/><rect class="f1" x="284.5" y="197.8" width="39" height="19" rx="2"/><text class="t14" x="304.0" y="212.8" text-anchor="middle">BED</text><rect class="f2" x="276" y="138" width="56" height="36" rx="3"/><path class="nf" d="M276 145.2 h56"/><rect class="tape" x="299.5" y="138" width="9.0" height="7.2"/><rect class="f2" x="132" y="128" width="116" height="100" rx="3"/><path class="nf" d="M132 148.0 h116"/><rect class="tape" x="180.7" y="128" width="18.6" height="20.0"/><rect class="f1" x="156.5" y="172.0" width="67" height="19" rx="2"/><text class="t14" x="190.0" y="187.0" text-anchor="middle">KIT-03</text><circle class="nf" cx="190" cy="181" r="44"/><circle class="nf" cx="190" cy="181" r="38"/><path class="f2" d="M219 148 L249 118 L259 128 L229 158 Z"/><circle class="tape" cx="190" cy="102" r="14"/><path class="nf" d="M183.5 102 l5 5.5 l9 -11"/><circle class="pt" cx="190" cy="102" r=".5"/></svg><p class="pwd">Find it</p></div></div></div><svg class="pstk" viewBox="0 0 1080 1920" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="peng" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E2622"/><stop offset=".45" stop-color="#46524B"/><stop offset=".7" stop-color="#6A776F"/><stop offset="1" stop-color="#2C3530"/></linearGradient><radialGradient id="dotg"><stop offset="0" stop-color="#FF3B30" stop-opacity=".55"/><stop offset="1" stop-color="#FF3B30" stop-opacity="0"/></radialGradient></defs><g id="ppen"><rect x="-30" y="-6.5" width="92" height="13" rx="6.5" fill="url(#peng)"/><rect x="54" y="-6.5" width="8" height="13" rx="3" fill="#C9302C"/></g><image href="professor-paw.png" x="330" y="985" width="230" height="240"/><g id="pdot"><circle r="18" fill="url(#dotg)"/><circle r="6.5" fill="#FF3B30"/><circle r="2.6" fill="#FFE3E0"/></g></svg>
+    </div></div>
+    <p class="pcloud" id="pcloud" aria-hidden="true"></p>
+    <p class="pq" id="pq" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6.5"/><path d="M15 15l5.5 5.5"/></svg><span id="pqt"></span></p>
+    <!-- owner, 14 Nov: the signature at the top of the room, where card one's wordmark sits, so it stays put through the dissolve; its ears wiggle as he bows -->
+    <div class="brand pbrand" aria-hidden="true"><img id="pwm" src="wordmark-ears-cream.png" alt="" width="168" height="44"></div>
+    <div class="pbtns"><button class="cta" id="pfirst" type="button">Pack my first box</button><button class="pskip" id="pskip" type="button">Skip intro</button></div>
+  </div>
+  <script>try{ if(localStorage.getItem('pr-prof')!=='1'){ document.getElementById('prof').hidden=false; document.querySelector('.phone').classList.add('opening'); } }catch(e){}</script>
   <div class="street" id="street" tabindex="0" aria-label="Welcome screens, swipe or use arrow keys">
 
     <!-- stop 1: packing at home -->
     <section class="stop" aria-label="1 of 4">
       <h2>See inside every box.</h2>
-      <p>Without opening a single one. The rabbit remembers, so you don't have to.</p>
+      <p>Without opening a single one. Snap it before you tape it.</p>
       <div class="scene"><svg viewBox="0 0 360 352" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
         <g class="back"><line x1="-700" y1="324" x2="1060" y2="324"/></g>
         <rect class="ground" x="-700" y="344" width="1760" height="40"/>
@@ -334,7 +440,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
       <div class="s4text">
         <p class="s4name"><img id="wm4" src="wordmark-ears-cream.png" alt="The Packed Rabbit" width="300" height="78" style="display:block;height:auto"></p>
         <h2 class="s4tag">Just ask the rabbit.</h2>
-        <button class="cta" id="go">Pack my first box</button>
+        <button class="cta" id="go"><i class="gdot" aria-hidden="true"></i>Pack my first box</button>
         <button class="link getapp" id="getapp">Download the app</button>
       </div>
     </section>
@@ -351,7 +457,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   <div class="foot" id="foot">
     <div class="hint" id="hint">Swipe to continue</div>
     <!-- funnel test, 9 Nov: on a phone the welcome showed no button until screen 4, and nothing said to swipe -->
-    <button class="cta next" id="next" type="button">Next</button>
+    <button class="cta next" id="next" type="button"><i class="gdot" aria-hidden="true"></i>Next</button>
+    <p class="nudge" id="nudge" hidden>Tap Next when you're ready.</p>
+    <button class="link go2" id="go2" type="button">Pack my first box</button>
     <div class="dots" role="group" aria-label="Screens">
       <button class="dot" aria-label="Screen 1" aria-current="true"><i></i></button>
       <button class="dot" aria-label="Screen 2"><i></i></button>
@@ -523,7 +631,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   const mark=i=>{ if(i===cur && !stops[i].classList.contains('pre')) return; cur=i;
     stops.forEach((s,k)=>{ if(k!==i && k<stops.length-1) s.classList.add('pre'); }); requestAnimationFrame(()=>requestAnimationFrame(()=>stops[i].classList.remove('pre')));
     dots.forEach((d,k)=>d.setAttribute('aria-current',k===i?'true':'false'));
-    hint.textContent = i===stops.length-1 ? '' : 'Swipe to continue'; document.getElementById('next').hidden = i===stops.length-1; document.querySelector('.phone').classList.toggle('lit', i===stops.length-1 && stops[i].classList.contains('alive')); if(i===stops.length-1) arrive(stops[i]); };
+    hint.textContent = i===stops.length-1 ? '' : 'Swipe to continue'; document.getElementById('next').hidden = i===stops.length-1; { const g2=document.getElementById('go2'); if(g2) g2.hidden = i===stops.length-1; } document.querySelector('.phone').classList.toggle('lit', i===stops.length-1 && stops[i].classList.contains('alive')); if(i===stops.length-1) arrive(stops[i]); };
   try{ const pre=new Image(); pre.src='rabbit-walks-in.webp'; }catch(e){}
   const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
   let played=false;
@@ -539,6 +647,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
     if(RM){ wake(s); return; }
     wake(s); }
   document.getElementById('next').onclick=()=>go(Math.max(cur,0)+1);
+  /* the reminder: starts when card one is on screen (after the opening, or straight away if it was seen before) */
+  (function(){ var n=document.getElementById('nudge'), t=null, over=false;
+    function stop(){ if(over) return; over=true; clearTimeout(t); if(n){ n.classList.remove('on'); setTimeout(function(){ n.hidden=true; },650); }
+      ['pointerdown','keydown','wheel','touchstart'].forEach(function(e){ document.removeEventListener(e,stop,true); }); }
+    window.prNudge=function(){ return; /* owner, 14 Nov: the red dot on Pack my first box is the one cue now */ if(over||!n||t) return;
+      ['pointerdown','keydown','wheel','touchstart'].forEach(function(e){ document.addEventListener(e,stop,true); });
+      t=setTimeout(function(){ if(over||cur>0) return; n.hidden=false; requestAnimationFrame(function(){ n.classList.add('on'); }); },8000); };
+    var seen=false; try{ seen=localStorage.getItem('pr-prof')==='1'; }catch(e){} if(seen||!document.getElementById('prof')) window.prNudge(); })();
   /* the first screen draws itself in once it is actually on screen (on the website it sits in a frame that may paint late) */
   { let began=false; const begin=()=>{ if(began) return; began=true; setTimeout(()=>mark(0),250); };
     try{ new IntersectionObserver((es,o)=>{ if(es.some(e=>e.isIntersecting)){ o.disconnect(); if(document.readyState==='complete') begin(); else window.addEventListener('load',begin,{once:true}); } }).observe(st); }catch(e){ begin(); }
@@ -663,6 +779,124 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   });
 })();
 </script>
+<script>/* panel (customer), 13 Nov: the button from the opening stays reachable on the cards */
+(function(){ var g=document.getElementById('go2'); if(g) g.onclick=function(){ var b=document.getElementById('go'); if(b) b.click(); }; })();
+/* the professor: once per phone, then the welcome as before (owner, 13 Nov 2026) */
+(function(){
+  var P=document.getElementById('prof'); if(!P) return;
+  var seen=false; try{ seen=localStorage.getItem('pr-prof')==='1'; }catch(e){}
+  if(seen) return;
+  var RM=false; try{ RM=matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+  var phl=document.getElementById('phl'), V=document.getElementById('pvid'), cloud=document.getElementById('pcloud'), pq=document.getElementById('pq'), pqt=document.getElementById('pqt');
+  var items=[].slice.call(document.querySelectorAll('#plist .psl')), L=items.map(function(li){ return li.textContent; });
+  var T=[], done=false, step=-1, waiting=null;
+  P.hidden=false;
+  function later(f,ms){ T.push(setTimeout(f,ms)); }
+  /* the list sits on the canvas: a homography from the board's own box to the canvas's corners in the film */
+  var BQ=[[106,934],[481,910],[508,1399],[162,1448]], BW=375, BH=514, bd=P.querySelector('.pboard');
+  function fit(){ var w=P.querySelector('.pwrap').getBoundingClientRect(), k=w.width/1080;
+    var q=BQ.map(function(c){ return [c[0]*k,c[1]*k]; }), W=BW*k, H=BH*k;
+    var x0=q[0][0],y0=q[0][1],x1=q[1][0],y1=q[1][1],x2=q[2][0],y2=q[2][1],x3=q[3][0],y3=q[3][1];
+    var dx1=x1-x2,dx2=x3-x2,dy1=y1-y2,dy2=y3-y2,sx=x0-x1+x2-x3,sy=y0-y1+y2-y3,den=dx1*dy2-dx2*dy1;
+    var g=(sx*dy2-dx2*sy)/den, h=(dx1*sy-sx*dy1)/den;
+    var a=x1-x0+g*x1, b=x3-x0+h*x3, d=y1-y0+g*y1, e=y3-y0+h*y3;
+    /* that maps the unit square; scale it to the board's box */
+    a/=W; d/=W; g/=W; b/=H; e/=H; h/=H;
+    bd.style.width=W+'px'; bd.style.height=H+'px';
+    bd.style.transform='matrix3d('+[a,d,0,g, b,e,0,h, 0,0,1,0, x0,y0,0,1].join(',')+')'; }
+  fit(); window.addEventListener('resize',fit);
+  /* the app build adds its full-screen layout after this script runs, so the frame changes size without a resize event:
+     re-fit the board whenever its frame changes, and let the laser re-measure its spots */
+  if(window.ResizeObserver) new ResizeObserver(function(){ fit(); SPOTS=null; }).observe(P.querySelector('.pwrap'));
+  function say(t){ if(!t){ cloud.classList.remove('on'); return; } cloud.textContent=t; cloud.classList.add('on'); }
+  /* the question sits right above his head, inside the screen whatever its width */
+  function place(){ var w=P.querySelector('.pwrap').getBoundingClientRect(), q=P.getBoundingClientRect(), vw=q.width;
+    pq.style.fontSize=''; var k=0; while(pq.offsetWidth>vw-24&&k<14){ pq.style.fontSize=(parseFloat(getComputedStyle(pq).fontSize)*0.94)+'px'; k++; }
+    var cx=(w.left-q.left)+w.width*0.66, pw=pq.offsetWidth, x=Math.max(12,Math.min(vw-pw-12,cx-pw/2));
+    pq.style.left=x+'px'; pq.style.top=((w.top-q.top)+w.height*0.355-pq.offsetHeight-24)+'px'; }
+  /* owner, 14 Nov: "lose the pointer ... a red laser pen". As the questions appear the long pointer fades from his fist and a
+     short laser pen takes its place; its red dot sits just before the first word of each question as it lights, so it never
+     covers a word, and glides to the next. The pen turns a little in his fist to follow the dot. */
+  var SV=P.querySelector('.pstk'), pen=SV&&SV.querySelector('#ppen'), dot=SV&&SV.querySelector('#pdot'), GX=504.4, GY=1191.8, raf=0, SPOTS=null;
+  var cur={x:330,y:1060};
+  function aimAt(q){ if(!pen) return; pen.setAttribute('transform','translate('+GX+' '+GY+') rotate('+(Math.atan2(q.y-GY,q.x-GX)*180/Math.PI).toFixed(2)+')');
+    dot.setAttribute('transform','translate('+q.x.toFixed(1)+' '+q.y.toFixed(1)+')'); }
+  function moveTo(to,ms){ cancelAnimationFrame(raf); var fr={x:cur.x,y:cur.y}, t0=performance.now();
+    if(RM||!ms){ cur=to; aimAt(cur); return; }
+    raf=requestAnimationFrame(function step(now){ var x=Math.min(1,(now-t0)/ms), e=x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+      cur={x:fr.x+(to.x-fr.x)*e, y:fr.y+(to.y-fr.y)*e}; aimAt(cur); if(x<1) raf=requestAnimationFrame(step); }); }
+  function proj(u,v){ var q=BQ,x0=q[0][0],y0=q[0][1],x1=q[1][0],y1=q[1][1],x2=q[2][0],y2=q[2][1],x3=q[3][0],y3=q[3][1];
+    var dx1=x1-x2,dx2=x3-x2,dy1=y1-y2,dy2=y3-y2,sx=x0-x1+x2-x3,sy=y0-y1+y2-y3,den=dx1*dy2-dx2*dy1;
+    var g=(sx*dy2-dx2*sy)/den, h=(dx1*sy-sx*dy1)/den, a=x1-x0+g*x1, b=x3-x0+h*x3, d=y1-y0+g*y1, e=y3-y0+h*y3, w=g*u+h*v+1;
+    return [(a*u+b*v+x0)/w,(d*u+e*v+y0)/w]; }
+  /* where the dot sits for each question: just left of the first letter, at the middle of the small letters */
+  /* where the dot sits on each drawing: the mug going in, the camera's lens, the tick on the box that was found */
+  function spots(){ var W=bd.offsetWidth, H=bd.offsetHeight, keep=bd.style.transform;
+    bd.style.transform='none'; var br=bd.getBoundingClientRect();
+    var out=items.map(function(sl){ var r=sl.querySelector('.pt').getBoundingClientRect();
+      var p=proj((r.left+r.width/2-br.left)/W,(r.top+r.height/2-br.top)/H); return {x:p[0],y:p[1]}; });
+    bd.style.transform=keep; return out; }
+  /* a wide phone font must not cut off a word: shrink it just enough to fit */
+  function fitList(){ items.forEach(function(sl){ var w=sl.querySelector('.pwd'); if(!w) return; w.style.fontSize='';
+    if(w.scrollWidth>w.clientWidth) w.style.fontSize=(16.5*w.clientWidth/w.scrollWidth).toFixed(3)+'cqw'; }); }
+  aimAt(cur);
+  function ask(i){ step=i; if(!SPOTS) SPOTS=spots(); if(dot){ moveTo(SPOTS[i],dot.classList.contains('on')?480:0); dot.classList.add('on'); }
+    items.forEach(function(sl,k){ sl.classList.toggle('now',k===i); });
+    if(!RM){ var last=i===SEQ[SEQ.length-1]; waiting=setTimeout(next,last?2300:1700); if(last) later(toStart,850); } }
+  /* owner, 14 Nov: after Find it he turns his laser onto Pack my first box, and its red dot stays there */
+  function toStart(){ var b=document.getElementById('pfirst'); if(!b||done) return; var w=P.querySelector('.pwrap').getBoundingClientRect(), r=b.getBoundingClientRect(), k=w.width/1080;
+    if(dot) dot.classList.remove('on'); moveTo({x:(r.left+30-w.left)/k, y:(r.top+r.height/2-w.top)/k},420);
+    later(function(){ if(done||b.querySelector('.gdot')) return; var d=document.createElement('i'); d.className='gdot'; d.setAttribute('aria-hidden','true'); b.insertBefore(d,b.firstChild); },380); }
+  /* owner, 14 Nov: Pack it, fade, Snap it, fade, Find it, and the room dissolves into card one */
+  var SEQ=[0,1,2], si=0;
+  function next(){ clearTimeout(waiting); if(done) return; si++; if(si>=SEQ.length){ finish(false); return; } ask(SEQ[si]); }
+  /* owner, 13 Nov: in the film he types on his book, not the laptop, so it holds before that (7.5 s), pointing at the board: no half-turn, his eye stays open. Then
+     pointer and faces us, "Let me show you.", and the board grows into the first card */
+  /* owner, 14 Nov: the film holds on his pointing pose to the end (his eye open, no half-turn), so the pointer overlay always matches */
+  function outro(){ if(done) return;
+    later(function(){ say("Let me show you."); },RM?0:500);
+    later(function(){ finish(false); },RM?0:2900); }
+  function finish(go){ if(done) return; done=true; setTimeout(function(){ document.querySelector('.phone').classList.remove('opening'); },go||RM?0:430); T.forEach(clearTimeout); clearTimeout(waiting); try{ localStorage.setItem('pr-prof','1'); }catch(e){}
+    try{ V.pause(); }catch(e){}
+    /* card one's words and drawing are hidden at once (no fade-out), so they only ever come in after the room has gone */
+    var s1=document.querySelector('.stop'); if(s1){ s1.classList.add('pnoanim','pre'); void s1.offsetWidth; s1.classList.remove('pnoanim'); }
+    if(go||RM){ P.classList.add('gone'); after(); if(!go&&window.prNudge) setTimeout(window.prNudge,RM?0:650); return; }
+    /* review, 14 Nov: the long crossfade looked washed out (room, rabbit and card at half strength together). Now the room
+       fades in .4 s over card one with its words held back, so only the room and a plain screen ever mix; then the headline
+       comes in and the drawing draws itself. The wordmark sits in the same place in both, so it simply turns from cream to green. */
+    cloud.classList.remove('on'); pq.classList.remove('on');
+    P.style.transition='opacity .4s ease-out'; P.classList.add('gone');
+    setTimeout(function(){ P.hidden=true; P.style.transition='';
+      if(s1) requestAnimationFrame(function(){ requestAnimationFrame(function(){ s1.classList.remove('pre'); }); });
+      var hd=s1&&s1.querySelector('h2'); if(hd){ hd.setAttribute('tabindex','-1'); try{ hd.focus({preventScroll:true}); }catch(e){} }
+      if(window.prNudge) window.prNudge(); },430);
+    function after(){ setTimeout(function(){ P.hidden=true; if(s1) requestAnimationFrame(function(){ requestAnimationFrame(function(){ s1.classList.remove('pre'); }); }); if(go){ var b=document.getElementById('go'); if(b) b.click(); } else { var st=document.getElementById('street'); if(st) try{ st.focus({preventScroll:true}); }catch(e){} } },RM?0:600); } }
+  document.getElementById('pskip').onclick=function(){ finish(false); };
+  document.getElementById('pfirst').onclick=function(){ finish(true); };
+  P.addEventListener('click',function(e){ if(step>=0&&step<L.length&&!e.target.closest('button')) next(); });
+  window.addEventListener('resize',function(){ if(pq.classList.contains('on')) place(); });
+  if(RM){ /* a still: him at the board, its drawing and the whole list */
+    var img=document.createElement('img'); img.className='pst'; img.src='professor-board.jpg'; img.alt=''; V.replaceWith(img);
+    fitList(); P.classList.add('lit'); ask(0); return; }
+  V.addEventListener('ended',function(){ finish(false); });
+  V.addEventListener('error',function(){ finish(false); });
+  var wig=new Image(); wig.src='wordmark-wiggle-cream.webp';
+  var c1=false,c2=false,paused=false, rvfc=('requestVideoFrameCallback' in HTMLVideoElement.prototype);
+  V.addEventListener('timeupdate',function(){ var t=V.currentTime;
+    /* owner, 14 Nov: no thought bubble during his bow; the signature's ears wiggle instead */
+    if(!c1&&t>=4.4){ c1=true; var pw=document.getElementById('pwm'); if(pw&&wig.complete&&wig.naturalWidth) pw.src=wig.src; }
+    if(!paused&&!rvfc&&t>=7.45) hold(); });
+  /* his first tap: the film stops on the frame where he points at the board (7.5 s), which the pointer overlay is cut from,
+     and the five questions appear on the board. Where the browser reports each frame, it stops on that exact frame. */
+  function hold(){ if(paused) return; paused=true; V.pause();
+    later(function(){ say(''); fit(); fitList(); P.classList.add('lit'); later(function(){ ask(0); },400); },150); }
+  if(rvfc){ V.requestVideoFrameCallback(function cb(now,md){ if(paused) return; if(md.mediaTime>=7.49){ hold(); return; } V.requestVideoFrameCallback(cb); }); }
+  /* faster: the walk-in and bow play at 1.25x, so the board is up by about 6 s */
+  try{ V.defaultPlaybackRate=1.25; V.playbackRate=1.25; }catch(e){}
+  var p=V.play(); if(p&&p.catch) p.catch(function(){ finish(false); });
+})();
+</script>
+
 <style>
 html,body{height:100%;margin:0}
 body{padding:0!important;background:var(--screen)}
