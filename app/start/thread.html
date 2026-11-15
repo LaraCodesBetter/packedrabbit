@@ -1570,7 +1570,7 @@ const P={
     let cd='', one='', sub='', act='', art='mBefore';
     if(H.mode==='dates'){ one='When are you moving?'; sub='Everything else counts back from that one date.'; act=`<button class="cta" data-go="hdate">Pick the date</button>`; art='mNone'; }
     else if(H.mode==='today'){ cd='<b>Today</b> is loading day'; one=H.truck.left?`${pl(H.truck.left,'thing')} to go on the truck.`:'Everything is on the truck.'; sub=H.truck.left?'Boxes and furniture together.':'Walk the rooms once more before the truck leaves.'; act=`<button class="cta" data-mdgo="">Open moving day</button>`; art='mDay'; }
-    else if(H.mode==='transit'){ cd=`<b>${H.dd}</b> ${H.dd===1?'day':'days'} until delivery`; one='Your things are on the road.'; sub=`${H.truck.onTruck?pl(H.truck.onTruck,'thing')+' on the truck. ':''}Tonight, put the room signs up and keep the Open First box where you can reach it.`; act=`<button class="cta" data-mdgo="">Get ready for delivery</button>`; art='mRoad'; }
+    else if(H.mode==='transit'){ cd=`<b>${H.dd}</b> ${H.dd===1?'day':'days'} until delivery`; one='Your things are on the road.'; sub=`${H.truck.onTruck?pl(H.truck.onTruck,'thing')+' on the truck. ':''}Tonight, put the room signs up${H.openFirst?' and keep the Open First box where you can reach it':''}.`; act=`<button class="cta" data-mdgo="">Get ready for delivery</button>`; art='mRoad'; }
     else if(H.mode==='delivery'){ cd='<b>Today</b> your things arrive'; const k=H.truck.onTruck||0, inN=H.truck.inN||0;
       /* tester, 12 and 13 Nov: with nothing ticked onto the truck it said "Everything is in." It says that only when
          everything that went on the truck has been checked in. */
@@ -2026,7 +2026,7 @@ const P={
       body:R.rooms.map(([r,L])=>`<p class="grp">${esc(r)}</p>${mdTicks(L,'delivered',true)}`).join('')+'<button class="cta" data-go="mdIn">Done</button>'}); },
   mdSign:()=>({say:'Delivery.', h:'Before you sign anything.', sub:'Once you sign, it gets much harder to claim.', scene:'truck', body:mdChecks(MD_SIGN)+'<button class="cta" data-go="mdIn">Done</button>'}),
   mdSetup:()=>{ const L=mdSetupList(S.mdSt||{}); return ({say:'Delivery.', h:'Set up first, in this order.', sub:`Nothing else matters until these ${L.length} are done.`, scene:'house', body:mdChecks(L)+'<button class="cta" data-go="mdIn">Done</button>'}); },
-  mdNight:()=>{ const st=S.mdSt||{}, today=(S.hm||{}).mode==='delivery', L=["Room signs on every door","Open First box and Stays with me beside you, not in a pile",mdPets(st)?`${cap1(mdPetNames(st))} shut in a quiet room`:null,"A clear path from the door to every room","Somewhere for the truck to park"].filter(Boolean);
+  mdNight:()=>{ const st=S.mdSt||{}, today=(S.hm||{}).mode==='delivery', L=["Room signs on every door",(st.boxes||[]).some(b=>b&&b.essential)?"Open First box and Stays with me beside you, not in a pile":"Stays with me beside you, not in a pile",mdPets(st)?`${cap1(mdPetNames(st))} shut in a quiet room`:null,"A clear path from the door to every room","Somewhere for the truck to park"].filter(Boolean);
     return ({say:'Delivery.', h:today?'Before the truck pulls up.':'The night before delivery.', sub:'Tap each one when it\'s done.', scene:'house', body:mdChecks(L)+'<button class="cta" data-go="mdIn">Done</button>'}); },
   mdClaim:()=>{ const st=S.mdSt||{}, H=S.hm||{}, R=mdComing(st), miss=H.mode==='after'?R.left:[], dam=(st.boxes||[]).filter(b=>b&&b.damaged), pr=st.profile||{}, far=/^(far|cross|abroad)$/.test(pr.distance||'');
     const dl=((st.move||{}).delivery)||((st.move||{}).date)||'', by=dl?(()=>{ const d=new Date(dl+'T12:00'); d.setMonth(d.getMonth()+9); return d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}); })():'';
@@ -2051,7 +2051,7 @@ const P={
     const row=a=>`<li class="aprow"><button type="button" class="apchk${a.done?' on':''}" role="checkbox" aria-checked="${!!a.done}" data-apdone="${esc(a.id)}" aria-label="${esc(a.what)}${a.done?', done':''}"></button><div class="apt"><b>${esc(a.what)}</b>${esc([a.date?fmtD(a.date):'No day yet',a.win,a.who].filter(Boolean).join(', '))}${a.prep?`<small>Before: ${esc(a.prep)}</small>`:''}</div></li>`;
     return ({say:'Calendar.', h:'Your appointments.', sub:L.length?(up.length?`${up.length} coming up${done.length?`, ${done.length} done`:''}.`:'All done.'):'Nothing yet.', scene:'none',
     body:`${up.length?`<ul class="list aplist">${up.map(row).join('')}</ul>`:''}${done.length?`<p class="grp">Done</p><ul class="list aplist">${done.map(row).join('')}</ul>`:''}${S.apUndo&&Date.now()-S.apUndo.at<15000?`<p class="lsub hundo">${esc(S.apUndo.msg)} <button class="link" id="apUndo">Undo</button></p>`:''}<button class="cta" id="apAdd">Add an appointment</button>`}); },
-  movingTab:()=>{ const n=nextSteps()[0], ds=allDates(); return ({say:"Your Calendar tab is ready.", h:ds.length?"Your dates, in one place.":"Your calendar is ready.", sub:ds.length?ds.slice(0,3).map(([d,l])=>`${fmtD(d)}: ${l.toLowerCase()}`).join('<br>'):(n?`First up: ${n.short}`:''), scene:'calendar',
+  movingTab:()=>{ const n=nextSteps()[0], ds=allDates(); return ({say:"Your Calendar tab is ready.", h:ds.length?"Your dates, in one place.":"Your calendar is ready.", sub:ds.length?ds.slice(0,5).map(([d,l])=>`${fmtD(d)}: ${l.toLowerCase()}`).join('<br>'):(n?`First up: ${n.short}`:''), scene:'calendar',
     body:`<button class="cta" id="tabNext">Next: what's not coming</button>${ds.length?'<button class="link" id="tabIcs">Add these to my phone\'s calendar</button>':''}`}); },
 };
 const hist=[]; let cur=null, started=false;
@@ -2845,7 +2845,7 @@ function homeRead(st){ if(!st) return null; const mv=st.move||{}, at=d=>new Date
   const wide=(st.bigs||[]).filter(g=>g&&g.name&&+g.w>0&&(g.measured||!g.fromPreset)).sort((a,b)=>+b.w - +a.w)[0];
   const stay=(st.bigs||[]).filter(g=>g&&g.name&&g.plan&&!/^(move|store)$/.test(g.plan)).map(g=>({id:g.id,name:String(g.name),plan:g.plan}));
   const recent=(st.tasks||[]).filter(x=>x&&x.done&&x.doneAt&&Date.now()-x.doneAt<48*3600000).sort((a,b)=>b.doneAt-a.doneAt).slice(0,3).map(x=>({id:x.id,t:String(x.t||'')}));
-  return {pi,energy:mv.energy||'green',recent,mode,dl,dd,tasks,truck,lost,never,ld:mv.date||'',dv:mv.delivery||'',depGot:(st.owed||[]).some(x=>x&&x.kind==='lease'&&x.got),note,tracked:(st.boxes||[]).some(b=>b.loaded||b.delivered||b.unpacked),moved:!!(st.settings||{}).movedConfirmed,next,plans,stay,
+  return {pi,energy:mv.energy||'green',recent,mode,dl,dd,tasks,truck,lost,never,ld:mv.date||'',dv:mv.delivery||'',depGot:(st.owed||[]).some(x=>x&&x.kind==='lease'&&x.got),note,tracked:(st.boxes||[]).some(b=>b.loaded||b.delivered||b.unpacked),openFirst:(st.boxes||[]).some(b=>b&&b.essential),moved:!!(st.settings||{}).movedConfirmed,next,plans,stay,
     wide:wide?{name:String(wide.name),w:+wide.w}:null,value:(st.bigs||[]).reduce((a,g)=>a+(parseFloat(String((g&&(g.repl||g.price))||'').replace(/[^\d.]/g,''))||0),0),door:String(mv.doorway||'').replace(/[^\d.]/g,'').slice(0,4),
     from:hCity(mv.fromName,mv.from),to:hCity(mv.toName,mv.to)||hCity('',(st.newhome||{}).address),loadAt:lo&&lo.k==='out'?lo.t:null}; }
 async function homeWrite(fn){ try{ const st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); if(!st||fn(st)===false) return null; await idbSet('moving-command-center-v1',JSON.stringify(st)); return st; }catch(e){ return null; } }
@@ -3112,7 +3112,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v381, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v382, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
