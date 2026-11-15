@@ -1152,7 +1152,7 @@ const ppSet=(id,p)=>mnWrite(s=>{ const x=(s.files||[]).find(y=>y&&y.id===id); if
    and a code that holds the box number and nothing else. The renderer between the PRINT markers is plain and
    self-contained: make-flow-assets copies it, with the app's QR encoder, into Android's print page, so a label
    printed from Android is the same label. */
-const PR_ROOMS=[{"c": "KIT", "n": "Kitchen", "col": "#00A884"}, {"c": "LIV", "n": "Living Room", "col": "#9E3D5A"}, {"c": "DIN", "n": "Dining Room", "col": "#7A3CFF"}, {"c": "FAM", "n": "Family Room", "col": "#8C3A6B"}, {"c": "BED1", "n": "Primary Bedroom", "col": "#8E44FF"}, {"c": "BED2", "n": "Second Bedroom", "col": "#B05CFF"}, {"c": "BATH1", "n": "Primary Bathroom", "col": "#2F8A78"}, {"c": "BATH2", "n": "Second Bathroom", "col": "#5C9E8C"}, {"c": "CLO", "n": "Closets", "col": "#C04DD8"}, {"c": "HALL", "n": "Hall Closet", "col": "#7D4E9E"}, {"c": "OFF", "n": "Office", "col": "#2E6B4F"}, {"c": "GAR", "n": "Garage", "col": "#4F5551"}, {"c": "LAU", "n": "Laundry", "col": "#00A99D"}, {"c": "ENT", "n": "Entryway", "col": "#5E4B8B"}, {"c": "PAT", "n": "Patio", "col": "#2EAD4B"}, {"c": "BASE", "n": "Basement", "col": "#6B6F6C"}, {"c": "ATT", "n": "Attic", "col": "#8A8F8B"}, {"c": "SHED", "n": "Shed", "col": "#2D844D"}, {"c": "POOL", "n": "Pool and yard", "col": "#3C9A6A"}, {"c": "KIDS", "n": "Kids' room", "col": "#D0607A"}, {"c": "SPORT", "n": "Sports and outdoor", "col": "#3E8E5E"}, {"c": "MED", "n": "Medical and Mobility", "col": "#E0263F"}, {"c": "PET", "n": "Pets", "col": "#E06C8E"}, {"c": "DOC", "n": "Documents", "col": "#5B4A6B"}, {"c": "OPEN", "n": "Open First", "col": "#B0287A"}, {"c": "HAND", "n": "Hand Carry", "col": "#E0263F"}, {"c": "MISC", "n": "Miscellaneous", "col": "#6E7370"}];
+const PR_ROOMS=[{"c": "KIT", "n": "Kitchen", "col": "#00A884"}, {"c": "LIV", "n": "Living Room", "col": "#9E3D5A"}, {"c": "DIN", "n": "Dining Room", "col": "#7A3CFF"}, {"c": "FAM", "n": "Family Room", "col": "#8C3A6B"}, {"c": "BED1", "n": "Primary Bedroom", "col": "#8E44FF"}, {"c": "BED2", "n": "Second Bedroom", "col": "#B05CFF"}, {"c": "BATH1", "n": "Primary Bathroom", "col": "#2F8A78"}, {"c": "BATH2", "n": "Second Bathroom", "col": "#5C9E8C"}, {"c": "CLO", "n": "Closets", "col": "#C04DD8"}, {"c": "HALL", "n": "Hall or coat closet", "col": "#7D4E9E"}, {"c": "OFF", "n": "Office", "col": "#2E6B4F"}, {"c": "GAR", "n": "Garage", "col": "#4F5551"}, {"c": "LAU", "n": "Laundry", "col": "#00A99D"}, {"c": "ENT", "n": "Entryway", "col": "#5E4B8B"}, {"c": "PAT", "n": "Patio", "col": "#2EAD4B"}, {"c": "BASE", "n": "Basement", "col": "#6B6F6C"}, {"c": "ATT", "n": "Attic", "col": "#8A8F8B"}, {"c": "SHED", "n": "Shed", "col": "#2D844D"}, {"c": "POOL", "n": "Pool and yard", "col": "#3C9A6A"}, {"c": "KIDS", "n": "Kids' room", "col": "#D0607A"}, {"c": "SPORT", "n": "Sports and outdoor", "col": "#3E8E5E"}, {"c": "MED", "n": "Medical and Mobility", "col": "#E0263F"}, {"c": "PET", "n": "Pets", "col": "#E06C8E"}, {"c": "DOC", "n": "Documents", "col": "#5B4A6B"}, {"c": "OPEN", "n": "Open First", "col": "#B0287A"}, {"c": "HAND", "n": "Hand Carry", "col": "#E0263F"}, {"c": "MISC", "n": "Miscellaneous", "col": "#6E7370"}];
 const lbRoom=c=>PR_ROOMS.find(r=>r.c===c)||PR_ROOMS[PR_ROOMS.length-1];
 async function lbGo(){ await mnLoad(); S.lbRoom=S.lbRoom||'all'; show('lbHome'); }
 const lbBoxes=()=>((S.mnSt||{}).boxes||[]).filter(b=>b&&b.code);
@@ -1603,7 +1603,8 @@ const P={
     const badges=m?lemBadges([[BIC.door,H.door?H.door+'″':'Measure',H.door?'front door':'the front door'],[BIC.camera,photos||'No photos',photos?(photos===1?'with a photo':'with photos'):'yet'],[BIC.tag,H.value?'$'+Math.round(H.value).toLocaleString('en-US'):'No value',H.value?'to replace':'written yet']]):'';
     /* owner, 11 Nov: the furniture by room too, each room with a photo and its count, opening its pieces */
     const nb=S.big.length, rooms=nb?`<div class="lhead"><h2>Your furniture</h2><button class="link" id="hBig">All ${nb}</button></div>${roomRows(byRoom(S.big,b=>b.room).map(([r,L])=>{ const ph=(L.find(b=>b.photo)||{}).photo;
-      return [ph,RIC.sofa,esc(r),`${L.length} ${L.length===1?'piece':'pieces'}`,`data-vbig="${esc(r)}" aria-label="${esc(r)}, ${L.length} ${L.length===1?'piece':'pieces'}"`]; }))}`:'';
+      const sty=L.filter(b=>STAYW[b.plan]).length, cnt=`${L.length} ${L.length===1?'piece':'pieces'}${sty?`, ${sty} ${sty===1?'stays':'stay'} behind`:''}`; /* tester #26: the counts said which pieces stay, so "All 7" and "6 coming" agree */
+      return [ph,RIC.sofa,esc(r),cnt,`data-vbig="${esc(r)}" aria-label="${esc(r)}, ${cnt}"`]; }))}`:'';
     return ({lem:1, pi:2, h:'Big stuff.', pano:lemPano(H), body:`<p class="lsub">${say}</p>${nb?rooms:`<button class="cta" id="hBigAdd">Something won't fit in a box</button>`}${badges}${nb?lemRows([[RIC.sofa,"Something won't fit in a box",'id="hBigAdd"']]):''}`}); },
   lcal:()=>{ const H=S.hm||{}, nx=H.next||[], end=x=>/[.!?]$/.test(x)?x:x+'.';
     const say=nx.length?`<b>${esc(hDay(nx[0].d))}:</b> ${esc(end(nx[0].w+(nx[0].win?', '+nx[0].win:'')))}`:'Nothing on the calendar yet. Put in the movers, the internet and the rest, and the rabbit reminds you.';
@@ -1708,7 +1709,7 @@ const P={
     let opts=(FURN[S.bigRoom]||[]).filter(x=>!BEDPART.test(x)); if(bedroom) opts=["Bed"].concat(opts);
     opts=opts.filter(x=>!dw.includes(x)&&!(x==='Bed'&&done.some(b=>BEDPART.test(b.what)))); const pri=x=>{ const i=["Bed","Sofa","Sectional","TV","Dining table","Dresser","Desk"].indexOf(x); return i<0?99:i; };
     const top=opts.slice().sort((a,b)=>pri(a)-pri(b)).slice(0,6), rest=[...new Set(opts.filter(x=>!top.includes(x)).concat(ALL.filter(x=>!opts.includes(x)&&!BEDPART.test(x))))].sort((a,b)=>a.localeCompare(b));
-    const dn=[...new Set(done.map(b=>BEDPART.test(b.what)?'bed':lc(b.what)))];
+    const dn=[...new Set(done.map(itemName))];
     return ({count:S.bigRoom, h:done.length?`What else is in the ${lc(S.bigRoom)}?`:`What's the first big thing in the ${lc(S.bigRoom)}?`, sub:done.length?`Done: ${listAnd(dn)}.`:"One at a time: a photo, its condition, then the next.",
     body:`<div class="choices two">${top.map(x=>`<button class="choice" data-item="${esc(x)}">${esc(x)}</button>`).join('')}</div>
       <div class="field"><select id="itemsel" aria-label="Something else"><option value="" selected disabled>Something else</option>${rest.map(x=>`<option>${esc(x)}</option>`).join('')}</select></div>
@@ -1795,7 +1796,7 @@ const P={
   furnTab:()=>({say:`The ${esc(itemName(S.cur||{what:'piece'}))} is saved.`, h:"Your Big Stuff tab is ready.", sub:"It's in the bar, next to Boxes.", body:`<button class="cta" id="furnNext">Next</button>`}),
   /* tester, 8 Nov: "Did we miss a room?" offered the garage and office already passed over, and Bedroom 2 in a
      one-bedroom. Once the rooms were picked, it offers only those still to do; any other room is in the list below. */
-  roomCheck:()=>{ const left=(S.roomsAsked&&(S.homeRooms||[]).length?S.homeRooms:COMMONROOMS).filter(r=>!S.doneRooms.includes(r)).slice(0,6); return ({say:`Done: ${S.doneRooms.join(', ')}.`, h:"Did we miss a room?", sub:"Garages, basements and patios are the ones people forget.",
+  roomCheck:()=>{ const left=(S.roomsAsked&&(S.homeRooms||[]).length?S.homeRooms:COMMONROOMS).filter(r=>!S.doneRooms.includes(r)).slice(0,6); return ({say:`Done: ${listAnd(S.doneRooms.map(lc))}.`, h:"Did we miss a room?", sub:"Garages, basements and patios are the ones people forget.",
     body:`<div class="choices two">${left.map(r=>`<button class="choice" data-nextroom="${esc(r)}">${esc(r)}</button>`).join('')}</div><div class="field"><select id="otherroom2" aria-label="Another room">${roomOpts('Another room')}</select></div><button class="cta" id="allRooms">No, that's every room</button>`}); },
   cubic:()=>{ const bx=S.boxes.reduce((s,b)=>s+boxCube(b),0), bg=S.big.reduce((s,b)=>s+cube(b),0), tot=Math.round((bx+bg)/10)*10||0, pcs=S.big.reduce((s,b)=>s+pieces(b),0);
     const fl=homeFloor(), byHome=!!fl&&tot*1.1*1.15<fl*0.6;
@@ -2727,7 +2728,8 @@ function roomDone(){ if(!S.ntShown && S.big.some(b=>FUEL.test(b.what))){ S.ntSho
   fresh=S.big.map((b,i)=>b.batch===S.batch?'big'+i:'').filter(Boolean);
   if(!S.forgotDone){ S.forgotDone=true; S.miss=FORGET.filter(x=>!S.big.some(b=>b.what===x)).slice(0,8); if(S.miss.length) return show('bigForgot'); }
   if(!S.tabs.includes('Furniture')){ learn('Furniture'); return show('furnTab'); } show('cubic'); }
-const itemName=b=>b.what==='Bed'||BEDPART.test(b.what)?'bed':lc(b.what);
+/* tester #26: a sofa answered "Loveseat" read "The sofa is saved" and "Done: sofa"; it's named by its kind now */
+const itemName=b=>{ if(b.what==='Bed'||BEDPART.test(b.what)) return 'bed'; if(/^(Sofa|Outdoor sofa)$/.test(b.what)){ const k=[b.size,...Object.values(b.ans||{})].find(v=>/^(Loveseat|Sleeper sofa|Sectional)$/.test(v||'')); if(k) return lc(k); } return lc(b.what); };
 function aiKnown(){ try{ const v=localStorage.getItem('pr-ai'); return v===null?null:v==='1'; }catch(e){ return null; } }
 function aiSet(v){ S.aiOk=v; try{ localStorage.setItem('pr-ai',v?'1':'0'); }catch(e){} }
 let SAMPLE=undefined; const aiWaits={};
@@ -3112,7 +3114,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v383, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v384, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
