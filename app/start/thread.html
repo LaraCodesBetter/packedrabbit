@@ -91,7 +91,7 @@ h2{font-size:31px;line-height:1.15;margin:0;text-wrap:balance}
 .dots{margin-left:auto;display:flex;gap:6px}.dots i{width:10px;height:10px;border-radius:50%;border:1.5px solid #CFE3D6}.dots i.on{background:#CFE3D6}
 .tabs .ghosttab{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:56px;font-size:14px;font-weight:700;color:#CFE3D6;opacity:.6;border:1.5px dashed #CFE3D660;border-radius:12px;margin:0 2px}
 .tabs .ghosttab svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.plans{margin-top:14px;width:100%;max-width:310px;display:grid;gap:10px}
+.plans{margin-top:14px;width:100%;max-width:340px;display:grid;gap:10px}
 .plan{position:relative;min-height:60px;border-radius:14px;font:700 19px var(--sans);cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:0 16px}
 .plan.m{background:var(--btn);color:var(--btnfg);border:0}
 .plan small{font-size:15px;font-weight:600}
@@ -205,6 +205,19 @@ a.choice{text-decoration:none}
 .choice small.guess{display:block;font-size:13px;font-weight:600;color:var(--cta,#2E7D46);margin-top:2px}
 .packtip{margin-top:14px;padding:14px 16px;border-radius:16px;background:var(--f1);color:var(--text);border:1.5px solid var(--f3);text-align:left;max-width:420px}
 .packtip b{display:block;color:var(--ink);font-size:17px}.packtip p{margin:4px 0 0;font-size:17px}
+/* owner, 14 Nov: the rabbit's laser keeps guiding. One red dot marks the one next tap, a green one marks the price once
+   it has been earned. It sits before the words, never on them; it fades in once and then stays still (no pulsing). */
+.gdot{display:inline-block;position:relative;flex:none;width:13px;height:13px;margin:0 10px 0 0;vertical-align:-1px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,#FFE6E3 0 22%,#FF3B30 34% 100%);box-shadow:0 0 0 2.5px #FFFDF8,0 0 14px 5px rgba(255,59,48,.38);animation:gdin .35s ease-out both}
+.gdot.g{background:radial-gradient(circle,#F2FFF6 0 22%,#36D27A 34% 100%);box-shadow:0 0 0 3px #FFFDF8,0 0 14px 6px rgba(54,210,122,.55)}
+@keyframes gdin{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.gdot{animation:none}}
+.gdw>.gdot{position:absolute;left:15px;top:50%;margin:-6.5px 0 0;z-index:1}.gdw input,.gdw select{padding-left:46px!important}
+.plan.ghalo{box-shadow:0 0 0 4px rgba(54,210,122,.28),0 0 18px 6px rgba(54,210,122,.4);animation:ghin .5s ease-out both}
+@keyframes ghin{from{box-shadow:0 0 0 0 rgba(54,210,122,0),0 0 0 0 rgba(54,210,122,0)}}
+@media (prefers-reduced-motion: reduce){.plan.ghalo{animation:none}}
+.tryhit{margin-top:16px;text-align:left}.tryph{width:100%;max-height:124px;object-fit:cover;border-radius:14px;display:block}.tryc{font-size:20px;margin:10px 0 0}.trylead{margin-top:18px;font-size:17px;line-height:1.45}
+.qkplain{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;width:100%;min-height:56px;margin-top:18px}.qkplain[disabled]{opacity:.45!important}
 .microw{position:relative}.microw input{padding-right:62px!important}
 .mic{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:50px;height:50px;border-radius:14px;border:0;background:var(--cta,#2E7D46);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .mic svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
@@ -1495,6 +1508,25 @@ const truckTag=()=>{ const n=daysTo(); return n==null?'':n>1?`${n} days`:n===1?'
 
 const P={
   mwhat:()=>({h:"What are you moving?", sub:"A home, a business, or some of both.", body:pickList(["A home","A business","Both"],S.mwhat)}),
+  /* panel, 13 Nov (all five), owner's yes: after the third box, find something you packed before the price shows.
+     The price sits under the box you just found, the button says what it costs, and "Not now" is always there. */
+  tryit:()=>{ const q=(S.tq||'').trim(), hit=q?tryHits(q)[0]:null, last=S.boxes[S.boxes.length-1]||{};
+    const words=hit?[]:tryWords(), chips=words.length?`<div class="chips" role="group" aria-label="Words from your boxes">${words.map(w=>`<button class="choice ${q===w?'on':''}" data-tq="${esc(w)}" aria-pressed="${q===w}">${esc(w)}</button>`).join('')}</div>`:'';
+    const ph=hit&&!isPriv(hit)?(hit.photo||(hit.photos||[])[0]||''):'';
+    const found=hit?`<div class="tryhit">${ph?`<img class="tryph" src="${ph}" alt="Inside ${esc(hit.code)}">`:''}<p class="tryc"><b>${esc(hit.code)}</b>${hit.words&&!isPriv(hit)?`: ${esc(hit.words)}`:''}</p><p class="hint" style="margin-top:2px">From the ${esc(lc(hit.room))}${hit.dest&&hit.dest!==hit.room&&!/^(Donate|Sell|Not sure)$/.test(hit.dest)?`, going to the ${esc(lc(hit.dest))}`:''}.</p></div>`
+      :(q?`<p class="hint" role="status">Nothing in your boxes says "${esc(q)}". Try a word you wrote.</p>`:'');
+    const price=hit?`<p class="trylead"><b>Your first three boxes are free. Then $9.99 a month.</b> Cancel anytime, and your boxes stay readable.</p><div class="plans"><button class="plan m" data-plan="month">Keep packing for $9.99 a month</button></div><button class="link stay" id="tryNot">Not now</button><p class="hint" style="margin-top:4px">Renews monthly until you cancel, with a reminder before every charge.</p>`:'';
+    return ({say:last.code?`${esc(last.code)} is saved.`:'', h:hit?`It's in ${esc(hit.code)}.`:'Which box is it in? Try it.', sub:hit?'':'Tap something you just packed, or type it.',
+      body:`${chips}<div class="field microw" style="margin-top:12px"><input id="tq" value="${esc(q)}" placeholder="Search your boxes" aria-label="Search your boxes"><button type="button" class="mic" data-mic="tq" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div>${found}${price}${hit?'':'<button class="link" id="tryNot">Not now</button>'}`}); },
+  /* panel, 13 Nov: pack a box in three taps. The photo comes first, the words second, then Save. The room, the size and
+     where it goes copy the last box, and all of them can be changed. The size is shown, never required (owner, 9 Nov). */
+  quick:()=>{ qkPrefill(S.boxes[S.boxes.length-1]); const NOTC=/^(Donate|Sell|Not sure)$/;
+    const photos=S.photos.length?`<div class="shots">${S.photos.map((u,i)=>`<div class="shotw"><img class="shot" src="${u}" alt="Photo ${i+1}"><button class="unshot" data-unshot="${i}" aria-label="Remove photo ${i+1}">Remove</button></div>`).join('')}</div><label class="choice lab">Add another photo<input type="file" accept="image/*" multiple hidden data-pic></label>`
+      :(S.camOk?`<label class="cta lab">Take a photo<input type="file" accept="image/*" capture="environment" hidden data-pic></label>`:`<button class="cta" id="askcam">Take a photo</button><input type="file" accept="image/*" capture="environment" hidden data-pic>`);
+    const where=S.room?`From the ${esc(lc(S.room))}${S.dest&&S.dest!==S.room?(NOTC.test(S.dest)?` (${esc(lc(S.dest))})`:`, going to the ${esc(lc(S.dest))}`):''}.`:'';
+    const sizes=`<p class="qlabel">Size <span style="font-weight:600;color:var(--muted)">(optional)</span></p><div class="sizes" role="group" aria-label="Size">${["XS","S","M","L","XL"].map(k=>`<button class="choice ${S.size===k?'on':''}" data-qsize="${k}" aria-pressed="${S.size===k}" aria-label="${({XS:'Extra small',S:'Small',M:'Medium',L:'Large',XL:'Extra large'})[k]}">${k}<small>${({XS:'Extra small',S:'Small',M:'Medium',L:'Large',XL:'Extra large'})[k]}</small></button>`).join('')}</div>`;
+    return ({h:S.room?`This is ${code()}.`:(S.boxes.length?`Box ${S.boxes.length+1}.`:'Your first box.'), sub:S.room?`Write it on the box. ${where}`:'Take a photo inside it before you close it.',
+      body:`${photos}${S.room?'':`<div class="field"><select id="qkroom" aria-label="Which room is it from?">${roomOpts('Which room is it from?')}</select></div>`}<p class="qlabel"><label for="words">What's going inside?</label></p><div class="field microw" style="margin-top:8px"><input id="words" value="${esc(S.words||'')}" placeholder="${esc(wordsHint())}"><button type="button" class="mic" data-mic="words" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div>${sizes}<button class="${S.photos.length?'cta':'choice qkplain'}" id="qkSave" ${S.room?'':'disabled'}>Save this box</button>${S.room?'<button class="link" data-go="special" id="qkMarks">Mark it fragile, open first and more</button><button class="link" data-go="startFull">Change the room or where it goes</button>':''}`}); },
   firstBox:()=>({h:"Your first box.", sub:"Pack it. Photograph it. Find it.", body:`<button class="cta" data-go="start">Let's pack it</button>`}),
   start:()=>({h:S.boxes.length?`Box ${S.boxes.length+1}. Which room is it from?`:"Which room is it from?", sub:S.boxes.length?"The same room or a new one.":"Start somewhere you don't use every day.",
     body:`<div class="choices">${(isBiz()?["Supply closet","Storage room"]:["A closet","Garage"]).map(r=>`<button class="choice" data-room="${r}">${r}</button>`).join('')}</div><div class="field"><select id="otherroom" aria-label="Another room">${roomOpts('Another room')}</select></div>`}),
@@ -1639,7 +1671,7 @@ const P={
       body:`${o.length?`<div class="choices" role="group" aria-label="Places you've used">${o.map(w=>`<button type="button" class="choice" data-pput="${esc(w)}">${esc(w)}</button>`).join('')}</div>`:''}
       <div class="field microw"><input id="putTxt" value="${esc(b.putAway||'')}" maxlength="120" placeholder="kitchen, by the sink" aria-label="Where everything went"><button type="button" class="mic" data-mic="putTxt" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div>
       <button class="cta" id="putSave">Save</button><button class="link" id="putSkip">Not now</button>`}); },
-  boxSaved:()=>{ const n=S.boxes.length, last=S.boxes[n-1]; return ({say:"Saved.", h:`${last.code} is packed.`, sub:last.photo||(last.photos&&last.photos.length)?"It's in your Boxes tab, with its photo.":"It's in your Boxes tab.", body:`<div class="choices"><button class="cta" style="margin-top:0" data-go="start">Pack the next box</button><button class="choice" data-go="toobig">Something won't fit in a box</button>${S.homeMode?'<button class="choice" id="backMove">Back to my boxes</button>':S.walked?'<button class="choice" id="backMove">Back to my move</button>':''}</div><button class="link" data-go="start">Change room</button>`}); },
+  boxSaved:()=>{ const n=S.boxes.length, last=S.boxes[n-1]; return ({say:"Saved.", h:`${last.code} is packed.`, sub:last.photo||(last.photos&&last.photos.length)?"It's in your Boxes tab, with its photo.":"It's in your Boxes tab.", body:`<div class="choices"><button class="cta" style="margin-top:0" data-go="start">Pack the next box</button><button class="choice" data-go="toobig">Something won't fit in a box</button>${S.homeMode?'<button class="choice" id="backMove">Back to my boxes</button>':S.walked?'<button class="choice" id="backMove">Back to my move</button>':''}</div><button class="link" data-go="startFull">Change room</button>`}); },
   boxesTab:()=>({say:`${(S.boxes[S.boxes.length-1]||{}).code||'Your box'} is saved.`, h:"Your Boxes tab is ready.", sub:"It's in the bar below.", body:`<button class="cta" data-go="learnAdd">Next</button><button class="link" data-go="start">Pack another box first</button>`}),
   learnAdd:()=>({count:"1 of 2", h:"Tap Boxes, then Add a box.", sub:"Room, size, what's inside, where it goes, a picture.", body:`<button class="cta" data-go="learnFind">Next</button>${needsInstall()?`<div class="packtip keepsafe"><b>Keep your boxes safe.</b><p>Put the app on your home screen. Your phone can clear websites you haven't added, and your list with them.</p><button class="choice" id="howInstall">Show me how</button></div>`:''}`}),
   learnFind:()=>{ const w=((S.boxes.find(b=>!isPriv(b))||{}).words||'coats').split(/[ ,]+/)[0]||'coats'; return ({count:"2 of 2", h:"To find a box, type or say what's in it.", sub:"Or tap the microphone and say it.", body:`<div class="field microw"><input id="tryfind" placeholder="Try &quot;${esc(w)}&quot;" aria-label="Find a box"><button type="button" class="mic" data-mic="tryfind" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div><div id="tryres" aria-live="polite" style="width:100%;max-width:310px"></div><button class="cta" data-go="toobig">Next: the big stuff</button>`}); },
@@ -1757,7 +1789,7 @@ const P={
     const have=[`${nb} ${nb===1?'box':'boxes'}${np&&np===nb?(nb===1?', with its photo':', with photos'):np?`, ${np} with ${np===1?'a photo':'photos'}`:''}`, pcs?`${pcs} ${pcs===1?'piece':'pieces'} of furniture`:'', (S.lists.donate.length||S.lists.sell.length)?'Your donate and sell lists':'', d?`Moving day, ${d}`:'', 'Every tab still to come'].filter(Boolean);
     return ({say:"Your first 3 boxes are packed.", h:"All of it is $9.99 a month.", scene:"price",
       body:`<ul class="have">${have.map(x=>`<li>${x}</li>`).join('')}</ul>
-        <div class="plans"><button class="plan m" data-plan="month">Make it mine<small>$9.99 a month</small></button></div>
+        <div class="plans"><button class="plan m" data-plan="month">Keep packing for $9.99 a month</button></div>
         <p class="hint" style="margin-top:8px">Renews monthly until you cancel, with a reminder before every charge. Cancel anytime: your list stays yours.</p><button class="link" data-back2>Not now</button>
         <p class="lead">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>`}); },
   furnTab:()=>({say:`The ${esc(itemName(S.cur||{what:'piece'}))} is saved.`, h:"Your Big Stuff tab is ready.", sub:"It's in the bar, next to Boxes.", body:`<button class="cta" id="furnNext">Next</button>`}),
@@ -2020,9 +2052,38 @@ const P={
     body:`<button class="cta" id="tabNext">Next: what's not coming</button>${ds.length?'<button class="link" id="tabIcs">Add these to my phone\'s calendar</button>':''}`}); },
 };
 const hist=[]; let cur=null, started=false;
-const NOBACK=['home','lvault','lbig','lcal','lsort','myBoxes','price','boxSaved','boxesTab','bigSaved','furnTab','llist','sortTab','movingTab','notruck','mread','apSaved'];
+const NOBACK=['home','tryit','lvault','lbig','lcal','lsort','myBoxes','price','boxSaved','boxesTab','bigSaved','furnTab','llist','sortTab','movingTab','notruck','mread','apSaved'];
 let lastDrawn="";
 const drawn=(svg,on)=>on?svg.replace('<svg ','<svg class="draw" ').replace(/<(rect|path|line|circle|ellipse|polyline)(?=[\s>\/])/g,'<$1 pathLength="1"'):svg;
+/* panel, 13 Nov: the next box starts from the last one: same room, same size, same place at the new home. */
+const qkPrefill=last=>{ if(S.qkFor===S.boxes.length) return; S.qkFor=S.boxes.length; if(!last) return;
+  if(!S.room) S.room=last.room||''; if(!S.size&&last.size&&last.size!=='Custom') S.size=last.size; if(!S.duty) S.duty=last.duty||'';
+  if(!S.dest){ const d=last.dest||''; S.dest=!d||d===last.room?S.room:d; } };
+/* words she wrote, box one first, each said once */
+const tryWords=()=>{ const out=[]; S.boxes.forEach(b=>{ if(isPriv(b)) return; String(b.words||'').split(/,| and /).map(w=>w.trim()).filter(w=>w&&w.length<=24).forEach(w=>{ if(out.length<6&&!out.some(o=>o.toLowerCase()===w.toLowerCase())) out.push(w); }); }); return out; };
+const tryHits=q=>{ q=q.toLowerCase(); return S.boxes.filter(b=>((isPriv(b)?'':b.words)+' '+b.room+' '+b.code).toLowerCase().includes(q)); };
+function packSave(){ S.boxes.push({code:code(),rc:rcOf(S.room),destRc:S.dest&&!/^(Donate|Sell|Not sure)$/.test(S.dest)?rcOf(S.dest):'',room:S.room,size:S.size,custom:S.size==='Custom'?S.custom:'',brand:S.brand,dims:boxDims(S.brand,S.size,S.duty),duty:S.duty,words:S.words,dest:S.dest||'',airtag:!!S.airtag,flags:[...S.flags],photos:[...S.photos],photo:S.photos[0]||''}); S.photos=[]; S.words=''; S.dest=''; S.airtag=false; S.flags=[]; S.size=''; S.duty=''; S.custom=''; S.full=false; fresh=['box'+(S.boxes.length-1)];
+  if(S.homeMode) handNew(); /* a box packed from the home goes to the app right away, not only when the app is next opened from here */
+  if(S.boxes.length===3&&!S.paid&&!S.tried){ S.tq=''; show('tryit'); return; }
+  if(S.boxes.length===1){ learn('Boxes'); hopping=matchMedia('(prefers-reduced-motion: reduce)').matches?'':'Boxes'; show('boxesTab'); if(hopping) hop('Boxes'); else landSoon('Boxes'); } else show('boxSaved'); }
+/* owner, 14 Nov: the rabbit's laser keeps guiding. From the first box to the first find, one red dot marks the one next
+   tap (on the box: the photo, then the room, then the words, then Save). When the find works, a green dot marks
+   "Keep packing for $9.99 a month", the first time the price shows. Not for someone already paying or packing from home. */
+const guiding=()=>!S.paid&&!S.tried&&!S.homeMode&&S.boxes.length<=3;
+function gmark(el,green){ if(!el) return; phone.querySelectorAll('.gdot').forEach(d=>d.remove());
+  const d=document.createElement('i'); d.className='gdot'+(green?' g':''); d.setAttribute('aria-hidden','true');
+  if(/^(INPUT|SELECT|TEXTAREA)$/.test(el.tagName)){ const f=el.closest('.field'); if(f){ f.classList.add('gdw'); f.appendChild(d); } }
+  else { el.classList.add('gdh'); el.insertBefore(d,el.firstChild); } }
+function guide(id){
+  const $=s=>phone.querySelector(s);
+  if(id==='tryit'&&!S.paid){ const pl=phone.querySelector('.plan.m'); if(pl){ pl.classList.add('ghalo'); return; } }
+  if(!guiding()) return;
+  if(id==='tryit'){ gmark(phone.querySelector('[data-tq]')||$('#tq')); return; }
+  if(id==='quick'){ const w=$('#words'), next=()=>(w&&w.value.trim())?$('#qkSave'):w;
+    gmark(!S.photos.length?phone.querySelector('label.cta,#askcam'):!S.room?$('#qkroom'):next());
+    if(w&&S.photos.length&&S.room) w.addEventListener('input',()=>{ const n=next(); if(n&&!n.querySelector('.gdot')&&!(n.closest('.gdw')&&n.closest('.gdw').querySelector('.gdot'))) gmark(n); });
+    return; }
+  gmark(phone.querySelector('.page .text .cta')); }
 function show(id,back){
   /* alpha test, 8 Nov: redrawing the same page (after Done, Undo, a search, an unpack) sent focus back to the
      heading and talked over what just happened. A redraw keeps focus where it was and leaves the announcement. */
@@ -2035,7 +2096,10 @@ function show(id,back){
      on a long list of boxes with the rooms pushed far below. Boxes opens on the rooms again: the search clears
      whenever you arrive, except coming back from a box it found or a redraw of the same page. */
   if(id==='lvault'&&cur!=='flip'&&!(cur==='lvault'&&back)) S.hq='';
-  if(id==='start' && S.boxes.length>=3 && !S.paid) id='price';
+  if(id==='startFull'){ S.full=true; id='start'; }
+  if(id==='start' && S.boxes.length>=3 && !S.paid) id=S.tried?'price':'tryit';
+  if(id==='start' && !S.full) id='quick';
+  if(NOBACK.includes(id)) S.full=false;
   if(!back && cur && cur!==id) hist.push(cur);
   cur=id; openTab=''; const p=P[id](); phone.classList.toggle('homemode',!!S.homeMode);
   /* tester, 8 Nov: "1 of 6" covered thirteen pages and seven had no counter. The pages that belong to one of the
@@ -2053,7 +2117,7 @@ function show(id,back){
   phone.innerHTML=`<div class="page" role="main"><div class="top"><span class="topr">${p.count?`<span class="count">${p.count}</span>`:''}<button class="pause" data-aa aria-label="Text size">Aa</button>${!['firstBox','myBoxes','vrooms','flip','putaway','home'].includes(id)?'<button class="pause" data-pause>Finish later</button>':''}</span></div>
     <div class="text">${p.tag?`<p class="itemtag">${esc(p.tag)}</p>`:''}${p.say?`<p class="say">${p.say}</p>`:''}<h2>${p.h}</h2>${p.sub?`<p class="sub">${p.sub}</p>`:''}${p.body}</div>
     <div class="scene">${drawn(scene(p.scene||id), id!==lastDrawn)}</div><div class="band"></div></div><div class="navrow${id==='home'?' hn':''}"><button class="back" ${(hist.length&&(!NOBACK.includes(id)||(S.homeMode&&id==='myBoxes')))?'':'hidden'} data-back>Back</button><button class="skip" data-skip hidden>Skip</button></div>${bar()}`;
-  textSize(); lastDrawn=id; fresh=[]; newTab=""; wire(id); wireSkip(id); wireMics(); keep();
+  textSize(); lastDrawn=id; fresh=[]; newTab=""; wire(id); wireSkip(id); wireMics(); keep(); guide(id);
   const h=phone.querySelector('h2'); h.tabIndex=-1; if(same&&h.textContent===was){ const f=(fid&&document.getElementById(fid))||(fin?phone.querySelector('.page .cta'):null); if(f&&phone.contains(f)) f.focus({preventScroll:true}); return; } if(started) h.focus({preventScroll:true}); started=true;
   live.textContent=((p.tag?p.tag+'. ':'')+(p.say?p.say+' ':'')+p.h).replace(/<[^>]+>/g,'');
   if(window.__embed && !hist.length && !S.homeMode){ const bk=phone.querySelector('[data-back]'); bk.hidden=false; bk.onclick=()=>parent.postMessage('pr-intro','*'); }
@@ -2090,14 +2154,14 @@ function wire(id){
   phone.querySelectorAll('[data-tlgo]').forEach(b=>b.onclick=async()=>{ await mnLoad(); S.tlOpen=undefined; show('tlHome'); });
   phone.querySelectorAll('[data-ndgo]').forEach(b=>b.onclick=()=>ndGo());
   const bk=$('[data-back]'); if(bk) bk.onclick=()=>{ const prev=hist.pop(); if(prev) show(prev,true); };
-  phone.querySelectorAll('[data-pic]').forEach(inp=>inp.onchange=async()=>{ const fs=[...(inp.files||[])]; if(!fs.length) return; for(const f of fs){ const u=await shrink(f); if(u) S.photos.push(u); } say(S.photos.length===1?'Photo added.':S.photos.length+' photos.'); show('photo',true); });
+  phone.querySelectorAll('[data-pic]').forEach(inp=>inp.onchange=async()=>{ const fs=[...(inp.files||[])]; if(!fs.length) return; for(const f of fs){ const u=await shrink(f); if(u) S.photos.push(u); } say(S.photos.length===1?'Photo added.':S.photos.length+' photos.'); show(cur==='quick'?'quick':'photo',true); });
   /* alpha test, 8 Nov: each tap stacked another camera prompt; one is enough */
   if($('#askcam')) $('#askcam').onclick=()=>{ const was=phone.querySelector('.camask'); if(was){ const f=was.querySelector('button'); if(f) f.focus(); return; } const c=document.createElement('div'); c.className='tip camask'; c.setAttribute('role','dialog'); c.setAttribute('aria-labelledby','camh');
     c.innerHTML=`<b id="camh">Let the rabbit use your camera?</b><p>Your phone will ask once. Your photos stay on your phone.</p><div class="row"><button class="yes">Allow camera</button><button class="no">Not now</button></div>`;
     phone.appendChild(c); c.querySelector('.yes').focus();
     c.querySelector('.yes').onclick=()=>{ camRemember(); c.remove(); $('[data-pic]').click(); };
     c.querySelector('.no').onclick=()=>{ c.remove(); $('#askcam').focus(); }; };
-  phone.querySelectorAll('[data-unshot]').forEach(x=>x.onclick=()=>{ const i=+x.dataset.unshot, u=S.photos[i]; S.photos.splice(i,1); show('photo',true); undo('Photo removed.',()=>{ S.photos.splice(i,0,u); show('photo',true); }); });
+  phone.querySelectorAll('[data-unshot]').forEach(x=>x.onclick=()=>{ const i=+x.dataset.unshot, u=S.photos[i]; const at=cur==='quick'?'quick':'photo'; S.photos.splice(i,1); show(at,true); undo('Photo removed.',()=>{ S.photos.splice(i,0,u); show(at,true); }); });
   if(id==='start'){ phone.querySelectorAll('[data-room]').forEach(b=>b.onclick=()=>{ S.room=b.dataset.room; show(S.room==='A closet'?'closet':'size'); }); $('#otherroom').onchange=e=>{ S.room=e.target.value; show('size'); }; }
   if(id==='closet'){ phone.querySelectorAll('[data-closet]').forEach(b=>b.onclick=()=>{ S.room=b.dataset.closet; show('size'); }); $('#closetsel').onchange=e=>{ S.room=e.target.value; show('size'); }; }
   if(id==='dest'){ phone.querySelectorAll('[data-dest]').forEach(b=>b.onclick=()=>{ S.dest=b.dataset.dest; show('photo'); }); $('#destsel').onchange=e=>{ S.dest=e.target.value; show('photo'); }; }
@@ -2110,14 +2174,19 @@ function wire(id){
     phone.querySelectorAll('[data-brand]').forEach(b=>b.onclick=()=>{ const k=b.dataset.brand; if(k==='Other'){ S.brandOther=true; if(MAINBRANDS.includes(S.brand)) S.brand=''; } else { S.brandOther=false; S.brand=S.brand===k?'':k; } show('size',true); });
     if($('#brandOther')) $('#brandOther').onchange=e=>{ S.brand=e.target.value; show('size',true); };
   }
+  if(id==='quick'){
+    const w=$('#words'), keep=()=>{ if(w) S.words=w.value; }; if(w) w.oninput=keep;
+    phone.querySelectorAll('[data-qsize]').forEach(b=>b.onclick=()=>{ const k=b.dataset.qsize; keep(); S.size=S.size===k?'':k; show('quick',true); });
+    if($('#qkroom')) $('#qkroom').onchange=e=>{ keep(); S.room=e.target.value; S.dest=S.dest||S.room; show('quick',true); };
+    const mk=$('#qkMarks'); if(mk) mk.addEventListener('click',()=>{ keep(); S.dest=S.dest||S.room; },true);
+    $('#qkSave').onclick=()=>{ keep(); S.dest=S.dest||S.room; packSave(); };
+  }
   if(id==='words'){
     $('#wordsNext').onclick=()=>{ S.words=$('#words').value; show('dest'); };
   }
   if(id==='special'){
     phone.querySelectorAll('[data-flag]').forEach(b=>b.onclick=()=>{ const k=b.dataset.flag, i=S.flags.indexOf(k); i<0?S.flags.push(k):S.flags.splice(i,1); b.classList.toggle('on'); b.setAttribute('aria-pressed',i<0); stampAt=k; phone.querySelector('.scene').innerHTML=scene('special'); stampAt=''; phone.querySelector('.sub').textContent=specialSub(); });
-    const save=()=>{ S.boxes.push({code:code(),rc:rcOf(S.room),destRc:S.dest&&!/^(Donate|Sell|Not sure)$/.test(S.dest)?rcOf(S.dest):'',room:S.room,size:S.size,custom:S.size==='Custom'?S.custom:'',brand:S.brand,dims:boxDims(S.brand,S.size,S.duty),duty:S.duty,words:S.words,dest:S.dest||'',airtag:!!S.airtag,flags:[...S.flags],photos:[...S.photos],photo:S.photos[0]||''}); S.photos=[]; S.words=''; S.dest=''; S.airtag=false; S.flags=[]; S.size=''; S.duty=''; S.custom=''; fresh=['box'+(S.boxes.length-1)];
-      if(S.homeMode) handNew(); /* a box packed from the home goes to the app right away, not only when the app is next opened from here */
-      if(S.boxes.length===1){ learn('Boxes'); hopping=matchMedia('(prefers-reduced-motion: reduce)').matches?'':'Boxes'; show('boxesTab'); if(hopping) hop('Boxes'); else landSoon('Boxes'); } else show('boxSaved'); };
+    const save=packSave;
     $('#airtag').onclick=e=>{ S.airtag=!S.airtag; e.currentTarget.classList.toggle('on',S.airtag); e.currentTarget.setAttribute('aria-pressed',S.airtag); say(S.airtag?'AirTag inside.':'No AirTag.'); };
     $('#saveBox').onclick=save;
   }
@@ -2187,6 +2256,12 @@ function wire(id){
   if(id==='llist'){ $('#llNext').onclick=()=>Array.isArray(S.helpQ)?helpNext():leaveNext(LEAVE[S.li].ok); }
   if(id==='notruck'){ $('#ntOk').onclick=finishBig; }
   if($('#howInstall')) $('#howInstall').onclick=()=>{ if(window.__embed) parent.postMessage('pr-install','*'); };
+  if(id==='tryit'){ const go=v=>{ S.tq=v; if(v&&tryHits(v).length) S.tried=true; show('tryit',true); };
+    phone.querySelectorAll('[data-tq]').forEach(b=>b.onclick=()=>go(b.dataset.tq));
+    const i=$('#tq'); let t=null; i.oninput=()=>{ clearTimeout(t); t=setTimeout(()=>{ go(i.value); const j=$('#tq'); if(j){ j.focus(); j.setSelectionRange(j.value.length,j.value.length); } },500); };
+    $('#tryNot').onclick=()=>{ S.tried=true; show('boxSaved'); };
+    phone.querySelectorAll('[data-plan]').forEach(b=>b.onclick=()=>{ if(window.__APP){ keep(true).then(()=>{ const u=window.__BUY;
+      try{ (window.top||window).location.href=u; }catch(e){ window.open(u,'_top'); } }); return; } S.paid=b.dataset.plan; show('start'); }); }
   if(id==='price'){ /* owner, 13 Nov 2026: one price, $9.99 a month. No yearly plan. */
     /* growth review, 10 Nov: the flow runs in a frame, and Stripe's checkout won't open inside one (a blank page).
        The whole window goes to Stripe, and Stripe brings it back to the app, unlocked. */
@@ -3032,7 +3107,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v376, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v378, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
@@ -3156,8 +3231,8 @@ const SKIP={lgo:()=>sortEnd(''),lpickall:()=>sortEnd(''),lhelp:()=>sortEnd(''),t
   words:()=>show('dest'),dest:()=>show('photo'),leave:()=>leaveNext(''),mstairs:()=>show('mdoor'),mdoor:()=>MOVERS()&&S.booked!=="Yes, they're booked"&&!S.qtext?show('mpacket'):toRent()};
 const SKIPWORDS=/^(Skip|Later|Not now|Not sure yet|I don't know yet|I'll find it later|Not sold yet|Nothing like that|Not right now)$/;
 function wireSkip(id){ const sk=phone.querySelector('[data-skip]'); if(!sk) return; let fn=SKIP[id];
-  if(!fn){ const own=[...phone.querySelectorAll('.page .text .link')].find(b=>SKIPWORDS.test(b.textContent.trim())); if(own){ own.hidden=true; fn=()=>own.click(); } }
-  else { phone.querySelectorAll('.page .text .link').forEach(b=>{ if(SKIPWORDS.test(b.textContent.trim())) b.hidden=true; }); }
+  if(!fn){ const own=[...phone.querySelectorAll('.page .text .link:not(.stay)')].find(b=>SKIPWORDS.test(b.textContent.trim())); if(own){ own.hidden=true; fn=()=>own.click(); } }
+  else { phone.querySelectorAll('.page .text .link:not(.stay)').forEach(b=>{ if(SKIPWORDS.test(b.textContent.trim())) b.hidden=true; }); }
   if(fn){ sk.hidden=false; sk.onclick=fn; } }
 /* the wins: the app's own confetti and packing peanuts, and "the bunny hop" sound (three rising hops; a ringing note on the big ones).
    Reduced motion keeps the words and the sound, without anything falling. */
