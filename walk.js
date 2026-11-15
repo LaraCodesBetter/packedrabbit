@@ -85,7 +85,7 @@
       if (st.html) h += (typeof st.html === "function" ? st.html(S) : st.html);
       if (st.field) {
         var f = st.field;
-        h += '<div class="wk-field"><label class="sr" for="wk-' + f.id + '" style="position:absolute;left:-9999px">' + esc(f.label || st.h) + "</label>";
+        h += '<div class="wk-field"><label class="sr" for="wk-' + f.id + '" style="position:absolute;left:-9999px">' + esc((typeof f.label === "function" ? f.label(S) : f.label) || (typeof st.h === "function" ? st.h(S) : st.h)) + "</label>"; /* review, 15 Nov: a heading written as a function was read aloud as its source code */
         if (f.type === "textarea") h += '<textarea id="wk-' + f.id + '" placeholder="' + esc(f.placeholder || "") + '">' + esc(S[f.id] || "") + "</textarea>";
         else h += '<input id="wk-' + f.id + '" type="' + (f.type || "text") + '" inputmode="' + (f.inputmode || "text") + '" placeholder="' + esc(f.placeholder || "") + '" value="' + esc(S[f.id] || "") + '" autocomplete="off">';
         h += "</div>";
