@@ -182,6 +182,7 @@ a.choice{text-decoration:none}
 .step{display:grid;grid-template-columns:1fr 48px 40px 48px;align-items:center;gap:6px;border:1.5px solid var(--frame);border-radius:14px;padding:4px 6px 4px 14px;font-size:18px;text-align:left}
 .step button{min-height:48px;border-radius:12px;border:1.5px solid var(--ink);background:none;color:var(--ink);font:700 24px var(--sans);cursor:pointer}
 .step b{text-align:center;font-size:20px}
+.usebtn{margin-top:10px;width:100%;max-width:300px}.usebtn[disabled]{opacity:.45!important;cursor:default}
 .choices.two{grid-template-columns:repeat(2,minmax(0,1fr));max-width:320px}.choices.two .choice{min-width:0;overflow-wrap:anywhere}
 .shots{display:flex;gap:10px;overflow-x:auto;margin-top:14px;padding-bottom:4px;scroll-snap-type:x mandatory}
 .shotw{position:relative;flex:0 0 min(260px,78%);scroll-snap-align:start}.shotw .shot{width:100%;max-width:none}
@@ -492,6 +493,21 @@ const listAnd=a=>a.length<2?a.join(''):a.slice(0,-1).join(', ')+' and '+a[a.leng
 const BIZGROUPS=[["Work space",["Private office","Open office","Conference room","Reception","Break room","Server or IT room"]],["Storage",["Supply closet","Records room","Storage room","Warehouse","Workshop","Shipping area"]]];
 const isBiz=()=>S.mwhat==="A business", groups=()=>S.mwhat==="A business"?BIZGROUPS:S.mwhat==="Both"?BIZGROUPS.concat(ROOMGROUPS):ROOMGROUPS;
 const roomOpts=(ph)=>`<option value="" selected disabled>${ph}</option>`+groups().map(([g,rs])=>`<optgroup label="${g}">${rs.map(r=>`<option>${r}</option>`).join('')}</optgroup>`).join('');
+/* panel, 16 Nov: the list waits for "Use this room". One arrow key on a closed list used to pick a room,
+   number the box and move on (WCAG 3.2.2). Now a pick only readies the button; the button uses it, and so
+   does leaving the list for anywhere but a button (a tap on the page, or the next field). */
+const roomPick=(id,ph,opts,use)=>`<div class="field"><select id="${id}" aria-label="${ph}">${opts||roomOpts(ph)}</select></div><button class="choice usebtn" id="${id}Use" disabled>${use||'Use this room'}</button>`;
+function wirePick(id,fn){ const sel=document.getElementById(id), btn=document.getElementById(id+'Use'); if(!sel||!btn) return; let done=false;
+  const go=()=>{ if(done||!sel.value) return; done=true; fn(sel.value); };
+  sel.onchange=()=>{ btn.disabled=!sel.value; };
+  btn.onclick=go;
+  sel.onblur=e=>{ const t=e.relatedTarget; if(t&&(t===btn||/^(BUTTON|A|LABEL)$/.test(t.tagName))) return; if(!sel.isConnected) return; go(); }; }
+/* panel, 16 Nov: your rooms as quick picks. Rooms already packed (last used first), then the rooms from the walk;
+   up to six, so a room you know takes the short path. Before any, the two places people start. */
+function quickRooms(noStart){ const out=[]; const add=r=>{ if(r&&!out.includes(r)&&!/^(Donate|Sell|Not sure)$/.test(r)) out.push(r); };
+  S.boxes.slice().reverse().forEach(b=>add(b.room)); (S.homeRooms||[]).forEach(add); (S.big||[]).forEach(b=>add(b.room));
+  if(out.length<2&&!noStart) (isBiz()?["Supply closet","Storage room"]:["A closet","Garage"]).forEach(add);
+  return out.slice(0,6); }
 const CODE={Mudroom:"MUD",Sunroom:"SUN",Nursery:"NUR","Walk-in closet":"WIC","Storage unit":"STOR","A closet":"CLO",Entryway:"ENT","Living room":"LIV","Family room":"FAM",Den:"DEN","Dining room":"DIN",Kitchen:"KIT",Office:"OFF",Playroom:"PLAY","Laundry room":"LAU","Primary bedroom":"BED1","Bedroom 2":"BED2","Bedroom 3":"BED3","Bedroom 4":"BED4","Bedroom 5":"BED5","Bedroom 6":"BED6","Guest room":"GST","Primary bathroom":"BATH1","Bathroom 2":"BATH2","Bathroom 3":"BATH3","Powder room":"PWD","First floor closet":"CLO1","Second floor closet":"CLO2","Hall closet":"HALL","Front hall closet":"FHALL","Primary bedroom closet":"BED1C","Bedroom closet":"BEDC","Bathroom closet":"BATHC","Basement closet":"BSMC","Attic closet":"ATTC","Coat closet":"COAT","Linen closet":"LIN",Attic:"ATT",Basement:"BASE",Garage:"GAR",Shed:"SHED",Barn:"BARN","Front porch":"PORF","Back porch":"PORB",Deck:"DECK",Patio:"PAT",Lanai:"LAN",Pool:"POOL"};
 const LIV=["Armchair","Bookcase","Coffee table","Console table","End tables","Entertainment center","Lamps","Mirror","Ottoman","Piano","Recliner","Rug","Sectional","Sofa","TV","TV stand","Wall art"];
 const BEDF=["Adjustable base","Armchair","Armoire","Bed frame","Bench","Box spring","Bunk bed","Chest of drawers","Daybed","Dresser","Footboard","Futon","Headboard","Lamps","Mattress","Mirror","Nightstands","Rug","TV","Wall art"];
@@ -1530,19 +1546,19 @@ const P={
     const where=S.room?`From the ${esc(lc(S.room))}${S.dest&&S.dest!==S.room?(NOTC.test(S.dest)?` (${esc(lc(S.dest))})`:`, going to the ${esc(lc(S.dest))}`):''}.`:'';
     const sizes=`<p class="qlabel">Size <span style="font-weight:600;color:var(--muted)">(optional)</span></p><div class="sizes" role="group" aria-label="Size">${["XS","S","M","L","XL"].map(k=>`<button class="choice ${S.size===k?'on':''}" data-qsize="${k}" aria-pressed="${S.size===k}" aria-label="${({XS:'Extra small',S:'Small',M:'Medium',L:'Large',XL:'Extra large'})[k]}">${k}<small>${({XS:'Extra small',S:'Small',M:'Medium',L:'Large',XL:'Extra large'})[k]}</small></button>`).join('')}</div>`;
     return ({h:S.room?`This is ${code()}.`:(S.boxes.length?`Box ${S.boxes.length+1}.`:'Your first box.'), sub:S.room?`Write it on the box. ${where}`:'Take a photo inside it before you close it.',
-      body:`${photos}${S.room?'':`<div class="field"><select id="qkroom" aria-label="Which room is it from?">${roomOpts('Which room is it from?')}</select></div>`}<p class="qlabel"><label for="words">What's going inside?</label></p><div class="field microw" style="margin-top:8px"><input id="words" value="${esc(S.words||'')}" placeholder="${esc(wordsHint())}"><button type="button" class="mic" data-mic="words" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div>${sizes}<button class="${S.photos.length?'cta':'choice qkplain'}" id="qkSave" ${S.room?'':'disabled'}>Save this box</button>${S.room?'<button class="link" data-go="special" id="qkMarks">Mark it fragile, open first and more</button><button class="link" data-go="startFull">Change the room or where it goes</button>':''}`}); },
+      body:`${photos}${S.room?'':(()=>{ const q=quickRooms(true); return q.length?`<p class="qlabel">Which room is it from?</p><div class="choices${q.length>2?' two':''}" role="group" aria-label="Which room is it from?">${q.map(r=>`<button class="choice" data-qkroom="${esc(r)}">${esc(r)}</button>`).join('')}</div>${roomPick('qkroom','Another room')}`:roomPick('qkroom','Which room is it from?'); })()}<p class="qlabel"><label for="words">What's going inside?</label></p><div class="field microw" style="margin-top:8px"><input id="words" value="${esc(S.words||'')}" placeholder="${esc(wordsHint())}"><button type="button" class="mic" data-mic="words" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div>${sizes}<button class="${S.photos.length?'cta':'choice qkplain'}" id="qkSave" ${S.room?'':'disabled'}>Save this box</button>${S.room?'<button class="link" data-go="special" id="qkMarks">Mark it fragile, open first and more</button><button class="link" data-go="startFull">Change the room or where it goes</button>':''}`}); },
   firstBox:()=>({h:"Your first box.", sub:"Pack it. Photograph it. Find it.", body:`<button class="cta" data-go="start">Let's pack it</button>`}),
   start:()=>({h:S.boxes.length?`Box ${S.boxes.length+1}. Which room is it from?`:"Which room is it from?", sub:S.boxes.length?"The same room or a new one.":"Start somewhere you don't use every day.",
-    body:`<div class="choices">${(isBiz()?["Supply closet","Storage room"]:["A closet","Garage"]).map(r=>`<button class="choice" data-room="${r}">${r}</button>`).join('')}</div><div class="field"><select id="otherroom" aria-label="Another room">${roomOpts('Another room')}</select></div>`}),
+    body:(()=>{ const q=quickRooms(); return `<div class="choices${q.length>2?' two':''}" role="group" aria-label="Your rooms">${q.map(r=>`<button class="choice" data-room="${esc(r)}">${esc(r)}</button>`).join('')}</div>${roomPick('otherroom','Another room')}`; })()}),
   photo:()=>({say:`${code()}${S.words?': '+esc(S.words):''}. ${destLine(S.dest)}`, h:S.photos.length?"Add another, or go on.":"Let's take a picture.", sub:S.photos.length?(S.photos.length===1?"One photo so far.":`${S.photos.length} photos so far.`):"", body:S.photos.length?`<div class="shots">${S.photos.map((u,i)=>`<div class="shotw"><img class="shot" src="${u}" alt="Photo ${i+1}"><button class="unshot" data-unshot="${i}" aria-label="Remove photo ${i+1}">Remove</button></div>`).join('')}</div><button class="cta" data-go="special">Next</button><label class="choice lab">Add another photo<input type="file" accept="image/*" multiple hidden data-pic></label>`
       :(S.camOk?`<label class="cta lab">Add a photo<input type="file" accept="image/*" multiple hidden data-pic></label>`:`<button class="cta" id="askcam">Add a photo</button><input type="file" accept="image/*" multiple hidden data-pic>`)+`<div class="packtip"><b>Packing a cabinet, a closet or a drawer full of things?</b><p>Take a picture of it as a whole first, before anything is wrapped. Then take one inside the box once it's full, before you close it.</p></div><button class="link" data-go="special">Skip</button>`}),
   closet:()=>{ /* owner, 7 Nov: ask what room the closet is in */
     const top=[["Primary bedroom","Primary bedroom closet"],["Another bedroom","Bedroom closet"],["Front hall","Front hall closet"],["Hallway","Hall closet"],["Bathroom","Bathroom closet"],["Basement","Basement closet"]], rest=["Linen closet","Coat closet","Walk-in closet","Attic closet","First floor closet","Second floor closet"];
     return ({h:"What room is the closet in?", sub:"So the box goes back to the right one.", scene:"start",
-    body:`<div class="choices two">${top.map(([l,r])=>`<button class="choice" data-closet="${r}">${l}</button>`).join('')}</div><div class="field"><select id="closetsel" aria-label="Another closet"><option value="" selected disabled>Another closet</option>${rest.map(r=>`<option>${r}</option>`).join('')}</select></div>`}); },
+    body:`<div class="choices two">${top.map(([l,r])=>`<button class="choice" data-closet="${r}">${l}</button>`).join('')}</div>${roomPick('closetsel','Another closet',`<option value="" selected disabled>Another closet</option>${rest.map(r=>`<option>${r}</option>`).join('')}`,'Use this closet')}`}); },
   dest:()=>({say:S.words?`${code()}: ${esc(S.words)}.`:`${code()}.`, h:"Where does it go at the new place?", sub:"Write it on the box too. Movers read it to know where to set it down.",
     body:`<button class="cta" data-dest="${esc(S.room)}">Back in the ${esc(lc(S.room))}</button>
-      <div class="field"><select id="destsel" aria-label="A different room">${roomOpts('A different room')}</select></div>
+      ${roomPick('destsel','A different room')}
       <p class="qlabel">Not coming?</p><div class="duty" role="group" aria-label="Not coming">${["Donate","Sell","Not sure"].map(k=>`<button class="choice" data-dest="${k}">${k}</button>`).join('')}</div>`}),
   size:()=>({say:`Box ${S.boxes.length+1}, from ${S.room==='A closet'?'a closet':'the '+S.room.toLowerCase()}.`, h:"What size box?", sub:S.size?{XS:"Books, records, tools.",S:"Dishes, cans, anything heavy.",M:"The everyday box.",L:"Bedding, cushions, toys.",XL:"Big and light only.",Custom:"Its size in inches."}[S.size]:"Small boxes for heavy things.",
     body:`<div class="sizes" role="group" aria-label="Size">${["XS","S","M","L","XL","Custom"].map(k=>`<button class="choice ${S.size===k?'on':''}" data-size="${k}" aria-pressed="${S.size===k}" aria-label="${({XS:'Extra small',S:'Small',M:'Medium',L:'Large',XL:'Extra large',Custom:'Custom size'})[k]}">${k}${k==='Custom'?'':`<small>${({XS:'Extra small',S:'Small',M:'Medium',L:'Large',XL:'Extra large'})[k]}</small>`}</button>`).join('')}</div>${S.size==='Custom'?`<div class="dims"><label>Long<input inputmode="decimal" id="cw"></label><label>Wide<input inputmode="decimal" id="cd"></label><label>High<input inputmode="decimal" id="ch"></label></div>`:''}
@@ -2172,9 +2188,9 @@ function wire(id){
     c.querySelector('.yes').onclick=()=>{ camRemember(); c.remove(); $('[data-pic]').click(); };
     c.querySelector('.no').onclick=()=>{ c.remove(); $('#askcam').focus(); }; };
   phone.querySelectorAll('[data-unshot]').forEach(x=>x.onclick=()=>{ const i=+x.dataset.unshot, u=S.photos[i]; const at=cur==='quick'?'quick':'photo'; S.photos.splice(i,1); show(at,true); undo('Photo removed.',()=>{ S.photos.splice(i,0,u); show(at,true); }); });
-  if(id==='start'){ phone.querySelectorAll('[data-room]').forEach(b=>b.onclick=()=>{ S.room=b.dataset.room; show(S.room==='A closet'?'closet':'size'); }); $('#otherroom').onchange=e=>{ S.room=e.target.value; show('size'); }; }
-  if(id==='closet'){ phone.querySelectorAll('[data-closet]').forEach(b=>b.onclick=()=>{ S.room=b.dataset.closet; show('size'); }); $('#closetsel').onchange=e=>{ S.room=e.target.value; show('size'); }; }
-  if(id==='dest'){ phone.querySelectorAll('[data-dest]').forEach(b=>b.onclick=()=>{ S.dest=b.dataset.dest; show('photo'); }); $('#destsel').onchange=e=>{ S.dest=e.target.value; show('photo'); }; }
+  if(id==='start'){ phone.querySelectorAll('[data-room]').forEach(b=>b.onclick=()=>{ S.room=b.dataset.room; show(S.room==='A closet'?'closet':'size'); }); wirePick('otherroom',v=>{ S.room=v; show('size'); }); }
+  if(id==='closet'){ phone.querySelectorAll('[data-closet]').forEach(b=>b.onclick=()=>{ S.room=b.dataset.closet; show('size'); }); wirePick('closetsel',v=>{ S.room=v; show('size'); }); }
+  if(id==='dest'){ phone.querySelectorAll('[data-dest]').forEach(b=>b.onclick=()=>{ S.dest=b.dataset.dest; show('photo'); }); wirePick('destsel',v=>{ S.dest=v; show('photo'); }); }
   if(id==='size'){
     phone.querySelectorAll('[data-size]').forEach(b=>b.onclick=()=>{ S.size=b.dataset.size; show('size',true); });
     phone.querySelectorAll('[data-duty]').forEach(b=>b.onclick=()=>{ S.duty=b.dataset.duty; show('size',true); });
@@ -2187,7 +2203,8 @@ function wire(id){
   if(id==='quick'){
     const w=$('#words'), keep=()=>{ if(w) S.words=w.value; }; if(w) w.oninput=keep;
     phone.querySelectorAll('[data-qsize]').forEach(b=>b.onclick=()=>{ const k=b.dataset.qsize; keep(); S.size=S.size===k?'':k; show('quick',true); });
-    if($('#qkroom')) $('#qkroom').onchange=e=>{ keep(); S.room=e.target.value; S.dest=S.dest||S.room; show('quick',true); };
+    phone.querySelectorAll('[data-qkroom]').forEach(b=>b.onclick=()=>{ keep(); S.room=b.dataset.qkroom; S.dest=S.dest||S.room; show('quick',true); });
+    wirePick('qkroom',v=>{ keep(); S.room=v; S.dest=S.dest||S.room; show('quick',true); });
     const mk=$('#qkMarks'); if(mk) mk.addEventListener('click',()=>{ keep(); S.dest=S.dest||S.room; },true);
     $('#qkSave').onclick=()=>{ keep(); S.dest=S.dest||S.room; packSave(); };
   }
@@ -3132,7 +3149,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v393, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v394, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
