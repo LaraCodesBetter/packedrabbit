@@ -1515,7 +1515,7 @@ const P={
     const ph=hit&&!isPriv(hit)?(hit.photo||(hit.photos||[])[0]||''):'';
     const found=hit?`<div class="tryhit">${ph?`<img class="tryph" src="${ph}" alt="Inside ${esc(hit.code)}">`:''}<p class="tryc"><b>${esc(hit.code)}</b>${hit.words&&!isPriv(hit)?`: ${esc(hit.words)}`:''}</p><p class="hint" style="margin-top:2px">From the ${esc(lc(hit.room))}${hit.dest&&hit.dest!==hit.room&&!/^(Donate|Sell|Not sure)$/.test(hit.dest)?`, going to the ${esc(lc(hit.dest))}`:''}.</p></div>`
       :(q?`<p class="hint" role="status">Nothing in your boxes says "${esc(q)}". Try a word you wrote.</p>`:'');
-    const price=hit?`<p class="trylead"><b>Your first three boxes are free. Then $9.99 a month.</b> Cancel anytime, and your boxes stay readable.</p><div class="plans"><button class="plan m" data-plan="month">Keep packing for $9.99 a month</button></div><button class="link stay" id="tryNot">Not now</button><p class="hint" style="margin-top:4px">Renews monthly until you cancel, with a reminder before every charge.</p>`:'';
+    const price=hit?`<p class="trylead"><b>Your first three boxes are free. Then $9.99 a month.</b> Cancel anytime, and your boxes stay readable.</p><div class="plans"><button class="plan m" data-plan="month">Keep packing for $9.99 a month</button></div><button class="link stay" id="tryNot">Not now</button><p class="hint" style="margin-top:4px">Renews monthly until you cancel. Cancel anytime.</p>`:'';
     return ({say:last.code?`${esc(last.code)} is saved.`:'', h:hit?`It's in ${esc(hit.code)}.`:'Which box is it in? Try it.', sub:hit?'':'Tap something you just packed, or type it.',
       body:`${chips}<div class="field microw" style="margin-top:12px"><input id="tq" value="${esc(q)}" placeholder="Search your boxes" aria-label="Search your boxes"><button type="button" class="mic" data-mic="tq" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div>${found}${price}${hit?'':'<button class="link" id="tryNot">Not now</button>'}`}); },
   /* panel, 13 Nov: pack a box in three taps. The photo comes first, the words second, then Save. The room, the size and
@@ -1629,8 +1629,8 @@ const P={
     return ({h:'Every box, by room.', sub:n?`${n} ${n===1?'box':'boxes'} in ${R.length} ${R.length===1?'room':'rooms'}.`:'Nothing packed yet.', scene:'none',
       body:`${R.length?lemRows(R.map(r=>[RIC.box,`${esc(r)}<span class="rcount">${G[r].n}</span>`,`data-vroom="${esc(r)}" aria-label="${esc(r)}, ${G[r].n} ${G[r].n===1?'box':'boxes'}${G[r].u?`, ${G[r].u} unpacked`:''}"`])):''}${n?'<button class="link" id="vAll">Every box in one list</button>':''}`}); },
   myBoxes:()=>{ const n=S.boxes.length, m=S.big.length, q=(S.find||'').trim().toLowerCase();
-    const hit=q?S.boxes.filter(b=>btext(b).toLowerCase().includes(q)):S.boxes.slice().reverse();
-    const bigHit=q?S.big.filter(b=>(b.what+' '+(b.room||'')).toLowerCase().includes(q)):[];
+    const hit=q?S.boxes.filter(b=>qHas(btext(b),q)):S.boxes.slice().reverse();
+    const bigHit=q?S.big.filter(b=>qHas(b.what+' '+(b.room||''),q)):[];
     const free=!S.paid?Math.max(0,3-n):9;
     /* tester, 8 Nov: "Every box, as a list" showed the last 6 of 140 and repeated the vault. From the home it's
        the whole list now, room by room, and nothing the vault already says. */
@@ -1638,14 +1638,14 @@ const P={
       const G={}, unp=inR.filter(b=>b.unpacked).length; hitR.forEach(b=>{ const r=b.room||'Other'; (G[r]=G[r]||[]).push(b); });
       const list=Object.keys(G).sort().map(r=>`${ro?'':`<p class="grp">${esc(r)}</p>`}<ul class="list">${G[r].sort((a,b)=>a.code<b.code?-1:a.code>b.code?1:0).map(boxRow).join('')}</ul>`).join('');
       return ({h:ro?esc(ro)+'.':'Every box.', sub:inR.length?`${inR.length} ${inR.length===1?'box':'boxes'}${unp?`, ${unp} unpacked`:''}.`:'Nothing packed yet.', scene:'none',
-        body:`${n?`<div class="field microw"><input id="mbfind" value="${esc(S.find||'')}" placeholder="Find a box" aria-label="Find a box"><button type="button" class="mic" data-mic="mbfind" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div>`:''}<div id="mbres" aria-live="polite" style="margin-top:6px;width:100%;max-width:310px">${q&&!hitR.length?'<p class="sub" style="max-width:none">Nothing listed matches that. Try another word from the box.</p>':list}</div>`}); }
+        body:`${n?`<div class="field microw"><input id="mbfind" value="${esc(S.find||'')}" placeholder="Find a box" aria-label="Find a box"><button type="button" class="mic" data-mic="mbfind" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div>`:''}<div id="mbres" aria-live="polite" style="margin-top:6px;width:100%;max-width:310px">${q&&!hitR.length?'<p class="sub" style="max-width:none">Nothing listed matches that. Try another word from the box.'+privNote()+'</p>':list}</div>`}); }
     /* owner, 7 Nov: "our signature line on our app somewhere": the script wordmark heads the list */
     return ({say:'<picture><source srcset="wordmark-ears-cream.png" media="(prefers-color-scheme: dark)"><img class="sig" src="wordmark-ears.png" alt="The Packed Rabbit" width="220" height="57"></picture>', h:n?`${n} ${n===1?'box':'boxes'}${m?`, ${m} big ${m===1?'thing':'things'}`:''}.`:'Nothing packed yet.', sub:n?'Type or say what you need, and the rabbit finds the box.':'Your first box takes a minute. A photo, a few words, and you never open it to look.', scene:n?'boxesTab':'firstBox',
     body:`${n?`<div class="field microw"><input id="mbfind" value="${esc(S.find||'')}" placeholder="Try &quot;${esc(((S.boxes[n-1]||{}).words||'coats').split(/[ ,]+/)[0]||'coats')}&quot;" aria-label="Find a box"><button type="button" class="mic" data-mic="mbfind" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div>`:''}
       <button class="cta" data-go="start">${n?'Pack a box':'Pack my first box'}</button>${free<3&&free>0?`<p class="hint" style="text-align:center">${free} free ${free===1?'box':'boxes'} left</p>`:''}
       ${n>1?`<button class="choice" style="width:100%;margin-top:10px" id="mbFlip">Look through them one by one</button>`:''}
       <button class="choice" style="width:100%;margin-top:10px" id="mbBig">Something won't fit in a box</button>
-      <div id="mbres" aria-live="polite" style="margin-top:6px">${q&&!hit.length&&!bigHit.length?'<p class="sub" style="max-width:none">Nothing listed matches that. Try another word from the box.</p>':''}${hit.length?`<ul class="list">${hit.slice(0,q?20:6).map(boxRow).join('')}</ul>`:''}${bigHit.length?`<ul class="list">${bigHit.map(b=>`<li><em><b style="color:var(--ink)">${esc(b.what)}</b></em><span>${esc(b.room||'Big stuff')}</span></li>`).join('')}</ul>`:''}${!q&&n>6?`<p class="hint">Showing the last 6. Type to find any of the ${n}.</p>`:''}</div>
+      <div id="mbres" aria-live="polite" style="margin-top:6px">${q&&!hit.length&&!bigHit.length?'<p class="sub" style="max-width:none">Nothing listed matches that. Try another word from the box.'+privNote()+'</p>':''}${hit.length?`<ul class="list">${hit.slice(0,q?20:6).map(boxRow).join('')}</ul>`:''}${bigHit.length?`<ul class="list">${bigHit.map(b=>`<li><em><b style="color:var(--ink)">${esc(b.what)}</b></em><span>${esc(b.room||'Big stuff')}</span></li>`).join('')}</ul>`:''}${!q&&n>6?`<p class="hint">Showing the last 6. Type to find any of the ${n}.</p>`:''}</div>
       <button class="link" id="mbApp">The rest of my move</button>`}); },
   /* owner, 8 Nov: boxes not yet unpacked are "the vault"; a box leaves the vault when it's unpacked.
    Owner, 8 Nov, unpacking: "I want to be able to swipe from box to box ... see the full picture ...
@@ -1791,7 +1791,7 @@ const P={
     return ({say:"Your first 3 boxes are packed.", h:"All of it is $9.99 a month.", scene:"price",
       body:`<ul class="have">${have.map(x=>`<li>${x}</li>`).join('')}</ul>
         <div class="plans"><button class="plan m" data-plan="month">Keep packing for $9.99 a month</button></div>
-        <p class="hint" style="margin-top:8px">Renews monthly until you cancel, with a reminder before every charge. Cancel anytime: your list stays yours.</p><button class="link" data-back2>Not now</button>
+        <p class="hint" style="margin-top:8px">Renews monthly until you cancel. Cancel anytime: your list stays yours.</p><button class="link" data-back2>Not now</button>
         <p class="lead">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>`}); },
   furnTab:()=>({say:`The ${esc(itemName(S.cur||{what:'piece'}))} is saved.`, h:"Your Big Stuff tab is ready.", sub:"It's in the bar, next to Boxes.", body:`<button class="cta" id="furnNext">Next</button>`}),
   /* tester, 8 Nov: "Did we miss a room?" offered the garage and office already passed over, and Bedroom 2 in a
@@ -2065,7 +2065,7 @@ const qkPrefill=last=>{ if(S.qkFor===S.boxes.length) return; S.qkFor=S.boxes.len
   if(!S.dest){ const d=last.dest||''; S.dest=!d||d===last.room?S.room:d; } };
 /* words she wrote, box one first, each said once */
 const tryWords=()=>{ const out=[]; S.boxes.forEach(b=>{ if(isPriv(b)) return; String(b.words||'').split(/,| and /).map(w=>w.trim()).filter(w=>w&&w.length<=24).forEach(w=>{ if(out.length<6&&!out.some(o=>o.toLowerCase()===w.toLowerCase())) out.push(w); }); }); return out; };
-const tryHits=q=>{ q=q.toLowerCase(); return S.boxes.filter(b=>((isPriv(b)?'':b.words)+' '+b.room+' '+b.code).toLowerCase().includes(q)); };
+const tryHits=q=>S.boxes.filter(b=>qHas((isPriv(b)?'':b.words)+' '+b.room+' '+b.code,q));
 function packSave(){ S.boxes.push({code:code(),rc:rcOf(S.room),destRc:S.dest&&!/^(Donate|Sell|Not sure)$/.test(S.dest)?rcOf(S.dest):'',room:S.room,size:S.size,custom:S.size==='Custom'?S.custom:'',brand:S.brand,dims:boxDims(S.brand,S.size,S.duty),duty:S.duty,words:S.words,dest:S.dest||'',airtag:!!S.airtag,flags:[...S.flags],photos:[...S.photos],photo:S.photos[0]||''}); S.photos=[]; S.words=''; S.dest=''; S.airtag=false; S.flags=[]; S.size=''; S.duty=''; S.custom=''; S.full=false; fresh=['box'+(S.boxes.length-1)];
   if(S.homeMode) handNew(); /* a box packed from the home goes to the app right away, not only when the app is next opened from here */
   if(S.boxes.length===3&&!S.paid&&!S.tried){ S.tq=''; show('tryit'); return; }
@@ -2414,11 +2414,11 @@ function wire(id){
     phone.querySelectorAll('[data-vbig]').forEach(b=>b.onclick=()=>{ S.bigRoom=b.dataset.vbig; show('vbig'); });
     { const hf=$('#hfind'), res=$('#hres'); if(hf&&res){ const draw=()=>{ S.hq=hf.value; const q=hf.value.trim().toLowerCase(); if(!q){ res.innerHTML=''; return; }
         /* owner's ad, 9 Nov: "towels, white" has to find the box marked "white towels". Every word counts, in any order; commas don't. */
-        const qw=q.split(/[\s,]+/).filter(Boolean), has=t=>{ t=String(t).toLowerCase(); return qw.every(w=>t.includes(w)); };
+        const has=t=>qHas(t,q);
         const hit=S.boxes.filter(b=>has(btext(b))), bh=S.big.filter(b=>has(b.what+' '+(b.room||'')));
         /* owner, 12 Nov: say what the list is, and one tap back to the rooms */
         const k=hit.length+bh.length, clr=' <button type="button" class="link" id="hqClear">Clear</button>';
-        res.innerHTML=(!k?`<p class="lsub" style="font-size:17px">Nothing listed matches that. Try another word from the box.${clr}</p>`:`<p class="lsub" style="font-size:17px">${k} ${k===1?'match':'matches'} for “${esc(hf.value.trim())}”.${clr}</p>`)+(hit.length?`<ul class="list">${hit.slice(0,40).map(b=>boxRow(b,hf.value)).join('')}</ul>${hit.length>40?`<p class="lsub" style="font-size:17px">And ${hit.length-40} more. Add a word to narrow it down.</p>`:''}`:'')+(bh.length?`<ul class="list">${bh.slice(0,12).map(b=>`<li class="tap" tabindex="0" role="button" data-bpiece="${S.big.indexOf(b)}"><em><b style="color:var(--ink)">${esc(b.what)}</b></em><span>${esc(STAYW[b.plan]?'Staying behind':b.room||'Big stuff')}</span></li>`).join('')}</ul>`:'');
+        res.innerHTML=(!k?`<p class="lsub" style="font-size:17px">Nothing listed matches that. Try another word from the box.${privNote()}${clr}</p>`:`<p class="lsub" style="font-size:17px">${k} ${k===1?'match':'matches'} for “${esc(hf.value.trim())}”.${clr}</p>`)+(hit.length?`<ul class="list">${hit.slice(0,40).map(b=>boxRow(b,hf.value)).join('')}</ul>${hit.length>40?`<p class="lsub" style="font-size:17px">And ${hit.length-40} more. Add a word to narrow it down.</p>`:''}`:'')+(bh.length?`<ul class="list">${bh.slice(0,12).map(b=>`<li class="tap" tabindex="0" role="button" data-bpiece="${S.big.indexOf(b)}"><em><b style="color:var(--ink)">${esc(b.what)}</b></em><span>${esc(STAYW[b.plan]?'Staying behind':b.room||'Big stuff')}</span></li>`).join('')}</ul>`:'');
         { const c=res.querySelector('#hqClear'); if(c) c.onclick=()=>{ hf.value=''; draw(); hf.focus(); }; }
         res.querySelectorAll('[data-box]').forEach(li=>li.onclick=()=>{ const b=S.boxes[+li.dataset.box]; if(!b) return; S.flipQ=hf.value.trim(); S.flipSet='q'; S.fx=Math.max(0,flipList().indexOf(b)); S.fpi=0; show('flip'); });
         res.querySelectorAll('[data-bpiece]').forEach(li=>li.onclick=()=>{ const b=S.big[+li.dataset.bpiece]; if(!b) return; if(b.appId) toApp('?big='+encodeURIComponent(b.appId)); else openSheet('Furniture',li); }); };
@@ -2781,7 +2781,7 @@ function afterRoom(){ if(S.bigRoom&&!S.doneRooms.includes(S.bigRoom)){ S.doneRoo
 /* the flip-through: which boxes, in label order, and their photos read from the app as they're needed */
 const PHC={};
 function flipList(){ const by=(a,b)=>String(a.code).localeCompare(String(b.code),'en',{numeric:true});
-  if(S.flipSet==='q'&&S.flipQ){ const qw=S.flipQ.toLowerCase().split(/[\s,]+/).filter(Boolean); return S.boxes.filter(b=>{ const t=btext(b).toLowerCase(); return qw.every(w=>t.includes(w)); }).sort(by); }
+  if(S.flipSet==='q'&&S.flipQ){ return S.boxes.filter(b=>qHas(btext(b),S.flipQ)).sort(by); }
   if(S.flipSet==='all') return S.boxes.slice().sort(by);
   return S.boxes.filter(b=>!b.unpacked).sort(by); }
 function flipPhotos(b){ if(!b) return [];
@@ -3122,7 +3122,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v390, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v391, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
@@ -3136,6 +3136,14 @@ const NOW_PLACES=['Garage','Storage unit','Basement','First floor','Upstairs'];
    the full app, a Private box shows its number, room and place, never what's inside, and search doesn't read it. */
 const isPriv=b=>!!(b&&(b.flags||[]).includes('Private'));
 const bwords=b=>isPriv(b)?'Private':(b.words||'Nothing written yet');
+/* panel, 16 Nov: one way of matching for every search (the same rule as the full app's qHas). */
+const QSTOP=new Set('where wheres whats is are was my the a an i im find which what box in it its did do does put packed of for to me can you please'.split(' '));
+const qWords=q=>String(q||'').toLowerCase().replace(/[\u2019']/g,'').replace(/[^a-z0-9\s,-]/g,' ').split(/[\s,]+/).filter(w=>w&&!QSTOP.has(w));
+const qHas=(text,q)=>{ const ws=Array.isArray(q)?q:qWords(q); if(!ws.length) return false; const t=String(text||'').toLowerCase().replace(/[\u2019']/g,''), tn=t.replace(/[^a-z0-9]/g,'');
+  if(ws.length>1&&tn.includes(ws.join('').replace(/[^a-z0-9]/g,''))) return true;
+  return ws.every(w=>{ const wn=w.replace(/[^a-z0-9]/g,''), one=w.length>3?w.replace(/(es|s)$/,''):w; return t.includes(w)||(wn&&tn.includes(wn))||t.includes(one); }); };
+/* a private box keeps what's inside out of search, so say there may be one, rather than "nothing" */
+const privNote=()=>{ const k=S.boxes.filter(b=>isPriv(b)&&!b.unpacked).length; return k?` ${k===1?'One private box keeps':`${k} private boxes keep`} what's inside out of search; open ${k===1?'it':'them'} by number to look.`:''; };
 function btext(b){ return [isPriv(b)?'':b.words,b.room,b.code,b.putAway||''].concat((b.iput||[]).map(x=>x[1])).join(' '); }
 function putOf(b,q){ if(!b||!b.unpacked) return ''; const qw=String(q||'').toLowerCase().split(/[\s,]+/).filter(Boolean);
   const it=qw.length&&(b.iput||[]).find(x=>qw.every(w=>(x[0]+' '+x[1]).toLowerCase().includes(w)));
