@@ -208,8 +208,8 @@ a.choice{text-decoration:none}
 /* owner, 14 Nov: the rabbit's laser keeps guiding. One red dot marks the one next tap, a green one marks the price once
    it has been earned. It sits before the words, never on them; it fades in once and then stays still (no pulsing). */
 .gdot{display:inline-block;position:relative;flex:none;width:13px;height:13px;margin:0 10px 0 0;vertical-align:-1px;border-radius:50%;pointer-events:none;
-  background:radial-gradient(circle,#FFE6E3 0 22%,#FF3B30 34% 100%);box-shadow:0 0 0 2.5px #FFFDF8,0 0 14px 5px rgba(255,59,48,.38);animation:gdin .35s ease-out both}
-.gdot.g{background:radial-gradient(circle,#F2FFF6 0 22%,#36D27A 34% 100%);box-shadow:0 0 0 3px #FFFDF8,0 0 14px 6px rgba(54,210,122,.55)}
+  background:radial-gradient(circle,#FFE6E3 0 22%,#FF3B30 34% 100%);box-shadow:0 0 0 2.5px #FFFDF8,0 0 0 3.5px rgba(27,94,54,.45),0 0 14px 5px rgba(255,59,48,.38);animation:gdin .35s ease-out both}
+.gdot.g{background:radial-gradient(circle,#F2FFF6 0 22%,#36D27A 34% 100%);box-shadow:0 0 0 3px #FFFDF8,0 0 0 4px rgba(27,94,54,.45),0 0 14px 6px rgba(54,210,122,.55)}
 @keyframes gdin{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion: reduce){.gdot{animation:none}}
 .gdw>.gdot{position:absolute;left:15px;top:50%;margin:-6.5px 0 0;z-index:1}.gdw input,.gdw select{padding-left:46px!important}
@@ -2157,7 +2157,7 @@ function wire(id){
   phone.querySelectorAll('[data-rcgo]').forEach(b=>b.onclick=async()=>{ await mnLoad(); S.mnUndo=null; show('rcHome'); });
   phone.querySelectorAll('[data-tlgo]').forEach(b=>b.onclick=async()=>{ await mnLoad(); S.tlOpen=undefined; show('tlHome'); });
   phone.querySelectorAll('[data-ndgo]').forEach(b=>b.onclick=()=>ndGo());
-  const bk=$('[data-back]'); if(bk) bk.onclick=()=>{ const prev=hist.pop(); if(prev) show(prev,true); };
+  const bk=$('[data-back]'); if(bk) bk.onclick=()=>{ /* tester: Back on a piece's second question (the bed's parts) jumped past its first (the size); step back one question instead */ if(cur==='itemQ'&&S.qi>0){ S.qi--; S.lampN={}; show('itemQ',true); return; } const prev=hist.pop(); if(prev) show(prev,true); };
   phone.querySelectorAll('[data-pic]').forEach(inp=>inp.onchange=async()=>{ const fs=[...(inp.files||[])]; if(!fs.length) return; for(const f of fs){ const u=await shrink(f); if(u) S.photos.push(u); } say(S.photos.length===1?'Photo added.':S.photos.length+' photos.'); show(cur==='quick'?'quick':'photo',true); });
   /* alpha test, 8 Nov: each tap stacked another camera prompt; one is enough */
   if($('#askcam')) $('#askcam').onclick=()=>{ const was=phone.querySelector('.camask'); if(was){ const f=was.querySelector('button'); if(f) f.focus(); return; } const c=document.createElement('div'); c.className='tip camask'; c.setAttribute('role','dialog'); c.setAttribute('aria-labelledby','camh');
@@ -3114,7 +3114,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v384, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v385, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
