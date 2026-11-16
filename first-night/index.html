@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>First-night box checklist: what to pack for your first night in a new home</title>
-<meta name="description" content="Say who's moving, any pets, and how many nights until your things arrive, and get a first-night checklist with amounts: what rides with you, what goes in the Open First box, a bag for each person, and the kids' and pets' things. Tick things off as you pack. Free, no signup.">
+<meta name="description" content="Say who's moving, any pets, and how many nights until your things arrive, and get a first-night checklist with amounts: what rides with you, what goes in the Open First box, a bag for each person, and the kids' and pets' things. Check things off as you pack. Free, no signup.">
 <link rel="canonical" href="https://packedrabbit.com/first-night/">
 <meta name="theme-color" content="#1C3224">
 <meta property="og:type" content="website">
@@ -31,7 +31,7 @@
   "operatingSystem": "Any web browser",
   "isAccessibleForFree": true,
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "description": "Builds a first-night moving checklist from how many adults and kids are moving, any baby, dogs and cats, how many nights until the household goods arrive, and whether the trip is by car or plane. Splits it into what rides with you, the Open First box, a bag for each person, the kids' things and the pets' things, with amounts. Items people can tick off as they pack. Runs on the device; nothing typed is sent anywhere."
+  "description": "Builds a first-night moving checklist from how many adults and kids are moving, any baby, dogs and cats, how many nights until the household goods arrive, and whether the trip is by car or plane. Splits it into what rides with you, the Open First box, a bag for each person, the kids' things and the pets' things, with amounts. Items people can check off as they pack. Runs on the device; nothing typed is sent anywhere."
 }
 </script>
 <script type="application/ld+json">
@@ -118,7 +118,7 @@
 <!--pr-art--><figure class="pr-art" aria-hidden="true"><svg viewBox="0 0 360 200" focusable="false"><path class="nf" d="M52 33 v8 M48 37 h8"/><path class="nf" d="M156 30 v8 M152 34 h8"/><path class="nf" d="M240 53 v8 M236 57 h8"/><rect class="gnd" x="0" y="192" width="360" height="8"/><path class="nf" d="M0 192 H360"/><circle class="f1" cx="312" cy="36" r="14"/><circle class="f3" cx="318" cy="31" r="12"/><rect class="f2" x="24" y="168" width="150" height="24" rx="6"/><rect class="f1" x="30" y="160" width="140" height="12" rx="5"/><rect class="f3" x="34" y="150" width="40" height="14" rx="7"/><path class="nf" d="M84 160 q40 -10 84 0"/><rect class="f2" x="196" y="144" width="70" height="48" rx="2"/><path class="nf" d="M196 153.6 h70"/><rect class="tape" x="225.4" y="144" width="11.2" height="9.6"/><rect class="f1" x="214.0" y="164.2" width="34" height="14" rx="2"/><text class="t9" x="231.0" y="174.2" text-anchor="middle">OPEN</text><path class="nf" d="M196 144 l-14 -16 M266 144 l14 -16"/><path class="f1" d="M212 144 q4 -16 14 -14 q10 -10 18 2 q8 0 8 12"/><rect class="f2" x="292" y="188" width="26" height="4" rx="1"/><path class="nf" d="M305 188 V140"/><path class="tape" d="M292 140 h26 l-6 -20 h-14 z"/><path class="f2" d="M326 192 q2 -10 12 -10 q10 0 12 10 z"/><rect class="f1" x="67.5" y="112" width="85" height="15" rx="2"/><text class="t10" x="110" y="123" text-anchor="middle">FIRST NIGHT</text></svg></figure><!--/pr-art-->
 
   <h1>What goes in the first-night box?</h1>
-  <p class="lede">Tell it who's moving and how long until your things arrive. Get the list for the first night, with amounts, and tick things off as you pack.</p>
+  <p class="lede">Tell it who's moving and how long until your things arrive. Get the list for the first night, with amounts, and check things off as you pack.</p>
 
   <div class="stage">
     <div class="say" aria-live="polite"><p class="k" id="kick"></p><div class="big" id="big"></div><p id="small"></p></div>
@@ -150,7 +150,7 @@
   </div>
 
   <h2 class="sub">Your first-night list</h2>
-  <div class="bar"><p class="hint" id="prog" style="margin:0"></p><button class="mini" type="button" id="clear">Clear ticks</button></div>
+  <div class="bar"><p class="hint" id="prog" style="margin:0"></p><button class="mini" type="button" id="clear">Clear checkmarks</button></div>
   <div class="undo" id="undo" role="status" hidden><span id="undo-t"></span><button type="button" id="undo-b">Undo</button></div>
   <div id="out"></div>
 
@@ -334,7 +334,7 @@
   $("clear").addEventListener("click", function () {
     if (!S.done.length) return;
     gone = S.done.slice(); S.done = [];
-    $("undo-t").textContent = "Cleared " + pl(gone.length, "tick") + "."; $("undo").hidden = false;
+    $("undo-t").textContent = "Cleared " + pl(gone.length, "checkmark") + "."; $("undo").hidden = false;
     clearTimeout(timer); timer = setTimeout(function () { $("undo").hidden = true; gone = null; }, 15000);
     draw();
   });
@@ -381,7 +381,7 @@
     else {
       big = shown.length + " things for the first night.";
       var w = counts.filter(function (c) { return c.g === "W"; })[0], o = counts.filter(function (c) { return c.g === "O"; })[0];
-      small = w.n + (x.t === "p" ? " go in your carry-on, " : " ride with you, ") + o.n + " go in the Open First box" + (bags ? ", the rest in " + pl(bags, "bag") : "") + ". Pack for " + pl(x.D, "day") + "." + (done.length ? " " + done.length + " ticked so far." : "");
+      small = w.n + (x.t === "p" ? " go in your carry-on, " : " ride with you, ") + o.n + " go in the Open First box" + (bags ? ", the rest in " + pl(bags, "bag") : "") + ". Pack for " + pl(x.D, "day") + "." + (done.length ? " " + done.length + " checked off so far." : "");
     }
     $("kick").textContent = kick; $("big").textContent = big; $("small").textContent = small;
     $("prog").textContent = done.length ? done.length + " of " + shown.length + " packed." : "Tap a thing when it's packed.";

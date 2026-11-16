@@ -357,7 +357,7 @@
 
     var who = R === "m" ? "permanent change of station" : "intelligence community reassignment";
     if (!tot) return say("", "Your move qualifies", "A " + who + " move can be deducted. Type what it cost above to add it up.", { big: "Your move qualifies", small: "a " + who + " move is deductible", tone: "" });
-    if (!ded) return say("tight", "Nothing left to deduct", "Reimbursements cover these costs. You don't need to file Form 3903 for nothing.", { big: "Nothing left to deduct", small: "reimbursements cover the costs", tone: "tight" });
+    if (!ded) return say("tight", "Nothing left to deduct", "Reimbursements cover these costs. With nothing left to deduct, there's no Form 3903 to file.", { big: "Nothing left to deduct", small: "reimbursements cover the costs", tone: "tight" });
     say("", "About " + usd(ded) + " you can deduct", "It lowers your taxable income by that much; what you save depends on your tax bracket. Keep the receipts.",
       { big: "About " + usd(ded) + " to deduct", small: "a " + who + " move, 2026", tone: "" });
   }
