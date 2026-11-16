@@ -2807,11 +2807,19 @@ const hCity=(name,addr)=>{ const n=String(name||'').split(',')[0].trim(); if(n&&
   const parts=String(addr||'').split(/\n|,/).map(x=>x.trim()).filter(Boolean), si=parts.findIndex((p,i)=>i>0&&/^[A-Z]{2}(\s+\d{5}(-\d{4})?)?$/.test(p));
   return (si>0?parts[si-1]:parts.find(p=>!/\d/.test(p))||'').slice(0,18); };
 const hHand=b=>!!(b&&(b.withMe||b.room==='HAND'||b.destRoom==='HAND'||((b.room==='MED'||b.room==='PET')&&!b.onTruck)));
+/* roadmap, 16 Nov: the days left on the app icon (Settings, "Days left on the app icon") were only refreshed by the
+   full app. The walk now sets the same number the same way: the next date, then delivery from loading day on, cleared
+   on delivery day. Only when the person turned it on; it reads the dates and stores nothing. */
+function hBadge(st,ms){ try{ if(!('setAppBadge' in navigator)) return; const on=!!((st&&st.settings)||{}).iconCount;
+  const now=Date.now(), eod=t=>{ const d=new Date(t); d.setHours(23,59,59,999); return d.getTime(); };
+  const nx=ms.length?(ms.find(m=>eod(m.t)>=now)||ms[ms.length-1]):null, days=nx?hDays(nx.t):null, de=ms.find(m=>m.k==='in'), dd=de?hDays(de.t):null;
+  const n=days===null?null:days>0?days:dd!==null&&dd>0?dd:null;
+  if(on&&n) navigator.setAppBadge(n).catch(()=>{}); else navigator.clearAppBadge().catch(()=>{}); }catch(e){} }
 /* where the move stands, read the way the app reads it: the same dates, phases and next step, so the two always agree. Nothing new is stored. */
 function homeRead(st){ if(!st) return null; const mv=st.move||{}, at=d=>new Date(d+'T08:00:00').getTime(), M=[];
   if(st.moveday&&st.moveday.arrive){ const t=new Date(st.moveday.arrive).getTime(); if(!isNaN(t)) M.push({k:'crew',t}); }
   if(mv.date) M.push({k:'out',t:at(mv.date)}); if(mv.delivery) M.push({k:'in',t:at(mv.delivery)});
-  const ms=M.filter(m=>!isNaN(m.t)).sort((a,b)=>a.t-b.t), lo=ms.find(m=>m.k==='out')||ms[0], de=ms.find(m=>m.k==='in');
+  const ms=M.filter(m=>!isNaN(m.t)).sort((a,b)=>a.t-b.t); hBadge(st,ms); const lo=ms.find(m=>m.k==='out')||ms[0], de=ms.find(m=>m.k==='in');
   const dl=lo?hDays(lo.t):null, dd=de?hDays(de.t):null;
   let pi; if(!lo) pi=Math.max(0,HPH.indexOf(mv.phase)); else if(dl>0) pi=dl<=7?3:dl<=28?2:dl<=56?1:0; else if(dd===0&&dl<0) pi=5; else if(dl===0) pi=4; else if(dd!==null&&dd>0) pi=5; else pi=6;
   /* tester, 8 Nov: on day 9 the one thing still offered "Plan the journey itself". Once the truck is loaded,
@@ -3114,7 +3122,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v386, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v387, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
