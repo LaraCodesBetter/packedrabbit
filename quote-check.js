@@ -131,7 +131,15 @@ function parseQuote(raw, myCube) {
 
   /* owner, 19–20 Oct: what a real broker quote hid. Each of these was on it. */
   const feeLine = [...t.matchAll(/((?:binding\s+estimate|estimate|booking|reservation|administrative|admin|processing|service|dispatch|coordination)\s+fee)[^$\n]{0,90}\$\s?(\d[\d,]*(?:\.\d{2})?)/gi)].find((m) => num(m[2]) > 0);
-  if (feeLine) F("bad", `A "${feeLine[1].replace(/\s+/g, " ")}" of $${num(feeLine[2]).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}. That's a charge for paperwork, not for moving anything. Ask what it is for. If it's wrong, have it corrected. If you don't agree with it, ask them to waive it.`, clause(feeLine));
+  /* panel, 16 Nov: federal law lets a mover charge for a binding estimate, never for a non-binding one
+     (49 U.S.C. 14104(b); FMCSA: "Your mover may charge you for providing a binding estimate"). */
+  if (feeLine) {
+    const nm = feeLine[1].replace(/\s+/g, " "), amt = num(feeLine[2]).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const nonBinding = /non[\s-]?binding/i.test(t) && !/not[\s-]to[\s-]exceed/i.test(t);
+    if (/binding\s+estimate/i.test(nm) && !nonBinding) F("warn", `A "${nm}" of $${amt}. Federal rules let a mover charge for a binding estimate, so this can be fair. Make sure the estimate itself is marked binding, and ask whether the fee comes off your total.`, clause(feeLine));
+    else if (/^estimate fee$/i.test(nm) && nonBinding) F("bad", `An "${nm}" of $${amt} on a non-binding estimate. On a move between states, federal rules don't allow a charge for a non-binding estimate. Ask them to take it off.`, clause(feeLine));
+    else F("bad", `A "${nm}" of $${amt}. That's a charge for paperwork, not for moving anything. Ask what it is for. If it's wrong, have it corrected. If you don't agree with it, ask them to waive it.`, clause(feeLine));
+  }
   if (/discount/i.test(t) && dollars.length > 3) F("warn", "Discounts are listed. Add every line up yourself: a fee hidden between discounts can cancel them out.");
   const days = t.match(/(\d{1,2}|thirty|twenty|fifteen|ten)\s+business\s+(?:week)?days?/i);
   if (days) {
