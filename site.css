@@ -680,6 +680,8 @@ section.last{display:flex; flex-direction:column; justify-content:center; align-
 section.last img{width:190px; height:auto}
 section.last h2{font-size:1.7rem; margin:0; color:#F2E8D5}
 section.last .mail{display:inline-flex; align-items:center; justify-content:center; min-height:52px; padding:0 26px; border-radius:14px; background:#F2E8D5; color:#0D3B22; font-weight:800; font-size:1.06rem; text-decoration:none}
+section.last .beta{display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:0 22px; border-radius:14px; border:1.5px solid #F2E8D5; color:#F2E8D5; font-weight:700; text-decoration:none; text-align:center}
+section.last .beta:hover,section.last .beta:focus-visible{background:#F2E8D51a}
 section.last nav{display:grid; grid-template-columns:1fr 1fr; gap:4px 18px; max-width:340px; width:100%}
 section.last nav a{display:flex; align-items:center; justify-content:center; min-height:44px; color:#F2E8D5; font-weight:700; text-decoration:none; border-bottom:1px solid #F2E8D522}
 section.last .soc{display:flex; gap:10px}
