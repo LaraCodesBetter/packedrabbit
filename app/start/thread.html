@@ -3156,7 +3156,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v400, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v401, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
@@ -3181,7 +3181,8 @@ const privNote=()=>{ const k=S.boxes.filter(b=>isPriv(b)&&!b.unpacked).length; r
 function btext(b){ return [isPriv(b)?'':b.words,b.room,b.code,b.putAway||''].concat((b.iput||[]).map(x=>x[1])).join(' '); }
 function putOf(b,q){ if(!b||!b.unpacked) return ''; const qw=String(q||'').toLowerCase().split(/[\s,]+/).filter(Boolean);
   const it=qw.length&&(b.iput||[]).find(x=>qw.every(w=>(x[0]+' '+x[1]).toLowerCase().includes(w)));
-  if(it) return `${it[0]}: ${it[1]}`; return b.putAway?`Put away: ${b.putAway}`:''; }
+  if(it) return `${it[0]}: ${it[1]}`; if(!b.putAway) return '';
+  const pb=(b.putBefore||[])[0]; return `Put away: ${b.putAway}${b.putBy?`, by ${b.putBy}`:''}.${pb&&pb.where?` Before: ${pb.where}.`:''}`; }
 function putDay(b){ const d=new Date(b&&b.putAt||0); return b&&b.putAt&&!isNaN(d)?d.toLocaleDateString('en-US',{month:'short',day:'numeric'}):''; }
 function putOpts(b){ const o=[], add=w=>{ w=String(w||'').trim(); if(w&&!o.some(x=>x.toLowerCase()===w.toLowerCase())) o.push(w); };
   add(b.dest||b.room); S.boxes.filter(x=>x.putAway).sort((x,y)=>(y.putAt||0)-(x.putAt||0)).forEach(x=>add(x.putAway)); return o.slice(0,6); }
@@ -3201,6 +3202,11 @@ function faskFor(b){ if(!(S.flipSet==='q'&&S.flipQ&&b&&b.appId&&!b.unpacked)) re
 function markUndo(){ const m=S.lastMark; if(!m||Date.now()-m.at>15000) return ''; return `<p class="hint" role="status" style="text-align:center;margin:8px 0 0">${esc(m.msg)} <button type="button" class="link" id="fmundo" style="display:inline;margin:0;min-height:44px">Undo</button></p>`; }
 async function flipMark(b,patch){ try{ const st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); if(!st||!Array.isArray(st.boxes)) return null;
     const x=st.boxes.find(y=>y&&y.id===b.appId); if(!x) return null; const prev={};
+    /* owner, 18 Nov 2026: "who moved it, or where is it", for a household or a crew sharing one move. A new place
+       records this phone's name (Share, "This phone's name") and keeps the last three places it was before. */
+    if(typeof patch.putAway==='string'&&patch.putAway!==String(x.putAway||'')&&!('putBy' in patch)&&!('putBefore' in patch)){ /* an Undo brings its own */
+      const by=String((st.settings&&st.settings.device)||'').trim().slice(0,40);
+      patch=Object.assign({},patch,{putBy:by||null,putBefore:x.putAway?[{where:String(x.putAway),at:+x.putAt||0,by:String(x.putBy||'')}].concat(Array.isArray(x.putBefore)?x.putBefore:[]).slice(0,3):(Array.isArray(x.putBefore)&&x.putBefore.length?x.putBefore:null)}); }
     Object.keys(patch).forEach(k=>{ prev[k]=x[k]===undefined?null:x[k]; if(patch[k]===null) delete x[k]; else x[k]=patch[k]; });
     await idbSet('moving-command-center-v1',JSON.stringify(st));
     Object.keys(patch).forEach(k=>{ if(patch[k]===null) delete b[k]; else b[k]=patch[k]; }); return prev; }catch(e){ return null; } }
@@ -3235,7 +3241,7 @@ async function loadHome(){ let st=null; try{ st=JSON.parse(await idbGet('moving-
   const have=new Set(S.boxes.map(b=>b.code));
   ((st&&st.boxes)||[]).forEach(b=>{ if(!b||!b.code) return; const rc=String(b.room||b.code.split('-')[0]||'MISC');
     const pre=String(b.preset||'').split('-')[0], bsz=String(b.size||''), kind=b.brandless?bsz.toLowerCase():pre==='free'?'Used box':pre==='bin'?'Plastic bin':BOXBRAND[pre]?BOXBRAND[pre]+(bsz?' '+bsz.toLowerCase():''):bsz;
-    const rec={code:b.code,rc,room:RN[rc]||rc,words:(b.items||[]).map(x=>x.name).filter(Boolean).join(', '),flags:[...(b.withMe?['Goes with me']:[]),...(b.private?['Private']:[])],handed:1,appId:b.id,unpacked:!!b.unpacked,delivered:!!b.delivered,kind,opened:+b.opened||0,openedFor:String(b.openedFor||''),nowAt:String(b.nowAt||''),putAway:String(b.putAway||''),putAt:+b.putAt||0,iput:(b.items||[]).filter(x=>x&&x.name&&x.put).map(x=>[String(x.name),String(x.put)]),dest:RN[b.destRoom]||''};
+    const rec={code:b.code,rc,room:RN[rc]||rc,words:(b.items||[]).map(x=>x.name).filter(Boolean).join(', '),flags:[...(b.withMe?['Goes with me']:[]),...(b.private?['Private']:[])],handed:1,appId:b.id,unpacked:!!b.unpacked,delivered:!!b.delivered,kind,opened:+b.opened||0,openedFor:String(b.openedFor||''),nowAt:String(b.nowAt||''),putAway:String(b.putAway||''),putAt:+b.putAt||0,putBy:String(b.putBy||''),putBefore:Array.isArray(b.putBefore)?b.putBefore.slice(0,3):[],iput:(b.items||[]).filter(x=>x&&x.name&&x.put).map(x=>[String(x.name),String(x.put)]),dest:RN[b.destRoom]||''};
     if(have.has(b.code)){ const ex=S.boxes.find(x=>x.code===b.code&&x.handed); if(ex) Object.assign(ex,rec); return; }
     have.add(b.code); S.boxes.push(Object.assign(rec,{photos:[],photo:''})); });
   /* a box or piece removed in the app leaves this list too */
