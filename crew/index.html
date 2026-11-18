@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Crew: where everything went | The Packed Rabbit</title>
+<meta name="description" content="For a packing or unpacking crew: open the move file you were sent, write down where each box's things went, and send it back.">
+<link rel="canonical" href="https://packedrabbit.com/crew/">
+<meta name="theme-color" content="#1C3224">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="Crew: where everything went">
+<meta property="og:description" content="Open the move file, write down where each box's things went, and send it back.">
+<meta property="og:url" content="https://packedrabbit.com/crew/">
+<meta property="og:image" content="https://packedrabbit.com/cards/crew.jpg">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<style>
+  .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2rem, 8vw, 3.1rem); margin: 12px 0 10px; }
+  .lede { color: var(--ink2); font-size: 1.08rem; margin: 0 0 18px; }
+  .lbl { display: block; font-weight: 800; margin: 18px 0 8px; font-size: 1.05rem; }
+  .fld { width: 100%; box-sizing: border-box; min-height: 54px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-size: 1.05rem; padding: 12px 14px; }
+  .fld:focus { outline: 3px solid var(--green); outline-offset: 1px; border-color: var(--green); }
+  .go { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 56px; border: 0; border-radius: 16px; background: var(--green); color: #fff; font: inherit; font-weight: 800; font-size: 1.12rem; cursor: pointer; margin-top: 14px; text-decoration: none; }
+  .ghost { background: var(--panel); color: var(--ink); border: 2px solid var(--line); }
+  .file { position: relative; overflow: hidden; }
+  .file input { position: absolute; inset: 0; opacity: 0; cursor: pointer; font-size: 0; }
+  .card2 { background: var(--panel); border-radius: 18px; padding: 16px; margin: 14px 0; box-shadow: var(--lift1); }
+  .room { margin: 22px 0 6px; font-weight: 800; font-size: 1.2rem; }
+  .bx { border-top: 1px solid var(--line); padding: 12px 0; }
+  .bx:first-of-type { border-top: 0; }
+  .bx b { font-family: var(--mono); font-size: 1.05rem; }
+  .bx .w { color: var(--ink2); margin: 2px 0 8px; }
+  .bx .put { font-weight: 700; color: var(--green); margin: 2px 0 8px; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { min-height: 44px; padding: 0 14px; border-radius: 999px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 700; cursor: pointer; }
+  .chip.on { background: var(--green); color: #fff; border-color: var(--green); }
+  .cnote { color: var(--ink2); font-size: .95rem; margin: 0; }
+  .skip { position: absolute; left: -9999px; top: 8px; z-index: 9999; background: #14281B; color: #fff; padding: 12px 18px; border-radius: 10px; font-weight: 700; text-decoration: none; } .skip:focus { left: 8px; }
+  .toast { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); background: #14281B; color: #fff; border-radius: 14px; padding: 12px 16px; display: flex; gap: 14px; align-items: center; z-index: 50; max-width: 92vw; }
+  .toast button { min-height: 44px; border: 0; border-radius: 10px; padding: 0 14px; background: #F2E8D5; color: #14281B; font: inherit; font-weight: 800; cursor: pointer; }
+  [hidden] { display: none !important; }
+</style>
+<link rel="stylesheet" href="../art.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home"><img class="wm wm-l" src="../img/wordmark.png" alt="The Packed Rabbit" width="150" height="39"><img class="wm wm-d" src="../img/wordmark-cream.png" alt="" width="150" height="39"></a>
+</header>
+
+<main id="main" class="tp">
+<!--pr-art--><figure class="pr-art" aria-hidden="true"><svg viewBox="0 0 360 200" focusable="false"><g class="bk"><path class="nf" d="M0 180 H360"/><rect class="f1" x="26" y="30" width="72" height="60" rx="1"/><path class="nf" d="M62.0 30 v60 M26 60.0 h72"/><rect class="f2" x="23" y="90" width="78" height="4" rx="1"/><rect class="f2" x="26" y="30" width="72" height="26" rx="1"/><path class="nf" d="M26 38 h72 M26 46 h72 M62 56 v8"/><path class="f1" d="M207 20 v18 M197 38 h20 l-3 14 h-14 z M199 52 q-8 14 -4 30 M215 52 q8 12 6 26"/></g><rect class="gnd" x="0" y="192" width="360" height="8"/><path class="nf" d="M0 192 H360"/><rect class="f2" x="34" y="146" width="70" height="46" rx="2"/><path class="nf" d="M34 155.2 h70"/><rect class="tape" x="63.4" y="146" width="11.2" height="9.2"/><rect class="f1" x="45.5" y="165.3" width="47" height="14" rx="2"/><text class="t9" x="69.0" y="175.3" text-anchor="middle">KIT-24</text><path class="nf" d="M34 146 l-12 -14 M104 146 l12 -14"/><rect class="f2" x="146" y="62" width="92" height="130" rx="3"/><rect class="f1" x="152" y="70" width="36" height="116" rx="2"/><rect class="f1" x="196" y="70" width="36" height="116" rx="2"/><path class="nf" d="M152 112 h36 M152 150 h36"/><rect class="f3" x="160" y="96" width="20" height="14" rx="2"/><rect class="f3" x="160" y="134" width="20" height="14" rx="2"/><circle class="" cx="192" cy="128" r="2"/><rect class="f1" x="268" y="84" width="62" height="84" rx="4"/><rect class="f3" x="286" y="78" width="26" height="12" rx="3"/><text class="t10" x="299" y="106" text-anchor="middle">CREW</text><path class="nf" d="M278 120 h42 M278 134 h42 M278 148 h30"/><path class="nf" d="M276 120 l4 4 l7 -8"/></svg></figure><!--/pr-art-->
+
+  <h1>Where everything went.</h1>
+  <p class="lede">For a packing or unpacking crew. The person you're moving sent you a move file. Open it here, write down where each box's things went, and send it back. Nothing to install, no account.</p>
+
+  <section id="start">
+    <label class="go file">Open the move file<input type="file" id="pick" accept=".json,application/json,text/plain"></label>
+    <p class="cnote" style="margin-top:12px">Only the boxes are in the file: their numbers, rooms and what's inside. Private boxes show only their number. Your notes stay on this phone until you send them back.</p>
+  </section>
+
+  <section id="work" hidden>
+    <div class="card2">
+      <div class="cnote" id="whose"></div>
+      <label class="lbl" for="crew">Your name or your crew's name</label>
+      <input class="fld" id="crew" maxlength="40" placeholder="Unpacking crew" autocomplete="organization">
+      <p class="cnote" style="margin-top:8px">It goes next to every place you write, so they know who put things away.</p>
+    </div>
+    <label class="lbl" for="find">Find a box</label>
+    <input class="fld" id="find" type="search" placeholder="Box number or what's in it" autocomplete="off">
+    <div id="list"></div>
+    <div class="card2">
+      <div class="room" style="margin-top:0">Packing a new box?</div>
+      <label class="lbl" for="nroom">Room</label>
+      <select class="fld" id="nroom"></select>
+      <label class="lbl" for="nwords">What's in it</label>
+      <input class="fld" id="nwords" maxlength="200" placeholder="plates, mugs, coffee maker">
+      <button class="go ghost" id="nadd" type="button">Add the box</button>
+      <p class="cnote" id="nsaid" style="margin-top:8px"></p>
+    </div>
+    <button class="go" id="send" type="button">Send it back</button>
+    <p class="cnote" id="sendsaid" style="margin-top:8px">It makes one small file. Send it by text or email to the person you're moving; they open it in their app and every place you wrote goes into their move.</p>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden><span id="tmsg"></span><button type="button" id="tundo">Undo</button></div>
+
+<script>
+(function () {
+  var KEY = "pr-crew-v1", ROOMS = { KIT: "Kitchen", LIV: "Living room", DIN: "Dining room", FAM: "Family room", BED1: "Primary bedroom", BED2: "Second bedroom", BED3: "Third bedroom", BATH1: "Primary bathroom", BATH2: "Second bathroom", CLO: "Closets", HALL: "Hall closets", OFF: "Office", GAR: "Garage", LAU: "Laundry", ENT: "Entryway", PAT: "Patio", PET: "Pets", MED: "Medical", OPEN: "Open first", HAND: "Goes with me", MISC: "Everything else" };
+  var $ = function (s) { return document.getElementById(s); };
+  var S = null, undo = null, tt = 0, editing = null;
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+  function load() { try { return JSON.parse(localStorage.getItem(KEY) || "null"); } catch (e) { return null; } }
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function roomName(c) { return ROOMS[c] || c || "Everything else"; }
+  function words(b) { if (b.private) return "Private box"; var it = Array.isArray(b.items) ? b.items.map(function (x) { return x && x.name; }).filter(Boolean).join(", ") : ""; return it || b.contents || ""; }
+  function toast(msg, fn) { $("tmsg").textContent = msg; undo = fn || null; $("tundo").hidden = !fn; $("toast").hidden = false; clearTimeout(tt); tt = setTimeout(function () { $("toast").hidden = true; undo = null; }, 15000); if (fn) $("tundo").focus(); }
+  $("tundo").onclick = function () { if (undo) undo(); undo = null; $("toast").hidden = true; };
+
+  function open(p) {
+    if (!p || p.app !== "moving-command-center" || !p.data || !Array.isArray(p.data.boxes)) return false;
+    var prev = load(), same = prev && prev.made === p.made && prev.from === p.from;
+    S = same ? prev : { made: p.made || "", from: p.from || "", crew: p.crew || (prev && prev.crew) || "", boxes: p.data.boxes.filter(function (b) { return b && b.id; }), touched: {} };
+    save(); draw(); return true;
+  }
+  $("pick").onchange = function () {
+    var f = this.files && this.files[0]; if (!f) return;
+    var r = new FileReader();
+    r.onload = function () { var ok = false; try { ok = open(JSON.parse(r.result)); } catch (e) {} if (!ok) toast("That isn't a move file. Ask them to send it again from their app: Menu, Every part of the app, Backups and sharing, Send your crew the boxes."); };
+    r.readAsText(f);
+  };
+
+  function setPut(b, place) {
+    var was = { putAway: b.putAway, putAt: b.putAt, putBy: b.putBy, putBefore: b.putBefore, unpacked: b.unpacked, t: S.touched[b.id] };
+    var by = ($("crew").value || "").trim().slice(0, 40) || "The crew";
+    if (b.putAway && b.putAway !== place) b.putBefore = [{ where: b.putAway, at: b.putAt || 0, by: b.putBy || "" }].concat(b.putBefore || []).slice(0, 3);
+    b.putAway = place; b.putAt = Date.now(); b.putBy = by; b.unpacked = true; S.touched[b.id] = 1; save(); draw();
+    toast(b.code + ": " + place + ".", function () { b.putAway = was.putAway; b.putAt = was.putAt; b.putBy = was.putBy; b.putBefore = was.putBefore; b.unpacked = was.unpacked; if (was.t) S.touched[b.id] = 1; else delete S.touched[b.id]; save(); draw(); });
+  }
+
+  function draw() {
+    $("start").hidden = !!S; $("work").hidden = !S; if (!S) return;
+    $("whose").textContent = (S.from && S.from !== "a phone" ? "From " + S.from + ". " : "") + S.boxes.length + (S.boxes.length === 1 ? " box" : " boxes") + " in this move.";
+    if (!$("crew").value) $("crew").value = S.crew || "";
+    var q = ($("find").value || "").trim().toLowerCase(), groups = {}, order = [];
+    S.boxes.forEach(function (b) {
+      var hay = (b.code + " " + (b.private ? "" : words(b)) + " " + roomName(b.destRoom || b.room) + " " + (b.putAway || "")).toLowerCase();
+      if (q && q.split(/\s+/).some(function (w) { return hay.indexOf(w) < 0; })) return;
+      var r = b.destRoom || b.room || "MISC"; if (!groups[r]) { groups[r] = []; order.push(r); } groups[r].push(b);
+    });
+    var html = order.map(function (r) {
+      return '<div class="room">' + esc(roomName(r)) + '</div><div class="card2" style="margin-top:6px">' + groups[r].map(function (b) {
+        var places = [roomName(r) + " cabinets", roomName(r) + " closet", roomName(r) + " shelves"];
+        return '<div class="bx"><b>' + esc(b.code) + '</b><div class="w">' + esc(words(b)) + '</div>'
+          + (b.putAway ? '<div class="put">Put away: ' + esc(b.putAway) + (b.putBy ? ", by " + esc(b.putBy) : "") + '</div>' : "")
+          + '<div class="row">' + places.map(function (pl) { return '<button type="button" class="chip" data-id="' + esc(b.id) + '" data-p="' + esc(pl) + '">' + esc(pl) + '</button>'; }).join("")
+          + '<button type="button" class="chip" data-id="' + esc(b.id) + '" data-other="1">Somewhere else</button></div>'
+          + (editing === b.id ? '<div style="margin-top:10px"><input class="fld" id="other" maxlength="120" aria-label="Where did ' + esc(b.code) + '\'s things go?" placeholder="hall closet, top shelf" value="' + esc(b.putAway || "") + '"><button type="button" class="go" id="otherSave" style="margin-top:8px">Save</button></div>' : '')
+          + '</div>';
+      }).join("") + '</div>';
+    }).join("");
+    $("list").innerHTML = html || '<p class="cnote" style="margin-top:14px">No box matches that.</p>';
+    Array.prototype.forEach.call($("list").querySelectorAll("[data-id]"), function (el) {
+      el.onclick = function () {
+        var b = S.boxes.filter(function (x) { return x.id === el.dataset.id; })[0]; if (!b) return;
+        var place = el.dataset.p;
+        if (el.dataset.other) { editing = b.id; draw(); var o = $("other"); if (o) o.focus(); return; }
+        editing = null; setPut(b, place);
+      };
+    });
+    var os = $("otherSave"); if (os) os.onclick = function () { var b = S.boxes.filter(function (x) { return x.id === editing; })[0], v = ($("other").value || "").trim().slice(0, 120); if (!b) return; if (!v) { $("other").focus(); return; } editing = null; setPut(b, v); };
+    var rs = {}; S.boxes.forEach(function (b) { rs[b.room || "MISC"] = 1; }); Object.keys(ROOMS).forEach(function (k) { rs[k] = 1; });
+    if (!$("nroom").options.length) $("nroom").innerHTML = Object.keys(rs).map(function (k) { return '<option value="' + esc(k) + '">' + esc(roomName(k)) + "</option>"; }).join("");
+  }
+  $("find").oninput = draw;
+  $("crew").oninput = function () { if (S) { S.crew = this.value.trim().slice(0, 40); save(); } };
+
+  $("nadd").onclick = function () {
+    var room = $("nroom").value, w = ($("nwords").value || "").trim().slice(0, 200);
+    if (!w) { $("nwords").focus(); $("nsaid").textContent = "Write what's in it first."; return; }
+    var n = 0; S.boxes.forEach(function (b) { var m = String(b.code || "").match(new RegExp("^" + room + "-(\\d+)$")); if (m) n = Math.max(n, +m[1]); });
+    var code = room + "-" + (n + 1 < 10 ? "0" : "") + (n + 1), by = ($("crew").value || "").trim().slice(0, 40) || "The crew";
+    var b = { id: "crew" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), code: code, room: room, destRoom: room, contents: w, items: w.split(/\s*,\s*/).filter(Boolean).map(function (x) { return { name: x, qty: "1", cat: "", note: "" }; }), packed: true, packedBy: by, made: Date.now() };
+    S.boxes.push(b); S.touched[b.id] = 1; save(); $("nwords").value = ""; $("nsaid").textContent = "Write " + code + " on the box."; draw();
+    toast(code + " added.", function () { S.boxes = S.boxes.filter(function (x) { return x.id !== b.id; }); delete S.touched[b.id]; save(); $("nsaid").textContent = ""; draw(); });
+  };
+
+  $("send").onclick = function () {
+    var out = S.boxes.filter(function (b) { return S.touched[b.id]; });
+    if (!out.length) { $("sendsaid").textContent = "Nothing written yet. Tap where a box's things went first."; return; }
+    var crew = ($("crew").value || "").trim().slice(0, 40) || "The crew";
+    var payload = { app: "moving-command-center", v: 1, made: new Date().toISOString(), from: crew, tiers: ["boxes"], crewBack: true, data: { boxes: out } };
+    var text = JSON.stringify(payload), name = "from-" + crew.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + "-" + new Date().toISOString().slice(0, 10) + ".json";
+    var file = null; try { file = new File([text], name, { type: "application/json" }); } catch (e) {}
+    if (file && navigator.canShare && navigator.canShare({ files: [file] })) { navigator.share({ files: [file], title: "Where everything went" }).catch(function () {}); }
+    else { var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], { type: "application/json" })); a.download = name; a.click(); }
+    $("sendsaid").textContent = out.length + (out.length === 1 ? " box" : " boxes") + " in the file. Send it to the person you're moving.";
+  };
+
+  S = load(); draw();
+})();
+</script>
+
+<section class="last" id="last" aria-label="Contact and links">
+  <img src="../img/wordmark-cream.png" alt="The Packed Rabbit" width="190" height="50" loading="lazy">
+  <h2>Questions? Write to us.</h2>
+  <a class="mail" href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a>
+  <a class="beta" href="../beta/">Moving soon? Test the app free before it launches</a>
+  <nav aria-label="More from The Packed Rabbit">
+    <a href="../tools/">Free moving tools</a><a href="../answers/">Straight answers</a>
+    <a href="../business/">For businesses</a><a href="../price.html">Price</a>
+    <a href="../privacy.html">Privacy</a><a href="../terms.html">Terms and refunds</a>
+  </nav>
+  <div class="soc" aria-label="Follow The Packed Rabbit">
+    <a href="https://www.instagram.com/thepackedrabbit/" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></svg></a>
+    <a href="https://www.tiktok.com/@thepackedrabbit" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5M14 3c.5 2.8 2.4 4.6 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a href="https://www.youtube.com/@thepackedrabbit" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 9.3v5.4l4.6-2.7z" fill="currentColor"/></svg></a>
+  </div>
+  <p class="lead">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>
+  <small>&copy; 2026 The Packed Rabbit</small>
+</section>
+</body>
+</html>
