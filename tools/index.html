@@ -130,7 +130,7 @@
       if (!hit) return;
       s = s * (hit / qs.length) * (d.t === "tool" ? 1.35 : d.t === "answer" ? 1.1 : (d.t === "state" || d.t === "country") ? 1.2 : .8);
       if (d.t === "state" || d.t === "country") { if (!has(d._h, qs[qs.length - 1], true) || qs.length > 4) s *= .3; }
-      out.push({ d: d, s: s });
+      out.push({ d: d, s: s, f: hit / qs.length });
     });
     return out.sort(function (a, b) { return b.s - a.s; }).filter(function (r, i, a) { return r.s >= Math.max(1.2, a[0].s * .35); }).slice(0, 5);
   }
@@ -144,8 +144,30 @@
   }
   /* tools rebuilt as walk-throughs open on their own pages */
   var WALKED = ["quote-check/", "truck/", "movers-vs-brokers/"];
+  var FIND = /\b(where('?s| is| are| did i (put|pack)| do i find)|find my|finding my|which box|what box|lost my|looking for my|can'?t find)\b/i;
+  /* questions about the move itself, not a thing in a box */
+  var NOTBOX = /\b(deposit|refund|mail|package|money|check|claim|truck|movers?|stuff|shipment|delivery|belongings|things|license|registration|ballot|vote)\b/i;
+  function findCard() {
+    var r = el("article", "res");
+    r.appendChild(el("p", "kind", "Your boxes"));
+    r.appendChild(el("h2", null, "Find it in your boxes"));
+    r.appendChild(el("p", null, "If you packed it with The Packed Rabbit, type it into your move's search. You'll see the box number, the photo of what's inside, and the room it's going to."));
+    var a = el("a", "more go", "Open my move"); a.href = "../app/"; r.appendChild(a);
+    return r;
+  }
   function render(list, q0) {
     out.textContent = "";
+    if (q0 && FIND.test(q0) && !NOTBOX.test(q0)) {
+      shown = ""; out.appendChild(findCard());
+      if (list.length) { var s0 = el("section", "also"); s0.appendChild(el("h3", null, "Or did you mean")); var u0 = el("ul"); list.slice(0, 3).forEach(function (x) { var li = el("li"), a = el("a"); a.href = "../" + x.d.u; a.dataset.u = x.d.u; a.appendChild(el("b", null, x.d.h)); a.appendChild(el("span", null, KIND[x.d.t])); li.appendChild(a); u0.appendChild(li); }); s0.appendChild(u0); out.appendChild(s0); }
+      all.hidden = true; return;
+    }
+    /* a weak match (under half the question's words) offers choices instead of one "straight answer" */
+    if (q0 && list.length && list[0].f != null && list[0].f < 0.5) {
+      shown = ""; var w = el("section", "also"); w.appendChild(el("h3", null, "Is it one of these?")); var uw = el("ul");
+      list.forEach(function (x) { var li = el("li"), a = el("a"); a.href = "../" + x.d.u; a.dataset.u = x.d.u; a.appendChild(el("b", null, x.d.h)); a.appendChild(el("span", null, KIND[x.d.t])); li.appendChild(a); uw.appendChild(li); });
+      w.appendChild(uw); out.appendChild(w); all.hidden = false; return;
+    }
     if (!list.length) {
       shown = ""; var n = el("div", "none");
       n.appendChild(el("p", null, "Nothing here answers that yet."));
@@ -182,7 +204,7 @@
     t = setTimeout(function () {
       var v = q.value.trim();
       if (v === last) return; last = v;
-      try { history.replaceState(null, "", v ? "?q=" + encodeURIComponent(v) : location.pathname); } catch (e) {}
+      /* panel review, 17 Nov: the question stays out of the address bar, so it isn't in history or analytics */
       if (!v) { out.textContent = ""; shown = ""; all.hidden = false; return; }
       var list = search(v);
       if (list.length && list[0].d.u === shown && out.firstChild) { var also = out.querySelector(".also"); if (also) also.remove(); if (list.length > 1) { render(list); } return; }
@@ -209,7 +231,7 @@
     });
   }
   var start = new URLSearchParams(location.search).get("q");
-  if (start) { q.value = start; run(true); }
+  if (start) { q.value = start; try { history.replaceState(null, "", location.pathname); } catch (e) {} run(true); }
 })();
 </script>
 

@@ -870,6 +870,9 @@ function icsText(){ const L=allDates(), stamp=new Date().toISOString().replace(/
 const moM=()=>((S.moSt||{}).moveout)||{};
 const moAmt=v=>parseFloat(String(v||'').replace(/[^\d.]/g,''))||0;
 const moMoney=n=>'$'+Math.round(n).toLocaleString('en-US');
+/* panel review, 17 Nov: Charlotte NC to Dublin OH got local claim advice, because only the distance answer was checked. Two addresses in different states make it a move between states. */
+function stOf(a){ a=String(a||''); const c=a.match(/\b[A-Z]{2}\b/g)||[]; for(let i=c.length-1;i>=0;i--) if(STN[c[i]]) return STN[c[i]]; return Object.values(STN).find(n=>new RegExp('\\b'+n+'\\b','i').test(a))||''; }
+function crossState(mv){ const f=mv.fromState?(STN[String(mv.fromState).toUpperCase()]||mv.fromState):stOf(mv.fromName||mv.from), to=stOf(mv.toName||mv.to); return !!(f&&to&&f!==to); }
 function moState(){ const mv=(S.moSt||{}).move||{}, a=String(mv.fromName||mv.from||S.from||'').trim(), m=a.match(/,\s*([A-Za-z .]+?)(?:\s+\d{5})?$/), x=m?m[1].trim():(S.fromSt||''); return STN[x.toUpperCase()]||x; }
 async function moGo(){ let st=null; try{ st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); }catch(e){} S.moSt=st||{}; const m=moM(); S.moNoticeBy=m.noticeBy||''; show('moHome'); }
 async function moSet(p){ const st=await homeWrite(s=>{ s.moveout=Object.assign({},s.moveout,p); }); if(!st){ toast(phone,'Your phone would not save that. Try again.'); return null; } S.moSt=st; S.hm=homeRead(st); return st; }
@@ -882,8 +885,8 @@ function mdGroups(st){ const nm=b=>mdRoom(b.destRoom||b.room)||'Other';
   const boxes=(st.boxes||[]).filter(b=>b&&b.code).slice().sort((a,b)=>nm(a).localeCompare(nm(b))||String(a.code).localeCompare(String(b.code)));
   const bigs=(st.bigs||[]).filter(g=>g&&g.name&&/^(move|store)$/.test(g.plan||'move'));
   const used=new Set(), take=f=>boxes.filter(b=>!used.has(b.id)&&f(b)).map(b=>{ used.add(b.id); return b; });
-  const wt=b=>{ const w=parseFloat(b.weight); if(w>0) return w; const d=b.dims||[]; return d.length>=3?d[0]*d[1]*d[2]/1728*7:0; };
-  const hand=take(hHand), last=take(b=>b.essential||b.room==='OPEN'||b.destRoom==='OPEN'), top=take(b=>b.fragile||b.noStack), hv=take(b=>wt(b)>=35||HEAVYP.includes(b.preset)||b.size==='Small'), rest=take(()=>true);
+  /* panel review, 17 Nov: a big light box (coats, decorations) went in with the heavy ones and the pots tagged Heavy didn't. Heavy is what you tagged or weighed, a heavy-duty box, or a small one. */
+  const hand=take(hHand), last=take(b=>b.essential||b.room==='OPEN'||b.destRoom==='OPEN'), top=take(b=>b.fragile||b.noStack), hv=take(b=>parseFloat(b.weight)>=35||/(^|\s)Heavy\.(\s|$)/.test(b.notes||'')||HEAVYP.includes(b.preset)||b.size==='Small'), rest=take(()=>true);
   const G={big:{bigs,boxes:[]},heavy:{bigs:[],boxes:hv},mid:{bigs:[],boxes:rest},top:{bigs:[],boxes:top},last:{bigs:[],boxes:last}};
   return {hand, groups:MD_GROUPS.map(([k,n,why])=>Object.assign({k,n,why},G[k])).filter(g=>g.boxes.length||g.bigs.length)}; }
 /* what went on the truck, by the room it goes to, and how many are in */
@@ -1541,8 +1544,8 @@ const P={
   /* panel, 13 Nov: pack a box in three taps. The photo comes first, the words second, then Save. The room, the size and
      where it goes copy the last box, and all of them can be changed. The size is shown, never required (owner, 9 Nov). */
   quick:()=>{ qkPrefill(S.boxes[S.boxes.length-1]); const NOTC=/^(Donate|Sell|Not sure)$/;
-    const photos=S.photos.length?`<div class="shots">${S.photos.map((u,i)=>`<div class="shotw"><img class="shot" src="${u}" alt="Photo ${i+1}"><button class="unshot" data-unshot="${i}" aria-label="Remove photo ${i+1}">Remove</button></div>`).join('')}</div><label class="choice lab">Add another photo<input type="file" accept="image/*" multiple hidden data-pic></label>`
-      :(S.camOk?`<label class="cta lab">Take a photo<input type="file" accept="image/*" capture="environment" hidden data-pic></label>`:`<button class="cta" id="askcam">Take a photo</button><input type="file" accept="image/*" capture="environment" hidden data-pic>`);
+    const photos=S.photos.length?`<div class="shots">${S.photos.map((u,i)=>`<div class="shotw"><img class="shot" src="${u}" alt="Photo ${i+1}"><button class="unshot" data-unshot="${i}" aria-label="Remove photo ${i+1}">Remove</button></div>`).join('')}</div><label tabindex="0" role="button" class="choice lab">Add another photo<input type="file" accept="image/*" multiple hidden data-pic></label>`
+      :(S.camOk?`<label tabindex="0" role="button" class="cta lab">Take a photo<input type="file" accept="image/*" capture="environment" hidden data-pic></label>`:`<button class="cta" id="askcam">Take a photo</button><input type="file" accept="image/*" capture="environment" hidden data-pic>`);
     const where=S.room?`From the ${esc(lc(S.room))}${S.dest&&S.dest!==S.room?(NOTC.test(S.dest)?` (${esc(lc(S.dest))})`:`, going to the ${esc(lc(S.dest))}`):''}.`:'';
     const sizes=`<p class="qlabel">Size <span style="font-weight:600;color:var(--muted)">(optional)</span></p><div class="sizes" role="group" aria-label="Size">${["XS","S","M","L","XL"].map(k=>`<button class="choice ${S.size===k?'on':''}" data-qsize="${k}" aria-pressed="${S.size===k}" aria-label="${({XS:'Extra small',S:'Small',M:'Medium',L:'Large',XL:'Extra large'})[k]}">${k}<small>${({XS:'Extra small',S:'Small',M:'Medium',L:'Large',XL:'Extra large'})[k]}</small></button>`).join('')}</div>`;
     return ({h:S.room?`This is ${code()}.`:(S.boxes.length?`Box ${S.boxes.length+1}.`:'Your first box.'), sub:S.room?`Write it on the box. ${where}`:'Take a photo inside it before you close it.',
@@ -1550,8 +1553,8 @@ const P={
   firstBox:()=>({h:"Your first box.", sub:"Pack it. Photograph it. Find it.", body:`<button class="cta" data-go="start">Let's pack it</button>`}),
   start:()=>({h:S.boxes.length?`Box ${S.boxes.length+1}. Which room is it from?`:"Which room is it from?", sub:S.boxes.length?"The same room or a new one.":"Start somewhere you don't use every day.",
     body:(()=>{ const q=quickRooms(); return `<div class="choices${q.length>2?' two':''}" role="group" aria-label="Your rooms">${q.map(r=>`<button class="choice" data-room="${esc(r)}">${esc(r)}</button>`).join('')}</div>${roomPick('otherroom','Another room')}`; })()}),
-  photo:()=>({say:`${code()}${S.words?': '+esc(S.words):''}. ${destLine(S.dest)}`, h:S.photos.length?"Add another, or go on.":"Let's take a picture.", sub:S.photos.length?(S.photos.length===1?"One photo so far.":`${S.photos.length} photos so far.`):"", body:S.photos.length?`<div class="shots">${S.photos.map((u,i)=>`<div class="shotw"><img class="shot" src="${u}" alt="Photo ${i+1}"><button class="unshot" data-unshot="${i}" aria-label="Remove photo ${i+1}">Remove</button></div>`).join('')}</div><button class="cta" data-go="special">Next</button><label class="choice lab">Add another photo<input type="file" accept="image/*" multiple hidden data-pic></label>`
-      :(S.camOk?`<label class="cta lab">Add a photo<input type="file" accept="image/*" multiple hidden data-pic></label>`:`<button class="cta" id="askcam">Add a photo</button><input type="file" accept="image/*" multiple hidden data-pic>`)+`<div class="packtip"><b>Packing a cabinet, a closet or a drawer full of things?</b><p>Take a picture of it as a whole first, before anything is wrapped. Then take one inside the box once it's full, before you close it.</p></div><button class="link" data-go="special">Skip</button>`}),
+  photo:()=>({say:`${code()}${S.words?': '+esc(S.words):''}. ${destLine(S.dest)}`, h:S.photos.length?"Add another, or go on.":"Let's take a picture.", sub:S.photos.length?(S.photos.length===1?"One photo so far.":`${S.photos.length} photos so far.`):"", body:S.photos.length?`<div class="shots">${S.photos.map((u,i)=>`<div class="shotw"><img class="shot" src="${u}" alt="Photo ${i+1}"><button class="unshot" data-unshot="${i}" aria-label="Remove photo ${i+1}">Remove</button></div>`).join('')}</div><button class="cta" data-go="special">Next</button><label tabindex="0" role="button" class="choice lab">Add another photo<input type="file" accept="image/*" multiple hidden data-pic></label>`
+      :(S.camOk?`<label tabindex="0" role="button" class="cta lab">Add a photo<input type="file" accept="image/*" multiple hidden data-pic></label>`:`<button class="cta" id="askcam">Add a photo</button><input type="file" accept="image/*" multiple hidden data-pic>`)+`<div class="packtip"><b>Packing a cabinet, a closet or a drawer full of things?</b><p>Take a picture of it as a whole first, before anything is wrapped. Then take one inside the box once it's full, before you close it.</p></div><button class="link" data-go="special">Skip</button>`}),
   closet:()=>{ /* owner, 7 Nov: ask what room the closet is in */
     const top=[["Primary bedroom","Primary bedroom closet"],["Another bedroom","Bedroom closet"],["Front hall","Front hall closet"],["Hallway","Hall closet"],["Bathroom","Bathroom closet"],["Basement","Basement closet"]], rest=["Linen closet","Coat closet","Walk-in closet","Attic closet","First floor closet","Second floor closet"];
     return ({h:"What room is the closet in?", sub:"So the box goes back to the right one.", scene:"start",
@@ -1811,7 +1814,7 @@ const P={
     return ({say:"Your first 3 boxes are packed.", h:"All of it is $9.99 a month.", scene:"price",
       body:`<ul class="have">${have.map(x=>`<li>${x}</li>`).join('')}</ul>
         <div class="plans"><button class="plan m" data-plan="month">Keep packing for $9.99 a month</button></div>
-        <p class="hint" style="margin-top:8px">Renews monthly until you cancel. Cancel anytime: your list stays yours.</p><button class="link" data-back2>Not now</button>
+        <p class="hint" style="margin-top:8px">Renews monthly until you cancel. Cancel anytime: your list stays yours.</p><button class="link" id="haveCode">I have a code</button><button class="link" data-back2>Not now</button>
         <p class="lead">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>`}); },
   furnTab:()=>({say:`The ${esc(itemName(S.cur||{what:'piece'}))} is saved.`, h:"Your Big Stuff tab is ready.", sub:"It's in the bar, next to Boxes.", body:`<button class="cta" id="furnNext">Next</button>`}),
   /* tester, 8 Nov: "Did we miss a room?" offered the garage and office already passed over, and Bedroom 2 in a
@@ -1832,15 +1835,15 @@ const P={
     body:`<div class="choices two">${["Just me","A partner","Kids","Pets","A parent or relative","Roommates"].map(x=>`<button class="choice${(S.who||[]).includes(x)?' hint':''}" data-who="${x}" aria-pressed="${(S.who||[]).includes(x)}">${x}</button>`).join('')}</div><button class="cta" id="whoNext" ${(S.who||[]).length?'':'disabled'}>Next</button>`}),
   hplan:()=>({say:"Your new place.", h:S.home.plan?"Got the floor plan.":"Have a floor plan?", sub:S.home.plan?"":"A photo of the listing's plan works. Later it shows what fits through the doors.", scene:S.home.plan?'blank':'house',
     body:(S.home.plan?`<img class="homepic" src="${S.home.plan}" alt="Floor plan of your new place"><button class="cta" id="planNext">Next</button>`
-      :`<label class="cta lab">Add the floor plan<input type="file" accept="image/*" hidden id="homeplan"></label><button class="link" id="planSkip">Not now</button>`)}),
+      :`<label tabindex="0" role="button" class="cta lab">Add the floor plan<input type="file" accept="image/*" hidden id="homeplan"></label><button class="link" id="planSkip">Not now</button>`)}),
   hbeds:()=>({say:"The new place.", h:"How many bedrooms?", scene:'house', body:pickList(["Studio","1","2","3","4 or more"],S.hbeds)}),
   hbudget:()=>({say:`${S.hbeds==='Studio'?'A studio':S.hbeds+(S.hbeds==='1'?' bedroom':' bedrooms')}.`, h:S.hkind==='Buying'?"What's the most you want to pay?":"What's the most you want to pay a month?", scene:'house',
     body:`<div class="field"><input id="hbud" inputmode="numeric" value="${esc(S.hbudget||'')}" placeholder="${S.hkind==='Buying'?'350,000':'2,000'}" aria-label="Budget in dollars"></div><button class="cta" id="budNext">Next</button><button class="link" id="budSkip">Skip</button>`}),
   hsearch:()=>({say:"Your search, ready to go.", h:"Look here first.", sub:"Each one opens with what you're looking for already filled in.", scene:'house',
     body:`<div class="links">${HOUSING.map(([n,site])=>`<a class="choice lab" target="_blank" rel="noopener" href="${huntUrl(site)}">${n}</a>`).join('')}</div><button class="cta" id="searchNext">Next</button>`}),
   hphoto:()=>({say:"Signed. Let's save it.", h:S.home.photo?"There it is.":"Add a photo of your new place.", sub:S.home.photo?"":"The listing photo works, or one from the curb.", scene:S.home.photo?'blank':'house',
-    body:(S.home.photo?`<img class="homepic" src="${S.home.photo}" alt="Your new place"><button class="cta" id="photoNext">Next</button><label class="link lab">Change the photo<input type="file" accept="image/*" hidden id="homepic"></label>`
-      :`<label class="cta lab">Add a photo<input type="file" accept="image/*" hidden id="homepic"></label><button class="link" id="photoSkip">Later</button>`)}),
+    body:(S.home.photo?`<img class="homepic" src="${S.home.photo}" alt="Your new place"><button class="cta" id="photoNext">Next</button><label tabindex="0" role="button" class="link lab">Change the photo<input type="file" accept="image/*" hidden id="homepic"></label>`
+      :`<label tabindex="0" role="button" class="cta lab">Add a photo<input type="file" accept="image/*" hidden id="homepic"></label><button class="link" id="photoSkip">Later</button>`)}),
   hlink:()=>({say:"Where it came from.", h:"Where did you find it?", sub:"Paste the link, so the listing is saved before it comes down.", scene:'house',
     body:`<div class="field"><input id="hlinkin" inputmode="url" value="${esc(S.home.link||'')}" placeholder="Paste the link" aria-label="Link to the listing"></div><div class="field"><select id="hsrc" aria-label="Where you found it">${LISTING_SOURCES.map(x=>`<option${S.home.source===x?' selected':''}>${x}</option>`).join('')}</select></div><button class="cta" id="linkNext">Next</button><button class="link" id="linkSkip">Later</button>`}),
   hdetails:()=>({say:"The details.", h:"Paste what the listing says.", sub:"Price, rooms, size, what's included. The rabbit pulls out the numbers.", scene:'house',
@@ -1969,7 +1972,7 @@ const P={
   ppKind:()=>({say:'Papers and proof.', h:'What are you adding?', sub:'Each kind gets its own place in your papers.', scene:'papers',
     body:`<div class="field"><select id="ppKindIn" aria-label="What you are adding">${PAPER_KINDS.map(k=>`<option value="${k.k}"${(S.ppk||'lease-old')===k.k?' selected':''}>${esc(k.n)}</option>`).join('')}</select></div><button class="cta" id="ppNext">Next</button>`}),
   ppAdd:()=>({say:`${ppKind(S.ppk).n}.`, h:'Add the PDF or photos.', sub:'From Files, Mail or Photos. On paper? Take a photo of each page.', scene:'papers',
-    body:`<label class="cta lab" id="ppPick">Choose a PDF or photos<input type="file" accept="application/pdf,image/*" multiple hidden id="ppFile"></label><p class="hint" id="ppBusy" hidden>Saving on this phone.</p>`}),
+    body:`<label tabindex="0" role="button" class="cta lab" id="ppPick">Choose a PDF or photos<input type="file" accept="application/pdf,image/*" multiple hidden id="ppFile"></label><p class="hint" id="ppBusy" hidden>Saving on this phone.</p>`}),
   ppItem:()=>{ const x=ppList().find(y=>y.id===S.ppi); if(!x) return P.ppHome(); const lease=/^lease/.test(x.kind), L=x.lease||{}, due=ppNotice(L);
     return ({say:`${ppKind(x.kind).n}.`, h:`${x.name||ppKind(x.kind).n}.`, sub:`Added ${ppWhen(x.at)}${x.size?`, ${ppSize(x.size)}`:''}.${x.note?` ${x.note}`:''}`, scene:'papers',
       body:`${lease&&(L.end||L.rent||L.deposit||L.notice)?`<p class="lsub">${esc([L.end?`Ends ${fmtD(L.end)}`:'',L.rent?`${MK.money(MK.amt(L.rent))} a month`:'',L.deposit?`${MK.money(MK.amt(L.deposit))} deposit`:'',L.notice?`${L.notice} days' notice`:''].filter(Boolean).join(', '))}.${due?` Written notice is due by <b>${esc(fmtD(due))}</b>.`:''}</p>`:''}<button class="cta" id="ppOpen">Open it</button>${lease?`<button class="choice" data-go="ppEnd" style="margin-top:12px;max-width:300px">The numbers that matter</button>`:''}${lease&&x.kind==='lease-old'&&(L.deposit||due)?`<button class="choice" id="ppUse" style="margin-top:10px;max-width:300px">Use these for the deposit</button>`:''}<button class="link" data-go="ppName">Name and note</button><button class="link" id="ppDel">Remove</button><button class="link" data-go="ppHome">Back to your papers</button>`}); },
@@ -2051,7 +2054,7 @@ const P={
   mdSetup:()=>{ const L=mdSetupList(S.mdSt||{}); return ({say:'Delivery.', h:'Set up first, in this order.', sub:`Nothing else matters until these ${L.length} are done.`, scene:'house', body:mdChecks(L)+'<button class="cta" data-go="mdIn">Done</button>'}); },
   mdNight:()=>{ const st=S.mdSt||{}, today=(S.hm||{}).mode==='delivery', L=["Room signs on every door",(st.boxes||[]).some(b=>b&&b.essential)?"Open First box and Stays with me beside you, not in a pile":"Stays with me beside you, not in a pile",mdPets(st)?`${cap1(mdPetNames(st))} shut in a quiet room`:null,"A clear path from the door to every room","Somewhere for the truck to park"].filter(Boolean);
     return ({say:'Delivery.', h:today?'Before the truck pulls up.':'The night before delivery.', sub:'Tap each one when it\'s done.', scene:'house', body:mdChecks(L)+'<button class="cta" data-go="mdIn">Done</button>'}); },
-  mdClaim:()=>{ const st=S.mdSt||{}, R=mdComing(st), miss=mdAfter()?R.left:[], dam=(st.boxes||[]).filter(b=>b&&b.damaged), dg=mdDamBigs(st), pr=st.profile||{}, far=/^(far|cross|abroad)$/.test(pr.distance||'');
+  mdClaim:()=>{ const st=S.mdSt||{}, R=mdComing(st), miss=mdAfter()?R.left:[], dam=(st.boxes||[]).filter(b=>b&&b.damaged), dg=mdDamBigs(st), pr=st.profile||{}, far=/^(far|cross|abroad)$/.test(pr.distance||'')||crossState((st.move||{}));
     const dl=((st.move||{}).delivery)||((st.move||{}).date)||'', by=dl?(()=>{ const d=new Date(dl+'T12:00'); d.setMonth(d.getMonth()+9); return d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}); })():'';
     const any=miss.length||dam.length||dg.length, open=miss.some(x=>!x.claimed)||dam.some(x=>!x.claimed)||dg.some(x=>!x.claimed);
     return ({say:'Delivery.', h:'If something is missing or broken.', sub:far?`On a move between states, federal rules give you nine months from delivery to file a written claim${by?`, so by ${by}`:''}. The mover has 30 days to answer it and 120 days to pay or refuse.`:'On a local move, your state and your contract set the deadline. Look on the bill of lading, and don\'t wait for it.', scene:'none',
@@ -2294,6 +2297,8 @@ function wire(id){
        The whole window goes to Stripe, and Stripe brings it back to the app, unlocked. */
     phone.querySelectorAll('[data-plan]').forEach(b=>b.onclick=()=>{ if(window.__APP){ keep(true).then(()=>{ const u=window.__BUY;
       try{ (window.top||window).location.href=u; }catch(e){ window.open(u,'_top'); } }); return; } S.paid=b.dataset.plan; show('start'); });
+    /* panel review, 17 Nov: a tester with a beta or gift code had nowhere to type it after the first three boxes */
+    { const hc=$('#haveCode'); if(hc) hc.onclick=()=>toApp('?go=pack'); }
     $('[data-back2]').onclick=()=>{ const prev=hist.pop(); show(prev||'boxesTab',true); }; }
   if(id==='bigSaved'||id==='roomCheck'){ phone.querySelectorAll('[data-nextroom]').forEach(n=>n.onclick=()=>goRoom(n.dataset.nextroom)); const o=$('#otherroom2'); if(o) o.onchange=e=>goRoom(e.target.value); if($('#allRooms')) $('#allRooms').onclick=finishBig; }
   if(id==='roomItem'){ phone.querySelectorAll('[data-item]').forEach(c=>c.onclick=()=>startItem(c.dataset.item)); $('#itemsel').onchange=e=>startItem(e.target.value);
@@ -3149,7 +3154,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v396, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v397, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
@@ -3216,10 +3221,14 @@ function wireAsk(b){ const $=s=>phone.querySelector(s), q=S.flipQ;
   { const sl=$('#faskSel'); if(sl) sl.onchange=()=>put(sl.value); }
   { const t=$('#faskTxt'), sv=$('#faskSave'); if(t&&sv){ sv.onclick=()=>put(t.value); t.onkeydown=e=>{ if(e.key==='Enter') put(t.value); }; } }
   { const u=$('#fmundo'); if(u) u.onclick=async()=>{ const m=S.lastMark, w=m&&S.boxes.find(x=>x.code===m.code); if(!w) return; if(await flipMark(w,m.prev)){ S.lastMark=null; const f=F(); delete f.done[w.code]; f.step=''; f.code=''; keep(); show('flip',true); say(`${w.code} is back as it was.`); } }; } }
+async function appTake(id){ try{ const st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); if(!st||!Array.isArray(st.boxes)) return null; const at=st.boxes.findIndex(y=>y&&y.id===id); if(at<0) return null; const box=st.boxes.splice(at,1)[0]; await idbSet('moving-command-center-v1',JSON.stringify(st)); return {box,at}; }catch(e){ return null; } }
+async function appPut(r){ try{ const st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); if(!st||!Array.isArray(st.boxes)||st.boxes.some(y=>y&&y.id===r.box.id)) return; st.boxes.splice(Math.min(r.at,st.boxes.length),0,r.box); await idbSet('moving-command-center-v1',JSON.stringify(st)); }catch(e){} }
 async function flipUnpack(b,on){ try{ const st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); if(!st||!Array.isArray(st.boxes)) return false;
     const x=st.boxes.find(y=>y&&y.id===b.appId); if(!x) return false;
     if(on){ b.prevDelivered=!!x.delivered; x.unpacked=true; x.delivered=true; } else { x.unpacked=false; if(b.prevDelivered===false) x.delivered=false; }
     await idbSet('moving-command-center-v1',JSON.stringify(st)); b.unpacked=!!x.unpacked; b.delivered=!!x.delivered; return true; }catch(e){ return false; } }
+/* panel review, 17 Nov: photo and file buttons are labels around a hidden file input, so the keyboard skipped them. They take focus and open on Enter or Space. */
+addEventListener('keydown',e=>{ const l=e.target&&e.target.closest&&e.target.closest('label.lab'); if(!l||(e.key!=='Enter'&&e.key!==' ')) return; const f=l.querySelector('input[type=file]'); if(f){ e.preventDefault(); f.click(); } });
 addEventListener('keydown',e=>{ if(cur!=='flip'||e.target&&/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return; if(e.key==='ArrowRight') flipGo(1); else if(e.key==='ArrowLeft') flipGo(-1); });
 async function loadHome(){ let st=null; try{ st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); }catch(e){}
   const RN={}; Object.keys(CODE).forEach(k=>{ if(!RN[CODE[k]]) RN[CODE[k]]=k; });
@@ -3351,16 +3360,16 @@ const SIZEN={XS:'Extra small',S:'Small',M:'Medium',L:'Large',XL:'Extra large',Cu
 /* tester, 8 Nov: a 35-inch armchair was counted as 35 chairs. A size in inches is a size, not a count. */
 const pieces=b=>{ const s=b.size||''; if(/[″×]|inch/.test(s)) return 1; if(/^Lamps$/.test(b.what)) return (s.match(/\d+/g)||['1']).reduce((a,x)=>a+ +x,0); if(/^Sectional$|Nightstands|End tables|^Chairs$|chairs|Barstools/.test(b.what)||COUNTED.test(b.what)){ const m=s.match(/\d+/); return m?+m[0]:1; } return 1; };
 function boxRow(b,q){ q=typeof q==='string'?q:(S.find||''); const pt=putOf(b,q); return `<li class="tap" tabindex="0" role="button" data-box="${S.boxes.indexOf(b)}">${b.photo&&!isPriv(b)?`<img class="thumb" src="${b.photo}" alt="">`:`<svg class="thumb" viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="10" width="28" height="24" rx="2" fill="var(--f1)" stroke="var(--ink)" stroke-width="2"/><rect x="17" y="10" width="6" height="9" fill="var(--tape)"/></svg>`}<em><b style="color:var(--ink)">${b.code}</b>${boxKind(b)?`<span class="bkind">${esc(boxKind(b))}</span>`:''}<br>${esc(bwords(b))}${pt?`<br><span class="bput">${esc(pt)}</span>`:b.unpacked&&q?'<br><span class="bput">Unpacked. Where it went isn\'t written down.</span>':''}</em><span>${b.unpacked?'Unpacked':b.nowAt?esc(b.nowAt):b.opened?'Opened':(b.flags||[]).includes('Goes with me')?'With you':S.roomOnly&&cur==='myBoxes'?'':esc(b.room)}</span></li>`; }
-function findRes(){ const q=(S.find||'').trim().toLowerCase(), bx=S.boxes.filter(b=>!q||((isPriv(b)?'':b.words)+' '+b.room+' '+b.code+' '+(b.flags||[]).join(' ')).toLowerCase().includes(q)).slice().reverse(), fu=q?S.big.filter(b=>(b.what+' '+(b.room||'')+' '+(b.model||'')).toLowerCase().includes(q)):[];
+function findRes(){ const q=(S.find||'').trim().toLowerCase(), qm=(x,q)=>qWords(q).length?qHas(x,q):String(x).toLowerCase().includes(q), bx=S.boxes.filter(b=>!q||qm((isPriv(b)?'':b.words)+' '+b.room+' '+b.code+' '+(b.flags||[]).join(' '),q)).slice().reverse(), fu=q?S.big.filter(b=>qm(b.what+' '+(b.room||'')+' '+(b.model||''),q)):[];
   return (bx.length?`<ul class="list">${bx.map(boxRow).join('')}</ul>`:'')+(fu.length?`<p class="grp">Furniture</p><ul class="list">${fu.map(b=>`<li>${esc(b.what)}<span>${esc(b.room||'')}</span></li>`).join('')}</ul>`:'')+(!bx.length&&!fu.length?`<p>Nothing matches that yet.</p>`:'')+(bx.length&&!q?'<p class="swipe">Tap a box to see its photo.</p>':''); }
 function sheetBody(n){
   if(n==='Boxes'){
     if(S.bsel>=0){ const list=S.boxes.slice().reverse();
       return `<button class="back" data-blist style="padding-left:0">All boxes</button><div class="cards">${list.map(b=>{ const i=S.boxes.indexOf(b); return `<div class="card" id="card-${i}"><div class="pic">${b.photo?`<img src="${b.photo}" alt="What's inside ${b.code}">${(b.photos||[]).length>1?`<div class="more">${b.photos.slice(1).map((u,k)=>`<img src="${u}" alt="${b.code}, picture ${k+2}">`).join('')}</div>`:''}`:`<svg viewBox="0 0 150 130" aria-hidden="true"><g class="fore"><rect x="25" y="30" width="100" height="90"/><rect class="tape" x="68" y="30" width="14" height="28"/></g></svg>`}</div>
-      <div class="meta"><b>${b.code}</b><p>${isPriv(b)?'Private. What\'s inside shows in the full app, behind your passcode.':esc(b.words||'Nothing written yet')}</p>${b.dest?`<p><b style="font-size:inherit">${esc(destLine(b.dest))}</b></p>`:''}${b.airtag?'<p>AirTag inside, so Find My shows where it is.</p>':''}<p style="color:var(--muted)">From the ${esc(lc(b.room))}. ${SIZEN[b.size]||''}${b.custom?' ('+b.custom+')':''}${b.brand?' ('+esc(b.brand)+')':''}, ${b.duty.toLowerCase()}.</p>
+      <div class="meta"><b>${b.code}</b><p>${isPriv(b)?'Private. What\'s inside shows in the full app, behind your passcode.':esc(b.words||'Nothing written yet')}</p>${b.dest?`<p><b style="font-size:inherit">${esc(destLine(b.dest))}</b></p>`:''}${b.airtag?'<p>AirTag inside, so Find My shows where it is.</p>':''}<p style="color:var(--muted)">From the ${esc(lc(b.room))}.${(()=>{ const sz=(SIZEN[b.size]||'')+(b.custom?' ('+esc(b.custom)+')':'')+(b.brand?' ('+esc(b.brand)+')':''), du=String(b.duty||'').toLowerCase(); return sz&&du?` ${sz}, ${du}.`:sz?` ${sz}.`:du?` ${du[0].toUpperCase()+du.slice(1)}.`:''; })()}</p>
       ${(b.flags||[]).length?`<div class="tags">${b.flags.map(k=>`<span style="color:${STAMPC[k]}">${k}</span>`).join('')}</div>`:''}
       <details style="margin-top:6px;font-size:16px"><summary style="min-height:44px;display:flex;align-items:center;cursor:pointer;color:var(--ink);font-weight:700">Dimensions</summary>${dimText(b.dims)||'Not known'}</details>
-      <button class="link" data-rm="${i}" style="padding:0">Remove this box</button></div></div>`; }).join('')}</div>${list.length>1?'<p class="swipe">Swipe for the next box.</p>':''}`; }
+      <button class="link" data-rm="${i}" style="padding:0" aria-label="Remove box ${esc(b.code)}">Remove this box</button></div></div>`; }).join('')}</div>${list.length>1?'<p class="swipe">Swipe for the next box.</p>':''}`; }
     return `<button class="cta" data-addbox style="margin:0 0 12px;max-width:none">Add a box</button><input class="find" id="find" placeholder="Find anything: coats, tools, the TV" value="${esc(S.find||'')}" aria-label="Find a box or a piece of furniture"><div class="res">${findRes()}</div>`; }
   if(n==='Furniture'){
     if(S.fsel>=0 && S.big[S.fsel]) return pieceBody(S.big[S.fsel]);
@@ -3396,7 +3405,7 @@ function pieceBody(b){
   return `<button class="back" data-plist style="padding-left:0">All furniture</button>
     <div class="card" style="margin-top:6px"><div class="meta" style="padding-bottom:0"><b>${esc(b.what)}</b><p style="color:var(--muted)">${esc(b.room||'')}${b.size?'. '+esc(b.size):''}.${b.cond?' Condition: '+esc(b.cond.toLowerCase())+'.':''}${b.airtag?' AirTag on it.':''}</p></div>
       <div class="pic" ${b.photo?'':'style="height:auto;background:none"'}>${b.photo?`<img src="${b.photo}" alt="${esc(b.what)}">${b.shots&&Object.keys(b.shots).length>1?`<div class="more">${SIDES.filter(s=>b.shots[s]&&b.shots[s]!==b.photo).map(s=>`<img src="${b.shots[s]}" alt="${esc(b.what)}, ${s.toLowerCase()}">`).join('')}</div>`:''}`
-      :`<div class="pchoose"><label class="cta lab">Add a photo<input type="file" accept="image/*" hidden data-ppic></label></div>`}</div>
+      :`<div class="pchoose"><label tabindex="0" role="button" class="cta lab">Add a photo<input type="file" accept="image/*" hidden data-ppic></label></div>`}</div>
     <div class="meta">
       ${b.photo?'<button class="link" data-prepic style="min-height:44px;padding:0">Change the photo</button>':''}
       <div class="field" style="max-width:none"><input id="pmodel" value="${esc(b.model||'')}" placeholder="Make and model (optional)" aria-label="Make and model, optional"></div>
@@ -3457,7 +3466,8 @@ function wireSheet(s,n){
   rows();
   const add=s.querySelector('[data-addbox]'); if(add) add.onclick=()=>{ closeSheet(true); show('start'); };
   const ab=s.querySelector('[data-blist]'); if(ab) ab.onclick=()=>{ S.bsel=-1; re(); };
-  s.querySelectorAll('[data-rm]').forEach(x=>x.onclick=()=>{ const i=+x.dataset.rm, gone=S.boxes[i]; S.boxes.splice(i,1); S.bsel=-1; re(); toast(s,`${gone.code} removed.`,()=>{ S.boxes.splice(i,0,gone); re(); }); });
+  /* panel review, 17 Nov: a removed box came back. The walk saves at once, and a box already in the app leaves the app too; Undo puts both back. */
+  s.querySelectorAll('[data-rm]').forEach(x=>x.onclick=async()=>{ const i=+x.dataset.rm, gone=S.boxes[i]; S.boxes.splice(i,1); S.bsel=-1; keep(true); const app=gone.appId?await appTake(gone.appId):null; re(); toast(s,`${esc(gone.code)} removed.`,async()=>{ S.boxes.splice(i,0,gone); keep(true); if(app) await appPut(app); re(); }); const ub=s.querySelector('.toast button'); if(ub){ ub.setAttribute('aria-label',`Undo removing ${gone.code}`); ub.focus(); } });
   s.querySelectorAll('[data-piece]').forEach(li=>li.onclick=()=>{ const b=S.big[+li.dataset.piece];
     /* a piece that lives in the app opens its full page there: every photo, the size, brand, value and dates */
     if(S.homeMode&&b&&b.appId){ toApp('?big='+encodeURIComponent(b.appId),n); return; }
