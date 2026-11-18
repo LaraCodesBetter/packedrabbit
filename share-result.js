@@ -56,7 +56,7 @@
     g.fillStyle = "#EADFC9"; roundRect(g, 80, H - 300, 620, 104, 52); g.fill();
     g.fillStyle = "#14281B"; g.font = "800 54px " + F; g.fillText("packedrabbit.com", 120, H - 230);
     g.fillStyle = "rgba(255,255,255,.88)"; g.font = "600 38px " + F; g.fillText("Check yours before you sign.", 80, H - 130);
-    g.fillStyle = "rgba(255,255,255,.6)"; g.font = "500 30px " + F; g.fillText("A moving app made by a consumer, for consumers.", 80, H - 80);
+    g.fillStyle = "rgba(255,255,255,.6)"; g.font = "500 30px " + F; g.fillText("The Packed Rabbit. Just ask the rabbit.", 80, H - 80);
     if (RABBIT.complete && RABBIT.naturalWidth) { try { g.drawImage(RABBIT, W - 80 - 150, H - 346, 150, 166); } catch (e) { /* drawn without it */ } }
     return c;
   }

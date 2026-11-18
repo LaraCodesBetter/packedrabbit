@@ -75,8 +75,12 @@ html.embed .walk{display:none}
 
 /* owner, 7 Nov: the page is the walk, like the entrance. The site's bar and the whole
    tool stay out of sight until "See the whole tool" is pressed. */
-body.has-walk.wk-closed header.top, body.has-walk.wk-closed .wk-under, body.has-walk.wk-closed body > footer, body.has-walk.wk-closed > footer{display:none}
-body.has-walk.wk-closed .walk{min-height:100svh}
+body.has-walk.wk-closed .wk-under, body.has-walk.wk-closed body > footer, body.has-walk.wk-closed > footer{display:none}
+body.has-walk.wk-closed .walk{min-height:calc(100svh - 64px)}
+/* owner, 9 Nov: one signature on every page. The question pages keep only the wordmark at the top, centered, so the question still stands alone. */
+body.has-walk.wk-closed header.top{display:flex; justify-content:center; padding-top:14px; padding-bottom:0}
+body.has-walk.wk-closed header.top > :not(.brand):not(.prhead), body.has-walk.wk-closed header.top .prhead > :not(.brand){display:none}
+body.has-walk.wk-closed header.top .prhead{justify-content:center; background:none; box-shadow:none; border:0}
 .wk-chips{margin-top:16px;width:100%;max-width:360px;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
 .wk-chip{min-height:46px;font-size:16px;padding:6px 14px;flex:0 1 auto}
 .wk-choice.on{background:var(--wk-ink);color:var(--wk-screen)}
