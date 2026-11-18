@@ -32,6 +32,15 @@
     var uh = document.createElement("p"); uh.className = "wk-under-h"; uh.textContent = cfg.underTitle || "Everything on one page";
     main.insertBefore(uh, main.firstChild);
     document.body.classList.add("has-walk"); document.body.classList.add("wk-closed");
+    /* panel (accessibility lead), 17 Nov 2026: "Skip to the content" pointed at the page under the tool, hidden until it's
+       opened, so the next Tab went to the footer. It lands on the tool itself now. */
+    host.tabIndex = -1;
+    var skip = document.querySelector("a.skip");
+    if (skip) skip.addEventListener("click", function (e) {
+      var t = host.querySelector(".wk-h") || host;
+      if (!t.hasAttribute("tabindex")) t.tabIndex = -1;
+      e.preventDefault(); try { t.focus(); } catch (er) {}
+    });
     /* owner, 7 Nov: nothing stacked. The whole tool waits behind one button, out of sight until asked for. */
 
     var S = cfg.state || {}, hist = [], cur = null, lastScene = null;
