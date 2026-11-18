@@ -41,3 +41,10 @@ section.last .lead{max-width:34ch; font-size:.98rem; line-height:1.5; color:#F2E
 section.last small{color:#F2E8D599}
 section.last a:focus-visible{outline:3px solid #F2E8D5; outline-offset:3px}
 section.last{box-sizing:border-box;font-family:-apple-system,"SF Pro Text","Segoe UI",system-ui,sans-serif;width:100%}
+
+/* The brand's one typeface on these pages too (website review, 18 Nov 2026): they used the
+   phone's system font and a serif, while every other page and both phone apps use Atkinson. */
+@font-face{font-family:"Atkinson Next";src:url(fonts/atkinson-next.woff) format("woff");font-weight:200 800;font-display:swap}
+@font-face{font-family:"Atkinson Mono";src:url(fonts/atkinson-mono.woff) format("woff");font-weight:200 800;font-display:swap}
+body,h1,h2,h3,h4,button,input,select,textarea,.btn{font-family:"Atkinson Next",system-ui,-apple-system,"Segoe UI",sans-serif}
+code,pre,kbd,.mono{font-family:"Atkinson Mono",ui-monospace,"SF Mono",Menlo,monospace}

@@ -76,7 +76,7 @@
   .row .t span { display: block; color: var(--ink2); font-size: .95rem; margin-top: 2px; }
   .row button { flex: none; min-height: 44px; min-width: 64px; border-radius: 999px; border: 2px solid var(--line); background: transparent; color: var(--ink); font: inherit; font-weight: 700; font-size: .95rem; padding: 0 14px; cursor: pointer; }
   .dot { flex: none; width: 14px; height: 14px; border-radius: 50%; }
-  .g-H { background: #C8553D; } .g-T { background: #D9A441; } .g-S { background: #6A7FD0; } .g-W { background: #8E6CC0; } .g-F { background: #52B978; }
+  .g-H { background: #B0102A; } .g-T { background: #1B5E36; } .g-S { background: #2E9358; } .g-W { background: #14281B; } .g-F { background: #52B978; }
   .grp { margin-top: 22px; }
   .grp h3 { display: flex; gap: 10px; align-items: center; font-size: 1.15rem; margin: 0; }
   .grp p { margin: 4px 0 0; color: var(--ink2); font-size: .95rem; }
@@ -398,7 +398,7 @@
     var names = ["ON THE TRUCK", "WITH YOU", S.m === "co" ? "NOT IN BOXES" : "HANDLE WITH CARE"];
     names.forEach(function (n, i) {
       var x = 12 + i * 162, on = i === where;
-      el("rect", { x: x, y: 12, width: 152, height: 44, rx: 22, fill: on ? (i === 2 ? "#E07A5F" : "#52B978") : "#1E412B" }, s);
+      el("rect", { x: x, y: 12, width: 152, height: 44, rx: 22, fill: on ? (i === 2 ? "#FF9BAD" : "#52B978") : "#1E412B" }, s);
       var t = el("text", { x: x + 76, y: 40, "text-anchor": "middle", fill: on ? "#14281B" : "#9FB3A6", "font-size": 15, "font-weight": on ? 850 : 650, "font-family": "system-ui,sans-serif" }, s); t.textContent = n;
     });
   }
@@ -412,7 +412,7 @@
     }
     if (line) g.fillText(line, x, y); return y + lh;
   }
-  var COL = { H: "#E07A5F", T: "#D9A441", S: "#8FA0E0", W: "#B79BE0", F: "#52B978" };
+  var COL = { H: "#FF9BAD", T: "#E6D3AE", S: "#9FD6B2", W: "#F2E8D5", F: "#52B978" };
   function picture() {
     var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
     var g = cv.getContext("2d"), FN = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';

@@ -207,10 +207,10 @@
   var P = [
     { t: "Rent at signing", col: "#F2E8D5" },
     { t: "Deposit", col: "#D9E3DA" },
-    { t: "Fees", col: "#8FB8E8" },
-    { t: "Getting there", col: "#F2B66D" },
-    { t: "First things", col: "#C3A8EE" },
-    { t: "Cushion", col: "#E7EEF8" }
+    { t: "Fees", col: "#9FD6B2" },
+    { t: "Getting there", col: "#52B978" },
+    { t: "First things", col: "#E6D3AE" },
+    { t: "Cushion", col: "#7FC79A" }
   ];
   var MAX = 1000000, val = {}, last2 = 0;
   function defaults() { F.forEach(function (f) { val[f.k] = f.v; }); last2 = 0; }
@@ -308,7 +308,7 @@
     el("rect", { x: x0, y: gy, width: GW, height: 14, rx: 7, fill: "#1E412B" }, s);
     if (share !== null) {
       var fw = Math.min(share, max) / max * GW;
-      el("rect", { x: x0, y: gy, width: Math.max(fw, 14), height: 14, rx: 7, fill: share > 50 ? "#FF8A7A" : share > 30 ? "#F2B66D" : "#F2E8D5" }, s);
+      el("rect", { x: x0, y: gy, width: Math.max(fw, 14), height: 14, rx: 7, fill: share > 50 ? "#FF9BAD" : share > 30 ? "#E6D3AE" : "#F2E8D5" }, s);
     }
     [30, 50].forEach(function (m) {
       var mx = x0 + m / max * GW;

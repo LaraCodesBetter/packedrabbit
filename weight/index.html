@@ -317,8 +317,8 @@
       t.textContent = "about " + fmt(lb) + " lb";
     }
     if (ev) {
-      el("path", { d: "M" + xp(ev) + " " + (Y + H + 4) + "l-8 12h16z", fill: "#FFB37A" }, s);
-      var m = el("text", { x: Math.min(Math.max(xp(ev), X + 44), X + W - 44), y: Y + H + 32, fill: "#FFB37A", "font-weight": 800, "font-size": 13, "text-anchor": "middle", "font-family": "system-ui,sans-serif" }, s);
+      el("path", { d: "M" + xp(ev) + " " + (Y + H + 4) + "l-8 12h16z", fill: "#F2E8D5" }, s);
+      var m = el("text", { x: Math.min(Math.max(xp(ev), X + 44), X + W - 44), y: Y + H + 32, fill: "#F2E8D5", "font-weight": 800, "font-size": 13, "text-anchor": "middle", "font-family": "system-ui,sans-serif" }, s);
       m.textContent = "mover: " + fmt(ev) + " lb";
     }
     for (var w = 0; w <= max; w += stepv) {
