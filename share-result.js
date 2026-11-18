@@ -7,7 +7,7 @@
   /* owner, 4 Nov: the picture uses the site's own font and carries the rabbit.
      Both are fetched as the page loads, so the tap that shares stays quick. */
   var BASE = ((document.currentScript && document.currentScript.getAttribute("src")) || "").replace(/share-result\.js.*$/, "");
-  var RABBIT = new Image(); RABBIT.src = BASE + "img/rabbit.svg";
+  var RABBIT = new Image(); RABBIT.src = BASE + "img/rabbit-peek.webp";
   var READY = Promise.all([
     (document.fonts && document.fonts.load) ? Promise.all([document.fonts.load('800 40px "Atkinson Next"'), document.fonts.load('600 40px "Atkinson Next"')]).catch(function () {}) : Promise.resolve(),
     new Promise(function (res) { if (RABBIT.complete && RABBIT.naturalWidth) res(); else { RABBIT.onload = RABBIT.onerror = function () { res(); }; } })
@@ -43,7 +43,7 @@
     var bad = flags.filter(function (f) { return f.tone === "bad"; }), ask = flags.filter(function (f) { return f.tone === "warn"; });
     g.fillStyle = "#1C3224"; g.fillRect(0, 0, W, H);
     g.save(); g.translate(0, 70); g.rotate(-0.02); g.fillStyle = "#EADFC9"; g.fillRect(-20, 0, W + 40, 36); g.restore();
-    g.fillStyle = window.prSpooky ? "#FF8A1F" : "#EADFC9"; g.font = "800 40px " + F; g.fillText(window.prSpooky && bad.length ? "The scariest part of my mover's quote:" : "I checked my mover's quote.", 80, 210);
+    g.fillStyle = "#EADFC9"; g.font = "800 40px " + F; g.fillText("I checked my mover's quote.", 80, 210);
     g.fillStyle = "#FFFFFF"; g.font = "800 104px " + F;
     var head = bad.length ? bad.length + (bad.length === 1 ? " red flag." : " red flags.") : ask.length ? ask.length + (ask.length === 1 ? " thing to ask." : " things to ask.") : "It looks clean.";
     g.fillText(head, 80, 340);
@@ -57,7 +57,7 @@
     g.fillStyle = "#14281B"; g.font = "800 54px " + F; g.fillText("packedrabbit.com", 120, H - 230);
     g.fillStyle = "rgba(255,255,255,.88)"; g.font = "600 38px " + F; g.fillText("Check yours before you sign.", 80, H - 130);
     g.fillStyle = "rgba(255,255,255,.6)"; g.font = "500 30px " + F; g.fillText("A moving app made by a consumer, for consumers.", 80, H - 80);
-    if (RABBIT.complete && RABBIT.naturalWidth) { try { g.drawImage(RABBIT, W - 80 - 150, H - 330, 150, 150); } catch (e) { /* drawn without it */ } }
+    if (RABBIT.complete && RABBIT.naturalWidth) { try { g.drawImage(RABBIT, W - 80 - 150, H - 346, 150, 166); } catch (e) { /* drawn without it */ } }
     return c;
   }
   function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
