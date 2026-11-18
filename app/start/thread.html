@@ -4,7 +4,7 @@
 /* Layout: one phone. Boxes first, then the things too big for a box, then the move. The bar along the bottom earns a tab each time something is learned. */
 :root{
   --bg:#EEF2EC; --screen:#FAFBF8; --ink:#1B5E36; --soft:#1B5E3633; --ground:#F0F3EE;
-  --text:#1E2A22; --muted:#33413A; --btn:#2E9358; --btnfg:#fff; --frame:#D5DDD6; --tape:#2E9358;
+  --text:#1E2A22; --muted:#33413A; --btn:#237A47; --btnfg:#fff; --frame:#D5DDD6; --tape:#2E9358;
   --f1:#EEF4EF; --f2:#DFE9E1; --f3:#C9D9CE; --plum:#8C3A6B; --bar:#0D3B22; --gold:#E2BE5A;
   --sans:"Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,-apple-system,sans-serif;
 }
@@ -342,7 +342,7 @@ h2:focus,h3:focus{outline:none}
 .notes p{color:var(--muted);font-size:17px;margin:0 0 14px}
 .notes ol{margin:0 0 14px;padding-left:22px;font-size:17px;display:grid;gap:6px}
 .restart{min-height:44px;border-radius:12px;border:1.5px solid var(--ink);background:none;color:var(--ink);font:700 16px var(--sans);padding:0 16px;cursor:pointer}
-button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--plum);outline-offset:2px}
+button:focus-visible,label[role=button]:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--plum);outline-offset:2px}
 @media (prefers-reduced-motion: reduce){.draw *,.peek,.seal,.text > *,.fresh *,.tabs button.new,.stamp.slam,.sheet,.scrim,.toast{animation:none!important;opacity:1;transform:none;stroke-dashoffset:0;fill-opacity:1}}
 @media (max-width:420px){.phone{height:760px}}
 .fsets{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:4px 0 12px}
@@ -3154,7 +3154,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v397, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v398, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
@@ -3227,8 +3227,6 @@ async function flipUnpack(b,on){ try{ const st=JSON.parse(await idbGet('moving-c
     const x=st.boxes.find(y=>y&&y.id===b.appId); if(!x) return false;
     if(on){ b.prevDelivered=!!x.delivered; x.unpacked=true; x.delivered=true; } else { x.unpacked=false; if(b.prevDelivered===false) x.delivered=false; }
     await idbSet('moving-command-center-v1',JSON.stringify(st)); b.unpacked=!!x.unpacked; b.delivered=!!x.delivered; return true; }catch(e){ return false; } }
-/* panel review, 17 Nov: photo and file buttons are labels around a hidden file input, so the keyboard skipped them. They take focus and open on Enter or Space. */
-addEventListener('keydown',e=>{ const l=e.target&&e.target.closest&&e.target.closest('label.lab'); if(!l||(e.key!=='Enter'&&e.key!==' ')) return; const f=l.querySelector('input[type=file]'); if(f){ e.preventDefault(); f.click(); } });
 addEventListener('keydown',e=>{ if(cur!=='flip'||e.target&&/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return; if(e.key==='ArrowRight') flipGo(1); else if(e.key==='ArrowLeft') flipGo(-1); });
 async function loadHome(){ let st=null; try{ st=JSON.parse(await idbGet('moving-command-center-v1')||'null'); }catch(e){}
   const RN={}; Object.keys(CODE).forEach(k=>{ if(!RN[CODE[k]]) RN[CODE[k]]=k; });
@@ -3552,6 +3550,16 @@ window.addEventListener('pagehide',()=>{ if(window.__APP) idbSet('pr-thread-stat
   if(d&&d.S&&d.cur&&P[d.cur]){ const paid=S.paid; Object.assign(S,d.S); if(paid) S.paid=paid; if(d.curIdx>=0) S.cur=S.big[d.curIdx]; hist.push(...(d.hist||[])); hopping=''; try{ if(nextBox){ show('start'); return; } show(d.cur,true); if(d.cur!=='firstBox') pauseCard(true); return; }catch(e){ reset(); hist.length=0; } }
   try{ const q=new URLSearchParams(location.search).get('date'); if(q&&/^\d{4}-\d{2}-\d{2}$/.test(q)&&new Date(q+'T12:00')>new Date()){ S.date=q; S.fromSite=true; } }catch(e){}
   show(S.mwhat?'firstBox':'mwhat'); })();
+})();
+</script>
+<script>/* panel (accessibility lead), 17 Nov 2026: once the camera is allowed, "Take a photo", "Add a photo" and the box page's
+   photo controls are labels around a hidden file input, and Tab skipped them. Every such label is a real button now:
+   it takes focus, says it's a button, and Enter or Space opens the camera or the photo picker. */
+(function(){
+  const fileOf=l=>{ const i=l.htmlFor?document.getElementById(l.htmlFor):l.querySelector('input[type=file]'); return i&&i.type==='file'?i:null; };
+  const tag=()=>document.querySelectorAll('label').forEach(l=>{ if(l.dataset.fb||!fileOf(l)||fileOf(l).getClientRects().length) return; l.dataset.fb='1'; if(!l.hasAttribute('tabindex')) l.tabIndex=0; l.setAttribute('role','button'); });
+  document.addEventListener('keydown',e=>{ if(e.key!=='Enter'&&e.key!==' ') return; const l=e.target&&e.target.closest&&e.target.closest('label[data-fb]'); if(!l||e.target!==l) return; const i=fileOf(l); if(i){ e.preventDefault(); i.click(); } });
+  let q=0; new MutationObserver(()=>{ if(q) return; q=requestAnimationFrame(()=>{ q=0; tag(); }); }).observe(document.documentElement,{childList:true,subtree:true}); tag();
 })();
 </script>
 <style>

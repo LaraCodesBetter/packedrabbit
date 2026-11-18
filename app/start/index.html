@@ -10,7 +10,7 @@
   --ground:#F0F3EE;
   --text:#1E2A22; --muted:#33413A;
   --plum:#8C3A6B;
-  --btn:#2E9358; --btn-fg:#FFFFFF;
+  --btn:#237A47; --btn-fg:#FFFFFF;
   --frame:#D5DDD6;
   --fill1:#EEF4EF;--fill2:#DFE9E1;--fill3:#C9D9CE;
   --tape:#2E9358;
@@ -301,6 +301,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
 /* panel, 14 Nov: Skip is a real button, not small text on the pattern */
 .pskip{min-height:44px;min-width:44px;padding:0 22px;border:1.5px solid rgba(242,232,213,.6);border-radius:999px;background:rgba(10,40,24,.55);color:#FFFDF8;font:600 16px/1 "Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,-apple-system,sans-serif;cursor:pointer}
 .pskip:focus-visible{outline:3px solid #F2E8D5;outline-offset:2px}
+/* panel (accessibility lead), 17 Nov 2026: the plum ring was too faint on the dark green (2.31 and 1.76 to 1); cream there */
+.prof :focus-visible,.phone.lit .stop.last :focus-visible,.phone.lit .foot :focus-visible{outline:3px solid #F2E8D5!important;outline-offset:3px}
 .go2{display:block;margin:6px auto 0;min-height:44px;color:var(--ink);font-weight:700;text-decoration:underline;text-underline-offset:4px} /* panel note: it read faint */
 .pgrow{position:absolute;background:var(--screen);border-radius:6px;transition:all 1s cubic-bezier(.4,0,.2,1);z-index:2}
 @media (prefers-reduced-motion: reduce){.pq,.plist li,.pcloud,.prof,.pdraw *,.pdraw text{transition:none!important}}
@@ -473,7 +475,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
     <h3 id="msh" tabindex="-1">Welcome back.</h3>
     <p>Your move lives on your phone, not on our servers. That's why there's no password. On a new phone, bring it back one of two ways.</p>
     <button class="cta" id="mrestore">Restore my move from a backup</button>
-    <p style="margin-top:16px"><label for="mcode"><b>Or enter your code.</b> It's in your receipt or welcome email, or on the gift you were given.</label></p>
+    <p style="margin-top:16px"><label for="mcode"><b>Or enter your member code.</b> It's in your receipt email.</label></p>
     <input class="mcode" id="mcode" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="MP" aria-describedby="merr">
     <p class="merr" id="merr" role="status"></p>
     <button class="cta" id="mgo">Continue</button>
@@ -627,8 +629,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   const st=document.getElementById('street'), stops=[...st.querySelectorAll('.stop')], dots=[...document.querySelectorAll('.dot')];
   const hint=document.getElementById('hint'), foot=document.getElementById('foot'), first=document.getElementById('first');
   let cur=-1; stops.slice(0,-1).forEach(s=>s.classList.add("pre"));
+  /* panel (accessibility lead), 17 Nov 2026: the cards off screen were read out and reachable by Tab (one Tab landed on an
+     invisible button). Only the card on screen is; Next, the dots and the arrow keys bring the others. */
+  const onlyCard=i=>stops.forEach((s,k)=>{ s.inert = k!==i; }); onlyCard(0);
   const go=i=>{i=Math.max(0,Math.min(stops.length-1,i)); st.scrollTo({left:i*st.clientWidth,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});};
-  const mark=i=>{ if(i===cur && !stops[i].classList.contains('pre')) return; cur=i;
+  const mark=i=>{ if(i===cur && !stops[i].classList.contains('pre')) return; cur=i; onlyCard(i);
     stops.forEach((s,k)=>{ if(k!==i && k<stops.length-1) s.classList.add('pre'); }); requestAnimationFrame(()=>requestAnimationFrame(()=>stops[i].classList.remove('pre')));
     dots.forEach((d,k)=>d.setAttribute('aria-current',k===i?'true':'false'));
     hint.textContent = i===stops.length-1 ? '' : 'Swipe to continue'; document.getElementById('next').hidden = i===stops.length-1; { const g2=document.getElementById('go2'); if(g2) g2.hidden = i===stops.length-1; } document.querySelector('.phone').classList.toggle('lit', i===stops.length-1 && stops[i].classList.contains('alive')); if(i===stops.length-1) arrive(stops[i]); };
@@ -791,6 +796,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   var items=[].slice.call(document.querySelectorAll('#plist .psl')), L=items.map(function(li){ return li.textContent; });
   var T=[], done=false, step=-1, waiting=null;
   P.hidden=false;
+  /* panel (accessibility lead), 17 Nov 2026: during the opening the four cards were read out over the rabbit's own description */
+  var under=['street','foot'].map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  under.forEach(function(el){ el.inert=true; });
   function later(f,ms){ T.push(setTimeout(f,ms)); }
   /* the list sits on the canvas: a homography from the board's own box to the canvas's corners in the film */
   var BQ=[[106,934],[481,910],[508,1399],[162,1448]], BW=375, BH=514, bd=P.querySelector('.pboard');
@@ -856,7 +864,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   function outro(){ if(done) return;
     later(function(){ say("Let me show you."); },RM?0:500);
     later(function(){ finish(false); },RM?0:2900); }
-  function finish(go){ if(done) return; done=true; setTimeout(function(){ document.querySelector('.phone').classList.remove('opening'); },go||RM?0:430); T.forEach(clearTimeout); clearTimeout(waiting); try{ localStorage.setItem('pr-prof','1'); }catch(e){}
+  function finish(go){ if(done) return; done=true; under.forEach(function(el){ el.inert=false; }); setTimeout(function(){ document.querySelector('.phone').classList.remove('opening'); },go||RM?0:430); T.forEach(clearTimeout); clearTimeout(waiting); try{ localStorage.setItem('pr-prof','1'); }catch(e){}
     try{ V.pause(); }catch(e){}
     /* card one's words and drawing are hidden at once (no fade-out), so they only ever come in after the room has gone */
     var s1=document.querySelector('.stop'); if(s1){ s1.classList.add('pnoanim','pre'); void s1.offsetWidth; s1.classList.remove('pnoanim'); }
