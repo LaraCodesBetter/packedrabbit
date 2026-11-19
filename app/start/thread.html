@@ -379,7 +379,17 @@ button:focus-visible,label[role=button]:focus-visible,input:focus-visible,select
 .lcount{margin:8px 0 0;color:var(--ink);font-size:19px;font-weight:700}
 .lcount b{font-size:30px;margin-right:6px;font-variant-numeric:tabular-nums}
 .pano{position:relative;overflow:hidden;background:var(--screen);flex:none;margin-top:6px;touch-action:pan-y}
-.hphoto{display:block;width:100%;flex:none;margin:6px 0 0;padding:0;border:0;background:var(--screen);cursor:pointer}.hphoto img{display:block;width:100%;height:280px;object-fit:cover}
+.hstrip{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;margin:6px 0 0;padding:0 0 4px;flex:none;-webkit-overflow-scrolling:touch}
+.hshot{flex:0 0 88%;scroll-snap-align:center;margin:0;position:relative;height:280px;border-radius:0;overflow:hidden;background:var(--screen)}
+.hshot:only-child{flex-basis:100%}
+.hshotb{display:block;width:100%;height:100%;padding:0;border:0;background:none;cursor:pointer}
+.hshot img{display:block;width:100%;height:100%;object-fit:cover}
+.hrm{position:absolute;right:10px;bottom:10px;min-height:44px;padding:0 14px;border-radius:22px;border:0;background:rgba(13,59,34,.82);color:#fff;font:inherit;font-weight:700;font-size:15px}
+.hshot-add{flex-basis:60%;display:flex}
+.hadd{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border:2px dashed var(--line,#C9D9CE);margin:0 12px 0 0;border-radius:18px;cursor:pointer;color:var(--ink);text-align:center;padding:12px;font-weight:800;font-size:18px}
+.hplus{font-size:40px;line-height:1;font-weight:400}
+.hhint{font-weight:600;font-size:15px;color:inherit;opacity:.85}
+.hadd0{display:block;margin:10px 20px 0;min-height:44px;padding:10px 0;box-sizing:border-box;line-height:1.35;white-space:normal;text-align:center;font-weight:700;font-size:17px;text-decoration:underline;color:var(--ink);cursor:pointer}
 .pano-in{width:442.857%}
 .pano-in.go{transition:transform .55s cubic-bezier(.3,.1,.3,1)}
 .pano-in svg{display:block;width:100%;height:auto}
@@ -1618,7 +1628,7 @@ const P={
     const nx=(H.next||[])[0];
     const badges=lemBadges([[BIC.box,`${vault} ${vault===1?'box':'boxes'}`,'in the vault'],[BIC.sofa,m,m===1?'big thing':'big things'],nx?[BIC.cal(hDate(nx.d).getDate()),hShort(nx.d),esc(nx.w)]:[BIC.cal(''),H.mode==='dates'?'No dates':'Nothing',H.mode==='dates'?'yet':'coming up']]);
     const nt=H.note&&H.mode!=='dates'?`<p class="lsub hnote">${esc(H.note.t)} <button class="link" data-hgo="${H.note.go}">${H.note.b}</button></p>`:'';
-    return ({lem:1, pi:0, mark:1, h:'Welcome home.', count2:cd, photo:HPHOTO, pano:lemPano(H,art), body:`<p class="lone">${one}</p>${sub?`<p class="lsub">${sub}</p>`:''}${act}${nt}${badges}${foldCard(foldRows(H,t))}`}); },
+    return ({lem:1, pi:0, mark:1, h:'Welcome home.', count2:cd, shots:1, pano:lemPano(H,art), body:`<p class="lone">${one}</p>${sub?`<p class="lsub">${sub}</p>`:''}${act}${nt}${badges}${foldCard(foldRows(H,t))}`}); },
   lvault:()=>{ const n=S.boxes.length, vault=S.boxes.filter(b=>!b.unpacked).length, opened=n-vault, H=S.hm||{};
     const say=!n?'Nothing is in the vault yet. Your first box takes a minute: a photo, a few words, and you never open it to look.':vault?`${vault} ${vault===1?'box is':'boxes are'} in the vault${opened?`, and ${opened} ${opened===1?'is':'are'} unpacked`:''}. Type or say what you need, and the rabbit finds the box${opened?', or where you put it':''}.`:`Every box is unpacked. All ${n} are still listed here.`;
     const find=n?`<div class="field microw"><input id="hfind" value="${esc(S.hq||'')}" placeholder="Try &quot;towels&quot;" aria-label="Find a box"><button type="button" class="mic" data-mic="hfind" aria-label="Say it out loud"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg></button></div><div id="hres" aria-live="polite"></div>`:'';
@@ -2150,7 +2160,7 @@ function show(id,back){
   if(p.lem){ const from=panoAt==null?p.pi:panoAt; panoAt=p.pi;
     phone.innerHTML=`<div class="page lem" role="main"><div class="top ltop"><button type="button" class="lround" data-menu aria-label="Menu" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7.5h14M5 12h14M5 16.5h14"/></svg></button>${p.mark?'<picture class="lmark"><source srcset="wordmark-ears-cream.png" media="(prefers-color-scheme: dark)"><img src="wordmark-ears.png" alt="The Packed Rabbit" width="150" height="39"></picture>':''}<span class="topr"><button class="pause" data-aa aria-label="Text size">Aa</button></span></div>
       <div class="text ltext"><h2>${p.h}</h2>${p.count2?`<p class="lcount">${p.count2}</p>`:''}</div>
-      ${p.photo?`<button type="button" class="hphoto" data-hgo="newhome" aria-label="Your photo of the new place. Open the new place"><img src="${p.photo}" alt=""></button>`:`<div class="pano" id="pano"><div class="pano-in" style="transform:translateX(${-panoPct(from)}%)">${p.pano}</div></div>`}
+      ${p.shots&&(HPHOTO||HGAL.length||HMINE.length)?homeShots():`<div class="pano" id="pano"><div class="pano-in" style="transform:translateX(${-panoPct(from)}%)">${p.pano}</div></div>${p.shots?`<label class="hadd0">Add your own photos<input type="file" accept="image/*" class="haddin" hidden></label>`:''}`}
       <div class="lground">${p.body}</div></div>${bar()}`;
     textSize(); lastDrawn=id; fresh=[]; newTab=""; wire(id); wireMics(); keep();
     if(from!==p.pi&&phone.querySelector('.pano-in')){ const pin=phone.querySelector('.pano-in'); requestAnimationFrame(()=>requestAnimationFrame(()=>{ pin.classList.add('go'); pin.style.transform=`translateX(${-panoPct(p.pi)}%)`; })); }
@@ -2420,6 +2430,11 @@ function wire(id){
   if(PANO.includes(id)){ const first=x=>{ const r=String(x).match(/^.*?[.!?](?=\s|$)/); return r?r[0]:String(x); };
     const re=()=>{ const pg=phone.querySelector('.page'), y=pg?pg.scrollTop:0; show(id,true); const p2=phone.querySelector('.page'); if(p2) p2.scrollTop=y; };
     phone.querySelectorAll('[data-hgo]').forEach(b=>b.onclick=()=>toApp('?go='+b.dataset.hgo));
+    const saveMine=async()=>{ try{ await idbSet('moving-command-center-v1-photos-mine',JSON.stringify({list:HMINE})); return true; }catch(e){ toast(phone,'Your phone would not save that photo. It may be full.'); return false; } };
+    phone.querySelectorAll('.haddin').forEach(inp=>inp.onchange=async()=>{ const f=inp.files&&inp.files[0]; if(!f) return; const src=await shrink(f); if(!src||!/^data:image\//.test(src)) return;
+      HMINE.push({src,at:Date.now()}); if(await saveMine()){ re(); const st=phone.querySelector('.hstrip'); if(st) st.scrollLeft=st.scrollWidth; } else HMINE.pop(); });
+    phone.querySelectorAll('[data-hrm]').forEach(b=>b.onclick=async()=>{ const i=+b.dataset.hrm, gone=HMINE[i]; if(!gone) return; HMINE.splice(i,1); await saveMine(); re();
+      toast(phone,'Photo removed.',async()=>{ HMINE.splice(Math.min(i,HMINE.length),0,gone); await saveMine(); re(); }); });
     /* swipe the drawing to walk along the horizon to the next part */
     { const pn=$('#pano'); if(pn){ let x0=null, y0=null; pn.addEventListener('touchstart',e=>{ const t=e.touches[0]; x0=t.clientX; y0=t.clientY; },{passive:true});
         pn.addEventListener('touchend',e=>{ if(x0===null) return; const t=e.changedTouches[0], dx=t.clientX-x0, dy=t.clientY-y0; x0=null; const i=PANO.indexOf(id)+(dx<0?1:-1);
@@ -3047,7 +3062,7 @@ const lemBadges=L=>`<div class="badges">${L.map(([ic,big,lab])=>`<div class="bad
 const RIC={bell:'<path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/>',clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',cal:'<rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>',cloud:'<path d="M7 18h10a4 4 0 0 0 .5-8 5.5 5.5 0 0 0-10.6 1.5A3.3 3.3 0 0 0 7 18z"/>',bulb:'<path d="M9 17h6M10 20.5h4M8.5 14a6 6 0 1 1 7 0c-.8.6-1 1.4-1 2.2V17h-5v-.8c0-.8-.2-1.6-1-2.2z"/>',pin:'<path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',plan:'<path d="M4 4h16v16H4zM4 12h7M11 4v11M15 12h5"/>',check:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12.5l2.8 2.8L16 9.5"/>',gift:'<rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 9h18M12 9v11M12 9c-1.5-3-5-4-5-1.5S10 9 12 9zM12 9c1.5-3 5-4 5-1.5S14 9 12 9z"/>',spark:'<path d="M12 3.5l1.9 5.6 5.6 1.9-5.6 1.9L12 18.5l-1.9-5.6L4.5 11l5.6-1.9z"/>',coin:'<circle cx="12" cy="12" r="8.5"/><path d="M14.5 9.2c-.6-.8-1.5-1.2-2.5-1.2-1.4 0-2.5.8-2.5 2s1.1 1.7 2.5 2 2.5.8 2.5 2-1.1 2-2.5 2c-1 0-1.9-.4-2.5-1.2M12 6.5v11"/>',box:'<path d="M4.5 10h15v10h-15zM3 6.5h18V10H3zM10.25 6.5h3.5v6h-3.5z"/>',sofa:'<path d="M4 18v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6M2 14h20M5 18v2M19 18v2M6 10V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v3"/>',list:'<path d="M9 7h11M9 12h11M9 17h11M4.5 7h.01M4.5 12h.01M4.5 17h.01"/>',tag:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/>',plus:'<path d="M12 5v14M5 12h14"/>',truck:'<path d="M3 6h11v10H3zM14 9h4l3 3v4h-7zM6.5 18.5a1.5 1.5 0 1 0 0-.01M17.5 18.5a1.5 1.5 0 1 0 0-.01"/>',house:'<path d="M3.5 11.5 12 4.5l8.5 7M5.5 10v10h13V10M10 20v-5.5h4V20"/>',doc:'<path d="M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h6"/>',wallet:'<path d="M3 7h16a2 2 0 0 1 2 2v9H3zM3 7l12-3v3M16 13h2"/>',grid:'<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>',help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17h.01"/>',key:'<circle cx="8" cy="14" r="4"/><path d="M11 11l8-8M16 6l3 3M14 8l2 2"/>',save:'<path d="M12 3v12M7 10l5 5 5-5M4 19h16"/>',mail:'<path d="M3 6h18v12H3zM3 7l9 6 9-6"/>',share:'<path d="M12 15V3M7 8l5-5 5 5M5 12v8h14v-8"/>'};
 /* the old home's sections, each a row that unfolds (owner, 11 Nov). The app writes what they hold (HD) after
    every save; the floor plan is read from its photo. Only rows with something in them are shown. */
-let HD=null, HPLAN='', HPHOTO='';
+let HD=null, HPLAN='', HPHOTO='', HGAL=[], HMINE=[];
 /* tester, 13 Nov: the home showed what was true the last time the full app was opened ("Loading is tomorrow" on
    delivery day, "call the crew for an arrival window" after the move). What depends on the date is worked out here
    from today, and what the app wrote before loading day or delivery went by is set aside. */
@@ -3128,6 +3143,13 @@ function boxKind(b){ if(!b) return ''; if(b.kind) return b.kind; const sz=SIZEW[
 const STAYW={sell:'to sell',consign:'to sell',donate:'to give away',give:'to give away',trash:'to let go',undecided:'still deciding'};
 const coming=()=>S.big.filter(b=>!STAYW[b.plan]);
 /* the long horizon: the move, the vault, big stuff, the calendar, sorting, each in its own place */
+/* the person's own pictures on Home: the new place, its listing, then theirs; a drawing only until they add one */
+function homeShots(){ const L=[];
+  if(HPHOTO) L.push(`<figure class="hshot"><button type="button" class="hshotb" data-hgo="newhome" aria-label="Your new home. Open the new place"><img src="${HPHOTO}" alt=""></button></figure>`);
+  HGAL.forEach(src=>L.push(`<figure class="hshot"><button type="button" class="hshotb" data-hgo="newhome" aria-label="A photo of the new place. Open the new place"><img src="${src}" alt=""></button></figure>`));
+  HMINE.forEach((x,i)=>L.push(`<figure class="hshot"><img src="${x.src}" alt="One of your photos"><button type="button" class="hrm" data-hrm="${i}" aria-label="Remove this photo">Remove</button></figure>`));
+  L.push(`<figure class="hshot hshot-add"><label class="hadd"><span aria-hidden="true" class="hplus">+</span><span>Add a photo</span><span class="hhint">Who you're moving with, the house, why you're going</span><input type="file" accept="image/*" class="haddin" hidden></label></figure>`);
+  return `<div class="hstrip" role="region" aria-label="Your photos. Swipe for more">${L.join('')}</div>`; }
 function lemPano(H,art){ H=H||{}; const n=S.boxes.length, held=S.boxes.filter(b=>!b.unpacked).length, codes=[];
   S.boxes.filter(b=>!b.unpacked).forEach(b=>{ const c=String(b.code||'').split('-')[0]; if(c&&!codes.includes(c)) codes.push(c); });
   const pieces=S.big.slice().sort((a,b)=>(parseFloat(String(b.size||'').split('×')[0])||0)-(parseFloat(String(a.size||'').split('×')[0])||0)).map(b=>b.what);
@@ -3167,7 +3189,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v410, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v411, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
@@ -3276,7 +3298,10 @@ async function loadHome(){ let st=null; try{ st=JSON.parse(await idbGet('moving-
      person's own photo of the new place (the one they uploaded), the same one the full app's Home shows, in place of
      the drawing. The drawing stays only for someone who hasn't added a photo. */
   try{ const ok=x=>typeof x==='string'&&/^data:image\//.test(x); const np=JSON.parse(await idbGet('moving-command-center-v1-photos-newhome')||'null'), gl=JSON.parse(await idbGet('moving-command-center-v1-photos-hunt-newhome')||'null');
-    const g=((gl&&gl.list)||[]).map(x=>x&&x.src).filter(ok); HPHOTO=(np&&ok(np.open))?np.open:g[0]||((np&&ok(np.sealed))?np.sealed:''); }catch(e){ HPHOTO=''; }
+    const g=((gl&&gl.list)||[]).map(x=>x&&x.src).filter(ok); HPHOTO=(np&&ok(np.open))?np.open:g[0]||((np&&ok(np.sealed))?np.sealed:''); HGAL=g.filter(x=>x!==HPHOTO).slice(0,6); }catch(e){ HPHOTO=''; HGAL=[]; }
+  /* owner, 19 Nov 2026: "Put a photo of who you're moving with, a pic of the house, a wedding invitation." The person's own
+     photos, kept on this phone under their own key, swipe across the top of Home after the new place's. */
+  try{ const mn=JSON.parse(await idbGet('moving-command-center-v1-photos-mine')||'null'); HMINE=((mn&&mn.list)||[]).filter(x=>x&&typeof x.src==='string'&&/^data:image\//.test(x.src)); }catch(e){ HMINE=[]; }
   /* owner, 11 Nov: each room in the vault shows a photo from one of its boxes */
   { const seen=new Set(S.boxes.filter(b=>b.photo).map(b=>b.room||'Other'));
     const tries={};
