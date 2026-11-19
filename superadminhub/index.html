@@ -7,33 +7,250 @@
 <meta name="robots" content="noindex, nofollow, noarchive">
 <meta name="referrer" content="no-referrer">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Hub">
 <meta name="theme-color" content="#04340e">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-512.png" type="image/png">
+<link rel="manifest" href="manifest.webmanifest">
 <style>
-:root{color-scheme:light dark}
-body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 40%,#14602a,#04340e 70%);color:#f4efe6;font:17px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;text-align:center;padding:24px}
-img{width:180px;height:180px;border-radius:40px;display:block;margin:0 auto 18px}
-h1{font-size:24px;margin:0 0 6px}
-p{margin:0 auto 22px;max-width:320px;opacity:.9}
-a.go{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:14px;background:#f4efe6;color:#1f4d38;font-weight:700;text-decoration:none}
-small{display:block;margin-top:18px;opacity:.75;font-size:14px}
+:root{--g:#2e6b4f;--g2:#1f4d38;--cream:#f7f3ea;--pink:#e9a7b4;--ink:#1d2a22;--ink2:#5b6a61;--line:#dfe6e1;--card:#fff;--warn:#b5452f}
+@media (prefers-color-scheme:dark){:root{--cream:#121714;--card:#1b221e;--ink:#eef2ee;--ink2:#a9b6ae;--line:#2c3631;--g:#7cc4a0;--g2:#a5dcbf}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+header{position:sticky;top:0;z-index:5;background:var(--cream);border-bottom:1px solid var(--line);padding:calc(12px + env(safe-area-inset-top)) 16px 0}
+h1{margin:0 0 8px;font-size:20px;letter-spacing:.2px}h1 small{display:block;font-size:13px;font-weight:500;color:var(--ink2)}
+nav{display:flex;gap:4px;overflow-x:auto}
+nav button{flex:none;min-height:44px;padding:0 14px;border:0;background:none;font:inherit;font-weight:600;color:var(--ink2);border-bottom:3px solid transparent;cursor:pointer}
+nav button[aria-selected=true]{color:var(--g);border-bottom-color:var(--g)}
+main{padding:14px 16px 80px;max-width:980px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;min-height:44px;width:100%}
+textarea{min-height:120px}
+label{display:block;font-size:13px;font-weight:600;color:var(--ink2);margin:10px 0 4px}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;border:1px solid var(--g);background:none;color:var(--g);font:inherit;font-weight:600;cursor:pointer}
+.btn.p{background:var(--g);color:#fff}.btn.s{min-height:36px;padding:0 10px;font-size:14px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}.stat b{display:block;font-size:22px}
+.list{list-style:none;margin:0;padding:0}
+.list li{display:flex;gap:10px;align-items:center;padding:12px 4px;border-top:1px solid var(--line);cursor:pointer;min-height:56px}
+.list li:first-child{border-top:0}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px;background:color-mix(in srgb,var(--g) 14%,transparent);color:var(--g);white-space:nowrap}
+.tag.w{background:color-mix(in srgb,var(--warn) 14%,transparent);color:var(--warn)}
+.grow{flex:1;min-width:0}.muted{color:var(--ink2);font-size:14px}
+.ev{border-left:3px solid var(--g);padding:6px 10px;margin:8px 0}.ev .muted{font-size:13px}
+.note{background:color-mix(in srgb,var(--pink) 18%,transparent);border-radius:12px;padding:12px;font-size:15px}
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--cream);padding:12px 16px;border-radius:12px;display:none;z-index:9;max-width:92vw}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+a{color:var(--g)}
+.gate{max-width:420px;margin:40px auto;text-align:center}.gate img{width:120px;height:120px;border-radius:28px}
 </style>
-<style id="skipcss">.skip{position:absolute;left:-9999px;top:8px;z-index:9999;background:#14281B;color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;text-decoration:none}.skip:focus{left:8px}</style>
 </head>
 <body>
-<a class="skip" href="#main">Skip to the content</a>
-<main id="main">
-<img src="icon-512.png" alt="">
-<h1>The Packed Rabbit hub</h1>
-<p>The owner's back office. It opens with the owner's own sign-in.</p>
-<a class="go" id="go" href="https://claude.ai/artifact/AzsPgriajDyjoPAESbjYX5" rel="noopener noreferrer">Open the hub</a>
-<small>Nothing is stored on this page.</small>
-</main>
+<header>
+  <h1>The Packed Rabbit <small>Hub: prospects, clients, products, campaigns, answers, social, email</small></h1>
+  <nav role="tablist" id="tabs"></nav>
+</header>
+<main id="main"><p class="muted">Opening the back office...</p></main>
+<div id="toast" role="status" aria-live="polite"></div>
 <script>
-/* opened from the home-screen icon: go straight in */
-if (window.navigator.standalone === true || matchMedia("(display-mode: standalone)").matches) location.replace(document.getElementById("go").href);
+const TABS=[["prospects","Prospects"],["clients","Clients"],["products","Products"],["campaigns","Campaigns"],["kb","Knowledge base"],["social","Social"],["email","Email"]];
+const CLIENT=c=>c.status==="beta"||c.status==="customer"||c.cls==="TEST"||c.cls==="BUY";
+const KB=[["Every moving question, one box","/tools/"],["What I wish I'd known (all answers)","/answers/"],["Moving to a new state or abroad","/moving-to/"],["Is my moving quote a scam? Quote checker","/quote-check/"],["Check a mover before you pay","/mover-check/"],["Will my couch fit through the door?","/fit/"],["What size truck do I need?","/truck/"],["How many boxes do I need?","/boxes/"],["Moving checklist by date","/checklist/"],["How long will moving day take?","/move-day/"],["Security deposit deadline by state","/deposit/"],["Move-out checklist","/move-out/"],["Damage or loss claim letter","/claim/"],["Moving company or broker?","/movers-vs-brokers/"],["New state license and registration","/new-state/"],["Moving with a dog or cat","/moving-pets/"],["First-night box","/first-night/"],["Crew: where everything went","/crew/"],["Join the beta","/beta/"],["For business","/business/"],["The app","/app/"]];
+const SITE="https://packedrabbit.com";
+const CLASSES={PM:"Property management",SMM:"Move manager or senior relocation",ORG:"Professional organizer",AGT:"Real estate agent or team",BRK:"Real estate brokerage",BRL:"Brokerage relocation",RMC:"Relocation management",STO:"Self-storage",CLN:"Move-out cleaning",PRESS:"Press or creator",TEST:"Beta tester",BUY:"Customer",OTH:"Other"};
+const STATUS=["new","contacted","replied","beta","customer","declined","do not contact"];
+const EVTYPES=[["outreach","Email we sent"],["inbound","Email they sent"],["reply","Reply"],["beta","Joined the beta"],["purchase","Purchase"],["open","Opened our email"],["call","Call or meeting"],["note","Note"]];
+const PLATFORMS=[["instagram","Instagram","https://www.instagram.com/thepackedrabbit/"],["tiktok","TikTok","https://www.tiktok.com/@thepackedrabbit"],["youtube","YouTube","https://www.youtube.com/@thepackedrabbit"],["reddit","Reddit","https://www.reddit.com/user/PackedRabbitApp/"],["facebook","Facebook",""],["pinterest","Pinterest",""]];
+const S={tab:"prospects",products:[],contacts:[],campaigns:[],social:{},posts:[],sel:null,events:[],q:"",fc:"",fs:"",fst:"",editCamp:null,editProd:null,ready:false,in:false};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const toast=m=>{const t=$("#toast");t.textContent=m;t.style.display="block";clearTimeout(t._t);t._t=setTimeout(()=>t.style.display="none",3500)};
+const fmt=t=>t?new Date(t).toLocaleString("en-US",{month:"short",day:"numeric",year:"numeric",hour:"numeric",minute:"2-digit"}):"";
+const id=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+
+/* ---------- storage on packedrabbit.com ---------- */
+class SignedOut extends Error{}
+async function api(route,body){
+  const r=await fetch("/api/hub/"+route,body?{method:"POST",headers:{"content-type":"application/json","x-hub":"1"},body:JSON.stringify(body),credentials:"same-origin"}:{credentials:"same-origin",cache:"no-store"});
+  if(r.status===401&&route!=="login"){S.in=false;gate();throw new SignedOut();}
+  let j={};try{j=await r.json();}catch(e){}
+  if(!r.ok){const e=new Error(j.error||("HTTP "+r.status));e.code=j.error;throw e;}
+  return j;
+}
+const list=async coll=>(await api("list?coll="+encodeURIComponent(coll))).docs;
+async function put(path,data){ try{ await api("set",{path,data}); await refresh(path); return true; }catch(e){ if(!(e instanceof SignedOut)) toast("Couldn't save. Check your connection and try again."); return false; } }
+async function merge(path,data){ await api("merge",{path,data}); await refresh(path); }
+async function refresh(path){ const c=path.split("/")[0]; if(path.split("/").length>2) return; await loadColl(c); }
+async function loadColl(c){
+  const L=await list(c);
+  if(c==="contacts"){ const fresh=S.contacts.filter(x=>x.fresh&&!L.some(y=>y.id===x.id)); S.contacts=[...L,...fresh]; }
+  else if(c==="social"){ S.social={}; L.forEach(x=>S.social[x.id]=x); }
+  else S[c]=L;
+}
+async function loadAll(){ await Promise.all(["contacts","campaigns","social","posts","products"].map(loadColl)); S.ready=true; }
+async function loadEvents(cid){ const L=await list("contacts/"+cid+"/events"); if(S.sel!==cid) return; S.events=L.sort((a,b)=>(b.at||0)-(a.at||0)).slice(0,200); render(); }
+
+/* ---------- sign-in ---------- */
+function gate(msg){ $("#tabs").innerHTML=""; $("#main").innerHTML=`<div class="gate card"><img src="icon-512.png" alt=""><h2 style="margin:12px 0 6px">The Packed Rabbit hub</h2><p class="muted" style="margin:0 0 14px">Enter your owner code once. This browser then stays signed in.</p>
+  <form id="gf"><label for="code" style="text-align:left">Owner code</label><input id="code" autocomplete="current-password" autocapitalize="off" spellcheck="false" placeholder="xxxx-xxxx-xxxx-xxxx-xxxx-xxxx" required>
+  <button class="btn p" style="width:100%;margin-top:12px">Open the hub</button></form><p id="gmsg" class="muted" role="alert" style="min-height:1.4em;margin:10px 0 0">${esc(msg||"")}</p></div>`;
+  $("#gf").onsubmit=async e=>{ e.preventDefault(); const code=$("#code").value.trim(); $("#gmsg").textContent="Checking...";
+    try{ await api("login",{code}); }catch(err){ $("#gmsg").textContent=err.code==="too_many_tries"?"Too many tries. Wait 15 minutes, then try again.":err.code==="wrong_code"?"That code didn't match. Check it and try again.":"Couldn't reach the hub. Check your connection."; return; }
+    await start(code); };
+}
+async function seedIfNeeded(code){
+  const me=await api("me"); if(me.seeded) return;
+  $("#main").innerHTML='<div class="card"><p>First time here: bringing your contacts over from the old hub...</p></div>';
+  const norm=String(code).toLowerCase().replace(/[^a-z0-9]/g,"");
+  const buf=new Uint8Array(await (await fetch("seed.bin",{cache:"no-store"})).arrayBuffer());
+  const key=await crypto.subtle.importKey("raw",await crypto.subtle.digest("SHA-256",new TextEncoder().encode("seed:"+norm)),"AES-GCM",false,["decrypt"]);
+  const docs=JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM",iv:buf.slice(0,12)},key,buf.slice(12))));
+  for(let i=0;i<docs.length;i+=150) await api("bulk",{docs:docs.slice(i,i+150)});
+  await api("set",{path:"meta/seeded",data:{at:Date.now(),count:docs.length}});
+}
+async function start(code){
+  S.in=true;
+  try{ if(code) await seedIfNeeded(code); await loadAll(); }catch(e){ if(e instanceof SignedOut) return; $("#main").innerHTML='<div class="card"><p>The hub couldn\'t load its data. Check your connection, then reload this page.</p></div>'; return; }
+  render();
+}
+
+function tabs(){ $("#tabs").innerHTML=TABS.map(([k,n])=>`<button role="tab" aria-selected="${S.tab===k}" data-tab="${k}">${n}</button>`).join(""); document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;S.sel=null;S.editCamp=null;S.editProd=null;render()}); }
+
+function render(){ if(!S.in) return; tabs(); const m=$("#main");
+  m.innerHTML=({prospects:S.sel?contactView:contactsView,clients:S.sel?contactView:contactsView,products:productsView,kb:kbView,campaigns:campaignsView,social:socialView,email:emailView})[S.tab]();
+  wire(); }
+
+/* ---------- contacts ---------- */
+function filtered(){ const q=S.q.toLowerCase(), cl=S.tab==="clients"; return S.contacts.filter(c=>(CLIENT(c)===cl)&&(!S.fc||c.cls===S.fc)&&(!S.fs||c.state===S.fs)&&(!S.fst||c.status===S.fst)&&(!q||[c.id,c.company,c.name,c.email,c.city,c.state,c.zip,c.notes].join(" ").toLowerCase().includes(q))).sort((a,b)=>(b.last||0)-(a.last||0)||String(a.company).localeCompare(b.company)); }
+function contactsView(){ const L=filtered(), states=[...new Set(S.contacts.map(c=>c.state).filter(Boolean))].sort();
+  const by=k=>S.contacts.filter(c=>c.status===k).length;
+  const P=S.contacts.filter(c=>!CLIENT(c)), C=S.contacts.filter(CLIENT);
+  return (S.tab==="clients"?`<div class="grid3"><div class="stat"><b>${C.length}</b>clients</div><div class="stat"><b>${C.filter(c=>c.status==="beta"||c.cls==="TEST").length}</b>beta testers</div><div class="stat"><b>${C.filter(c=>c.status==="customer"||c.cls==="BUY").length}</b>customers</div></div>`:`<div class="grid3"><div class="stat"><b>${P.length}</b>prospects</div><div class="stat"><b>${by("contacted")}</b>contacted</div><div class="stat"><b>${by("replied")}</b>replied</div><div class="stat"><b>${by("declined")}</b>declined</div></div>`)+`
+  <div class="card" style="margin-top:12px"><input id="q" type="search" placeholder="Search company, person, email, city, ZIP or ID" value="${esc(S.q)}" aria-label="Search contacts">
+  <div class="two" style="margin-top:8px"><select id="fc" aria-label="Class"><option value="">Every class</option>${Object.entries(CLASSES).map(([k,v])=>`<option value="${k}" ${S.fc===k?"selected":""}>${k}: ${v}</option>`).join("")}</select>
+  <select id="fs" aria-label="State"><option value="">Every state</option>${states.map(s=>`<option ${S.fs===s?"selected":""}>${s}</option>`).join("")}</select></div>
+  <select id="fst" aria-label="Status" style="margin-top:8px"><option value="">Every status</option>${STATUS.map(s=>`<option ${S.fst===s?"selected":""}>${s}</option>`).join("")}</select>
+  <div class="row" style="margin-top:10px"><button class="btn p" id="addC">${S.tab==="clients"?"Add a client":"Add a prospect"}</button><button class="btn" id="imp">Import a list</button><button class="btn" id="exp">Export ${L.length}</button></div>
+  <div id="impBox" hidden><label for="csv">Paste a list (CSV with a header row), or pick a file</label><textarea id="csv" placeholder="company,name,role,email,phone,website,city,state,zip,class"></textarea><input type="file" id="csvf" accept=".csv,text/csv" style="margin-top:8px"><button class="btn p" id="doImp" style="margin-top:8px">Import</button><p class="muted">Columns it understands: Contact ID, company, name, role, email, phone, website, city, state, zip, class (PM, SMM, ORG, AGT, BRK, BRL, RMC, STO, CLN), source, notes. An email or ID already on the list updates that contact instead of adding a second one.</p></div></div>
+  <div class="card"><p class="muted" style="margin:0 0 4px">${L.length} shown</p><ul class="list">${L.slice(0,400).map(c=>`<li data-c="${esc(c.id)}"><div class="grow"><b>${esc(c.company||c.name||c.email)}</b><div class="muted">${esc([c.name,c.city&&c.state?c.city+", "+c.state:c.state,c.zip].filter(Boolean).join(" · "))}</div></div><span class="tag">${esc(c.cls||"OTH")}</span><span class="tag ${c.status==="declined"||c.status==="do not contact"?"w":""}">${esc(c.status||"new")}</span></li>`).join("")||'<li class="muted">No contacts match.</li>'}</ul>${L.length>400?'<p class="muted">Showing the first 400. Search or filter to narrow it.</p>':""}</div>
+  <p class="muted" style="text-align:center"><a href="#" id="out">Sign out of this browser</a></p>`; }
+
+function contactView(){ const c=S.contacts.find(x=>x.id===S.sel)||{id:S.sel,status:"new",cls:"OTH"}; const f=(k,l,t="text")=>`<label for="f_${k}">${l}</label><input id="f_${k}" type="${t}" value="${esc(c[k])}">`;
+  return `<button class="btn s" id="back">Back to ${S.tab==="clients"?"clients":"prospects"}</button>
+  <div class="card" style="margin-top:10px"><h2 style="margin:0 0 4px;font-size:20px">${esc(c.company||"New contact")}</h2><p class="muted" style="margin:0 0 4px">${esc(c.id)}</p>${c.website?`<a href="${esc(/^https?:/.test(c.website)?c.website:"https://"+c.website)}" target="_blank" rel="noopener noreferrer">${esc(c.website)}</a>`:""}
+  ${f("company","Company")}<div class="two"><div>${f("name","Person")}</div><div>${f("role","Their role")}</div></div>
+  <div class="two"><div>${f("email","Email","email")}</div><div>${f("phone","Phone","tel")}</div></div>${f("website","Website","url")}
+  <div class="two"><div>${f("city","City")}</div><div>${f("state","State")}</div></div><div class="two"><div>${f("zip","ZIP")}</div><div><label for="f_cls">Class</label><select id="f_cls">${Object.entries(CLASSES).map(([k,v])=>`<option value="${k}" ${c.cls===k?"selected":""}>${k}: ${v}</option>`).join("")}</select></div></div>
+  <label for="f_status">Status</label><select id="f_status">${STATUS.map(s=>`<option ${c.status===s?"selected":""}>${s}</option>`).join("")}</select>
+  ${f("source","Where we found them (page address)")}<label for="f_notes">Notes</label><textarea id="f_notes">${esc(c.notes)}</textarea>
+  <div class="row" style="margin-top:10px"><button class="btn p" id="saveC">Save</button>${c.email?`<a class="btn" style="display:inline-flex;align-items:center;text-decoration:none" href="mailto:${esc(c.email)}">Email them</a>`:""}</div></div>
+  <div class="card"><h3 style="margin:0 0 6px">Everything between us</h3>
+  <div class="two"><select id="evT" aria-label="What happened">${EVTYPES.map(([k,v])=>`<option value="${k}">${v}</option>`).join("")}</select><input id="evS" placeholder="Subject or one line" aria-label="Subject"></div>
+  <textarea id="evN" placeholder="What was said" style="margin-top:8px;min-height:70px" aria-label="Details"></textarea><button class="btn" id="addEv" style="margin-top:8px">Add to the history</button>
+  <div id="evs" style="margin-top:10px">${S.events.length?S.events.map(e=>`<div class="ev"><b>${esc((EVTYPES.find(x=>x[0]===e.type)||[0,e.type])[1])}${e.subject?": "+esc(e.subject):""}</b><div class="muted">${fmt(e.at)}${e.campaign?" · campaign "+esc(e.campaign):""}${e.opens?` · opened ${e.opens} time${e.opens===1?"":"s"}${e.lastOpen?", last "+fmt(e.lastOpen):""}`:""}</div>${e.body?`<div style="white-space:pre-wrap;margin-top:4px">${esc(e.body)}</div>`:""}</div>`).join(""):'<p class="muted">Nothing yet.</p>'}</div></div>`; }
+
+/* ---------- campaigns ---------- */
+function audience(c){ return S.contacts.filter(x=>x.email&&x.status!=="declined"&&x.status!=="do not contact"&&(!c.cls||x.cls===c.cls)&&(!c.state||x.state===c.state)&&(!c.status||x.status===c.status)); }
+function campaignsView(){ const e=S.editCamp; if(e){ const n=audience(e).length; return `<button class="btn s" id="cBack">Back to campaigns</button><div class="card" style="margin-top:10px">
+  <label for="c_name">Campaign name</label><input id="c_name" value="${esc(e.name)}">
+  <div class="two"><div><label for="c_cls">Who: class</label><select id="c_cls"><option value="">Every class</option>${Object.entries(CLASSES).map(([k,v])=>`<option value="${k}" ${e.cls===k?"selected":""}>${k}: ${v}</option>`).join("")}</select></div><div><label for="c_state">State</label><input id="c_state" value="${esc(e.state)}" placeholder="Any"></div></div>
+  <label for="c_status">Status</label><select id="c_status"><option value="">Any</option>${STATUS.slice(0,5).map(s=>`<option ${e.status===s?"selected":""}>${s}</option>`).join("")}</select>
+  <p class="note" style="margin-top:10px"><b>${n}</b> ${n===1?"contact matches":"contacts match"}. People marked declined or do not contact are always left out.</p>
+  <label for="c_subj">Subject</label><input id="c_subj" value="${esc(e.subject)}">
+  <label for="c_body">Message. {company} and {name} fill in for each person.</label><textarea id="c_body" style="min-height:220px">${esc(e.body)}</textarea>
+  <div class="row" style="margin-top:10px"><button class="btn p" id="cSave">Save draft</button><button class="btn" id="cAsk">Mark ready to send</button></div>
+  <p class="muted">"Ready" only marks it. Nothing is sent until you approve it.</p></div>`; }
+  return `<div class="row"><button class="btn p" id="cNew">New campaign</button></div>
+  <div class="card" style="margin-top:12px"><ul class="list">${S.campaigns.sort((a,b)=>(b.created||0)-(a.created||0)).map(c=>`<li data-camp="${esc(c.id)}"><div class="grow"><b>${esc(c.name||"Untitled")}</b><div class="muted">${esc(c.subject||"")}</div><div class="muted">Sent ${c.sent||0} · opened ${c.opened||0} · replied ${c.replied||0}</div></div><span class="tag">${esc(c.stage||"draft")}</span></li>`).join("")||'<li class="muted">No campaigns yet.</li>'}</ul></div>`; }
+
+/* ---------- products ---------- */
+function productsView(){ const e=S.editProd; if(e) return `<button class="btn s" id="pBack">Back to products</button><div class="card" style="margin-top:10px">
+  <label for="p_name">Name</label><input id="p_name" value="${esc(e.name)}"><div class="two"><div><label for="p_price">Price</label><input id="p_price" value="${esc(e.price)}" placeholder="$9.99 a month"></div><div><label for="p_kind">Kind</label><select id="p_kind">${["Membership","Free tool","Beta","Business plan","Gift","Other"].map(k=>`<option ${e.kind===k?"selected":""}>${k}</option>`).join("")}</select></div></div>
+  <div class="two"><div><label for="p_where">Where it's sold or used</label><input id="p_where" value="${esc(e.where)}" placeholder="Website, Google Play, App Store"></div><div><label for="p_status">Status</label><select id="p_status">${["Live","In beta","Coming","Retired"].map(k=>`<option ${e.status===k?"selected":""}>${k}</option>`).join("")}</select></div></div>
+  <label for="p_link">Link</label><input id="p_link" value="${esc(e.link)}"><label for="p_desc">What it is</label><textarea id="p_desc">${esc(e.desc)}</textarea><button class="btn p" id="pSave" style="margin-top:10px">Save</button>
+  <p class="muted">This screen is private. Business prices you write here are never shown anywhere public.</p></div>`;
+  return `<div class="row"><button class="btn p" id="pNew">Add a product</button></div><div class="card" style="margin-top:12px"><ul class="list">${S.products.sort((a,b)=>String(a.kind).localeCompare(b.kind)||String(a.name).localeCompare(b.name)).map(p=>`<li data-prod="${esc(p.id)}"><div class="grow"><b>${esc(p.name)}</b><div class="muted">${esc([p.kind,p.price,p.where].filter(Boolean).join(" · "))}</div></div><span class="tag ${p.status==="Retired"?"w":""}">${esc(p.status||"")}</span></li>`).join("")||'<li class="muted">No products yet.</li>'}</ul></div>`; }
+
+/* ---------- knowledge base ---------- */
+function kbView(){ return `<div class="card"><p style="margin-top:0">Every page here is free and public. Tap Copy to paste a link into an email or a reply.</p><ul class="list">${KB.map(([n,u])=>`<li style="cursor:default"><div class="grow"><a href="${SITE+u}" target="_blank" rel="noopener noreferrer"><b>${esc(n)}</b></a><div class="muted">packedrabbit.com${u}</div></div><button class="btn s" data-copy="${SITE+u}">Copy</button></li>`).join("")}</ul></div>`; }
+
+/* ---------- social ---------- */
+function socialView(){ return PLATFORMS.map(([k,n,u])=>{ const s=S.social[k]||{}, P=S.posts.filter(p=>p.platform===k).sort((a,b)=>(b.at||0)-(a.at||0)); const url=s.url||u;
+  return `<div class="card"><div class="row"><h3 style="margin:0" class="grow">${n}</h3>${url?`<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">Open</a>`:'<span class="tag w">add its link</span>'}</div>
+  <div class="grid3" style="margin-top:8px"><div class="stat"><b>${s.followers??"-"}</b>followers</div><div class="stat"><b>${P.length}</b>posts logged</div><div class="stat"><b>${P.reduce((a,p)=>a+(+p.views||0),0)}</b>views</div></div>
+  <details style="margin-top:8px"><summary style="min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:600;color:var(--g)">Set up and log a post</summary>
+  <label>Page link</label><input data-surl="${k}" value="${esc(url)}"><label>Followers</label><input data-sfol="${k}" inputmode="numeric" value="${esc(s.followers??"")}"><button class="btn s" data-ssave="${k}" style="margin-top:8px">Save</button>
+  <label>New post: link</label><input data-purl="${k}" placeholder="https://"><div class="two"><input data-ptitle="${k}" placeholder="What it was" aria-label="Post title"><input data-pviews="${k}" placeholder="Views" inputmode="numeric" aria-label="Views"></div><button class="btn s" data-padd="${k}" style="margin-top:8px">Log this post</button></details>
+  ${P.length?`<ul class="list" style="margin-top:6px">${P.slice(0,20).map(p=>`<li><div class="grow"><a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">${esc(p.title||p.url)}</a><div class="muted">${fmt(p.at)} · ${+p.views||0} views${p.likes?` · ${p.likes} likes`:""}${p.comments?` · ${p.comments} comments`:""}</div></div></li>`).join("")}</ul>`:""}</div>`; }).join(""); }
+
+/* ---------- email ---------- */
+function emailView(){ const A=[["larac@","Lara Cerutti, Founder and CEO","You. No automatic answer."],["assistant@","Claude, AI assistant to Lara","Business emails Claude writes for you."],["lumi@","Lumi, AI assistant (made with ChatGPT)","The backup AI representative."],["hello@","General","Beta sign-ups with Beta in the subject get a code."],["beta@","Beta testers",""],["customerservice@","Customer service",""],["sales@","Sales",""],["info@","Info",""],["partners@","Partners","Property managers, relocation teams, move managers."]];
+  return `<div class="card"><h3 style="margin:0 0 6px">Our addresses (all @packedrabbit.com)</h3><ul class="list">${A.map(([a,w,n])=>`<li style="cursor:default"><div class="grow"><b>${a}packedrabbit.com</b><div class="muted">${w}${n?" · "+n:""}</div></div></li>`).join("")}</ul><p class="muted">Today every address arrives in Resend, and the hourly mail check forwards it to your Gmail.</p></div>
+  <div class="card"><h3 style="margin:0 0 6px">How outreach is sent</h3><p>Business emails go one at a time from a real mailbox, after your yes, and each one is logged on that contact's history here.</p>
+  <p class="note">Resend's rules forbid cold outreach, so it only sends beta codes, unlock codes and replies. Sending to a whole list at once, with opens tracked, needs a service built for business outreach, and a mailing address in every email (US law). That waits on the PO box.</p></div>`; }
+
+/* ---------- wiring ---------- */
+function wire(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
+  on("#q","oninput",e=>{S.q=e.target.value;const p=e.target.selectionStart;render();const q=$("#q");q.focus();q.setSelectionRange(p,p);});
+  ["fc","fs","fst"].forEach(k=>on("#"+k,"onchange",e=>{S[k]=e.target.value;render();}));
+  document.querySelectorAll("[data-c]").forEach(li=>li.onclick=()=>openContact(li.dataset.c));
+  on("#addC","onclick",()=>openContact(id(),true,S.tab==="clients"));
+  on("#imp","onclick",()=>{$("#impBox").hidden=!$("#impBox").hidden;});
+  on("#csvf","onchange",async e=>{const f=e.target.files[0]; if(f) $("#csv").value=await f.text();});
+  on("#doImp","onclick",()=>importCsv($("#csv").value));
+  on("#exp","onclick",exportCsv);
+  on("#out","onclick",async e=>{e.preventDefault(); try{await api("logout",{});}catch(x){} S.in=false; gate("Signed out of this browser.");});
+  on("#back","onclick",()=>{S.sel=null;render();});
+  on("#saveC","onclick",saveContact);
+  on("#addEv","onclick",addEvent);
+  on("#pNew","onclick",()=>{S.editProd={id:id(),name:"",price:"",kind:"Membership",where:"",status:"Live",link:"",desc:""};render();});
+  document.querySelectorAll("[data-prod]").forEach(li=>li.onclick=()=>{S.editProd={...S.products.find(p=>p.id===li.dataset.prod)};render();});
+  on("#pBack","onclick",()=>{S.editProd=null;render();});
+  on("#pSave","onclick",async()=>{const e=S.editProd; ["name","price","kind","where","status","link","desc"].forEach(k=>e[k]=$("#p_"+k).value.trim()); if(!e.name){toast("Give it a name");return;} const {id:pid,...b}=e; if(await put("products/"+pid,{...b,updated:Date.now()})){toast("Saved");S.editProd=null;render();}});
+  document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{ try{ await navigator.clipboard.writeText(b.dataset.copy); toast("Link copied"); }catch(e){ toast(b.dataset.copy); } });
+  on("#cNew","onclick",()=>{S.editCamp={id:id(),name:"",cls:"",state:"",status:"",subject:"",body:"Hello {name},\n\n",stage:"draft",created:Date.now()};render();});
+  document.querySelectorAll("[data-camp]").forEach(li=>li.onclick=()=>{S.editCamp={...S.campaigns.find(c=>c.id===li.dataset.camp)};render();});
+  on("#cBack","onclick",()=>{S.editCamp=null;render();});
+  ["c_cls","c_state","c_status"].forEach(k=>on("#"+k,"onchange",()=>{readCamp();render();}));
+  on("#cSave","onclick",()=>saveCamp("draft"));
+  on("#cAsk","onclick",()=>saveCamp("ready, awaiting your yes"));
+  document.querySelectorAll("[data-ssave]").forEach(b=>b.onclick=async()=>{const k=b.dataset.ssave; if(await put("social/"+k,{url:$(`[data-surl="${k}"]`).value.trim(),followers:+$(`[data-sfol="${k}"]`).value||0,updated:Date.now()})){toast("Saved");render();}});
+  document.querySelectorAll("[data-padd]").forEach(b=>b.onclick=async()=>{const k=b.dataset.padd,u=$(`[data-purl="${k}"]`).value.trim(); if(!u){toast("Add the post's link first");return;} if(await put("posts/"+id(),{platform:k,url:u,title:$(`[data-ptitle="${k}"]`).value.trim(),views:+$(`[data-pviews="${k}"]`).value||0,at:Date.now()})){toast("Post logged");render();}});
+}
+
+function openContact(cid,isNew,client){ S.sel=cid; S.events=[]; if(isNew) S.contacts.push({id:cid,status:client?"beta":"new",cls:client?"TEST":"OTH",fresh:1});
+  render(); if(!isNew) loadEvents(cid).catch(()=>{}); }
+async function saveContact(){ const c={...(S.contacts.find(x=>x.id===S.sel)||{})}; delete c.fresh;
+  ["company","name","role","email","phone","website","city","state","zip","source","notes"].forEach(k=>c[k]=$("#f_"+k).value.trim()); c.cls=$("#f_cls").value; c.status=$("#f_status").value; c.state=(c.state||"").toUpperCase(); c.updated=Date.now(); c.email=c.email.toLowerCase(); if(!c.created) c.created=Date.now();
+  const {id:cid,...body}=c; if(await put("contacts/"+S.sel,body)){ toast("Saved"); render(); } }
+async function addEvent(){ const t=$("#evT").value,s=$("#evS").value.trim(),n=$("#evN").value.trim(); if(!s&&!n){toast("Add a line about what happened");return;}
+  const cid=S.sel; if(await put("contacts/"+cid+"/events/"+id(),{type:t,subject:s,body:n,at:Date.now()})){ const c=S.contacts.find(x=>x.id===cid); if(c&&!c.fresh){ try{ await merge("contacts/"+cid,{last:Date.now(),...(t==="outreach"&&c.status==="new"?{status:"contacted"}:{}),...(t==="reply"||t==="inbound"?{status:c.status==="new"||c.status==="contacted"?"replied":c.status}:{})}); }catch(e){} } toast("Added"); loadEvents(cid).catch(()=>{}); } }
+
+function readCamp(){ const e=S.editCamp; if(!e) return; e.name=$("#c_name").value; e.cls=$("#c_cls").value; e.state=$("#c_state").value.trim().toUpperCase(); e.status=$("#c_status").value; e.subject=$("#c_subj").value; e.body=$("#c_body").value; }
+async function saveCamp(stage){ readCamp(); const e=S.editCamp; if(!e.name.trim()){toast("Give the campaign a name");return;} e.stage=stage; e.audience=audience(e).length; const {id:cid,...body}=e; if(await put("campaigns/"+cid,body)){ toast(stage==="draft"?"Draft saved":"Marked ready. Nothing is sent until you approve it."); S.editCamp=null; render(); } }
+
+function parseCsv(t){ const rows=[];let r=[],v="",q=false; for(let i=0;i<t.length;i++){const ch=t[i]; if(q){ if(ch==='"'&&t[i+1]==='"'){v+='"';i++;} else if(ch==='"') q=false; else v+=ch; } else if(ch==='"') q=true; else if(ch===","){r.push(v);v="";} else if(ch==="\n"||ch==="\r"){ if(ch==="\r"&&t[i+1]==="\n") i++; r.push(v);v=""; if(r.some(x=>x.trim())) rows.push(r); r=[]; } else v+=ch; } r.push(v); if(r.some(x=>x.trim())) rows.push(r); return rows; }
+async function importCsv(t){ const R=parseCsv((t||"").replace(/^﻿/,"")); if(R.length<2){ toast("Paste a list with a header row");return;}
+  const H=R[0].map(h=>h.trim().toLowerCase()); const col=(...n)=>H.findIndex(h=>n.includes(h));
+  const ix={cid:col("contact id","id"),company:col("company","business","organization"),name:col("contact name","name","contact","person"),role:col("job title","role","title"),routing:col("contact routing"),email:col("email","e-mail"),phone:col("phone"),website:col("website","url","site"),city:col("city"),state:col("state","st"),zip:col("zip","zip code","postal"),cls:col("class","class code","type"),source:col("source url","source"),notes:col("notes"),status:col("status","lead status"),track:col("track"),intro:col("intro moment","intro"),open:col("personalized opening"),subj:col("email subject"),draft:col("email draft")};
+  toast("Importing..."); let add=0,upd=0;
+  for(const r of R.slice(1)){ const g=k=>ix[k]>=0?String(r[ix[k]]||"").trim():""; const email=g("email").toLowerCase(); if(!email&&!g("company")) continue;
+    const want=g("cid").replace(/[^A-Za-z0-9_-]/g,""); const ex=(email&&S.contacts.find(c=>c.email===email))||(want&&S.contacts.find(c=>c.id===want));
+    const body={company:g("company"),name:g("name"),role:g("role")||g("routing"),email,phone:/999-9999/.test(g("phone"))?"":g("phone"),website:g("website"),city:g("city"),state:g("state").toUpperCase(),zip:g("zip"),cls:(CLASSES[g("cls").toUpperCase()]?g("cls").toUpperCase():"OTH"),source:g("source"),notes:[want,g("open")&&"Opening line: "+g("open"),g("track")&&"Track: "+g("track"),g("intro")&&"Intro moment: "+g("intro"),g("notes")].filter(Boolean).join(" · "),updated:Date.now()};
+    if(ex){ const m={}; Object.entries(body).forEach(([k,v])=>{if(v&&k!=="cls"&&k!=="notes")m[k]=v;}); try{ await api("merge",{path:"contacts/"+ex.id,data:m}); upd++; }catch(e){} }
+    else { const st=STATUS.includes(g("status"))?g("status"):"new", cid=want||id();
+      try{ await api("set",{path:"contacts/"+cid,data:{...body,status:st,created:Date.now()}}); add++;
+        if(g("draft")) await api("set",{path:"contacts/"+cid+"/events/draft",data:{type:"note",subject:"Draft, not sent: "+g("subj"),body:g("draft"),at:Date.now()}}); }catch(e){} } }
+  await loadColl("contacts"); render(); toast(`${add} added, ${upd} updated`); }
+function exportCsv(){ const K=["id","company","name","role","email","phone","website","city","state","zip","cls","status","source","notes"]; const q=v=>`"${String(v??"").replace(/"/g,'""')}"`;
+  const csv=[K.join(","),...filtered().map(c=>K.map(k=>q(c[k])).join(","))].join("\n");
+  const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob(["﻿"+csv],{type:"text/csv"})); a.download="packed-rabbit-contacts.csv"; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000); }
+
+/* ---------- start ---------- */
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&S.in&&!S.sel&&!S.editCamp&&!S.editProd) loadAll().then(render).catch(()=>{}); });
+(async()=>{ try{ await api("me"); await start(); }catch(e){ if(!(e instanceof SignedOut)) $("#main").innerHTML='<div class="card"><p>Couldn\'t reach the hub. Check your connection, then reload this page.</p></div>'; } })();
 </script>
 </body>
 </html>

@@ -1,0 +1,11 @@
+# Cloudflare Pages settings for packedrabbit.com.
+# The site is plain files at the top of this repo; functions/ holds the
+# owner's hub API, which keeps its data in the D1 database below.
+name = "packedrabbit"
+pages_build_output_dir = "."
+compatibility_date = "2026-11-01"
+
+[[d1_databases]]
+binding = "HUB"
+database_name = "packedrabbit-hub"
+database_id = "777a3c5f-5501-42bc-a71b-e7d1c2540f94"
