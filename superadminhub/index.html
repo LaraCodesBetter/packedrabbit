@@ -53,6 +53,15 @@ a{color:var(--g);text-underline-offset:3px}
 .sec{font:700 20px var(--display);margin:18px 2px 8px}
 .task{display:block}.task h3{margin:0 0 4px;font-size:18px}.task ol{margin:8px 0 4px;padding-left:22px}.task ol li{margin:4px 0}
 .task details summary{min-height:40px;display:flex;align-items:center;cursor:pointer;font-weight:700;color:var(--g)}
+.sheet{overflow:auto;max-height:70vh;border:1px solid var(--line);border-radius:12px;-webkit-overflow-scrolling:touch}
+.sheet table{border-collapse:separate;border-spacing:0;font-size:14px;min-width:1100px;width:100%}
+.sheet th,.sheet td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap;max-width:240px;overflow:hidden;text-overflow:ellipsis}
+.sheet thead th{position:sticky;top:0;z-index:2;background:var(--card);font-weight:700;color:var(--ink2);cursor:pointer;user-select:none}
+.sheet thead th[aria-sort]{color:var(--g)}
+.sheet td:first-child,.sheet th:first-child{position:sticky;left:0;background:var(--card);z-index:1;max-width:180px;border-right:1px solid var(--line)}
+.sheet thead th:first-child{z-index:3}
+.sheet tbody tr{cursor:pointer}.sheet tbody tr:hover td{background:color-mix(in srgb,var(--g) 8%,var(--card))}
+.sheet .muted{font-size:13px}
 .logitem{border-left:4px solid var(--g);padding:8px 12px;margin:10px 0}.logitem h3{margin:2px 0 4px;font-size:17px}
 </style>
 </head>
@@ -74,7 +83,7 @@ const STATUS=["new","hold - reverify","contacted","replied","beta","customer","d
 const NOSEND=s=>s==="declined"||s==="do not contact"||s==="hold - reverify";
 const EVTYPES=[["outreach","Email we sent"],["inbound","Email they sent"],["reply","Reply"],["beta","Joined the beta"],["purchase","Purchase"],["open","Opened our email"],["call","Call or meeting"],["note","Note"]];
 const PLATFORMS=[["instagram","Instagram","https://www.instagram.com/thepackedrabbit/"],["tiktok","TikTok","https://www.tiktok.com/@thepackedrabbit"],["youtube","YouTube","https://www.youtube.com/@thepackedrabbit"],["reddit","Reddit","https://www.reddit.com/user/PackedRabbitApp/"],["facebook","Facebook",""],["pinterest","Pinterest",""]];
-const S={fsrc:"",tab:"tasks",tasks:[],log:[],activity:[],actFilter:"",newTask:null,showDone:false,products:[],contacts:[],campaigns:[],social:{},posts:[],sel:null,events:[],q:"",fc:"",fs:"",fst:"",editCamp:null,editProd:null,ready:false,in:false};
+const S={sortK:"last",sortD:-1,view:"sheet",fsrc:"",tab:"tasks",tasks:[],log:[],activity:[],actFilter:"",newTask:null,showDone:false,products:[],contacts:[],campaigns:[],social:{},posts:[],sel:null,events:[],q:"",fc:"",fs:"",fst:"",editCamp:null,editProd:null,ready:false,in:false};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const toast=m=>{const t=$("#toast");t.textContent=m;t.style.display="block";clearTimeout(t._t);t._t=setTimeout(()=>t.style.display="none",3500)};
@@ -172,8 +181,14 @@ function logView(){ const L=S.log.slice().sort((a,b)=>(b.at||0)-(a.at||0)); let 
     return head+`<div class="card logitem"><div class="row"><span class="tag">${esc(AREAS[e.area]||e.area||"")}</span><span class="muted">${new Date(e.at).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}${e.by?" · "+esc(e.by):""}</span></div><h3>${esc(e.title)}</h3>${e.details?`<div class="muted" style="white-space:pre-wrap">${linkify(e.details)}</div>`:""}${e.link?`<p style="margin:6px 0 0"><a href="${esc(e.link)}" target="_blank" rel="noopener noreferrer">${esc(e.linkText||"See the change")}</a></p>`:""}</div>`; }).join("")||'<div class="card muted">No entries yet.</div>'); }
 
 /* ---------- contacts ---------- */
-function filtered(){ const q=S.q.toLowerCase(), cl=S.tab==="clients"; return S.contacts.filter(c=>(CLIENT(c)===cl)&&(!S.fc||c.cls===S.fc)&&(!S.fs||c.state===S.fs)&&(!S.fst||c.status===S.fst)&&(!S.fsrc||c.leadSource===S.fsrc)&&(!q||[c.id,c.company,c.name,c.email,c.city,c.state,c.zip,c.notes].join(" ").toLowerCase().includes(q))).sort((a,b)=>(b.last||0)-(a.last||0)||String(a.company).localeCompare(b.company)); }
-function contactsView(){ const L=filtered(), states=[...new Set(S.contacts.map(c=>c.state).filter(Boolean))].sort();
+const COLS=[["company","Company"],["name","Name"],["email","Email"],["phone","Phone"],["status","Status"],["campaign","Campaign"],["firstSent","First email sent"],["last","Last contact"],["cls","Class"],["city","City"],["state","State"],["leadSource","Lead source"],["created","Added to hub"],["id","ID"]];
+const DATEK=new Set(["firstSent","last","created"]);
+const campName=k=>{const c=S.campaigns.find(x=>x.id===k); return c?c.name:(k||"");};
+const cellVal=(c,k)=>k==="cls"?(CLASSES[c.cls]||c.cls||""):k==="campaign"?campName(c.campaign):k==="status"?(c.status||"new"):(c[k]??"");
+function sortRows(L){ const k=S.sortK,d=S.sortD; return L.sort((a,b)=>{ let x=DATEK.has(k)?(a[k]||0):String(cellVal(a,k)).toLowerCase(), y=DATEK.has(k)?(b[k]||0):String(cellVal(b,k)).toLowerCase();
+  if(!DATEK.has(k)){ if(!x&&y) return 1; if(x&&!y) return -1; } const r=x<y?-1:x>y?1:0; return r*d||String(a.company).localeCompare(String(b.company)); }); }
+function filtered(){ const q=S.q.toLowerCase(), cl=S.tab==="clients"; return S.contacts.filter(c=>(CLIENT(c)===cl)&&(!S.fc||c.cls===S.fc)&&(!S.fs||c.state===S.fs)&&(!S.fst||c.status===S.fst)&&(!S.fsrc||c.leadSource===S.fsrc)&&(!q||[c.id,c.company,c.name,c.email,c.city,c.state,c.zip,c.notes].join(" ").toLowerCase().includes(q))); }
+function contactsView(){ const L=sortRows(filtered()), states=[...new Set(S.contacts.map(c=>c.state).filter(Boolean))].sort();
   const by=k=>S.contacts.filter(c=>c.status===k).length;
   const P=S.contacts.filter(c=>!CLIENT(c)), C=S.contacts.filter(CLIENT);
   return (S.tab==="clients"?`<div class="grid3"><div class="stat"><b>${C.length}</b>clients</div><div class="stat"><b>${C.filter(c=>c.status==="beta"||c.cls==="TEST").length}</b>beta testers</div><div class="stat"><b>${C.filter(c=>c.status==="customer"||c.cls==="BUY").length}</b>customers</div></div>`:`<div class="grid3"><div class="stat"><b>${P.length}</b>prospects</div><div class="stat"><b>${by("contacted")}</b>contacted</div><div class="stat"><b>${by("replied")}</b>replied</div><div class="stat"><b>${by("declined")}</b>declined</div><div class="stat"><b>${by("hold - reverify")}</b>on hold</div></div>`)+`
@@ -183,7 +198,10 @@ function contactsView(){ const L=filtered(), states=[...new Set(S.contacts.map(c
   <div class="two" style="margin-top:8px"><select id="fst" aria-label="Status"><option value="">Every status</option>${STATUS.map(s=>`<option ${S.fst===s?"selected":""}>${s}</option>`).join("")}</select><select id="fsrc" aria-label="Lead source"><option value="">Every source</option>${SOURCES.map(s=>`<option ${S.fsrc===s?"selected":""}>${s}</option>`).join("")}</select></div>
   <div class="row" style="margin-top:10px"><button class="btn p" id="addC">${S.tab==="clients"?"Add a client":"Add a prospect"}</button><button class="btn" id="imp">Import a list</button><button class="btn" id="exp">Export ${L.length}</button></div>
   <div id="impBox" hidden><label for="csv">Paste a list (CSV with a header row), or pick a file</label><textarea id="csv" placeholder="company,name,role,email,phone,website,city,state,zip,class"></textarea><input type="file" id="csvf" accept=".csv,text/csv" style="margin-top:8px"><button class="btn p" id="doImp" style="margin-top:8px">Import</button><p class="muted">Columns it understands: Contact ID, company, name, role, email, phone, website, city, state, zip, class (PM, SMM, ORG, AGT, BRK, BRL, RMC, STO, CLN), source, notes. An email or ID already on the list updates that contact instead of adding a second one.</p></div></div>
-  <div class="card"><p class="muted" style="margin:0 0 4px">${L.length} shown</p><ul class="list">${L.slice(0,400).map(c=>`<li data-c="${esc(c.id)}"><div class="grow"><b>${esc(c.company||c.name||c.email)}</b><div class="muted">${esc([c.name,c.city&&c.state?c.city+", "+c.state:c.state,c.created?"added "+dayOf(c.created):"",c.leadSource?"from "+c.leadSource:""].filter(Boolean).join(" · "))}</div></div><span class="tag" title="${esc(CLASSES[c.cls]||"")}">${esc(CLASSES[c.cls]||c.cls||"Other")}</span><span class="tag ${NOSEND(c.status)?"w":""}">${esc(c.status||"new")}</span></li>`).join("")||'<li class="muted">No contacts match.</li>'}</ul>${L.length>400?'<p class="muted">Showing the first 400. Search or filter to narrow it.</p>':""}</div>
+  <div class="card"><div class="row" style="margin-bottom:8px"><label for="sortK" style="margin:0">Sort by</label><select id="sortK" style="width:auto;flex:1;min-width:150px">${COLS.map(([k,n])=>`<option value="${k}" ${S.sortK===k?"selected":""}>${n}</option>`).join("")}</select><button class="btn s" id="sortD" aria-label="Change sort direction">${DATEK.has(S.sortK)?(S.sortD<0?"Newest first":"Oldest first"):(S.sortD>0?"A to Z":"Z to A")}</button><button class="btn s" id="viewT">${S.view==="sheet"?"Card view":"Spreadsheet view"}</button></div>
+  <p class="muted" style="margin:0 0 6px">${L.length} shown${S.view==="sheet"?" · tap a column name to sort · tap a row to open it":""}</p>
+  ${S.view==="sheet"?`<div class="sheet"><table><thead><tr>${COLS.map(([k,n])=>`<th data-sort="${k}" ${S.sortK===k?`aria-sort="${S.sortD>0?"ascending":"descending"}"`:""}>${n}${S.sortK===k?(S.sortD>0?" ▲":" ▼"):""}</th>`).join("")}</tr></thead><tbody>${L.slice(0,600).map(c=>`<tr data-c="${esc(c.id)}">${COLS.map(([k])=>{ const v=cellVal(c,k); return k==="status"?`<td><span class="tag ${NOSEND(c.status)?"w":""}">${esc(v)}</span></td>`:DATEK.has(k)?`<td>${v?esc(fmt(v)):'<span class="muted">-</span>'}</td>`:k==="company"?`<td title="${esc(v)}"><b>${esc(v||c.name||c.email)}</b></td>`:`<td title="${esc(v)}">${esc(v)||'<span class="muted">-</span>'}</td>`; }).join("")}</tr>`).join("")||`<tr><td colspan="${COLS.length}" class="muted">No contacts match.</td></tr>`}</tbody></table></div>${L.length>600?'<p class="muted">Showing the first 600. Search or filter to narrow it.</p>':""}`
+  :`<ul class="list">${L.slice(0,400).map(c=>`<li data-c="${esc(c.id)}"><div class="grow"><b>${esc(c.company||c.name||c.email)}</b><div class="muted">${esc([c.name,c.email,c.city&&c.state?c.city+", "+c.state:c.state,c.firstSent?"first email "+dayOf(c.firstSent):"",c.created?"added "+dayOf(c.created):"",c.leadSource?"from "+c.leadSource:""].filter(Boolean).join(" · "))}</div></div><span class="tag" title="${esc(CLASSES[c.cls]||"")}">${esc(CLASSES[c.cls]||c.cls||"Other")}</span><span class="tag ${NOSEND(c.status)?"w":""}">${esc(c.status||"new")}</span></li>`).join("")||'<li class="muted">No contacts match.</li>'}</ul>${L.length>400?'<p class="muted">Showing the first 400. Search or filter to narrow it.</p>':""}`}</div>
   <p class="muted" style="text-align:center"><a href="#" id="out">Sign out of this browser</a></p>`; }
 
 function contactView(){ const c=S.contacts.find(x=>x.id===S.sel)||{id:S.sel,status:"new",cls:"OTH"}; const f=(k,l,t="text")=>`<label for="f_${k}">${l}</label><input id="f_${k}" type="${t}" value="${esc(c[k])}">`;
@@ -253,6 +271,10 @@ function wire(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
   document.querySelectorAll("[data-treopen]").forEach(b=>b.onclick=async()=>{ await merge("tasks/"+b.dataset.treopen,{status:"open"}).catch(()=>toast("Couldn't save. Try again.")); render(); });
   on("#q","oninput",e=>{S.q=e.target.value;const p=e.target.selectionStart;render();const q=$("#q");q.focus();q.setSelectionRange(p,p);});
   ["fc","fs","fst","fsrc"].forEach(k=>on("#"+k,"onchange",e=>{S[k]=e.target.value;render();}));
+  on("#sortK","onchange",e=>{S.sortK=e.target.value;S.sortD=DATEK.has(S.sortK)?-1:1;render();});
+  on("#sortD","onclick",()=>{S.sortD=-S.sortD;render();});
+  on("#viewT","onclick",()=>{S.view=S.view==="sheet"?"cards":"sheet";render();});
+  document.querySelectorAll("[data-sort]").forEach(th=>th.onclick=()=>{const k=th.dataset.sort; if(S.sortK===k) S.sortD=-S.sortD; else {S.sortK=k;S.sortD=DATEK.has(k)?-1:1;} render();});
   document.querySelectorAll("[data-c]").forEach(li=>li.onclick=()=>openContact(li.dataset.c));
   on("#addC","onclick",()=>openContact(id(),true,S.tab==="clients"));
   on("#imp","onclick",()=>{$("#impBox").hidden=!$("#impBox").hidden;});
@@ -284,7 +306,7 @@ async function saveContact(){ const c={...(S.contacts.find(x=>x.id===S.sel)||{})
   ["company","name","role","email","phone","website","city","state","zip","source","notes"].forEach(k=>c[k]=$("#f_"+k).value.trim()); c.cls=$("#f_cls").value; c.status=$("#f_status").value; c.leadSource=$("#f_leadSource").value; c.state=(c.state||"").toUpperCase(); c.updated=Date.now(); c.email=c.email.toLowerCase(); if(!c.created) c.created=Date.now();
   const {id:cid,...body}=c; if(await put("contacts/"+S.sel,body)){ toast("Saved"); render(); } }
 async function addEvent(){ const t=$("#evT").value,s=$("#evS").value.trim(),n=$("#evN").value.trim(); if(!s&&!n){toast("Add a line about what happened");return;}
-  const cid=S.sel; if(await put("contacts/"+cid+"/events/"+id(),{type:t,subject:s,body:n,at:Date.now()})){ const c=S.contacts.find(x=>x.id===cid); if(c&&!c.fresh){ try{ await merge("contacts/"+cid,{last:Date.now(),...(t==="outreach"&&c.status==="new"?{status:"contacted"}:{}),...(t==="reply"||t==="inbound"?{status:c.status==="new"||c.status==="contacted"?"replied":c.status}:{})}); }catch(e){} } toast("Added"); loadEvents(cid).catch(()=>{}); } }
+  const cid=S.sel; if(await put("contacts/"+cid+"/events/"+id(),{type:t,subject:s,body:n,at:Date.now()})){ const c=S.contacts.find(x=>x.id===cid); if(c&&!c.fresh){ try{ await merge("contacts/"+cid,{last:Date.now(),...(t==="outreach"&&c.status==="new"?{status:"contacted"}:{}),...(t==="outreach"&&!c.firstSent?{firstSent:Date.now()}:{}),...(t==="reply"||t==="inbound"?{status:c.status==="new"||c.status==="contacted"?"replied":c.status}:{})}); }catch(e){} } toast("Added"); loadEvents(cid).catch(()=>{}); } }
 
 function readCamp(){ const e=S.editCamp; if(!e) return; e.name=$("#c_name").value; e.cls=$("#c_cls").value; e.state=$("#c_state").value.trim().toUpperCase(); e.status=$("#c_status").value; e.subject=$("#c_subj").value; e.body=$("#c_body").value; }
 async function saveCamp(stage){ readCamp(); const e=S.editCamp; if(!e.name.trim()){toast("Give the campaign a name");return;} e.stage=stage; e.audience=audience(e).length; const {id:cid,...body}=e; if(await put("campaigns/"+cid,body)){ toast(stage==="draft"?"Draft saved":"Marked ready. Nothing is sent until you approve it."); S.editCamp=null; render(); } }
@@ -302,8 +324,8 @@ async function importCsv(t){ const R=parseCsv((t||"").replace(/^﻿/,"")); if(R.
       try{ await api("set",{path:"contacts/"+cid,data:{...body,status:st,created:Date.now()}}); add++;
         if(g("draft")) await api("set",{path:"contacts/"+cid+"/events/draft",data:{type:"note",subject:"Draft, not sent: "+g("subj"),body:g("draft"),at:Date.now()}}); }catch(e){} } }
   await loadColl("contacts"); render(); toast(`${add} added, ${upd} updated`); }
-function exportCsv(){ const K=["id","company","name","role","email","phone","website","city","state","zip","cls","status","source","notes"]; const q=v=>`"${String(v??"").replace(/"/g,'""')}"`;
-  const csv=[K.join(","),...filtered().map(c=>K.map(k=>q(c[k])).join(","))].join("\n");
+function exportCsv(){ const K=["id","company","name","role","email","phone","website","city","state","zip","cls","status","leadSource","campaign","firstSent","last","created","source","notes"]; const q=v=>`"${String(v??"").replace(/"/g,'""')}"`;
+  const csv=[K.join(","),...sortRows(filtered()).map(c=>K.map(k=>q(DATEK.has(k)&&c[k]?fmt(c[k]):k==="campaign"?campName(c[k]):c[k])).join(","))].join("\n");
   const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob(["﻿"+csv],{type:"text/csv"})); a.download="packed-rabbit-contacts.csv"; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000); }
 
 /* ---------- start ---------- */
