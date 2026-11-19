@@ -22,7 +22,7 @@ function validPath(p, wantDoc) {
 const collOf = p => p.slice(0, p.lastIndexOf("/"));
 
 // Activity feed: every change to a contact, written by the server so nothing is missed.
-const WATCH = { status: "Status", cls: "Class", email: "Email", phone: "Phone", company: "Company", name: "Person", role: "Role", city: "City", state: "State", website: "Website", notes: "Notes", source: "Source" };
+const WATCH = { status: "Status", cls: "Class", email: "Email", phone: "Phone", company: "Company", name: "Person", role: "Role", city: "City", state: "State", website: "Website", notes: "Notes", source: "Source page", leadSource: "Lead source" };
 const EV = { outreach: "Email we sent", inbound: "Email they sent", reply: "Reply", beta: "Joined the beta", purchase: "Purchase", open: "Opened our email", call: "Call or meeting", note: "Note" };
 function activityFor(path, before, after, who) {
   const s = path.split("/");
