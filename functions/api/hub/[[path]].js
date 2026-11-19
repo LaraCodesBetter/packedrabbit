@@ -21,6 +21,25 @@ function validPath(p, wantDoc) {
 }
 const collOf = p => p.slice(0, p.lastIndexOf("/"));
 
+// Activity feed: every change to a contact, written by the server so nothing is missed.
+const WATCH = { status: "Status", cls: "Class", email: "Email", phone: "Phone", company: "Company", name: "Person", role: "Role", city: "City", state: "State", website: "Website", notes: "Notes", source: "Source page", leadSource: "Lead source" };
+const EV = { outreach: "Email we sent", inbound: "Email they sent", reply: "Reply", beta: "Joined the beta", purchase: "Purchase", open: "Opened our email", call: "Call or meeting", note: "Note" };
+function activityFor(path, before, after, who) {
+  const s = path.split("/");
+  if (s[0] !== "contacts") return [];
+  const company = (s.length === 2 ? after.company : null) || (before && before.company) || "";
+  if (s.length === 2) {
+    if (!before) return [{ contact: s[1], company, kind: "added", text: "Added to the hub" + (after.status && after.status !== "new" ? " as " + after.status : "") }];
+    const out = [];
+    if (after.status !== undefined && after.status !== before.status) out.push({ contact: s[1], company, kind: "status", text: `Status: ${before.status || "new"} → ${after.status}` });
+    const changed = Object.keys(WATCH).filter(k => k !== "status" && after[k] !== undefined && String(after[k] ?? "") !== String(before[k] ?? ""));
+    if (changed.length) out.push({ contact: s[1], company, kind: "edit", text: "Updated " + changed.map(k => WATCH[k].toLowerCase()).join(", ") });
+    return out;
+  }
+  if (s.length === 4 && s[2] === "events" && !before) return [{ contact: s[1], company, kind: after.type === "note" ? "note" : "email", text: (EV[after.type] || after.type) + (after.subject ? ": " + after.subject : "") }];
+  return [];
+}
+
 async function session(req, db) {
   const m = (req.headers.get("cookie") || "").match(/(?:^|;\s*)prhub=([A-Za-z0-9]+)/);
   if (!m) return null;
@@ -78,14 +97,27 @@ export async function onRequest({ request, env, params }) {
     const { path, data } = body;
     if (!validPath(path, true) || !data || typeof data !== "object" || Array.isArray(data)) return json({ error: "bad_doc" }, 400);
     let out = data;
+    const curTxt = await db.prepare("SELECT data FROM docs WHERE path = ?").bind(path).first("data");
+    const before = curTxt ? JSON.parse(curTxt) : null;
     if (route === "merge") {
-      const cur = await db.prepare("SELECT data FROM docs WHERE path = ?").bind(path).first("data");
-      if (!cur) return json({ error: "not_found" }, 404);
-      out = { ...JSON.parse(cur), ...data };
+      if (!before) return json({ error: "not_found" }, 404);
+      out = { ...before, ...data };
     }
     const txt = JSON.stringify(out);
     if (txt.length > 100000) return json({ error: "too_large" }, 413);
-    await db.prepare("INSERT INTO docs (path, coll, data, updated) VALUES (?, ?, ?, ?) ON CONFLICT(path) DO UPDATE SET data = excluded.data, updated = excluded.updated").bind(path, collOf(path), txt, Date.now()).run();
+    const now = Date.now();
+    const stmts = [db.prepare("INSERT INTO docs (path, coll, data, updated) VALUES (?, ?, ?, ?) ON CONFLICT(path) DO UPDATE SET data = excluded.data, updated = excluded.updated").bind(path, collOf(path), txt, now)];
+    const who = typeof body.by === "string" ? body.by.slice(0, 40) : "Lara";
+    const acts = activityFor(path, before, out, who);
+    if (acts.length && path.split("/").length === 4) {
+      const parent = await db.prepare("SELECT data FROM docs WHERE path = ?").bind(path.split("/").slice(0, 2).join("/")).first("data");
+      if (parent) acts.forEach(x => x.company = JSON.parse(parent).company || x.company);
+    }
+    acts.forEach((a, i) => {
+      const aid = "a" + now + i + hex(crypto.getRandomValues(new Uint8Array(3)));
+      stmts.push(db.prepare("INSERT INTO docs (path, coll, data, updated) VALUES (?, 'activity', ?, ?)").bind("activity/" + aid, JSON.stringify({ ...a, at: now, by: who }), now));
+    });
+    await db.batch(stmts);
     return json({ ok: true });
   }
   if (route === "bulk" && post) {
