@@ -64,7 +64,7 @@ a{color:var(--g);text-underline-offset:3px}
 <main id="main"><p class="muted">Opening the back office...</p></main>
 <div id="toast" role="status" aria-live="polite"></div>
 <script>
-const TABS=[["tasks","Tasks"],["prospects","Prospects"],["clients","Clients"],["products","Products"],["campaigns","Campaigns"],["kb","Knowledge base"],["social","Social"],["email","Email"],["log","Maintenance log"]];
+const TABS=[["tasks","Tasks"],["prospects","Prospects"],["clients","Clients"],["products","Products"],["campaigns","Campaigns"],["kb","Knowledge base"],["social","Social"],["email","Email"],["activity","Activity"],["log","Maintenance log"]];
 const CLIENT=c=>c.status==="beta"||c.status==="customer"||c.cls==="TEST"||c.cls==="BUY";
 const KB=[["Every moving question, one box","/tools/"],["What I wish I'd known (all answers)","/answers/"],["Moving to a new state or abroad","/moving-to/"],["Is my moving quote a scam? Quote checker","/quote-check/"],["Check a mover before you pay","/mover-check/"],["Will my couch fit through the door?","/fit/"],["What size truck do I need?","/truck/"],["How many boxes do I need?","/boxes/"],["Moving checklist by date","/checklist/"],["How long will moving day take?","/move-day/"],["Security deposit deadline by state","/deposit/"],["Move-out checklist","/move-out/"],["Damage or loss claim letter","/claim/"],["Moving company or broker?","/movers-vs-brokers/"],["New state license and registration","/new-state/"],["Moving with a dog or cat","/moving-pets/"],["First-night box","/first-night/"],["Crew: where everything went","/crew/"],["Join the beta","/beta/"],["For business","/business/"],["The app","/app/"]];
 const SITE="https://packedrabbit.com";
@@ -72,7 +72,7 @@ const CLASSES={PM:"Property management",SMM:"Move manager or senior relocation",
 const STATUS=["new","contacted","replied","beta","customer","declined","do not contact"];
 const EVTYPES=[["outreach","Email we sent"],["inbound","Email they sent"],["reply","Reply"],["beta","Joined the beta"],["purchase","Purchase"],["open","Opened our email"],["call","Call or meeting"],["note","Note"]];
 const PLATFORMS=[["instagram","Instagram","https://www.instagram.com/thepackedrabbit/"],["tiktok","TikTok","https://www.tiktok.com/@thepackedrabbit"],["youtube","YouTube","https://www.youtube.com/@thepackedrabbit"],["reddit","Reddit","https://www.reddit.com/user/PackedRabbitApp/"],["facebook","Facebook",""],["pinterest","Pinterest",""]];
-const S={tab:"tasks",tasks:[],log:[],newTask:null,showDone:false,products:[],contacts:[],campaigns:[],social:{},posts:[],sel:null,events:[],q:"",fc:"",fs:"",fst:"",editCamp:null,editProd:null,ready:false,in:false};
+const S={tab:"tasks",tasks:[],log:[],activity:[],actFilter:"",newTask:null,showDone:false,products:[],contacts:[],campaigns:[],social:{},posts:[],sel:null,events:[],q:"",fc:"",fs:"",fst:"",editCamp:null,editProd:null,ready:false,in:false};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const toast=m=>{const t=$("#toast");t.textContent=m;t.style.display="block";clearTimeout(t._t);t._t=setTimeout(()=>t.style.display="none",3500)};
@@ -125,10 +125,10 @@ async function start(code){
   render();
 }
 
-function tabs(){ const mine=S.tasks.filter(t=>t.owner==="lara"&&t.status!=="done").length; $("#tabs").innerHTML=TABS.map(([k,n])=>`<button role="tab" aria-selected="${S.tab===k}" data-tab="${k}">${n}${k==="tasks"&&mine?`<span class="dot" aria-label="${mine} for you">${mine}</span>`:""}</button>`).join(""); document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;S.sel=null;S.editCamp=null;S.editProd=null;render()}); }
+function tabs(){ const mine=S.tasks.filter(t=>t.owner==="lara"&&t.status!=="done").length; $("#tabs").innerHTML=TABS.map(([k,n])=>`<button role="tab" aria-selected="${S.tab===k}" data-tab="${k}">${n}${k==="tasks"&&mine?`<span class="dot" aria-label="${mine} for you">${mine}</span>`:""}</button>`).join(""); document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;S.sel=null;S.editCamp=null;S.editProd=null;render(); if(S.tab==="activity") loadColl("activity").then(render).catch(()=>{});}); }
 
 function render(){ if(!S.in) return; tabs(); const m=$("#main");
-  m.innerHTML=({prospects:S.sel?contactView:contactsView,clients:S.sel?contactView:contactsView,products:productsView,kb:kbView,campaigns:campaignsView,social:socialView,email:emailView,tasks:tasksView,log:logView})[S.tab]();
+  m.innerHTML=({prospects:S.sel?contactView:contactsView,clients:S.sel?contactView:contactsView,products:productsView,kb:kbView,campaigns:campaignsView,social:socialView,email:emailView,tasks:tasksView,log:logView,activity:activityView})[S.tab]();
   wire(); }
 
 
@@ -151,6 +151,17 @@ function tasksView(){ const T=S.tasks.slice().sort((a,b)=>(a.order??99)-(b.order
   <div class="card">${n?`<label for="t_title">Task</label><input id="t_title" value="${esc(n.title)}"><div class="two"><div><label for="t_owner">For</label><select id="t_owner"><option value="claude">Claude</option><option value="lara">Me (Lara)</option></select></div><div><label for="t_due">Due (optional)</label><input id="t_due" type="date"></div></div><label for="t_steps">Details or steps, one per line</label><textarea id="t_steps"></textarea><label for="t_link">Link (optional)</label><input id="t_link" type="url"><div class="row" style="margin-top:10px"><button class="btn p" id="tSave">Add task</button><button class="btn" id="tCancel">Cancel</button></div>`:`<button class="btn p" id="tNew">Add a task</button> <span class="muted">Claude sees new tasks the next time you ask in chat.</span>`}</div>
   <button class="btn s" id="tDoneToggle">${S.showDone?"Hide":"Show"} done (${done.length})</button>${S.showDone?done.map(taskCard).join(""):""}`; }
 
+
+/* ---------- activity: every change, interaction and status update ---------- */
+const AKIND={added:"Added to hub",status:"Status change",edit:"Edit",email:"Email or reply",note:"Note"};
+const dayOf=t=>new Date(t).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+function actRow(a,showCo){ return `<li data-c="${esc(a.contact)}"><div class="grow"><b>${esc(showCo?(a.company||a.contact):a.text)}</b><div class="muted">${showCo?esc(a.text)+" · ":""}${fmt(a.at)}${a.by?" · "+esc(a.by):""}</div></div><span class="tag ${a.kind==="status"?"k":""}">${esc(AKIND[a.kind]||a.kind)}</span></li>`; }
+function activityView(){ const L=S.activity.filter(a=>!S.actFilter||a.kind===S.actFilter).sort((a,b)=>(b.at||0)-(a.at||0)); let day="";
+  const added=S.contacts.slice().sort((a,b)=>(b.created||0)-(a.created||0)); const byDay={}; added.forEach(c=>{ if(c.created){const d=dayOf(c.created); byDay[d]=(byDay[d]||0)+1;} });
+  return `<div class="card"><p style="margin:0 0 8px">Every status change, edit, email and note on a contact, newest first. It records itself.</p><select id="actF" aria-label="Show"><option value="">Everything</option>${Object.entries(AKIND).map(([k,v])=>`<option value="${k}" ${S.actFilter===k?"selected":""}>${v}</option>`).join("")}</select></div>
+  <div class="card"><h3 style="margin:0 0 6px">Added to the hub, by day</h3><ul class="list">${Object.entries(byDay).slice(0,14).map(([d,n])=>`<li style="cursor:default;min-height:44px"><div class="grow">${esc(d)}</div><b>${n}</b></li>`).join("")}</ul></div>
+  <div class="card"><ul class="list">${L.slice(0,300).map(a=>{ const d=dayOf(a.at); const h=d!==day?(day=d,`<li style="cursor:default;min-height:36px;border-top:0"><b class="muted">${esc(d)}</b></li>`):""; return h+actRow(a,true); }).join("")||'<li class="muted" style="cursor:default">Nothing recorded yet. Changes from now on show up here.</li>'}</ul></div>`; }
+
 /* ---------- maintenance log: every change Claude makes ---------- */
 const AREAS={website:"Website",app:"App",hub:"Hub",social:"Social media",marketing:"Marketing",email:"Email",data:"Data"};
 function logView(){ const L=S.log.slice().sort((a,b)=>(b.at||0)-(a.at||0)); let day="";
@@ -170,12 +181,12 @@ function contactsView(){ const L=filtered(), states=[...new Set(S.contacts.map(c
   <select id="fst" aria-label="Status" style="margin-top:8px"><option value="">Every status</option>${STATUS.map(s=>`<option ${S.fst===s?"selected":""}>${s}</option>`).join("")}</select>
   <div class="row" style="margin-top:10px"><button class="btn p" id="addC">${S.tab==="clients"?"Add a client":"Add a prospect"}</button><button class="btn" id="imp">Import a list</button><button class="btn" id="exp">Export ${L.length}</button></div>
   <div id="impBox" hidden><label for="csv">Paste a list (CSV with a header row), or pick a file</label><textarea id="csv" placeholder="company,name,role,email,phone,website,city,state,zip,class"></textarea><input type="file" id="csvf" accept=".csv,text/csv" style="margin-top:8px"><button class="btn p" id="doImp" style="margin-top:8px">Import</button><p class="muted">Columns it understands: Contact ID, company, name, role, email, phone, website, city, state, zip, class (PM, SMM, ORG, AGT, BRK, BRL, RMC, STO, CLN), source, notes. An email or ID already on the list updates that contact instead of adding a second one.</p></div></div>
-  <div class="card"><p class="muted" style="margin:0 0 4px">${L.length} shown</p><ul class="list">${L.slice(0,400).map(c=>`<li data-c="${esc(c.id)}"><div class="grow"><b>${esc(c.company||c.name||c.email)}</b><div class="muted">${esc([c.name,c.city&&c.state?c.city+", "+c.state:c.state,c.zip].filter(Boolean).join(" · "))}</div></div><span class="tag">${esc(c.cls||"OTH")}</span><span class="tag ${c.status==="declined"||c.status==="do not contact"?"w":""}">${esc(c.status||"new")}</span></li>`).join("")||'<li class="muted">No contacts match.</li>'}</ul>${L.length>400?'<p class="muted">Showing the first 400. Search or filter to narrow it.</p>':""}</div>
+  <div class="card"><p class="muted" style="margin:0 0 4px">${L.length} shown</p><ul class="list">${L.slice(0,400).map(c=>`<li data-c="${esc(c.id)}"><div class="grow"><b>${esc(c.company||c.name||c.email)}</b><div class="muted">${esc([c.name,c.city&&c.state?c.city+", "+c.state:c.state,c.created?"added "+dayOf(c.created):""].filter(Boolean).join(" · "))}</div></div><span class="tag">${esc(c.cls||"OTH")}</span><span class="tag ${c.status==="declined"||c.status==="do not contact"?"w":""}">${esc(c.status||"new")}</span></li>`).join("")||'<li class="muted">No contacts match.</li>'}</ul>${L.length>400?'<p class="muted">Showing the first 400. Search or filter to narrow it.</p>':""}</div>
   <p class="muted" style="text-align:center"><a href="#" id="out">Sign out of this browser</a></p>`; }
 
 function contactView(){ const c=S.contacts.find(x=>x.id===S.sel)||{id:S.sel,status:"new",cls:"OTH"}; const f=(k,l,t="text")=>`<label for="f_${k}">${l}</label><input id="f_${k}" type="${t}" value="${esc(c[k])}">`;
   return `<button class="btn s" id="back">Back to ${S.tab==="clients"?"clients":"prospects"}</button>
-  <div class="card" style="margin-top:10px"><h2 style="margin:0 0 4px;font-size:20px">${esc(c.company||"New contact")}</h2><p class="muted" style="margin:0 0 4px">${esc(c.id)}</p>${c.website?`<a href="${esc(/^https?:/.test(c.website)?c.website:"https://"+c.website)}" target="_blank" rel="noopener noreferrer">${esc(c.website)}</a>`:""}
+  <div class="card" style="margin-top:10px"><h2 style="margin:0 0 4px;font-size:20px">${esc(c.company||"New contact")}</h2><p class="muted" style="margin:0 0 4px">${esc(c.id)}${c.created?" · Added to the hub "+esc(dayOf(c.created)):""}${c.last?" · Last contact "+esc(dayOf(c.last)):""}</p>${c.website?`<a href="${esc(/^https?:/.test(c.website)?c.website:"https://"+c.website)}" target="_blank" rel="noopener noreferrer">${esc(c.website)}</a>`:""}
   ${f("company","Company")}<div class="two"><div>${f("name","Person")}</div><div>${f("role","Their role")}</div></div>
   <div class="two"><div>${f("email","Email","email")}</div><div>${f("phone","Phone","tel")}</div></div>${f("website","Website","url")}
   <div class="two"><div>${f("city","City")}</div><div>${f("state","State")}</div></div><div class="two"><div>${f("zip","ZIP")}</div><div><label for="f_cls">Class</label><select id="f_cls">${Object.entries(CLASSES).map(([k,v])=>`<option value="${k}" ${c.cls===k?"selected":""}>${k}: ${v}</option>`).join("")}</select></div></div>
@@ -185,7 +196,7 @@ function contactView(){ const c=S.contacts.find(x=>x.id===S.sel)||{id:S.sel,stat
   <div class="card"><h3 style="margin:0 0 6px">Everything between us</h3>
   <div class="two"><select id="evT" aria-label="What happened">${EVTYPES.map(([k,v])=>`<option value="${k}">${v}</option>`).join("")}</select><input id="evS" placeholder="Subject or one line" aria-label="Subject"></div>
   <textarea id="evN" placeholder="What was said" style="margin-top:8px;min-height:70px" aria-label="Details"></textarea><button class="btn" id="addEv" style="margin-top:8px">Add to the history</button>
-  <div id="evs" style="margin-top:10px">${S.events.length?S.events.map(e=>`<div class="ev"><b>${esc((EVTYPES.find(x=>x[0]===e.type)||[0,e.type])[1])}${e.subject?": "+esc(e.subject):""}</b><div class="muted">${fmt(e.at)}${e.campaign?" · campaign "+esc(e.campaign):""}${e.opens?` · opened ${e.opens} time${e.opens===1?"":"s"}${e.lastOpen?", last "+fmt(e.lastOpen):""}`:""}</div>${e.body?`<div style="white-space:pre-wrap;margin-top:4px">${esc(e.body)}</div>`:""}</div>`).join(""):'<p class="muted">Nothing yet.</p>'}</div></div>`; }
+  ${(()=>{const A=S.activity.filter(a=>a.contact===c.id).sort((a,b)=>(b.at||0)-(a.at||0)); return A.length?`<details style="margin-top:10px"><summary style="min-height:40px;cursor:pointer;font-weight:700;color:var(--g)">Changes and status updates (${A.length})</summary><ul class="list">${A.map(a=>actRow(a,false)).join("")}</ul></details>`:"";})()}<div id="evs" style="margin-top:10px">${S.events.length?S.events.map(e=>`<div class="ev"><b>${esc((EVTYPES.find(x=>x[0]===e.type)||[0,e.type])[1])}${e.subject?": "+esc(e.subject):""}</b><div class="muted">${fmt(e.at)}${e.campaign?" · campaign "+esc(e.campaign):""}${e.opens?` · opened ${e.opens} time${e.opens===1?"":"s"}${e.lastOpen?", last "+fmt(e.lastOpen):""}`:""}</div>${e.body?`<div style="white-space:pre-wrap;margin-top:4px">${esc(e.body)}</div>`:""}</div>`).join(""):'<p class="muted">Nothing yet.</p>'}</div></div>`; }
 
 /* ---------- campaigns ---------- */
 function audience(c){ return S.contacts.filter(x=>x.email&&x.status!=="declined"&&x.status!=="do not contact"&&(!c.cls||x.cls===c.cls)&&(!c.state||x.state===c.state)&&(!c.status||x.status===c.status)); }
@@ -230,6 +241,7 @@ function emailView(){ const A=[["larac@","Lara Cerutti, Founder and CEO","You. N
 /* ---------- wiring ---------- */
 function wire(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
 
+  on("#actF","onchange",e=>{S.actFilter=e.target.value;render();});
   on("#tNew","onclick",()=>{S.newTask={title:""};render();});
   on("#tCancel","onclick",()=>{S.newTask=null;render();});
   on("#tDoneToggle","onclick",()=>{S.showDone=!S.showDone;render();});
@@ -264,8 +276,8 @@ function wire(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
   document.querySelectorAll("[data-padd]").forEach(b=>b.onclick=async()=>{const k=b.dataset.padd,u=$(`[data-purl="${k}"]`).value.trim(); if(!u){toast("Add the post's link first");return;} if(await put("posts/"+id(),{platform:k,url:u,title:$(`[data-ptitle="${k}"]`).value.trim(),views:+$(`[data-pviews="${k}"]`).value||0,at:Date.now()})){toast("Post logged");render();}});
 }
 
-function openContact(cid,isNew,client){ S.sel=cid; S.events=[]; if(isNew) S.contacts.push({id:cid,status:client?"beta":"new",cls:client?"TEST":"OTH",fresh:1});
-  render(); if(!isNew) loadEvents(cid).catch(()=>{}); }
+function openContact(cid,isNew,client){ if(S.tab!=="prospects"&&S.tab!=="clients"){ const c=S.contacts.find(x=>x.id===cid); S.tab=c&&CLIENT(c)?"clients":"prospects"; } S.sel=cid; S.events=[]; if(isNew) S.contacts.push({id:cid,status:client?"beta":"new",cls:client?"TEST":"OTH",fresh:1});
+  render(); if(!isNew){ loadEvents(cid).catch(()=>{}); loadColl("activity").then(()=>{ if(S.sel===cid) render(); }).catch(()=>{}); } }
 async function saveContact(){ const c={...(S.contacts.find(x=>x.id===S.sel)||{})}; delete c.fresh;
   ["company","name","role","email","phone","website","city","state","zip","source","notes"].forEach(k=>c[k]=$("#f_"+k).value.trim()); c.cls=$("#f_cls").value; c.status=$("#f_status").value; c.state=(c.state||"").toUpperCase(); c.updated=Date.now(); c.email=c.email.toLowerCase(); if(!c.created) c.created=Date.now();
   const {id:cid,...body}=c; if(await put("contacts/"+S.sel,body)){ toast("Saved"); render(); } }
