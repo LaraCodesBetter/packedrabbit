@@ -5,7 +5,7 @@
 :root{
   --bg:#EEF2EC; --screen:#FAFBF8; --ink:#1B5E36; --soft:#1B5E3633; --ground:#F0F3EE;
   --text:#1E2A22; --muted:#33413A; --btn:#237A47; --btnfg:#fff; --frame:#D5DDD6; --tape:#2E9358;
-  --f1:#EEF4EF; --f2:#DFE9E1; --f3:#C9D9CE; --plum:#8C3A6B; --bar:#0D3B22; --gold:#E2BE5A;
+  --f1:#EEF4EF; --f2:#DFE9E1; --f3:#C9D9CE; --plum:#8C3A6B; --bar:#0D3B22;
   --sans:"Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,-apple-system,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0E1A12;--screen:#132219;--ink:#9FD6B2;--soft:#9FD6B230;--ground:#172A1E;--text:#E7EFE9;--muted:#C9D6CD;--btn:#3FA868;--btnfg:#06140B;--frame:#2A3D31;--tape:#3FA868;--f1:#1A2C20;--f2:#223A2A;--f3:#2C4636;--plum:#E59AC6;color-scheme:dark}}
@@ -199,7 +199,7 @@ a.choice{text-decoration:none}
 .side.has{border-style:solid;padding:0}
 .side img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .side.has span{position:absolute;left:6px;bottom:6px;background:rgba(1,69,30,.86);color:#fff;border-radius:10px;padding:4px 10px;font-size:14px}
-.itemtag{display:inline-block;margin:0 0 10px;padding:8px 18px 9px;border-radius:14px;background:#D8BC91;color:#173B24;font:800 30px/1.1 var(--sans);letter-spacing:-.01em;box-shadow:inset 0 0 0 2px #B89466}
+.itemtag{display:inline-block;margin:0 0 10px;padding:8px 18px 9px;border-radius:14px;background:var(--f2);color:var(--ink);font:800 30px/1.1 var(--sans);letter-spacing:-.01em;box-shadow:inset 0 0 0 2px var(--f3)}
 .ai{margin-top:12px;padding:14px 16px;border-radius:16px;background:#EAF3EC;border:1.5px solid #9DC3A8;text-align:left;max-width:420px}
 .ai b{display:block;color:var(--ink);font-size:18px}.ai p{margin:4px 0 0;font-size:17px}
 .ai .row{display:flex;gap:8px;margin-top:10px}.ai .row>*{flex:1;margin:0;min-height:48px}
@@ -3156,7 +3156,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v403, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v404, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
