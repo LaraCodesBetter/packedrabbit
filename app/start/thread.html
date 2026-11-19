@@ -3166,7 +3166,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v408, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v409, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
@@ -3360,9 +3360,9 @@ function cheer(big,line){ cheerSound(big); setTimeout(()=>cheerDraw(big,line),40
 function cheerDraw(big,line){ try{
   const quiet=matchMedia('(prefers-reduced-motion: reduce)').matches, old=phone.querySelector('.cheerw'); if(old) old.remove();
   const w=document.createElement('div'); w.className='cheerw'; w.setAttribute('aria-hidden','true');
-  if(!quiet){ const cols=['#EADFC9','#41A766','#23673C','#C79A5B','#E0F2E7'], n=big?90:44, dur=big?1900:1350;
+  if(!quiet){ const cols=['#EADFC9','#41A766','#23673C','#9FD6B2','#E0F2E7'], n=big?90:44, dur=big?1900:1350;
     for(let i=0;i<n;i++){ const p=document.createElement('i'), x=6+Math.random()*88, dx=(Math.random()-0.5)*36, s=6+Math.random()*6;
-      if(i%3===0){ const pw=16+Math.random()*8, pk=[['#F4EFE4','#9C8E72'],['#F7B8CF','#C9708F'],['#B9EBC6','#5FA874']][(i/3)%3|0];
+      if(i%3===0){ const pw=16+Math.random()*8, pk=[['#F4EFE4','#2E9358'],['#F7B8CF','#C9708F'],['#B9EBC6','#5FA874']][(i/3)%3|0];
         p.style.cssText=`position:absolute;left:${x}%;top:-30px;width:${pw}px;height:${pw*1.5}px;display:block`;
         p.innerHTML=`<svg viewBox="0 0 16 24" width="100%" height="100%"><path d="M11 3.5C7 1.5 3.5 4 5 7.5s6 4 5.5 8.5S6 22 3.5 20" fill="none" stroke="${pk[1]}" stroke-width="7.4" stroke-linecap="round"/><path d="M11 3.5C7 1.5 3.5 4 5 7.5s6 4 5.5 8.5S6 22 3.5 20" fill="none" stroke="${pk[0]}" stroke-width="5.4" stroke-linecap="round"/></svg>`; }
       else p.style.cssText=`position:absolute;left:${x}%;top:-16px;width:${s}px;height:${s*0.45}px;background:${cols[i%cols.length]};border-radius:2px`;
