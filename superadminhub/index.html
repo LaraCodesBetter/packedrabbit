@@ -14,48 +14,57 @@
 <link rel="icon" href="icon-512.png" type="image/png">
 <link rel="manifest" href="manifest.webmanifest">
 <style>
-:root{--g:#2e6b4f;--g2:#1f4d38;--cream:#f7f3ea;--pink:#e9a7b4;--ink:#1d2a22;--ink2:#5b6a61;--line:#dfe6e1;--card:#fff;--warn:#b5452f}
-@media (prefers-color-scheme:dark){:root{--cream:#121714;--card:#1b221e;--ink:#eef2ee;--ink2:#a9b6ae;--line:#2c3631;--g:#7cc4a0;--g2:#a5dcbf}}
+/* Same identity as packedrabbit.com: the green family, kraft tape, rounded display type. */
+:root{--g:#23673C;--g2:#1C3224;--cream:#F3FAF6;--tape:#EADFC9;--tape-ink:#14281B;--kraft:#D9E3DA;--ink:#14281B;--ink2:#415B4B;--line:rgba(20,40,27,.13);--card:#fff;--warn:#C8102E;
+ --display:ui-rounded,"SF Pro Rounded","Nunito","Segoe UI Variable Display","Segoe UI",system-ui,-apple-system,sans-serif;--lift:0 1px 2px rgba(15,27,45,.06),0 4px 14px rgba(15,27,45,.06)}
+@media (prefers-color-scheme:dark){:root{--cream:#0D1410;--card:#112016;--ink:#E0F2E7;--ink2:#B5D5C1;--line:rgba(224,242,231,.2);--g:#5BD086;--g2:#E0F2E7;--warn:#FF5C76;--lift:inset 0 1px 0 rgba(255,255,255,.06)}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
-header{position:sticky;top:0;z-index:5;background:var(--cream);border-bottom:1px solid var(--line);padding:calc(12px + env(safe-area-inset-top)) 16px 0}
-h1{margin:0 0 8px;font-size:20px;letter-spacing:.2px}h1 small{display:block;font-size:13px;font-weight:500;color:var(--ink2)}
-nav{display:flex;gap:4px;overflow-x:auto}
-nav button{flex:none;min-height:44px;padding:0 14px;border:0;background:none;font:inherit;font-weight:600;color:var(--ink2);border-bottom:3px solid transparent;cursor:pointer}
+body{margin:0;background:var(--cream);color:var(--ink);font:17px/1.5 -apple-system,"SF Pro Text","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+header{position:sticky;top:0;z-index:5;background:var(--cream);border-bottom:1px solid var(--line);padding:calc(10px + env(safe-area-inset-top)) 16px 0}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:6px}.brand img.wm{height:30px;width:auto}.brand .hubtag{font:700 13px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;background:var(--tape);color:var(--tape-ink);padding:6px 10px;border-radius:6px;transform:rotate(-2deg)}
+.wm-dark{display:none}@media (prefers-color-scheme:dark){.wm-light{display:none}.wm-dark{display:inline}}
+h1,h2,h3{font-family:var(--display);letter-spacing:-.02em}
+nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+nav button{flex:none;min-height:44px;padding:0 13px;border:0;background:none;font:600 16px var(--display);color:var(--ink2);border-bottom:3px solid transparent;cursor:pointer}
 nav button[aria-selected=true]{color:var(--g);border-bottom-color:var(--g)}
+nav .dot{display:inline-block;min-width:20px;padding:1px 6px;margin-left:5px;border-radius:99px;background:var(--g);color:var(--cream);font-size:12px;line-height:18px;text-align:center}
 main{padding:14px 16px 80px;max-width:980px;margin:0 auto}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--lift)}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 input,select,textarea{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;min-height:44px;width:100%}
 textarea{min-height:120px}
 label{display:block;font-size:13px;font-weight:600;color:var(--ink2);margin:10px 0 4px}
-.btn{min-height:44px;padding:0 16px;border-radius:10px;border:1px solid var(--g);background:none;color:var(--g);font:inherit;font-weight:600;cursor:pointer}
-.btn.p{background:var(--g);color:#fff}.btn.s{min-height:36px;padding:0 10px;font-size:14px}
+.btn{min-height:44px;padding:0 16px;border-radius:12px;border:1.5px solid var(--g);background:none;color:var(--g);font:700 16px var(--display);cursor:pointer}
+.btn.p{background:var(--g);color:var(--cream)}.btn.s{min-height:36px;padding:0 10px;font-size:14px}
 .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}.stat b{display:block;font-size:22px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;box-shadow:var(--lift)}.stat b{display:block;font:700 26px var(--display)}
 .list{list-style:none;margin:0;padding:0}
 .list li{display:flex;gap:10px;align-items:center;padding:12px 4px;border-top:1px solid var(--line);cursor:pointer;min-height:56px}
 .list li:first-child{border-top:0}
 .tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px;background:color-mix(in srgb,var(--g) 14%,transparent);color:var(--g);white-space:nowrap}
-.tag.w{background:color-mix(in srgb,var(--warn) 14%,transparent);color:var(--warn)}
+.tag.w{background:color-mix(in srgb,var(--warn) 14%,transparent);color:var(--warn)}.tag.k{background:var(--tape);color:var(--tape-ink)}
 .grow{flex:1;min-width:0}.muted{color:var(--ink2);font-size:14px}
 .ev{border-left:3px solid var(--g);padding:6px 10px;margin:8px 0}.ev .muted{font-size:13px}
-.note{background:color-mix(in srgb,var(--pink) 18%,transparent);border-radius:12px;padding:12px;font-size:15px}
+.note{background:var(--tape);color:var(--tape-ink);border-radius:12px;padding:12px;font-size:15px}
 #toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--cream);padding:12px 16px;border-radius:12px;display:none;z-index:9;max-width:92vw}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-a{color:var(--g)}
+a{color:var(--g);text-underline-offset:3px}
 .gate{max-width:420px;margin:40px auto;text-align:center}.gate img{width:120px;height:120px;border-radius:28px}
+.sec{font:700 20px var(--display);margin:18px 2px 8px}
+.task{display:block}.task h3{margin:0 0 4px;font-size:18px}.task ol{margin:8px 0 4px;padding-left:22px}.task ol li{margin:4px 0}
+.task details summary{min-height:40px;display:flex;align-items:center;cursor:pointer;font-weight:700;color:var(--g)}
+.logitem{border-left:4px solid var(--g);padding:8px 12px;margin:10px 0}.logitem h3{margin:2px 0 4px;font-size:17px}
 </style>
 </head>
 <body>
 <header>
-  <h1>The Packed Rabbit <small>Hub: prospects, clients, products, campaigns, answers, social, email</small></h1>
+  <div class="brand"><img class="wm wm-light" src="/img/wordmark.png" alt="The Packed Rabbit"><img class="wm wm-dark" src="/img/wordmark-cream.png" alt="The Packed Rabbit"><span class="hubtag">Hub</span></div>
   <nav role="tablist" id="tabs"></nav>
 </header>
 <main id="main"><p class="muted">Opening the back office...</p></main>
 <div id="toast" role="status" aria-live="polite"></div>
 <script>
-const TABS=[["prospects","Prospects"],["clients","Clients"],["products","Products"],["campaigns","Campaigns"],["kb","Knowledge base"],["social","Social"],["email","Email"]];
+const TABS=[["tasks","Tasks"],["prospects","Prospects"],["clients","Clients"],["products","Products"],["campaigns","Campaigns"],["kb","Knowledge base"],["social","Social"],["email","Email"],["log","Maintenance log"]];
 const CLIENT=c=>c.status==="beta"||c.status==="customer"||c.cls==="TEST"||c.cls==="BUY";
 const KB=[["Every moving question, one box","/tools/"],["What I wish I'd known (all answers)","/answers/"],["Moving to a new state or abroad","/moving-to/"],["Is my moving quote a scam? Quote checker","/quote-check/"],["Check a mover before you pay","/mover-check/"],["Will my couch fit through the door?","/fit/"],["What size truck do I need?","/truck/"],["How many boxes do I need?","/boxes/"],["Moving checklist by date","/checklist/"],["How long will moving day take?","/move-day/"],["Security deposit deadline by state","/deposit/"],["Move-out checklist","/move-out/"],["Damage or loss claim letter","/claim/"],["Moving company or broker?","/movers-vs-brokers/"],["New state license and registration","/new-state/"],["Moving with a dog or cat","/moving-pets/"],["First-night box","/first-night/"],["Crew: where everything went","/crew/"],["Join the beta","/beta/"],["For business","/business/"],["The app","/app/"]];
 const SITE="https://packedrabbit.com";
@@ -63,7 +72,7 @@ const CLASSES={PM:"Property management",SMM:"Move manager or senior relocation",
 const STATUS=["new","contacted","replied","beta","customer","declined","do not contact"];
 const EVTYPES=[["outreach","Email we sent"],["inbound","Email they sent"],["reply","Reply"],["beta","Joined the beta"],["purchase","Purchase"],["open","Opened our email"],["call","Call or meeting"],["note","Note"]];
 const PLATFORMS=[["instagram","Instagram","https://www.instagram.com/thepackedrabbit/"],["tiktok","TikTok","https://www.tiktok.com/@thepackedrabbit"],["youtube","YouTube","https://www.youtube.com/@thepackedrabbit"],["reddit","Reddit","https://www.reddit.com/user/PackedRabbitApp/"],["facebook","Facebook",""],["pinterest","Pinterest",""]];
-const S={tab:"prospects",products:[],contacts:[],campaigns:[],social:{},posts:[],sel:null,events:[],q:"",fc:"",fs:"",fst:"",editCamp:null,editProd:null,ready:false,in:false};
+const S={tab:"tasks",tasks:[],log:[],newTask:null,showDone:false,products:[],contacts:[],campaigns:[],social:{},posts:[],sel:null,events:[],q:"",fc:"",fs:"",fst:"",editCamp:null,editProd:null,ready:false,in:false};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const toast=m=>{const t=$("#toast");t.textContent=m;t.style.display="block";clearTimeout(t._t);t._t=setTimeout(()=>t.style.display="none",3500)};
@@ -89,7 +98,7 @@ async function loadColl(c){
   else if(c==="social"){ S.social={}; L.forEach(x=>S.social[x.id]=x); }
   else S[c]=L;
 }
-async function loadAll(){ await Promise.all(["contacts","campaigns","social","posts","products"].map(loadColl)); S.ready=true; }
+async function loadAll(){ await Promise.all(["contacts","campaigns","social","posts","products","tasks","log"].map(loadColl)); S.ready=true; }
 async function loadEvents(cid){ const L=await list("contacts/"+cid+"/events"); if(S.sel!==cid) return; S.events=L.sort((a,b)=>(b.at||0)-(a.at||0)).slice(0,200); render(); }
 
 /* ---------- sign-in ---------- */
@@ -116,11 +125,38 @@ async function start(code){
   render();
 }
 
-function tabs(){ $("#tabs").innerHTML=TABS.map(([k,n])=>`<button role="tab" aria-selected="${S.tab===k}" data-tab="${k}">${n}</button>`).join(""); document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;S.sel=null;S.editCamp=null;S.editProd=null;render()}); }
+function tabs(){ const mine=S.tasks.filter(t=>t.owner==="lara"&&t.status!=="done").length; $("#tabs").innerHTML=TABS.map(([k,n])=>`<button role="tab" aria-selected="${S.tab===k}" data-tab="${k}">${n}${k==="tasks"&&mine?`<span class="dot" aria-label="${mine} for you">${mine}</span>`:""}</button>`).join(""); document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;S.sel=null;S.editCamp=null;S.editProd=null;render()}); }
 
 function render(){ if(!S.in) return; tabs(); const m=$("#main");
-  m.innerHTML=({prospects:S.sel?contactView:contactsView,clients:S.sel?contactView:contactsView,products:productsView,kb:kbView,campaigns:campaignsView,social:socialView,email:emailView})[S.tab]();
+  m.innerHTML=({prospects:S.sel?contactView:contactsView,clients:S.sel?contactView:contactsView,products:productsView,kb:kbView,campaigns:campaignsView,social:socialView,email:emailView,tasks:tasksView,log:logView})[S.tab]();
   wire(); }
+
+
+/* ---------- tasks: Lara's and Claude's ---------- */
+const TSTAT={open:"To do",doing:"In progress",waiting:"Waiting on Lara",done:"Done"};
+function taskCard(t){ const steps=String(t.steps||"").split("\n").map(s=>s.replace(/^\s*\d+[.)]\s*/,"").trim()).filter(Boolean);
+  return `<div class="card task"><div class="row"><h3 class="grow">${esc(t.title)}</h3><span class="tag ${t.status==="waiting"?"k":""}">${esc(TSTAT[t.status]||t.status)}</span></div>
+  ${t.why?`<p class="muted" style="margin:0 0 6px">${esc(t.why)}</p>`:""}${t.due?`<p class="muted" style="margin:0 0 6px">Due ${esc(t.due)}</p>`:""}
+  ${steps.length?`<details ${t.owner==="lara"&&t.status!=="done"?"open":""}><summary>${t.owner==="lara"?"How to do it":"Steps"} (${steps.length})</summary><ol>${steps.map(s=>`<li>${linkify(s)}</li>`).join("")}</ol></details>`:""}
+  ${t.link?`<p style="margin:6px 0"><a href="${esc(t.link)}" target="_blank" rel="noopener noreferrer">${esc(t.linkText||"Open the link")}</a></p>`:""}
+  <div class="row" style="margin-top:8px">${t.status!=="done"?`<button class="btn s p" data-tdone="${esc(t.id)}">Mark done</button>`:`<button class="btn s" data-treopen="${esc(t.id)}">Reopen</button>`}${t.status!=="done"&&t.owner==="claude"?`<span class="muted">Claude updates this one</span>`:""}</div></div>`; }
+function linkify(s){ return esc(s).replace(/(https?:\/\/[^\s<]+)/g,u=>`<a href="${u}" target="_blank" rel="noopener noreferrer">${u.replace(/^https?:\/\//,"")}</a>`); }
+function tasksView(){ const T=S.tasks.slice().sort((a,b)=>(a.order??99)-(b.order??99)||(b.created||0)-(a.created||0));
+  const mine=T.filter(t=>t.owner==="lara"&&t.status!=="done"), doing=T.filter(t=>t.owner==="claude"&&(t.status==="doing"||t.status==="waiting")), queue=T.filter(t=>t.owner==="claude"&&t.status==="open"), done=T.filter(t=>t.status==="done");
+  const n=S.newTask; 
+  return `<div class="grid3"><div class="stat"><b>${mine.length}</b>for you</div><div class="stat"><b>${doing.length}</b>Claude is on</div><div class="stat"><b>${queue.length}</b>in Claude's queue</div></div>
+  <h2 class="sec">For you</h2>${mine.map(taskCard).join("")||'<div class="card muted">Nothing waiting on you.</div>'}
+  <h2 class="sec">Claude is working on</h2>${doing.map(taskCard).join("")||'<div class="card muted">Nothing in progress right now.</div>'}
+  <h2 class="sec">Claude's queue</h2>${queue.map(taskCard).join("")||'<div class="card muted">The queue is empty.</div>'}
+  <div class="card">${n?`<label for="t_title">Task</label><input id="t_title" value="${esc(n.title)}"><div class="two"><div><label for="t_owner">For</label><select id="t_owner"><option value="claude">Claude</option><option value="lara">Me (Lara)</option></select></div><div><label for="t_due">Due (optional)</label><input id="t_due" type="date"></div></div><label for="t_steps">Details or steps, one per line</label><textarea id="t_steps"></textarea><label for="t_link">Link (optional)</label><input id="t_link" type="url"><div class="row" style="margin-top:10px"><button class="btn p" id="tSave">Add task</button><button class="btn" id="tCancel">Cancel</button></div>`:`<button class="btn p" id="tNew">Add a task</button> <span class="muted">Claude sees new tasks the next time you ask in chat.</span>`}</div>
+  <button class="btn s" id="tDoneToggle">${S.showDone?"Hide":"Show"} done (${done.length})</button>${S.showDone?done.map(taskCard).join(""):""}`; }
+
+/* ---------- maintenance log: every change Claude makes ---------- */
+const AREAS={website:"Website",app:"App",hub:"Hub",social:"Social media",marketing:"Marketing",email:"Email",data:"Data"};
+function logView(){ const L=S.log.slice().sort((a,b)=>(b.at||0)-(a.at||0)); let day="";
+  return `<div class="card"><p style="margin:0">Every update, change and correction Claude makes to the website, the apps, social media, marketing and this hub, newest first.</p></div>`+
+  (L.map(e=>{ const d=new Date(e.at).toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"}); const head=d!==day?(day=d,`<h2 class="sec">${esc(d)}</h2>`):"";
+    return head+`<div class="card logitem"><div class="row"><span class="tag">${esc(AREAS[e.area]||e.area||"")}</span><span class="muted">${new Date(e.at).toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})}${e.by?" · "+esc(e.by):""}</span></div><h3>${esc(e.title)}</h3>${e.details?`<div class="muted" style="white-space:pre-wrap">${linkify(e.details)}</div>`:""}${e.link?`<p style="margin:6px 0 0"><a href="${esc(e.link)}" target="_blank" rel="noopener noreferrer">${esc(e.linkText||"See the change")}</a></p>`:""}</div>`; }).join("")||'<div class="card muted">No entries yet.</div>'); }
 
 /* ---------- contacts ---------- */
 function filtered(){ const q=S.q.toLowerCase(), cl=S.tab==="clients"; return S.contacts.filter(c=>(CLIENT(c)===cl)&&(!S.fc||c.cls===S.fc)&&(!S.fs||c.state===S.fs)&&(!S.fst||c.status===S.fst)&&(!q||[c.id,c.company,c.name,c.email,c.city,c.state,c.zip,c.notes].join(" ").toLowerCase().includes(q))).sort((a,b)=>(b.last||0)-(a.last||0)||String(a.company).localeCompare(b.company)); }
@@ -193,6 +229,14 @@ function emailView(){ const A=[["larac@","Lara Cerutti, Founder and CEO","You. N
 
 /* ---------- wiring ---------- */
 function wire(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
+
+  on("#tNew","onclick",()=>{S.newTask={title:""};render();});
+  on("#tCancel","onclick",()=>{S.newTask=null;render();});
+  on("#tDoneToggle","onclick",()=>{S.showDone=!S.showDone;render();});
+  on("#tSave","onclick",async()=>{const title=$("#t_title").value.trim(); if(!title){toast("Give the task a name");return;} const own=$("#t_owner").value;
+    if(await put("tasks/"+id(),{title,owner:own,status:"open",steps:$("#t_steps").value.trim(),link:$("#t_link").value.trim(),due:$("#t_due").value,created:Date.now(),by:"Lara"})){S.newTask=null;toast(own==="claude"?"Added to Claude's queue":"Added to your tasks");render();}});
+  document.querySelectorAll("[data-tdone]").forEach(b=>b.onclick=async()=>{ await merge("tasks/"+b.dataset.tdone,{status:"done",doneAt:Date.now()}).catch(()=>toast("Couldn't save. Try again.")); render(); });
+  document.querySelectorAll("[data-treopen]").forEach(b=>b.onclick=async()=>{ await merge("tasks/"+b.dataset.treopen,{status:"open"}).catch(()=>toast("Couldn't save. Try again.")); render(); });
   on("#q","oninput",e=>{S.q=e.target.value;const p=e.target.selectionStart;render();const q=$("#q");q.focus();q.setSelectionRange(p,p);});
   ["fc","fs","fst"].forEach(k=>on("#"+k,"onchange",e=>{S[k]=e.target.value;render();}));
   document.querySelectorAll("[data-c]").forEach(li=>li.onclick=()=>openContact(li.dataset.c));
@@ -249,7 +293,7 @@ function exportCsv(){ const K=["id","company","name","role","email","phone","web
   const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob(["﻿"+csv],{type:"text/csv"})); a.download="packed-rabbit-contacts.csv"; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000); }
 
 /* ---------- start ---------- */
-document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&S.in&&!S.sel&&!S.editCamp&&!S.editProd) loadAll().then(render).catch(()=>{}); });
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&S.in&&!S.sel&&!S.editCamp&&!S.editProd&&!S.newTask) loadAll().then(render).catch(()=>{}); });
 (async()=>{ try{ await api("me"); await start(); }catch(e){ if(!(e instanceof SignedOut)) $("#main").innerHTML='<div class="card"><p>Couldn\'t reach the hub. Check your connection, then reload this page.</p></div>'; } })();
 </script>
 </body>
