@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Unsubscribe from The Packed Rabbit emails</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1C3224">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<style>
+:root{--g:#23673C;--ink:#173B24;--ink2:#4F5E54;--cream:#F6F1E7;--card:#fff;--line:#E4DCCB;--tape:#EADFC9}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:17px/1.55 -apple-system,"SF Pro Text","Segoe UI",system-ui,sans-serif}
+main{max-width:520px;margin:0 auto;padding:40px 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 22px}
+img.wm{height:40px;width:auto;display:block;margin-bottom:18px}
+h1{font:700 26px/1.25 ui-rounded,"SF Pro Rounded","Segoe UI",system-ui,sans-serif;margin:0 0 8px}
+p{margin:0 0 14px}
+label{display:block;font-weight:600;font-size:14px;margin:14px 0 6px;color:var(--ink2)}
+input{width:100%;font:inherit;padding:12px;border:1px solid var(--line);border-radius:12px;min-height:48px;color:var(--ink)}
+button{margin-top:14px;width:100%;min-height:50px;border:0;border-radius:12px;background:var(--g);color:#fff;font:700 17px system-ui,sans-serif;cursor:pointer}
+button[disabled]{opacity:.6}
+.note{font-size:14px;color:var(--ink2);margin-top:14px}
+.done{background:var(--tape);border-radius:12px;padding:14px;margin-top:14px}
+a{color:var(--g)}
+</style>
+</head>
+<body>
+<main>
+<div class="card">
+<img class="wm" src="../img/wordmark.png" alt="The Packed Rabbit">
+<h1>Unsubscribe</h1>
+<p>Enter your email address and we won't send you any more emails from The Packed Rabbit.</p>
+<form id="f">
+<label for="e">Your email address</label>
+<input id="e" type="email" autocomplete="email" required>
+<button id="b">Unsubscribe me</button>
+</form>
+<div id="msg" role="status" aria-live="polite"></div>
+<p class="note">Questions? Reply to any of our emails. The Indigo Iguana LLC dba The Packed Rabbit, 8401 Mayland Dr Ste A, Richmond, VA 23294</p>
+</div>
+</main>
+<script>
+const q=new URLSearchParams(location.search), e=document.getElementById("e"), f=document.getElementById("f"), msg=document.getElementById("msg"), b=document.getElementById("b");
+if(q.get("e")) e.value=q.get("e");
+f.addEventListener("submit",async ev=>{ ev.preventDefault(); b.disabled=true; b.textContent="One moment...";
+  try{ const r=await fetch("/api/unsubscribe",{method:"POST",headers:{"content-type":"application/json","x-unsub":"1"},body:JSON.stringify({email:e.value.trim(),c:q.get("c")||""})});
+    if(r.status===429){ msg.innerHTML='<p class="done">Too many tries from this connection. Please wait a few minutes, or reply "no thanks" to our email.</p>'; b.disabled=false; b.textContent="Unsubscribe me"; return; }
+    if(!r.ok) throw 0;
+    f.hidden=true; msg.innerHTML='<p class="done"><b>You\'re unsubscribed.</b><br>You won\'t receive any more emails from The Packed Rabbit at '+e.value.replace(/[&<>"]/g,"")+'.</p>';
+  }catch(x){ msg.innerHTML='<p class="done">That didn\'t go through. Please try again, or reply "no thanks" to our email and we\'ll remove you by hand.</p>'; b.disabled=false; b.textContent="Unsubscribe me"; }
+});
+</script>
+</body>
+</html>
