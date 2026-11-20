@@ -45,6 +45,7 @@ label{display:block;font-size:13px;font-weight:600;color:var(--ink2);margin:10px
 .tag.w{background:color-mix(in srgb,var(--warn) 14%,transparent);color:var(--warn)}.tag.k{background:var(--tape);color:var(--tape-ink)}
 .grow{flex:1;min-width:0}.muted{color:var(--ink2);font-size:14px}
 .ev{border-left:3px solid var(--g);padding:6px 10px;margin:8px 0}.ev .muted{font-size:13px}
+.tmsgs{margin-top:8px;border-top:1px solid var(--line);padding-top:8px}.tmsg{padding:8px 10px;border-radius:12px;background:color-mix(in srgb,var(--g) 6%,transparent);margin-bottom:8px}.tmsg.ai{background:color-mix(in srgb,var(--g) 14%,transparent)}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .note{background:var(--tape);color:var(--tape-ink);border-radius:12px;padding:12px;font-size:15px}
 #toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--cream);padding:12px 16px;border-radius:12px;display:none;z-index:9;max-width:92vw}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -144,10 +145,10 @@ async function start(code){
   render();
 }
 
-function tabs(){ const mine=S.tasks.filter(t=>t.owner==="lara"&&t.status!=="done").length; $("#tabs").innerHTML=TABS.map(([k,n])=>`<button role="tab" aria-selected="${S.tab===k}" data-tab="${k}">${n}${k==="tasks"&&mine?`<span class="dot" aria-label="${mine} for you">${mine}</span>`:""}</button>`).join(""); document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;S.sel=null;S.editCamp=null;S.editProj=null;S.editProd=null;render(); if(S.tab==="activity") loadColl("activity").then(render).catch(()=>{}); if(S.tab==="email"){ S.mopen=null; S.compose=null; mailSync(); } }); }
+function tabs(){ const mine=S.tasks.filter(t=>t.owner==="lara"&&t.status!=="done").length; $("#tabs").innerHTML=TABS.map(([k,n])=>`<button role="tab" aria-selected="${S.tab===k}" data-tab="${k}">${n}${k==="tasks"&&mine?`<span class="dot" aria-label="${mine} for you">${mine}</span>`:""}</button>`).join(""); document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;S.sel=null;S.editCamp=null;S.editProj=null;S.editProd=null;S.tEdit=null;render(); if(S.tab==="activity") loadColl("activity").then(render).catch(()=>{}); if(S.tab==="email"){ S.mopen=null; S.compose=null; mailSync(); } }); }
 
 function render(){ if(!S.in) return; tabs(); const m=$("#main");
-  m.innerHTML=({prospects:S.sel?contactView:contactsView,clients:S.sel?contactView:contactsView,products:productsView,kb:kbView,campaigns:campaignsView,social:socialView,email:emailView,tasks:tasksView,projects:S.editProj?projEdit:projectsView,log:logView,activity:activityView,team:teamView})[S.tab]();
+  m.innerHTML=({prospects:S.sel?contactView:contactsView,clients:S.sel?contactView:contactsView,products:productsView,kb:kbView,campaigns:campaignsView,social:socialView,email:emailView,tasks:S.tEdit?tEditView:tasksView,projects:S.editProj?projEdit:projectsView,log:logView,activity:activityView,team:teamView})[S.tab]();
   wire(); }
 
 
@@ -186,16 +187,33 @@ function taskCard(t){ const steps=String(t.steps||"").split("\n").map(s=>s.repla
   ${t.why?`<p class="muted" style="margin:0 0 6px">${esc(t.why)}</p>`:""}${t.due?`<p class="muted" style="margin:0 0 6px">Due ${esc(t.due)}</p>`:""}
   ${steps.length?`<details ${t.owner==="lara"&&t.status!=="done"?"open":""}><summary>${t.owner==="lara"?"How to do it":"Steps"} (${steps.length})</summary><ol>${steps.map(s=>`<li>${linkify(s)}</li>`).join("")}</ol></details>`:""}
   ${t.link?`<p style="margin:6px 0"><a href="${esc(t.link)}" target="_blank" rel="noopener noreferrer">${esc(t.linkText||"Open the link")}</a></p>`:""}
-  <div class="row" style="margin-top:8px">${t.status!=="done"?`<button class="btn s p" data-tdone="${esc(t.id)}">Mark done</button>`:`<button class="btn s" data-treopen="${esc(t.id)}">Reopen</button>`}${t.status!=="done"&&t.owner==="claude"?`<span class="muted">Claude updates this one</span>`:""}</div></div>`; }
+  ${tThread(t)}
+  <div class="row" style="margin-top:8px">${t.status!=="done"?`<button class="btn s p" data-tdone="${esc(t.id)}">Mark done</button>`:`<button class="btn s" data-treopen="${esc(t.id)}">Reopen</button>`}<button class="btn s" data-tedit="${esc(t.id)}">Edit</button></div></div>`; }
+/* owner, 20 Nov 2026: talk about a task right on it, with Claude, Lumi and the team */
+const TOWN={lara:"Lara",claude:"Claude",lumi:"Lumi",hub:"Hub manager"};
+function tThread(t){ const C=Array.isArray(t.comments)?t.comments:[]; const open=S.tOpen===t.id;
+  return `<div class="tthread"><button class="btn s" data-tthread="${esc(t.id)}" aria-expanded="${open}">${open?"Hide the conversation":C.length?`Conversation (${C.length})${C.length&&C[C.length-1].by!==(S.me&&S.me.name)?" · new":""}`:"Ask a question or add a note"}</button>
+  ${open?`<div class="tmsgs">${C.map(c=>`<div class="tmsg${/claude|lumi|hub manager/i.test(c.by||"")?" ai":""}"><b>${esc(c.by||"")}</b> <span class="muted">${esc(new Date(c.at).toLocaleString("en-US",{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}))}</span><div>${linkify(c.text).replace(/\n/g,"<br>")}</div></div>`).join("")||'<p class="muted" style="margin:6px 0">Nothing yet. Write a question for Claude, or a note for the team.</p>'}
+  <label for="tc_${esc(t.id)}" class="sr-only">Your message</label><textarea id="tc_${esc(t.id)}" placeholder="Write to Claude or the team" style="min-height:90px"></textarea>
+  <div class="row"><button class="btn s p" data-tsend="${esc(t.id)}">Send</button><span class="muted">Claude answers here the next time the team check runs, within the hour.</span></div></div>`:""}</div>`; }
+function tEditView(){ const t=S.tEdit;
+  return `<button class="btn s" id="teBack">← Tasks</button><div class="card" style="margin-top:10px"><label for="te_title">Task</label><input id="te_title" value="${esc(t.title||"")}">
+  <div class="two"><div><label for="te_owner">For</label><select id="te_owner">${Object.entries(TOWN).map(([k,v])=>`<option value="${k}" ${t.owner===k?"selected":""}>${v}</option>`).join("")}</select></div>
+  <div><label for="te_status">Status</label><select id="te_status">${Object.entries(TSTAT).map(([k,v])=>`<option value="${k}" ${t.status===k?"selected":""}>${esc(v)}</option>`).join("")}</select></div></div>
+  <label for="te_due">Due (optional)</label><input id="te_due" type="date" value="${esc(t.due||"")}">
+  <label for="te_steps">Details or steps, one per line</label><textarea id="te_steps" style="min-height:140px">${esc(t.steps||"")}</textarea>
+  <label for="te_link">Link (optional)</label><input id="te_link" type="url" value="${esc(t.link||"")}">
+  <div class="row" style="margin-top:10px"><button class="btn p" id="teSave">Save</button><button class="btn" id="teCancel">Cancel</button></div></div>`; }
 function linkify(s){ return esc(s).replace(/(https?:\/\/[^\s<]+)/g,u=>`<a href="${u}" target="_blank" rel="noopener noreferrer">${u.replace(/^https?:\/\//,"")}</a>`); }
 function tasksView(){ const T=S.tasks.slice().sort((a,b)=>(a.order??99)-(b.order??99)||(b.created||0)-(a.created||0));
-  const mine=T.filter(t=>t.owner==="lara"&&t.status!=="done"), doing=T.filter(t=>t.owner==="claude"&&(t.status==="doing"||t.status==="waiting")), queue=T.filter(t=>t.owner==="claude"&&t.status==="open"), done=T.filter(t=>t.status==="done");
+  const mine=T.filter(t=>t.owner==="lara"&&t.status!=="done"), doing=T.filter(t=>t.owner==="claude"&&(t.status==="doing"||t.status==="waiting")), queue=T.filter(t=>t.owner==="claude"&&t.status==="open"), others=T.filter(t=>!["lara","claude"].includes(t.owner)&&t.status!=="done"), done=T.filter(t=>t.status==="done");
   const n=S.newTask; 
   return `<div class="grid3"><div class="stat"><b>${mine.length}</b>for you</div><div class="stat"><b>${doing.length}</b>Claude is on</div><div class="stat"><b>${queue.length}</b>in Claude's queue</div></div>
   <h2 class="sec">For you</h2>${mine.map(taskCard).join("")||'<div class="card muted">Nothing waiting on you.</div>'}
   <h2 class="sec">Claude is working on</h2>${doing.map(taskCard).join("")||'<div class="card muted">Nothing in progress right now.</div>'}
   <h2 class="sec">Claude's queue</h2>${queue.map(taskCard).join("")||'<div class="card muted">The queue is empty.</div>'}
-  <div class="card">${n?`<label for="t_title">Task</label><input id="t_title" value="${esc(n.title)}"><div class="two"><div><label for="t_owner">For</label><select id="t_owner"><option value="claude">Claude</option><option value="lara">Me (Lara)</option></select></div><div><label for="t_due">Due (optional)</label><input id="t_due" type="date"></div></div><label for="t_steps">Details or steps, one per line</label><textarea id="t_steps"></textarea><label for="t_link">Link (optional)</label><input id="t_link" type="url"><div class="row" style="margin-top:10px"><button class="btn p" id="tSave">Add task</button><button class="btn" id="tCancel">Cancel</button></div>`:`<button class="btn p" id="tNew">Add a task</button> <span class="muted">Claude sees new tasks the next time you ask in chat.</span>`}</div>
+  ${others.length?`<h2 class="sec">Lumi and the hub manager</h2>${others.map(taskCard).join("")}`:""}
+  <div class="card">${n?`<label for="t_title">Task</label><input id="t_title" value="${esc(n.title)}"><div class="two"><div><label for="t_owner">For</label><select id="t_owner"><option value="claude">Claude</option><option value="lara">Lara</option><option value="lumi">Lumi</option></select></div><div><label for="t_due">Due (optional)</label><input id="t_due" type="date"></div></div><label for="t_steps">Details or steps, one per line</label><textarea id="t_steps"></textarea><label for="t_link">Link (optional)</label><input id="t_link" type="url"><div class="row" style="margin-top:10px"><button class="btn p" id="tSave">Add task</button><button class="btn" id="tCancel">Cancel</button></div>`:`<button class="btn p" id="tNew">Add a task</button> <span class="muted">Claude picks up new tasks and messages within the hour, and in chat.</span>`}</div>
   <button class="btn s" id="tDoneToggle">${S.showDone?"Hide":"Show"} done (${done.length})</button>${S.showDone?done.map(taskCard).join(""):""}`; }
 
 
@@ -382,8 +400,16 @@ function wire(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
   document.querySelectorAll("[data-pmove]").forEach(b=>b.onclick=async e=>{ e.stopPropagation(); const p=S.projects.find(x=>x.id===b.dataset.pmove); if(!p) return; const i=PCOLS.findIndex(c=>c[0]===p.status)+(+b.dataset.dir); if(i<0||i>=PCOLS.length) return; const {id:pid,...body}=p; body.status=PCOLS[i][0]; if(i===PCOLS.length-1) body.doneAt=Date.now(); if(await put("projects/"+pid,body)) render(); });
   on("#tDoneToggle","onclick",()=>{S.showDone=!S.showDone;render();});
   on("#tSave","onclick",async()=>{const title=$("#t_title").value.trim(); if(!title){toast("Give the task a name");return;} const own=$("#t_owner").value;
-    if(await put("tasks/"+id(),{title,owner:own,status:"open",steps:$("#t_steps").value.trim(),link:$("#t_link").value.trim(),due:$("#t_due").value,created:Date.now(),by:"Lara"})){S.newTask=null;toast(own==="claude"?"Added to Claude's queue":"Added to your tasks");render();}});
+    if(await put("tasks/"+id(),{title,owner:own,status:"open",steps:$("#t_steps").value.trim(),link:$("#t_link").value.trim(),due:$("#t_due").value,created:Date.now(),by:(S.me&&S.me.name)||"Lara"})){S.newTask=null;toast(own==="claude"?"Added to Claude's queue":"Added to your tasks");render();}});
   document.querySelectorAll("[data-tdone]").forEach(b=>b.onclick=async()=>{ await merge("tasks/"+b.dataset.tdone,{status:"done",doneAt:Date.now()}).catch(()=>toast("Couldn't save. Try again.")); render(); });
+  document.querySelectorAll("[data-tthread]").forEach(b=>b.onclick=()=>{ S.tOpen=S.tOpen===b.dataset.tthread?null:b.dataset.tthread; render(); const ta=$("#tc_"+CSS.escape(b.dataset.tthread)); if(ta) ta.focus(); });
+  document.querySelectorAll("[data-tsend]").forEach(b=>b.onclick=async()=>{ const tid=b.dataset.tsend, ta=$("#tc_"+CSS.escape(tid)), text=(ta&&ta.value||"").trim(); if(!text){toast("Write a message first");return;}
+    const t=S.tasks.find(x=>x.id===tid); const C=(Array.isArray(t.comments)?t.comments:[]).concat([{by:(S.me&&S.me.name)||"Lara",at:Date.now(),text}]);
+    try{ await merge("tasks/"+tid,{comments:C,needsReply:/claude|lumi/i.test((S.me&&S.me.name)||"")?0:1}); toast("Sent"); }catch(e){ if(!(e instanceof SignedOut)) toast("Couldn't send. Try again."); } render(); });
+  document.querySelectorAll("[data-tedit]").forEach(b=>b.onclick=()=>{ const t=S.tasks.find(x=>x.id===b.dataset.tedit); if(t){ S.tEdit=JSON.parse(JSON.stringify(t)); render(); window.scrollTo(0,0);} });
+  on("#teBack","onclick",()=>{S.tEdit=null;render();}); on("#teCancel","onclick",()=>{S.tEdit=null;render();});
+  on("#teSave","onclick",async()=>{ const t=S.tEdit, title=$("#te_title").value.trim(); if(!title){toast("Give the task a name");return;}
+    try{ await merge("tasks/"+t.id,{title,owner:$("#te_owner").value,status:$("#te_status").value,due:$("#te_due").value,steps:$("#te_steps").value.trim(),link:$("#te_link").value.trim(),editedBy:(S.me&&S.me.name)||"Lara",edited:Date.now()}); S.tEdit=null; toast("Saved"); render(); }catch(e){ if(!(e instanceof SignedOut)) toast("Couldn't save. Try again."); } });
   document.querySelectorAll("[data-treopen]").forEach(b=>b.onclick=async()=>{ await merge("tasks/"+b.dataset.treopen,{status:"open"}).catch(()=>toast("Couldn't save. Try again.")); render(); });
   on("#q","oninput",e=>{S.q=e.target.value;const p=e.target.selectionStart;render();const q=$("#q");q.focus();q.setSelectionRange(p,p);});
   ["fc","fs","fst","fsrc"].forEach(k=>on("#"+k,"onchange",e=>{S[k]=e.target.value;render();}));
