@@ -405,7 +405,7 @@ function wire(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
   document.querySelectorAll("[data-tthread]").forEach(b=>b.onclick=()=>{ S.tOpen=S.tOpen===b.dataset.tthread?null:b.dataset.tthread; render(); const ta=$("#tc_"+CSS.escape(b.dataset.tthread)); if(ta) ta.focus(); });
   document.querySelectorAll("[data-tsend]").forEach(b=>b.onclick=async()=>{ const tid=b.dataset.tsend, ta=$("#tc_"+CSS.escape(tid)), text=(ta&&ta.value||"").trim(); if(!text){toast("Write a message first");return;}
     const t=S.tasks.find(x=>x.id===tid); const C=(Array.isArray(t.comments)?t.comments:[]).concat([{by:(S.me&&S.me.name)||"Lara",at:Date.now(),text}]);
-    try{ await merge("tasks/"+tid,{comments:C,needsReply:/claude|lumi/i.test((S.me&&S.me.name)||"")?0:1}); toast("Sent"); }catch(e){ if(!(e instanceof SignedOut)) toast("Couldn't send. Try again."); } render(); });
+    try{ await merge("tasks/"+tid,{comments:C,needsReply:/^claude/i.test((S.me&&S.me.name)||"")?0:1}); toast("Sent"); }catch(e){ if(!(e instanceof SignedOut)) toast("Couldn't send. Try again."); } render(); });
   document.querySelectorAll("[data-tedit]").forEach(b=>b.onclick=()=>{ const t=S.tasks.find(x=>x.id===b.dataset.tedit); if(t){ S.tEdit=JSON.parse(JSON.stringify(t)); render(); window.scrollTo(0,0);} });
   on("#teBack","onclick",()=>{S.tEdit=null;render();}); on("#teCancel","onclick",()=>{S.tEdit=null;render();});
   on("#teSave","onclick",async()=>{ const t=S.tEdit, title=$("#te_title").value.trim(); if(!title){toast("Give the task a name");return;}
