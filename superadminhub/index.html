@@ -433,7 +433,7 @@ function wireMail(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
   on("#mCancel","onclick",cancel); on("#mCancel2","onclick",cancel);
   on("#mSend","onclick",async()=>{ keep(); const c=S.compose; S.mSending=true; render();
     try{ await api("mail/send",{from:c.from,to:c.to,cc:c.cc,subject:c.subject,text:c.text.replace(/\n\n\nOn [^\n]* wrote:\n[\s\S]*$/,m=>m),replyOf:c.replyOf||""}); clearTimeout(S.draftT); if(c.draftId) await api("merge",{path:"mail/"+c.draftId,data:{gone:1}}).catch(()=>{}); S.compose=null; S.mopen=null; toast("Sent from "+c.from+"@packedrabbit.com"); await loadColl("mail"); }
-    catch(e){ if(!(e instanceof SignedOut)) toast(({bad_address:"Check the email address.",subject_and_message_needed:"Add a subject and a message.",too_many_recipients:"Ten people at most.",daily_limit:"That's 100 emails today. Try again tomorrow.",owner_only:"Only the founder sends from larac@.",read_only:"Your role can read but not send.",own_address_only:"You can send only from your own address.",mail_not_connected:"Mail isn't connected yet."})[e.code]||"Couldn't send. Nothing went out. Try again."); }
+    catch(e){ if(!(e instanceof SignedOut)) toast(({bad_address:"Check the email address.",subject_and_message_needed:"Add a subject and a message.",too_many_recipients:"Ten people at most.",daily_limit:"That's 100 emails today. Try again tomorrow.",owner_only:"Only the founder sends from larac@.",read_only:"Your role can read but not send.",own_address_only:"You can send only from your own address.",mail_not_connected:"Mail isn't connected yet."})[e.code]||("Couldn't send. Nothing went out. "+(e.message&&/Cloudflare said/.test(e.message)?e.message:"Try again."))); }
     S.mSending=false; render(); }); }
 
 /* ---------- wiring ---------- */

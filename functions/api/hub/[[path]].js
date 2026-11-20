@@ -87,7 +87,7 @@ async function cfSecrets(db) { const r = (await db.prepare("SELECT k, v FROM sec
 async function cfSend(cf, msg) {
   const r = await fetch(`https://api.cloudflare.com/client/v4/accounts/${cf.cf_account}/email/sending/send`, { method: "POST", headers: { authorization: "Bearer " + cf.cf_token, "content-type": "application/json" }, body: JSON.stringify(msg) });
   const j = await r.json().catch(() => ({}));
-  if (!r.ok || j.success === false) { const e = new Error(((j.errors || [])[0] || {}).message || ("cloudflare_" + r.status)); e.code = 502; throw e; }
+  if (!r.ok || j.success === false) { const e = new Error("Cloudflare said: " + (((j.errors || [])[0] || {}).message || ("status " + r.status)) + " (" + r.status + ", code " + (((j.errors || [])[0] || {}).code || "none") + ")"); e.code = 502; e.cf = JSON.stringify(j).slice(0, 1500); throw e; }
   return j.result || {};
 }
 const safeId = id => String(id || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 70);
@@ -281,7 +281,10 @@ export async function onRequest({ request, env, params }) {
   }
   if (route === "mail/send" && post) {
     if (s.role === "viewer") return json({ error: "read_only" }, 403);
-    try { const r = await mailSend(db, s, body); return json(r, r.error ? 400 : 200); } catch (e) { return json({ error: e.message }, (e.code >= 400 && e.code < 600) ? e.code : 500); }
+    try { const r = await mailSend(db, s, body); return json(r, r.error ? 400 : 200); } catch (e) {
+      // keep the exact reason in the hub's log so Claude can read it
+      try { const now = Date.now(); await db.prepare("INSERT INTO docs (path, coll, data, updated) VALUES (?, 'log', ?, ?)").bind("log/lsendfail" + now, JSON.stringify({ at: now, area: "email", title: "A send from Mail failed", details: String(e.message || "") + (e.cf ? " | " + e.cf : ""), by: s.name }), now).run(); } catch (x) {}
+      return json({ error: e.message }, (e.code >= 400 && e.code < 600) ? e.code : 500); }
   }
   if (route === "list") {
     const coll = url.searchParams.get("coll");
