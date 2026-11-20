@@ -137,8 +137,7 @@ async function mailSend(db, s, b) {
   const box = String(b.from || "").toLowerCase();
   if (!FROMS[box]) return { error: "bad_from" };
   if (box === "larac" && s.role !== "owner") return { error: "owner_only" };
-  // owner rule: no AI sends email. AI mailboxes only go out when the owner taps Send on a draft.
-  if (["claude", "assistant", "lumi"].includes(box) && s.role !== "owner") return { error: "ai_draft_only" };
+  // owner, 20 Nov 2026: Claude and Lumi may send from their own packedrabbit.com addresses; never from a private address
   // members send only from their own address
   if (s.role === "member") { const own = String(s.email || "").toLowerCase(); if (own !== box + "@packedrabbit.com") return { error: "own_address_only" }; }
   const to = addrs(b.to), cc = addrs(b.cc);
