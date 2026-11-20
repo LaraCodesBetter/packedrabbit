@@ -536,8 +536,8 @@ function exportCsv(){ const K=["id","company","name","role","email","phone","web
   const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob(["﻿"+csv],{type:"text/csv"})); a.download="packed-rabbit-contacts.csv"; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000); }
 
 /* ---------- start ---------- */
-setInterval(()=>{ if(document.visibilityState==="visible"&&S.in&&!S.sel&&!S.editCamp&&!S.editProd&&!S.newTask&&!S.tEdit&&!S.compose&&!(document.activeElement&&/TEXTAREA|INPUT|SELECT/.test(document.activeElement.tagName))) Promise.all(["tasks","mail"].map(loadColl)).then(()=>render()).catch(()=>{}); },60000);
-document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&S.in&&!S.sel&&!S.editCamp&&!S.editProd&&!S.newTask) loadAll().then(render).catch(()=>{}); });
+setInterval(()=>{ if(document.visibilityState==="visible"&&S.in&&!S.sel&&!S.editCamp&&!S.editProd&&!S.editProj&&!S.newTask&&!S.tEdit&&!S.compose&&!S.tOpen&&!(document.activeElement&&/TEXTAREA|INPUT|SELECT/.test(document.activeElement.tagName))) Promise.all(["tasks","mail"].map(loadColl)).then(()=>render()).catch(()=>{}); },60000);
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&S.in&&!S.sel&&!S.editCamp&&!S.editProd&&!S.editProj&&!S.newTask&&!S.tEdit&&!S.compose) loadAll().then(render).catch(()=>{}); });
 (async()=>{ try{ await api("me"); await start(); }catch(e){ if(!(e instanceof SignedOut)) $("#main").innerHTML='<div class="card"><p>Couldn\'t reach the hub. Check your connection, then reload this page.</p></div>'; } })();
 </script>
 </body>
