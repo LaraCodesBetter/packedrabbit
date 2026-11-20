@@ -63,20 +63,13 @@ async function session(req, db) {
 // ---------- Mail (owner, 20 Nov 2026): every @packedrabbit.com address, read and sent here, never Gmail ----------
 // Mail arrives in Resend; this copies it into the hub. Sending goes out through Resend from our own addresses.
 // The Resend key lives in the D1 table "secrets", which no route ever returns.
-const FROMS = {
-  hello: "The Packed Rabbit", customerservice: "The Packed Rabbit Customer Service", sales: "The Packed Rabbit Sales",
-  info: "The Packed Rabbit", partners: "The Packed Rabbit Partners", beta: "The Packed Rabbit Beta",
-  larac: "Lara Cerutti, The Packed Rabbit", claude: "Claude, AI assistant at The Packed Rabbit",
-  assistant: "Claude, AI assistant at The Packed Rabbit", lumi: "Lumi, AI assistant at The Packed Rabbit",
-};
-const SIGS = {
-  larac: "Lara Cerutti\nFounder and CEO, The Packed Rabbit\npackedrabbit.com",
-  claude: "Claude (AI assistant), on behalf of the founder\nThe Packed Rabbit\npackedrabbit.com",
-  assistant: "Claude (AI assistant), on behalf of the founder\nThe Packed Rabbit\npackedrabbit.com",
-  lumi: "Lumi (AI assistant), on behalf of the founder\nThe Packed Rabbit\npackedrabbit.com",
-};
+// Display names, signatures and the postal address live in the hub (doc meta/mail), not in this public code.
+const FROMS = { hello: "The Packed Rabbit", customerservice: "The Packed Rabbit Customer Service", sales: "The Packed Rabbit Sales",
+  info: "The Packed Rabbit", partners: "The Packed Rabbit Partners", beta: "The Packed Rabbit Beta", larac: "The Packed Rabbit",
+  claude: "Claude, AI assistant at The Packed Rabbit", assistant: "Claude, AI assistant at The Packed Rabbit", lumi: "Lumi, AI research assistant at The Packed Rabbit" };
 const SIG_DEFAULT = "The Packed Rabbit\npackedrabbit.com";
-const LEGAL = "This email and anything attached to it are confidential and meant only for the person or business it is addressed to. If it reached you by mistake, please tell the sender by replying, then delete it.";
+const LEGAL_DEFAULT = "This email and anything attached to it are confidential and meant only for the person or business it is addressed to. If it reached you by mistake, please tell the sender by replying, then delete it.";
+async function mailCfg(db) { try { const t = await db.prepare("SELECT data FROM docs WHERE path = 'meta/mail'").first("data"); return t ? JSON.parse(t) : {}; } catch (e) { return {}; } }
 const EMAIL_RE = /^[^\s@<>,;]+@[^\s@<>,;]+\.[A-Za-z]{2,}$/;
 const addrs = v => (Array.isArray(v) ? v : String(v || "").split(/[,;\s]+/)).map(x => String(x).trim().toLowerCase()).filter(Boolean);
 const bare = a => { const m = String(a || "").match(/<([^>]+)>/); return (m ? m[1] : String(a || "")).trim().toLowerCase(); };
@@ -117,6 +110,8 @@ async function mailSend(db, s, b) {
   const box = String(b.from || "").toLowerCase();
   if (!FROMS[box]) return { error: "bad_from" };
   if (box === "larac" && s.role !== "owner") return { error: "owner_only" };
+  // members send only from their own address (for example Lumi from lumi@)
+  if (s.role === "member") { const own = String(s.email || "").toLowerCase(); if (own !== box + "@packedrabbit.com") return { error: "own_address_only" }; }
   const to = addrs(b.to), cc = addrs(b.cc);
   if (!to.length || [...to, ...cc].some(a => !EMAIL_RE.test(a))) return { error: "bad_address" };
   if (to.length + cc.length > 10) return { error: "too_many_recipients" };
@@ -132,15 +127,17 @@ async function mailSend(db, s, b) {
     const mid = o && JSON.parse(o).messageId;
     if (mid) headers = { "In-Reply-To": mid, References: mid };
   }
-  const sig = SIGS[box] || SIG_DEFAULT;
-  const full = text + "\n\n" + sig + "\n\n" + LEGAL;
-  const html = `<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;color:#1d2a20">${escH(text).replace(/\n/g, "<br>")}<br><br>${escH(sig).replace(/\n/g, "<br>")}<p style="font-size:12px;color:#6b7a6f;margin-top:18px">${escH(LEGAL)}</p></div>`;
-  const r = await resend(db, "/emails", { method: "POST", body: JSON.stringify({ from: `${FROMS[box]} <${box}@packedrabbit.com>`, to, cc: cc.length ? cc : undefined, reply_to: `${box}@packedrabbit.com`, subject, text: full, html, headers }) });
+  const cfg = await mailCfg(db);
+  const sig = (cfg.sigs && cfg.sigs[box]) || SIG_DEFAULT, legal = cfg.legal || LEGAL_DEFAULT, postal = cfg.address || "";
+  const name = (cfg.names && cfg.names[box]) || FROMS[box];
+  const full = text + "\n\n" + sig + "\n\n" + legal + (postal ? "\n" + postal : "");
+  const html = `<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;color:#1d2a20">${escH(text).replace(/\n/g, "<br>")}<br><br>${escH(sig).replace(/\n/g, "<br>")}<p style="font-size:11px;line-height:1.4;color:#6b7a6f;margin:18px 0 0">${escH(legal)}</p>${postal ? `<p style="font-size:9px;line-height:1.3;color:#8a968d;margin:6px 0 0">${escH(postal)}</p>` : ""}</div>`;
+  const r = await resend(db, "/emails", { method: "POST", body: JSON.stringify({ from: `${name.replace(/[<>"]/g, "")} <${box}@packedrabbit.com>`, to, cc: cc.length ? cc : undefined, reply_to: `${box}@packedrabbit.com`, subject, text: full, html, headers }) });
   const id = "s" + safeId(r.id || hex(crypto.getRandomValues(new Uint8Array(8))));
   const at = Date.now();
   await db.batch([
-    db.prepare("INSERT INTO docs (path, coll, data, updated) VALUES (?, 'mail', ?, ?)").bind("mail/" + id, JSON.stringify({ dir: "out", from: box + "@packedrabbit.com", to, cc, subject, at, read: true, by: s.name, replyOf: b.replyOf || "", snippet: text.replace(/\s+/g, " ").slice(0, 160) }), at),
-    db.prepare("INSERT INTO docs (path, coll, data, updated) VALUES (?, ?, ?, ?)").bind("mail/" + id + "/parts/body", "mail/" + id + "/parts", JSON.stringify({ text: full, html }), at),
+    db.prepare("INSERT OR REPLACE INTO docs (path, coll, data, updated) VALUES (?, 'mail', ?, ?)").bind("mail/" + id, JSON.stringify({ dir: "out", from: box + "@packedrabbit.com", to, cc, subject, at, read: true, by: s.name, replyOf: b.replyOf || "", snippet: text.replace(/\s+/g, " ").slice(0, 160) }), at),
+    db.prepare("INSERT OR REPLACE INTO docs (path, coll, data, updated) VALUES (?, ?, ?, ?)").bind("mail/" + id + "/parts/body", "mail/" + id + "/parts", JSON.stringify({ text: full, html }), at),
   ]);
   if (b.replyOf) await db.prepare("UPDATE docs SET data = json_set(data, '$.answered', ?) WHERE path = ?").bind(at, "mail/" + safeId(b.replyOf)).run();
   return { ok: true, id };
@@ -225,11 +222,11 @@ export async function onRequest({ request, env, params }) {
     return json({ ok: true }, 200, { "set-cookie": `${COOKIE}=; Path=/api/hub; Max-Age=0; HttpOnly; Secure; SameSite=Strict` });
   }
   if (route === "mail/sync") {
-    try { return json({ ok: true, added: await mailSync(db) }); } catch (e) { return json({ error: e.message }, e.code || 500); }
+    try { return json({ ok: true, added: await mailSync(db) }); } catch (e) { return json({ error: e.message }, (e.code >= 400 && e.code < 600) ? e.code : 500); }
   }
   if (route === "mail/send" && post) {
     if (s.role === "viewer") return json({ error: "read_only" }, 403);
-    try { const r = await mailSend(db, s, body); return json(r, r.error ? 400 : 200); } catch (e) { return json({ error: e.message }, e.code || 500); }
+    try { const r = await mailSend(db, s, body); return json(r, r.error ? 400 : 200); } catch (e) { return json({ error: e.message }, (e.code >= 400 && e.code < 600) ? e.code : 500); }
   }
   if (route === "list") {
     const coll = url.searchParams.get("coll");

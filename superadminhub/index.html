@@ -327,7 +327,9 @@ function mailRead(){ const m=(S.mail||[]).find(x=>x.id===S.mopen); if(!m) return
   ${(m.attachments||[]).length?`<p class="muted">Attachments: ${m.attachments.map(a=>esc(a.name)).join(", ")} (open them in Resend for now)</p>`:""}
   ${S.mbodyLoading?'<p class="muted">Opening...</p>':b.html?`<iframe id="mFrame" title="Email" sandbox="" style="width:100%;min-height:420px;border:1px solid var(--line);border-radius:12px;background:#fff"></iframe>`:`<pre style="white-space:pre-wrap;font:inherit;margin:0">${esc(b.text||"")}</pre>`}</div>`; }
 function mailCompose(){ const c=S.compose, owner=S.me&&S.me.role==="owner";
-  const froms=BOXES.filter(([k])=>!["social","codes"].includes(k)&&(k!=="larac"||owner));
+  const mine=String((S.me&&S.me.email)||"").toLowerCase(), member=S.me&&S.me.role==="member";
+  const froms=BOXES.filter(([k])=>!["social","codes"].includes(k)&&(k!=="larac"||owner)&&(!member||mine===k+"@packedrabbit.com"));
+  if(member&&froms.length&&!froms.some(([k])=>k===c.from)) c.from=froms[0][0];
   return `<button class="btn s" id="mCancel">← Mail</button><div class="card" style="margin-top:10px"><h3 style="margin:0 0 8px">${c.replyOf?"Reply":"New email"}</h3>
   <label for="mc_from">From</label><select id="mc_from">${froms.map(([k,n])=>`<option value="${k}" ${c.from===k?"selected":""}>${esc(k)}@packedrabbit.com</option>`).join("")}</select>
   <label for="mc_to">To</label><input id="mc_to" type="email" multiple autocomplete="off" value="${esc(c.to||"")}">
@@ -355,7 +357,7 @@ function wireMail(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
   on("#mCancel","onclick",cancel); on("#mCancel2","onclick",cancel);
   on("#mSend","onclick",async()=>{ keep(); const c=S.compose; S.mSending=true; render();
     try{ await api("mail/send",{from:c.from,to:c.to,cc:c.cc,subject:c.subject,text:c.text.replace(/\n\n\nOn [^\n]* wrote:\n[\s\S]*$/,m=>m),replyOf:c.replyOf||""}); S.compose=null; S.mopen=null; toast("Sent from "+c.from+"@packedrabbit.com"); await loadColl("mail"); }
-    catch(e){ if(!(e instanceof SignedOut)) toast(({bad_address:"Check the email address.",subject_and_message_needed:"Add a subject and a message.",too_many_recipients:"Ten people at most.",daily_limit:"That's 100 emails today. Try again tomorrow.",owner_only:"Only Lara sends from larac@.",read_only:"Your role can read but not send.",mail_not_connected:"Mail isn't connected yet."})[e.code]||"Couldn't send. Nothing went out. Try again."); }
+    catch(e){ if(!(e instanceof SignedOut)) toast(({bad_address:"Check the email address.",subject_and_message_needed:"Add a subject and a message.",too_many_recipients:"Ten people at most.",daily_limit:"That's 100 emails today. Try again tomorrow.",owner_only:"Only Lara sends from larac@.",read_only:"Your role can read but not send.",own_address_only:"You can send only from your own address.",mail_not_connected:"Mail isn't connected yet."})[e.code]||"Couldn't send. Nothing went out. Try again."); }
     S.mSending=false; render(); }); }
 
 /* ---------- wiring ---------- */
