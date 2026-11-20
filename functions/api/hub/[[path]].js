@@ -137,11 +137,21 @@ async function mailSend(db, s, b) {
   const box = String(b.from || "").toLowerCase();
   if (!FROMS[box]) return { error: "bad_from" };
   if (box === "larac" && s.role !== "owner") return { error: "owner_only" };
-  // members send only from their own address (for example Lumi from lumi@)
+  // owner rule: no AI sends email. AI mailboxes only go out when the owner taps Send on a draft.
+  if (["claude", "assistant", "lumi"].includes(box) && s.role !== "owner") return { error: "ai_draft_only" };
+  // members send only from their own address
   if (s.role === "member") { const own = String(s.email || "").toLowerCase(); if (own !== box + "@packedrabbit.com") return { error: "own_address_only" }; }
   const to = addrs(b.to), cc = addrs(b.cc);
   if (!to.length || [...to, ...cc].some(a => !EMAIL_RE.test(a))) return { error: "bad_address" };
   if (to.length + cc.length > 10) return { error: "too_many_recipients" };
+  // never write to anyone who unsubscribed, is marked do not contact, or is held for re-checking
+  for (const a of [...to, ...cc]) {
+    const e = String(a).toLowerCase();
+    const key = hex(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(e))).slice(0, 32);
+    if (await db.prepare("SELECT 1 FROM docs WHERE path = ?").bind("unsubs/" + key).first()) return { error: "unsubscribed", who: e };
+    const c = await db.prepare("SELECT json_extract(data, '$.status') AS st FROM docs WHERE coll = 'contacts' AND lower(json_extract(data, '$.email')) = ? AND (lower(json_extract(data, '$.status')) LIKE 'do not contact%' OR lower(json_extract(data, '$.status')) LIKE 'hold%') LIMIT 1").bind(e).first();
+    if (c) return { error: /^hold/i.test(c.st || "") ? "held" : "unsubscribed", who: e };
+  }
   const subject = String(b.subject || "").trim().slice(0, 250), text = String(b.text || "").trim().slice(0, 20000);
   if (!subject || !text) return { error: "subject_and_message_needed" };
   const since = Date.now() - 864e5;
