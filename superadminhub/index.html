@@ -80,7 +80,7 @@ a{color:var(--g);text-underline-offset:3px}
 <main id="main"><p class="muted">Opening the back office...</p></main>
 <div id="toast" role="status" aria-live="polite"></div>
 <script>
-const TABS=[["tasks","Tasks"],["projects","Projects"],["prospects","Prospects"],["clients","Clients"],["products","Products"],["campaigns","Campaigns"],["kb","Knowledge base"],["social","Social"],["email","Email"],["activity","Activity"],["log","Maintenance log"],["team","Team"]];
+const TABS=[["tasks","Tasks"],["email","Mail"],["projects","Projects"],["prospects","Prospects"],["clients","Clients"],["products","Products"],["campaigns","Campaigns"],["kb","Knowledge base"],["social","Social"],["activity","Activity"],["log","Maintenance log"],["team","Team"]];
 const CLIENT=c=>c.status==="beta"||c.status==="customer"||c.cls==="TEST"||c.cls==="BUY";
 const KB=[["Every moving question, one box","/tools/"],["What I wish I'd known (all answers)","/answers/"],["Moving to a new state or abroad","/moving-to/"],["Is my moving quote a scam? Quote checker","/quote-check/"],["Check a mover before you pay","/mover-check/"],["Will my couch fit through the door?","/fit/"],["What size truck do I need?","/truck/"],["How many boxes do I need?","/boxes/"],["Moving checklist by date","/checklist/"],["How long will moving day take?","/move-day/"],["Security deposit deadline by state","/deposit/"],["Move-out checklist","/move-out/"],["Damage or loss claim letter","/claim/"],["Moving company or broker?","/movers-vs-brokers/"],["New state license and registration","/new-state/"],["Moving with a dog or cat","/moving-pets/"],["First-night box","/first-night/"],["Crew: where everything went","/crew/"],["Join the beta","/beta/"],["For business","/business/"],["The app","/app/"]];
 const SITE="https://packedrabbit.com";
@@ -117,7 +117,7 @@ async function loadColl(c){
   else S[c]=L;
 }
 async function loadTeam(){ try{ const [m,u]=await Promise.all([api("me"),api("users")]); S.me=m.user||null; S.users=u.users||[]; }catch(e){ if(e instanceof SignedOut) throw e; } }
-async function loadAll(){ await Promise.all([...["contacts","campaigns","social","posts","products","tasks","log","projects"].map(loadColl),loadTeam()]); S.ready=true; }
+async function loadAll(){ await Promise.all([...["contacts","campaigns","social","posts","products","tasks","log","projects","mail"].map(loadColl),loadTeam()]); S.ready=true; }
 async function loadEvents(cid){ const L=await list("contacts/"+cid+"/events"); if(S.sel!==cid) return; S.events=L.sort((a,b)=>(b.at||0)-(a.at||0)).slice(0,200); render(); }
 
 /* ---------- sign-in ---------- */
@@ -144,7 +144,7 @@ async function start(code){
   render();
 }
 
-function tabs(){ const mine=S.tasks.filter(t=>t.owner==="lara"&&t.status!=="done").length; $("#tabs").innerHTML=TABS.map(([k,n])=>`<button role="tab" aria-selected="${S.tab===k}" data-tab="${k}">${n}${k==="tasks"&&mine?`<span class="dot" aria-label="${mine} for you">${mine}</span>`:""}</button>`).join(""); document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;S.sel=null;S.editCamp=null;S.editProj=null;S.editProd=null;render(); if(S.tab==="activity") loadColl("activity").then(render).catch(()=>{});}); }
+function tabs(){ const mine=S.tasks.filter(t=>t.owner==="lara"&&t.status!=="done").length; $("#tabs").innerHTML=TABS.map(([k,n])=>`<button role="tab" aria-selected="${S.tab===k}" data-tab="${k}">${n}${k==="tasks"&&mine?`<span class="dot" aria-label="${mine} for you">${mine}</span>`:""}</button>`).join(""); document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;S.sel=null;S.editCamp=null;S.editProj=null;S.editProd=null;render(); if(S.tab==="activity") loadColl("activity").then(render).catch(()=>{}); if(S.tab==="email"){ S.mopen=null; S.compose=null; mailSync(); } }); }
 
 function render(){ if(!S.in) return; tabs(); const m=$("#main");
   m.innerHTML=({prospects:S.sel?contactView:contactsView,clients:S.sel?contactView:contactsView,products:productsView,kb:kbView,campaigns:campaignsView,social:socialView,email:emailView,tasks:tasksView,projects:S.editProj?projEdit:projectsView,log:logView,activity:activityView,team:teamView})[S.tab]();
@@ -301,13 +301,66 @@ function socialView(){ return PLATFORMS.map(([k,n,u])=>{ const s=S.social[k]||{}
   ${P.length?`<ul class="list" style="margin-top:6px">${P.slice(0,20).map(p=>`<li><div class="grow"><a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">${esc(p.title||p.url)}</a><div class="muted">${fmt(p.at)} · ${+p.views||0} views${p.likes?` · ${p.likes} likes`:""}${p.comments?` · ${p.comments} comments`:""}</div></div></li>`).join("")}</ul>`:""}</div>`; }).join(""); }
 
 /* ---------- email ---------- */
-function emailView(){ const A=[["larac@","Lara Cerutti, Founder and CEO","You. No automatic answer."],["assistant@","Claude, AI assistant to Lara","Business emails Claude writes for you."],["lumi@","Lumi, AI assistant (made with ChatGPT)","The backup AI representative."],["hello@","General","Beta sign-ups with Beta in the subject get a code."],["beta@","Beta testers",""],["customerservice@","Customer service",""],["sales@","Sales",""],["info@","Info",""],["partners@","Partners","Property managers, relocation teams, move managers."]];
-  return `<div class="card"><h3 style="margin:0 0 6px">Our addresses (all @packedrabbit.com)</h3><ul class="list">${A.map(([a,w,n])=>`<li style="cursor:default"><div class="grow"><b>${a}packedrabbit.com</b><div class="muted">${w}${n?" · "+n:""}</div></div></li>`).join("")}</ul><p class="muted">Today every address arrives in Resend, and the hourly mail check forwards it to your Gmail.</p></div>
-  <div class="card"><h3 style="margin:0 0 6px">How outreach is sent</h3><p>Business emails go one at a time from a real mailbox, after your yes, and each one is logged on that contact's history here.</p>
-  <p class="note">Resend's rules forbid cold outreach, so it only sends beta codes, unlock codes and replies. Sending to a whole list at once, with opens tracked, needs a service built for business outreach, and a mailing address in every email (US law). That waits on the PO box.</p></div>`; }
+/* ---------- mail (owner, 20 Nov 2026): every @packedrabbit.com address, here and never in Gmail ---------- */
+const BOXES=[["hello","hello@"],["customerservice","customerservice@"],["sales","sales@"],["info","info@"],["partners","partners@"],["beta","beta@"],["larac","larac@ (Lara)"],["claude","claude@ (Claude)"],["assistant","assistant@ (Claude)"],["lumi","lumi@ (Lumi)"],["social","social@"],["codes","codes@"]];
+const boxOf=m=>m.dir==="out"?String(m.from||"").split("@")[0]:(((m.to||[]).find(a=>/@packedrabbit\.com$/.test(a))||"").split("@")[0]);
+const whenM=t=>{ const d=new Date(t), n=new Date(); return d.toDateString()===n.toDateString()?d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}):d.toLocaleDateString("en-US",{month:"short",day:"numeric"}); };
+async function mailSync(quiet){ S.mailBusy=true; if(S.tab==="email") render();
+  try{ const r=await api("mail/sync"); await loadColl("mail"); if(!quiet&&r.added) toast(r.added+" new"); }
+  catch(e){ if(!(e instanceof SignedOut)){ await loadColl("mail").catch(()=>{}); toast(e.code==="mail_not_connected"?"Mail isn't connected yet.":"Couldn't check for new mail. Showing what's here."); } }
+  S.mailBusy=false; if(S.tab==="email") render(); }
+function mailList(){ const M=(S.mail||[]).filter(m=>!S.mbox||boxOf(m)===S.mbox).sort((a,b)=>(b.at||0)-(a.at||0));
+  const unread=(S.mail||[]).filter(m=>m.dir==="in"&&!m.read).length;
+  const counts={}; (S.mail||[]).forEach(m=>{const k=boxOf(m); counts[k]=(counts[k]||0)+1;});
+  return `<div class="card"><div class="row" style="justify-content:space-between;align-items:center"><h3 style="margin:0">Mail${unread?` <span class="tag">${unread} new</span>`:""}</h3></div>
+  <p class="muted" style="margin:6px 0 10px">Every email to any @packedrabbit.com address lands here. You write and reply from here too, from our own addresses.</p>
+  <div class="row"><button class="btn p" id="mNew">Write an email</button><button class="btn" id="mSync" ${S.mailBusy?"disabled":""}>${S.mailBusy?"Checking...":"Check for new mail"}</button></div>
+  <label for="mBox" style="margin-top:10px">Mailbox</label><select id="mBox"><option value="">All addresses (${(S.mail||[]).length})</option>${BOXES.filter(([k])=>counts[k]).map(([k,n])=>`<option value="${k}" ${S.mbox===k?"selected":""}>${esc(n)} (${counts[k]})</option>`).join("")}</select></div>
+  <div class="card"><ul class="list">${M.map(m=>`<li data-mail="${esc(m.id)}"><div class="grow" style="min-width:0"><div style="${m.dir==="in"&&!m.read?"font-weight:800":""}">${m.dir==="out"?"To "+esc((m.to||[]).join(", ")):esc(m.fromName||m.from)}</div>
+  <div style="${m.dir==="in"&&!m.read?"font-weight:700":""};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(m.subject)}</div>
+  <div class="muted" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.dir==="out"?"Sent from "+esc(m.from)+" · ":"To "+esc(boxOf(m))+"@ · "}${esc(m.snippet||"")}</div></div><span class="muted" style="white-space:nowrap">${whenM(m.at)}${m.answered?"<br>Answered":""}</span></li>`).join("")||'<li style="cursor:default"><span class="muted">Nothing here yet.</span></li>'}</ul></div>`; }
+function mailRead(){ const m=(S.mail||[]).find(x=>x.id===S.mopen); if(!m) return mailList(); const b=S.mbody||{};
+  return `<button class="btn s" id="mBack">← Mail</button><div class="card" style="margin-top:10px"><h3 style="margin:0 0 6px">${esc(m.subject)}</h3>
+  <p class="muted" style="margin:0 0 4px">${m.dir==="out"?`From ${esc(m.from)}${m.by?" ("+esc(m.by)+")":""}`:`From ${esc(m.fromName?m.fromName+" <"+m.from+">":m.from)}`}</p>
+  <p class="muted" style="margin:0 0 4px">To ${esc((m.to||[]).join(", "))}${(m.cc||[]).length?" · Cc "+esc(m.cc.join(", ")):""}</p><p class="muted" style="margin:0 0 10px">${esc(new Date(m.at).toLocaleString("en-US"))}</p>
+  ${m.dir==="in"?`<div class="row"><button class="btn p" id="mReply">Reply</button></div>`:""}
+  ${(m.attachments||[]).length?`<p class="muted">Attachments: ${m.attachments.map(a=>esc(a.name)).join(", ")} (open them in Resend for now)</p>`:""}
+  ${S.mbodyLoading?'<p class="muted">Opening...</p>':b.html?`<iframe id="mFrame" title="Email" sandbox="" style="width:100%;min-height:420px;border:1px solid var(--line);border-radius:12px;background:#fff"></iframe>`:`<pre style="white-space:pre-wrap;font:inherit;margin:0">${esc(b.text||"")}</pre>`}</div>`; }
+function mailCompose(){ const c=S.compose, owner=S.me&&S.me.role==="owner";
+  const froms=BOXES.filter(([k])=>!["social","codes"].includes(k)&&(k!=="larac"||owner));
+  return `<button class="btn s" id="mCancel">← Mail</button><div class="card" style="margin-top:10px"><h3 style="margin:0 0 8px">${c.replyOf?"Reply":"New email"}</h3>
+  <label for="mc_from">From</label><select id="mc_from">${froms.map(([k,n])=>`<option value="${k}" ${c.from===k?"selected":""}>${esc(k)}@packedrabbit.com</option>`).join("")}</select>
+  <label for="mc_to">To</label><input id="mc_to" type="email" multiple autocomplete="off" value="${esc(c.to||"")}">
+  <label for="mc_cc">Cc (optional)</label><input id="mc_cc" type="email" multiple autocomplete="off" value="${esc(c.cc||"")}">
+  <label for="mc_subj">Subject</label><input id="mc_subj" value="${esc(c.subject||"")}">
+  <label for="mc_text">Message</label><textarea id="mc_text" style="min-height:220px">${esc(c.text||"")}</textarea>
+  <p class="muted">The signature for that address and the confidentiality line are added for you. Replies come back here.</p>
+  <div class="row"><button class="btn p" id="mSend" ${S.mSending?"disabled":""}>${S.mSending?"Sending...":"Send"}</button><button class="btn" id="mCancel2">Cancel</button></div></div>`; }
+function emailView(){ return S.compose?mailCompose():S.mopen?mailRead():mailList(); }
+async function openMail(mid){ S.mopen=mid; S.mbody=null; S.mbodyLoading=true; render(); window.scrollTo(0,0);
+  try{ const L=await list("mail/"+mid+"/parts"); S.mbody=L.find(x=>x.id==="body")||{}; }catch(e){ S.mbody={text:"Couldn't open this email."}; }
+  S.mbodyLoading=false; const m=(S.mail||[]).find(x=>x.id===mid); if(m&&m.dir==="in"&&!m.read){ m.read=true; api("merge",{path:"mail/"+mid,data:{read:true}}).catch(()=>{}); } if(S.mopen===mid) render(); }
+function wireMail(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
+  on("#mSync","onclick",()=>mailSync());
+  on("#mBox","onchange",e=>{S.mbox=e.target.value;render();});
+  on("#mNew","onclick",()=>{S.compose={from:S.mbox&&!["social","codes"].includes(S.mbox)?S.mbox:"hello"};render();});
+  document.querySelectorAll("[data-mail]").forEach(el=>el.onclick=()=>openMail(el.dataset.mail));
+  on("#mBack","onclick",()=>{S.mopen=null;render();});
+  const f=$("#mFrame"); if(f&&S.mbody&&S.mbody.html) f.srcdoc=S.mbody.html;
+  on("#mReply","onclick",()=>{ const m=(S.mail||[]).find(x=>x.id===S.mopen); const box=boxOf(m); const quote=(S.mbody&&S.mbody.text?"\n\n\nOn "+new Date(m.at).toLocaleString("en-US")+", "+(m.fromName||m.from)+" wrote:\n"+S.mbody.text.split("\n").map(l=>"> "+l).join("\n"):"");
+    S.compose={replyOf:m.id,from:BOXES.some(([k])=>k===box)&&!["social","codes"].includes(box)?box:"hello",to:m.from,subject:/^re:/i.test(m.subject)?m.subject:"Re: "+m.subject,text:quote}; render(); const t=$("#mc_text"); if(t){t.focus();t.setSelectionRange(0,0);} });
+  const keep=()=>{ const c=S.compose; if(!c) return; c.from=$("#mc_from").value; c.to=$("#mc_to").value; c.cc=$("#mc_cc").value; c.subject=$("#mc_subj").value; c.text=$("#mc_text").value; };
+  ["#mc_from","#mc_to","#mc_cc","#mc_subj","#mc_text"].forEach(sel=>on(sel,"oninput",keep));
+  const cancel=()=>{ if(S.compose&&(S.compose.text||"").trim()&&!S.compose.replyOf&&!confirm("Throw away this email?")) return; S.compose=null; render(); };
+  on("#mCancel","onclick",cancel); on("#mCancel2","onclick",cancel);
+  on("#mSend","onclick",async()=>{ keep(); const c=S.compose; S.mSending=true; render();
+    try{ await api("mail/send",{from:c.from,to:c.to,cc:c.cc,subject:c.subject,text:c.text.replace(/\n\n\nOn [^\n]* wrote:\n[\s\S]*$/,m=>m),replyOf:c.replyOf||""}); S.compose=null; S.mopen=null; toast("Sent from "+c.from+"@packedrabbit.com"); await loadColl("mail"); }
+    catch(e){ if(!(e instanceof SignedOut)) toast(({bad_address:"Check the email address.",subject_and_message_needed:"Add a subject and a message.",too_many_recipients:"Ten people at most.",daily_limit:"That's 100 emails today. Try again tomorrow.",owner_only:"Only Lara sends from larac@.",read_only:"Your role can read but not send.",mail_not_connected:"Mail isn't connected yet."})[e.code]||"Couldn't send. Nothing went out. Try again."); }
+    S.mSending=false; render(); }); }
 
 /* ---------- wiring ---------- */
 function wire(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
+  if(S.tab==="email") wireMail();
 
   on("#actF","onchange",e=>{S.actFilter=e.target.value;render();});
   on("#tNew","onclick",()=>{S.newTask={title:""};render();});
