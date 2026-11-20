@@ -66,6 +66,7 @@ a{color:var(--g);text-underline-offset:3px}
 .sheet thead th:first-child{z-index:3}
 .sheet tbody tr{cursor:pointer}.sheet tbody tr:hover td{background:color-mix(in srgb,var(--g) 8%,var(--card))}
 .sheet .muted{font-size:13px}
+.pcard.just{outline:3px solid var(--g);outline-offset:2px}
 .lanes{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
 .lane{flex:0 0 min(300px,84vw);scroll-snap-align:start;background:color-mix(in srgb,var(--tape) 45%,var(--cream));border:1px solid var(--line);border-radius:16px;padding:10px}
 .lane h3{margin:2px 4px 8px;font-size:16px;display:flex;justify-content:space-between}
@@ -184,7 +185,7 @@ function projEdit(){ const p=S.editProj, st=pSteps(p);
   <div class="row" style="margin-top:12px"><button class="btn p" id="pjSave">Save</button>${p.id&&!p.isNew?`<button class="btn" id="pjArchive">Archive</button>`:""}</div>
   ${p.by?`<p class="muted" style="margin:10px 0 0">Added by ${esc(p.by)}${p.created?" on "+esc(dayOf(p.created)):""}</p>`:""}</div>`; }
 function readProj(){ const p=S.editProj; if(!p||!$("#pj_title")) return; p.title=$("#pj_title").value; p.dept=$("#pj_dept").value; p.owner=$("#pj_owner").value; p.status=$("#pj_status").value; p.due=$("#pj_due").value; p.desc=$("#pj_desc").value; p.link=$("#pj_link").value.trim(); }
-async function saveProj(){ readProj(); const p=S.editProj; if(!p.title.trim()){toast("Give the project a name");return;} const {id:pid,isNew,...body}=p; if(await put("projects/"+pid,body)){ toast("Saved"); S.editProj=null; render(); } }
+async function saveProj(){ readProj(); const p=S.editProj; if(!p.title.trim()){toast("Give the project a name");return;} const {id:pid,isNew,...body}=p; if(await put("projects/"+pid,body)){ const col=(PCOLS.find(c=>c[0]===body.status)||["",""])[1]; if(body.status==="done") S.pShowDone=true; if(S.pjOwner&&body.owner!==S.pjOwner) S.pjOwner=""; if(S.pjDept&&body.dept!==S.pjDept) S.pjDept=""; S.pFocus={col,id:pid}; S.pScroll=null; toast(col?"Saved in "+col:"Saved"); S.editProj=null; render(); } }
 
 /* ---------- tasks: the owner's and Claude's ---------- */
 const TSTAT={open:"To do",doing:"In progress",get waiting(){ return "Waiting on "+ON(); },done:"Done"};
@@ -444,12 +445,12 @@ function wire(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
   on("#actF","onchange",e=>{S.actFilter=e.target.value;render();});
   on("#tNew","onclick",()=>{S.newTask={title:""};render();});
   on("#tCancel","onclick",()=>{S.newTask=null;render();});
-  { const L=$(".lanes"); if(L){ const ip=L.querySelector('[aria-label="In progress"]'); L.scrollLeft=S.pScroll!=null?S.pScroll:(ip?ip.offsetLeft-L.offsetLeft-8:0); L.onscroll=()=>{S.pScroll=L.scrollLeft;}; } }
+  { const L=$(".lanes"); if(L){ const f=S.pFocus; S.pFocus=null; const ip=L.querySelector('[aria-label="'+((f&&f.col)||"In progress")+'"]'); L.scrollLeft=S.pScroll!=null?S.pScroll:(ip?ip.offsetLeft-L.offsetLeft-8:0); if(f){ S.pScroll=L.scrollLeft; const c=L.querySelector('[data-proj="'+f.id+'"]'); if(c){ c.classList.add("just"); c.scrollIntoView({block:"nearest"}); setTimeout(()=>c.classList.remove("just"),2500); } } L.onscroll=()=>{S.pScroll=L.scrollLeft;}; } }
   on("#pjDept","onchange",e=>{S.pjDept=e.target.value;render();});
   on("#pjOwner","onchange",e=>{S.pjOwner=e.target.value;render();});
   on("#pjDoneT","onclick",()=>{S.pShowDone=!S.pShowDone;render();});
-  on("#pjNew","onclick",()=>{S.editProj={id:id(),isNew:1,title:"",status:"todo",owner:(S.me&&S.me.name)||ON(),steps:[],created:Date.now(),by:(S.me&&S.me.name)||ON()};render();});
-  on("#pjBack","onclick",()=>{S.editProj=null;render();});
+  on("#pjNew","onclick",()=>{window.scrollTo(0,0);S.editProj={id:id(),isNew:1,title:"",status:"todo",owner:(S.me&&S.me.name)||ON(),steps:[],created:Date.now(),by:(S.me&&S.me.name)||ON()};render();});
+  on("#pjBack","onclick",()=>{S.editProj=null;render();window.scrollTo(0,0);});
   on("#pjSave","onclick",saveProj);
   on("#pjArchive","onclick",async()=>{ if(!confirm("Archive this project? It leaves the board but stays in the hub.")) return; S.editProj.status="archived"; const {id:pid,isNew,...b}=S.editProj; if(await put("projects/"+pid,b)){ S.editProj=null; toast("Archived"); render(); } });
   on("#pjAddStep","onclick",()=>{ readProj(); const t=$("#pj_newstep").value.trim(); if(!t) return; S.editProj.steps=[...pSteps(S.editProj),{t,done:false}]; render(); $("#pj_newstep").focus(); });
