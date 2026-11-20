@@ -171,7 +171,7 @@ function projCard(p){ const st=pSteps(p), d=st.filter(x=>x.done).length, i=PCOLS
 function projectsView(){ const P=S.projects.filter(p=>p.status!=="archived"&&(!S.pjDept||p.dept===S.pjDept)&&(!S.pjOwner||p.owner===S.pjOwner)).sort((a,b)=>(a.due||"9999").localeCompare(b.due||"9999")||(a.created||0)-(b.created||0));
   const cols=PCOLS.filter(c=>c[0]!=="done"||S.pShowDone);
   return `<div class="card"><p style="margin:0 0 10px"><b>${P.filter(p=>p.status==="doing").length}</b> in progress · <b>${P.filter(p=>p.status==="todo").length}</b> to do · <b>${P.filter(p=>p.status==="waiting").length}</b> waiting</p><div class="two"><select id="pjDept" aria-label="Department"><option value="">Every department</option>${Object.entries(DEPTS).map(([k,v])=>`<option value="${k}" ${S.pjDept===k?"selected":""}>${v}</option>`).join("")}</select><select id="pjOwner" aria-label="Owner"><option value="">Everyone</option>${owners().map(o=>`<option ${S.pjOwner===o?"selected":""}>${esc(o)}</option>`).join("")}</select></div>
-  <div class="row" style="margin-top:10px"><button class="btn p" id="pjNew">Add a project</button><button class="btn" id="pjDoneT">${S.pShowDone?"Hide":"Show"} done (${P.filter(p=>p.status==="done").length})</button></div><p class="muted" style="margin:8px 0 0">Swipe sideways to see every column. Tap a project to open it.</p></div>
+  <div class="row" style="margin-top:10px"><button class="btn p" id="pjNew">Add a project</button><button class="btn" id="pjDoneT">${S.pShowDone?"Hide":"Show"} done (${P.filter(p=>p.status==="done").length})</button></div><p class="muted" style="margin:8px 0 6px">Tap a column to jump to it, or swipe sideways. Tap a project to open it.</p><div class="row" role="group" aria-label="Jump to a column" style="gap:6px;flex-wrap:wrap">${cols.map(([k,n])=>`<button class="btn s" data-pcol="${esc(n)}" style="min-height:44px">${esc(n)} <b>${P.filter(p=>p.status===k).length}</b></button>`).join("")}</div></div>
   <div class="lanes">${cols.map(([k,n])=>{ const L=P.filter(p=>p.status===k); return `<section class="lane" aria-label="${n}"><h3>${n}<span class="muted">${L.length}</span></h3>${L.map(projCard).join("")||'<p class="muted" style="margin:4px">Nothing here.</p>'}</section>`; }).join("")}</div>`; }
 function projEdit(){ const p=S.editProj, st=pSteps(p);
   return `<button class="btn s" id="pjBack">← Projects</button><div class="card" style="margin-top:10px">
@@ -449,6 +449,7 @@ function wire(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
   on("#pjDept","onchange",e=>{S.pjDept=e.target.value;render();});
   on("#pjOwner","onchange",e=>{S.pjOwner=e.target.value;render();});
   on("#pjDoneT","onclick",()=>{S.pShowDone=!S.pShowDone;render();});
+  document.querySelectorAll("[data-pcol]").forEach(b=>b.onclick=()=>{ const L=$(".lanes"); const ln=L&&L.querySelector('[aria-label="'+b.dataset.pcol+'"]'); if(!ln) return; L.scrollTo({left:ln.offsetLeft-L.offsetLeft-8,behavior:"smooth"}); S.pScroll=ln.offsetLeft-L.offsetLeft-8; L.scrollIntoView({block:"start",behavior:"smooth"}); });
   on("#pjNew","onclick",()=>{window.scrollTo(0,0);S.editProj={id:id(),isNew:1,title:"",status:"todo",owner:(S.me&&S.me.name)||ON(),steps:[],created:Date.now(),by:(S.me&&S.me.name)||ON()};render();});
   on("#pjBack","onclick",()=>{S.editProj=null;render();window.scrollTo(0,0);});
   on("#pjSave","onclick",saveProj);
