@@ -18,7 +18,7 @@ const norm = c => String(c || "").toLowerCase().replace(/[^a-z0-9]/g, "");
 const ROLES = ["admin", "member", "viewer"];
 const ABC = "abcdefghjkmnpqrstuvwxyz23456789";
 const newCode = () => { const b = crypto.getRandomValues(new Uint8Array(24)); let o = ""; for (let i = 0; i < 24; i++) o += (i && i % 4 === 0 ? "-" : "") + ABC[b[i] % ABC.length]; return o; };
-const userOut = u => ({ id: u.id, name: u.name || (u.id === "owner" ? "Lara" : u.id), role: u.role || (u.id === "owner" ? "owner" : "member"), email: u.email || "", kind: u.kind || "person", created: u.created, lastSeen: u.last_seen || null, canSignIn: !!u.hash });
+const userOut = u => ({ id: u.id, name: u.name || (u.id === "owner" ? "Owner" : u.id), role: u.role || (u.id === "owner" ? "owner" : "member"), email: u.email || "", kind: u.kind || "person", created: u.created, lastSeen: u.last_seen || null, canSignIn: !!u.hash });
 
 function validPath(p, wantDoc) {
   if (typeof p !== "string") return false;
@@ -53,7 +53,7 @@ async function session(req, db) {
   const th = await sha(m[1]);
   const row = await db.prepare("SELECT expires, user_id FROM sessions WHERE token_hash = ?").bind(th).first();
   if (!row || row.expires <= Date.now()) return null;
-  const uid = row.user_id || "owner"; // sessions from before the team existed are Lara's
+  const uid = row.user_id || "owner"; // sessions from before the team existed are the owner's
   const u = await db.prepare("SELECT * FROM auth WHERE id = ?").bind(uid).first();
   if (!u || !u.hash) return null; // removed from the team
   return { ...userOut(u), tokenHash: th };

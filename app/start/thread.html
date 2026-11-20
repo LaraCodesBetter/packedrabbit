@@ -564,7 +564,11 @@ const APPROOM={"Kitchen":"KIT","Living room":"LIV","Sunroom":"LIV","Dining room"
  "A closet":"CLO","Front hall closet":"HALL","Hall closet":"HALL","Coat closet":"HALL","Linen closet":"HALL","Primary bedroom closet":"CLO","Bedroom closet":"CLO","Bathroom closet":"CLO","Walk-in closet":"CLO","Basement closet":"CLO","Attic closet":"CLO","First floor closet":"CLO","Second floor closet":"CLO",
  "Attic":"ATT","Basement":"BASE","Garage":"GAR","Shed":"SHED","Barn":"SHED","Storage unit":"MISC","Private office":"OFF","Open office":"OFF","Conference room":"OFF","Reception":"OFF","Break room":"KIT","Server or IT room":"OFF","Supply closet":"CLO","Records room":"OFF","Storage room":"MISC","Warehouse":"GAR","Workshop":"GAR","Shipping area":"GAR","Front porch":"PAT","Back porch":"PAT","Deck":"PAT","Patio":"PAT","Lanai":"PAT","Pool":"POOL"};
 const rcOf=r=>APPROOM[r]||'MISC';
-const code=()=>`${rcOf(S.room)}-${String(S.boxes.filter(b=>rcOf(b.room)===rcOf(S.room)).length+1).padStart(2,"0")}`;
+/* beta tester (Reddit), 20 Nov 2026: after KIT-02 was removed, the next box was a second KIT-03. The number is what
+   goes on the tape, so a new box takes the highest number that room has ever used, plus one, and a removed
+   number is never handed out again. */
+const code=()=>{ const rc=rcOf(S.room); const used=S.boxes.filter(b=>String(b.code||'').startsWith(rc+'-')).map(b=>parseInt(String(b.code).split('-').pop(),10)||0); const hi=Math.max(0,...used,((S.maxNo||{})[rc])||0); return `${rc}-${String(hi+1).padStart(2,"0")}`; };
+const noteNo=c=>{ const m=String(c||'').match(/^(.*)-(\d+)$/); if(!m) return; S.maxNo=S.maxNo||{}; S.maxNo[m[1]]=Math.max(S.maxNo[m[1]]||0,+m[2]); };
 
 /* drawings: the room keeps what you've packed and listed */
 const BOXW={XS:44,S:58,M:72,L:86,XL:100};
@@ -3194,7 +3198,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v417, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v418, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
@@ -3418,10 +3422,10 @@ function sheetBody(n){
   if(n==='Boxes'){
     if(S.bsel>=0){ const list=S.boxes.slice().reverse();
       return `<button class="back" data-blist style="padding-left:0">All boxes</button><div class="cards">${list.map(b=>{ const i=S.boxes.indexOf(b); return `<div class="card" id="card-${i}"><div class="pic">${b.photo?`<img src="${b.photo}" alt="What's inside ${b.code}">${(b.photos||[]).length>1?`<div class="more">${b.photos.slice(1).map((u,k)=>`<img src="${u}" alt="${b.code}, picture ${k+2}">`).join('')}</div>`:''}`:`<svg viewBox="0 0 150 130" aria-hidden="true"><g class="fore"><rect x="25" y="30" width="100" height="90"/><rect class="tape" x="68" y="30" width="14" height="28"/></g></svg>`}</div>
-      <div class="meta"><b>${b.code}</b><p>${isPriv(b)?'Private. What\'s inside shows in the full app, behind your passcode.':esc(b.words||'Nothing written yet')}</p>${b.dest?`<p><b style="font-size:inherit">${esc(destLine(b.dest))}</b></p>`:''}${b.airtag?'<p>AirTag inside, so Find My shows where it is.</p>':''}<p style="color:var(--muted)">From the ${esc(lc(b.room))}.${(()=>{ const sz=(SIZEN[b.size]||'')+(b.custom?' ('+esc(b.custom)+')':'')+(b.brand?' ('+esc(b.brand)+')':''), du=String(b.duty||'').toLowerCase(); return sz&&du?` ${sz}, ${du}.`:sz?` ${sz}.`:du?` ${du[0].toUpperCase()+du.slice(1)}.`:''; })()}</p>
+      <div class="meta"><b>${b.code}</b>${S.bedit===i?`<label for="bed-w" style="display:block;margin-top:8px;font-weight:700">What's inside</label><textarea id="bed-w" rows="3" style="width:100%;font:inherit;border-radius:12px;padding:10px">${esc(b.words||'')}</textarea><label for="bed-s" style="display:block;margin-top:8px;font-weight:700">Size</label><select id="bed-s" style="min-height:44px;font:inherit;border-radius:12px;width:100%"><option value="">Not sure</option>${Object.entries(SIZEN).filter(([k])=>k!=='Custom').map(([k,v])=>`<option value="${k}" ${b.size===k?'selected':''}>${v}</option>`).join('')}</select><div style="display:flex;gap:10px;margin-top:10px"><button class="cta" data-bsave="${i}" style="margin:0">Save</button><button class="link" data-bcancel style="padding:0">Cancel</button></div>`:`<p>${isPriv(b)?'Private. What\'s inside shows in the full app, behind your passcode.':esc(b.words||'Nothing written yet')}</p>`}${b.dest?`<p><b style="font-size:inherit">${esc(destLine(b.dest))}</b></p>`:''}${b.airtag?'<p>AirTag inside, so Find My shows where it is.</p>':''}<p style="color:var(--muted)">From the ${esc(lc(b.room))}.${(()=>{ const sz=(SIZEN[b.size]||'')+(b.custom?' ('+esc(b.custom)+')':'')+(b.brand?' ('+esc(b.brand)+')':''), du=String(b.duty||'').toLowerCase(); return sz&&du?` ${sz}, ${du}.`:sz?` ${sz}.`:du?` ${du[0].toUpperCase()+du.slice(1)}.`:''; })()}</p>
       ${(b.flags||[]).length?`<div class="tags">${b.flags.map(k=>`<span style="color:${STAMPC[k]}">${k}</span>`).join('')}</div>`:''}
       <details style="margin-top:6px;font-size:16px"><summary style="min-height:44px;display:flex;align-items:center;cursor:pointer;color:var(--ink);font-weight:700">Dimensions</summary>${dimText(b.dims)||'Not known'}</details>
-      <button class="link" data-rm="${i}" style="padding:0" aria-label="Remove box ${esc(b.code)}">Remove this box</button></div></div>`; }).join('')}</div>${list.length>1?'<p class="swipe">Swipe for the next box.</p>':''}`; }
+      ${S.bedit===i?'':`<button class="link" data-bedit="${i}" style="padding:0;margin-right:18px" aria-label="Edit box ${esc(b.code)}">Edit</button>`}<button class="link" data-rm="${i}" style="padding:0" aria-label="Remove box ${esc(b.code)}">Remove this box</button></div></div>`; }).join('')}</div>${list.length>1?'<p class="swipe">Swipe for the next box.</p>':''}`; }
     return `<button class="cta" data-addbox style="margin:0 0 12px;max-width:none">Add a box</button><input class="find" id="find" placeholder="Find anything: coats, tools, the TV" value="${esc(S.find||'')}" aria-label="Find a box or a piece of furniture"><div class="res">${findRes()}</div>`; }
   if(n==='Furniture'){
     if(S.fsel>=0 && S.big[S.fsel]) return pieceBody(S.big[S.fsel]);
@@ -3519,7 +3523,10 @@ function wireSheet(s,n){
   const add=s.querySelector('[data-addbox]'); if(add) add.onclick=()=>{ closeSheet(true); show('start'); };
   const ab=s.querySelector('[data-blist]'); if(ab) ab.onclick=()=>{ S.bsel=-1; re(); };
   /* panel review, 17 Nov: a removed box came back. The walk saves at once, and a box already in the app leaves the app too; Undo puts both back. */
-  s.querySelectorAll('[data-rm]').forEach(x=>x.onclick=async()=>{ const i=+x.dataset.rm, gone=S.boxes[i]; S.boxes.splice(i,1); S.bsel=-1; keep(true); const app=gone.appId?await appTake(gone.appId):null; re(); toast(s,`${esc(gone.code)} removed.`,async()=>{ S.boxes.splice(i,0,gone); keep(true); if(app) await appPut(app); re(); }); const ub=s.querySelector('.toast button'); if(ub){ ub.setAttribute('aria-label',`Undo removing ${gone.code}`); ub.focus(); } });
+  s.querySelectorAll('[data-bedit]').forEach(x=>x.onclick=()=>{ S.bedit=+x.dataset.bedit; re(); const t=s.querySelector('#bed-w'); if(t) t.focus(); });
+  s.querySelectorAll('[data-bcancel]').forEach(x=>x.onclick=()=>{ S.bedit=-1; re(); });
+  s.querySelectorAll('[data-bsave]').forEach(x=>x.onclick=()=>{ const i=+x.dataset.bsave, b=S.boxes[i]; if(!b) return; const w=s.querySelector('#bed-w'), z=s.querySelector('#bed-s'); b.words=w?w.value.trim():b.words; if(z) b.size=z.value; S.bedit=-1; keep(true); re(); });
+  s.querySelectorAll('[data-rm]').forEach(x=>x.onclick=async()=>{ const i=+x.dataset.rm, gone=S.boxes[i]; noteNo(gone.code); S.boxes.splice(i,1); S.bsel=-1; keep(true); const app=gone.appId?await appTake(gone.appId):null; re(); toast(s,`${esc(gone.code)} removed.`,async()=>{ S.boxes.splice(i,0,gone); keep(true); if(app) await appPut(app); re(); }); const ub=s.querySelector('.toast button'); if(ub){ ub.setAttribute('aria-label',`Undo removing ${gone.code}`); ub.focus(); } });
   s.querySelectorAll('[data-piece]').forEach(li=>li.onclick=()=>{ const b=S.big[+li.dataset.piece];
     /* a piece that lives in the app opens its full page there: every photo, the size, brand, value and dates */
     if(S.homeMode&&b&&b.appId){ toApp('?big='+encodeURIComponent(b.appId),n); return; }
