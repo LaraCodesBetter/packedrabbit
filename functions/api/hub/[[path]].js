@@ -82,6 +82,14 @@ async function resend(db, path, init = {}) {
   if (!r.ok) { const e = new Error((j && (j.message || j.name)) || ("resend_" + r.status)); e.code = 502; throw e; }
   return j;
 }
+// Owner, 20 Nov 2026: mail goes out through Cloudflare, the company that holds packedrabbit.com, once its key is saved.
+async function cfSecrets(db) { const r = (await db.prepare("SELECT k, v FROM secrets WHERE k IN ('cf_token','cf_account')").all()).results; const o = {}; r.forEach(x => o[x.k] = x.v); return o.cf_token && o.cf_account ? o : null; }
+async function cfSend(cf, msg) {
+  const r = await fetch(`https://api.cloudflare.com/client/v4/accounts/${cf.cf_account}/email/sending/send`, { method: "POST", headers: { authorization: "Bearer " + cf.cf_token, "content-type": "application/json" }, body: JSON.stringify(msg) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok || j.success === false) { const e = new Error(((j.errors || [])[0] || {}).message || ("cloudflare_" + r.status)); e.code = 502; throw e; }
+  return j.result || {};
+}
 const safeId = id => String(id || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 70);
 async function mailSync(db) {
   const L = await resend(db, "/emails/receiving?limit=100");
@@ -132,11 +140,19 @@ async function mailSend(db, s, b) {
   const name = (cfg.names && cfg.names[box]) || FROMS[box];
   const full = text + "\n\n" + sig + "\n\n" + legal + (postal ? "\n" + postal : "");
   const html = `<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;color:#1d2a20">${escH(text).replace(/\n/g, "<br>")}<br><br>${escH(sig).replace(/\n/g, "<br>")}<p style="font-size:11px;line-height:1.4;color:#6b7a6f;margin:18px 0 0">${escH(legal)}</p>${postal ? `<p style="font-size:9px;line-height:1.3;color:#8a968d;margin:6px 0 0">${escH(postal)}</p>` : ""}</div>`;
-  const r = await resend(db, "/emails", { method: "POST", body: JSON.stringify({ from: `${name.replace(/[<>"]/g, "")} <${box}@packedrabbit.com>`, to, cc: cc.length ? cc : undefined, reply_to: `${box}@packedrabbit.com`, subject, text: full, html, headers }) });
+  const cf = await cfSecrets(db);
+  let r, via;
+  if (cf) {
+    r = await cfSend(cf, { from: { address: box + "@packedrabbit.com", name: name.replace(/[<>"]/g, "") }, to, cc: cc.length ? cc : undefined, reply_to: box + "@packedrabbit.com", subject, text: full, html, headers: Object.keys(headers).length ? headers : undefined });
+    via = "cloudflare";
+  } else {
+    r = await resend(db, "/emails", { method: "POST", body: JSON.stringify({ from: `${name.replace(/[<>"]/g, "")} <${box}@packedrabbit.com>`, to, cc: cc.length ? cc : undefined, reply_to: `${box}@packedrabbit.com`, subject, text: full, html, headers }) });
+    via = "resend";
+  }
   const id = "s" + safeId(r.id || hex(crypto.getRandomValues(new Uint8Array(8))));
   const at = Date.now();
   await db.batch([
-    db.prepare("INSERT OR REPLACE INTO docs (path, coll, data, updated) VALUES (?, 'mail', ?, ?)").bind("mail/" + id, JSON.stringify({ dir: "out", from: box + "@packedrabbit.com", to, cc, subject, at, read: true, by: s.name, replyOf: b.replyOf || "", snippet: text.replace(/\s+/g, " ").slice(0, 160) }), at),
+    db.prepare("INSERT OR REPLACE INTO docs (path, coll, data, updated) VALUES (?, 'mail', ?, ?)").bind("mail/" + id, JSON.stringify({ dir: "out", from: box + "@packedrabbit.com", to, cc, subject, at, read: true, by: s.name, via, replyOf: b.replyOf || "", snippet: text.replace(/\s+/g, " ").slice(0, 160) }), at),
     db.prepare("INSERT OR REPLACE INTO docs (path, coll, data, updated) VALUES (?, ?, ?, ?)").bind("mail/" + id + "/parts/body", "mail/" + id + "/parts", JSON.stringify({ text: full, html }), at),
   ]);
   if (b.replyOf) await db.prepare("UPDATE docs SET data = json_set(data, '$.answered', ?) WHERE path = ?").bind(at, "mail/" + safeId(b.replyOf)).run();
@@ -223,6 +239,29 @@ export async function onRequest({ request, env, params }) {
   }
   if (route === "mail/sync") {
     try { return json({ ok: true, added: await mailSync(db) }); } catch (e) { return json({ error: e.message }, (e.code >= 400 && e.code < 600) ? e.code : 500); }
+  }
+  if (route === "mail/status") {
+    const cf = await cfSecrets(db);
+    return json({ ok: true, sending: cf ? "cloudflare" : "resend" });
+  }
+  if (route === "mail/cloudflare" && post) {
+    if (s.role !== "owner") return json({ error: "owner_only" }, 403);
+    const token = String(body.token || "").trim();
+    if (!/^[A-Za-z0-9_-]{20,200}$/.test(token)) return json({ error: "bad_token" }, 400);
+    let account = String(body.account || "").trim().replace(/[^a-f0-9]/gi, "");
+    if (!account) {
+      const r = await fetch("https://api.cloudflare.com/client/v4/accounts?per_page=5", { headers: { authorization: "Bearer " + token } });
+      const j = await r.json().catch(() => ({}));
+      const list = (j && j.result) || [];
+      if (!r.ok || !list.length) return json({ error: "need_account_id" }, 400);
+      account = list[0].id;
+    }
+    const now = Date.now();
+    await db.batch([
+      db.prepare("INSERT INTO secrets (k, v, updated) VALUES ('cf_token', ?, ?) ON CONFLICT(k) DO UPDATE SET v = excluded.v, updated = excluded.updated").bind(token, now),
+      db.prepare("INSERT INTO secrets (k, v, updated) VALUES ('cf_account', ?, ?) ON CONFLICT(k) DO UPDATE SET v = excluded.v, updated = excluded.updated").bind(account, now),
+    ]);
+    return json({ ok: true, sending: "cloudflare" });
   }
   if (route === "mail/send" && post) {
     if (s.role === "viewer") return json({ error: "read_only" }, 403);
