@@ -45,6 +45,7 @@ label{display:block;font-size:13px;font-weight:600;color:var(--ink2);margin:10px
 .tag.w{background:color-mix(in srgb,var(--warn) 14%,transparent);color:var(--warn)}.tag.k{background:var(--tape);color:var(--tape-ink)}
 .grow{flex:1;min-width:0}.muted{color:var(--ink2);font-size:14px}
 .ev{border-left:3px solid var(--g);padding:6px 10px;margin:8px 0}.ev .muted{font-size:13px}
+.star{min-width:44px;min-height:44px;border:0;background:none;font-size:22px;color:var(--g);cursor:pointer;padding:0}
 .cfbox{margin-top:10px;border:1px solid var(--line);border-radius:12px;padding:8px 12px}.cfbox summary{cursor:pointer;min-height:32px}
 .mfold{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.mfold .btn{flex:0 0 auto}
 .tmsgs{margin-top:8px;border-top:1px solid var(--line);padding-top:8px}.tmsg{padding:8px 10px;border-radius:12px;background:color-mix(in srgb,var(--g) 6%,transparent);margin-bottom:8px}.tmsg.ai{background:color-mix(in srgb,var(--g) 14%,transparent)}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -120,7 +121,7 @@ async function loadColl(c){
   else S[c]=L;
 }
 async function loadTeam(){ try{ const [m,u]=await Promise.all([api("me"),api("users")]); S.me=m.user||null; S.users=u.users||[]; }catch(e){ if(e instanceof SignedOut) throw e; } }
-async function loadAll(){ await Promise.all([...["contacts","campaigns","social","posts","products","tasks","log","projects","mail"].map(loadColl),loadTeam()]); S.ready=true; }
+async function loadAll(){ await Promise.all([...["contacts","campaigns","social","posts","products","tasks","log","projects","mail","mailtpl","mailrules"].map(loadColl),loadTeam()]); S.ready=true; }
 async function loadEvents(cid){ const L=await list("contacts/"+cid+"/events"); if(S.sel!==cid) return; S.events=L.sort((a,b)=>(b.at||0)-(a.at||0)).slice(0,200); render(); }
 
 /* ---------- sign-in ---------- */
@@ -324,9 +325,12 @@ function socialView(){ return PLATFORMS.map(([k,n,u])=>{ const s=S.social[k]||{}
 /* ---------- email ---------- */
 /* ---------- mail (owner, 20 Nov 2026): every @packedrabbit.com address, here and never in Gmail ---------- */
 const BOXES=[["hello","hello@"],["customerservice","customerservice@"],["sales","sales@"],["info","info@"],["partners","partners@"],["beta","beta@"],["larac","larac@ (Lara)"],["claude","claude@ (Claude)"],["assistant","assistant@ (Claude)"],["lumi","lumi@ (Lumi)"],["social","social@"],["codes","codes@"]];
-const boxOf=m=>m.dir==="out"?String(m.from||"").split("@")[0]:(((m.to||[]).find(a=>/@packedrabbit\.com$/.test(a))||"").split("@")[0]);
-const FOLDERS=[["inbox","Inbox"],["sent","Sent"],["archive","Archive"],["junk","Junk"],["trash","Trash"]];
-const folderOf=m=>m.folder&&m.folder!=="inbox"?m.folder:(m.dir==="out"?"sent":"inbox");
+const boxOf=m=>m.dir==="draft"?String(m.from||"hello"):m.dir==="out"?String(m.from||"").split("@")[0]:(((m.to||[]).find(a=>/@packedrabbit\.com$/.test(a))||"").split("@")[0]);
+const FOLDERS=[["inbox","Inbox"],["starred","Starred"],["drafts","Drafts"],["sent","Sent"],["archive","Archive"],["junk","Junk"],["trash","Trash"]];
+const folderOf=m=>m.dir==="draft"?(m.gone?"gone":"drafts"):m.folder&&m.folder!=="inbox"?m.folder:(m.dir==="out"?"sent":"inbox");
+const inFolder=(m,F)=>F==="starred"?(m.star&&folderOf(m)!=="trash"&&folderOf(m)!=="gone"):folderOf(m)===F;
+const subjKey=t=>String(t||"").replace(/^\s*((re|fwd?|fw)\s*:\s*)+/i,"").trim().toLowerCase();
+const otherOf=m=>m.dir==="in"?m.from:((m.to||[])[0]||"");
 const whenM=t=>{ const d=new Date(t), n=new Date(); return d.toDateString()===n.toDateString()?d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}):d.toLocaleDateString("en-US",{month:"short",day:"numeric"}); };
 async function mailSync(quiet){ S.mailBusy=true; if(S.tab==="email") render();
   api("mail/status").then(r=>{S.mailVia=r.sending; if(S.tab==="email") render();}).catch(()=>{});
@@ -335,9 +339,10 @@ async function mailSync(quiet){ S.mailBusy=true; if(S.tab==="email") render();
   S.mailBusy=false; if(S.tab==="email") render(); }
 function toastUndo(msg,undo){ let t=document.getElementById("utoast"); if(!t){ t=document.createElement("div"); t.id="utoast"; t.setAttribute("role","status"); t.style.cssText="position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#14281B;color:#fff;border-radius:14px;padding:8px 8px 8px 16px;display:flex;gap:12px;align-items:center;z-index:99;box-shadow:0 6px 20px rgba(0,0,0,.25);font-weight:700"; document.body.appendChild(t); }
   t.innerHTML=""; const sp=document.createElement("span"); sp.textContent=msg; const b=document.createElement("button"); b.textContent="Undo"; b.style.cssText="min-height:44px;padding:0 16px;border-radius:10px;border:0;background:#fff;color:#14281B;font-weight:800;cursor:pointer"; b.onclick=()=>{ clearTimeout(t._h); t.remove(); undo(); }; t.append(sp,b); clearTimeout(t._h); t._h=setTimeout(()=>t.remove(),15000); }
-function mailList(){ const F=S.mfolder||"inbox"; const M=(S.mail||[]).filter(m=>folderOf(m)===F&&(!S.mbox||boxOf(m)===S.mbox)).sort((a,b)=>(b.at||0)-(a.at||0));
+function mailList(){ const F=S.mfolder||"inbox", q=(S.mq||"").trim().toLowerCase();
+  const M=(S.mail||[]).filter(m=>folderOf(m)!=="gone"&&(q?[m.subject,m.from,m.fromName,[].concat(m.to||[]).join(" "),m.snippet,m.text].join(" ").toLowerCase().includes(q):inFolder(m,F))&&(!S.mbox||boxOf(m)===S.mbox)).sort((a,b)=>(b.at||0)-(a.at||0));
   const unread=(S.mail||[]).filter(m=>m.dir==="in"&&!m.read&&folderOf(m)==="inbox").length;
-  const fc=k=>(S.mail||[]).filter(m=>folderOf(m)===k).length;
+  const fc=k=>(S.mail||[]).filter(m=>inFolder(m,k)).length;
   const counts={}; (S.mail||[]).forEach(m=>{const k=boxOf(m); counts[k]=(counts[k]||0)+1;});
   return `<div class="card"><div class="row" style="justify-content:space-between;align-items:center"><h3 style="margin:0">Mail${unread?` <span class="tag">${unread} new</span>`:""}</h3></div>
   <p class="muted" style="margin:6px 0 10px">Every email to any @packedrabbit.com address lands here. You write and reply from here too, from our own addresses.</p>
@@ -347,18 +352,23 @@ function mailList(){ const F=S.mfolder||"inbox"; const M=(S.mail||[]).filter(m=>
   <label for="cfTok">Cloudflare key</label><input id="cfTok" type="password" autocomplete="off">
   <label for="cfAcc">Account ID (only if asked)</label><input id="cfAcc" autocomplete="off">
   <div class="row" style="margin-top:8px"><button class="btn s p" id="cfSave">Connect Cloudflare</button></div>`}</details>`:""}
+  <label for="mq" style="margin-top:10px">Search all mail</label><input id="mq" type="search" placeholder="A name, a company, a word" value="${esc(S.mq||"")}">
   <div class="mfold" role="tablist" aria-label="Folders">${FOLDERS.map(([k,n])=>`<button role="tab" class="btn s ${F===k?"p":""}" aria-selected="${F===k}" data-mfold="${k}">${n}${k==="inbox"&&unread?` (${unread})`:k!=="inbox"&&fc(k)?` (${fc(k)})`:""}</button>`).join("")}</div>
-  <label for="mBox" style="margin-top:10px">Address</label><select id="mBox"><option value="">All addresses</option>${BOXES.filter(([k])=>counts[k]).map(([k,n])=>`<option value="${k}" ${S.mbox===k?"selected":""}>${esc(n)} (${counts[k]})</option>`).join("")}</select></div>
-  <div class="card"><ul class="list">${M.map(m=>`<li data-mail="${esc(m.id)}"><div class="grow" style="min-width:0"><div style="${m.dir==="in"&&!m.read?"font-weight:800":""}">${m.dir==="out"?"To "+esc((m.to||[]).join(", ")):esc(m.fromName||m.from)}</div>
+  <label for="mBox" style="margin-top:10px">Address</label><select id="mBox"><option value="">All addresses</option>${BOXES.filter(([k])=>counts[k]).map(([k,n])=>`<option value="${k}" ${S.mbox===k?"selected":""}>${esc(n)} (${counts[k]})</option>`).join("")}</select>
+  <details class="cfbox"><summary>Rules: file mail automatically (${(S.mailrules||[]).filter(r=>r.on!==0).length})</summary>${rulesView()}</details></div>
+  ${q?`<p class="muted" style="margin:0 4px 8px">Results for "${esc(S.mq)}" in every folder.</p>`:""}
+  <div class="card"><ul class="list">${M.map(m=>`<li data-mail="${esc(m.id)}"><button class="star" data-mstar="${esc(m.id)}" aria-label="${m.star?"Remove star":"Star"}" aria-pressed="${!!m.star}">${m.star?"&#9733;":"&#9734;"}</button><div class="grow" style="min-width:0"><div style="${m.dir==="in"&&!m.read?"font-weight:800":""}">${m.dir==="draft"?'<span class="tag k">Draft</span> To '+esc(m.to||"(no one yet)"):m.dir==="out"?"To "+esc((m.to||[]).join(", ")):esc(m.fromName||m.from)}</div>
   <div style="${m.dir==="in"&&!m.read?"font-weight:700":""};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(m.subject)}</div>
-  <div class="muted" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.dir==="out"?"Sent from "+esc(m.from)+" · ":"To "+esc(boxOf(m))+"@ · "}${esc(m.snippet||"")}</div></div><span class="muted" style="white-space:nowrap">${whenM(m.at)}${m.answered?"<br>Answered":""}</span></li>`).join("")||'<li style="cursor:default"><span class="muted">Nothing in '+(FOLDERS.find(f=>f[0]===F)||["","this folder"])[1]+'.</span></li>'}</ul>${F==="trash"&&M.length?'<p class="muted">Trash keeps everything until you restore it. Nothing here is deleted.</p>':""}</div>`; }
+  <div class="muted" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.dir==="draft"?"From "+esc(m.from||"hello")+"@ · ":m.dir==="out"?"Sent from "+esc(m.from)+" · ":"To "+esc(boxOf(m))+"@ · "}${esc(m.snippet||"")}</div></div><span class="muted" style="white-space:nowrap">${whenM(m.at)}${m.answered?"<br>Answered":""}</span></li>`).join("")||'<li style="cursor:default"><span class="muted">Nothing in '+(FOLDERS.find(f=>f[0]===F)||["","this folder"])[1]+'.</span></li>'}</ul>${F==="trash"&&M.length?'<p class="muted">Trash keeps everything until you restore it. Nothing here is deleted.</p>':""}</div>`; }
 function mailRead(){ const m=(S.mail||[]).find(x=>x.id===S.mopen); if(!m) return mailList(); const b=S.mbody||{};
   return `<button class="btn s" id="mBack">← Mail</button><div class="card" style="margin-top:10px"><h3 style="margin:0 0 6px">${esc(m.subject)}</h3>
   <p class="muted" style="margin:0 0 4px">${m.dir==="out"?`From ${esc(m.from)}${m.by?" ("+esc(m.by)+")":""}`:`From ${esc(m.fromName?m.fromName+" <"+m.from+">":m.from)}`}</p>
   <p class="muted" style="margin:0 0 4px">To ${esc((m.to||[]).join(", "))}${(m.cc||[]).length?" · Cc "+esc(m.cc.join(", ")):""}</p><p class="muted" style="margin:0 0 10px">${esc(new Date(m.at).toLocaleString("en-US"))}</p>
-  <div class="row">${m.dir==="in"?`<button class="btn p" id="mReply">Reply</button>`:""}${folderOf(m)==="inbox"||folderOf(m)==="sent"?`<button class="btn" data-mmove="archive">Archive</button>${m.dir==="in"?`<button class="btn" data-mmove="junk">Junk</button>`:""}<button class="btn" data-mmove="trash">Trash</button>`:`<button class="btn" data-mmove="inbox">Move back to ${m.dir==="out"?"Sent":"Inbox"}</button>`}</div>
+  <div class="row">${m.dir==="in"?`<button class="btn p" id="mReply">Reply</button>`:""}<button class="btn" data-mstar="${esc(m.id)}" aria-pressed="${!!m.star}">${m.star?"Starred":"Star"}</button>${folderOf(m)==="inbox"||folderOf(m)==="sent"?`<button class="btn" data-mmove="archive">Archive</button>${m.dir==="in"?`<button class="btn" data-mmove="junk">Junk</button>`:""}<button class="btn" data-mmove="trash">Trash</button>`:`<button class="btn" data-mmove="inbox">Move back to ${m.dir==="out"?"Sent":"Inbox"}</button>`}</div>
   ${(m.attachments||[]).length?`<p class="muted">Attachments: ${m.attachments.map(a=>esc(a.name)).join(", ")} (open them in Resend for now)</p>`:""}
-  ${S.mbodyLoading?'<p class="muted">Opening...</p>':b.html?`<iframe id="mFrame" title="Email" sandbox="" style="width:100%;min-height:420px;border:1px solid var(--line);border-radius:12px;background:#fff"></iframe>`:`<pre style="white-space:pre-wrap;font:inherit;margin:0">${esc(b.text||"")}</pre>`}</div>`; }
+  ${S.mbodyLoading?'<p class="muted">Opening...</p>':b.html?`<iframe id="mFrame" title="Email" sandbox="" style="margin-top:14px;width:100%;min-height:420px;border:1px solid var(--line);border-radius:12px;background:#fff"></iframe>`:`<pre style="white-space:pre-wrap;font:inherit;margin:14px 0 0">${esc(b.text||"")}</pre>`}</div>${threadOf(m)}`; }
+function threadOf(m){ const k=subjKey(m.subject), o=String(otherOf(m)).toLowerCase(); const T=(S.mail||[]).filter(x=>x.id!==m.id&&x.dir!=="draft"&&subjKey(x.subject)===k&&(String(otherOf(x)).toLowerCase()===o||x.replyOf===m.id||m.replyOf===x.id)).sort((a,b)=>(a.at||0)-(b.at||0));
+  return T.length?`<div class="card"><h3 style="margin:0 0 6px">The whole conversation (${T.length+1})</h3><ul class="list">${T.concat([m]).sort((a,b)=>(a.at||0)-(b.at||0)).map(x=>`<li ${x.id===m.id?'style="cursor:default"':`data-mail="${esc(x.id)}"`}><div class="grow"><b>${x.dir==="out"?"Us ("+esc(x.from)+")":esc(x.fromName||x.from)}</b><div class="muted">${esc(x.snippet||"")}</div></div><span class="muted">${whenM(x.at)}${x.id===m.id?"<br>open now":""}</span></li>`).join("")}</ul></div>`:""; }
 function mailCompose(){ const c=S.compose, owner=S.me&&S.me.role==="owner";
   const mine=String((S.me&&S.me.email)||"").toLowerCase(), member=S.me&&S.me.role==="member";
   const froms=BOXES.filter(([k])=>!["social","codes"].includes(k)&&(k!=="larac"||owner)&&(!member||mine===k+"@packedrabbit.com"));
@@ -369,14 +379,32 @@ function mailCompose(){ const c=S.compose, owner=S.me&&S.me.role==="owner";
   <label for="mc_cc">Cc (optional)</label><input id="mc_cc" type="email" multiple autocomplete="off" value="${esc(c.cc||"")}">
   <label for="mc_subj">Subject</label><input id="mc_subj" value="${esc(c.subject||"")}">
   <label for="mc_text">Message</label><textarea id="mc_text" style="min-height:220px">${esc(c.text||"")}</textarea>
-  <p class="muted">The signature for that address and the confidentiality line are added for you. Replies come back here.</p>
-  <div class="row"><button class="btn p" id="mSend" ${S.mSending?"disabled":""}>${S.mSending?"Sending...":"Send"}</button><button class="btn" id="mCancel2">Cancel</button></div></div>`; }
+  ${(S.mailtpl||[]).length?`<label for="mc_tpl">Insert a saved reply</label><select id="mc_tpl"><option value="">Choose one</option>${S.mailtpl.map(t=>`<option value="${esc(t.id)}">${esc(t.name)}</option>`).join("")}</select>`:""}
+  <p class="muted">The signature for that address and the confidentiality line are added for you. Replies come back here. ${S.draftSaved?"Draft saved.":"Your draft saves itself as you type."}</p>
+  <div class="row"><button class="btn p" id="mSend" ${S.mSending?"disabled":""}>${S.mSending?"Sending...":"Send"}</button><button class="btn" id="mCancel2">Close</button><button class="btn s" id="mSaveTpl">Save as a saved reply</button></div></div>`; }
+function rulesView(){ const L=(S.mailrules||[]).filter(r=>r.on!==0);
+  return `<p class="muted" style="margin:6px 0">New mail that matches a rule goes straight to that folder. Rules never delete anything.</p>
+  <ul class="list">${L.map(r=>`<li style="cursor:default"><div class="grow">If ${r.field==="subject"?"the subject":"the sender"} contains <b>${esc(r.contains)}</b>, ${r.star?"star it and ":""}put it in <b>${esc((FOLDERS.find(f=>f[0]===r.folder)||["",r.folder])[1])}</b></div><button class="btn s" data-rdel="${esc(r.id)}">Turn off</button></li>`).join("")||'<li style="cursor:default"><span class="muted">No rules yet.</span></li>'}</ul>
+  <div class="two"><div><label for="r_field">If</label><select id="r_field"><option value="from">the sender</option><option value="subject">the subject</option></select></div><div><label for="r_has">contains</label><input id="r_has" placeholder="for example noreply@ or invoice"></div></div>
+  <div class="two"><div><label for="r_folder">put it in</label><select id="r_folder">${[["archive","Archive"],["junk","Junk"],["inbox","Inbox"]].map(([k,n])=>`<option value="${k}">${n}</option>`).join("")}</select></div><div><label><input type="checkbox" id="r_star"> and star it</label></div></div>
+  <div class="row" style="margin-top:8px"><button class="btn s p" id="rAdd">Add the rule</button></div>`; }
+async function saveDraft(){ const c=S.compose; if(!c) return; if(!(c.text||"").trim()&&!(c.subject||"").trim()&&!(c.to||"").trim()) return; if(!c.draftId) c.draftId="d"+id();
+  const d={dir:"draft",from:c.from||"hello",to:c.to||"",cc:c.cc||"",subject:c.subject||"",text:c.text||"",replyOf:c.replyOf||"",at:Date.now(),read:true,by:(S.me&&S.me.name)||"Lara",snippet:String(c.text||"").replace(/\s+/g," ").slice(0,160)};
+  try{ await api("set",{path:"mail/"+c.draftId,data:d}); S.draftSaved=true; const ex=(S.mail||[]).find(x=>x.id===c.draftId); if(ex) Object.assign(ex,d); else (S.mail=S.mail||[]).push({id:c.draftId,...d}); const n=document.querySelector("#mc_text")&&[...document.querySelectorAll(".card .muted")].find(x=>/draft/i.test(x.textContent)); if(n) n.textContent=n.textContent.replace(/Your draft saves itself as you type\.|Draft saved\./,"Draft saved."); }catch(e){} }
 function emailView(){ return S.compose?mailCompose():S.mopen?mailRead():mailList(); }
 async function openMail(mid){ S.mopen=mid; S.mbody=null; S.mbodyLoading=true; render(); window.scrollTo(0,0);
   try{ const L=await list("mail/"+mid+"/parts"); S.mbody=L.find(x=>x.id==="body")||{}; }catch(e){ S.mbody={text:"Couldn't open this email."}; }
   S.mbodyLoading=false; const m=(S.mail||[]).find(x=>x.id===mid); if(m&&m.dir==="in"&&!m.read){ m.read=true; api("merge",{path:"mail/"+mid,data:{read:true}}).catch(()=>{}); } if(S.mopen===mid) render(); }
 function wireMail(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
   on("#mSync","onclick",()=>mailSync());
+  on("#mq","oninput",e=>{S.mq=e.target.value;const p=e.target.selectionStart;render();const q=$("#mq");if(q){q.focus();q.setSelectionRange(p,p);}});
+  document.querySelectorAll("[data-mstar]").forEach(el=>el.onclick=async ev=>{ ev.stopPropagation(); const m=(S.mail||[]).find(x=>x.id===el.dataset.mstar); if(!m) return; m.star=!m.star; render(); try{ await api("merge",{path:"mail/"+m.id,data:{star:m.star}}); }catch(e){ m.star=!m.star; render(); } });
+  on("#mc_tpl","onchange",e=>{ const t=(S.mailtpl||[]).find(x=>x.id===e.target.value); if(!t) return; const c=S.compose; c.text=t.text+(c.text?"\n\n"+c.text:""); render(); });
+  on("#mSaveTpl","onclick",async()=>{ keep(); const c=S.compose; if(!(c.text||"").trim()){toast("Write the reply first");return;} const name=prompt("Name this saved reply","Thanks for writing"); if(!name) return;
+    if(await put("mailtpl/"+id(),{name:name.slice(0,80),text:c.text.replace(/\n\n\nOn [^\n]* wrote:\n[\s\S]*$/,"").trim(),by:(S.me&&S.me.name)||"Lara",created:Date.now()})) toast("Saved. It's in \"Insert a saved reply\" from now on."); });
+  on("#rAdd","onclick",async()=>{ const has=$("#r_has").value.trim(); if(!has){toast("Type what to look for");return;}
+    if(await put("mailrules/"+id(),{field:$("#r_field").value,contains:has.slice(0,120),folder:$("#r_folder").value,star:$("#r_star").checked,on:1,by:(S.me&&S.me.name)||"Lara",created:Date.now()})) toast("Rule added. It applies to new mail."); });
+  document.querySelectorAll("[data-rdel]").forEach(el=>el.onclick=async()=>{ const r=(S.mailrules||[]).find(x=>x.id===el.dataset.rdel); if(!r) return; try{ await api("merge",{path:"mailrules/"+r.id,data:{on:0}}); await loadColl("mailrules"); render(); toastUndo("Rule turned off",async()=>{ await api("merge",{path:"mailrules/"+r.id,data:{on:1}}); await loadColl("mailrules"); render(); }); }catch(e){} });
   on("#cfSave","onclick",async()=>{ const token=$("#cfTok").value.trim(), account=$("#cfAcc").value.trim(); if(!token){toast("Paste the Cloudflare key first");return;}
     try{ await api("mail/cloudflare",{token,account}); S.mailVia="cloudflare"; toast("Connected. Mail now goes out through Cloudflare."); render(); }
     catch(e){ if(!(e instanceof SignedOut)) toast(e.code==="need_account_id"?"Cloudflare needs your Account ID too. It's on your Cloudflare home page.":e.code==="bad_token"?"That key doesn't look right. Copy it again.":"Couldn't connect. Nothing changed."); } });
@@ -388,17 +416,18 @@ function wireMail(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
     toastUndo(names[to]||"Moved",async()=>{ m.folder=was; render(); try{ await api("merge",{path:"mail/"+m.id,data:{folder:was}}); }catch(e){} }); });
   on("#mBox","onchange",e=>{S.mbox=e.target.value;render();});
   on("#mNew","onclick",()=>{S.compose={from:S.mbox&&!["social","codes"].includes(S.mbox)?S.mbox:"hello"};render();});
-  document.querySelectorAll("[data-mail]").forEach(el=>el.onclick=()=>openMail(el.dataset.mail));
+  document.querySelectorAll("[data-mail]").forEach(el=>el.onclick=()=>{ const m=(S.mail||[]).find(x=>x.id===el.dataset.mail); if(m&&m.dir==="draft"){ S.compose={draftId:m.id,from:m.from||"hello",to:m.to||"",cc:m.cc||"",subject:m.subject||"",text:m.text||"",replyOf:m.replyOf||""}; render(); return; } openMail(el.dataset.mail); });
   on("#mBack","onclick",()=>{S.mopen=null;render();});
   const f=$("#mFrame"); if(f&&S.mbody&&S.mbody.html) f.srcdoc=S.mbody.html;
   on("#mReply","onclick",()=>{ const m=(S.mail||[]).find(x=>x.id===S.mopen); const box=boxOf(m); const quote=(S.mbody&&S.mbody.text?"\n\n\nOn "+new Date(m.at).toLocaleString("en-US")+", "+(m.fromName||m.from)+" wrote:\n"+S.mbody.text.split("\n").map(l=>"> "+l).join("\n"):"");
     S.compose={replyOf:m.id,from:BOXES.some(([k])=>k===box)&&!["social","codes"].includes(box)?box:"hello",to:m.from,subject:/^re:/i.test(m.subject)?m.subject:"Re: "+m.subject,text:quote}; render(); const t=$("#mc_text"); if(t){t.focus();t.setSelectionRange(0,0);} });
-  const keep=()=>{ const c=S.compose; if(!c) return; c.from=$("#mc_from").value; c.to=$("#mc_to").value; c.cc=$("#mc_cc").value; c.subject=$("#mc_subj").value; c.text=$("#mc_text").value; };
+  const keep=()=>{ const c=S.compose; if(!c||!$("#mc_from")) return; c.from=$("#mc_from").value; c.to=$("#mc_to").value; c.cc=$("#mc_cc").value; c.subject=$("#mc_subj").value; c.text=$("#mc_text").value;
+    clearTimeout(S.draftT); S.draftSaved=false; S.draftT=setTimeout(saveDraft,2000); };
   ["#mc_from","#mc_to","#mc_cc","#mc_subj","#mc_text"].forEach(sel=>on(sel,"oninput",keep));
-  const cancel=()=>{ if(S.compose&&(S.compose.text||"").trim()&&!S.compose.replyOf&&!confirm("Throw away this email?")) return; S.compose=null; render(); };
+  const cancel=async()=>{ clearTimeout(S.draftT); if(S.compose&&((S.compose.text||"").trim()||(S.compose.subject||"").trim())){ await saveDraft(); toast("Kept in Drafts"); } S.compose=null; await loadColl("mail").catch(()=>{}); render(); };
   on("#mCancel","onclick",cancel); on("#mCancel2","onclick",cancel);
   on("#mSend","onclick",async()=>{ keep(); const c=S.compose; S.mSending=true; render();
-    try{ await api("mail/send",{from:c.from,to:c.to,cc:c.cc,subject:c.subject,text:c.text.replace(/\n\n\nOn [^\n]* wrote:\n[\s\S]*$/,m=>m),replyOf:c.replyOf||""}); S.compose=null; S.mopen=null; toast("Sent from "+c.from+"@packedrabbit.com"); await loadColl("mail"); }
+    try{ await api("mail/send",{from:c.from,to:c.to,cc:c.cc,subject:c.subject,text:c.text.replace(/\n\n\nOn [^\n]* wrote:\n[\s\S]*$/,m=>m),replyOf:c.replyOf||""}); clearTimeout(S.draftT); if(c.draftId) await api("merge",{path:"mail/"+c.draftId,data:{gone:1}}).catch(()=>{}); S.compose=null; S.mopen=null; toast("Sent from "+c.from+"@packedrabbit.com"); await loadColl("mail"); }
     catch(e){ if(!(e instanceof SignedOut)) toast(({bad_address:"Check the email address.",subject_and_message_needed:"Add a subject and a message.",too_many_recipients:"Ten people at most.",daily_limit:"That's 100 emails today. Try again tomorrow.",owner_only:"Only Lara sends from larac@.",read_only:"Your role can read but not send.",own_address_only:"You can send only from your own address.",mail_not_connected:"Mail isn't connected yet."})[e.code]||"Couldn't send. Nothing went out. Try again."); }
     S.mSending=false; render(); }); }
 
