@@ -73,7 +73,7 @@ a{color:var(--g);text-underline-offset:3px}
 <main id="main"><p class="muted">Opening the back office...</p></main>
 <div id="toast" role="status" aria-live="polite"></div>
 <script>
-const TABS=[["tasks","Tasks"],["prospects","Prospects"],["clients","Clients"],["products","Products"],["campaigns","Campaigns"],["kb","Knowledge base"],["social","Social"],["email","Email"],["activity","Activity"],["log","Maintenance log"]];
+const TABS=[["tasks","Tasks"],["prospects","Prospects"],["clients","Clients"],["products","Products"],["campaigns","Campaigns"],["kb","Knowledge base"],["social","Social"],["email","Email"],["activity","Activity"],["log","Maintenance log"],["team","Team"]];
 const CLIENT=c=>c.status==="beta"||c.status==="customer"||c.cls==="TEST"||c.cls==="BUY";
 const KB=[["Every moving question, one box","/tools/"],["What I wish I'd known (all answers)","/answers/"],["Moving to a new state or abroad","/moving-to/"],["Is my moving quote a scam? Quote checker","/quote-check/"],["Check a mover before you pay","/mover-check/"],["Will my couch fit through the door?","/fit/"],["What size truck do I need?","/truck/"],["How many boxes do I need?","/boxes/"],["Moving checklist by date","/checklist/"],["How long will moving day take?","/move-day/"],["Security deposit deadline by state","/deposit/"],["Move-out checklist","/move-out/"],["Damage or loss claim letter","/claim/"],["Moving company or broker?","/movers-vs-brokers/"],["New state license and registration","/new-state/"],["Moving with a dog or cat","/moving-pets/"],["First-night box","/first-night/"],["Crew: where everything went","/crew/"],["Join the beta","/beta/"],["For business","/business/"],["The app","/app/"]];
 const SITE="https://packedrabbit.com";
@@ -83,7 +83,7 @@ const STATUS=["new","hold - reverify","contacted","replied","beta","customer","d
 const NOSEND=s=>s==="declined"||s==="do not contact"||s==="hold - reverify";
 const EVTYPES=[["outreach","Email we sent"],["inbound","Email they sent"],["reply","Reply"],["beta","Joined the beta"],["purchase","Purchase"],["open","Opened our email"],["call","Call or meeting"],["note","Note"]];
 const PLATFORMS=[["instagram","Instagram","https://www.instagram.com/thepackedrabbit/"],["tiktok","TikTok","https://www.tiktok.com/@thepackedrabbit"],["youtube","YouTube","https://www.youtube.com/@thepackedrabbit"],["reddit","Reddit","https://www.reddit.com/user/PackedRabbitApp/"],["facebook","Facebook",""],["pinterest","Pinterest",""]];
-const S={sortK:"last",sortD:-1,view:"sheet",fsrc:"",tab:"tasks",tasks:[],log:[],activity:[],actFilter:"",newTask:null,showDone:false,products:[],contacts:[],campaigns:[],social:{},posts:[],sel:null,events:[],q:"",fc:"",fs:"",fst:"",editCamp:null,editProd:null,ready:false,in:false};
+const S={me:null,users:[],newCode:null,sortK:"last",sortD:-1,view:"sheet",fsrc:"",tab:"tasks",tasks:[],log:[],activity:[],actFilter:"",newTask:null,showDone:false,products:[],contacts:[],campaigns:[],social:{},posts:[],sel:null,events:[],q:"",fc:"",fs:"",fst:"",editCamp:null,editProd:null,ready:false,in:false};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const toast=m=>{const t=$("#toast");t.textContent=m;t.style.display="block";clearTimeout(t._t);t._t=setTimeout(()=>t.style.display="none",3500)};
@@ -109,7 +109,8 @@ async function loadColl(c){
   else if(c==="social"){ S.social={}; L.forEach(x=>S.social[x.id]=x); }
   else S[c]=L;
 }
-async function loadAll(){ await Promise.all(["contacts","campaigns","social","posts","products","tasks","log"].map(loadColl)); S.ready=true; }
+async function loadTeam(){ try{ const [m,u]=await Promise.all([api("me"),api("users")]); S.me=m.user||null; S.users=u.users||[]; }catch(e){ if(e instanceof SignedOut) throw e; } }
+async function loadAll(){ await Promise.all([...["contacts","campaigns","social","posts","products","tasks","log"].map(loadColl),loadTeam()]); S.ready=true; }
 async function loadEvents(cid){ const L=await list("contacts/"+cid+"/events"); if(S.sel!==cid) return; S.events=L.sort((a,b)=>(b.at||0)-(a.at||0)).slice(0,200); render(); }
 
 /* ---------- sign-in ---------- */
@@ -139,7 +140,7 @@ async function start(code){
 function tabs(){ const mine=S.tasks.filter(t=>t.owner==="lara"&&t.status!=="done").length; $("#tabs").innerHTML=TABS.map(([k,n])=>`<button role="tab" aria-selected="${S.tab===k}" data-tab="${k}">${n}${k==="tasks"&&mine?`<span class="dot" aria-label="${mine} for you">${mine}</span>`:""}</button>`).join(""); document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;S.sel=null;S.editCamp=null;S.editProd=null;render(); if(S.tab==="activity") loadColl("activity").then(render).catch(()=>{});}); }
 
 function render(){ if(!S.in) return; tabs(); const m=$("#main");
-  m.innerHTML=({prospects:S.sel?contactView:contactsView,clients:S.sel?contactView:contactsView,products:productsView,kb:kbView,campaigns:campaignsView,social:socialView,email:emailView,tasks:tasksView,log:logView,activity:activityView})[S.tab]();
+  m.innerHTML=({prospects:S.sel?contactView:contactsView,clients:S.sel?contactView:contactsView,products:productsView,kb:kbView,campaigns:campaignsView,social:socialView,email:emailView,tasks:tasksView,log:logView,activity:activityView,team:teamView})[S.tab]();
   wire(); }
 
 
@@ -172,6 +173,18 @@ function activityView(){ const L=S.activity.filter(a=>!S.actFilter||a.kind===S.a
   return `<div class="card"><p style="margin:0 0 8px">Every status change, edit, email and note on a contact, newest first. It records itself.</p><select id="actF" aria-label="Show"><option value="">Everything</option>${Object.entries(AKIND).map(([k,v])=>`<option value="${k}" ${S.actFilter===k?"selected":""}>${v}</option>`).join("")}</select></div>
   <div class="card"><h3 style="margin:0 0 6px">Added to the hub, by day</h3><ul class="list">${Object.entries(byDay).slice(0,14).map(([d,n])=>`<li style="cursor:default;min-height:44px"><div class="grow">${esc(d)}</div><b>${n}</b></li>`).join("")}</ul></div>
   <div class="card"><ul class="list">${L.slice(0,300).map(a=>{ const d=dayOf(a.at); const h=d!==day?(day=d,`<li style="cursor:default;min-height:36px;border-top:0"><b class="muted">${esc(d)}</b></li>`):""; return h+actRow(a,true); }).join("")||'<li class="muted" style="cursor:default">Nothing recorded yet. Changes from now on show up here.</li>'}</ul></div>`; }
+
+/* ---------- team: who can open the hub ---------- */
+const RDESC={owner:"Everything, and manages the team",admin:"Everything except managing the team",member:"Reads and edits prospects, tasks and campaigns",viewer:"Reads only, changes nothing"};
+const ago=t=>t?fmt(t):"Never";
+function teamView(){ const me=S.me||{}, own=me.role==="owner";
+  const card=u=>`<li style="cursor:default;align-items:flex-start"><div class="grow"><b>${esc(u.name)}</b>${u.id===me.id?' <span class="muted">(you)</span>':""}<div class="muted">${u.kind==="ai"?"AI team member. Works through the hub's database connection, so it has no sign-in code. Every change it makes is signed "+esc(u.name)+".":esc([u.email,u.canSignIn?"Last signed in: "+ago(u.lastSeen):""].filter(Boolean).join(" · "))}</div>
+    ${own&&u.role!=="owner"?`<div class="row" style="margin-top:8px"><select data-urole="${esc(u.id)}" aria-label="Role for ${esc(u.name)}" style="width:auto">${["admin","member","viewer"].map(r=>`<option value="${r}" ${u.role===r?"selected":""}>${r}</option>`).join("")}</select>${u.kind!=="ai"?`<button class="btn s" data-unew="${esc(u.id)}">New code</button>`:""}<button class="btn s" data-urm="${esc(u.id)}">Remove</button></div>`:""}</div><span class="tag ${u.role==="owner"?"k":""}">${esc(u.role)}</span>${u.kind==="ai"?'<span class="tag">AI</span>':""}</li>`;
+  return `<div class="card"><p style="margin:0">Signed in as <b>${esc(me.name||"")}</b> (${esc(me.role||"")}). Everyone on the team signs in with their own code, and every change in the Activity tab shows who made it.</p></div>
+  ${S.newCode?`<div class="note" style="margin-bottom:12px"><b>${esc(S.newCode.name)}'s sign-in code</b><div style="font:700 18px ui-monospace,Menlo,monospace;margin:8px 0;word-break:break-all">${esc(S.newCode.code)}</div>Send it to them privately, by text or in person. It is shown only this once. They open packedrabbit.com/superadminhub and enter it.<div class="row" style="margin-top:8px"><button class="btn s" data-copy="${esc(S.newCode.code)}">Copy code</button><button class="btn s" id="codeDone">Done, hide it</button></div></div>`:""}
+  <div class="card"><ul class="list">${S.users.map(card).join("")}</ul></div>
+  ${own?`<div class="card"><h3 style="margin:0 0 4px">Add someone</h3><label for="nu_name">Name</label><input id="nu_name" autocomplete="off"><label for="nu_email">Email (optional, for your records)</label><input id="nu_email" type="email" autocomplete="off"><label for="nu_role">Role</label><select id="nu_role">${["member","admin","viewer"].map(r=>`<option value="${r}">${r}: ${RDESC[r]}</option>`).join("")}</select><button class="btn p" id="nuAdd" style="margin-top:10px">Add and make a code</button></div>`:""}
+  <div class="card"><h3 style="margin:0 0 6px">Roles</h3><ul class="list">${Object.entries(RDESC).map(([k,v])=>`<li style="cursor:default;min-height:44px"><div class="grow"><b>${k}</b> <span class="muted">${v}</span></div></li>`).join("")}</ul></div>`; }
 
 /* ---------- maintenance log: every change Claude makes ---------- */
 const AREAS={website:"Website",app:"App",hub:"Hub",social:"Social media",marketing:"Marketing",email:"Email",data:"Data"};
@@ -281,6 +294,11 @@ function wire(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
   on("#csvf","onchange",async e=>{const f=e.target.files[0]; if(f) $("#csv").value=await f.text();});
   on("#doImp","onclick",()=>importCsv($("#csv").value));
   on("#exp","onclick",exportCsv);
+  on("#nuAdd","onclick",async()=>{ const name=$("#nu_name").value.trim(); if(!name){toast("Add their name");return;} try{ const r=await api("users/add",{name,email:$("#nu_email").value.trim(),role:$("#nu_role").value}); S.newCode={name,code:r.code}; await loadTeam(); render(); }catch(e){ if(!(e instanceof SignedOut)) toast("Couldn't add them. Try again."); } });
+  on("#codeDone","onclick",()=>{S.newCode=null;render();});
+  document.querySelectorAll("[data-urole]").forEach(el=>el.onchange=async()=>{ try{ await api("users/role",{id:el.dataset.urole,role:el.value}); await loadTeam(); toast("Role changed"); render(); }catch(e){ if(!(e instanceof SignedOut)) toast("Couldn't change the role."); } });
+  document.querySelectorAll("[data-unew]").forEach(b=>b.onclick=async()=>{ const u=S.users.find(x=>x.id===b.dataset.unew); if(!confirm("Make a new code for "+(u?u.name:"them")+"? Their old code stops working and they're signed out.")) return; try{ const r=await api("users/newcode",{id:u.id}); S.newCode={name:u.name,code:r.code}; await loadTeam(); render(); }catch(e){ if(!(e instanceof SignedOut)) toast("Couldn't make a new code."); } });
+  document.querySelectorAll("[data-urm]").forEach(b=>b.onclick=async()=>{ const u=S.users.find(x=>x.id===b.dataset.urm); if(!confirm("Remove "+(u?u.name:"them")+" from the hub? They're signed out right away.")) return; try{ await api("users/remove",{id:u.id}); await loadTeam(); toast("Removed"); render(); }catch(e){ if(!(e instanceof SignedOut)) toast("Couldn't remove them."); } });
   on("#out","onclick",async e=>{e.preventDefault(); try{await api("logout",{});}catch(x){} S.in=false; gate("Signed out of this browser.");});
   on("#back","onclick",()=>{S.sel=null;render();});
   on("#saveC","onclick",saveContact);
@@ -289,7 +307,7 @@ function wire(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
   document.querySelectorAll("[data-prod]").forEach(li=>li.onclick=()=>{S.editProd={...S.products.find(p=>p.id===li.dataset.prod)};render();});
   on("#pBack","onclick",()=>{S.editProd=null;render();});
   on("#pSave","onclick",async()=>{const e=S.editProd; ["name","price","kind","where","status","link","desc"].forEach(k=>e[k]=$("#p_"+k).value.trim()); if(!e.name){toast("Give it a name");return;} const {id:pid,...b}=e; if(await put("products/"+pid,{...b,updated:Date.now()})){toast("Saved");S.editProd=null;render();}});
-  document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{ try{ await navigator.clipboard.writeText(b.dataset.copy); toast("Link copied"); }catch(e){ toast(b.dataset.copy); } });
+  document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{ try{ await navigator.clipboard.writeText(b.dataset.copy); toast("Copied"); }catch(e){ toast(b.dataset.copy); } });
   on("#cNew","onclick",()=>{S.editCamp={id:id(),name:"",cls:"",state:"",status:"",subject:"",body:"Hello {name},\n\n",stage:"draft",created:Date.now()};render();});
   document.querySelectorAll("[data-camp]").forEach(li=>li.onclick=()=>{S.editCamp={...S.campaigns.find(c=>c.id===li.dataset.camp)};render();});
   on("#cBack","onclick",()=>{S.editCamp=null;render();});
