@@ -92,7 +92,10 @@ async function cfSend(cf, msg) {
 }
 const safeId = id => String(id || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 70);
 async function mailSync(db) {
-  const L = await resend(db, "/emails/receiving?limit=100");
+  // Owner, 20 Nov 2026: incoming mail now arrives through Cloudflare Email Routing straight into the hub.
+  // The old Resend mailbox is read only if its key is still saved, to catch anything sent there before the switch.
+  const hasResend = await db.prepare("SELECT 1 FROM secrets WHERE k = 'resend'").first();
+  let L = null; if (hasResend) { try { L = await resend(db, "/emails/receiving?limit=100"); } catch (e) { L = null; } }
   const items = (L && L.data) || [];
   let added = 0;
   const rules = (await db.prepare("SELECT data FROM docs WHERE coll = 'mailrules'").all()).results.map(x => JSON.parse(x.data)).filter(r => r.on !== 0 && r.contains);
