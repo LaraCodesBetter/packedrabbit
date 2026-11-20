@@ -95,6 +95,7 @@ async function mailSync(db) {
   const L = await resend(db, "/emails/receiving?limit=100");
   const items = (L && L.data) || [];
   let added = 0;
+  const rules = (await db.prepare("SELECT data FROM docs WHERE coll = 'mailrules'").all()).results.map(x => JSON.parse(x.data)).filter(r => r.on !== 0 && r.contains);
   for (const m of items) {
     const id = "r" + safeId(m.id);
     if (await db.prepare("SELECT 1 FROM docs WHERE path = ?").bind("mail/" + id).first()) continue;
@@ -104,12 +105,27 @@ async function mailSync(db) {
     const head = { dir: "in", from: bare(d.from || m.from), fromName: nameOf((d.headers && d.headers.from) || d.from || ""), to: addrs(d.to || m.to).map(bare), cc: addrs(d.cc).map(bare),
       subject: String(d.subject || m.subject || "(no subject)").slice(0, 300), at, read: false, messageId: d.message_id || m.message_id || "",
       snippet: String(d.text || "").replace(/\s+/g, " ").trim().slice(0, 160), attachments: (d.attachments || []).map(a => ({ name: a.filename || "attachment", size: a.size || 0 })).slice(0, 20) };
+    for (const r of rules) {
+      const hay = (r.field === "subject" ? head.subject : head.from + " " + head.fromName).toLowerCase();
+      if (hay.includes(String(r.contains).toLowerCase())) { if (r.folder && r.folder !== "inbox") head.folder = r.folder; if (r.star) head.star = true; head.rule = r.contains; break; }
+    }
+    head.rchk = 1;
     const body = { text: String(d.text || "").slice(0, 60000), html: String(d.html || "").length <= 90000 ? String(d.html || "") : "" };
     await db.batch([
       db.prepare("INSERT OR IGNORE INTO docs (path, coll, data, updated) VALUES (?, 'mail', ?, ?)").bind("mail/" + id, JSON.stringify(head), at),
       db.prepare("INSERT OR IGNORE INTO docs (path, coll, data, updated) VALUES (?, ?, ?, ?)").bind("mail/" + id + "/parts/body", "mail/" + id + "/parts", JSON.stringify(body), at),
     ]);
     added++;
+  }
+  // mail copied in by the hourly helper gets the same rules, once
+  const unchecked = (await db.prepare("SELECT path, data FROM docs WHERE coll = 'mail' AND json_extract(data, '$.dir') = 'in' AND json_extract(data, '$.rchk') IS NULL LIMIT 200").all()).results;
+  for (const u of unchecked) {
+    const h = JSON.parse(u.data); h.rchk = 1;
+    for (const r of rules) {
+      const hay = (r.field === "subject" ? String(h.subject || "") : String(h.from || "") + " " + String(h.fromName || "")).toLowerCase();
+      if (!h.folder && hay.includes(String(r.contains).toLowerCase())) { if (r.folder && r.folder !== "inbox") h.folder = r.folder; if (r.star) h.star = true; h.rule = r.contains; break; }
+    }
+    await db.prepare("UPDATE docs SET data = ? WHERE path = ?").bind(JSON.stringify(h), u.path).run();
   }
   return added;
 }
