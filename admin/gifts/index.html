@@ -37,6 +37,8 @@ button,.btn{display:inline-flex;align-items:center;justify-content:center;min-he
   <div class="two"><div><label for="gp">Phone</label><input id="gp" maxlength="40" inputmode="tel"></div><div><label for="ge">Email</label><input id="ge" maxlength="120" type="email"></div></div>
   <label for="gw">Website</label><input id="gw" maxlength="120">
   <label for="gm">A short note to their clients (optional)</label><textarea id="gm" maxlength="280" rows="3"></textarea>
+  <label for="gt">How long each gift lasts (the buyer chooses; priced by length)</label>
+  <select id="gt"><option value="3">3 months</option><option value="6">6 months</option><option value="9">9 months</option><option value="12" selected>12 months</option></select>
   <button type="submit">Make the codes</button>
 </form>
 <div id="out" aria-live="polite"></div>
@@ -50,7 +52,7 @@ button,.btn{display:inline-flex;align-items:center;justify-content:center;min-he
   function codeSum(body){ var n=0; for(var i=0;i<body.length;i++) n=(n*131+body.charCodeAt(i)*7919)%CODE_SPACE; var A="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ", out="", v=n; for(var j=0;j<4;j++){ out=A[v%36]+out; v=Math.floor(v/36); } return out; }
   function giftCheck(json){ return codeSum("GIFT|"+json)+codeSum(json+"|GIFT"); }
   function b64e(str){ return btoa(unescape(encodeURIComponent(str))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); }
-  var FIELDS=["c","k","n","o","l","p","e","w","m"];
+  var FIELDS=["c","k","n","o","l","p","e","w","m","t"];
   function link(card){ var clean={}; FIELDS.forEach(function(f){ if(card[f]) clean[f]=String(card[f]).slice(0,f==="m"?280:120); }); var json=JSON.stringify(clean); return "https://packedrabbit.com/gift/#gift="+b64e(json)+"."+giftCheck(json); }
   var $=function(id){ return document.getElementById(id); }, out=$("out");
   $("f").addEventListener("submit", function(e){ e.preventDefault();
@@ -59,7 +61,7 @@ button,.btn{display:inline-flex;align-items:center;justify-content:center;min-he
     fetch(SERVER+"/gift/batch",{method:"POST",headers:{"content-type":"application/json","x-admin-key":$("key").value},body:JSON.stringify({name:$("biz").value,n:+$("n").value})})
     .then(function(r){ return r.json(); }).then(function(d){
       if(!d||!d.ok){ out.innerHTML='<div class="box">'+((d&&d.why)||"That didn't work. Check the admin key.")+'</div>'; return; }
-      var card={k:$("k").value,n:$("gn").value,o:$("go").value,p:$("gp").value,e:$("ge").value,w:$("gw").value,m:$("gm").value};
+      var card={t:$("gt").value,k:$("k").value,n:$("gn").value,o:$("go").value,p:$("gp").value,e:$("ge").value,w:$("gw").value,m:$("gm").value};
       var rows=d.codes.map(function(c){ var x=Object.assign({},card,{c:c}); return [c,link(x)]; });
       var csv="code,gift link\n"+rows.map(function(r){ return r[0]+","+r[1]; }).join("\n");
       var page="https://packedrabbit.com/partners/codes/#k="+d.key;
