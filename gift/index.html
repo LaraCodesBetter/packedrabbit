@@ -177,7 +177,7 @@ h2{font-family:var(--display); font-weight:850; font-size:1.3rem; letter-spacing
         <div><b>Move day, one thing at a time</b><span>What goes on the truck, what stays with you, and what the mover promised next to what happened.</span></div>
       </div>
       <a class="cta" id="cta" href="../app/">Open my moving app</a>
-      <p class="small">A full year of the app, free for you, from the day you open it. No account. Your list stays on your phone, and no movers will call you.</p>
+      <p class="small" id="term">A full year of the app, free for you, from the day you open it. No account. Your list stays on your phone, and no movers will call you.</p>
     </div>
 
     <div class="card" id="agentcard" hidden>
@@ -214,6 +214,9 @@ h2{font-family:var(--display); font-weight:850; font-size:1.3rem; letter-spacing
   var who = card.k === "company" ? (card.o || card.n) : card.n;
   var first = card.k === "company" ? who : String(card.n || "").split(/\s+/)[0];
   if (first) $("from").textContent = first + " sent you something for your move";
+  /* owner, 20 Nov 2026: the buyer chooses 3, 6, 9 or 12 months; a card without one is a year */
+  var mo = [3, 6, 9].indexOf(+card.t) >= 0 ? +card.t : 12;
+  if (mo !== 12) $("term").textContent = mo + " months of the app, free for you, from the day you open it. No account. Your list stays on your phone, and no movers will call you.";
   $("note").textContent = card.m || "Whatever this move means for you, here's something to make it easier. I'm here if you need me.";
   $("noteby").textContent = who ? "— " + who : "";
   $("cta").href = demo ? "../app/" : "../app/#gift=" + m[1] + "." + m[2];
