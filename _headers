@@ -38,3 +38,7 @@
 
 /email/*
   X-Robots-Tag: noindex
+
+/unsubscribe/*
+  X-Robots-Tag: noindex
+  Cache-Control: no-store
