@@ -59,6 +59,93 @@ async function session(req, db) {
   return { ...userOut(u), tokenHash: th };
 }
 
+
+// ---------- Mail (owner, 20 Nov 2026): every @packedrabbit.com address, read and sent here, never Gmail ----------
+// Mail arrives in Resend; this copies it into the hub. Sending goes out through Resend from our own addresses.
+// The Resend key lives in the D1 table "secrets", which no route ever returns.
+const FROMS = {
+  hello: "The Packed Rabbit", customerservice: "The Packed Rabbit Customer Service", sales: "The Packed Rabbit Sales",
+  info: "The Packed Rabbit", partners: "The Packed Rabbit Partners", beta: "The Packed Rabbit Beta",
+  larac: "Lara Cerutti, The Packed Rabbit", claude: "Claude, AI assistant at The Packed Rabbit",
+  assistant: "Claude, AI assistant at The Packed Rabbit", lumi: "Lumi, AI assistant at The Packed Rabbit",
+};
+const SIGS = {
+  larac: "Lara Cerutti\nFounder and CEO, The Packed Rabbit\npackedrabbit.com",
+  claude: "Claude (AI assistant), on behalf of the founder\nThe Packed Rabbit\npackedrabbit.com",
+  assistant: "Claude (AI assistant), on behalf of the founder\nThe Packed Rabbit\npackedrabbit.com",
+  lumi: "Lumi (AI assistant), on behalf of the founder\nThe Packed Rabbit\npackedrabbit.com",
+};
+const SIG_DEFAULT = "The Packed Rabbit\npackedrabbit.com";
+const LEGAL = "This email and anything attached to it are confidential and meant only for the person or business it is addressed to. If it reached you by mistake, please tell the sender by replying, then delete it.";
+const EMAIL_RE = /^[^\s@<>,;]+@[^\s@<>,;]+\.[A-Za-z]{2,}$/;
+const addrs = v => (Array.isArray(v) ? v : String(v || "").split(/[,;\s]+/)).map(x => String(x).trim().toLowerCase()).filter(Boolean);
+const bare = a => { const m = String(a || "").match(/<([^>]+)>/); return (m ? m[1] : String(a || "")).trim().toLowerCase(); };
+const nameOf = a => { const m = String(a || "").match(/^\s*"?([^"<]*?)"?\s*</); return m ? m[1].trim() : ""; };
+async function resend(db, path, init = {}) {
+  const key = await db.prepare("SELECT v FROM secrets WHERE k = 'resend'").first("v");
+  if (!key) { const e = new Error("mail_not_connected"); e.code = 503; throw e; }
+  const r = await fetch("https://api.resend.com" + path, { ...init, headers: { authorization: "Bearer " + key, "content-type": "application/json", ...(init.headers || {}) } });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) { const e = new Error((j && (j.message || j.name)) || ("resend_" + r.status)); e.code = 502; throw e; }
+  return j;
+}
+const safeId = id => String(id || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 70);
+async function mailSync(db) {
+  const L = await resend(db, "/emails/receiving?limit=100");
+  const items = (L && L.data) || [];
+  let added = 0;
+  for (const m of items) {
+    const id = "r" + safeId(m.id);
+    if (await db.prepare("SELECT 1 FROM docs WHERE path = ?").bind("mail/" + id).first()) continue;
+    let d = m;
+    try { d = await resend(db, "/emails/receiving/" + encodeURIComponent(m.id)); } catch (e) { /* keep the summary */ }
+    const at = Date.parse(d.created_at || m.created_at) || Date.now();
+    const head = { dir: "in", from: bare(d.from || m.from), fromName: nameOf((d.headers && d.headers.from) || d.from || ""), to: addrs(d.to || m.to).map(bare), cc: addrs(d.cc).map(bare),
+      subject: String(d.subject || m.subject || "(no subject)").slice(0, 300), at, read: false, messageId: d.message_id || m.message_id || "",
+      snippet: String(d.text || "").replace(/\s+/g, " ").trim().slice(0, 160), attachments: (d.attachments || []).map(a => ({ name: a.filename || "attachment", size: a.size || 0 })).slice(0, 20) };
+    const body = { text: String(d.text || "").slice(0, 60000), html: String(d.html || "").length <= 90000 ? String(d.html || "") : "" };
+    await db.batch([
+      db.prepare("INSERT OR IGNORE INTO docs (path, coll, data, updated) VALUES (?, 'mail', ?, ?)").bind("mail/" + id, JSON.stringify(head), at),
+      db.prepare("INSERT OR IGNORE INTO docs (path, coll, data, updated) VALUES (?, ?, ?, ?)").bind("mail/" + id + "/parts/body", "mail/" + id + "/parts", JSON.stringify(body), at),
+    ]);
+    added++;
+  }
+  return added;
+}
+const escH = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+async function mailSend(db, s, b) {
+  const box = String(b.from || "").toLowerCase();
+  if (!FROMS[box]) return { error: "bad_from" };
+  if (box === "larac" && s.role !== "owner") return { error: "owner_only" };
+  const to = addrs(b.to), cc = addrs(b.cc);
+  if (!to.length || [...to, ...cc].some(a => !EMAIL_RE.test(a))) return { error: "bad_address" };
+  if (to.length + cc.length > 10) return { error: "too_many_recipients" };
+  const subject = String(b.subject || "").trim().slice(0, 250), text = String(b.text || "").trim().slice(0, 20000);
+  if (!subject || !text) return { error: "subject_and_message_needed" };
+  const since = Date.now() - 864e5;
+  const n = await db.prepare("SELECT COUNT(*) AS n FROM docs WHERE coll = 'mail' AND json_extract(data, '$.dir') = 'out' AND updated > ?").bind(since).first("n");
+  if (n >= 100) return { error: "daily_limit" };
+  // a reply keeps the conversation together in their inbox
+  let headers = {};
+  if (b.replyOf) {
+    const o = await db.prepare("SELECT data FROM docs WHERE path = ?").bind("mail/" + safeId(b.replyOf)).first("data");
+    const mid = o && JSON.parse(o).messageId;
+    if (mid) headers = { "In-Reply-To": mid, References: mid };
+  }
+  const sig = SIGS[box] || SIG_DEFAULT;
+  const full = text + "\n\n" + sig + "\n\n" + LEGAL;
+  const html = `<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;color:#1d2a20">${escH(text).replace(/\n/g, "<br>")}<br><br>${escH(sig).replace(/\n/g, "<br>")}<p style="font-size:12px;color:#6b7a6f;margin-top:18px">${escH(LEGAL)}</p></div>`;
+  const r = await resend(db, "/emails", { method: "POST", body: JSON.stringify({ from: `${FROMS[box]} <${box}@packedrabbit.com>`, to, cc: cc.length ? cc : undefined, reply_to: `${box}@packedrabbit.com`, subject, text: full, html, headers }) });
+  const id = "s" + safeId(r.id || hex(crypto.getRandomValues(new Uint8Array(8))));
+  const at = Date.now();
+  await db.batch([
+    db.prepare("INSERT INTO docs (path, coll, data, updated) VALUES (?, 'mail', ?, ?)").bind("mail/" + id, JSON.stringify({ dir: "out", from: box + "@packedrabbit.com", to, cc, subject, at, read: true, by: s.name, replyOf: b.replyOf || "", snippet: text.replace(/\s+/g, " ").slice(0, 160) }), at),
+    db.prepare("INSERT INTO docs (path, coll, data, updated) VALUES (?, ?, ?, ?)").bind("mail/" + id + "/parts/body", "mail/" + id + "/parts", JSON.stringify({ text: full, html }), at),
+  ]);
+  if (b.replyOf) await db.prepare("UPDATE docs SET data = json_set(data, '$.answered', ?) WHERE path = ?").bind(at, "mail/" + safeId(b.replyOf)).run();
+  return { ok: true, id };
+}
+
 export async function onRequest({ request, env, params }) {
   const db = env.HUB;
   if (!db) return json({ error: "storage_not_connected" }, 503);
@@ -136,6 +223,13 @@ export async function onRequest({ request, env, params }) {
     if (body.everywhere) await db.prepare("DELETE FROM sessions WHERE coalesce(user_id, 'owner') = ?").bind(s.id).run();
     else if (m) await db.prepare("DELETE FROM sessions WHERE token_hash = ?").bind(await sha(m[1])).run();
     return json({ ok: true }, 200, { "set-cookie": `${COOKIE}=; Path=/api/hub; Max-Age=0; HttpOnly; Secure; SameSite=Strict` });
+  }
+  if (route === "mail/sync") {
+    try { return json({ ok: true, added: await mailSync(db) }); } catch (e) { return json({ error: e.message }, e.code || 500); }
+  }
+  if (route === "mail/send" && post) {
+    if (s.role === "viewer") return json({ error: "read_only" }, 403);
+    try { const r = await mailSend(db, s, body); return json(r, r.error ? 400 : 200); } catch (e) { return json({ error: e.message }, e.code || 500); }
   }
   if (route === "list") {
     const coll = url.searchParams.get("coll");
