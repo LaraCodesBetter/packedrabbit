@@ -507,6 +507,8 @@ const OTHERROOMS=["Living room","Dining room","Family room","Kitchen","Office","
 const SIDES=["Front","Side","Top","Bottom"], CONDS=["Like new","Good","Worn","Damaged"];
 const listAnd=a=>a.length<2?a.join(''):a.slice(0,-1).join(', ')+' and '+a[a.length-1];
 const BIZGROUPS=[["Work space",["Private office","Open office","Conference room","Reception","Break room","Server or IT room"]],["Storage",["Supply closet","Records room","Storage room","Warehouse","Workshop","Shipping area"]]];
+const MWHAT=[["Moving a home","A home"],["Moving a business","A business"],["Moving both","Both"],["Managing my storage","Storage"]];
+const isStore=()=>S.mwhat==="Storage";
 const isBiz=()=>S.mwhat==="A business", groups=()=>S.mwhat==="A business"?BIZGROUPS:S.mwhat==="Both"?BIZGROUPS.concat(ROOMGROUPS):ROOMGROUPS;
 const roomOpts=(ph)=>`<option value="" selected disabled>${ph}</option>`+groups().map(([g,rs])=>`<optgroup label="${g}">${rs.map(r=>`<option>${r}</option>`).join('')}</optgroup>`).join('');
 /* panel, 16 Nov: the list waits for "Use this room". One arrow key on a closed list used to pick a room,
@@ -1553,7 +1555,9 @@ function stepCard(st){ const a=S.ma[st.k];
 const truckTag=()=>{ const n=daysTo(); return n==null?'':n>1?`${n} days`:n===1?'Tomorrow':n===0?'Today':'Home'; };
 
 const P={
-  mwhat:()=>({h:"What are you moving?", sub:"A home, a business, or some of both.", body:pickList(["A home","A business","Both"],S.mwhat)}),
+  /* owner, 21 Nov 2026: "We wanna ask are you moving or are you managing your storage?" Packing isn't only for moving:
+     the Christmas tree in the unit, the office that became a nursery. The answers keep their old values underneath. */
+  mwhat:()=>({h:"Are you moving, or managing your storage?", sub:"A home, a business, or the boxes you keep: the garage, the attic, a storage unit.", body:pickList(MWHAT.map(x=>x[0]),(MWHAT.find(x=>x[1]===S.mwhat)||[])[0])}),
   /* panel, 13 Nov (all five), owner's yes: after the third box, find something you packed before the price shows.
      The price sits under the box you just found, the button says what it costs, and "Not now" is always there. */
   tryit:()=>{ const q=(S.tq||'').trim(), hit=q?tryHits(q)[0]:null, last=S.boxes[S.boxes.length-1]||{};
@@ -1614,7 +1618,8 @@ const P={
     const T0=H.tasks||[], t=T0[S.hti||0], undo=S.hLast&&Date.now()-S.hLast.at<15000?`<p class="lsub hundo">Done: ${esc(first(S.hLast.t))} <button class="link" id="hUndo" aria-label="Undo ${esc(first(S.hLast.t))}">Undo</button></p>`:'';
     const taskAct=`<button class="cta" id="hDone">Done</button><button class="link" id="hLater">Not today</button>${undo}`;
     let cd='', one='', sub='', act='', art='mBefore';
-    if(H.mode==='dates'){ one='When are you moving?'; sub='Everything else counts back from that one date.'; act=`<button class="cta" data-go="hdate">Pick the date</button>`; art='mNone'; }
+    if(H.mode==='dates'&&isStore()){ one=n?`${pl(n,'box','boxes')}, and where each one is.`:'Pack your first box.'; sub='Search any word on a box: ornaments, the printer, winter coats.'; act=`<button class="cta" data-go="${n?'lvault':'start'}">${n?'Find a box':'Pack a box'}</button><button class="link" data-go="hdate">Moving after all? Pick the date</button>`; art='mNone'; }
+    else if(H.mode==='dates'){ one='When are you moving?'; sub='Everything else counts back from that one date.'; act=`<button class="cta" data-go="hdate">Pick the date</button>`; art='mNone'; }
     else if(H.mode==='today'){ cd='<b>Today</b> is loading day'; one=H.truck.left?`${pl(H.truck.left,'thing')} to go on the truck.`:'Everything is on the truck.'; sub=H.truck.left?'Boxes and furniture together.':'Walk the rooms once more before the truck leaves.'; act=`<button class="cta" data-mdgo="">Open moving day</button>`; art='mDay'; }
     else if(H.mode==='transit'){ cd=`<b>${H.dd}</b> ${H.dd===1?'day':'days'} until delivery`; one='Your things are on the road.'; sub=`${H.truck.onTruck?pl(H.truck.onTruck,'thing')+' on the truck. ':''}Tonight, put the room signs up${H.openFirst?' and keep the Open First box where you can reach it':''}.`; act=`<button class="cta" data-mdgo="">Get ready for delivery</button>`; art='mRoad'; }
     else if(H.mode==='delivery'){ cd='<b>Today</b> your things arrive'; const k=H.truck.onTruck||0, inN=H.truck.inN||0;
@@ -2404,7 +2409,7 @@ function wire(id){
       $('#rough').onchange=e=>{ const v=e.target.value; if(!v) return; if(v==='Not sure yet'){ S.date=''; S.rough=''; } else { S.rough=v; S.date=roughDate(v); } toSorting(); }; } }
   const afterOld=()=>show('moveday');
   const calPage=(k,next,skip)=>{ phone.querySelectorAll('.cal [data-day]').forEach(b=>b.onclick=()=>{ S[k]=b.dataset.day; if(k==='date') S.rough=''; show(cur,true); const n=phone.querySelector(`[data-day="${S[k]}"]`); if(n) n.focus(); }); calNav(phone,k,()=>show(cur,true)); $('#calNext').onclick=next; if($('#calSkip')) $('#calSkip').onclick=skip||next; };
-  if(id==='mwhat') pick(v=>{ S.mwhat=v; if(v==='A business'){ S.roomsAsked=true; S.homeRooms=['Private office','Open office','Conference room','Reception','Break room','Storage room']; } show('firstBox'); });
+  if(id==='mwhat') pick(v=>{ v=(MWHAT.find(x=>x[0]===v)||[v,v])[1]; S.mwhat=v; if(v==='A business'){ S.roomsAsked=true; S.homeRooms=['Private office','Open office','Conference room','Reception','Break room','Storage room']; } show('firstBox'); });
   if(id==='mto'){ const get=wirePlace('mto',x=>{ setPlace('to',x); show('mfrom'); }); $('#toNext').onclick=()=>{ setPlace('to',get()); show('mfrom'); }; $('#toNot').onclick=()=>{ setPlace('to',null); show('mfrom'); }; }
   if(id==='mfrom'){ const get=wirePlace('mfrom',x=>{ setPlace('from',x); afterFrom(); }); $('#fromNext').onclick=()=>{ setPlace('from',get()); afterFrom(); }; }
   if(id==='mfar') pick(v=>{ S.far=v; show('mwhyask'); });
@@ -3198,7 +3203,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v423, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v424, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
