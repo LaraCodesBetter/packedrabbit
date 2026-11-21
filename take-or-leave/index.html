@@ -62,6 +62,12 @@
   .tlv b { display: block; font-family: var(--display); font-size: 1.25rem; letter-spacing: -.01em; margin-bottom: 2px; }
   .tlv.leave { background: #FDECEE; color: #5A0D17; border-left: 5px solid #D7142E; }
   .tlv.take { background: #E6F6EF; color: #0B4A33; border-left: 5px solid #0A7A52; }
+  .senti { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 6px 0 14px; }
+  .senti-w { font-family: var(--display); font-style: italic; font-weight: 800; font-size: clamp(1.35rem, 3.4vw, 1.7rem); color: var(--green, #23673C); letter-spacing: -.01em; }
+  .keep { display: inline-flex; align-items: center; min-height: 32px; padding: 0 14px; border-radius: 999px; background: #E6F6EF; color: #0B4A33; border: 1px solid #0A7A52; font-weight: 800; }
+  .tlv.keep { display: block; min-height: 0; border-radius: 12px; padding: 12px 14px; border: 0; background: #E6F6EF; color: #0B4A33; border-left: 5px solid #0A7A52; font-weight: 400; }
+  .piece label.sent { display: flex; align-items: center; gap: 10px; min-height: 44px; margin: 8px 0 0; font-size: 1rem; font-weight: 700; color: var(--ink); cursor: pointer; }
+  .piece label.sent input { width: 24px; height: 24px; margin: 0; flex: none; accent-color: #23673C; }
   .tlv.close { background: #F2E8D5; color: #14281B; border-left: 5px solid #2E9358; }
   .cover { display: block; margin-top: 8px; font-weight: 600; }
   .rm { min-height: 44px; margin-top: 8px; }
@@ -85,6 +91,8 @@
 <!--pr-art--><figure class="pr-art" aria-hidden="true"><svg viewBox="0 0 360 200" focusable="false"><g class="bk"><path class="nf" d="M0 180 H360"/><rect class="f1" x="26" y="30" width="72" height="60" rx="1"/><path class="nf" d="M62.0 30 v60 M26 60.0 h72"/><rect class="f2" x="23" y="90" width="78" height="4" rx="1"/><path class="f1" d="M78 94 l3 -12 h14 l3 12 z M88 82 q-10 -14 -4 -26 q6 10 4 26 q8 -16 18 -18 q-4 14 -18 18"/><rect class="f1" x="154" y="30" width="48" height="38" rx="2"/><path class="nf" d="M166 60 v-12 l12 -10 l12 10 v12 z M175 60 v-7 h6 v7"/></g><rect class="gnd" x="0" y="192" width="360" height="8"/><path class="nf" d="M0 192 H360"/><path class="f2" d="M156 192 h48 l-8 -10 h-32 z"/><path class="nf" d="M180 182 V68"/><path class="nf" d="M100 76 L260 62"/><circle class="tape" cx="180" cy="69" r="5"/><path class="nf" d="M100 76 L80 140 M100 76 L120 140 M260 62 L242 128 M260 62 L278 128"/><path class="f2" d="M74 140 h52 q-4 12 -26 12 q-22 0 -26 -12 z"/><path class="f2" d="M236 128 h48 q-4 12 -24 12 q-20 0 -24 -12 z"/><rect class="f1" x="86" y="102" width="28" height="22" rx="4"/><rect class="f1" x="84" y="122" width="32" height="12" rx="3"/><rect class="f1" x="80" y="112" width="7" height="22" rx="2"/><rect class="f1" x="113" y="112" width="7" height="22" rx="2"/><rect class="f3" x="246" y="120" width="28" height="8" rx="4"/><rect class="f2" x="246" y="112" width="28" height="8" rx="4"/><rect class="f3" x="246" y="104" width="28" height="8" rx="4"/><text class="t10" x="100" y="172" text-anchor="middle">MOVE IT</text><text class="t10" x="260" y="160" text-anchor="middle">THE COST</text></svg></figure><!--/pr-art-->
 
   <h1>Take it or leave it?</h1>
+  <!-- owner, 21 Nov 2026: never imply take it or leave it without the sentimental part -->
+  <p class="senti"><span class="senti-w">Sentimental is priceless.</span> <span class="keep">Keep it</span></p>
   <p class="lead">Know what each piece is worth before you pay to move it. Two desks you'd replace for $200 can cost more than that to move. A $9,000 bed is worth moving, and worth listing room by room.</p>
 
   <section class="box" aria-labelledby="q-h">
@@ -133,7 +141,7 @@
     <a href="../privacy.html">Privacy</a><a href="../terms.html">Terms and refunds</a>
   </nav>
   <div class="soc" aria-label="Follow The Packed Rabbit">
-      <a href="https://www.instagram.com/thepackedrabbit/" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></svg></a>
+      <a href="https://www.facebook.com/1403706312824938" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 21v-7.5h2.6l.4-3H14V8.6c0-.9.3-1.5 1.6-1.5H17V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8.3v3H11V21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></a><a href="https://www.instagram.com/thepackedrabbit/" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></svg></a>
       <a href="https://www.tiktok.com/@thepackedrabbit" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5M14 3c.5 2.8 2.4 4.6 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       <a href="https://www.youtube.com/@thepackedrabbit" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 9.3v5.4l4.6-2.7z" fill="currentColor"/></svg></a>
     </div>
@@ -174,7 +182,9 @@
       var k=KINDS.filter(function(x){return x[0]===p.k;})[0]||KINDS[KINDS.length-1];
       var cu=k[2]*(p.n||1), cost=r*cu, rep=num(p.r);
       var v="";
-      if(r&&rep>0){
+      /* owner, 21 Nov 2026: "Sentimental is priceless", so a piece that means something is a Keep it, whatever it costs */
+      if(p.s){ v='<div class="tlv keep"><b>Keep it</b>Sentimental is priceless. If it means something to you, it\'s worth the room on the truck.'+(r?' It takes about '+money(cost)+' of your moving price.':'')+(rep>=1000||!rep?'<span class="cover">Basic coverage pays 60 cents a pound. For anything you couldn\'t replace, ask the price of Full Value Protection.</span>':'')+'</div>'; if(r) moveAll+=cost; }
+      else if(r&&rep>0){
         if(rep<cost){ v='<div class="tlv leave"><b>Leave it</b>'+(p.n>1?"These account":"This accounts")+' for about '+money(cost)+' of your moving price. Replacing '+(p.n>1?"them":"it")+' costs '+money(rep)+'. Selling or donating '+(p.n>1?"them":"it")+' could save about '+money(cost-rep)+', if your mover lowers the quote. Ask how much it drops without '+(p.n>1?"them":"it")+'.</div>'; save+=cost-rep; }
         else if(rep<cost*1.5){ v='<div class="tlv close"><b>Close call</b>Moving costs about '+money(cost)+'; replacing, '+money(rep)+'. Count the time to shop and set up, and what you could sell '+(p.n>1?"them":"it")+' for.</div>'; }
         else { v='<div class="tlv take"><b>Take it</b>Moving costs about '+money(cost)+', far less than the '+money(rep)+' to replace.'+(rep>=1000?'<span class="cover">Basic coverage pays 60 cents a pound, not '+money(rep)+'. Ask the price of Full Value Protection.</span>':'')+'</div>'; }
@@ -184,13 +194,13 @@
         '<div><label for="k'+i+'">Piece</label><select id="k'+i+'" data-i="'+i+'" data-f="k">'+KINDS.map(function(x){return '<option value="'+x[0]+'"'+(x[0]===p.k?" selected":"")+'>'+esc(x[1])+'</option>';}).join("")+'</select></div>'+
         '<div><label for="n'+i+'">How many</label><input id="n'+i+'" data-i="'+i+'" data-f="n" inputmode="numeric" value="'+(p.n||1)+'"></div>'+
         '<div class="w"><label for="r'+i+'">To replace, all of them ($)</label><input id="r'+i+'" data-i="'+i+'" data-f="r" inputmode="decimal" value="'+(p.r||"")+'" placeholder="$"></div>'+
-        '</div>'+v+(list.length>1?'<button class="btn ghost dark rm" type="button" data-rm="'+i+'">Remove this piece</button>':'')+'</div>';
+        '</div><label class="sent"><input type="checkbox" data-i="'+i+'" data-f="s"'+(p.s?" checked":"")+'> It means something to me</label>'+v+(list.length>1?'<button class="btn ghost dark rm" type="button" data-rm="'+i+'">Remove this piece</button>':'')+'</div>';
     });
     $("pieces").innerHTML=html;
     /* review, 11 Nov: a piece's share of the price isn't money back until the mover takes it off the quote */
     $("tot").textContent=save>0?("Leaving what's marked Leave it could save about "+money(save)+", if your mover lowers the quote. Ask them how much it drops before you decide."):"";
   }
-  $("pieces").addEventListener("change",function(e){var t=e.target,i=+t.getAttribute("data-i"),f=t.getAttribute("data-f");if(!f)return;list[i][f]=f==="k"?t.value:num(t.value);draw();var el=$(t.id);if(el)el.focus();});
+  $("pieces").addEventListener("change",function(e){var t=e.target,i=+t.getAttribute("data-i"),f=t.getAttribute("data-f");if(!f)return;list[i][f]=f==="k"?t.value:f==="s"?t.checked:num(t.value);draw();var el=$(t.id);if(el)el.focus();});
   $("pieces").addEventListener("click",function(e){var i=e.target.getAttribute("data-rm");if(i===null)return;list.splice(+i,1);draw();});
   $("addp").addEventListener("click",function(){list.push({k:"dresser",n:1,r:0});draw();var s=$("k"+(list.length-1));if(s)s.focus();});
   ["qt","qc"].forEach(function(id){$(id).addEventListener("input",draw);});
