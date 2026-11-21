@@ -1,3 +1,4 @@
+import { unsubToken } from "../../_lib/unsub.js";
 // The Packed Rabbit hub: storage and sign-in on packedrabbit.com.
 // Data lives in the Cloudflare D1 database bound as HUB. Each person on the
 // team signs in with their own long random code (only its salted SHA-256 hash
@@ -166,8 +167,21 @@ async function mailSend(db, s, b) {
   const cfg = await mailCfg(db);
   const sig = (cfg.sigs && cfg.sigs[box]) || SIG_DEFAULT, legal = cfg.legal || LEGAL_DEFAULT, postal = cfg.address || "";
   const name = (cfg.names && cfg.names[box]) || FROMS[box];
-  const full = text + "\n\n" + sig + "\n\n" + legal + (postal ? "\n" + postal : "");
-  const html = `<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;color:#1d2a20">${escH(text).replace(/\n/g, "<br>")}<br><br>${escH(sig).replace(/\n/g, "<br>")}<p style="font-size:11px;line-height:1.4;color:#6b7a6f;margin:18px 0 0">${escH(legal)}</p>${postal ? `<p style="font-size:9px;line-height:1.3;color:#8a968d;margin:6px 0 0">${escH(postal)}</p>` : ""}</div>`;
+  // CAN-SPAM and the mail apps' own unsubscribe button (owner, 20 Nov 2026: the postal address in ultra-small type at the
+  // very bottom, then a really small Unsubscribe link). One recipient gets a link signed for their own address.
+  let unsubPage = "https://packedrabbit.com/unsubscribe/";
+  if (to.length === 1) {
+    const t = await unsubToken(db, to[0]), e = encodeURIComponent(to[0]);
+    unsubPage += "?e=" + e;
+    headers["List-Unsubscribe"] = `<https://packedrabbit.com/api/unsubscribe?e=${e}&t=${t}>, <mailto:hello@packedrabbit.com?subject=unsubscribe>`;
+    headers["List-Unsubscribe-Post"] = "List-Unsubscribe=One-Click";
+  }
+  const full = text + "\n\n" + sig + "\n\n" + legal + (postal ? "\n" + postal : "") + "\nUnsubscribe: " + unsubPage;
+  const foot = `${postal ? `<p style="font-size:9px;line-height:1.3;color:#8a968d;margin:6px 0 0">${escH(postal)}</p>` : ""}<p style="font-size:9px;line-height:1.3;margin:2px 0 0"><a href="${escH(unsubPage)}" style="color:#8a968d">Unsubscribe</a></p>`;
+  // A designed email (an approved campaign) may bring its own HTML; owner and admins only. Its {unsubscribe} becomes the link.
+  const designed = typeof b.html === "string" && b.html.trim() && (s.role === "owner" || s.role === "admin") ? b.html.slice(0, 90000).split("{unsubscribe}").join(escH(unsubPage)) : "";
+  const html = designed ? (/unsubscribe/i.test(designed) && (!postal || designed.includes(postal.split(",").slice(-2)[0].trim())) ? designed : designed + `<div style="font-family:Arial,Helvetica,sans-serif;padding:0 10px">${foot}</div>`)
+    : `<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;color:#1d2a20">${escH(text).replace(/\n/g, "<br>")}<br><br>${escH(sig).replace(/\n/g, "<br>")}<p style="font-size:11px;line-height:1.4;color:#6b7a6f;margin:18px 0 0">${escH(legal)}</p>${foot}</div>`;
   const cf = await cfSecrets(db);
   let r, via;
   if (cf) {
@@ -290,6 +304,25 @@ export async function onRequest({ request, env, params }) {
       db.prepare("INSERT INTO secrets (k, v, updated) VALUES ('cf_account', ?, ?) ON CONFLICT(k) DO UPDATE SET v = excluded.v, updated = excluded.updated").bind(account, now),
     ]);
     return json({ ok: true, sending: "cloudflare" });
+  }
+  // Owner, 20 Nov 2026: the payment server. The Stripe key (restricted, Checkout Sessions: Read) is pasted here by the
+  // owner, checked with Stripe once, and kept in the private secrets table; /api/unlock uses it to unlock on the spot.
+  if (route === "pay/status") {
+    const k = await db.prepare("SELECT updated FROM secrets WHERE k = 'stripe_unlock'").first("updated");
+    return json({ ok: true, on: !!k, since: k || null });
+  }
+  if (route === "pay/stripe" && post) {
+    if (s.role !== "owner") return json({ error: "owner_only" }, 403);
+    const key = String(body.key || "").trim();
+    if (!/^(rk|sk)_live_[A-Za-z0-9]{20,250}$/.test(key)) return json({ error: "bad_key" }, 400);
+    const r = await fetch("https://api.stripe.com/v1/checkout/sessions?limit=1", { headers: { authorization: "Bearer " + key } });
+    if (!r.ok) return json({ error: r.status === 401 ? "stripe_refused" : r.status === 403 ? "needs_checkout_read" : "stripe_" + r.status }, 400);
+    const now = Date.now();
+    await db.batch([
+      db.prepare("INSERT INTO secrets (k, v, updated) VALUES ('stripe_unlock', ?, ?) ON CONFLICT(k) DO UPDATE SET v = excluded.v, updated = excluded.updated").bind(key, now),
+      db.prepare("INSERT INTO docs (path, coll, data, updated) VALUES (?, 'log', ?, ?)").bind("log/lpay" + now, JSON.stringify({ at: now, area: "payments", title: "Instant unlock switched on (Stripe key saved)", details: "", by: s.name }), now),
+    ]);
+    return json({ ok: true, on: true });
   }
   if (route === "mail/send" && post) {
     if (s.role === "viewer") return json({ error: "read_only" }, 403);
