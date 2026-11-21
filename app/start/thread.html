@@ -614,8 +614,8 @@ function boxDims(brand,size,duty){
     ||best(Object.keys(BOXDIMS).filter(k=>k.endsWith(`|${size}|${duty}`)))||best(Object.keys(BOXDIMS).filter(k=>k.includes(`|${size}|`)));
 }
 const dimText=d=>d&&d.length===3&&d.every(x=>x>0)?`${d.map(x=>+x.toFixed(1)).join(' × ')} inches, about ${(d[0]*d[1]*d[2]/1728).toFixed(1)} cubic feet`:'';
-const STAMPS=["Fragile","Heavy","Private","Valuable","Open first","Goes with me"];
-const STAMPC={Fragile:"#B3261E",Heavy:"var(--ink)",Private:"var(--plum)",Valuable:"var(--plum)","Open first":"#2E9358","Goes with me":"var(--text)"};
+const STAMPS=["Fragile","Heavy","Private","Valuable","Open First","Goes with me"];
+const STAMPC={Fragile:"#B3261E",Heavy:"var(--ink)",Private:"var(--plum)",Valuable:"var(--plum)","Open First":"#2E9358","Goes with me":"var(--text)"};
 const specialSub=()=>S.flags.includes("Heavy")&&/^(L|XL)$/.test(S.size)?"Heavy things travel better in small boxes. A big box this heavy can split, or be too much to lift.":"Tap any that apply, or none. Save it either way.";
 let stampAt="";
 /* owner, 8 Nov: "I don't want old drawings where they don't belong." The room with the bookcase and the window is the
@@ -911,7 +911,7 @@ function mdGroups(st){ const nm=b=>mdRoom(b.destRoom||b.room)||'Other';
   return {hand, groups:MD_GROUPS.map(([k,n,why])=>Object.assign({k,n,why},G[k])).filter(g=>g.boxes.length||g.bigs.length)}; }
 /* what went on the truck, by the room it goes to, and how many are in */
 function mdComing(st){ const L=[...(st.bigs||[]).filter(g=>g&&g.loaded&&/^(move|store)$/.test(g.plan||'move')).map(g=>({t:'g',id:g.id,label:g.name,room:mdRoom(g.room)||'Furniture',on:!!g.delivered,dmg:!!g.damaged,claimed:!!g.claimed})),
-    ...(st.boxes||[]).filter(b=>b&&b.loaded).map(b=>({t:'b',id:b.id,label:b.code,room:mdRoom(b.destRoom||b.room)||'Other',on:!!b.delivered,dmg:!!b.damaged,claimed:!!b.claimed,flag:b.fragile?'Fragile':b.essential?'Open first':''}))];
+    ...(st.boxes||[]).filter(b=>b&&b.loaded).map(b=>({t:'b',id:b.id,label:b.code,room:mdRoom(b.destRoom||b.room)||'Other',on:!!b.delivered,dmg:!!b.damaged,claimed:!!b.claimed,flag:b.fragile?'Fragile':b.essential?'Open First':''}))];
   const by={}; L.forEach(x=>(by[x.room]=by[x.room]||[]).push(x));
   return {tot:L.length, inn:L.filter(x=>x.on).length, left:L.filter(x=>!x.on), rooms:Object.keys(by).sort().map(r=>[r,by[r]])}; }
 const mdNames=L=>{ const n=L.map(x=>x.label).filter(Boolean); return n.length>6?n.slice(0,6).join(', ')+` and ${n.length-6} more`:n.length>1?n.slice(0,-1).join(', ')+' and '+n[n.length-1]:(n[0]||''); };
@@ -2029,7 +2029,7 @@ const P={
     body:`<div class="mklist">${[["I can't find something","Open Boxes at the bottom and type one word. The box, its room and its photo come up."],["I don't know what to do next","The home shows one thing at a time. That's all you have to look at."],["I tapped the wrong thing","Most changes show Undo for a few seconds. Tap it and it's put back."],["The words are too small","Tap Aa at the top and pick a bigger size."],["Something is broken or missing","Open the Menu, then Move day, then Missing or damaged. It writes the list for the mover."],["The movers are confusing me","Open the Menu, then Move day. Read them the loading order from the top."]].map(([a,b])=>`<div class="mkrow"><div class="mkhead" style="cursor:default"><b>${esc(a)}</b><span>${esc(b)}</span></div></div>`).join('')}</div><button class="cta" data-go="hlHome">Done</button>`}),
   hlWhere:()=>{ const st=mnSt(), from=MK.addrFrom(st), to=MK.addrTo(st), ess=(st.boxes||[]).filter(b=>b&&b.essential).map(b=>b.code);
     return ({say:'Help.', h:'Where things are.', sub:'The two addresses, and the boxes you marked to open first.', scene:'house',
-      body:`<div class="mktot"><div><span>Moving from</span><b style="font-size:17px">${esc(from||'Not filled in yet')}</b></div><div><span>Moving to</span><b style="font-size:17px">${esc(to||'Not filled in yet')}</b></div><div><span>Open first</span><b style="font-size:17px">${esc(ess.length?ess.join(', '):'None marked yet')}</b></div></div>${!from||!to?'<button class="cta" data-hgo="setup">Fill in the addresses</button>':''}${!ess.length&&(st.boxes||[]).length?'<button class="choice" data-go="lvault" style="margin-top:12px;max-width:300px">Find a box to open first</button>':''}<button class="link" data-go="hlHome">Back</button>`}); },
+      body:`<div class="mktot"><div><span>Moving from</span><b style="font-size:17px">${esc(from||'Not filled in yet')}</b></div><div><span>Moving to</span><b style="font-size:17px">${esc(to||'Not filled in yet')}</b></div><div><span>Open First</span><b style="font-size:17px">${esc(ess.length?ess.join(', '):'None marked yet')}</b></div></div>${!from||!to?'<button class="cta" data-hgo="setup">Fill in the addresses</button>':''}${!ess.length&&(st.boxes||[]).length?'<button class="choice" data-go="lvault" style="margin-top:12px;max-width:300px">Find a box to open first</button>':''}<button class="link" data-go="hlHome">Back</button>`}); },
   parts:()=>({say:'Every part of your move.', h:'Every part, in one place.', sub:'Each one opens where you left it.', scene:'none',
     body:lemRows([[RIC.box,'Boxes','data-go="lvault"'],[RIC.sofa,'Big stuff','data-go="lbig"'],[RIC.cal,'Calendar','data-go="lcal"'],[RIC.list,'The whole plan','data-tlgo="1"'],[RIC.bell,'What needs you','data-ndgo="1"'],[RIC.list,'Appointments','id="hApList"'],[RIC.tag,'Sorting','data-go="lsort"'],[RIC.truck,'Move day','data-mdgo=""'],[RIC.check,'Leaving the old place','data-mogo="1"'],[RIC.wallet,'Money','data-mngo=""'],[RIC.doc,'Papers and proof','data-ppgo="1"'],[RIC.tag,'Labels and room signs','data-lbgo="1"'],[RIC.pin,'Room by room','data-rcgo="1"'],[RIC.pin,'Around the new place','data-hgo="around"'],[RIC.doc,'A new state','data-hgo="newstate"'],[RIC.bulb,'Utilities and address','data-hgo="utils"'],[RIC.house,'Finding a place','data-hgo="hunting"'],[RIC.help,'Help','data-go="hlHome"']])+`<button class="link" data-hgo="find">The full app, with everything in it</button>`}),
   tlHome:()=>{ const st=S.mnSt||{}, T=(st.tasks||[]).filter(t=>t&&t.t), done=T.filter(t=>t.done).length, pi=(S.hm||{}).pi||0, o=S.tlOpen===undefined?HPH[pi]:S.tlOpen;
@@ -2063,7 +2063,7 @@ const P={
       sub:all.length?(left?'Load in this order, and read it to the crew from the top. The last on is the first off.':'Nothing left off. Walk the rooms once more before the truck leaves.'):'Boxes and furniture show up here as you add them.', scene:'truck',
       body:`${left?'<button class="cta" id="mdLoad">Start loading</button>':''}${lemRows([...(M.hand.length?[[RIC.box,`Riding with you: ${M.hand.length}`,'data-go="mdHand"']]:[]),[RIC.check,'Before the truck leaves','data-go="mdLeave"'],[RIC.truck,'The crew','data-go="mdCrew"'],[RIC.house,'The coming-in list','data-go="mdIn"']])}`}); },
   mdLoad:()=>{ const st=S.mdSt||{}, G=mdGroups(st).groups, i=Math.max(0,Math.min(S.mdg||0,G.length-1)), g=G[i]; if(!g) return P.mdOut();
-    const items=[...g.bigs.map(x=>({t:'g',id:x.id,label:x.name,room:mdRoom(x.room)||'Furniture',on:!!x.loaded})),...g.boxes.map(b=>({t:'b',id:b.id,label:b.code,room:mdRoom(b.room),on:!!b.loaded,flag:b.fragile?'Fragile':b.essential?'Open first':''}))], done=items.filter(x=>x.on).length;
+    const items=[...g.bigs.map(x=>({t:'g',id:x.id,label:x.name,room:mdRoom(x.room)||'Furniture',on:!!x.loaded})),...g.boxes.map(b=>({t:'b',id:b.id,label:b.code,room:mdRoom(b.room),on:!!b.loaded,flag:b.fragile?'Fragile':b.essential?'Open First':''}))], done=items.filter(x=>x.on).length;
     /* tester, 13 Nov: "That was the last" said nothing about 4 pieces never loaded. On the last group, what's still off the truck is named. */
     const offT=i<G.length-1?[]:G.flatMap(x=>[...x.bigs.filter(y=>!y.loaded).map(y=>y.name),...x.boxes.filter(y=>!y.loaded).map(y=>y.code)]).filter(Boolean);
     const offL=offT.length?`<p class="lsub" role="status" style="color:var(--plum);font-size:17px">Still off the truck: ${esc(offT.length>1?offT.slice(0,-1).join(', ')+' and '+offT[offT.length-1]:offT[0])}.</p>`:'';
@@ -3198,7 +3198,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v422, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v423, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
