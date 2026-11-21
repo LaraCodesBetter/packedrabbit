@@ -194,7 +194,9 @@ async function mailSend(db, s, b) {
   const id = "s" + safeId(r.id || hex(crypto.getRandomValues(new Uint8Array(8))));
   const at = Date.now();
   await db.batch([
-    db.prepare("INSERT OR REPLACE INTO docs (path, coll, data, updated) VALUES (?, 'mail', ?, ?)").bind("mail/" + id, JSON.stringify({ dir: "out", from: box + "@packedrabbit.com", to, cc, subject, at, read: true, by: s.name, via, replyOf: b.replyOf || "", snippet: text.replace(/\s+/g, " ").slice(0, 160) }), at),
+    db.prepare("INSERT OR REPLACE INTO docs (path, coll, data, updated) VALUES (?, 'mail', ?, ?)").bind("mail/" + id, JSON.stringify({ dir: "out", from: box + "@packedrabbit.com", to, cc, subject, at, read: true, by: s.name, via, replyOf: b.replyOf || "", snippet: text.replace(/\s+/g, " ").slice(0, 160),
+      // owner, 21 Nov 2026: each send says which campaign and which day's batch it belongs to, so Sent can be read by batch
+      campaign: String(b.campaign || "").slice(0, 80), batch: String(b.batch || "").slice(0, 80) }), at),
     db.prepare("INSERT OR REPLACE INTO docs (path, coll, data, updated) VALUES (?, ?, ?, ?)").bind("mail/" + id + "/parts/body", "mail/" + id + "/parts", JSON.stringify({ text: full, html }), at),
   ]);
   if (b.replyOf) await db.prepare("UPDATE docs SET data = json_set(data, '$.answered', ?) WHERE path = ?").bind(at, "mail/" + safeId(b.replyOf)).run();
