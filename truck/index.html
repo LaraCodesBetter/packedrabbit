@@ -137,7 +137,7 @@
     <a href="../privacy.html">Privacy</a><a href="../terms.html">Terms and refunds</a>
   </nav>
   <div class="soc" aria-label="Follow The Packed Rabbit">
-      <a href="https://www.instagram.com/thepackedrabbit/" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></svg></a>
+      <a href="https://www.facebook.com/1403706312824938" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 21v-7.5h2.6l.4-3H14V8.6c0-.9.3-1.5 1.6-1.5H17V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8.3v3H11V21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></a><a href="https://www.instagram.com/thepackedrabbit/" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></svg></a>
       <a href="https://www.tiktok.com/@thepackedrabbit" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5M14 3c.5 2.8 2.4 4.6 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       <a href="https://www.youtube.com/@thepackedrabbit" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 9.3v5.4l4.6-2.7z" fill="currentColor"/></svg></a>
     </div>
@@ -209,8 +209,36 @@
     { k: "desk", n: "Desks", cu: 25 },
     { k: "wd", n: "Washers and dryers", s: "Count each one", cu: 25 },
     { k: "fridge", n: "Refrigerators", cu: 45 },
-    { k: "box", n: "Boxes", s: "Medium, about 3 cubic feet", cu: 3, step: 5 }
+    { k: "box", n: "Boxes", s: "Medium, about 3 cubic feet", cu: 3, step: 5 },
+    { k: "xtra", n: "Other big pieces", s: "Piano, hutch, grill and the like, in cubic feet", cu: 1, step: 5 }
   ];
+  /* the room-by-room walk's pieces, counted the way this list counts them, so both views
+     give the same truck (panel review, 21 Nov: the walk's choices were lost here) */
+  var MAP = { Sofa: ["sofa", 1], "Outdoor sofa": ["sofa", 1], Sectional: ["sofa", 2], Futon: ["sofa", 1], Daybed: ["bed", 1], Bed: ["bed", 1],
+    Armchair: ["chair", 1], Recliner: ["chair", 1], "Rocking chair": ["chair", 1], "Rocking chairs": ["chair", 2], "Chaise lounge": ["chair", 1],
+    "Coffee table": ["tbl", 1], "Console table": ["tbl", 1], "End tables": ["tbl", 2], Ottoman: ["tbl", 1], TV: ["tv", 1], "TV stand": ["tv", 1],
+    Bookcase: ["shelf", 1], Shelves: ["shelf", 1], Shelving: ["shelf", 1], Dresser: ["dresser", 1], "Chest of drawers": ["dresser", 1], Armoire: ["dresser", 1],
+    Nightstands: ["night", 2], "Dining table": ["dine", 1], "Kitchen table": ["dine", 1], "Outdoor table": ["dine", 1],
+    "Dining chairs": ["chairs", 4], "Kitchen chairs": ["chairs", 4], "Deck chairs": ["chairs", 4], "Folding chairs": ["chairs", 4], Barstools: ["chairs", 3], "Desk chair": ["chairs", 1],
+    Desk: ["desk", 1], "L-shaped desk": ["desk", 1], Washer: ["wd", 1], Dryer: ["wd", 1], Refrigerator: ["fridge", 1], Freezer: ["fridge", 1] };
+  var XCU = { Piano: 70, "Pool table": 40, "Entertainment center": 35, Buffet: 30, Sideboard: 30, Hutch: 25, "China cabinet": 25, Treadmill: 30, Safe: 10, Bench: 10, Mirror: 10, "Wall art": 8, Rug: 6, Lamps: 4 };
+  var WALK_BOXES = { 0: 20, 1: 30, 2: 45, 3: 70, 4: 100, 5: 120 };
+  function fromWalk(picked, beds) {
+    var n = {}; ITEMS.forEach(function (it) { n[it.k] = 0; });
+    Object.keys(picked || {}).forEach(function (room) { var got = picked[room] || [];
+      got.forEach(function (w) { var m = MAP[w];
+        if (w === "TV stand" && got.indexOf("TV") >= 0) return; /* one TV with its stand */
+        if (m) n[m[0]] += m[1]; else n.xtra += XCU[w] || 15; }); });
+    n.box = WALK_BOXES[beds] || 45; return n;
+  }
+  function answer(n) {
+    var furn = 0, boxes = 0;
+    ITEMS.forEach(function (it) { if (it.k === "box") boxes += n[it.k] * it.cu; else furn += n[it.k] * it.cu; });
+    var need = Math.round((furn + boxes) * SLACK), t = null;
+    for (var i = 0; i < TRUCKS.length; i++) if (TRUCKS[i].cu >= need) { t = TRUCKS[i]; break; }
+    var over = !t, truck = t || TRUCKS[TRUCKS.length - 1], pct = Math.round(need / truck.cu * 100), close = !over && pct >= 90;
+    return { furn: furn, boxes: boxes, need: need, truck: truck, over: over, pct: pct, close: close, nextUp: close ? TRUCKS[TRUCKS.indexOf(truck) + 1] : null };
+  }
   var HOMES = {
     s: { sofa: 1, chair: 0, tbl: 1, tv: 1, shelf: 1, bed: 1, dresser: 1, night: 1, dine: 0, chairs: 2, desk: 0, wd: 0, fridge: 0, box: 20 },
     1: { sofa: 1, chair: 1, tbl: 2, tv: 1, shelf: 1, bed: 1, dresser: 1, night: 2, dine: 1, chairs: 4, desk: 1, wd: 0, fridge: 0, box: 30 },
@@ -219,12 +247,12 @@
     4: { sofa: 2, chair: 2, tbl: 3, tv: 2, shelf: 4, bed: 4, dresser: 4, night: 6, dine: 1, chairs: 8, desk: 2, wd: 2, fridge: 1, box: 100 }
   };
   var c = {};
-  function setHome(h) { var src = HOMES[h]; ITEMS.forEach(function (it) { c[it.k] = src[it.k]; }); }
+  function setHome(h) { var src = HOMES[h]; ITEMS.forEach(function (it) { c[it.k] = src[it.k] || 0; }); }
 
   /* a shared link carries the counts */
   var q = new URLSearchParams(location.search), fromLink = false;
   setHome("2");
-  ITEMS.forEach(function (it) { var v = parseInt(q.get(it.k), 10); if (v >= 0 && v < 1000) { c[it.k] = v; fromLink = true; } });
+  ITEMS.forEach(function (it) { var v = parseInt(q.get(it.k), 10); if (v >= 0 && v < 10000) { c[it.k] = v; fromLink = true; } });
   if (fromLink) [].forEach.call(document.querySelectorAll(".homes button"), function (b) { b.classList.remove("on"); });
 
   var list = $("items");
@@ -233,7 +261,7 @@
     li.innerHTML = '<span class="nm">' + it.n + (it.s ? "<small>" + it.s + "</small>" : "") + '</span><span class="step"><button type="button" aria-label="One fewer: ' + it.n + '">−</button><output id="o-' + it.k + '" aria-live="polite"></output><button type="button" aria-label="One more: ' + it.n + '">+</button></span>';
     var bs = li.querySelectorAll("button"), st = it.step || 1;
     bs[0].addEventListener("click", function () { c[it.k] = Math.max(0, c[it.k] - st); clearHome(); draw(); });
-    bs[1].addEventListener("click", function () { c[it.k] = Math.min(999, c[it.k] + st); clearHome(); draw(); });
+    bs[1].addEventListener("click", function () { c[it.k] = Math.min(it.k === "xtra" ? 9995 : 999, c[it.k] + st); clearHome(); draw(); });
     list.appendChild(li);
   });
   function clearHome() { [].forEach.call(document.querySelectorAll(".homes button"), function (b) { b.classList.remove("on"); }); }
@@ -244,13 +272,8 @@
 
   var last = null;
   function draw() {
-    var furn = 0, boxes = 0;
-    ITEMS.forEach(function (it) { $("o-" + it.k).textContent = c[it.k]; if (it.k === "box") boxes += c[it.k] * it.cu; else furn += c[it.k] * it.cu; });
-    var need = Math.round((furn + boxes) * SLACK);
-    var t = null; for (var i = 0; i < TRUCKS.length; i++) if (TRUCKS[i].cu >= need) { t = TRUCKS[i]; break; }
-    var over = !t, truck = t || TRUCKS[TRUCKS.length - 1];
-    var pct = Math.round(need / truck.cu * 100), close = !over && pct >= 90;
-    var nextUp = close ? TRUCKS[TRUCKS.indexOf(truck) + 1] : null;
+    ITEMS.forEach(function (it) { $("o-" + it.k).textContent = c[it.k]; });
+    var A = answer(c), furn = A.furn, boxes = A.boxes, need = A.need, over = A.over, truck = A.truck, pct = A.pct, close = A.close, nextUp = A.nextUp;
     var big, small;
     if (need === 0) { big = "Add a few things"; small = ""; }
     else if (over) {
@@ -305,6 +328,12 @@
     var k2 = el("text", { x: X + 110, y: 214, fill: "#CFE3D5", "font-size": 12, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); k2.textContent = "kraft: boxes";
   }
   draw();
+  /* the walk asks its questions, then hands its answers here */
+  window.prTruck = {
+    fromWalk: fromWalk,
+    answer: answer,
+    load: function (n) { ITEMS.forEach(function (it) { c[it.k] = n[it.k] || 0; }); clearHome(); draw(); }
+  };
 
   /* share picture: square, the answer large */
   function picture() {
@@ -379,13 +408,12 @@ addEventListener("DOMContentLoaded", function () {
   var CU = { Bed: 60, Sofa: 50, "Outdoor sofa": 50, Sectional: 90, Armchair: 10, Recliner: 15, Ottoman: 5, Desk: 10, "Coffee table": 10, "Console table": 10, Bench: 10, Buffet: 30, "China cabinet": 25, Hutch: 25, Sideboard: 30,
     "Entertainment center": 35, Armoire: 30, "L-shaped desk": 25, Daybed: 40, Futon: 35, Treadmill: 30, Dresser: 35, "Chest of drawers": 35, TV: 12, Rug: 6, Mirror: 10, "Wall art": 8, Nightstands: 10, "End tables": 10,
     Lamps: 4, "Dining chairs": 20, "Kitchen chairs": 20, Barstools: 15, "Dining table": 25, "Kitchen table": 25, "Outdoor table": 25, Bookcase: 20, Piano: 70, Safe: 10, "Pool table": 40, Refrigerator: 45, Washer: 25, Dryer: 25, Freezer: 30 };
-  var HAUL = [["a cargo van", 245], ["a 10-foot truck", 402], ["a 15-foot truck", 764], ["a 17-foot truck", 865], ["a 20-foot truck", 1016], ["a 26-foot truck", 1684]];
   var BOXES = { 0: 20, 1: 30, 2: 45, 3: 70, 4: 100, 5: 120 };
   function lc(x) { return String(x).toLowerCase(); }
-  function cube(S) { var c = 0; Object.keys(S.picked || {}).forEach(function (r) { S.picked[r].forEach(function (w) { c += CU[w] || 15; }); }); return c + BOXES[S.beds] * 3; }
-  function truck(S) { var need = cube(S) * 1.15, b = S.beds, fl = b === 0 ? 402 : b <= 2 ? 764 : b === 3 ? 1016 : 1684, t = null, f = null;
-    for (var i = 0; i < HAUL.length; i++) { if (!t && HAUL[i][1] >= need) t = HAUL[i]; if (!f && HAUL[i][1] >= fl) f = HAUL[i]; }
-    var pick = t && t[1] < fl && need < fl * 0.6 ? f : t; return { name: pick ? pick[0] : "a 26-foot truck and a second trip", cu: pick ? pick[1] : 1684, need: Math.round(need / 10) * 10 }; }
+  /* the same sum as the piece-by-piece list below, so both views name the same truck */
+  function truck(S) { var T = window.prTruck, A = T.answer(T.fromWalk(S.picked, S.beds)), b = S.beds, typ = b === 0 ? 402 : b <= 2 ? 764 : b === 3 ? 1016 : 1684;
+    return { name: A.over ? "a 26-foot truck and a second trip" : "a " + A.truck.n, cu: A.truck.cu, need: A.need, light: !A.over && A.truck.cu < typ && A.need < typ * 0.6,
+      close: A.close && A.nextUp ? "a " + A.nextUp.n : "" }; }
   function chips(list, on, attr) { return '<div class="wk-chips" role="group">' + list.map(function (x) { var p = on.indexOf(x) >= 0; return '<button type="button" class="wk-choice wk-chip' + (p ? " on" : "") + '" aria-pressed="' + p + '" data-' + attr + '="' + x + '">' + x + "</button>"; }).join("") + "</div>"; }
   function wireChips(host, attr, arr, api) { [].forEach.call(host.querySelectorAll("[data-" + attr + "]"), function (b) { b.onclick = function () { var v = b.getAttribute("data-" + attr), i = arr.indexOf(v); if (i >= 0) arr.splice(i, 1); else arr.push(v); b.classList.toggle("on", i < 0); b.setAttribute("aria-pressed", i < 0); if (api) api.redraw(); }; }); }
   function drawTruck(frac) { var X = 40, Y = 186, L = 200, H = 124, f = '<rect x="' + X + '" y="' + Y + '" width="' + L + '" height="' + H + '" rx="6"/>';
@@ -403,11 +431,14 @@ addEventListener("DOMContentLoaded", function () {
         S.all = all; all.forEach(function (r, i) { S.picked[r] = S.picked[r] || []; steps["r" + i] = roomStep(r, i); }); api.go("r0"); return false; } },
       scene: "room" },
     done: { say: function (S) { return "About " + truck(S).need.toLocaleString("en-US") + " cubic feet."; }, h: function (S) { var t = truck(S).name; return "That's about " + t + "."; },
-      sub: function (S) { return "Your rooms and about " + BOXES[S.beds] + " boxes, with room to spare."; },
+      sub: function (S) { var t = truck(S);
+        return "Your rooms and about " + BOXES[S.beds] + " boxes" + (t.close ? ". That's close to the limit, so " + t.close + " is safer." : ", with room to spare.") +
+          (t.light ? " That's light for your home, so check you picked everything." : ""); },
       cta: { label: "Start packing in the app", href: "../app/start/?begin" },
       /* alpha test, 8 Nov: the walk said a 20-foot truck for 3 bedrooms, then the full tool opened on 2 bedrooms and
          a 15-foot one. It opens on the same bedrooms now. The finished truck stands on its own, not in the room. */
-      link: { label: "Count it piece by piece", run: function (S, api) { var b = document.querySelector('[data-h="' + (S.beds === 0 ? "s" : String(Math.min(4, S.beds || 2))) + '"]'); if (b) b.click(); api.tool(); return false; } },
+      /* panel review, 21 Nov: every piece picked in the walk now carries over, not just the bedrooms */
+      link: { label: "Count it piece by piece", tool: true },
       dyk: true, scene: "tfull", room: false }
   };
   function roomStep(r, i) {
@@ -425,6 +456,8 @@ addEventListener("DOMContentLoaded", function () {
     allLabel: "Count it piece by piece",
     underTitle: "Count it piece by piece",
     start: "beds",
+    /* whichever button opens the full list, it opens with what the walk has so far */
+    onTool: function (S) { var T = window.prTruck; if (T && S.beds != null && S.picked) T.load(T.fromWalk(S.picked, S.beds)); },
     facts: ["truck-license", "truck-theft", "fridge", "moth"],
     /* the room with the boxes, the same drawing as the app's walk: the boxes stacked on the right,
        and whatever you pick in this room appearing on the left. The truck comes at the end. */

@@ -64,7 +64,8 @@
       go: function (id) { if (cur) hist.push(cur); show(id); },
       replace: function (id) { show(id); },
       back: function () { if (hist.length) show(hist.pop()); },
-      tool: function () { document.body.classList.remove("wk-closed"); var r = matchMedia("(prefers-reduced-motion: reduce)").matches; main.scrollIntoView({ behavior: r ? "auto" : "smooth" }); },
+      /* panel review, 21 Nov: a page can carry the walk's answers into the full tool first (cfg.onTool) */
+      tool: function () { if (cfg.onTool) { try { cfg.onTool(S); } catch (e) {} } document.body.classList.remove("wk-closed"); var r = matchMedia("(prefers-reduced-motion: reduce)").matches; main.scrollIntoView({ behavior: r ? "auto" : "smooth" }); },
       redraw: function () { var sc = host.querySelector(".wk-scene"); if (sc) sc.innerHTML = scene(cur, false); }
     };
     function scene(id, fresh) {
