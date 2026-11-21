@@ -6,10 +6,15 @@ function parseQuote(raw, myCube) {
   const low = t.toLowerCase();
   const num = (x) => parseFloat(String(x || "").replace(/,/g, "")) || 0;
   const dollars = [...t.matchAll(/\$\s?(\d{1,3}(?:,\d{3})+(?:\.\d{2})?|\d+(?:\.\d{2})?)/g)].map((m) => ({ v: num(m[1]), i: m.index }));
+  /* panel, 21 Nov: "Binding estimate $4,000" read no total when the word "estimate" came earlier with no amount
+     beside it. Every place the words appear is tried, in order, and the first with an amount after it wins. */
   const near = (re, span = 80) => {
-    const m = re.exec(t); if (!m) return 0;
-    const after = dollars.find((d) => d.i >= m.index && d.i - m.index <= span);
-    return after ? after.v : 0;
+    const g = new RegExp(re.source, re.flags.includes("g") ? re.flags : re.flags + "g");
+    for (const m of t.matchAll(g)) {
+      const after = dollars.find((d) => d.i >= m.index && d.i - m.index <= span);
+      if (after) return after.v;
+    }
+    return 0;
   };
   const out = { total: 0, binding: "", dot: "", mc: "", broker: false, deposit: 0, depositPct: 0, hourly: 0, cube: 0, lbs: 0, valuation: "", fees: [], cashOnly: false, rights: false, name: "", flags: [] };
   /* review, 11 Nov (her yes, 12 Nov): each warning carries the words on the quote it came from, so a person
@@ -71,6 +76,9 @@ function parseQuote(raw, myCube) {
   if (depBefore && !out.depositPct) { out.depositPct = num(depBefore[2] || depBefore[1]); seen.deposit = clause(depBefore); }
   const depAfter = t.match(/deposit[^\n%]{0,60}?\(?\s?(\d{1,3})\s?%/i);
   if (depAfter && !out.depositPct) { out.depositPct = num(depAfter[1]); seen.deposit = clause(depAfter); }
+  /* panel, 21 Nov: "$2,000 deposit" (the amount first) was missed */
+  const depAmt = t.match(/\$\s?(\d[\d,]*(?:\.\d{2})?)\s*(?:non[\s-]?refundable\s+|booking\s+|up[\s-]?front\s+)?deposit\b/i);
+  if (depAmt && !out.deposit) { out.deposit = num(depAmt[1]); seen.deposit = seen.deposit || clause(depAmt); }
   const pay = t.match(/(?:customer\s+payment|due\s+(?:at|upon)\s+booking|payment\s+(?:due\s+)?today)[^$\n]{0,40}\$\s?(\d[\d,]*(?:\.\d{2})?)/i);
   if (pay && !out.deposit) { out.deposit = num(pay[1]); seen.deposit = seen.deposit || clause(pay); }
   if (out.deposit && out.total && !out.depositPct && !out.totalGuess) out.depositPct = Math.round((out.deposit / out.total) * 100);
@@ -98,7 +106,7 @@ function parseQuote(raw, myCube) {
   if (!out.total || out.totalGuess) F("warn", "No total found. Ask for one figure, in writing, that includes everything.");
   if (out.binding === "not-to-exceed") F("good", "Binding not-to-exceed — the strongest kind. The bill can go down, not up.", at(/not[\s-]+to[\s-]+exceed/i));
   else if (out.binding === "binding") F("good", "Binding — the price is fixed unless you add things.", clause({ index: iBind + (low[iBind] === "b" ? 0 : 1), 0: "binding" }));
-  else if (out.binding === "non-binding") F("warn", "Non-binding — the final bill can legally be higher. On a move between states it can't be more than 10% over at delivery, and the rest gets billed later.", clause({ index: iNon, 0: "non-binding" }));
+  else if (out.binding === "non-binding") F("warn", "Non-binding — the final bill can legally be higher. On a move between states, the most they can collect at delivery is 110% of the estimate, plus services you asked for after it and up to 15% for hard-to-reach places (FMCSA). The rest is billed later.", clause({ index: iNon, 0: "non-binding" }));
   else F("warn", "It doesn't say binding or non-binding. Ask, and get the answer in writing.");
   if (out.dot) F("good", `USDOT ${out.dot} — check it on the federal SAFER site before you book.`, clause(dot));
   else F("bad", "No USDOT number. Any mover crossing state lines must have one. Ask for it before anything else.");
@@ -111,11 +119,11 @@ function parseQuote(raw, myCube) {
     || t.match(/\b(?:before|prior to)\b[^.\n]{0,30}?\b(?:pick\s?-?up|loading|the move|move date|arrival)[^.\n]{0,40}?(\d{1,3})\s?%/i);
   if (pre) {
     const pct = num(pre[1]);
-    if (pct >= 25 && pct <= 100) F("bad", `${pct}% due before your things are even loaded${out.depositPct ? `, on top of a ${out.depositPct}% deposit` : ""}. They'd have your money and everything you own before anything moves. On a move between states the balance is normally paid at delivery, before unloading. Ask why they want it early, and pay by credit card.`, clause(pre));
+    if (pct >= 25 && pct <= 100) F("bad", `${pct}% due before your things are even loaded${out.depositPct ? `, on top of a ${out.depositPct}% deposit` : ""}. They'd have your money and everything you own before anything moves. On a move between states the balance is normally paid at delivery, before unloading, as your written estimate says. Ask why they want it early, and pay by credit card.`, clause(pre));
   }
   if (out.depositPct >= 20) F("bad", `A ${out.depositPct}% deposit. Reputable movers usually take little or nothing up front — a big deposit is one of the federal warning signs.`, seen.deposit);
   else if (out.deposit || out.depositPct) F("warn", `Deposit${out.deposit ? ` of ${money(out.deposit)}` : ""}${out.depositPct ? ` (${out.depositPct}%)` : ""}. Pay it by card, never cash.`, seen.deposit);
-  if (out.cashOnly) F("bad", "It asks for cash, a money order, a wire or an app payment. Pay by credit card so you can dispute it, and never pay the balance before your things are off the truck and checked.", seen.cash);
+  if (out.cashOnly) F("bad", "It asks for cash, a money order, a wire or an app payment. Ask to pay by credit card, so you can dispute a charge. At delivery you pay the driver what your written estimate says before unloading: the binding amount, or no more than 110% of a non-binding one plus services you added (FMCSA).", seen.cash);
   if (out.valuation.startsWith("60")) F("warn", "Basic coverage only — 60 cents a pound. A 10 lb laptop is worth $6 to them. Ask the price of full value protection.", at(/\$?0?\.60|60\s*(?:cents|¢)|released\s+value/i));
   else if (out.valuation) F("good", "Full value protection is offered.", at(/full\s+(?:value|replacement)\s+protection|\bfvp\b/i));
   else F("warn", "No valuation (coverage) mentioned. Ask what's included and what full value protection costs.");

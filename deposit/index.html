@@ -412,9 +412,16 @@
       "Re: Security deposit for [rental address]", "",
       "I moved out and returned the keys on " + (start ? long(start) : "[move-out date]") + "."
     ];
+    /* panel, 21 Nov: before the deadline the letter is a polite reminder; "was due" and next steps only once it has passed */
+    var today = new Date(); today.setHours(0, 0, 0, 0);
+    var late = !!due && due < today;
     if (r[3] === "x") lines.push("Please return my security deposit, or send me a written list of anything you are keeping and why, as " + r[7] + " provides.");
-    else lines.push("Under " + r[7] + ", my security deposit, or a written list of anything kept and why, was due by " + (due ? long(due) : "[the deadline]") + ".");
-    lines.push("", "Please send it to my forwarding address:", "[Your new address]", "", "If I don't hear from you within 10 days, I plan to take the next steps the law allows.", "", "Thank you,", "[Your name]", "[Phone or email]");
+    else if (late) lines.push("Under " + r[7] + ", my security deposit, or a written list of anything kept and why, was due by " + long(due) + ".");
+    else lines.push("Under " + r[7] + ", my security deposit, or a written list of anything kept and why, is due by " + (due ? long(due) : "[the deadline]") + ".");
+    lines.push("", "Please send it to my forwarding address:", "[Your new address]", "");
+    if (late) lines.push("If I don't hear from you within 10 days, I plan to take the next steps the law allows.", "");
+    else lines.push("Thank you for sending it by then.", "");
+    lines.push("Thank you,", "[Your name]", "[Phone or email]");
     return lines.join("\n");
   }
 

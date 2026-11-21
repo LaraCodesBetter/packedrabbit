@@ -386,6 +386,8 @@
       : "Starting at " + clock(start) + ", done around " + clock(start + total) + ". It could run " + dur(total * LOW) + " to " + dur(total * HIGH) + ".";
     $("big").className = "big" + (warns.length ? " tight" : ""); $("big").textContent = big; $("small").textContent = small;
     if (warns.length) { $("warn").hidden = false; $("warn").textContent = warns.join(" "); }
+    /* panel, 21 Nov: the day reads in time order (getting the house ready at 6:30 comes before the 7:00 truck pickup) */
+    items = items.map(function (it, i) { return [it, i]; }).sort(function (a, b) { return a[0][0] - b[0][0] || a[1] - b[1]; }).map(function (x) { return x[0]; });
     items.forEach(function (it) {
       var li = document.createElement("li");
       if (it[0] === null) { li.className = "day2"; li.textContent = it[1]; plan.appendChild(li); return; }

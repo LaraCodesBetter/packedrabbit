@@ -254,7 +254,7 @@
     3: { sofa: 2, chair: 2, tbl: 3, tv: 2, shelf: 3, bed: 3, dresser: 3, night: 4, dine: 1, chairs: 6, desk: 1, wd: 2, fridge: 1, bike: 2, box: 70 },
     4: { sofa: 2, chair: 2, tbl: 3, tv: 2, shelf: 4, bed: 4, dresser: 4, night: 6, dine: 1, chairs: 8, desk: 2, wd: 2, fridge: 1, bike: 3, box: 100 }
   };
-  var c = {}, aisle = 1, ceil = 8, len = 0;
+  var c = {}, aisle = 1, ceil = 8, len = 0, lenBad = false;
   function setHome(h) { var src = HOMES[h]; ITEMS.forEach(function (it) { c[it.k] = src[it.k]; }); }
 
   /* a shared link carries the counts and choices */
@@ -272,7 +272,9 @@
   }
   [].forEach.call(document.querySelectorAll("[data-a]"), function (b) { b.addEventListener("click", function () { aisle = +b.getAttribute("data-a"); segs(); draw(); }); });
   [].forEach.call(document.querySelectorAll("[data-c]"), function (b) { b.addEventListener("click", function () { ceil = +b.getAttribute("data-c"); segs(); draw(); }); });
-  $("len").addEventListener("input", function () { var v = parseFloat(this.value); len = v > 0 && v <= 600 ? Math.round(v) : 0; draw(); });
+  /* panel, 21 Nov: a length the tool can't use is never dropped quietly; it says so and gives no unit until it's fixed */
+  $("len").addEventListener("input", function () { var v = parseFloat(this.value); lenBad = this.value !== "" && !(v > 0 && v <= 600); len = !lenBad && v > 0 ? Math.round(v) : 0;
+    this.setAttribute("aria-invalid", lenBad ? "true" : "false"); draw(); });
 
   var list = $("items");
   ITEMS.forEach(function (it) {
@@ -310,7 +312,8 @@
       else lenNote = " Your " + len + "-inch piece fits lying along the " + unit.l + "-foot side.";
     }
     var big, small;
-    if (need === 0) { big = "Add a few things"; small = ""; }
+    if (lenBad) { big = "Check the longest piece."; small = "Enter a length between 1 and 600 inches (50 feet). Until then this can't say which unit fits."; over = true; }
+    else if (need === 0) { big = "Add a few things"; small = ""; }
     else if (over) {
       if (len > UNITS[UNITS.length - 1].l * 12) {
         big = "Nothing common is that long.";
