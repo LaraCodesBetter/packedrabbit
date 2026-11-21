@@ -117,20 +117,24 @@
   function toks(s) { return (s.toLowerCase().replace(/['’]/g, "").match(/[a-z0-9]+(?:-[a-z0-9]+)*/g) || []).filter(function (w) { return STOP.indexOf(w) < 0; }).map(stem); }
   D.forEach(function (d) { d._h = toks(d.h); d._k = toks((d.k || "") + " " + (d.g || "")); d._b = toks((d.s || "") + " " + (d.a || "")); });
   function has(arr, w, pre) { for (var i = 0; i < arr.length; i++) { if (arr[i] === w || (pre && w.length > 2 && arr[i].indexOf(w) === 0)) return true; } return false; }
+  /* panel, 21 Nov: "how do I move an aquarium" opened the move-in cash calculator because "move" matched. Words every
+     moving question shares don't count toward the match; a question whose own words match nothing gets an honest no-match. */
+  var GENERIC = ["move", "moving", "mover", "movers", "moved", "new", "home", "house", "place", "need", "help", "get", "do", "best", "way"].map(stem);
   function search(q) {
     var qs = toks(q); if (!qs.length) return [];
+    var spec = qs.filter(function (w) { return GENERIC.indexOf(w) < 0; });
     var out = [];
     D.forEach(function (d) {
-      var s = 0, hit = 0;
+      var s = 0, hit = 0, shit = 0;
       qs.forEach(function (w, i) {
         var pre = i === qs.length - 1, v = 0;
         if (has(d._h, w, pre)) v = 3; else if (has(d._k, w, pre)) v = 2.6; else if (has(d._b, w, pre)) v = 1;
-        if (v) { hit++; s += v; }
+        if (v) { hit++; s += v; if (GENERIC.indexOf(w) < 0) shit++; }
       });
       if (!hit) return;
       s = s * (hit / qs.length) * (d.t === "tool" ? 1.35 : d.t === "answer" ? 1.1 : (d.t === "state" || d.t === "country") ? 1.2 : .8);
       if (d.t === "state" || d.t === "country") { if (!has(d._h, qs[qs.length - 1], true) || qs.length > 4) s *= .3; }
-      out.push({ d: d, s: s, f: hit / qs.length });
+      out.push({ d: d, s: s, f: spec.length ? shit / spec.length : hit / qs.length });
     });
     return out.sort(function (a, b) { return b.s - a.s; }).filter(function (r, i, a) { return r.s >= Math.max(1.2, a[0].s * .35); }).slice(0, 5);
   }
@@ -162,6 +166,7 @@
       if (list.length) { var s0 = el("section", "also"); s0.appendChild(el("h3", null, "Or did you mean")); var u0 = el("ul"); list.slice(0, 3).forEach(function (x) { var li = el("li"), a = el("a"); a.href = "../" + x.d.u; a.dataset.u = x.d.u; a.appendChild(el("b", null, x.d.h)); a.appendChild(el("span", null, KIND[x.d.t])); li.appendChild(a); u0.appendChild(li); }); s0.appendChild(u0); out.appendChild(s0); }
       all.hidden = true; return;
     }
+    if (q0 && list.length && list[0].f === 0) list = [];
     /* a weak match (under half the question's words) offers choices instead of one "straight answer" */
     if (q0 && list.length && list[0].f != null && list[0].f < 0.5) {
       shown = ""; var w = el("section", "also"); w.appendChild(el("h3", null, "Is it one of these?")); var uw = el("ul");
