@@ -616,8 +616,8 @@ function boxDims(brand,size,duty){
     ||best(Object.keys(BOXDIMS).filter(k=>k.endsWith(`|${size}|${duty}`)))||best(Object.keys(BOXDIMS).filter(k=>k.includes(`|${size}|`)));
 }
 const dimText=d=>d&&d.length===3&&d.every(x=>x>0)?`${d.map(x=>+x.toFixed(1)).join(' × ')} inches, about ${(d[0]*d[1]*d[2]/1728).toFixed(1)} cubic feet`:'';
-const STAMPS=["Fragile","Heavy","Private","Valuable","Open First","Goes with me"];
-const STAMPC={Fragile:"#B3261E",Heavy:"var(--ink)",Private:"var(--plum)",Valuable:"var(--plum)","Open First":"#2E9358","Goes with me":"var(--text)"};
+const STAMPS=["Fragile","Heavy","Private","Valuable","Open First","Goes with me","Seasonal"];
+const STAMPC={Fragile:"#B3261E",Heavy:"var(--ink)",Private:"var(--plum)",Valuable:"var(--plum)","Open First":"#2E9358","Goes with me":"var(--text)",Seasonal:"#2E9358"};
 const specialSub=()=>S.flags.includes("Heavy")&&/^(L|XL)$/.test(S.size)?"Heavy things travel better in small boxes. A big box this heavy can split, or be too much to lift.":"Tap any that apply, or none. Save it either way.";
 let stampAt="";
 /* owner, 8 Nov: "I don't want old drawings where they don't belong." The room with the bookcase and the window is the
@@ -1808,7 +1808,8 @@ const P={
       <button class="cta" id="shotNext">${S.si+1<it.length?'Next':'Done with this room'}</button><button class="link" id="shotLater">Do the photos later</button>`}); },
   /* owner, 7 Nov ("much better. next"): sorting in a few calm steps. One question, then what isn't coming,
      then each thing's way out, then one offer of help. Prices and the keep-or-not questions wait in the Sorting tab. */
-  lgo:()=>({say:S.why==='Downsizing'||/smaller/i.test(S.bigger||'')?"Downsizing.":"Not everything is coming.", h:"Is anything staying behind?", sub:"Selling it, giving it away, or not sure yet.", scene:'lgo', body:`<div class="choices"><button class="choice" id="lgyes">Yes</button><button class="choice" id="lgno">No, it all comes</button></div>`}),
+  lgo:()=>isStore()?({say:"Making space.", h:"Anything you're done with?", sub:"Selling it, giving it away, or not sure yet.", scene:'lgo', body:`<div class="choices"><button class="choice" id="lgyes">Yes</button><button class="choice" id="lgno">No, I'm keeping it all</button></div>`})
+    :({say:S.why==='Downsizing'||/smaller/i.test(S.bigger||'')?"Downsizing.":"Not everything is coming.", h:"Is anything staying behind?", sub:"Selling it, giving it away, or not sure yet.", scene:'lgo', body:`<div class="choices"><button class="choice" id="lgyes">Yes</button><button class="choice" id="lgno">No, it all comes</button></div>`}),
   lpickall:()=>{ const mine=S.big.map(b=>b.what), list=[...new Set(mine.concat(S.lpick||[]))];
     return ({say:"Staying behind.", h:"What isn't coming?", sub:list.length?"Tap each one, or add your own.":"Add each thing, one at a time.", body:`${list.length?`<div class="chips" role="group" aria-label="Your things">${list.map(x=>`<button class="choice ${(S.lpick||[]).includes(x)?'on':''}" data-lp="${esc(x)}" aria-pressed="${(S.lpick||[]).includes(x)}">${esc(x)}</button>`).join('')}</div>`:''}
       <div class="addrow"><input id="lown" placeholder="Treadmill" aria-label="Add something"><button id="ladd">Add</button></div><button class="cta" id="lpNext" ${(S.lpick||[]).length?'':'disabled'}>Next</button>`}); },
@@ -1861,7 +1862,7 @@ const P={
   cubic:()=>{ const bx=S.boxes.reduce((s,b)=>s+boxCube(b),0), bg=S.big.reduce((s,b)=>s+cube(b),0), tot=Math.round((bx+bg)/10)*10||0, pcs=S.big.reduce((s,b)=>s+pieces(b),0);
     const fl=homeFloor(), byHome=!!fl&&tot*1.1*1.15<fl*0.6;
     return ({say:"Your move, measured.", h:`About ${tot.toLocaleString()} cubic feet${byHome?' so far':''}.`, sub:byHome?`A home your size usually needs ${truckFor(tot*1.1)}, even before everything is counted.`:`That's about ${truckFor(tot*1.1)}. The rabbit plans with the bigger size, so you won't come up short.`,
-      body:`<ul class="list"><li>${S.boxes.length} ${S.boxes.length===1?'box':'boxes'}<span>${Math.round(bx)} cu ft</span></li><li>${pcs} pieces of big stuff<span>${Math.round(bg)} cu ft</span></li></ul><button class="cta" id="toLeave">Next: your move</button><button class="link" id="addMore">Add something else</button>`}); },
+      body:`<ul class="list"><li>${S.boxes.length} ${S.boxes.length===1?'box':'boxes'}<span>${Math.round(bx)} cu ft</span></li><li>${pcs} pieces of big stuff<span>${Math.round(bg)} cu ft</span></li></ul><button class="cta" id="toLeave">${isStore()?'Next':'Next: your move'}</button><button class="link" id="addMore">Add something else</button>`}); },
   mto:()=>({count:'1 of 6', say:"Next, your move.", h:"Where are you going?", sub:"A city, or a ZIP code.", scene:'mto',
     body:`${placeField('mto',S.to,'City, state or ZIP','Where you are moving to')}<button class="cta" id="toNext">Next</button><button class="link" id="toNot">Not sure yet</button>`}),
   mfrom:()=>({count:'2 of 6', say:S.to?esc(S.to)+'.':'', h:"And where are you coming from?", sub:"Your ZIP code is enough.", scene:'mfrom',
@@ -2127,8 +2128,17 @@ const qkPrefill=last=>{ if(S.qkFor===S.boxes.length) return; S.qkFor=S.boxes.len
   if(!S.dest){ const d=last.dest||''; S.dest=!d||d===last.room?S.room:d; } };
 /* words she wrote, box one first, each said once */
 const tryWords=()=>{ const out=[]; S.boxes.forEach(b=>{ if(isPriv(b)) return; String(b.words||'').split(/,| and /).map(w=>w.trim()).filter(w=>w&&w.length<=24).forEach(w=>{ if(out.length<6&&!out.some(o=>o.toLowerCase()===w.toLowerCase())) out.push(w); }); }); return out; };
-const tryHits=q=>S.boxes.filter(b=>qHas((isPriv(b)?'':b.words)+' '+b.room+' '+b.code,q));
-function packSave(){ S.boxes.push({wid:'w'+Date.now().toString(36)+Math.random().toString(36).slice(2,7),code:code(),rc:rcOf(S.room),destRc:S.dest&&!/^(Donate|Sell|Not sure)$/.test(S.dest)?rcOf(S.dest):'',room:S.room,size:S.size,custom:S.size==='Custom'?S.custom:'',brand:S.brand,dims:boxDims(S.brand,S.size,S.duty),duty:S.duty,words:S.words,dest:S.dest||'',airtag:!!S.airtag,flags:[...S.flags],photos:[...S.photos],photo:S.photos[0]||''}); S.photos=[]; S.words=''; S.dest=''; S.airtag=false; S.flags=[]; S.size=''; S.duty=''; S.custom=''; S.full=false; fresh=['box'+(S.boxes.length-1)];
+const tryHits=q=>S.boxes.filter(b=>qHas((isPriv(b)?'':b.words+' '+(b.flags||[]).join(' '))+' '+b.room+' '+b.code,q));
+/* break panel, 22 Nov: the camera question as one real dialog. Only one ever opens (a second tap focuses it),
+   it is modal for screen readers, Tab stays inside it, and Escape closes it like "Not now". */
+function camAsk(onYes,onNo,back){ const was=phone.querySelector('.camask'); if(was){ const f=was.querySelector('button'); if(f) f.focus(); return; }
+  const c=document.createElement('div'); c.className='tip camask'; c.setAttribute('role','dialog'); c.setAttribute('aria-modal','true'); c.setAttribute('aria-labelledby','camh');
+  c.innerHTML=`<b id="camh">Let the rabbit use your camera?</b><p>Your phone will ask once. Your photos stay on your phone.</p><div class="row"><button class="yes">Allow camera</button><button class="no">Not now</button></div>`;
+  phone.appendChild(c); const y=c.querySelector('.yes'), n=c.querySelector('.no'); y.focus();
+  const close=()=>{ c.remove(); if(back&&back.focus) back.focus(); };
+  y.onclick=()=>{ camRemember(); c.remove(); onYes(); }; n.onclick=()=>{ close(); if(onNo) onNo(); };
+  c.addEventListener('keydown',e=>{ if(e.key==='Escape'){ e.preventDefault(); n.click(); } else if(e.key==='Tab'){ e.preventDefault(); (document.activeElement===y?n:y).focus(); } }); }
+function packSave(){ if(packSave.busy) return; packSave.busy=true; setTimeout(()=>{ packSave.busy=false; },1500); /* break panel, 22 Nov: three fast taps made three boxes */ S.boxes.push({wid:'w'+Date.now().toString(36)+Math.random().toString(36).slice(2,7),code:code(),rc:rcOf(S.room),destRc:S.dest&&!/^(Donate|Sell|Not sure)$/.test(S.dest)?rcOf(S.dest):'',room:S.room,size:S.size,custom:S.size==='Custom'?S.custom:'',brand:S.brand,dims:boxDims(S.brand,S.size,S.duty),duty:S.duty,words:S.words,dest:S.dest||'',airtag:!!S.airtag,flags:[...S.flags],photos:[...S.photos],photo:S.photos[0]||''}); S.photos=[]; S.words=''; S.dest=''; S.airtag=false; S.flags=[]; S.size=''; S.duty=''; S.custom=''; S.full=false; fresh=['box'+(S.boxes.length-1)];
   if(S.homeMode) handNew(); /* a box packed from the home goes to the app right away, not only when the app is next opened from here */
   if(S.boxes.length===3&&!S.paid&&!S.tried){ S.tq=''; show('tryit'); return; }
   if(S.boxes.length===1){ learn('Boxes'); hopping=matchMedia('(prefers-reduced-motion: reduce)').matches?'':'Boxes'; show('boxesTab'); if(hopping) hop('Boxes'); else landSoon('Boxes'); } else show('boxSaved'); }
@@ -2222,11 +2232,7 @@ function wire(id){
   const bk=$('[data-back]'); if(bk) bk.onclick=()=>{ /* tester: Back on a piece's second question (the bed's parts) jumped past its first (the size); step back one question instead */ if(cur==='itemQ'&&S.qi>0){ S.qi--; S.lampN={}; show('itemQ',true); return; } const prev=hist.pop(); if(prev) show(prev,true); };
   phone.querySelectorAll('[data-pic]').forEach(inp=>inp.onchange=async()=>{ const fs=[...(inp.files||[])]; if(!fs.length) return; for(const f of fs){ const u=await shrink(f); if(u) S.photos.push(u); } say(S.photos.length===1?'Photo added.':S.photos.length+' photos.'); show(cur==='quick'?'quick':'photo',true); });
   /* alpha test, 8 Nov: each tap stacked another camera prompt; one is enough */
-  if($('#askcam')) $('#askcam').onclick=()=>{ const was=phone.querySelector('.camask'); if(was){ const f=was.querySelector('button'); if(f) f.focus(); return; } const c=document.createElement('div'); c.className='tip camask'; c.setAttribute('role','dialog'); c.setAttribute('aria-labelledby','camh');
-    c.innerHTML=`<b id="camh">Let the rabbit use your camera?</b><p>Your phone will ask once. Your photos stay on your phone.</p><div class="row"><button class="yes">Allow camera</button><button class="no">Not now</button></div>`;
-    phone.appendChild(c); c.querySelector('.yes').focus();
-    c.querySelector('.yes').onclick=()=>{ camRemember(); c.remove(); $('[data-pic]').click(); };
-    c.querySelector('.no').onclick=()=>{ c.remove(); $('#askcam').focus(); }; };
+  if($('#askcam')) $('#askcam').onclick=()=>camAsk(()=>$('[data-pic]').click(),null,$('#askcam'));
   phone.querySelectorAll('[data-unshot]').forEach(x=>x.onclick=()=>{ const i=+x.dataset.unshot, u=S.photos[i]; const at=cur==='quick'?'quick':'photo'; S.photos.splice(i,1); show(at,true); undo('Photo removed.',()=>{ S.photos.splice(i,0,u); show(at,true); }); });
   if(id==='start'){ phone.querySelectorAll('[data-room]').forEach(b=>b.onclick=()=>{ S.room=b.dataset.room; show(S.room==='A closet'?'closet':'size'); }); wirePick('otherroom',v=>{ S.room=v; show('size'); }); }
   if(id==='closet'){ phone.querySelectorAll('[data-closet]').forEach(b=>b.onclick=()=>{ S.room=b.dataset.closet; show('size'); }); wirePick('closetsel',v=>{ S.room=v; show('size'); }); }
@@ -2276,7 +2282,8 @@ function wire(id){
     const next=()=>{ S.mi++; S.mi<room.length?show('bigMeasure',true):done(); };
     $('#bigSave').onclick=()=>{ const w=$('#dw').value,d=$('#dd').value,h=$('#dh').value; if(w&&d&&h) room[S.mi].dims=`${w} × ${d} × ${h} in`; next(); };
     $('#bigLater').onclick=next; const r=$('#bigRest'); if(r) r.onclick=done; }
-  if($('#toLeave')) $('#toLeave').onclick=()=>show('mto');
+  /* break panel, 22 Nov: storage was asked six moving questions after its boxes. It goes on to sorting instead. */
+  if($('#toLeave')) $('#toLeave').onclick=()=>isStore()?toSorting():show('mto');
   if(id==='lgo'){ $('#lgyes').onclick=()=>{ S.lpick=[]; show('lpickall'); }; $('#lgno').onclick=()=>sortEnd(''); }
   if(id==='lpickall'){ phone.querySelectorAll('[data-lp]').forEach(b=>b.onclick=()=>{ const x=b.dataset.lp, i=S.lpick.indexOf(x); i<0?S.lpick.push(x):S.lpick.splice(i,1); b.classList.toggle('on'); b.setAttribute('aria-pressed',i<0); $('#lpNext').disabled=!S.lpick.length; });
     const add=()=>{ const x=$('#lown').value.trim(); if(x&&!S.lpick.includes(x)) S.lpick.push(x); show('lpickall',true); }; $('#ladd').onclick=add; $('#lown').onkeydown=e=>{ if(e.key==='Enter') add(); };
@@ -2336,16 +2343,15 @@ function wire(id){
       try{ (window.top||window).location.href=u; }catch(e){ window.open(u,'_top'); } }); return; } S.paid=b.dataset.plan; show('start'); });
     /* panel review, 17 Nov: a tester with a beta or gift code had nowhere to type it after the first three boxes */
     { const hc=$('#haveCode'); if(hc) hc.onclick=()=>toApp('?go=pack'); }
-    $('[data-back2]').onclick=()=>{ const prev=hist.pop(); show(prev||'boxesTab',true); }; }
+    /* break panel, 22 Nov: "Not now" stepped back to "pack the next box", which sent it straight back here. It goes home. */
+    $('[data-back2]').onclick=()=>{ S.tried=true; show('home'); }; }
   if(id==='bigSaved'||id==='roomCheck'){ phone.querySelectorAll('[data-nextroom]').forEach(n=>n.onclick=()=>goRoom(n.dataset.nextroom)); const o=$('#otherroom2'); if(o) o.onchange=e=>goRoom(e.target.value); if($('#allRooms')) $('#allRooms').onclick=finishBig; }
   if(id==='roomItem'){ phone.querySelectorAll('[data-item]').forEach(c=>c.onclick=()=>startItem(c.dataset.item)); $('#itemsel').onchange=e=>startItem(e.target.value);
     const own=()=>{ const v=$('#itemown').value.trim(); if(v) startItem(v); }; $('#itemadd').onclick=own; $('#itemown').onkeydown=e=>{ if(e.key==='Enter') own(); }; $('#roomEnd').onclick=roomEnd; }
   if(id==='itemPhoto'){ const b=S.cur; let side='';
     const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*'; inp.hidden=true; phone.querySelector('.page').appendChild(inp);
     const pick=s=>{ side=s; if(S.camOk) return inp.click();
-      const c=document.createElement('div'); c.className='tip camask'; c.setAttribute('role','dialog'); c.setAttribute('aria-labelledby','camh');
-      c.innerHTML=`<b id="camh">Let the rabbit use your camera?</b><p>Your phone will ask once. Your photos stay on your phone.</p><div class="row"><button class="yes">Allow camera</button><button class="no">Not now</button></div>`;
-      phone.appendChild(c); c.querySelector('.yes').focus(); c.querySelector('.yes').onclick=()=>{ camRemember(); c.remove(); inp.click(); }; c.querySelector('.no').onclick=()=>c.remove(); };
+      camAsk(()=>inp.click(),null,document.activeElement); };
     phone.querySelectorAll('[data-side]').forEach(x=>x.onclick=()=>pick(x.dataset.side));
     inp.onchange=async()=>{ const f=inp.files&&inp.files[0]; if(!f||!side) return; const u=await shrink(f); if(!u) return; const first=!b.shots.Front&&side==='Front';
       b.shots=Object.assign({},b.shots,{[side]:u}); b.photo=b.shots.Front||Object.values(b.shots)[0]; say((side==='Bottom'?'Underneath':side)+' photo added.');
@@ -2380,9 +2386,7 @@ function wire(id){
   if(id==='bigShot'){ const it=shotItems(), b=it[S.si], inp=$('[data-sidepic]'); let side='';
     const keep=()=>{ b.model=$('#smodel').value.trim(); };
     phone.querySelectorAll('[data-side]').forEach(x=>x.onclick=()=>{ keep(); side=x.dataset.side; if(S.camOk) return inp.click();
-      const c=document.createElement('div'); c.className='tip camask'; c.setAttribute('role','dialog'); c.setAttribute('aria-labelledby','camh');
-      c.innerHTML=`<b id="camh">Let the rabbit use your camera?</b><p>Your phone will ask once. Your photos stay on your phone.</p><div class="row"><button class="yes">Allow camera</button><button class="no">Not now</button></div>`;
-      phone.appendChild(c); c.querySelector('.yes').focus(); c.querySelector('.yes').onclick=()=>{ camRemember(); c.remove(); inp.click(); }; c.querySelector('.no').onclick=()=>c.remove(); });
+      camAsk(()=>inp.click(),null,x); });
     inp.onchange=async()=>{ const f=inp.files&&inp.files[0]; if(!f||!side) return; const u=await shrink(f); if(!u) return; b.shots=Object.assign({},b.shots,{[side]:u}); b.photo=b.shots.Front||Object.values(b.shots)[0]; say(side+' photo added.'); show('bigShot',true); };
     phone.querySelectorAll('[data-cond]').forEach(x=>x.onclick=()=>{ keep(); b.cond=b.cond===x.dataset.cond?'':x.dataset.cond; show('bigShot',true); });
     $('#shotNext').onclick=()=>{ keep(); b.shotDone=1; S.si++; S.si<it.length?show('bigShot',true):afterRoom(); };
@@ -3203,7 +3207,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v427, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v428, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
@@ -3222,10 +3226,16 @@ const QSTOP=new Set('where wheres whats is are was my the a an i im find which w
 const qWords=q=>String(q||'').toLowerCase().replace(/[\u2019']/g,'').replace(/[^a-z0-9\s,-]/g,' ').split(/[\s,]+/).filter(w=>w&&!QSTOP.has(w));
 const qHas=(text,q)=>{ const ws=Array.isArray(q)?q:qWords(q); if(!ws.length) return false; const t=String(text||'').toLowerCase().replace(/[\u2019']/g,''), tn=t.replace(/[^a-z0-9]/g,'');
   if(ws.length>1&&tn.includes(ws.join('').replace(/[^a-z0-9]/g,''))) return true;
-  return ws.every(w=>{ const wn=w.replace(/[^a-z0-9]/g,''), one=w.length>3?w.replace(/(es|s)$/,''):w; return t.includes(w)||(wn&&tn.includes(wn))||t.includes(one); }); };
+  return ws.every(w=>{ const wn=w.replace(/[^a-z0-9]/g,''), one=w.length>3?w.replace(/(es|s)$/,''):w; return t.includes(w)||(wn&&tn.includes(wn))||t.includes(one)||(QSYN[w]||QSYN[one]||[]).some(x=>t.includes(x)); }); };
+/* break panel, 22 Nov: "xmas", "holiday" and "camping" found nothing, though the box said ornaments, lights and tent.
+   A few everyday words also find what people actually write on a box. */
+const QSYN={xmas:['christmas','ornament','stocking','wreath'],christmas:['xmas','ornament','stocking','wreath','nativity'],holiday:['christmas','xmas','ornament','halloween','hanukkah','menorah','wreath','lights','decoration','seasonal'],holidays:['christmas','xmas','ornament','halloween','hanukkah','menorah','wreath','lights','decoration','seasonal'],
+  seasonal:['christmas','halloween','ornament','decoration','holiday'],decorations:['ornament','lights','wreath','garland','decoration'],camping:['tent','sleeping bag','lantern','camp','cooler','hiking'],camp:['tent','sleeping bag','lantern','cooler'],
+  halloween:['costume','pumpkin','spooky','decoration'],costumes:['costume','dress up','dress-up'],winter:['coat','boots','gloves','scarf','snow'],summer:['pool','beach','swim','fan'],baby:['crib','bottle','onesie','nursery'],
+  office:['printer','scanner','monitor','desk','files','paper'],paperwork:['files','documents','papers','folder'],tools:['drill','hammer','wrench','screwdriver','toolbox'],kitchen:['pots','pans','dishes','plates','mugs','utensils']};
 /* a private box keeps what's inside out of search, so say there may be one, rather than "nothing" */
 const privNote=()=>{ const k=S.boxes.filter(b=>isPriv(b)&&!b.unpacked).length; return k?` ${k===1?'One private box keeps':`${k} private boxes keep`} what's inside out of search; open ${k===1?'it':'them'} by number to look.`:''; };
-function btext(b){ return [isPriv(b)?'':b.words,b.room,b.code,b.putAway||''].concat((b.iput||[]).map(x=>x[1])).join(' '); }
+function btext(b){ return [isPriv(b)?'':b.words,isPriv(b)?'':(b.flags||[]).join(' '),b.room,b.code,b.putAway||''].concat((b.iput||[]).map(x=>x[1])).join(' '); }
 function putOf(b,q){ if(!b||!b.unpacked) return ''; const qw=String(q||'').toLowerCase().split(/[\s,]+/).filter(Boolean);
   const it=qw.length&&(b.iput||[]).find(x=>qw.every(w=>(x[0]+' '+x[1]).toLowerCase().includes(w)));
   if(it) return `${it[0]}: ${it[1]}`; if(!b.putAway) return '';
@@ -3437,9 +3447,11 @@ function sheetBody(n){
     const rooms=[...new Set(S.big.map(b=>b.room||''))];
     return rooms.map(r=>`${r?`<p class="grp">${r}</p>`:''}<ul class="list">${S.big.map((b,i)=>[b,i]).filter(([b])=>(b.room||'')===r).map(([b,i])=>`<li class="tap" tabindex="0" role="button" data-piece="${i}">${b.photo?`<img class="thumb" src="${b.photo}" alt="">`:''}<em>${esc(b.what)}</em><span>${esc(STAYW[b.plan]?'Staying behind, '+STAYW[b.plan]:!b.appId&&Array.isArray(b.dims)&&b.dims.length===3?b.dims.join('″ × ')+'″':b.size||(FIXED.test(b.what)?(b.cond||''):'Size later'))}</span></li>`).join('')}</ul>`).join('')+(S.big.length?'<p class="swipe">Tap a piece to add a photo or look it up.</p>':'<p>Nothing listed yet.</p>'); }
   if(n==='Sorting'){ const L=S.lists, un=L.unsure, how=S.dhow==='Picked up from my door'?'Pickup':S.dhow?'Drop off':'';
-    const groups=[['Donate',L.donate.map(x=>[x.what,how]).concat(un.filter(x=>x.fate==='Donate').map(x=>[x.what,how]))],
-      ['Sell',L.sell.map(x=>[x.what,x.price?'$'+x.price:'Price later']).concat(un.filter(x=>x.fate==='Sell').map(x=>[x.what,'Price later']))],
-      ['Throw out',un.filter(x=>x.fate==='Trash').map(x=>[x.what,''])],['Not sure yet',un.filter(x=>!x.fate).map(x=>[x.what,'Deciding'])]];
+    /* break panel, 22 Nov: a box marked Donate or Sell was missing here. Boxes join their list, by number. */
+    const bx=d=>S.boxes.filter(b=>b.dest===d&&!b.unpacked).map(b=>[b.code+(isPriv(b)?'':': '+(b.words||'a box')),'Box']);
+    const groups=[['Donate',L.donate.map(x=>[x.what,how]).concat(un.filter(x=>x.fate==='Donate').map(x=>[x.what,how])).concat(bx('Donate'))],
+      ['Sell',L.sell.map(x=>[x.what,x.price?'$'+x.price:'Price later']).concat(un.filter(x=>x.fate==='Sell').map(x=>[x.what,'Price later'])).concat(bx('Sell'))],
+      ['Throw out',un.filter(x=>x.fate==='Trash').map(x=>[x.what,''])],['Not sure yet',un.filter(x=>!x.fate).map(x=>[x.what,'Deciding']).concat(bx('Not sure'))]];
     return groups.filter(([h,r])=>r.length||h!=='Throw out').map(([h,r])=>`<p class="grp">${h}</p>${r.length?`<ul class="list">${r.map(([w,v])=>`<li>${esc(w)}<span>${v}</span></li>`).join('')}</ul>`:'<p style="margin:0">Nothing yet.</p>'}`).join(''); }
   if(n==='Moving'){ const L=nextSteps(), nx=L[0], fw=finalWeek(), soon=fw?L.slice(1,4):L.slice(1).filter(st=>{ const d=dueOf(st); return d&&(d-today0())/864e5<=14; }), later=L.length-1-soon.length;
     const pcs=S.big.reduce((s,b)=>s+pieces(b),0), heavy=S.big.filter(b=>HEAVY.test(b.size||'')), go=S.boxes.filter(b=>(b.flags||[]).includes('Goes with me')), fuel=S.big.filter(b=>FUEL.test(b.what));

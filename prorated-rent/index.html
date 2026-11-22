@@ -388,6 +388,8 @@
 /* tester, 7 Nov: odd amounts were changed without a word. Say what was used. */
 (function(){ document.querySelectorAll('.money .fld').forEach(function(f){ var n=document.createElement('p'); n.className='fldnote'; n.setAttribute('role','status'); n.style.cssText='margin:6px 0 0;font-size:15px;color:inherit;opacity:.85'; n.hidden=true; f.parentNode.insertAdjacentElement('afterend',n);
   f.addEventListener('input',function(){ var v=f.value, msg='';
+    /* break panel, 22 Nov: field-check.js (v422) now says what's wrong under the field; this older note stood in its way */
+    if(window.prNum){ n.hidden=true; return; }
     if(/-/.test(v)) msg='Amounts can\'t be negative, so this counts it as $'+(v.replace(/[^0-9.]/g,'')||'0')+'.';
     else if(/[^0-9.,\s]/.test(v)) msg='Only the numbers are counted.';
     else if(f.maxLength>0 && v.replace(/[^0-9]/g,'').length>=f.maxLength) msg='Up to $9,999,999.';

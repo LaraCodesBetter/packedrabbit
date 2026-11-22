@@ -695,3 +695,11 @@ section.last small{color:#F2E8D599}
 section.last a:focus-visible{outline:3px solid #F2E8D5; outline-offset:3px}
 html.embed section.last{display:none}
 @media print{section.last{display:none}}
+
+/* break panel, 22 Nov 2026: fields show their edge (WCAG 1.4.11), check boxes are big enough to hit (2.5.8),
+   and a long email address wraps instead of pushing the page sideways at large text (1.4.10) */
+input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=hidden]), select, textarea { border-color: rgba(20,40,27,.55); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=hidden]), :root:not([data-theme="light"]) select, :root:not([data-theme="light"]) textarea { border-color: rgba(224,242,231,.5); } }
+:root[data-theme="dark"] input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=hidden]), :root[data-theme="dark"] select, :root[data-theme="dark"] textarea { border-color: rgba(224,242,231,.5); }
+input[type=checkbox], input[type=radio] { min-width: 24px; min-height: 24px; }
+a[href^="mailto:"] { overflow-wrap: anywhere; word-break: break-word; }
