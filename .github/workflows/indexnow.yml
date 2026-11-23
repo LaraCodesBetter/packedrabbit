@@ -1,7 +1,9 @@
 name: Tell search engines about new pages
-# After every deploy, send every URL in the sitemap to IndexNow (Bing and the
-# engines that share it, which feed ChatGPT search and Copilot). No secrets:
-# the key is public by design and is proved by the key file on the site.
+# After every deploy, send IndexNow (Bing and the engines that share it, which feed
+# Copilot and DuckDuckGo) the pages that changed: every sitemap entry whose last-changed
+# time is new since the previous deploy. IndexNow asks for changed pages only, not the
+# whole site each time. No secrets: the key is public by design and is proved by the
+# key file on the site.
 on:
   push:
     branches: [main]
@@ -11,13 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - name: Wait for Cloudflare Pages to publish
         run: sleep 150
       - name: Send the sitemap URLs
         run: |
           KEY=f4fdf52b8d1271d6a90ef6fedd322252
-          URLS=$(grep -o '<loc>[^<]*</loc>' sitemap.xml | sed 's/<\/*loc>//g' | head -10000 | jq -R . | jq -s .)
-          echo "Sending $(echo "$URLS" | jq length) URLs"
+          pairs() { tr -d '\n' | grep -o '<loc>[^<]*</loc>[^<]*<lastmod>[^<]*</lastmod>' | sed 's/<\/*loc>//g; s/<lastmod>/ /; s/<\/lastmod>//'; }
+          pairs < sitemap.xml | sort > now.txt
+          if git show HEAD^:sitemap.xml > before.xml 2>/dev/null; then pairs < before.xml | sort > before.txt; else : > before.txt; fi
+          comm -23 now.txt before.txt | cut -d' ' -f1 | head -10000 > changed.txt
+          if [ ! -s changed.txt ]; then echo "No page changed; nothing to send"; exit 0; fi
+          URLS=$(jq -R . < changed.txt | jq -s .)
+          echo "Sending $(echo "$URLS" | jq length) changed URLs"
           jq -n --argjson u "$URLS" --arg k "$KEY" \
             '{host:"packedrabbit.com", key:$k, keyLocation:("https://packedrabbit.com/"+$k+".txt"), urlList:$u}' > body.json
           code=$(curl -s -o resp.txt -w '%{http_code}' -X POST https://api.indexnow.org/indexnow \
