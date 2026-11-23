@@ -507,7 +507,8 @@ const OTHERROOMS=["Living room","Dining room","Family room","Kitchen","Office","
 const SIDES=["Front","Side","Top","Bottom"], CONDS=["Like new","Good","Worn","Damaged"];
 const listAnd=a=>a.length<2?a.join(''):a.slice(0,-1).join(', ')+' and '+a[a.length-1];
 const BIZGROUPS=[["Work space",["Private office","Open office","Conference room","Reception","Break room","Server or IT room"]],["Storage",["Supply closet","Records room","Storage room","Warehouse","Workshop","Shipping area"]]];
-const MWHAT=[["Moving a home","A home"],["Moving a business","A business"],["Moving both","Both"],["Managing my storage","Storage"]];
+/* owner, 23 Nov 2026: "managing my stuff": art projects, hand-me-downs, winter clothes, summer shoes, important paperwork */
+const MWHAT=[["Moving a home","A home"],["Moving a business","A business"],["Moving both","Both"],["Managing my stuff","Storage"]];
 const isStore=()=>S.mwhat==="Storage";
 const isBiz=()=>S.mwhat==="A business", groups=()=>S.mwhat==="A business"?BIZGROUPS:S.mwhat==="Both"?BIZGROUPS.concat(ROOMGROUPS):ROOMGROUPS;
 const roomOpts=(ph)=>`<option value="" selected disabled>${ph}</option>`+groups().map(([g,rs])=>`<optgroup label="${g}">${rs.map(r=>`<option>${r}</option>`).join('')}</optgroup>`).join('');
@@ -1560,7 +1561,7 @@ const truckTag=()=>{ const n=daysTo(); return n==null?'':n>1?`${n} days`:n===1?'
 const P={
   /* owner, 21 Nov 2026: "We wanna ask are you moving or are you managing your storage?" Packing isn't only for moving:
      the Christmas tree in the unit, the office that became a nursery. The answers keep their old values underneath. */
-  mwhat:()=>({h:"Are you moving, or managing your storage?", sub:"A home, a business, or the boxes you keep: the garage, the attic, a storage unit.", body:pickList(MWHAT.map(x=>x[0]),(MWHAT.find(x=>x[1]===S.mwhat)||[])[0])}),
+  mwhat:()=>({h:"Are you moving, or managing your stuff?", sub:"Art projects, hand-me-downs, winter clothes, summer shoes, important papers: the boxes you keep, wherever you keep them.", body:pickList(MWHAT.map(x=>x[0]),(MWHAT.find(x=>x[1]===S.mwhat)||[])[0])}),
   /* panel, 13 Nov (all five), owner's yes: after the third box, find something you packed before the price shows.
      The price sits under the box you just found, the button says what it costs, and "Not now" is always there. */
   tryit:()=>{ const q=(S.tq||'').trim(), hit=q?tryHits(q)[0]:null, last=S.boxes[S.boxes.length-1]||{};
@@ -3216,7 +3217,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v431, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v432, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a
