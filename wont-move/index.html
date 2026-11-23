@@ -63,7 +63,8 @@
   .say p { color: rgba(255,255,255,.84); margin: 6px 0 0; font-size: 1rem; }
   .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .seg button { min-height: 54px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 700; font-size: 1rem; padding: 6px 10px; cursor: pointer; }
-  .seg button[aria-pressed="true"] { border-color: var(--tape); background: var(--tape); color: var(--tape-ink); }
+  /* page-by-page review, 22 Nov 2026: a picked choice is green here as on every other page */
+  .seg button[aria-pressed="true"] { border-color: var(--green, #23673C); background: var(--green, #23673C); color: #fff; }
   .seg button:focus-visible, .row button:focus-visible, .chips button:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
   .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }
   .chips button { min-height: 44px; border-radius: 999px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 700; font-size: .98rem; padding: 4px 16px; cursor: pointer; }
