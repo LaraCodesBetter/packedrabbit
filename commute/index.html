@@ -296,7 +296,7 @@
   if (/^[fro]$/.test(q.get("c") || "")) S.c = q.get("c");
 
   Object.keys(LIM).forEach(function (k) {
-    var f = $(k); f.value = S[k] || "";
+    var f = $(k); f.value = S[k] || ((k === "a" || k === "b") && q.has(k) ? "0" : "");
     f.addEventListener("input", function () { S[k] = num(f.value, LIM[k]); draw(); });
   });
   $("d").value = String(S.d);
@@ -315,6 +315,8 @@
   }
   mark();
 
+  /* a rent field counts as given when anything is typed in it, so 0 (no rent, a paid-off home) is an answer */
+  function has(k) { return $(k).value.trim() !== ""; }
   function fact(id, head, text) { var li = $(id); li.hidden = !text; if (head) li.querySelector("b").textContent = head; li.querySelector("span").textContent = text || ""; }
 
   var last = {};
@@ -332,10 +334,10 @@
     var kick = "", big = "", small = "";
     ["f-a", "f-b", "f-c", "f-d", "f-e"].forEach(function (i) { fact(i); });
 
-    if (!S.a && !S.b && !S.m1 && !S.m2) {
+    if (!has("a") && !has("b") && !S.m1 && !S.m2) {
       big = "Type in both places";
       small = "The rent and the trip to work for each, and the answer shows here.";
-    } else if (!S.a !== !S.b) {
+    } else if (has("a") !== has("b")) {
       big = "Type both rents";
       small = "Put in the rent or mortgage for " + (S.a ? "the place closer to work" : "where you live now") + " too.";
     } else if (S.c === "o" && !S.o) {
@@ -367,7 +369,7 @@
     paint(kick ? [{ n: "Now", r: S.a, g: go1 }, { n: "Closer", r: S.b, g: go2 }] : []);
     last = { kick: kick, big: big, small: small };
     var p = new URLSearchParams();
-    Object.keys(LIM).forEach(function (k) { if (S[k]) p.set(k, String(S[k])); });
+    Object.keys(LIM).forEach(function (k) { if (S[k] || ((k === "a" || k === "b") && has(k))) p.set(k, String(S[k])); });
     p.set("d", String(S.d)); p.set("c", S.c);
     try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
   }
