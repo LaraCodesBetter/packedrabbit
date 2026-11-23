@@ -64,6 +64,8 @@
   .tlv.take { background: #E6F6EF; color: #0B4A33; border-left: 5px solid #0A7A52; }
   .senti { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 6px 0 14px; }
   .senti-w { font-family: var(--display); font-style: italic; font-weight: 800; font-size: clamp(1.35rem, 3.4vw, 1.7rem); color: var(--green, #23673C); letter-spacing: -.01em; }
+  /* page-by-page review, 22 Nov 2026: "Keep it" under the headline reads as words, not a button */
+  .senti-k { font-family: var(--display); font-weight: 800; font-size: clamp(1.1rem, 2.8vw, 1.35rem); color: var(--ink, #14281B); }
   .keep { display: inline-flex; align-items: center; min-height: 32px; padding: 0 14px; border-radius: 999px; background: #E6F6EF; color: #0B4A33; border: 1px solid #0A7A52; font-weight: 800; }
   .tlv.keep { display: block; min-height: 0; border-radius: 12px; padding: 12px 14px; border: 0; background: #E6F6EF; color: #0B4A33; border-left: 5px solid #0A7A52; font-weight: 400; }
   .piece label.sent { display: flex; align-items: center; gap: 10px; min-height: 44px; margin: 8px 0 0; font-size: 1rem; font-weight: 700; color: var(--ink); cursor: pointer; }
@@ -92,7 +94,7 @@
 
   <h1>Take it or leave it?</h1>
   <!-- owner, 21 Nov 2026: never imply take it or leave it without the sentimental part -->
-  <p class="senti"><span class="senti-w">Sentimental is priceless.</span> <span class="keep">Keep it</span></p>
+  <p class="senti"><span class="senti-w">Sentimental is priceless.</span> <span class="senti-k">Keep it.</span></p>
   <p class="lead">Know what each piece is worth before you pay to move it. Two desks you'd replace for $200 can cost more than that to move. A $9,000 bed is worth moving, and worth listing room by room.</p>
 
   <section class="box" aria-labelledby="q-h">

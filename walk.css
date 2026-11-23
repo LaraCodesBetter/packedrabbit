@@ -14,6 +14,7 @@
 
 body.has-walk{background:var(--wk-screen)}
 body.has-walk header.top{margin-bottom:0}
+/* page-by-page review, 22 Nov 2026: the guided tools keep the same header as every other page, Back and Open the app included */
 .walk{position:relative;display:flex;flex-direction:column;min-height:calc(100svh - 74px);max-width:560px;margin:0 auto;font-family:var(--wk-sans);color:var(--wk-text);overflow:hidden}
 .walk *{box-sizing:border-box}
 .wk-text{position:relative;z-index:3;flex:none;display:flex;flex-direction:column;align-items:center;text-align:center;padding:22px 22px 0}
@@ -78,9 +79,6 @@ html.embed .walk{display:none}
 body.has-walk.wk-closed .wk-under, body.has-walk.wk-closed body > footer, body.has-walk.wk-closed > footer{display:none}
 body.has-walk.wk-closed .walk{min-height:calc(100svh - 64px)}
 /* owner, 9 Nov: one signature on every page. The question pages keep only the wordmark at the top, centered, so the question still stands alone. */
-body.has-walk.wk-closed header.top{display:flex; justify-content:center; padding-top:14px; padding-bottom:0}
-body.has-walk.wk-closed header.top > :not(.brand):not(.prhead), body.has-walk.wk-closed header.top .prhead > :not(.brand){display:none}
-body.has-walk.wk-closed header.top .prhead{justify-content:center; background:none; box-shadow:none; border:0}
 .wk-chips{margin-top:16px;width:100%;max-width:360px;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
 .wk-chip{min-height:46px;font-size:16px;padding:6px 14px;flex:0 1 auto}
 .wk-choice.on{background:var(--wk-ink);color:var(--wk-screen)}

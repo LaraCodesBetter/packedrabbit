@@ -141,6 +141,7 @@
   <section class="card2" id="bad" hidden aria-labelledby="bad-h">
     <h2 id="bad-h">This link didn't come through whole</h2>
     <p id="bad-p">Ask the person who sent it to send it again, or to email it. Long links are sometimes cut short in a text.</p>
+    <p id="bad-send" hidden style="margin-top:12px"><a class="btn" href="../send/">Send someone their move dates</a></p>
   </section>
 
   <p class="aside" id="note">These dates came inside the link itself, so we never saw them. We don't check who sends a link, so if anything looks off, call the sender at a number you already have.</p>
@@ -213,11 +214,12 @@
     $("days").textContent = "";
     $("bad").hidden = false;
     if (kind === "old") { $("bad-h").textContent = "This browser can't open the dates"; $("bad-p").textContent = "Open the link in an up-to-date browser, or ask the sender to email you the calendar file."; }
-    if (kind === "none") { $("bad-h").textContent = "No dates in this link"; $("bad-p").textContent = "When someone sends you dates for your move, they open here. Ask them to send the link again."; }
+    /* page-by-page review, 22 Nov 2026: a first visitor with no link learns what the page is, not that something broke */
+    if (kind === "none") { $("bad-h").textContent = "Your moving dates, in one link"; $("bad-p").textContent = "A closing agent, landlord or mover can send you every date of your move in one link. It opens here, and one tap puts them on your calendar. Got a link already? Open it from the message it came in."; $("bad-send").hidden = false; $("note").hidden = true; }
   }
   function show() {
     var hash = location.hash || "", code = P.codeFrom(hash), gift = P.giftFrom(hash);
-    $("bad").hidden = true;
+    $("bad").hidden = true; $("bad-send").hidden = true; $("note").hidden = false;
     if (!code) { bad("none"); return; }
     P.decode(code).then(function (plan) {
       if (!plan.d.length) { bad("cut"); return; }
