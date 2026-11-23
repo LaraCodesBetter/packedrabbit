@@ -200,6 +200,22 @@ async function mailSend(db, s, b) {
     db.prepare("INSERT OR REPLACE INTO docs (path, coll, data, updated) VALUES (?, ?, ?, ?)").bind("mail/" + id + "/parts/body", "mail/" + id + "/parts", JSON.stringify({ text: full, html }), at),
   ]);
   if (b.replyOf) await db.prepare("UPDATE docs SET data = json_set(data, '$.answered', ?) WHERE path = ?").bind(at, "mail/" + safeId(b.replyOf)).run();
+  // owner, 23 Nov 2026: every outreach email stays attached to its prospect for good. The send is written on the
+  // contact's record (never removed), and a new prospect becomes contacted. Only when the address matches the contact.
+  const cid = safeId(b.contact);
+  if (cid) {
+    const c = await db.prepare("SELECT data FROM docs WHERE path = ?").bind("contacts/" + cid).first("data");
+    const cd = c ? JSON.parse(c) : null;
+    if (cd && to.includes(String(cd.email || "").toLowerCase())) {
+      const st = String(cd.status || "new").toLowerCase() === "new" ? "contacted" : cd.status;
+      await db.batch([
+        db.prepare("INSERT OR IGNORE INTO docs (path, coll, data, updated) VALUES (?, ?, ?, ?)").bind(`contacts/${cid}/events/${id}`, `contacts/${cid}/events`, JSON.stringify({ type: "outreach", subject, body: text, at, mailId: id, from: box + "@packedrabbit.com", to: to.join(", "), campaign: String(b.campaign || "").slice(0, 80), batch: String(b.batch || "").slice(0, 80), via, by: s.name }), at),
+        db.prepare("UPDATE docs SET data = json_set(data, '$.status', ?, '$.last', ?, '$.firstSent', coalesce(json_extract(data, '$.firstSent'), ?), '$.campaign', coalesce(nullif(?, ''), json_extract(data, '$.campaign'))), updated = ? WHERE path = ?").bind(st, at, at, String(b.campaign || "").slice(0, 80), at, "contacts/" + cid),
+        db.prepare("UPDATE docs SET data = json_set(data, '$.contact', ?) WHERE path = ?").bind(cid, "mail/" + id),
+        db.prepare("INSERT OR IGNORE INTO docs (path, coll, data, updated) VALUES (?, 'activity', ?, ?)").bind("activity/a" + id, JSON.stringify({ contact: cid, company: cd.company || "", kind: "email", text: `Email sent from ${box}@packedrabbit.com: ${subject}` + (st !== cd.status ? `. Status ${cd.status || "new"} to ${st}.` : ""), at, by: s.name }), at),
+      ]);
+    }
+  }
   return { ok: true, id };
 }
 

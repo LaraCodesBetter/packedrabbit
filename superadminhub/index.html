@@ -338,6 +338,25 @@ const FOLDERS=[["inbox","Inbox"],["starred","Starred"],["drafts","Drafts"],["sen
 const folderOf=m=>m.dir==="draft"?(m.gone?"gone":"drafts"):m.dir==="out"?"sent":m.folder&&m.folder!=="inbox"?m.folder:"inbox";
 const batchKey=m=>m.campaign||m.batch?(m.campaign||"")+"|"+(m.batch||""):"";
 const batchDay=d=>/^\d{4}-\d{2}-\d{2}$/.test(d||"")?new Date(d+"T12:00").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"}):(d||"");
+/* owner, 23 Nov 2026: a draft batch shows its letter (editable for all at once) and its artwork beside Send all */
+const batchDrafts=k=>(S.mail||[]).filter(m=>folderOf(m)==="drafts"&&batchKey(m)===k&&m.to).sort((a,b)=>(a.at||0)-(b.at||0));
+const batchTpl=d=>{ if(!d||d.greet==null) return null; let t=String(d.text||""); t=t.replace("Dear "+d.greet+",","Dear {greeting},"); if(d.op) t=t.replace(d.op,"{opening line}"); else t=t.replace("Dear {greeting},\n\n","Dear {greeting},\n\n{opening line}\n\n"); return t; };
+const fillTpl=(t,d)=>t.replace("{greeting}",d.greet||"there").replace(/\{opening line\}\n*/,d.op?d.op+"\n\n":"");
+const ART={"cid:att0":"https://packedrabbit.com/email/hero.jpg","cid:att1":"https://packedrabbit.com/email/rabbit.png"};
+// the campaign's designed letter, with this draft's words in place of the letter paragraphs
+const designFor=d=>{ const c=S.campaigns.find(x=>x.id===d.campaign); const h=c&&c.html; if(!h) return "";
+  const a=h.indexOf('<p style="margin:0 0 14px">Dear'), z=h.indexOf('<p style="margin:0 0 2px">Warmly,'); if(a<0||z<a) return "";
+  const paras=String(d.text||"").split(/\n\s*\n/).map(p=>p.trim()).filter(p=>p&&!/^Warmly,?$/.test(p)&&!/^Open the sneak peek:/.test(p));
+  let out=h.slice(0,a)+paras.map(p=>`<p style="margin:0 0 14px">${esc(p).replace(/\n/g,"<br>")}</p>`).join("\n")+"\n"+h.slice(z);
+  Object.entries(ART).forEach(([k,v])=>{out=out.split(k).join(v);}); return out.split("{email}").join(encodeURIComponent(String(d.to||"").toLowerCase())); };
+const batchCard=(k,n)=>{ const D=batchDrafts(k), d=D[0], tpl=batchTpl(d), art=d?designFor(d):""; const art1=(S.bulkArt||{})[k]!==false&&!!art;
+  return `<div class="card"><b>${esc(batchName(k,n))}</b><p class="muted" style="margin:6px 0">${n} drafts from ${esc((d&&d.from)||"hello")}@packedrabbit.com, one to each business. Read the letter and the artwork below, change anything, then send.</p>
+  <details ${S.bulkEdit===k?"open":""}><summary style="min-height:44px;cursor:pointer;font-weight:700;color:var(--g)">The letter${tpl?" (edit for all "+n+")":""}</summary>
+  ${tpl?`<p class="muted" style="margin:6px 0">{greeting} and {opening line} fill in for each business. Saving changes all ${n} drafts.</p><textarea id="bt_${esc(k)}" rows="16" style="width:100%">${esc(tpl)}</textarea><div class="row" style="margin-top:8px"><button class="btn s p" data-bsave="${esc(k)}">Save to all ${n} drafts</button></div>`
+  :`<div style="white-space:pre-wrap;margin-top:6px">${esc(d?d.text:"")}</div><p class="muted">To change one letter, open it in the list below.</p>`}</details>
+  ${art?`<details><summary style="min-height:44px;cursor:pointer;font-weight:700;color:var(--g)">The artwork (as ${esc(d.company||d.to)} will see it)</summary><iframe title="Designed letter preview" data-bart="${esc(k)}" style="width:100%;height:640px;border:1px solid var(--line);border-radius:12px;background:#fff" sandbox=""></iframe></details>
+  <label style="display:flex;gap:10px;align-items:center;justify-content:flex-start;min-height:44px;margin:6px 0"><input type="checkbox" style="width:22px;height:22px;flex:none;margin:0" data-bartok="${esc(k)}" ${art1?"checked":""}><span>Send with the artwork</span></label>`:""}
+  <button class="btn p" data-sendall="${esc(k)}" ${S.bulkSending?"disabled":""}>${S.bulkSending===k?esc(S.bulkMsg||"Sending..."):`Send all ${n}`}</button></div>`; };
 const batchName=(k,n)=>{const [c,b]=k.split("|"); return [c?campName(c):"",b?batchDay(b)+" batch":""].filter(Boolean).join(", ")+(n?` (${n})`:"");};
 const inFolder=(m,F)=>F==="starred"?(m.star&&folderOf(m)!=="trash"&&folderOf(m)!=="gone"):folderOf(m)===F;
 const subjKey=t=>String(t||"").replace(/^\s*((re|fwd?|fw)\s*:\s*)+/i,"").trim().toLowerCase();
@@ -376,7 +395,7 @@ function mailList(){ const F=S.mfolder||"inbox", q=(S.mq||"").trim().toLowerCase
   <label for="mBox" style="margin-top:10px">Address</label><select id="mBox"><option value="">All addresses</option>${BOXES.filter(([k])=>counts[k]).map(([k,n])=>`<option value="${k}" ${S.mbox===k?"selected":""}>${esc(n)} (${counts[k]})</option>`).join("")}</select>
   ${F==="sent"&&Object.keys(batches).length?`<label for="mBatch" style="margin-top:10px">Campaign and batch</label><select id="mBatch"><option value="">Every sent email</option>${Object.entries(batches).sort((a,b)=>b[0].localeCompare(a[0])).map(([k,n])=>`<option value="${esc(k)}" ${S.mbatch===k?"selected":""}>${esc(batchName(k,n))}</option>`).join("")}</select>`:""}
   <details class="cfbox"><summary>Rules: file mail automatically (${(S.mailrules||[]).filter(r=>r.on!==0).length})</summary>${rulesView()}</details></div>
-  ${!q&&Object.keys(dbatches).length?Object.entries(dbatches).sort((a,b)=>b[0].localeCompare(a[0])).map(([k,n])=>`<div class="card"><b>${esc(batchName(k,n))}</b><p class="muted" style="margin:6px 0">${n} drafts ready. Open any one to read or change it first. One tap sends them all, one email to each business, through the hub.</p><button class="btn p" data-sendall="${esc(k)}" ${S.bulkSending?"disabled":""}>${S.bulkSending===k?esc(S.bulkMsg||"Sending..."):`Send all ${n}`}</button></div>`).join(""):""}
+  ${!q&&Object.keys(dbatches).length?Object.entries(dbatches).sort((a,b)=>b[0].localeCompare(a[0])).map(([k,n])=>batchCard(k,n)).join(""):""}
   ${q?`<p class="muted" style="margin:0 4px 8px">Results for "${esc(S.mq)}" in every folder.</p>`:""}
   <div class="card"><ul class="list">${M.map(m=>`<li data-mail="${esc(m.id)}"><button class="star" data-mstar="${esc(m.id)}" aria-label="${m.star?"Remove star":"Star"}" aria-pressed="${!!m.star}">${m.star?"&#9733;":"&#9734;"}</button><div class="grow" style="min-width:0"><div style="${m.dir==="in"&&!m.read?"font-weight:800":""}">${m.dir==="draft"?'<span class="tag k">Draft</span> To '+esc(m.to||"(no one yet)"):m.dir==="out"?"To "+esc((m.to||[]).join(", ")):esc(m.fromName||m.from)}</div>
   <div style="${m.dir==="in"&&!m.read?"font-weight:700":""};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.tag?`<span class="tag" style="margin-right:6px">${esc(TAGN[m.tag]||m.tag)}</span>`:""}${m.dir==="out"&&batchKey(m)?`<span class="tag k" style="margin-right:6px">${esc(batchName(batchKey(m)))}</span>`:""}${esc(m.subject)}</div>
@@ -440,17 +459,24 @@ function wireMail(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
     toastUndo(names[to]||"Moved",async()=>{ m.folder=was; render(); try{ await api("merge",{path:"mail/"+m.id,data:{folder:was}}); }catch(e){} }); });
   on("#mBox","onchange",e=>{S.mbox=e.target.value;render();});
   on("#mBatch","onchange",e=>{S.mbatch=e.target.value;render();});
+  document.querySelectorAll("[data-bart]").forEach(f=>{ const d=batchDrafts(f.dataset.bart)[0]; if(d) f.srcdoc=designFor(d); });
+  document.querySelectorAll("[data-bartok]").forEach(el=>el.onchange=()=>{ S.bulkArt=S.bulkArt||{}; S.bulkArt[el.dataset.bartok]=el.checked; });
+  document.querySelectorAll("[data-bsave]").forEach(el=>el.onclick=async()=>{ const k=el.dataset.bsave, t=$("#bt_"+CSS.escape(k)); if(!t) return; const tpl=t.value;
+    if(!/\{greeting\}/.test(tpl)){ toast("Keep {greeting} in the letter so each business gets its own greeting."); return; }
+    const D=batchDrafts(k); el.disabled=true; let n=0;
+    for(const d of D){ const text=fillTpl(tpl,d); try{ await api("merge",{path:"mail/"+d.id,data:{text,snippet:text.replace(/\s+/g," ").slice(0,160)}}); d.text=text; n++; }catch(e){ if(e instanceof SignedOut) return; } }
+    S.bulkEdit=k; await loadColl("mail").catch(()=>{}); render(); toast(`Saved to ${n} of ${D.length} drafts.`); });
   document.querySelectorAll("[data-sendall]").forEach(el=>el.onclick=async()=>{ if(S.bulkSending) return; const k=el.dataset.sendall;
-    const D=(S.mail||[]).filter(m=>folderOf(m)==="drafts"&&batchKey(m)===k&&m.to).sort((a,b)=>(a.at||0)-(b.at||0));
-    if(!D.length||!confirm(`Send ${D.length} emails now (${batchName(k)})? Each business gets its own email from ${D[0].from||"hello"}@packedrabbit.com.`)) return;
+    const D=batchDrafts(k); const withArt=(S.bulkArt||{})[k]!==false;
+    if(!D.length||!confirm(`Send ${D.length} emails now (${batchName(k)})${withArt&&designFor(D[0])?", with the artwork":""}? Each business gets its own email from ${D[0].from||"hello"}@packedrabbit.com.`)) return;
     S.bulkSending=k; let sent=0; const skipped=[];
     for(const [i,m] of D.entries()){ S.bulkMsg=`Sending ${i+1} of ${D.length}...`; render();
-      try{ await api("mail/send",{from:m.from||"hello",to:m.to,cc:m.cc||"",subject:m.subject||"",text:m.text||"",replyOf:m.replyOf||"",campaign:m.campaign,batch:m.batch}); sent++; await api("merge",{path:"mail/"+m.id,data:{gone:1}}).catch(()=>{}); m.gone=1; }
+      try{ const html=withArt?designFor(m):""; await api("mail/send",{from:m.from||"hello",to:m.to,cc:m.cc||"",subject:m.subject||"",text:m.text||"",replyOf:m.replyOf||"",campaign:m.campaign,batch:m.batch,contact:m.contact||"",...(html?{html}:{})}); sent++; await api("merge",{path:"mail/"+m.id,data:{gone:1}}).catch(()=>{}); m.gone=1; }
       catch(e){ if(e instanceof SignedOut) break; skipped.push((m.company||m.to)+" ("+(({unsubscribed:"unsubscribed",held:"on hold",bad_address:"bad address",owner_only:"only the founder sends from larac@"})[e.code]||e.code||"error")+")"); if(["daily_limit","mail_not_connected","read_only","owner_only"].includes(e.code)) break; } }
     S.bulkSending=null; S.bulkMsg=""; await loadColl("mail").catch(()=>{}); render();
     toast(`Sent ${sent} of ${D.length}.`+(skipped.length?` Not sent: ${skipped.join(", ")}. They stay in Drafts.`:"")); });
   on("#mNew","onclick",()=>{S.compose={from:S.mbox&&!["social","codes"].includes(S.mbox)?S.mbox:"hello"};render();});
-  document.querySelectorAll("[data-mail]").forEach(el=>el.onclick=()=>{ const m=(S.mail||[]).find(x=>x.id===el.dataset.mail); if(m&&m.dir==="draft"){ S.compose={draftId:m.id,from:m.from||"hello",to:m.to||"",cc:m.cc||"",subject:m.subject||"",text:m.text||"",replyOf:m.replyOf||"",campaign:m.campaign||"",batch:m.batch||""}; render(); return; } openMail(el.dataset.mail); });
+  document.querySelectorAll("[data-mail]").forEach(el=>el.onclick=()=>{ const m=(S.mail||[]).find(x=>x.id===el.dataset.mail); if(m&&m.dir==="draft"){ S.compose={draftId:m.id,from:m.from||"hello",to:m.to||"",cc:m.cc||"",subject:m.subject||"",text:m.text||"",replyOf:m.replyOf||"",campaign:m.campaign||"",batch:m.batch||"",contact:m.contact||""}; render(); return; } openMail(el.dataset.mail); });
   on("#mBack","onclick",()=>{S.mopen=null;render();});
   const f=$("#mFrame"); if(f&&S.mbody&&S.mbody.html) f.srcdoc=S.mbody.html;
   on("#mReply","onclick",()=>{ const m=(S.mail||[]).find(x=>x.id===S.mopen); const box=boxOf(m); const quote=(S.mbody&&S.mbody.text?"\n\n\nOn "+new Date(m.at).toLocaleString("en-US")+", "+(m.fromName||m.from)+" wrote:\n"+S.mbody.text.split("\n").map(l=>"> "+l).join("\n"):"");
@@ -461,7 +487,7 @@ function wireMail(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
   const cancel=async()=>{ clearTimeout(S.draftT); if(S.compose&&((S.compose.text||"").trim()||(S.compose.subject||"").trim())){ await saveDraft(); toast("Kept in Drafts"); } S.compose=null; await loadColl("mail").catch(()=>{}); render(); };
   on("#mCancel","onclick",cancel); on("#mCancel2","onclick",cancel);
   on("#mSend","onclick",async()=>{ keep(); const c=S.compose; S.mSending=true; render();
-    try{ await api("mail/send",{from:c.from,to:c.to,cc:c.cc,subject:c.subject,text:c.text.replace(/\n\n\nOn [^\n]* wrote:\n[\s\S]*$/,m=>m),replyOf:c.replyOf||"",campaign:c.campaign||"",batch:c.batch||""}); clearTimeout(S.draftT); if(c.draftId) await api("merge",{path:"mail/"+c.draftId,data:{gone:1}}).catch(()=>{}); S.compose=null; S.mopen=null; toast("Sent from "+c.from+"@packedrabbit.com"); await loadColl("mail"); }
+    try{ await api("mail/send",{from:c.from,to:c.to,cc:c.cc,subject:c.subject,text:c.text.replace(/\n\n\nOn [^\n]* wrote:\n[\s\S]*$/,m=>m),replyOf:c.replyOf||"",campaign:c.campaign||"",batch:c.batch||"",contact:c.contact||""}); clearTimeout(S.draftT); if(c.draftId) await api("merge",{path:"mail/"+c.draftId,data:{gone:1}}).catch(()=>{}); S.compose=null; S.mopen=null; toast("Sent from "+c.from+"@packedrabbit.com"); await loadColl("mail"); }
     catch(e){ if(!(e instanceof SignedOut)) toast(({bad_address:"Check the email address.",subject_and_message_needed:"Add a subject and a message.",too_many_recipients:"Ten people at most.",daily_limit:"That's 100 emails today. Try again tomorrow.",ai_draft_only:"AI mailboxes only draft. The owner taps Send.",unsubscribed:"Someone on this email unsubscribed or is marked do not contact, so it wasn't sent.",held:"Someone on this email is held for re-checking, so it wasn't sent.",owner_only:"Only the founder sends from larac@.",read_only:"Your role can read but not send.",own_address_only:"You can send only from your own address.",mail_not_connected:"Mail isn't connected yet."})[e.code]||("Couldn't send. Nothing went out. "+(e.message&&/Cloudflare said/.test(e.message)?e.message:"Try again."))); }
     S.mSending=false; render(); }); }
 
