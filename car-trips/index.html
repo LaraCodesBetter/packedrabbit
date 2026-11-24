@@ -346,22 +346,43 @@
       big = "Check the weight limit";
       small = S.w.toLocaleString("en-US") + " pounds leaves no room for cargo once " + (people === 1 ? "you're" : "both of you are") + " in the car. Check the number on the sticker.";
     } else {
-      var bySpace = Math.ceil(cu / room - 0.001), byWeight = cap ? Math.ceil(lb / cap - 0.001) : 0;
-      loads = Math.max(1, bySpace, byWeight);
-      var weightRules = byWeight > bySpace;
-      for (var i = 0; i < loads; i++) fills.push(Math.min(1, Math.max(0, (weightRules ? lb / cap : cu / room) - i)));
+      /* whole things only: pack the biggest first into the first load with room and weight to spare (reviewer, 24 Nov 2026) */
+      var things = [], tooBig = 0, tooHeavy = 0;
+      ITEMS.forEach(function (it) { for (var j = 0; j < S[it.k]; j++) things.push(it); });
+      things.sort(function (a, b) { return b.cu - a.cu || b.lb - a.lb; });
+      function pack(lim) {
+        var out = [];
+        things.forEach(function (it) {
+          if (it.cu > room + 0.001 || (lim && it.lb > lim)) return;
+          for (var j = 0; j < out.length; j++) if (out[j].cu + it.cu <= room + 0.001 && (!lim || out[j].lb + it.lb <= lim)) { out[j].cu += it.cu; out[j].lb += it.lb; return; }
+          out.push({ cu: it.cu, lb: it.lb });
+        });
+        return out;
+      }
+      things.forEach(function (it) { if (it.cu > room + 0.001) tooBig++; else if (cap && it.lb > cap) tooHeavy++; });
+      var bins = pack(cap);
+      loads = bins.length;
+      var left = tooBig + tooHeavy;
+      if (!loads) {
+        $("kick").textContent = ""; $("big").textContent = tooBig ? "Too big for this car" : "Too heavy for this car";
+        $("small").textContent = tooBig ? "Nothing you listed fits in the room this car has for boxes. Check the car or the cargo space." : "Each thing weighs more than the weight left on your door sticker. Check the number on the sticker.";
+        paint([]); last = { kick: "", big: $("big").textContent, small: $("small").textContent }; return;
+      }
+      var weightRules = cap && loads > pack(0).length;
+      bins.forEach(function (bn) { fills.push(Math.min(1, Math.max(bn.cu / room, cap ? bn.lb / cap : 0))); });
       kick = "With your " + CAR[S.v].n + ", that's";
       big = loads === 1 ? "One trip" : "About " + loads + " trips";
-      small = loads === 1 ? "It all fits in one load" + (cu / room > 0.85 ? ", just. Pack it tight." : ", with room to spare.") :
+      small = left ? plural(left, "thing doesn't", "things don't") + " fit in this car at all: " + (tooBig ? "too big for the room it has" : "") + (tooBig && tooHeavy ? ", or " : "") + (tooHeavy ? "heavier than the weight left on the sticker" : "") + "." :
+        loads === 1 ? "It all fits in one load" + (fills[0] > 0.85 ? ", just. Pack it tight." : ", with room to spare.") :
         (weightRules ? "Weight decides it: each load can carry about " + Math.round(cap).toLocaleString("en-US") + " pounds of boxes." :
           "Each load holds about " + Math.round(room) + " cubic feet; your things take about " + Math.round(cu).toLocaleString("en-US") + ".");
 
       var perMed = Math.floor(room / 3);
       fact("f-a", "Each load", "Room for about " + plural(perMed, "medium box", "medium boxes") + ", or the same space in other sizes" + (S.p ? "." : ", counting the front seat.") +
         " Everything you listed takes about " + Math.round(cu).toLocaleString("en-US") + " cubic feet: " + plural(count, "thing") + ".");
-      var perLoad = lb / loads;
+      var perLoad = lb / loads, heaviest = 0; bins.forEach(function (bn) { heaviest = Math.max(heaviest, bn.lb); });
       fact("f-b", "Weight", "About " + (Math.round(lb / 10) * 10).toLocaleString("en-US") + " pounds in all, about " + (Math.round(perLoad / 10) * 10).toLocaleString("en-US") + " a load." +
-        (cap ? (perLoad <= cap ? " That's under the " + Math.round(cap).toLocaleString("en-US") + " pounds left on your door sticker after " + (people === 1 ? "you." : "the two of you.") : " That's over the limit, so it's split into more loads.") :
+        (cap ? " The heaviest load is about " + (Math.round(heaviest / 10) * 10).toLocaleString("en-US") + ", within the " + Math.round(cap).toLocaleString("en-US") + " pounds left on your door sticker after " + (people === 1 ? "you." : "the two of you."):
           " Type the number on your door sticker to check it against your car's limit."));
       if (S.mi || S.mn) {
         var legs = loads * 2 - 1, miles = S.mi * legs, drive = S.mn * legs, total = drive + loads * LOADMIN;
