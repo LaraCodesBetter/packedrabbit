@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Can I move with just my car? Car trips calculator, free</title>
+<meta name="description" content="Count your boxes, bags and small furniture and pick your car. See how many carloads it takes, what each load weighs next to your car's limit, and the miles, hours and cost of all the trips. Free, no signup.">
+<link rel="canonical" href="https://packedrabbit.com/car-trips/">
+<meta name="theme-color" content="#1C3224">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="Can I move with just my car?">
+<meta property="og:description" content="Your boxes and your car in; how many trips, what each load weighs, and the driving it takes, out.">
+<meta property="og:url" content="https://packedrabbit.com/car-trips/">
+<meta property="og:image" content="https://packedrabbit.com/cards/car-trips.jpg">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Car trips calculator by The Packed Rabbit",
+  "url": "https://packedrabbit.com/car-trips/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "Works out how many carloads a small move takes. Counts small, medium and large boxes, bags and suitcases and small furniture, compares their space with the room a car, SUV, minivan or pickup really has for boxes, and checks each load's weight against the vehicle capacity on the car's door placard. Adds up the miles, hours and running cost of every trip at the IRS 2026 standard mileage rates or a rate you type. Runs on the device; nothing typed is sent anywhere."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How many moving boxes fit in a car?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Roughly: a sedan's trunk and back seat hold about 6 medium boxes, a small SUV with the back seats folded about 13, a midsize SUV about 16, and a minivan with the seats folded or stowed about 28, plus two more on the front seat if nobody rides with you. A medium box is about 3 cubic feet. These are rough figures: boxes fill only part of the cargo space a car's maker lists, because of sloped seatbacks, wheel wells and the back window."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much weight can my car carry when I move?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Look at the tire and loading information placard on the edge of the driver's door or the door frame. Federal safety standard 110 requires it to say: the combined weight of occupants and cargo should never exceed a set number of pounds. Subtract everyone riding in the car; what's left is the most your boxes can weigh. A medium box of household things often weighs 20 to 30 pounds, and a small box of books more."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is it worth moving with just my car?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For a dorm, a studio or a short distance, often yes. Count the loads, then the driving: every load but the last is a round trip. Ten miles each way and five loads is 90 miles of driving plus loading and unloading each time. If it comes to many loads or a long drive, compare it with a cargo van or a small truck for one day."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I pack a car for a move?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Put the heaviest boxes on the floor, low and forward, and the light ones on top. Keep the view in your mirrors clear, nothing loose on the back shelf or behind anyone's head, and stay under the weight on the door placard. Pack the box you'll open first last, so it comes out first."
+      }
+    }
+  ]
+}
+</script>
+<style>
+  .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .lbl { display: block; font-weight: 800; margin: 22px 0 8px; font-size: 1.1rem; }
+  .lbl small { display: block; font-weight: 500; color: var(--ink2); font-size: .9rem; margin-top: 2px; }
+  .fld { width: 100%; box-sizing: border-box; min-height: 54px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 700; font-size: 1.1rem; padding: 8px 14px; }
+  .fld:focus { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+  select.fld { appearance: auto; }
+  input[type=date].fld { min-width: 0; -webkit-appearance: none; appearance: none; display: block; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 0 6px; }
+  .seg button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 6px 8px; line-height: 1.2; }
+  .seg button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .stage { position: sticky; top: 0; z-index: 2; background: #172F20; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .say { padding: 14px 18px 4px; color: #fff; }
+  .say .k { color: rgba(255,255,255,.72); font-weight: 700; font-size: .95rem; margin: 0; }
+  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.6vw, 2.3rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.08; color: #F2E8D5; margin-top: 2px; }
+  .say p { color: rgba(255,255,255,.84); margin: 6px 0 0; font-size: 1rem; }
+  .two { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 10px; align-items: end; }
+  .two > div { min-width: 0; }
+  input[type=date].fld { width: 100%; max-width: 100%; }
+  .two .lbl { margin-top: 14px; }
+  .money { position: relative; }
+  .money span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-weight: 800; color: var(--ink2); pointer-events: none; }
+  .money .fld { padding-left: 28px; }
+  .step { display: flex; align-items: center; gap: 8px; }
+  .step button { width: 52px; height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-size: 1.5rem; font-weight: 800; cursor: pointer; line-height: 1; flex: none; }
+  .step output { flex: 1; text-align: center; font-family: var(--display); font-weight: 850; font-size: 1.2rem; }
+  .facts { list-style: none; margin: 20px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .facts li { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .facts li:last-child { border-bottom: 0; }
+  .facts li[hidden] { display: none; }
+  .facts b { display: block; font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink2); margin-bottom: 2px; }
+  .hint { font-size: .95rem; color: var(--ink2); margin: 8px 2px 0; }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  textarea.fld { min-height: 260px; font-weight: 500; font-size: 1rem; line-height: 1.45; resize: vertical; }
+  .how { margin-top: 34px; } .how h2 { font-size: 1.5rem; }
+  .aside { font-size: .95rem; color: var(--ink2); }
+  .src { font-size: .9rem; color: var(--ink2); border-top: 1px solid var(--line); padding-top: 12px; margin-top: 22px; }
+  .src a { color: var(--ink2); overflow-wrap: anywhere; }
+  .seg.three { grid-template-columns: 1fr 1fr 1fr; }
+  .how ul { padding-left: 20px; } .how li { margin: 6px 0; }
+  [hidden] { display: none !important; }
+  @media (max-width: 370px) { .seg button { font-size: .88rem; } .seg.three { grid-template-columns: 1fr; } .two { grid-template-columns: 1fr; } }
+  .rank { margin: 12px 0 0; padding: 0; list-style: none; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .rank li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 16px; border-bottom: 1px solid var(--line); }
+  .rank li:last-child { border-bottom: 0; }
+  .rank span:last-child { color: var(--ink2); white-space: nowrap; }
+  .stage { position: static; }
+  details.all { margin-top: 18px; }
+  details.all summary { min-height: 44px; display: flex; align-items: center; font-weight: 800; cursor: pointer; }
+  .part { font-size: 1.35rem; margin: 34px 0 0; padding-top: 18px; border-top: 1px solid var(--line); }
+  .seg button br { display: block; }
+</style>
+<style>
+  .items { list-style: none; margin: 8px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .items li { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px 10px 16px; border-bottom: 1px solid var(--line); }
+  .items li:last-child { border-bottom: 0; }
+  .items .nm { font-weight: 800; min-width: 0; }
+  .items .nm small { display: block; font-weight: 500; color: var(--ink2); font-size: .85rem; }
+  .items .step { flex: none; }
+  .items .step output { min-width: 40px; }
+</style>
+<link rel="stylesheet" href="../art.css">
+<meta property="og:image:alt" content="Can I move with just my car? Car trips calculator, free">
+<meta name="twitter:image:alt" content="Can I move with just my car? Car trips calculator, free">
+<script type="application/ld+json" id="pr-page">{"@context":"https://schema.org","@type":"WebPage","@id":"https://packedrabbit.com/car-trips/#webpage","url":"https://packedrabbit.com/car-trips/","name":"Can I move with just my car? Car trips calculator, free","description":"Count your boxes, bags and small furniture and pick your car. See how many carloads it takes, what each load weighs next to your car's limit, and the miles, hours and cost of all the trips. Free, no signup.","inLanguage":"en-US","dateModified":"2026-11-24T16:22:41Z","keywords":"can i move with just my car, box inventory app, moving box inventory, find my box, find my stuff, which box is it in, what's in my boxes, where did i put it, home inventory, storage bin inventory, storage unit inventory, moving and storage app, moving management, storage management, storage unit management, garage organization, attic storage, basement storage, holiday decoration storage, how to store christmas decorations, how to keep track of moving boxes, how to label moving boxes, how to organize a storage unit, what size storage unit do i need, home inventory for insurance, inventory for a pcs move, packing and unpacking, moving checklist, find things without opening every box, no account, we don't sell your data","isPartOf":{"@type":"WebSite","@id":"https://packedrabbit.com/#site","name":"The Packed Rabbit","url":"https://packedrabbit.com/"},"publisher":{"@id":"https://packedrabbit.com/#org"},"about":{"@id":"https://packedrabbit.com/#app"}}</script>
+<script type="application/ld+json" id="pr-org">{"@context":"https://schema.org","@type":"Organization","@id":"https://packedrabbit.com/#org","name":"The Packed Rabbit","url":"https://packedrabbit.com/","logo":"https://packedrabbit.com/app/icon-512.png","email":"hello@packedrabbit.com","sameAs":["https://www.facebook.com/1403706312824938","https://www.instagram.com/thepackedrabbit/","https://www.tiktok.com/@thepackedrabbit","https://www.youtube.com/@thepackedrabbit"]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home"><img class="wm wm-l" src="../img/wordmark.png" alt="The Packed Rabbit" width="150" height="39"><img class="wm wm-d" src="../img/wordmark-cream.png" alt="" width="150" height="39"></a>
+</header>
+
+<main id="main" class="tp">
+<!--pr-art--><figure class="pr-art" aria-hidden="true"><svg viewBox="0 0 360 200" focusable="false"><path class="" d="M18 36 h39 q6 0 6 -6 q0 -7 -8 -6 q-1 -10 -12 -10 q-8 0 -11 7 q-6 -4 -10 1 q-4 4 -1 8 q-6 0 -3 6 z"/><path class="" d="M248 38 h48 q8 0 8 -8 q0 -8 -10 -8 q-2 -12 -14 -12 q-9 0 -14 8 q-7 -5 -13 1 q-5 5 -2 10 q-8 0 -3 8 z"/><path class="nf" d="M170 27 q5 -5 10 0 q5 -5 10 0 M186 18 q4 -4 8 0 q4 -4 8 0"/><path class="f1" d="M0 136 C70 118 120 127 180 113 S300 118 360 134 V192 H0 Z"/><rect class="gnd" x="0" y="192" width="360" height="8"/><path class="nf" d="M0 192 H360"/><rect class="f2" x="48.0" y="110.8" width="10" height="20.4"/><path class="f2" d="M-2 138 L36.0 104 L74 138 Z"/><path class="nf" d="M16.8 132 L30.0 113.5 M22.2 134 L33.6 121.0"/><rect class="f1" x="6" y="138" width="60" height="54" rx="2"/><rect class="f2" x="25.0" y="154" width="22" height="38" rx="2"/><circle class="" cx="42.0" cy="173" r="1.8"/><rect class="f3" x="21.0" y="189" width="30" height="3" rx="1"/><rect class="f1" x="14" y="150" width="11.0" height="16" rx="1"/><path class="nf" d="M19.5 150 v16 M14 158.0 h11.0"/><rect class="f2" x="11" y="166" width="17.0" height="4" rx="1"/><rect class="f1" x="47.0" y="150" width="11.0" height="16" rx="1"/><path class="nf" d="M52.5 150 v16 M47.0 158.0 h11.0"/><rect class="f2" x="44.0" y="166" width="17.0" height="4" rx="1"/><rect class="f2" x="70" y="166" width="32" height="26" rx="2"/><path class="nf" d="M70 171.2 h32"/><rect class="tape" x="83.4" y="166" width="5.1" height="5.2"/><rect class="f1" x="73.0" y="176.9" width="26" height="13" rx="2"/><text class="t8" x="86.0" y="185.9" text-anchor="middle">KIT</text><rect class="f2" x="74" y="150" width="24" height="16" rx="2"/><path class="nf" d="M74 153.2 h24"/><rect class="tape" x="84.1" y="150" width="3.8" height="3.2"/><path class="dash nf" d="M104 186 H262"/><path class="f2" d="M126 180 v-14 q0 -6 6 -7 l12 -2 l16 -18 h40 q6 0 9 5 l10 15 h4 q7 0 7 7 v14 z"/><rect class="f3" x="164" y="146" width="18" height="12" rx="1"/><rect class="f3" x="184" y="146" width="18" height="12" rx="1"/><rect class="f3" x="170" y="136" width="22" height="10" rx="1"/><path class="nf" d="M162 141 h44"/><circle class="f2" cx="146" cy="182" r="9"/><circle class="f1" cx="146" cy="182" r="3.5"/><circle class="f2" cx="212" cy="182" r="9"/><circle class="f1" cx="212" cy="182" r="3.5"/><path class="nf" d="M236 166 h14 l-5 -4 M250 166 l-5 4"/><rect class="f1" x="145.5" y="104" width="77" height="14" rx="2"/><text class="t9" x="184" y="114" text-anchor="middle">TRIP 2 OF 4</text><rect class="f2" x="328.0" y="100.8" width="10" height="20.4"/><path class="f2" d="M264 128 L312.0 94 L360 128 Z"/><path class="nf" d="M286.4 122 L304.0 103.5 M293.6 124 L308.8 111.0"/><rect class="f1" x="272" y="128" width="80" height="64" rx="2"/><rect class="f2" x="301.0" y="154" width="22" height="38" rx="2"/><circle class="" cx="318.0" cy="173" r="1.8"/><rect class="f3" x="297.0" y="189" width="30" height="3" rx="1"/><rect class="f1" x="280" y="140" width="18" height="16" rx="1"/><path class="nf" d="M289.0 140 v16 M280 148.0 h18"/><rect class="f2" x="277" y="156" width="24" height="4" rx="1"/><rect class="f1" x="326" y="140" width="18" height="16" rx="1"/><path class="nf" d="M335.0 140 v16 M326 148.0 h18"/><rect class="f2" x="323" y="156" width="24" height="4" rx="1"/><rect class="f1" x="285.0" y="70" width="54" height="13" rx="2"/><text class="t8" x="312" y="79" text-anchor="middle">NEW HOME</text></svg></figure><!--/pr-art-->
+
+  <h1>Can I move with just my car?</h1>
+  <p class="lede">Count what you're taking and pick your car. See how many loads it takes, whether each load is too heavy for the car, and how much driving all the trips add up to.</p>
+
+  <div class="stage">
+    <div class="say" aria-live="polite"><p class="k" id="kick"></p><div class="big" id="big"></div><p id="small"></p></div>
+    <svg id="svg" viewBox="0 0 500 140" role="img" aria-label="One drawing for each carload, filled as full as that load is"></svg>
+  </div>
+
+  <h2 class="part">What you're taking</h2>
+  <ul class="items" id="items"></ul>
+  <p class="hint">Not sure how many boxes? <a href="../boxes/">Count them by room</a>.</p>
+
+  <h2 class="part">Your car</h2>
+  <label class="lbl" for="v">What you're driving</label>
+  <select class="fld" id="v">
+    <option value="sedan">Car with a trunk (trunk and back seat)</option>
+    <option value="hatch">Hatchback or wagon, back seats folded</option>
+    <option value="ssuv">Small SUV, back seats folded</option>
+    <option value="msuv">Midsize SUV, back seats folded</option>
+    <option value="lsuv">Large SUV, back two rows folded</option>
+    <option value="van">Minivan, seats folded or out</option>
+    <option value="pick">Pickup, in the bed</option>
+    <option value="own">My own number</option>
+  </select>
+  <div id="ownwrap" hidden>
+    <label class="lbl" for="cf">Cargo space, seats folded<small>In cubic feet, from your owner's manual or the maker's website</small></label>
+    <input class="fld" id="cf" type="text" inputmode="decimal" autocomplete="off" maxlength="4">
+  </div>
+  <p class="hint" id="vhint"></p>
+
+  <span class="lbl" id="pl">Is anyone riding with you?</span>
+  <div class="seg" role="group" aria-labelledby="pl">
+    <button type="button" data-p="0">Just me<br>front seat holds boxes</button>
+    <button type="button" data-p="1">Someone rides along</button>
+  </div>
+
+  <label class="lbl" for="w">Weight limit on your door sticker<small>Optional. "Occupants and cargo should never exceed ___ lbs," on the driver's door edge or frame.</small></label>
+  <input class="fld" id="w" type="text" inputmode="numeric" autocomplete="off" maxlength="4">
+
+  <h2 class="part">The drive</h2>
+  <div class="two">
+    <div><label class="lbl" for="mi">Miles<small>One way, old home to new</small></label><input class="fld" id="mi" type="text" inputmode="decimal" autocomplete="off" maxlength="5"></div>
+    <div><label class="lbl" for="mn">Minutes<small>One way, driving</small></label><input class="fld" id="mn" type="text" inputmode="numeric" autocomplete="off" maxlength="4"></div>
+  </div>
+
+  <span class="lbl" id="cl">What a mile of driving costs you<small>The two amounts are the IRS's 2026 standard mileage rates.</small></span>
+  <div class="seg three" role="group" aria-labelledby="cl">
+    <button type="button" data-c="r">Running costs<br>20.5&cent;</button>
+    <button type="button" data-c="f">Everything<br>72.5&cent;</button>
+    <button type="button" data-c="o">My own number</button>
+  </div>
+  <div id="cwrap" hidden>
+    <label class="lbl" for="o">Cents a mile</label>
+    <input class="fld" id="o" type="text" inputmode="decimal" autocomplete="off" maxlength="5">
+  </div>
+  <p class="hint" id="chint"></p>
+
+  <ul class="facts" id="facts">
+    <li id="f-a"><b></b><span></span></li>
+    <li id="f-b"><b></b><span></span></li>
+    <li id="f-c"><b></b><span></span></li>
+    <li id="f-d"><b></b><span></span></li>
+  </ul>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this answer</button>
+    <a class="btn ghost" href="../app/">Number and photograph your boxes in the app</a>
+  </div>
+  <p class="aside">Over several trips, boxes end up in two places at once. The app keeps a photo of what's in each one, so you can find the coffee maker whichever house it's in.</p>
+
+  <section class="how">
+    <h2>How this works</h2>
+    <p><strong>Space.</strong> A small box is about 1.5 cubic feet, a medium about 3, a large about 4.5, a bag or suitcase about 2.5, and a small piece of furniture (a lamp, a side table, a desk chair) about 6. These are added up and compared with the room your car has for boxes.</p>
+    <p><strong>Room in the car.</strong> The figure a carmaker lists for cargo space is measured to the roof and into every corner. Square boxes can't use all of that, because of the sloped seatbacks, the wheel wells and the back window, and you need to see out. This counts about 6 of every 10 listed cubic feet as room for boxes, and up to the top of the sides in a pickup bed. The figures for each kind of car are our own rough typical numbers; yours is in your owner's manual. With nobody riding along, the front seat holds about two more medium boxes.</p>
+    <p><strong>Weight.</strong> Every car and pickup sold in the U.S. has a tire and loading information placard on the edge of the driver's door or its frame, and federal safety standard 110 requires it to state the most that people and cargo together may weigh. Type that number and this takes off about 150 pounds for each person in the car (our own round figure; use the real weight if you know it). Boxes are counted at about 25 pounds for a small or medium, 20 for a large, bag or small piece of furniture. Books and dishes weigh more.</p>
+    <p><strong>Driving.</strong> Every load but the last is a round trip, because the last one ends at the new home. Each load also gets about 40 minutes to carry out, pack in, and carry in at the other end (our own estimate; stairs and long walks add more). The cost a mile is the IRS's 2026 rate for running costs only, gas and upkeep, unless you choose the full rate or your own.</p>
+    <p><strong>Packing the car.</strong> Heaviest boxes on the floor, low and forward; light ones on top. Nothing loose on the back shelf or behind anyone's head, and keep the view in your mirrors clear. In a pickup, strap the load down and cover it. Put the box you'll open first in last.</p>
+    <p class="aside">Too many loads? See <a href="../truck/">what size truck you'd need</a> and <a href="../diy-cost/">what moving yourself with one costs</a>, or <a href="../drive-days/">how many days a long drive takes</a>.</p>
+  </section>
+
+  <p class="src">Sources: the vehicle capacity weight on the tire and loading information placard, from <a href="https://www.ecfr.gov/current/title-49/subtitle-B/chapter-V/part-571/subpart-B/section-571.110">49 CFR 571.110, Federal Motor Vehicle Safety Standard No. 110, Tire selection and rims and motor home/recreation vehicle trailer load carrying capacity information</a>; the cost of a mile from Internal Revenue Service, <a href="https://www.irs.gov/newsroom/irs-sets-2026-business-standard-mileage-rate-at-725-cents-per-mile-up-25-cents">IRS sets 2026 business standard mileage rate at 72.5 cents per mile, up 2.5 cents</a> (IR-2025-128); no more than 30 to 40 pounds a box from the <a href="https://www.fredonia.edu/sites/default/files/section/about/offices/facilities/_files/MOVING-2014.pdf">State University of New York at Fredonia, Facilities Services moving guide</a>. Box sizes and weights, room in each kind of car, the share of it boxes can use, the weight a person and the loading time are our own rough estimates and will vary. Checked November 2026.</p>
+  <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Nothing you type here is sent anywhere. It stays on this page.</p>
+</main>
+
+<script>
+/* Nothing typed here is sent anywhere. The answers go in the address only so a
+   shared link opens showing the same answer. */
+(function () {
+  "use strict";
+  /* room for boxes, cubic feet: our own rough typical figures (about 6 of 10 listed cubic feet; a pickup bed to the top of its sides) */
+  var CAR = {
+    sedan: { n: "car", cu: 20, h: "About 20 cubic feet of boxes: the trunk and the back seat." },
+    hatch: { n: "hatchback", cu: 30, h: "About 30 cubic feet of boxes, from about 50 listed with the seats folded." },
+    ssuv:  { n: "small SUV", cu: 39, h: "About 39 cubic feet of boxes, from about 65 listed with the seats folded." },
+    msuv:  { n: "midsize SUV", cu: 48, h: "About 48 cubic feet of boxes, from about 80 listed with the seats folded." },
+    lsuv:  { n: "large SUV", cu: 60, h: "About 60 cubic feet of boxes, from about 100 listed with two rows folded." },
+    van:   { n: "minivan", cu: 84, h: "About 84 cubic feet of boxes, from about 140 listed with the seats folded or out." },
+    pick:  { n: "pickup", cu: 45, h: "About 45 cubic feet of boxes: a 5.5 to 6.5 foot bed, up to the top of its sides. Strap it down and cover it." },
+    own:   { n: "car", cu: 0,  h: "Boxes get about 6 of every 10 cubic feet you type." }
+  };
+  var FRONT = 6;          /* the front passenger seat, cubic feet, our own estimate */
+  var USE = 0.6;          /* share of listed cargo space boxes can use, our own estimate */
+  var PERSON = 150;       /* pounds a person, our own round figure */
+  var LOADMIN = 40;       /* minutes to load and unload each trip, our own estimate */
+  var RATE = { r: 20.5, f: 72.5 };   /* IRS 2026 standard mileage rates, cents a mile (IR-2025-128) */
+  var ITEMS = [
+    { k: "s", n: "Small boxes", s: "Books, tools, cans", cu: 1.5, lb: 25 },
+    { k: "m", n: "Medium boxes", s: "Kitchen, toys, shoes", cu: 3, lb: 25 },
+    { k: "l", n: "Large boxes", s: "Pillows, towels, lampshades", cu: 4.5, lb: 20 },
+    { k: "b", n: "Bags and suitcases", s: "Clothes, bedding", cu: 2.5, lb: 20 },
+    { k: "f", n: "Small furniture", s: "A lamp, side table, desk chair", cu: 6, lb: 20 }
+  ];
+  var NS = "http://www.w3.org/2000/svg";
+  function $(id) { return document.getElementById(id); }
+  function el(tag, a, p) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  function num(v, max) { var n = parseFloat(String(v == null ? "" : v).replace(/[^0-9.]/g, "")); return isFinite(n) && n > 0 ? Math.min(n, max) : 0; }
+  function whole(n) { return "$" + Math.round(n).toLocaleString("en-US"); }
+  function plural(n, one, many) { return n.toLocaleString("en-US") + " " + (n === 1 ? one : (many || one + "s")); }
+  function hrs(min) {
+    if (min < 55) return Math.max(5, Math.round(min / 5) * 5) + " minutes";
+    var h = min / 60, r = h >= 10 ? Math.round(h) : Math.round(h * 2) / 2;
+    return r === 1 ? "1 hour" : r.toLocaleString("en-US") + " hours";
+  }
+
+  var S = { s: 10, m: 15, l: 5, b: 4, f: 2, v: "ssuv", cf: 0, p: 0, w: 0, mi: 12, mn: 25, c: "r", o: 0 };
+  var LIM = { s: 300, m: 300, l: 300, b: 300, f: 300, cf: 999, w: 9999, mi: 9999, mn: 9999, o: 500 };
+  var q = new URLSearchParams(location.search);
+  if (q.has("v")) {
+    Object.keys(LIM).forEach(function (k) { S[k] = q.has(k) ? num(q.get(k), LIM[k]) : 0; });
+    ["s", "m", "l", "b", "f"].forEach(function (k) { S[k] = Math.round(S[k]); });
+    if (CAR[q.get("v")]) S.v = q.get("v");
+    S.p = q.get("p") === "1" ? 1 : 0;
+    if (/^[rfo]$/.test(q.get("c") || "")) S.c = q.get("c");
+  }
+
+  /* the steppers */
+  ITEMS.forEach(function (it) {
+    var li = document.createElement("li");
+    li.innerHTML = '<span class="nm">' + it.n + "<small>" + it.s + '</small></span><span class="step"><button type="button" aria-label="One fewer: ' + it.n + '">&minus;</button><output id="o-' + it.k + '" aria-live="polite"></output><button type="button" aria-label="One more: ' + it.n + '">+</button></span>';
+    var b = li.querySelectorAll("button");
+    b[0].onclick = function () { S[it.k] = Math.max(0, S[it.k] - 1); draw(); };
+    b[1].onclick = function () { S[it.k] = Math.min(LIM[it.k], S[it.k] + 1); draw(); };
+    $("items").appendChild(li);
+  });
+
+  ["cf", "w", "mi", "mn", "o"].forEach(function (k) {
+    var f = $(k); f.value = S[k] || "";
+    f.addEventListener("input", function () { S[k] = num(f.value, LIM[k]); draw(); });
+  });
+  $("v").value = S.v;
+  $("v").addEventListener("change", function () { S.v = this.value; mark(); draw(); if (S.v === "own" && !S.cf) $("cf").focus(); });
+  [].forEach.call(document.querySelectorAll("[data-p]"), function (b) { b.onclick = function () { S.p = +b.getAttribute("data-p"); mark(); draw(); }; });
+  [].forEach.call(document.querySelectorAll("[data-c]"), function (b) { b.onclick = function () { S.c = b.getAttribute("data-c"); mark(); draw(); if (S.c === "o" && !S.o) $("o").focus(); }; });
+  function mark() {
+    [].forEach.call(document.querySelectorAll("[data-p]"), function (b) { var on = +b.getAttribute("data-p") === S.p; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on ? "true" : "false"); });
+    [].forEach.call(document.querySelectorAll("[data-c]"), function (b) { var on = b.getAttribute("data-c") === S.c; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on ? "true" : "false"); });
+    $("ownwrap").hidden = S.v !== "own";
+    $("cwrap").hidden = S.c !== "o";
+    $("vhint").textContent = CAR[S.v].h;
+    $("chint").textContent = S.c === "r" ? "Gas and upkeep only: what the extra trips really add." :
+      S.c === "f" ? "Gas, upkeep, insurance and the car losing value. The fullest count." :
+      "Type what a mile costs you, in cents. 30 means 30 cents.";
+  }
+  mark();
+
+  function fact(id, head, text) { var li = $(id); li.hidden = !text; if (head) li.querySelector("b").textContent = head; li.querySelector("span").textContent = text || ""; }
+
+  var last = {};
+  function draw() {
+    ITEMS.forEach(function (it) { $("o-" + it.k).textContent = String(S[it.k]); });
+    var cu = 0, lb = 0, count = 0;
+    ITEMS.forEach(function (it) { cu += S[it.k] * it.cu; lb += S[it.k] * it.lb; count += S[it.k]; });
+    var room = (S.v === "own" ? S.cf * USE : CAR[S.v].cu) + (S.p ? 0 : FRONT);
+    var people = S.p ? 2 : 1;
+    var cap = S.w ? S.w - people * PERSON : 0;      /* pounds of boxes a load may weigh */
+    var kick = "", big = "", small = "", loads = 0, fills = [];
+    ["f-a", "f-b", "f-c", "f-d"].forEach(function (i) { fact(i); });
+
+    if (!count) {
+      big = "Add what you're taking";
+      small = "Tap + next to the boxes, bags and furniture, and the answer shows here.";
+    } else if (S.v === "own" && !S.cf) {
+      big = "Type your cargo space";
+      small = "Or pick the kind of car you drive.";
+    } else if (S.w && cap <= 0) {
+      big = "Check the weight limit";
+      small = S.w.toLocaleString("en-US") + " pounds leaves no room for cargo once " + (people === 1 ? "you're" : "both of you are") + " in the car. Check the number on the sticker.";
+    } else {
+      var bySpace = Math.ceil(cu / room - 0.001), byWeight = cap ? Math.ceil(lb / cap - 0.001) : 0;
+      loads = Math.max(1, bySpace, byWeight);
+      var weightRules = byWeight > bySpace;
+      for (var i = 0; i < loads; i++) fills.push(Math.min(1, Math.max(0, (weightRules ? lb / cap : cu / room) - i)));
+      kick = "With your " + CAR[S.v].n + ", that's";
+      big = loads === 1 ? "One trip" : "About " + loads + " trips";
+      small = loads === 1 ? "It all fits in one load" + (cu / room > 0.85 ? ", just. Pack it tight." : ", with room to spare.") :
+        (weightRules ? "Weight decides it: each load can carry about " + Math.round(cap).toLocaleString("en-US") + " pounds of boxes." :
+          "Each load holds about " + Math.round(room) + " cubic feet; your things take about " + Math.round(cu).toLocaleString("en-US") + ".");
+
+      var perMed = Math.floor(room / 3);
+      fact("f-a", "Each load", "Room for about " + plural(perMed, "medium box", "medium boxes") + ", or the same space in other sizes" + (S.p ? "." : ", counting the front seat.") +
+        " Everything you listed takes about " + Math.round(cu).toLocaleString("en-US") + " cubic feet: " + plural(count, "thing") + ".");
+      var perLoad = lb / loads;
+      fact("f-b", "Weight", "About " + (Math.round(lb / 10) * 10).toLocaleString("en-US") + " pounds in all, about " + (Math.round(perLoad / 10) * 10).toLocaleString("en-US") + " a load." +
+        (cap ? (perLoad <= cap ? " That's under the " + Math.round(cap).toLocaleString("en-US") + " pounds left on your door sticker after " + (people === 1 ? "you." : "the two of you.") : " That's over the limit, so it's split into more loads.") :
+          " Type the number on your door sticker to check it against your car's limit."));
+      if (S.mi || S.mn) {
+        var legs = loads * 2 - 1, miles = S.mi * legs, drive = S.mn * legs, total = drive + loads * LOADMIN;
+        var cpm = (S.c === "o" ? S.o : RATE[S.c]) / 100;
+        fact("f-c", "The driving", (loads === 1 ? "One drive, " : loads + " drives there and " + (loads - 1) + " back, ") +
+          (S.mi ? "about " + Math.round(miles).toLocaleString("en-US") + " miles" : "") + (S.mi && S.mn ? " and " : "") + (S.mn ? hrs(drive) + " behind the wheel" : "") + "." +
+          " With about 40 minutes a load to carry and pack, plan on about " + hrs(total) + " in all." +
+          (S.mi && cpm ? " At " + (Math.round(cpm * 1000) / 10) + " cents a mile, the driving costs about " + whole(miles * cpm) + "." : ""));
+      } else fact("f-c", "The driving", "Type the miles or minutes one way to see the time and cost of every trip.");
+      if (loads >= 5 || (S.mi >= 60 && loads >= 3) || (S.mn >= 90 && loads >= 2))
+        fact("f-d", "Worth a look", "That's a lot of back and forth. A cargo van or small truck for one day might do it in one trip; compare its cost and the hours with the driving above.");
+      else if (loads === 1 && S.mi >= 300)
+        fact("f-d", "Worth a look", "A long drive with a full car: keep the view in your mirrors clear and the heaviest boxes low, and plan the stops before you leave.");
+    }
+    $("kick").textContent = kick; $("big").textContent = big; $("small").textContent = small;
+    paint(fills);
+    last = { kick: kick, big: big, small: small };
+    var p = new URLSearchParams();
+    ["s", "m", "l", "b", "f"].forEach(function (k) { p.set(k, String(S[k])); });
+    p.set("v", S.v); if (S.cf) p.set("cf", String(S.cf)); p.set("p", String(S.p));
+    ["w", "mi", "mn", "o"].forEach(function (k) { if (S[k]) p.set(k, String(S[k])); });
+    p.set("c", S.c);
+    try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
+  }
+
+  /* one small car for each load, its back window filled as full as that load */
+  function paint(fills) {
+    var s = $("svg"); s.textContent = "";
+    if (!fills.length) { s.setAttribute("viewBox", "0 0 500 16"); return; }
+    var shown = fills.slice(0, 12), per = 4, w = 115, h = 74;
+    var rows = Math.ceil(shown.length / per);
+    s.setAttribute("viewBox", "0 0 500 " + (rows * h + 18 + (fills.length > 12 ? 26 : 0)));
+    shown.forEach(function (f, i) {
+      var x = 14 + (i % per) * (w + 4), y = 8 + Math.floor(i / per) * h;
+      el("path", { d: "M" + (x + 6) + " " + (y + 50) + " v-16 q0 -6 6 -7 l14 -2 l16 -16 h40 q6 0 9 5 l9 13 h4 q6 0 6 7 v16 z", fill: "#1E412B", stroke: "#52B978", "stroke-width": 2, "stroke-linejoin": "round" }, s);
+      el("rect", { x: x + 42, y: y + 15, width: 46, height: 16, rx: 3, fill: "#172F20" }, s);
+      if (f > 0) el("rect", { x: x + 42, y: y + 15 + 16 * (1 - f), width: 46, height: 16 * f, rx: 2, fill: "#EADFC9" }, s);
+      el("circle", { cx: x + 26, cy: y + 52, r: 8, fill: "#172F20", stroke: "#52B978", "stroke-width": 2 }, s);
+      el("circle", { cx: x + 88, cy: y + 52, r: 8, fill: "#172F20", stroke: "#52B978", "stroke-width": 2 }, s);
+      var t = el("text", { x: x + 22, y: y + 26, fill: "#F2E8D5", "text-anchor": "middle", "font-size": 15, "font-weight": 800, "font-family": "system-ui,sans-serif" }, s); t.textContent = String(i + 1);
+    });
+    if (fills.length > 12) { var m = el("text", { x: 250, y: rows * h + 30, fill: "#FFFFFF", "text-anchor": "middle", "font-size": 16, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); m.textContent = "and " + (fills.length - 12) + " more"; }
+  }
+  draw();
+
+  function wrap(g, text, x, y, max, lh) {
+    var words = text.split(" "), line = "";
+    words.forEach(function (w) { var t = line ? line + " " + w : w; if (g.measureText(t).width > max && line) { g.fillText(line, x, y); y += lh; line = w; } else line = t; });
+    if (line) g.fillText(line, x, y); return y + lh;
+  }
+  function picture() {
+    var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
+    var g = cv.getContext("2d"), FN = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#172F20"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#EADFC9"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.textAlign = "center";
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "700 42px " + FN; g.fillText("Can I move with just my car?", Z / 2, 230);
+    g.fillStyle = "rgba(255,255,255,.75)"; g.font = "600 36px " + FN;
+    var y = wrap(g, last.kick || "", Z / 2, 320, 920, 48);
+    g.fillStyle = "#F2E8D5"; g.font = "850 92px " + FN;
+    y = wrap(g, last.big || "", Z / 2, y + 60, 960, 104);
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 34px " + FN;
+    wrap(g, last.small || "", Z / 2, y + 20, 900, 48);
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 32px " + FN; g.fillText("Work out yours, free:", Z / 2, 940);
+    g.fillStyle = "#fff"; g.font = "800 40px " + FN; g.fillText("packedrabbit.com/car-trips", Z / 2, 995);
+    return cv;
+  }
+  $("share").addEventListener("click", function () {
+    var url = location.origin + location.pathname + location.search, text = (last.kick ? last.kick + " " : "") + (last.big || "").toLowerCase() + ". Work out yours, free:";
+    var cv = picture(); if (typeof prBrand === "function") cv = prBrand(cv);
+    cv.toBlob(function (blob) {
+      var file = blob && typeof File !== "undefined" ? new File([blob], "car-trips.png", { type: "image/png" }) : null;
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+      else if (navigator.share) navigator.share({ title: "Can I move with just my car?", text: text, url: url }).catch(function () {});
+      else if (blob) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "car-trips.png"; document.body.appendChild(a); a.click(); a.remove(); }
+    }, "image/png");
+  });
+})();
+</script>
+<script>
+/* Embedded on someone else's page: no site header or footer, links open in a
+   new tab, a credit line at the end, and the height told to the host page. */
+(function () {
+  if (!document.documentElement.classList.contains("embed")) return;
+  document.querySelectorAll("a[href]").forEach(function (a) { a.target = "_blank"; a.rel = "noopener"; });
+  var m = document.querySelector("main") || document.body;
+  var c = document.createElement("a");
+  c.className = "embed-credit"; c.target = "_blank"; c.rel = "noopener";
+  c.href = "https://packedrabbit.com" + location.pathname;
+  c.textContent = "Free tool by The Packed Rabbit";
+  if (!/[?&]hub\b/.test(location.search)) m.appendChild(c);
+  function tell() { try { parent.postMessage({ prEmbedHeight: Math.ceil(document.documentElement.scrollHeight) }, "*"); } catch (e) {} }
+  tell(); addEventListener("load", tell); addEventListener("resize", tell);
+  if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
+})();
+</script>
+<script src="../brand.js"></script>
+<script src="../nav.js" defer></script>
+
+<section class="last" id="last" aria-label="Contact and links">
+  <img src="../img/wordmark-cream.png" alt="The Packed Rabbit" width="190" height="50" loading="lazy">
+  <h2>Questions? Write to us.</h2>
+  <a class="mail" href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a>
+  <nav aria-label="More from The Packed Rabbit">
+    <a href="../tools/">Free moving tools</a><a href="../answers/">Straight answers</a>
+    <a href="../business/">For businesses</a><a href="../price.html">Price</a>
+    <a href="../privacy.html">Privacy</a><a href="../terms.html">Terms and refunds</a>
+  </nav>
+  <div class="soc" aria-label="Follow The Packed Rabbit">
+    <a href="https://www.facebook.com/1403706312824938" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 21v-7.5h2.6l.4-3H14V8.6c0-.9.3-1.5 1.6-1.5H17V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8.3v3H11V21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></a>
+    <a href="https://www.instagram.com/thepackedrabbit/" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></svg></a>
+    <a href="https://www.tiktok.com/@thepackedrabbit" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5M14 3c.5 2.8 2.4 4.6 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a href="https://www.youtube.com/@thepackedrabbit" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 9.3v5.4l4.6-2.7z" fill="currentColor"/></svg></a>
+  </div>
+  <p class="lead">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>
+  <small>&copy; 2026 The Packed Rabbit</small>
+</section>
+</body>
+</html>
