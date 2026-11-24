@@ -366,7 +366,7 @@
       if (!loads) {
         $("kick").textContent = ""; $("big").textContent = tooBig ? "Too big for this car" : "Too heavy for this car";
         $("small").textContent = tooBig ? "Nothing you listed fits in the room this car has for boxes. Check the car or the cargo space." : "Each thing weighs more than the weight left on your door sticker. Check the number on the sticker.";
-        paint([]); last = { kick: "", big: $("big").textContent, small: $("small").textContent }; return;
+        paint([]); last = { kick: "", big: $("big").textContent, small: $("small").textContent }; sync(); return;
       }
       var weightRules = cap && loads > pack(0).length;
       bins.forEach(function (bn) { fills.push(Math.min(1, Math.max(bn.cu / room, cap ? bn.lb / cap : 0))); });
@@ -380,8 +380,9 @@
       var perMed = Math.floor(room / 3);
       fact("f-a", "Each load", "Room for about " + plural(perMed, "medium box", "medium boxes") + ", or the same space in other sizes" + (S.p ? "." : ", counting the front seat.") +
         " Everything you listed takes about " + Math.round(cu).toLocaleString("en-US") + " cubic feet: " + plural(count, "thing") + ".");
-      var perLoad = lb / loads, heaviest = 0; bins.forEach(function (bn) { heaviest = Math.max(heaviest, bn.lb); });
-      fact("f-b", "Weight", "About " + (Math.round(lb / 10) * 10).toLocaleString("en-US") + " pounds in all, about " + (Math.round(perLoad / 10) * 10).toLocaleString("en-US") + " a load." +
+      var packedLb = 0, heaviest = 0; bins.forEach(function (bn) { packedLb += bn.lb; heaviest = Math.max(heaviest, bn.lb); });
+      var perLoad = packedLb / loads;
+      fact("f-b", "Weight", "About " + (Math.round(lb / 10) * 10).toLocaleString("en-US") + " pounds in all" + (left ? " (about " + (Math.round(packedLb / 10) * 10).toLocaleString("en-US") + " of it in the car)" : "") + ", about " + (Math.round(perLoad / 10) * 10).toLocaleString("en-US") + " a load." +
         (cap ? " The heaviest load is about " + (Math.round(heaviest / 10) * 10).toLocaleString("en-US") + ", within the " + Math.round(cap).toLocaleString("en-US") + " pounds left on your door sticker after " + (people === 1 ? "you." : "the two of you."):
           " Type the number on your door sticker to check it against your car's limit."));
       if (S.mi || S.mn) {
@@ -400,12 +401,16 @@
     $("kick").textContent = kick; $("big").textContent = big; $("small").textContent = small;
     paint(fills);
     last = { kick: kick, big: big, small: small };
-    var p = new URLSearchParams();
-    ["s", "m", "l", "b", "f"].forEach(function (k) { p.set(k, String(S[k])); });
-    p.set("v", S.v); if (S.cf) p.set("cf", String(S.cf)); p.set("p", String(S.p));
-    ["w", "mi", "mn", "o"].forEach(function (k) { if (S[k]) p.set(k, String(S[k])); });
-    p.set("c", S.c);
-    try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
+    sync();
+  }
+
+  function sync() {
+      var p = new URLSearchParams();
+      ["s", "m", "l", "b", "f"].forEach(function (k) { p.set(k, String(S[k])); });
+      p.set("v", S.v); if (S.cf) p.set("cf", String(S.cf)); p.set("p", String(S.p));
+      ["w", "mi", "mn", "o"].forEach(function (k) { if (S[k]) p.set(k, String(S[k])); });
+      p.set("c", S.c);
+      try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
   }
 
   /* one small car for each load, its back window filled as full as that load */
