@@ -34,26 +34,68 @@
   "description": "Builds a dated moving checklist from a moving date: what to do this week, each week before the move, on moving day, on delivery day and after, for a move with hired movers or a move you do yourself, with extra steps for renters, pets and moves across state lines. Tasks that would already be late move to the top instead of being marked missed. Can be saved to a calendar."
 }
 </script>
-<script type="application/ld+json">
-{
+<script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    { "@type": "Question", "name": "When should I file a change of address with the post office?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The U.S. Postal Service accepts a change of address up to 90 days before your move and up to 30 days after it. Mail starts arriving at the new address within 7 to 10 postal business days of the start date, so filing about two weeks ahead is a sensible target. Filing online has a $1.25 identity check fee." } },
-    { "@type": "Question", "name": "How many movers should I get estimates from?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The Federal Motor Carrier Safety Administration suggests getting estimates from at least three movers or brokers and comparing the cost and the services. For a move across state lines, check that the mover is registered with FMCSA and has a USDOT number." } },
-    { "@type": "Question", "name": "What should I check on moving day?",
-      "acceptedAnswer": { "@type": "Answer", "text": "FMCSA advises reading the estimate, bill of lading and inventory before you sign them, going with the movers while they inventory your things, staying until they finish, and walking through the home before the truck leaves. Keep the bill of lading until everything is delivered, paid and any claims are settled." } },
-    { "@type": "Question", "name": "How long do I have to file a claim with an interstate mover?",
-      "acceptedAnswer": { "@type": "Answer", "text": "For an interstate move, FMCSA says you must file a written claim with the mover within 9 months of delivery. Note damaged or missing items on the inventory before you sign at delivery." } },
-    { "@type": "Question", "name": "Do I need to tell the IRS I moved?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes. The IRS says to notify the post office and also notify the IRS directly, because not all post offices forward government checks. You can use Form 8822, a signed letter, or your next tax return. Changes generally take about 45 days to process." } },
-    { "@type": "Question", "name": "What do I need to move a pet to another state?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The receiving state sets the rules, according to the U.S. Department of Agriculture. Some states ask for a health certificate or updated vaccinations. Check with the state animal health official for the state you are moving to, and talk to your veterinarian early." } }
+    {
+      "@type": "Question",
+      "name": "I'm moving. What do I need to do before moving day?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Work back from the date: get written estimates from at least three movers about eight weeks out and check each one's USDOT number, start packing the rooms you use least, file your change of address with the Postal Service up to 90 days before, transfer utilities, and pack an Open First box with medications, documents, chargers and bedding. The checklist on this page dates every task back from your moving day."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When should I file a change of address with the post office?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The U.S. Postal Service accepts a change of address up to 90 days before your move and up to 30 days after it. Mail starts arriving at the new address within 7 to 10 postal business days of the start date, so filing about two weeks ahead is a sensible target. Filing online has a $1.25 identity check fee."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many movers should I get estimates from?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Federal Motor Carrier Safety Administration suggests getting estimates from at least three movers or brokers and comparing the cost and the services. For a move across state lines, check that the mover is registered with FMCSA and has a USDOT number."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What should I check on moving day?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "FMCSA advises reading the estimate, bill of lading and inventory before you sign them, going with the movers while they inventory your things, staying until they finish, and walking through the home before the truck leaves. Keep the bill of lading until everything is delivered, paid and any claims are settled."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long do I have to file a claim with an interstate mover?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For an interstate move, FMCSA says you must file a written claim with the mover within 9 months of delivery. Note damaged or missing items on the inventory before you sign at delivery."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to tell the IRS I moved?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The IRS says to notify the post office and also notify the IRS directly, because not all post offices forward government checks. You can use Form 8822, a signed letter, or your next tax return. Changes generally take about 45 days to process."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What do I need to move a pet to another state?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The receiving state sets the rules, according to the U.S. Department of Agriculture. Some states ask for a health certificate or updated vaccinations. Check with the state animal health official for the state you are moving to, and talk to your veterinarian early."
+      }
+    }
   ]
-}
-</script>
+}</script>
 <style>
   .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
   .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
@@ -102,7 +144,8 @@
 <meta name="twitter:image:alt" content="Moving checklist by date. A line drawing from The Packed Rabbit.">
 <style id="skipcss">.skip{position:absolute;left:-9999px;top:8px;z-index:9999;background:#14281B;color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;text-decoration:none}.skip:focus{left:8px}</style>
 <link rel="stylesheet" href="../art.css">
-<script type="application/ld+json" id="pr-page">{"@context":"https://schema.org","@type":"WebPage","@id":"https://packedrabbit.com/checklist/#webpage","url":"https://packedrabbit.com/checklist/","name":"Moving checklist by date: what to do each week before you move","description":"Type your moving date and get a dated moving checklist: what to do this week, every week until the move, on moving day and after. Add it to your calendar. Free, no signup.","inLanguage":"en-US","dateModified":"2026-11-23T15:38:24Z","keywords":"moving checklist by date, box inventory app, moving box inventory, find my box, find my stuff, which box is it in, what's in my boxes, where did i put it, home inventory, storage bin inventory, storage unit inventory, moving and storage app, moving management, storage management, storage unit management, garage organization, attic storage, basement storage, holiday decoration storage, how to store christmas decorations, how to keep track of moving boxes, how to label moving boxes, how to organize a storage unit, what size storage unit do i need, home inventory for insurance, inventory for a pcs move, packing and unpacking, moving checklist, find things without opening every box, no account, we don't sell your data","isPartOf":{"@type":"WebSite","@id":"https://packedrabbit.com/#site","name":"The Packed Rabbit","url":"https://packedrabbit.com/"},"publisher":{"@id":"https://packedrabbit.com/#org"},"about":{"@id":"https://packedrabbit.com/#app"}}</script>
+<style id="faqcss">.faq-ask{max-width:760px;margin:40px auto 0;padding:0 16px}.faq-ask h2{margin:0 0 8px}.faq-ask h3{font-size:1.12rem;margin:22px 0 6px}.faq-ask p{margin:0;line-height:1.6;color:var(--ink2,inherit)}html.embed .faq-ask{display:none!important}</style>
+<script type="application/ld+json" id="pr-page">{"@context":"https://schema.org","@type":"WebPage","@id":"https://packedrabbit.com/checklist/#webpage","url":"https://packedrabbit.com/checklist/","name":"Moving checklist by date: what to do each week before you move","description":"Type your moving date and get a dated moving checklist: what to do this week, every week until the move, on moving day and after. Add it to your calendar. Free, no signup.","inLanguage":"en-US","dateModified":"2026-11-24T23:22:45Z","keywords":"moving checklist by date, box inventory app, moving box inventory, find my box, find my stuff, which box is it in, what's in my boxes, where did i put it, home inventory, storage bin inventory, storage unit inventory, moving and storage app, moving management, storage management, storage unit management, garage organization, attic storage, basement storage, holiday decoration storage, how to store christmas decorations, how to keep track of moving boxes, how to label moving boxes, how to organize a storage unit, what size storage unit do i need, home inventory for insurance, inventory for a pcs move, packing and unpacking, moving checklist, find things without opening every box, no account, we don't sell your data","isPartOf":{"@type":"WebSite","@id":"https://packedrabbit.com/#site","name":"The Packed Rabbit","url":"https://packedrabbit.com/"},"publisher":{"@id":"https://packedrabbit.com/#org"},"about":{"@id":"https://packedrabbit.com/#app"}}</script>
 <script type="application/ld+json" id="pr-org">{"@context":"https://schema.org","@type":"Organization","@id":"https://packedrabbit.com/#org","name":"The Packed Rabbit","url":"https://packedrabbit.com/","logo":"https://packedrabbit.com/app/icon-512.png","email":"hello@packedrabbit.com","sameAs":["https://www.facebook.com/1403706312824938","https://www.instagram.com/thepackedrabbit/","https://www.tiktok.com/@thepackedrabbit","https://www.youtube.com/@thepackedrabbit"]}</script>
 </head>
 <body>
@@ -168,6 +211,7 @@
   </div>
   <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Nothing you type here is sent anywhere. It stays on this page.</p>
 </main>
+<!--pr-faq--><section class="faq-ask" aria-labelledby="faq-ask-h"><h2 id="faq-ask-h">Questions people ask</h2><h3>I&#x27;m moving. What do I need to do before moving day?</h3><p>Work back from the date: get written estimates from at least three movers about eight weeks out and check each one&#x27;s USDOT number, start packing the rooms you use least, file your change of address with the Postal Service up to 90 days before, transfer utilities, and pack an Open First box with medications, documents, chargers and bedding. The checklist on this page dates every task back from your moving day.</p><h3>When should I file a change of address with the post office?</h3><p>The U.S. Postal Service accepts a change of address up to 90 days before your move and up to 30 days after it. Mail starts arriving at the new address within 7 to 10 postal business days of the start date, so filing about two weeks ahead is a sensible target. Filing online has a $1.25 identity check fee.</p><h3>How many movers should I get estimates from?</h3><p>The Federal Motor Carrier Safety Administration suggests getting estimates from at least three movers or brokers and comparing the cost and the services. For a move across state lines, check that the mover is registered with FMCSA and has a USDOT number.</p><h3>What should I check on moving day?</h3><p>FMCSA advises reading the estimate, bill of lading and inventory before you sign them, going with the movers while they inventory your things, staying until they finish, and walking through the home before the truck leaves. Keep the bill of lading until everything is delivered, paid and any claims are settled.</p><h3>How long do I have to file a claim with an interstate mover?</h3><p>For an interstate move, FMCSA says you must file a written claim with the mover within 9 months of delivery. Note damaged or missing items on the inventory before you sign at delivery.</p><h3>Do I need to tell the IRS I moved?</h3><p>Yes. The IRS says to notify the post office and also notify the IRS directly, because not all post offices forward government checks. You can use Form 8822, a signed letter, or your next tax return. Changes generally take about 45 days to process.</p><h3>What do I need to move a pet to another state?</h3><p>The receiving state sets the rules, according to the U.S. Department of Agriculture. Some states ask for a health certificate or updated vaccinations. Check with the state animal health official for the state you are moving to, and talk to your veterinarian early.</p></section><!--/pr-faq-->
 
 <section class="last" id="last" aria-label="Contact and links">
   <img src="../img/wordmark-cream.png" alt="The Packed Rabbit" width="190" height="50" loading="lazy">
