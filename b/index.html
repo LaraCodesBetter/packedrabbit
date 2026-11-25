@@ -7,6 +7,9 @@
 <meta name="robots" content="noindex">
 <title>A packed box · The Packed Rabbit</title>
 <style>
+/* break panel, 24 Nov: long codes and room words ran off a 320px screen */
+#code,#where,#help{overflow-wrap:anywhere}
+
 @font-face{font-family:"Atkinson Hyperlegible Next";src:url("../app/fonts/atkinson-next.woff") format("woff");font-weight:200 800;font-display:swap}
 :root{--green:#0D3B22;--ink:#1E4D33;--cream:#F2E8D5;--text:#1B2A21;--muted:#56665B;--screen:#F7F8F5}
 *{box-sizing:border-box}
@@ -32,7 +35,7 @@ p{font-size:18px;line-height:1.5;color:var(--muted);margin:6px 0;max-width:32ch}
   <div class="tag" id="code">A box</div>
   <h1 id="where">This box is part of someone's move.</h1>
   <p id="help">Carrying it? Please take it where the label says.</p>
-  <a class="cta" href="../">Pack your own move calmly</a>
+  <a class="cta" href="../app/start/?begin">Moving or storing things? Try it with three boxes</a>
   <a class="link" id="mine" href="../app/?go=find">This is my box: open my move</a>
   <p class="lead">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>
 </main>
@@ -40,7 +43,7 @@ p{font-size:18px;line-height:1.5;color:var(--muted);margin:6px 0;max-width:32ch}
 /* the label carries only its code and where it goes. What's inside stays on the owner's phone. */
 (function(){ try{
   var h=decodeURIComponent((location.hash||'').slice(1)), parts=h.split('/'), code=(parts[0]||'').replace(/[^A-Za-z0-9-]/g,'').toUpperCase().slice(0,16), room=(parts[1]||'').replace(/[<>]/g,'').slice(0,40);
-  if(code){ document.getElementById('code').textContent=code; document.title=code+' · The Packed Rabbit'; }
+  if(code){ document.getElementById('code').textContent=code; document.title=code+' · The Packed Rabbit'; /* panel, 24 Nov: the drawing showed KIT-07 whatever the label said */ [].forEach.call(document.querySelectorAll('.pr-art text'),function(t){ if(t.textContent==='KIT-07') t.textContent=code; }); }
   if(room){ document.getElementById('where').textContent='This box goes to the '+room.toLowerCase()+'.'; document.getElementById('help').textContent='Carrying it? Thank you. Please set it in the '+room.toLowerCase()+'.'; }
 }catch(e){} })();
 </script>

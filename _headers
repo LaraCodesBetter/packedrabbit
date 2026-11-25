@@ -27,6 +27,25 @@
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: SAMEORIGIN
 
+# The free tools other sites paste in (site/embed/) must be allowed in a frame,
+# or every pasted tool shows blank. They hold no account and change nothing.
+/fit/*
+  ! X-Frame-Options
+/truck/*
+  ! X-Frame-Options
+/boxes/*
+  ! X-Frame-Options
+/diy-cost/*
+  ! X-Frame-Options
+/tip/*
+  ! X-Frame-Options
+/checklist/*
+  ! X-Frame-Options
+/deposit/*
+  ! X-Frame-Options
+/storage/*
+  ! X-Frame-Options
+
 # The owner's hub: never cached, never indexed.
 /superadminhub/*
   Cache-Control: no-store
