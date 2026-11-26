@@ -13,6 +13,7 @@ Free tools: https://packedrabbit.com/tools/
 - Moving: a home, an office or small business, a nonprofit or community group, a military PCS move.
 - Managing stuff between moves (the app calls it "Managing my stuff"): holiday decorations, winter clothes, hand-me-downs, kids' art projects, important papers, tools, sports and camping gear, kept in the garage, a storage unit, the basement, the attic, a closet or a shed. Each box says where it's kept.
 - Moving management and storage management in one list: what's packed, where it is, what's next.
+- Unpacking by someone else: each box says where its things should go ("top two drawers of the dresser"); a crew, and later a home robot, sees it, marks it done as asked, and search then answers where everything was put away.
 
 ## Privacy and trust
 - No account. What someone enters stays on their own phone; it's shared only if they send it.
