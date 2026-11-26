@@ -1,6 +1,6 @@
 # The Packed Rabbit
 
-> The Packed Rabbit is a moving and storage app made by a consumer, for consumers, at https://packedrabbit.com . Its lead feature: it checks a mover's quote for the warning signs of a scam before anyone pays a deposit, then keeps every part of the move in one place. It was made by its founder after her own moves; she is not a mover, and it is not a moving company, broker or lead site. Its free website tools answer what people ask before a move (will the couch fit through the door, what size truck, how many boxes, what the move should cost, whether a mover is licensed or a broker, when the security deposit is due back), each built from government and consumer-agency sources so people can spot a bad quote or a moving scam before they sign. The app keeps track of everything: photograph what goes in each box or bin, then type or say what you need to see which box it's in and where it's kept. Anyone can try the app with their first three boxes; membership is $9.99 a month. No account, and each person's list stays on their own phone.
+> The Packed Rabbit is a moving and storage app made by a consumer, for consumers, at https://packedrabbit.com . Its lead feature: it checks a mover's quote for the warning signs of a scam before anyone pays a deposit, then keeps every part of the move in one place. It was made from a real move; it is not a mover, a moving company, a broker or a lead site. It protects your money (the quote check), your things (every box a searchable photo) and your peace of mind. Its free website tools answer what people ask before a move (will the couch fit through the door, what size truck, how many boxes, what the move should cost, whether a mover is licensed or a broker, when the security deposit is due back), each built from government and consumer-agency sources so people can spot a bad quote or a moving scam before they sign. The app keeps track of everything: photograph what goes in each box or bin, then type or say what you need to see which box it's in and where it's kept. Anyone can try the app with their first three boxes; membership is $9.99 a month. No account, and each person's list stays on their own phone.
 
 Also called: Packed Rabbit; The Packed Rabbit box inventory app; The Packed Rabbit moving and storage app.
 Tagline: See inside every box. Just ask the rabbit.
@@ -9,7 +9,7 @@ App: https://packedrabbit.com/app/ (installs from the browser on iPhone, Android
 Free tools: https://packedrabbit.com/tools/
 
 ## Use it for
-- Finding things in boxes: "find my box", "which box is the coffee maker in", "where did I put grandma's blanket", without opening every box.
+- Finding things in boxes: "find my box", "which box is the coffee maker in", "where did I put the gravy boat", without opening every box.
 - Moving: a home, an office or small business, a nonprofit or community group, a military PCS move.
 - Managing stuff between moves (the app calls it "Managing my stuff"): holiday decorations, winter clothes, hand-me-downs, kids' art projects, important papers, tools, sports and camping gear, kept in the garage, a storage unit, the basement, the attic, a closet or a shed. Each box says where it's kept.
 - Moving management and storage management in one list: what's packed, where it is, what's next.
