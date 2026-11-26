@@ -138,9 +138,12 @@
     var html = order.map(function (r) {
       return '<div class="room">' + esc(roomName(r)) + '</div><div class="card2" style="margin-top:6px">' + groups[r].map(function (b) {
         var places = [roomName(r) + " cabinets", roomName(r) + " closet", roomName(r) + " shelves"];
+        /* owner, 26 Nov 2026: the person's own instruction for this box, and one tap when it's done as asked */
+        var asked = b.private ? "" : String(b.destLoc || "").trim();
         return '<div class="bx"><b>' + esc(b.code) + '</b><div class="w">' + esc(words(b)) + '</div>'
+          + (asked ? '<div class="put" style="font-weight:700">Put it: ' + esc(asked) + '</div>' : '')
           + (b.putAway ? '<div class="put">Put away: ' + esc(b.putAway) + (b.putBy ? ", by " + esc(b.putBy) : "") + '</div>' : "")
-          + '<div class="row">' + places.map(function (pl) { return '<button type="button" class="chip" data-id="' + esc(b.id) + '" data-p="' + esc(pl) + '">' + esc(pl) + '</button>'; }).join("")
+          + '<div class="row">' + (asked ? '<button type="button" class="chip" data-id="' + esc(b.id) + '" data-p="' + esc(asked) + '">Done, as asked</button>' : '') + places.map(function (pl) { return '<button type="button" class="chip" data-id="' + esc(b.id) + '" data-p="' + esc(pl) + '">' + esc(pl) + '</button>'; }).join("")
           + '<button type="button" class="chip" data-id="' + esc(b.id) + '" data-other="1">Somewhere else</button></div>'
           + (editing === b.id ? '<div style="margin-top:10px"><input class="fld" id="other" maxlength="120" aria-label="Where did ' + esc(b.code) + '\'s things go?" placeholder="hall closet, top shelf" value="' + esc(b.putAway || "") + '"><button type="button" class="go" id="otherSave" style="margin-top:8px">Save</button></div>' : '')
           + '</div>';
