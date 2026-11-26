@@ -342,6 +342,32 @@ export async function onRequest({ request, env, params }) {
     ]);
     return json({ ok: true, on: true });
   }
+  // Owner, 26 Nov 2026: reading photos (box contents, furniture, quotes, listings). The owner pastes her Claude API key
+  // here; it's checked once and kept in the private secrets table. /api/read uses it and keeps nothing. Empty key = off.
+  if (route === "ai/status") {
+    const k = await db.prepare("SELECT updated FROM secrets WHERE k = 'anthropic_read'").first("updated");
+    let today = 0; try { today = (await db.prepare("SELECT SUM(n) AS t FROM reads WHERE day = ?").bind(new Date().toISOString().slice(0, 10)).first("t")) || 0; } catch (e) {}
+    return json({ ok: true, on: !!k, since: k || null, today });
+  }
+  if (route === "ai/key" && post) {
+    if (s.role !== "owner") return json({ error: "owner_only" }, 403);
+    const key = String(body.key || "").trim(), now = Date.now();
+    if (!key) {
+      await db.batch([
+        db.prepare("DELETE FROM secrets WHERE k = 'anthropic_read'"),
+        db.prepare("INSERT INTO docs (path, coll, data, updated) VALUES (?, 'log', ?, ?)").bind("log/lai" + now, JSON.stringify({ at: now, area: "ai", title: "Reading photos switched off (key removed)", details: "", by: s.name }), now),
+      ]);
+      return json({ ok: true, on: false });
+    }
+    if (!/^sk-ant-[A-Za-z0-9_-]{20,300}$/.test(key)) return json({ error: "bad_key" }, 400);
+    const r = await fetch("https://api.anthropic.com/v1/models?limit=1", { headers: { "x-api-key": key, "anthropic-version": "2023-06-01" } });
+    if (!r.ok) return json({ error: r.status === 401 ? "ai_refused" : "ai_" + r.status }, 400);
+    await db.batch([
+      db.prepare("INSERT INTO secrets (k, v, updated) VALUES ('anthropic_read', ?, ?) ON CONFLICT(k) DO UPDATE SET v = excluded.v, updated = excluded.updated").bind(key, now),
+      db.prepare("INSERT INTO docs (path, coll, data, updated) VALUES (?, 'log', ?, ?)").bind("log/lai" + now, JSON.stringify({ at: now, area: "ai", title: "Reading photos switched on (Claude key saved)", details: "", by: s.name }), now),
+    ]);
+    return json({ ok: true, on: true });
+  }
   if (route === "mail/send" && post) {
     if (s.role === "viewer") return json({ error: "read_only" }, 403);
     try { const r = await mailSend(db, s, body); return json(r, r.error ? 400 : 200); } catch (e) {

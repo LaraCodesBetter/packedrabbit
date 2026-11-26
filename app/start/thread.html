@@ -2903,7 +2903,10 @@ let SAMPLE=undefined; const aiWaits={};
 if(window.__embed){ window.addEventListener('message',e=>{ const m=e.data; if(m&&m.type==='pr-ai-res'&&aiWaits[m.id]){ aiWaits[m.id](m); delete aiWaits[m.id]; } }); }
 else { try{ (window.claude&&claude.use?claude.use('sample'):Promise.resolve(null)).then(s=>{ SAMPLE=s; if(cur==='itemPhoto') show('itemPhoto',true); }).catch(()=>{ SAMPLE=null; }); }catch(e){ SAMPLE=null; } }
 /* roadmap, 15 Nov: no page that embeds the walk answers a look-up, so in an embed "Look it up" spun and then failed. Offered only where it can run. */
-const aiHere=()=>!window.__embed&&!!SAMPLE;
+/* owner, 26 Nov 2026: on packedrabbit.com the look-up runs through our own relay (/api/read: Claude reads the photo, nothing is kept), once it's switched on. Inside Claude it still uses Claude directly. */
+let RELAY=null; if(!window.__embed){ try{ fetch('/api/read',{cache:'no-store'}).then(r=>r.json()).then(j=>{ RELAY=!!j.on; if(RELAY&&cur==='itemPhoto') show('itemPhoto',true); }).catch(()=>{ RELAY=false; }); }catch(e){ RELAY=false; } }
+function relayWho(){ try{ let w=localStorage.getItem('pr-who'); if(!w){ w=Math.random().toString(36).slice(2)+Date.now().toString(36); localStorage.setItem('pr-who',w); } return w; }catch(e){ return 'p'+Math.random().toString(36).slice(2); } }
+const aiHere=()=>!window.__embed&&(!!SAMPLE||!!RELAY);
 function aiPrompt(b){ const L=QLIST(b);
   return `You are looking at a photo someone took of a piece of furniture or a large household item they are moving. They called it "${b.what}". Identify it as specifically as you honestly can.
 Reply with JSON only, no prose: {"name": short plain name of what it is, "make": brand if you can tell, else "", "model": model or product line if you can tell, else "", "confident": true or false${L.map(x=>x.a||x.sel?`, "${x.k}": one of ${JSON.stringify(x.a||x.sel)} or null`:'').join('')}}
@@ -2913,11 +2916,12 @@ async function aiLook(b){ if(!b.shots||!b.shots.Front) return; b.ai={state:'busy
   try{ let j;
     if(window.__embed){ const id=Math.random().toString(36).slice(2); const m=await new Promise(res=>{ aiWaits[id]=res; parent.postMessage({type:'pr-ai',id,prompt:aiPrompt(b),image:b.shots.Front},'*'); setTimeout(()=>{ if(aiWaits[id]){ delete aiWaits[id]; res({error:'timeout'}); } },90000); });
       if(m.error==='unavailable'){ S.aiParent=false; return done({state:'off'}); } if(m.error) throw {code:m.error}; j=m.json; }
-    else { j=await SAMPLE.json(aiPrompt(b),{images:[dataBlob(b.shots.Front)],modelTier:'quick'}); }
+    else if(SAMPLE){ j=await SAMPLE.json(aiPrompt(b),{images:[dataBlob(b.shots.Front)],modelTier:'quick'}); }
+    else { const r=await fetch('/api/read',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({kind:'furniture',image:b.shots.Front,who:relayWho()})}); const k=await r.json().catch(()=>({})); if(!r.ok||!k.ok) throw {code:r.status===503?'not_granted':'fail'}; j=k.read; }
     if(!j||!j.name) throw {code:'empty'}; done({state:'done',j});
   }catch(e){ done({state:(e&&e.code==='not_granted')?'off':'fail'}); } }
 function aiBox(b){ if(S.aiOk===false||!aiHere()) return '';
-  if(S.aiOk===null) return `<div class="ai"><b>Want the rabbit to look it up?</b><p>It names what it sees and answers the movers' questions it can. To do that, this photo is sent to Claude.</p><div class="row"><button class="cta" id="aiYes">Look it up</button><button class="choice" id="aiNo">No thanks</button></div></div>`;
+  if(S.aiOk===null) return `<div class="ai"><b>Want the rabbit to look it up?</b><p>It names what it sees and answers the movers' questions it can. To do that, this photo is sent to Claude to read, and it isn't kept.</p><div class="row"><button class="cta" id="aiYes">Look it up</button><button class="choice" id="aiNo">No thanks</button></div></div>`;
   const a=b.ai||{};
   if(a.state==='busy') return `<div class="ai" role="status"><b>Looking it up</b><p>The rabbit is checking the photo.</p></div>`;
   if(a.state==='fail') return `<div class="ai" role="status"><p>The rabbit couldn't look this one up. You can fill it in yourself.</p></div>`;
@@ -3318,7 +3322,7 @@ function openMenu(from){ closeSheet(true); opener=from||null; const H=S.hm||{}, 
     try{ await navigator.clipboard.writeText(url); toast(s,'Link copied.'); }catch(e){ toast(s,url); } };
   shut([s,phone.querySelector('.scrim')],true); textSize(); s.querySelector('h3').focus(); }
 const feedbackMail=()=>{ const ua=navigator.userAgent||'', ph=/iPhone|iPod/.test(ua)?'iPhone':/iPad/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1)?'iPad':/Android/.test(ua)?'Android':'a computer';
-  const sub=`Feedback (v441, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
+  const sub=`Feedback (v442, ${ph})`, body='What were you trying to do, and did you find it?\n\n\nWhat confused you or slowed you down?\n\n\nDid anything feel wrong, broken or untrustworthy?\n\n\n';
   return 'mailto:hello@packedrabbit.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body); };
 /* owner, 11 Nov: "After a person searches a box ask if they opened it, if they emptied it and if it should be marked
    as such so it shows you already opened it or it was moved to…" Asked on the box the search found, one question at a

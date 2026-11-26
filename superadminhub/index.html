@@ -365,6 +365,7 @@ const whenM=t=>{ const d=new Date(t), n=new Date(); return d.toDateString()===n.
 async function mailSync(quiet){ S.mailBusy=true; if(S.tab==="email") render();
   api("mail/status").then(r=>{S.mailVia=r.sending; if(S.tab==="email") render();}).catch(()=>{});
   api("pay/status").then(r=>{S.payOn=!!r.on; if(S.tab==="email") render();}).catch(()=>{});
+  api("ai/status").then(r=>{S.aiOn=!!r.on; S.aiToday=r.today||0; if(S.tab==="email") render();}).catch(()=>{});
   try{ const r=await api("mail/sync"); await loadColl("mail"); if(!quiet&&r.added) toast(r.added+" new"); }
   catch(e){ if(!(e instanceof SignedOut)){ await loadColl("mail").catch(()=>{}); toast(e.code==="mail_not_connected"?"Mail isn't connected yet.":"Couldn't check for new mail. Showing what's here."); } }
   S.mailBusy=false; if(S.tab==="email") render(); }
@@ -390,6 +391,10 @@ function mailList(){ const F=S.mfolder||"inbox", q=(S.mq||"").trim().toLowerCase
   ${S.payOn?'<p class="muted">When someone pays on the website, Stripe sends them back to the app and it unlocks on the spot.</p>':`<p class="muted" style="margin:6px 0">In Stripe: Developers, API keys, Create restricted key. Name it "Packed Rabbit unlock" and give it Checkout Sessions: Read, nothing else. Paste it here. It's checked with Stripe, saved in your hub's private storage and never shown again.</p>
   <label for="payKey">Stripe restricted key</label><input id="payKey" type="password" autocomplete="off" placeholder="rk_live_...">
   <div class="row" style="margin-top:8px"><button class="btn s p" id="paySave">Switch on instant unlock</button></div>`}</details>`:""}
+  ${S.me&&S.me.role==="owner"?`<details class="cfbox" ${S.aiOn===false?"open":""}><summary>Reading photos (boxes, furniture, quotes): <b>${S.aiOn?"On":S.aiOn===false?"Off":"checking..."}</b></summary>
+  ${S.aiOn?`<p class="muted">Members can tap "Read this photo." Each photo goes to Claude, is read and isn't kept. ${S.aiToday?S.aiToday+" read today.":"None read today."} A limit of 120 a phone and 4,000 in all each day keeps the bill in check.</p><div class="row" style="margin-top:8px"><button class="btn s" id="aiOff">Switch it off</button></div>`:`<p class="muted" style="margin:6px 0">At console.anthropic.com: add a payment method, set a monthly spending limit (Settings, Limits; $20 is plenty to start), then API keys, Create key, named "Packed Rabbit reading". Paste it here. It's checked once, saved in your hub's private storage and never shown again. About 3 cents per 100 box photos.</p>
+  <label for="aiKey">Claude API key</label><input id="aiKey" type="password" autocomplete="off" placeholder="sk-ant-...">
+  <div class="row" style="margin-top:8px"><button class="btn s p" id="aiSave">Switch on reading photos</button></div>`}</details>`:""}
   <label for="mq" style="margin-top:10px">Search all mail</label><input id="mq" type="search" placeholder="A name, a company, a word" value="${esc(S.mq||"")}">
   <div class="mfold" role="tablist" aria-label="Folders">${FOLDERS.map(([k,n])=>`<button role="tab" class="btn s ${F===k?"p":""}" aria-selected="${F===k}" data-mfold="${k}">${n}${k==="inbox"&&unread?` (${unread})`:k!=="inbox"&&fc(k)?` (${fc(k)})`:""}</button>`).join("")}</div>
   <label for="mBox" style="margin-top:10px">Address</label><select id="mBox"><option value="">All addresses</option>${BOXES.filter(([k])=>counts[k]).map(([k,n])=>`<option value="${k}" ${S.mbox===k?"selected":""}>${esc(n)} (${counts[k]})</option>`).join("")}</select>
@@ -451,6 +456,10 @@ function wireMail(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
   on("#paySave","onclick",async()=>{ const key=$("#payKey").value.trim(); if(!key){toast("Paste the Stripe key first");return;}
     try{ await api("pay/stripe",{key}); S.payOn=true; toast("Instant unlock is on. Claude points the Stripe link back to the app next."); render(); }
     catch(e){ if(!(e instanceof SignedOut)) toast(e.code==="bad_key"?"That doesn't look like a live Stripe key. Copy it again.":e.code==="needs_checkout_read"?"Stripe says this key can't read Checkout Sessions. Give it Checkout Sessions: Read.":e.code==="stripe_refused"?"Stripe didn't accept that key. Copy it again.":"Couldn't switch it on. Nothing changed."); } });
+  on("#aiSave","onclick",async()=>{ const key=$("#aiKey").value.trim(); if(!key){toast("Paste the Claude key first");return;}
+    try{ await api("ai/key",{key}); S.aiOn=true; toast("Reading photos is on."); render(); }
+    catch(e){ if(!(e instanceof SignedOut)) toast(e.code==="bad_key"?"That doesn't look like a Claude API key. Copy it again.":e.code==="ai_refused"?"Claude didn't accept that key. Copy it again.":"Couldn't switch it on. Nothing changed."); } });
+  on("#aiOff","onclick",async()=>{ try{ await api("ai/key",{key:""}); S.aiOn=false; toast("Reading photos is off."); render(); }catch(e){ if(!(e instanceof SignedOut)) toast("Couldn't switch it off. Try again."); } });
   document.querySelectorAll("[data-mfold]").forEach(el=>el.onclick=()=>{S.mfolder=el.dataset.mfold;render();});
   document.querySelectorAll("[data-mmove]").forEach(el=>el.onclick=async()=>{ const m=(S.mail||[]).find(x=>x.id===S.mopen); if(!m) return; const was=m.folder||"inbox", to=el.dataset.mmove;
     m.folder=to; S.mopen=null; render();
