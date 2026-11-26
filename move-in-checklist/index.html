@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Move-in checklist for a rental: a room-by-room condition report, free, no signup</title>
+<meta name="description" content="Moving into an apartment or rental? Pick your rooms and walk through before you unpack: mark each thing fine or a problem, add a short note, and get a dated move-in condition report to print or send the landlord. Free, no signup.">
+<link rel="canonical" href="https://packedrabbit.com/move-in-checklist/">
+<meta name="theme-color" content="#1C3224">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="Move-in checklist: a room-by-room condition report">
+<meta property="og:description" content="Walk through before you unpack, mark each thing fine or a problem, and send the landlord a dated report. It's what you'll compare against when the deposit comes back.">
+<meta property="og:url" content="https://packedrabbit.com/move-in-checklist/">
+<meta property="og:image" content="https://packedrabbit.com/cards/move-in-checklist.jpg">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Move-in checklist by The Packed Rabbit",
+  "url": "https://packedrabbit.com/move-in-checklist/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "A room-by-room move-in inspection checklist for an apartment or rental home. Pick the bedrooms, bathrooms and extras (carpet, dishwasher, washer and dryer, balcony or patio, yard, garage, furnished) and the move-in day, then mark each thing fine or a problem with a short note. It builds a dated move-in condition report to print, copy into an email to the landlord, or share. Marks and notes are saved in the link. Runs on the device; nothing typed is sent anywhere."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "What should I check when I move into an apartment?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Before you unpack, go room by room and check walls and ceilings, floors and carpet, doors and locks, windows, screens and blinds, lights and outlets, every appliance, faucets, drains and the toilet, the heat and air conditioning, and the smoke and carbon monoxide alarms. Write down every scratch, stain, leak or thing that doesn't work, however small, and take dated photos or a video of every room, including inside the oven, fridge and cabinets." } },
+    { "@type": "Question", "name": "Should I send my move-in checklist to my landlord?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Give the landlord a copy in writing, ask them to sign it if they will, and keep a copy with your photos until the deposit is back. Email gives you a date stamp. Ask in writing for repairs to anything that doesn't work. Some states set rules and deadlines: in Massachusetts, a landlord who takes a deposit must give a statement of condition within 10 days, and the tenant has 15 days to return it with any damage added. In Washington, a landlord can't collect a deposit without a written checklist of the condition, signed and dated by both, with a copy to the tenant. Check your state's rules." } },
+    { "@type": "Question", "name": "Why does a move-in checklist matter for my security deposit?",
+      "acceptedAnswer": { "@type": "Answer", "text": "When you move out, the landlord can only take money from the deposit for damage beyond normal wear and tear that happened while you lived there. A dated move-in list and photos show what was already there, so you aren't charged for it. Use the same list again at move-out." } }
+  ]
+}
+</script>
+<style>
+  :root { --plum: #8C3A6B; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --plum: #E59AC6; } }
+  :root[data-theme="dark"] { --plum: #E59AC6; }
+  .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .lbl { display: block; font-weight: 800; margin: 22px 0 8px; font-size: 1.1rem; }
+  .lbl small { display: block; font-weight: 500; color: var(--ink2); font-size: .9rem; margin-top: 2px; }
+  .fld { width: 100%; box-sizing: border-box; min-height: 54px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 700; font-size: 1.1rem; padding: 8px 14px; }
+  .fld:focus { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+  input[type=date].fld { min-width: 0; width: 100%; max-width: 100%; -webkit-appearance: none; appearance: none; display: block; }
+  .stage { background: #172F20; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .say { padding: 14px 18px 4px; color: #fff; }
+  .say .k { color: rgba(255,255,255,.72); font-weight: 700; font-size: .95rem; margin: 0; }
+  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.6vw, 2.3rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.08; color: #F2E8D5; margin-top: 2px; }
+  .say p { color: rgba(255,255,255,.84); margin: 6px 0 0; font-size: 1rem; }
+  .two { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 10px; }
+  .two > div { min-width: 0; }
+  .step { display: flex; align-items: center; gap: 8px; }
+  .step button { width: 52px; height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-size: 1.5rem; font-weight: 800; cursor: pointer; line-height: 1; flex: none; }
+  .step output { flex: 1; min-width: 0; text-align: center; font-family: var(--display); font-weight: 850; font-size: 1.15rem; }
+  .tog { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .tog button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 6px 10px; line-height: 1.2; text-align: left; }
+  .tog button[aria-pressed=true] { border-color: var(--blue); background: var(--blue); color: #fff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tog button[aria-pressed=true] { color: #0D1410; } }
+  :root[data-theme="dark"] .tog button[aria-pressed=true] { color: #0D1410; }
+  .list { margin: 22px 0 0; }
+  .grp { background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); margin: 0 0 14px; overflow: hidden; }
+  .grp h2 { font-size: 1.15rem; margin: 0; padding: 14px 16px 10px; display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px solid var(--line); }
+  .grp h2 span { font-family: inherit; font-size: .95rem; color: var(--ink2); font-weight: 700; white-space: nowrap; }
+  .row { padding: 10px 16px 12px; border-bottom: 1px solid var(--line); }
+  .row:last-child { border-bottom: 0; }
+  .row b { display: block; font-weight: 750; line-height: 1.3; }
+  .row small { display: block; color: var(--ink2); font-size: .92rem; margin-top: 3px; line-height: 1.4; }
+  .mk { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+  .mk button { min-height: 44px; border-radius: 12px; border: 2px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 4px 10px; }
+  .mk button.ok[aria-pressed=true] { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .mk button.pb[aria-pressed=true] { border-color: var(--plum); background: var(--plum); color: #fff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .mk button[aria-pressed=true] { color: #0D1410; } }
+  :root[data-theme="dark"] .mk button[aria-pressed=true] { color: #0D1410; }
+  .row.pbr { box-shadow: inset 4px 0 0 var(--plum); }
+  .note { margin-top: 8px; min-height: 48px; font-weight: 600; font-size: 1rem; }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  .rep { background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); padding: 14px 16px; margin: 18px 0 0; }
+  .rep h2 { font-size: 1.15rem; margin: 0 0 6px; }
+  .rep pre { white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; font-size: .98rem; line-height: 1.5; margin: 0; color: var(--ink); }
+  .sign { display: none; }
+  .how { margin-top: 34px; } .how h2 { font-size: 1.5rem; }
+  .aside { font-size: .95rem; color: var(--ink2); }
+  .src { font-size: .9rem; color: var(--ink2); border-top: 1px solid var(--line); padding-top: 12px; margin-top: 22px; }
+  .src a { color: var(--ink2); overflow-wrap: anywhere; }
+  [hidden] { display: none !important; }
+  @media (max-width: 370px) { .two, .tog { grid-template-columns: 1fr; } }
+  @media print {
+    .top, .stage, .step, .tog, .acts, .aside, .how, .last, footer, .lbl, #d, .maker, .lede, .list, .pr-art, .faq-ask, .src { display: none !important; }
+    .rep { box-shadow: none; border: 1px solid #999; }
+    .sign { display: block; margin-top: 28px; line-height: 2.6; }
+  }
+</style>
+<link rel="stylesheet" href="../art.css">
+<style id="faqcss">.faq-ask{max-width:760px;margin:40px auto 0;padding:0 16px}.faq-ask h2{margin:0 0 8px}.faq-ask h3{font-size:1.12rem;margin:22px 0 6px}.faq-ask p{margin:0;line-height:1.6;color:var(--ink2,inherit)}html.embed .faq-ask{display:none!important}</style>
+<meta property="og:image:alt" content="Move-in checklist for a rental. A line drawing from The Packed Rabbit.">
+<meta name="twitter:image:alt" content="Move-in checklist for a rental. A line drawing from The Packed Rabbit.">
+<style id="skipcss">.skip{position:absolute;left:-9999px;top:8px;z-index:9999;background:#14281B;color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;text-decoration:none}.skip:focus{left:8px}</style>
+<script type="application/ld+json" id="pr-page">{"@context":"https://schema.org","@type":"WebPage","@id":"https://packedrabbit.com/move-in-checklist/#webpage","url":"https://packedrabbit.com/move-in-checklist/","name":"Move-in checklist for a rental: a room-by-room condition report, free, no signup","description":"Moving into an apartment or rental? Pick your rooms and walk through before you unpack: mark each thing fine or a problem, add a short note, and get a dated move-in condition report to print or send the landlord. Free, no signup.","inLanguage":"en-US","dateModified":"2026-11-26T16:25:00Z","keywords":"move-in checklist for a rental, box inventory app, moving box inventory, find my box, find my stuff, which box is it in, what's in my boxes, where did i put it, home inventory, storage bin inventory, storage unit inventory, moving and storage app, moving management, storage management, storage unit management, garage organization, attic storage, basement storage, holiday decoration storage, how to store christmas decorations, how to keep track of moving boxes, how to label moving boxes, how to organize a storage unit, what size storage unit do i need, home inventory for insurance, inventory for a pcs move, packing and unpacking, moving checklist, find things without opening every box, no account, we don't sell your data","isPartOf":{"@type":"WebSite","@id":"https://packedrabbit.com/#site","name":"The Packed Rabbit","url":"https://packedrabbit.com/"},"publisher":{"@id":"https://packedrabbit.com/#org"},"about":{"@id":"https://packedrabbit.com/#app"}}</script>
+<script type="application/ld+json" id="pr-org">{"@context":"https://schema.org","@type":"Organization","@id":"https://packedrabbit.com/#org","name":"The Packed Rabbit","url":"https://packedrabbit.com/","logo":"https://packedrabbit.com/app/icon-512.png","email":"hello@packedrabbit.com","sameAs":["https://www.facebook.com/1403706312824938","https://www.instagram.com/thepackedrabbit/","https://www.tiktok.com/@thepackedrabbit","https://www.youtube.com/@thepackedrabbit"]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home"><img class="wm wm-l" src="../img/wordmark.png" alt="The Packed Rabbit" width="150" height="39"><img class="wm wm-d" src="../img/wordmark-cream.png" alt="" width="150" height="39"></a>
+</header>
+
+<main id="main" class="tp">
+<!--pr-art--><figure class="pr-art" aria-hidden="true"><svg viewBox="0 0 360 200" focusable="false"><g class="bk"><path class="nf" d="M0 180 H360"/><rect class="f1" x="26" y="30" width="72" height="60" rx="1"/><path class="nf" d="M62.0 30 v60 M26 60.0 h72"/><rect class="f2" x="23" y="90" width="78" height="4" rx="1"/><path class="f1" d="M78 94 l3 -12 h14 l3 12 z M88 82 q-10 -14 -4 -26 q6 10 4 26 q8 -16 18 -18 q-4 14 -18 18"/><rect class="f2" x="180" y="40" width="64" height="6" rx="2"/><path class="f1" d="M192 46 v6 q0 4 4 4 M212 46 v6 q0 4 4 4 M232 46 v6 q0 4 4 4 M210 52 q-12 8 -10 36 h22 q2 -28 -10 -36"/></g><rect class="gnd" x="0" y="192" width="360" height="8"/><path class="nf" d="M0 192 H360"/><rect class="f2" x="30" y="152" width="48" height="40" rx="2"/><path class="nf" d="M30 160.0 h48"/><rect class="tape" x="50.2" y="152" width="7.7" height="8.0"/><rect class="f1" x="40.0" y="168.8" width="28" height="14" rx="2"/><text class="t9" x="54.0" y="178.8" text-anchor="middle">LIV</text><rect class="f1" x="100" y="102" width="70" height="90" rx="4"/><rect class="f3" x="120" y="96" width="30" height="12" rx="3"/><text class="t8" x="135" y="122" text-anchor="middle">MOVE-IN</text><path class="nf" d="M110 134 l4 4 l7 -8 M110 152 l4 4 l7 -8"/><path class="nf" d="M126 136 h34 M126 154 h34 M126 172 h30"/><circle class="plum nf" cx="115" cy="171" r="6"/><path class="nf" d="M206 122 l6 7 l-5 5 l8 8 l-3 4"/><circle class="plum nf" cx="212" cy="132" r="17"/><rect class="f1" x="193.5" y="156" width="37" height="13" rx="2"/><text class="t8" x="212" y="165" text-anchor="middle">NOTED</text><rect class="f2" x="196" y="176" width="32" height="16" rx="3"/><circle class="f1" cx="212" cy="184" r="5"/><rect class="f3" x="201" y="172" width="10" height="4" rx="1"/><rect class="f2" x="272" y="96" width="56" height="96" rx="2"/><path class="f1" d="M328 96 l16 8 v88 l-16 0"/><circle class="" cx="282" cy="146" r="2.2"/><path class="nf" d="M280 146 h-8 M274 146 v4"/></svg></figure><!--/pr-art-->
+
+  <h1>Move-in checklist for a rental</h1>
+  <p class="lede">Before you unpack, walk through with this list. Mark each thing fine or a problem, add a few words, and you get a dated condition report to print or send the landlord. It's what you'll point to when the deposit comes back.</p>
+
+  <div class="stage">
+    <div class="say" aria-live="polite"><p class="k" id="kick"></p><div class="big" id="big"></div><p id="small"></p></div>
+    <svg id="svg" viewBox="0 0 500 170" role="img" aria-label="Things checked in each room"></svg>
+  </div>
+
+  <div class="two">
+    <div>
+      <p class="lbl" id="b-l">Bedrooms</p>
+      <div class="step" role="group" aria-labelledby="b-l"><button type="button" id="b-" aria-label="One fewer bedroom">&minus;</button><output id="b-o" aria-live="polite"></output><button type="button" id="b+" aria-label="One more bedroom">+</button></div>
+    </div>
+    <div>
+      <p class="lbl" id="a-l">Bathrooms</p>
+      <div class="step" role="group" aria-labelledby="a-l"><button type="button" id="a-" aria-label="One fewer bathroom">&minus;</button><output id="a-o" aria-live="polite"></output><button type="button" id="a+" aria-label="One more bathroom">+</button></div>
+    </div>
+  </div>
+
+  <p class="lbl" id="x-l">What else does the place have?<small>Tap all that apply.</small></p>
+  <div class="tog" role="group" aria-labelledby="x-l">
+    <button type="button" data-x="c">Carpet</button>
+    <button type="button" data-x="d">Dishwasher</button>
+    <button type="button" data-x="w">Washer and dryer</button>
+    <button type="button" data-x="p">Balcony or patio</button>
+    <button type="button" data-x="y">Yard</button>
+    <button type="button" data-x="g">Garage or parking</button>
+    <button type="button" data-x="f">It comes furnished</button>
+  </div>
+
+  <label class="lbl" for="d">The day you move in<small>The report is dated from it. Do the walk-through that day, before boxes come in.</small></label>
+  <input class="fld" id="d" type="date">
+
+  <div class="list" id="list"></div>
+
+  <section class="rep" aria-labelledby="rep-h">
+    <h2 id="rep-h">Your move-in condition report</h2>
+    <pre id="rep"></pre>
+    <div class="sign">Tenant: ____________________<br>Date: ____________<br>Landlord or manager: ____________________<br>Date: ____________</div>
+  </section>
+
+  <div class="acts">
+    <button class="btn tape" id="copy" type="button">Copy the report for an email</button>
+    <button class="btn ghost" id="share" type="button">Share this answer</button>
+    <button class="btn ghost" id="print" type="button">Print the report</button>
+    <a class="btn ghost" href="../app/">Keep your move-in photos in the app</a>
+  </div>
+  <p class="aside" id="copied" role="status"></p>
+  <p class="aside">The link in your address bar keeps your marks and notes: bookmark it, so the same list is there on move-out day. The app keeps dated move-in and move-out photos for each room next to your boxes, with no account, and it works with no signal.</p>
+
+  <section class="how">
+    <h2>How this works</h2>
+    <p><strong>Why do it at all.</strong> When you move out, the landlord can take money from the deposit only for damage beyond normal wear and tear that happened while you lived there. A dated list and photos from the day you moved in show what was already there. Tenant guides from states and legal aid groups all say the same: check every room before you unpack, write down every scratch, stain and thing that doesn't work, however small, and keep a copy.</p>
+    <p><strong>What the list covers.</strong> Walls and ceilings, floors, doors and locks, windows, screens and blinds, lights and outlets, the heat and air conditioning, smoke and carbon monoxide alarms, every appliance, and every faucet, drain and toilet. Run the water hot and cold, flush, open every door and drawer, and turn on every burner. The rooms and extras you pick add their own rows.</p>
+    <p><strong>Send it in writing, and keep a copy.</strong> Give the landlord the report, ask them to sign it if they will, and keep it with your photos until the deposit is back. Email gives you a date stamp. Ask in writing for repairs to anything that doesn't work. Our suggestion is to send it within the first few days; your lease or your state may set its own deadline.</p>
+    <p><strong>Some states have their own rules.</strong> In Massachusetts, a landlord who takes a security deposit must give you a statement of condition within 10 days of the tenancy starting or the deposit being paid, and you have 15 days to return it with any damage added. In Washington, a landlord can't collect a deposit unless there's a written checklist of the condition, signed and dated by the landlord and tenant, with a copy to the tenant. California's Department of Real Estate publishes a free inventory checklist for move-in and move-out. Rules in other states differ; check your state's current law. Not legal advice.</p>
+    <p class="aside">Next: see <a href="../deposit/">when your deposit is due back in your state</a>, <a href="../utilities/">when to set up utilities</a> or <a href="../change-address/">who to tell that you moved</a>. When you leave, the <a href="../move-out/">move-out checklist</a> picks up from here.</p>
+  </section>
+
+  <p class="src">Sources: Mass.gov, <a href="https://www.mass.gov/info-details/mandatory-statement-of-condition">Mandatory statement of condition</a> and <a href="https://www.mass.gov/info-details/learn-about-paying-a-security-deposit">Learn about paying a security deposit</a> (statement within 10 days; 15 days for the tenant to add damage), M.G.L. c. 186, section 15B. Washington State Legislature, <a href="https://app.leg.wa.gov/RCW/default.aspx?cite=59.18.260">RCW 59.18.260</a> (no deposit without a written checklist or statement of condition, signed and dated by both, copy to the tenant). California Department of Real Estate, <a href="https://dre.ca.gov/publications/ResourceGuidebook/InventoryChecklist1-4.pdf">Inventory Checklist</a> (the room-by-room items). Los Angeles County, <a href="https://file.lacounty.gov/SDSInter/hsh/1202788_Landlord-TenantMove-inChecklistForm.pdf">Landlord-Tenant Move-in Checklist</a>. Larimer County, Colorado, <a href="https://www.larimer.gov/sites/default/files/rental-property-condition-checklist.pdf">Rental Property Condition Checklist</a>. The order of the rows and the few-days suggestion are our own. Checked November 2026.</p>
+  <p class="maker" style="margin-top:28px;padding:14px 16px;border-left:4px solid var(--tape);background:var(--panel);border-radius:12px;font-size:.98rem">Nothing you type here is sent anywhere. It stays on this page.</p>
+</main>
+<!--pr-faq--><section class="faq-ask" aria-labelledby="faq-ask-h"><h2 id="faq-ask-h">Questions people ask</h2><h3>What should I check when I move into an apartment?</h3><p>Before you unpack, go room by room and check walls and ceilings, floors and carpet, doors and locks, windows, screens and blinds, lights and outlets, every appliance, faucets, drains and the toilet, the heat and air conditioning, and the smoke and carbon monoxide alarms. Write down every scratch, stain, leak or thing that doesn&#x27;t work, however small, and take dated photos or a video of every room, including inside the oven, fridge and cabinets.</p><h3>Should I send my move-in checklist to my landlord?</h3><p>Yes. Give the landlord a copy in writing, ask them to sign it if they will, and keep a copy with your photos until the deposit is back. Email gives you a date stamp. Ask in writing for repairs to anything that doesn&#x27;t work. Some states set rules and deadlines: in Massachusetts, a landlord who takes a deposit must give a statement of condition within 10 days, and the tenant has 15 days to return it with any damage added. In Washington, a landlord can&#x27;t collect a deposit without a written checklist of the condition, signed and dated by both, with a copy to the tenant. Check your state&#x27;s rules.</p><h3>Why does a move-in checklist matter for my security deposit?</h3><p>When you move out, the landlord can only take money from the deposit for damage beyond normal wear and tear that happened while you lived there. A dated move-in list and photos show what was already there, so you aren&#x27;t charged for it. Use the same list again at move-out.</p></section><!--/pr-faq-->
+
+<script>
+/* Nothing typed here is sent anywhere. The rooms, date, marks and notes go in the
+   address only so a bookmarked or shared link opens showing the same report. */
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  function $(id) { return document.getElementById(id); }
+  function el(tag, a, p) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  function h(tag, cls, text, p) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; if (p) p.appendChild(e); return e; }
+  function pd(s) { var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || ""); if (!m) return null; var d = new Date(+m[1], +m[2] - 1, +m[3]); return isNaN(d) || d.getFullYear() < 1990 || d.getFullYear() > 2100 || d.getDate() !== +m[3] ? null : d; }
+  function iso(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+  function nice(d) { var o = { weekday: "long", month: "long", day: "numeric", year: "numeric" }; return d.toLocaleDateString("en-US", o); }
+  function clamp(n, a, b) { return Math.max(a, Math.min(b, n)); }
+  function clean(s) { return String(s || "").replace(/[\u0000-\u001f]/g, " ").slice(0, 120); }
+
+  var today = new Date(); today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  var S = { b: 1, a: 1, x: "", d: iso(today), m: {}, n: {} };
+  var q = new URLSearchParams(location.search);
+  if (q.has("b")) S.b = clamp(parseInt(q.get("b"), 10) || 0, 0, 6);
+  if (q.has("a")) S.a = clamp(parseInt(q.get("a"), 10) || 1, 1, 5);
+  if (q.has("x")) S.x = (q.get("x") || "").replace(/[^cdwpygf]/g, "").split("").filter(function (c, i, s) { return s.indexOf(c) === i; }).join("");
+  if (q.has("d")) S.d = pd(q.get("d")) ? q.get("d") : "";
+  function keys(v) { return (v || "").split(".").filter(function (k) { return /^[a-z0-9]{1,5}$/.test(k); }); }
+  keys(q.get("ok")).forEach(function (k) { S.m[k] = "ok"; });
+  keys(q.get("pb")).forEach(function (k) { S.m[k] = "pb"; });
+  q.forEach(function (v, k) { var m = /^n_([a-z0-9]{1,5})$/.exec(k); if (m && v) S.n[m[1]] = clean(v); });
+  $("d").value = S.d;
+  function has(c) { return S.x.indexOf(c) >= 0; }
+
+  /* Every row: k = short stable key (kept in the link), t = what to check, s = how. */
+  function walls(p) { return { k: p + "w", t: "Walls and ceiling", s: "Holes, cracks, stains, peeling paint, water marks." }; }
+  function floor(p) { return { k: p + "f", t: has("c") && p !== "k" && p.charAt(0) !== "a" ? "Carpet or floor" : "Floor", s: has("c") && p !== "k" && p.charAt(0) !== "a" ? "Stains, burns, worn spots, loose seams." : "Scratches, chips, stains, loose tiles or boards." }; }
+  function win(p) { return { k: p + "n", t: "Windows, screens and blinds", s: "Open and lock each one. Cracked glass, torn screens, broken slats." }; }
+  function lights(p) { return { k: p + "l", t: "Lights, switches and outlets", s: "Flip every switch. A cheap plug-in tester or a phone charger checks outlets." }; }
+  function door(p) { return { k: p + "o", t: "Door and doorknob", s: "Opens, closes and latches. Dents or holes." }; }
+  function build() {
+    var G = [];
+    G.push({ n: "Before you unpack", r: [
+      { k: "v1", t: "A dated video or photos of every room, empty", s: "Inside closets, cabinets, the oven and the fridge too. Keep them until the deposit is back." },
+      { k: "v2", t: "Ask for the landlord's own move-in checklist", s: "If they have one, fill it in alongside this one and keep a copy." },
+      { k: "v3", t: "Write down the meter readings", s: "Electric, gas and water, if you can reach them." }
+    ] });
+    G.push({ n: "Entry and living room", r: [
+      { k: "e1", t: "Front door, locks and deadbolt", s: "Every key you were given works. Ask whether the locks were changed." },
+      { k: "e2", t: "Smoke and carbon monoxide alarms", s: "Press the test button on each one." },
+      { k: "e3", t: "Heat and air conditioning", s: "Turn each on for a few minutes. Note the filter if you can see it." },
+      walls("e"), floor("e"), win("e"), lights("e"),
+      { k: "e4", t: "Closets, shelves and rods" }
+    ] });
+    var kit = [
+      walls("k"), floor("k"),
+      { k: "k1", t: "Cabinets and drawers", s: "Open every one. Doors hang straight, hinges hold, insides clean." },
+      { k: "k2", t: "Counters and backsplash", s: "Chips, burns, cracks, stains." },
+      { k: "k3", t: "Sink, faucet and drain", s: "Run hot and cold. Look under the sink for leaks." },
+      { k: "k4", t: "Stove and oven", s: "Turn on every burner and the oven. Look inside." },
+      { k: "k5", t: "Fridge and freezer", s: "Cold, clean inside, door seals whole, shelves and drawers all there." }
+    ];
+    if (has("d")) kit.push({ k: "k6", t: "Dishwasher", s: "Run a short cycle. Leaks, rust on the racks." });
+    kit.push({ k: "k7", t: "Signs of pests", s: "Droppings or insects under the sink and in the back of cabinets." });
+    kit.push(lights("k"));
+    G.push({ n: "Kitchen", r: kit });
+    for (var i = 1; i <= S.b; i++) G.push({ n: S.b === 1 ? "Bedroom" : "Bedroom " + i, r: [
+      door("b" + i), walls("b" + i), floor("b" + i), win("b" + i),
+      { k: "b" + i + "c", t: "Closet doors, rods and shelves" }, lights("b" + i)
+    ] });
+    for (var a = 1; a <= S.a; a++) G.push({ n: S.a === 1 ? "Bathroom" : "Bathroom " + a, r: [
+      { k: "a" + a + "t", t: "Toilet", s: "Flush it. Runs on, rocks, leaks at the base, cracked seat or lid." },
+      { k: "a" + a + "s", t: "Tub or shower", s: "Hot water, pressure, drain speed, caulk, chips, mold." },
+      { k: "a" + a + "m", t: "Sink, faucet and drain", s: "Run hot and cold. Look underneath for leaks." },
+      { k: "a" + a + "c", t: "Mirror, cabinet, towel bars", s: "Cracks, loose bars, doors that won't shut." },
+      { k: "a" + a + "v", t: "Fan and lights", s: "The fan runs and pulls air." },
+      floor("a" + a), walls("a" + a), door("a" + a)
+    ] });
+    var ex = [];
+    if (has("w")) ex.push({ k: "x1", t: "Washer and dryer", s: "Run each briefly. Hoses, leaks, the lint trap and the vent." });
+    if (has("p")) ex.push({ k: "x2", t: "Balcony or patio", s: "Railing solid, door slides and locks, surface cracks." });
+    if (has("y")) ex.push({ k: "x3", t: "Yard, fences and gates", s: "Fence and gate condition, trash or things left behind." });
+    if (has("g")) ex.push({ k: "x4", t: "Garage or parking", s: "Door opener and remotes, oil stains, the space you were given." });
+    if (has("f")) {
+      ex.push({ k: "x5", t: "Sofa and chairs", s: "Stains, tears, broken legs or springs." });
+      ex.push({ k: "x6", t: "Beds and mattresses", s: "Stains, sagging, frame solid." });
+      ex.push({ k: "x7", t: "Tables, dressers and lamps", s: "Scratches, drawers that stick, lamps that work." });
+    }
+    ex.push({ k: "x8", t: "Hot water at every tap", s: "It gets hot in the kitchen and every bathroom." });
+    ex.push({ k: "x9", t: "Mailbox and building keys", s: "Each key works, and you know where the mailbox is." });
+    G.push({ n: has("f") ? "Furniture and the rest" : "Everything else", r: ex });
+    return G;
+  }
+
+  /* inputs */
+  function stepper(id, key, lo, hi, word) {
+    function show() { var n = S[key]; $(id + "-o").textContent = key === "b" && n === 0 ? "Studio" : String(n); $(id + "-o").setAttribute("aria-label", key === "b" && n === 0 ? "Studio" : n + " " + word + (n === 1 ? "" : "s")); $(id + "-").disabled = n <= lo; $(id + "+").disabled = n >= hi; }
+    $(id + "-").onclick = function () { S[key] = clamp(S[key] - 1, lo, hi); show(); draw(); };
+    $(id + "+").onclick = function () { S[key] = clamp(S[key] + 1, lo, hi); show(); draw(); };
+    show();
+  }
+  stepper("b", "b", 0, 6, "bedroom"); stepper("a", "a", 1, 5, "bathroom");
+  [].forEach.call(document.querySelectorAll("[data-x]"), function (b) {
+    var c = b.getAttribute("data-x");
+    function show() { b.setAttribute("aria-pressed", has(c) ? "true" : "false"); }
+    b.onclick = function () { S.x = has(c) ? S.x.replace(c, "") : S.x + c; show(); draw(); };
+    show();
+  });
+  function setD() { S.d = $("d").value; summary(); }
+  $("d").addEventListener("input", setD); $("d").addEventListener("change", setD);
+
+  var G = [], rows = [], last = {};
+  function draw() {
+    G = build(); rows = [];
+    var list = $("list"); list.textContent = "";
+    G.forEach(function (g) {
+      var box = h("section", "grp", null, list), hd = h("h2", null, g.n, box), cnt = h("span", null, "", hd);
+      g.r.forEach(function (r) {
+        var row = h("div", "row", null, box), id = "r-" + r.k;
+        var b = h("b", null, r.t, row); b.id = id;
+        if (r.s) h("small", null, r.s, row);
+        var mk = h("div", "mk", null, row); mk.setAttribute("role", "group"); mk.setAttribute("aria-labelledby", id);
+        var ok = h("button", "ok", "Looks fine", mk), pb = h("button", "pb", "Problem", mk);
+        ok.type = pb.type = "button";
+        var nt = h("input", "fld note", null, row); nt.type = "text"; nt.maxLength = 120; nt.placeholder = "What's wrong, and where"; nt.setAttribute("aria-label", "Note for " + g.n + ": " + r.t); nt.value = S.n[r.k] || "";
+        function show() { var m = S.m[r.k]; ok.setAttribute("aria-pressed", m === "ok" ? "true" : "false"); pb.setAttribute("aria-pressed", m === "pb" ? "true" : "false"); nt.hidden = m !== "pb"; row.classList.toggle("pbr", m === "pb"); }
+        ok.onclick = function () { if (S.m[r.k] === "ok") delete S.m[r.k]; else S.m[r.k] = "ok"; show(); summary(); };
+        pb.onclick = function () { if (S.m[r.k] === "pb") delete S.m[r.k]; else { S.m[r.k] = "pb"; } show(); summary(); if (S.m[r.k] === "pb") nt.focus(); };
+        nt.addEventListener("input", function () { var v = clean(nt.value); if (v.trim()) S.n[r.k] = v; else delete S.n[r.k]; summary(); });
+        show();
+      });
+      rows.push({ g: g, cnt: cnt });
+    });
+    summary();
+  }
+
+  function summary() {
+    var D = pd(S.d), n = 0, seen = 0, probs = [];
+    rows.forEach(function (row) {
+      var c = 0, p = 0;
+      row.g.r.forEach(function (r) { n++; if (S.m[r.k]) { c++; seen++; } if (S.m[r.k] === "pb") { p++; probs.push({ room: row.g.n, t: r.t, note: (S.n[r.k] || "").trim() }); } });
+      row.c = c; row.p = p; row.cnt.textContent = c + " of " + row.g.r.length + (p ? ", " + p + " to note" : "");
+    });
+    var place = S.b === 0 ? "studio" : S.b + " bedroom" + (S.b === 1 ? "" : "s");
+    place += ", " + S.a + " bathroom" + (S.a === 1 ? "" : "s");
+    var kick = "Move-in checklist, " + place + ":", big, small;
+    if (seen === 0) big = n + " things to check";
+    else if (seen >= n) big = "All " + n + " checked, " + (probs.length ? probs.length + (probs.length === 1 ? " problem" : " problems") + " noted" : "no problems");
+    else big = seen + " of " + n + " checked" + (probs.length ? ", " + probs.length + (probs.length === 1 ? " problem" : " problems") : "");
+    if (!D) small = "Add the day you move in to date the report.";
+    else small = (probs.length ? "Send the report to the landlord in writing and keep a copy." : "Mark anything that's scratched, stained or doesn't work, however small.") + " Walk-through dated " + nice(D) + ".";
+    $("kick").textContent = kick; $("big").textContent = big; $("small").textContent = small;
+    paint();
+    last = { kick: kick, big: big, small: small };
+    report(D, n, seen, probs);
+    var p = new URLSearchParams(); p.set("b", S.b); p.set("a", S.a); if (S.x) p.set("x", S.x); p.set("d", S.d || "");
+    var ok = [], pb = [];
+    G.forEach(function (g) { g.r.forEach(function (r) { if (S.m[r.k] === "ok") ok.push(r.k); if (S.m[r.k] === "pb") pb.push(r.k); }); });
+    if (ok.length) p.set("ok", ok.join("."));
+    if (pb.length) p.set("pb", pb.join("."));
+    pb.forEach(function (k) { if (S.n[k]) p.set("n_" + k, S.n[k]); });
+    try { history.replaceState(null, "", "?" + p.toString()); } catch (e) {}
+  }
+
+  function report(D, n, seen, probs) {
+    var L = [];
+    L.push("Move-in condition report");
+    L.push("Walk-through: " + (D ? nice(D) : "(add the move-in day)"));
+    L.push("Home: " + (S.b === 0 ? "studio" : S.b + " bedroom" + (S.b === 1 ? "" : "s")) + ", " + S.a + " bathroom" + (S.a === 1 ? "" : "s"));
+    L.push("");
+    if (probs.length) {
+      L.push("Already there when I moved in:");
+      probs.forEach(function (p, i) { L.push((i + 1) + ". " + p.room + ", " + p.t.toLowerCase() + (p.note ? ": " + p.note : "")); });
+    } else L.push(seen ? "No problems found in what I checked." : "Nothing marked yet.");
+    L.push("");
+    L.push(seen + " of " + n + " things checked." + (seen && seen < n ? " Not yet checked: " + left().join("; ") + "." : ""));
+    if (S.m.v1 === "ok") L.push("I have dated photos and video of each room.");
+    L.push("Please keep this with my lease, and let me know in writing about repairs to anything that doesn't work.");
+    $("rep").textContent = L.join("\n");
+  }
+  function left() {
+    var o = [];
+    G.forEach(function (g) { var c = g.r.filter(function (r) { return !S.m[r.k]; }).length; if (c) o.push(g.n + " (" + c + ")"); });
+    return o;
+  }
+
+  function paint() {
+    var s = $("svg"); s.textContent = "";
+    var H = 16 + rows.length * 38; s.setAttribute("viewBox", "0 0 500 " + H);
+    rows.forEach(function (r, i) {
+      var y = 8 + i * 38, tot = r.g.r.length || 1, full = r.c >= tot, W = 135;
+      var t = el("text", { x: 20, y: y + 22, fill: full ? "#FFFFFF" : "#C9D3CC", "font-size": 20, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); t.textContent = r.g.n.length > 22 ? r.g.n.slice(0, 21) + "…" : r.g.n;
+      el("rect", { x: 284, y: y + 8, width: W, height: 16, rx: 8, fill: "#1E412B" }, s);
+      var okw = W * (r.c - r.p) / tot, pbw = W * r.p / tot;
+      if (r.c) el("rect", { x: 284, y: y + 8, width: Math.max(16, okw + pbw), height: 16, rx: 8, fill: full ? "#52B978" : "#EADFC9" }, s);
+      if (r.p) el("rect", { x: 284 + Math.max(0, okw + pbw - Math.max(16, pbw)), y: y + 8, width: Math.max(16, pbw), height: 16, rx: 8, fill: "#E59AC6" }, s);
+      var v = el("text", { x: 482, y: y + 22, fill: "#F2E8D5", "text-anchor": "end", "font-size": 20, "font-weight": 800, "font-family": "ui-rounded,system-ui,sans-serif" }, s); v.textContent = r.c + "/" + tot;
+    });
+  }
+  draw();
+
+  $("print").addEventListener("click", function () { window.print(); });
+  $("copy").addEventListener("click", function () {
+    var t = $("rep").textContent, say = $("copied");
+    function done() { say.textContent = "Copied. Paste it into an email to your landlord, and attach a few photos."; }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done, fallback); else fallback();
+    function fallback() { var a = document.createElement("textarea"); a.value = t; a.setAttribute("readonly", ""); a.style.position = "fixed"; a.style.opacity = "0"; document.body.appendChild(a); a.select(); try { document.execCommand("copy"); done(); } catch (e) { say.textContent = "Select the report above and copy it."; } a.remove(); }
+  });
+
+  function wrap(g, text, x, y, max, lh) {
+    var words = text.split(" "), line = "";
+    words.forEach(function (w) { var t = line ? line + " " + w : w; if (g.measureText(t).width > max && line) { g.fillText(line, x, y); y += lh; line = w; } else line = t; });
+    if (line) g.fillText(line, x, y); return y + lh;
+  }
+  function picture() {
+    var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
+    var g = cv.getContext("2d"), FN = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#172F20"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#EADFC9"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.textAlign = "center";
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "700 42px " + FN; g.fillText("Moving in? Check it before you unpack.", Z / 2, 230);
+    g.fillStyle = "rgba(255,255,255,.75)"; g.font = "600 36px " + FN;
+    var y = wrap(g, last.kick || "", Z / 2, 320, 920, 48);
+    g.fillStyle = "#F2E8D5"; g.font = "850 84px " + FN;
+    y = wrap(g, last.big || "", Z / 2, y + 60, 960, 96);
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 34px " + FN;
+    wrap(g, last.small || "", Z / 2, y + 20, 900, 48);
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 32px " + FN; g.fillText("Make yours, free:", Z / 2, 940);
+    g.fillStyle = "#fff"; g.font = "800 40px " + FN; g.fillText("packedrabbit.com/move-in-checklist", Z / 2, 995);
+    return cv;
+  }
+  $("share").addEventListener("click", function () {
+    var url = location.origin + location.pathname + location.search, text = (last.kick ? last.kick + " " : "") + last.big + ". Make yours, free:";
+    var cv = picture(); cv = typeof prBrand === "function" ? prBrand(cv) : cv;
+    cv.toBlob(function (blob) {
+      var file = blob && typeof File !== "undefined" ? new File([blob], "move-in-checklist.png", { type: "image/png" }) : null;
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+      else if (navigator.share) navigator.share({ title: "Move-in checklist", text: text, url: url }).catch(function () {});
+      else if (blob) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "move-in-checklist.png"; document.body.appendChild(a); a.click(); a.remove(); }
+    }, "image/png");
+  });
+})();
+</script>
+<script>
+/* Embedded on someone else's page: no site header or footer, links open in a
+   new tab, a credit line at the end, and the height told to the host page. */
+(function () {
+  if (!document.documentElement.classList.contains("embed")) return;
+  document.querySelectorAll("a[href]").forEach(function (a) { a.target = "_blank"; a.rel = "noopener"; });
+  var m = document.querySelector("main") || document.body;
+  var c = document.createElement("a");
+  c.className = "embed-credit"; c.target = "_blank"; c.rel = "noopener";
+  c.href = "https://packedrabbit.com" + location.pathname;
+  c.textContent = "Free tool by The Packed Rabbit";
+  if (!/[?&]hub\b/.test(location.search)) m.appendChild(c);
+  function tell() { try { parent.postMessage({ prEmbedHeight: Math.ceil(document.documentElement.scrollHeight) }, "*"); } catch (e) {} }
+  tell(); addEventListener("load", tell); addEventListener("resize", tell);
+  if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
+})();
+</script>
+<script src="../brand.js"></script>
+<script src="../nav.js" defer></script>
+
+<section class="last" id="last" aria-label="Contact and links">
+  <img src="../img/wordmark-cream.png" alt="The Packed Rabbit" width="190" height="50" loading="lazy">
+  <h2>Questions? Write to us.</h2>
+  <a class="mail" href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a>
+  <nav aria-label="More from The Packed Rabbit">
+    <a href="../tools/">Free moving tools</a><a href="../answers/">Straight answers</a>
+    <a href="../business/">For businesses</a><a href="../price.html">Price</a>
+    <a href="../privacy.html">Privacy</a><a href="../terms.html">Terms and refunds</a>
+  </nav>
+  <div class="soc" aria-label="Follow The Packed Rabbit">
+    <a href="https://www.facebook.com/1403706312824938" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 21v-7.5h2.6l.4-3H14V8.6c0-.9.3-1.5 1.6-1.5H17V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8.3v3H11V21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></a>
+    <a href="https://www.instagram.com/thepackedrabbit/" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></svg></a>
+    <a href="https://www.tiktok.com/@thepackedrabbit" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5M14 3c.5 2.8 2.4 4.6 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a href="https://www.youtube.com/@thepackedrabbit" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 9.3v5.4l4.6-2.7z" fill="currentColor"/></svg></a>
+  </div>
+  <p class="lead">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>
+  <small>&copy; 2026 The Packed Rabbit</small>
+</section>
+</body>
+</html>
