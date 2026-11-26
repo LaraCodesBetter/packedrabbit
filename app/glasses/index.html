@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>The Packed Rabbit on your glasses</title>
+<!-- owner, 26 Nov 2026: "I want the glasses support immediately." The find-a-box view for AI glasses with a display
+     (Meta Ray-Ban Display runs web apps) and any glasses or headset browser. Big words on black, because black is
+     see-through on a glasses display. The box list arrives in the link's # part, which browsers never send to any
+     server, so the list goes from the phone to the glasses without passing through us. -->
+<style>
+  :root { color-scheme: dark; }
+  html, body { margin: 0; background: #000; color: #F4F1E8; font-family: "Atkinson Hyperlegible Next", system-ui, sans-serif; }
+  @font-face { font-family: "Atkinson Hyperlegible Next"; src: url("../fonts/atkinson-next.woff") format("woff"); font-display: swap; }
+  main { max-width: 640px; margin: 0 auto; padding: 18px 18px 28px; }
+  .brand { font-size: 18px; letter-spacing: .08em; text-transform: uppercase; color: #7FD19A; margin: 0 0 12px; font-weight: 700; }
+  label { display: block; font-size: 22px; margin: 0 0 8px; }
+  input { width: 100%; box-sizing: border-box; font: inherit; font-size: 30px; padding: 14px 16px; border-radius: 14px; border: 3px solid #7FD19A; background: #000; color: #F4F1E8; min-height: 64px; }
+  input:focus { outline: 3px solid #F4F1E8; outline-offset: 2px; }
+  .hit { margin: 18px 0 0; padding: 16px 18px; border: 2px solid #3E7A52; border-radius: 16px; }
+  .code { font-size: 54px; font-weight: 800; letter-spacing: .02em; color: #7FD19A; line-height: 1.05; }
+  .where { font-size: 28px; font-weight: 700; margin-top: 6px; }
+  .what { font-size: 22px; margin-top: 8px; color: #D8D3C6; }
+  .note { font-size: 20px; color: #D8D3C6; margin-top: 16px; line-height: 1.4; }
+  button { font: inherit; font-size: 22px; min-height: 56px; padding: 0 18px; border-radius: 14px; border: 2px solid #7FD19A; background: #000; color: #F4F1E8; margin-top: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <p class="brand">The Packed Rabbit</p>
+  <div id="body"></div>
+</main>
+<script>
+(function () {
+  var KEY = "pr-glasses-list";
+  var list = null, gone = null;
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+  async function fromHash(h) {
+    var raw = h.replace(/^#/, ""), m = raw.match(/^(z|j)\.(.+)$/);
+    if (!m) return null;
+    var b64 = m[2].replace(/-/g, "+").replace(/_/g, "/"), bin = atob(b64), bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    var text;
+    if (m[1] === "z") {
+      var ds = new DecompressionStream("deflate-raw");
+      text = await new Response(new Blob([bytes]).stream().pipeThrough(ds)).text();
+    } else text = new TextDecoder().decode(bytes);
+    var o = JSON.parse(text);
+    return o && Array.isArray(o.b) ? o : null;
+  }
+
+  var STOP = " where wheres whats is are was my the a an i im find which what box in it its did do does put packed of for to me can you please ";
+  function words(q) { return String(q || "").toLowerCase().replace(/[’']/g, "").replace(/[^a-z0-9\s-]/g, " ").split(/\s+/).filter(function (w) { return w && STOP.indexOf(" " + w + " ") < 0; }); }
+  function has(text, ws) {
+    var t = String(text || "").toLowerCase(), tn = t.replace(/[^a-z0-9]/g, "");
+    if (ws.length > 1 && tn.indexOf(ws.join("")) >= 0) return true;
+    return ws.every(function (w) { var one = w.length > 3 ? w.replace(/(es|s)$/, "") : w; return t.indexOf(w) >= 0 || t.indexOf(one) >= 0; });
+  }
+  function find(q) {
+    if (!list) return [];
+    var s = String(q || "").trim().toLowerCase().replace(/\s+/g, ""), ws = words(q);
+    if (!s) return [];
+    return list.b.filter(function (b) {
+      return String(b.c).toLowerCase().replace(/[^a-z0-9]/g, "").indexOf(s.replace(/[^a-z0-9]/g, "")) >= 0 || (ws.length && has((b.i || []).join(" ") + " " + (b.r || ""), ws));
+    }).slice(0, 4);
+  }
+  function sayBox(b) {
+    var where = b.s ? b.s : (b.d || b.r ? (b.d || b.r) : "");
+    return b.c + (where ? ", " + where : "");
+  }
+
+  function render(q) {
+    var B = $("body");
+    if (!list && gone) {
+      B.innerHTML = '<p class="where" role="status">Forgotten on these glasses. Your phone still has every box.</p><button id="back">Bring it back</button>';
+      $("back").addEventListener("click", function () { list = gone; gone = null; try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {} render(""); });
+      return;
+    }
+    if (!list) {
+      B.innerHTML = '<p class="where">Open this from your phone first.</p><p class="note">In The Packed Rabbit on your phone: Settings, then On your glasses, then Make my glasses link. Open that link here once, and your boxes stay on these glasses.</p>';
+      return;
+    }
+    var hits = find(q);
+    B.innerHTML =
+      '<label for="q">Where is it? Say or type it.</label>' +
+      '<input id="q" type="search" autocomplete="off" enterkeyhint="search" placeholder="salt, KIT-06" value="' + esc(q || "") + '">' +
+      (q ? (hits.length ? hits.map(function (b) {
+        return '<div class="hit" role="status"><div class="code">' + esc(b.c) + '</div>' +
+          '<div class="where">' + esc(b.s || b.d || b.r || "") + '</div>' +
+          (b.i && b.i.length ? '<div class="what">' + esc(b.i.slice(0, 6).join(", ")) + '</div>' : "") + '</div>';
+      }).join("") : '<p class="where" role="status">No box with "' + esc(q) + '" in it.</p>') :
+        '<p class="note">' + list.b.length + ' boxes, from ' + new Date(list.t).toLocaleDateString(undefined, { month: "short", day: "numeric" }) + '. Make a new link on your phone after you add boxes.</p>') +
+      '<button id="forget">Forget this list</button>';
+    var inp = $("q");
+    inp.addEventListener("input", function () { var v = inp.value, p = inp.selectionStart; render(v); var n = $("q"); n.focus(); try { n.setSelectionRange(p, p); } catch (e) {} });
+    $("forget").addEventListener("click", function () { try { localStorage.removeItem(KEY); } catch (e) {} gone = list; list = null; render(""); });
+    if (!q) inp.focus();
+  }
+
+  /* For Meta AI on the glasses, where it's switched on (WebMCP): one tool, read only. */
+  function tools() {
+    var mc = document.modelContext || navigator.modelContext;
+    if (!mc || !mc.registerTool) return;
+    try {
+      mc.registerTool({
+        name: "find_box",
+        description: "Find which moving or storage box something is in, and where that box is sitting. Read only.",
+        inputSchema: { type: "object", properties: { what: { type: "string", description: "The thing to find, or a box code like KIT-06" } }, required: ["what"] },
+        execute: function (args) {
+          var hits = find(args && args.what);
+          render(args && args.what);
+          return { content: [{ type: "text", text: hits.length ? hits.map(sayBox).join("; ") : "No box has that in it." }] };
+        }
+      });
+    } catch (e) {}
+  }
+
+  (async function start() {
+    try {
+      if (location.hash.length > 3) {
+        var o = await fromHash(location.hash);
+        if (o) { list = o; try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) {} history.replaceState(null, "", location.pathname); }
+      }
+      if (!list) { var s = localStorage.getItem(KEY); if (s) list = JSON.parse(s); }
+    } catch (e) { list = null; }
+    render("");
+    tools();
+  })();
+})();
+</script>
+</body>
+</html>
