@@ -334,7 +334,7 @@ section.calm{background:none}
 /* owner, 5 Nov: the calm route, on the website too. The same drawings as the app's first open. */
 /* the first view is the app itself (owner, 6 Nov 2026) */
 .fo{padding:24px 0 56px}
-.fo-grid{max-width:1100px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:auto 1fr;gap:56px;align-items:center}
+.fo-grid{max-width:1100px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:auto 1fr;gap:56px;align-items:start}
 .fo-phone{width:min(390px,calc((100vh - 140px) * 390 / 844));aspect-ratio:390/844;border-radius:44px;overflow:hidden;border:1px solid #1B5E3633;box-shadow:0 30px 60px -30px #0D3B2266;background:#F7F8F5}
 .fo-phone iframe{width:100%;height:100%;border:0;display:block}
 .fo-fig{margin:0}.fo-fig .fo-phone{width:min(390px,calc((100vh - 176px) * 390 / 844))}.fo-fig figcaption{margin:0 0 10px;text-align:center;font-size:.95rem;font-weight:600;color:var(--ink2)}
@@ -344,19 +344,31 @@ section.calm{background:none}
 .fo-side .cost,.fo-side .fine{max-width:46ch}
 .fo-side .sub{font-size:clamp(1.15rem,2.4vw,1.4rem);margin:18px 0 0;max-width:30ch;color:var(--ink2)}
 @media(max-width:760px){
-  header{display:none}
-  .fo{padding:0 0 40px}
+  /* owner, 25 Nov 2026: on a phone the story comes first; the film is an ad, on the videos page */
+  .fo{padding:6px 0 30px}
   .fo-grid{display:block;padding:0}
-  .fo-phone{width:100vw;height:100vh;height:100svh;aspect-ratio:auto;border:0;border-radius:0;box-shadow:none}
-  .fo-side{padding:28px 22px 0}
-  /* owner, 6 Nov: on a phone the first view is the app and nothing else. What's below is earned inside the app. */
-  .fo{padding:0}.fo-side,footer,.leaves,.light{display:none}
-  /* owner, 7 Nov: under the front door, a slim handle, then one quiet last page: contact and links. */
-  .fo-phone{height:calc(100dvh - 52px)}
-  .fo-fig figcaption{display:none}.fo-fig .fo-phone{width:100vw}
-  .peek{display:flex}
+  .fo-fig{display:none}
+  .fo-side{padding:18px 20px 0}
+  footer,.leaves,.light{display:none}
+  .peek{display:none}
   .last{display:flex}
 }
+
+/* owner, 25 Nov 2026: the new front page */
+.fo-side h1{font-size:clamp(2.5rem,7.4vw,4.4rem);max-width:14ch;line-height:1.02}
+.fo-side .one{margin:14px 0 0;font-size:clamp(1.2rem,2.6vw,1.45rem);font-weight:800;color:var(--ink)}
+.three{display:grid;gap:10px;margin:22px 0 10px;max-width:420px}
+.three .btn{width:100%;min-height:56px;font-size:1.12rem}
+.proof{margin:20px 0 0;max-width:46ch;font-size:1.02rem;line-height:1.5;color:var(--ink2)}
+.proof a,.founder a{font-weight:700;color:var(--ink);text-underline-offset:3px}
+.founder{margin:22px 0 0;padding:18px 18px 16px;border-radius:18px;background:color-mix(in srgb,var(--green) 7%,transparent);border:1px solid color-mix(in srgb,var(--green) 18%,transparent);max-width:46ch}
+.founder p{margin:0 0 10px;font-size:1.04rem;line-height:1.55;color:var(--ink)}
+.founder .sig{margin:0;font-size:.96rem;color:var(--ink2)}
+.fo-side .routes{margin-top:20px}
+.fo-side h1 span.g{display:inline;color:var(--green)}
+.three .btn.alt{min-height:56px;height:auto;padding:10px 20px;font-size:1rem;line-height:1.3;white-space:normal;text-align:center}
+header .brandrow img.wm{width:168px;height:auto}header.slim .brandrow img.wm{width:128px;height:auto} /* panel, 25 Nov 2026: the wordmark squashed when the header slimmed */
+@media(max-width:760px){.peek{display:none!important}}
 /* owner and panel, 24 Nov 2026: on a phone the price never showed before box three; the slim bar says it */
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .peek{display:none;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:6px 14px;text-align:left;line-height:1.25;font-size:15px!important;width:100%;border:0;background:#0D3B22;color:#F2E8D5;font:700 16px var(--sans,inherit);cursor:pointer}
@@ -437,10 +449,10 @@ footer p{margin:0}
 :root[data-theme="dark"] .bar i{background:linear-gradient(90deg,#23673C,#52B978 60%,#F2E8D5)}
 :root[data-theme="dark"] .biz{background:linear-gradient(165deg,#1C3224,#0F1D14);border-top:2px solid #EADFC9}
 </style>
-<meta property="og:image:alt" content="See inside every box. A line drawing from The Packed Rabbit.">
-<meta name="twitter:image:alt" content="See inside every box. A line drawing from The Packed Rabbit.">
+<meta property="og:image:alt" content="Move without getting scammed. A line drawing from The Packed Rabbit.">
+<meta name="twitter:image:alt" content="Move without getting scammed. A line drawing from The Packed Rabbit.">
 <style id="skipcss">.skip{position:absolute;left:-9999px;top:8px;z-index:9999;background:#14281B;color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;text-decoration:none}.skip:focus{left:8px}</style>
-<script type="application/ld+json" id="pr-page">{"@context":"https://schema.org","@type":"WebPage","@id":"https://packedrabbit.com/#webpage","url":"https://packedrabbit.com/","name":"Moving & Storage Box Inventory App | The Packed Rabbit","description":"Where's the coffee maker? Photograph each box as you pack, then type or say what you need and see the box and where it's kept. Try it with your first three boxes.","inLanguage":"en-US","dateModified":"2026-11-24T20:43:20Z","keywords":"moving & storage box inventory app, see inside every box, box inventory app, moving box inventory, find my box, find my stuff, which box is it in, what's in my boxes, where did i put it, home inventory, storage bin inventory, storage unit inventory, moving and storage app, moving management, storage management, storage unit management, garage organization, attic storage, basement storage, holiday decoration storage, how to store christmas decorations, how to keep track of moving boxes, how to label moving boxes, how to organize a storage unit, what size storage unit do i need, home inventory for insurance, inventory for a pcs move, packing and unpacking, moving checklist, find things without opening every box, no account, we don't sell your data","isPartOf":{"@type":"WebSite","@id":"https://packedrabbit.com/#site","name":"The Packed Rabbit","url":"https://packedrabbit.com/"},"publisher":{"@id":"https://packedrabbit.com/#org"},"about":{"@id":"https://packedrabbit.com/#app"}}</script>
+<script type="application/ld+json" id="pr-page">{"@context":"https://schema.org","@type":"WebPage","@id":"https://packedrabbit.com/#webpage","url":"https://packedrabbit.com/","name":"Moving & Storage Box Inventory App | The Packed Rabbit","description":"Where's the coffee maker? Photograph each box as you pack, then type or say what you need and see the box and where it's kept. Try it with your first three boxes.","inLanguage":"en-US","dateModified":"2026-11-26T00:43:42Z","keywords":"moving & storage box inventory app, move without getting scammed, box inventory app, moving box inventory, find my box, find my stuff, which box is it in, what's in my boxes, where did i put it, home inventory, storage bin inventory, storage unit inventory, moving and storage app, moving management, storage management, storage unit management, garage organization, attic storage, basement storage, holiday decoration storage, how to store christmas decorations, how to keep track of moving boxes, how to label moving boxes, how to organize a storage unit, what size storage unit do i need, home inventory for insurance, inventory for a pcs move, packing and unpacking, moving checklist, find things without opening every box, no account, we don't sell your data","isPartOf":{"@type":"WebSite","@id":"https://packedrabbit.com/#site","name":"The Packed Rabbit","url":"https://packedrabbit.com/"},"publisher":{"@id":"https://packedrabbit.com/#org"},"about":{"@id":"https://packedrabbit.com/#app"}}</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to the content</a>
@@ -454,20 +466,29 @@ footer p{margin:0}
 
 <main id="main">
 <section class="fo" aria-labelledby="fo-h"><div class="fo-grid">
-  <!-- panel review, 21 Nov: three ways to start competed. One main button; the phone is marked as an optional preview. -->
-  <figure class="fo-fig"><figcaption>Optional preview. Tap through the first screens, or skip it.</figcaption>
-  <div class="fo-phone"><iframe src="app/start/?site" title="Optional preview: the app's first screens" allow="camera; microphone" loading="eager"></iframe></div></figure>
+  <!-- owner, 25 Nov 2026: "the rabbit film can just be an ad for us. It doesn't have to be the entrance to the app." The story first, on every screen size. -->
+  <figure class="fo-fig"><figcaption>Optional preview. Tap through the first screens.</figcaption>
+  <div class="fo-phone"><iframe src="app/start/?site" title="Optional preview: the app's first screens" allow="camera; microphone" loading="lazy"></iframe></div></figure>
   <div class="fo-side">
-    <h1 id="fo-h">See inside <span>every box.</span></h1>
-    <p class="sub">Photograph what you pack. Find the right box when you need it.</p>
-    <div class="ctas"><a class="btn go" href="app/start/?begin">Pack my first box</a>
-    <p class="ctanote">Try it with your first three boxes. No account. <a href="app/start/?install">Put it on your phone's home screen</a></p>
-    <p class="ctanote"><!-- owner, 24 Nov 2026: skip straight to payment --><a href="price.html#app">Already know you want it? Make it yours for $9.99 a month</a></p>
-    <!-- outside review, 9 Nov: the free tools and the business side sat behind the footer -->
-    <nav class="routes" aria-label="More from The Packed Rabbit"><a href="tools/">Check my move with the free tools</a><a href="business/">For businesses</a></nav></div>
+    <h1 id="fo-h"><span class="g">Move</span> without getting scammed.</h1><!-- panel, 25 Nov 2026: B won 4 to 1; green on "Move", not on "scammed" -->
+    <p class="sub">Check a mover's quote for the warning signs before you pay a deposit. Then find any box in seconds.</p>
+    <p class="one">Every part of your move in one place.</p>
+    <div class="three">
+      <a class="btn go" href="quote-check/">Check my quote. It's free.</a>
+      <a class="btn soft" href="mover-check/">Check my mover</a>
+      <a class="btn soft" href="app/start/?begin">Pack my first box</a>
+      <a class="btn soft alt" href="storage-inventory/">Already moved, or storing things? Find anything without opening a box</a>
+    </div>
+    <p class="ctanote">The checks are free. Try the app with your first three boxes, then $9.99 a month. <a href="price.html#app">Already know you want it? Make it yours</a></p>
+    <p class="proof"><b>In 2025, over 6,500 complaints</b> about moving companies were filed with the Better Business Bureau, and people who reported a moving scam lost a median of $532. <a href="why/">Why I built this, and the sources</a></p>
+    <div class="founder">
+      <p>I was building an app to keep my whole move in one place. I didn't know it would turn into a warning for other people.</p>
+      <p>One mover wanted 50% up front, then 70% before anyone came. Three different cleaning companies had the same person answering the phone. "Two to three hours" took nine on each end. I packed over 140 boxes, and I know what's in every one. Every tool here is one I needed. Every part of my move in one place.</p>
+      <p class="sig">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>
+    </div>
+    <nav class="routes" aria-label="More from The Packed Rabbit"><a href="tools/">All the free tools</a><a href="storage-inventory/">Storing things, not moving</a><a href="business/">For businesses</a><a href="videos/">Watch the rabbit</a></nav>
     <p class="cost">$9.99 a month after your first three boxes. Cancel anytime: everything you entered stays on your phone to look at and search, and nothing is deleted. Start again and everything opens as it was.</p>
     <p class="fine">It works in any phone's browser today, with no account, and you pay us directly. The Android app is in testing on Google Play, where Google handles payment; the iPhone app is on its way. Back it up to a file anytime, membership or not, and bring it back on a new phone.</p>
-    <p class="fine lead-msg">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>
   </div>
 </div></section>
 
@@ -480,6 +501,7 @@ footer p{margin:0}
   <a class="mail" href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a>
   <nav aria-label="More from The Packed Rabbit">
     <a href="tools/">Free moving tools</a><a href="answers/">Straight answers</a>
+    <a href="storage-inventory/">Storage bins</a><a href="storage/">Storage unit size</a>
     <a href="business/">For businesses</a><a href="price.html">Price</a>
     <a href="privacy.html">Privacy</a><a href="terms.html">Terms and refunds</a>
   </nav>

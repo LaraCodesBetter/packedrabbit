@@ -192,7 +192,7 @@ footer b{color:var(--ink); font-family:var(--display)}
 footer a{color:var(--ink2); display:flex; align-items:center; min-height:44px; padding:0; text-decoration:none}
 footer a:hover{color:var(--ink); text-decoration:underline}
 /* owner, 17 Nov: the extra link list under the footer was one link per line, two phone screens long. It wraps into rows now. */
-footer.wrap:has(> a){display:flex; flex-wrap:wrap; column-gap:20px; row-gap:0; padding:24px 0 40px; margin-top:24px}
+footer.wrap:has(> a){display:flex; flex-wrap:wrap; column-gap:20px; row-gap:0; padding:24px 16px 40px; margin-top:24px} /* panel, 25 Nov 2026: the links touched the screen's edge */
 footer.wrap > a{display:inline-flex}
 
 /* ---- homepage, 23 Oct review ---- */
