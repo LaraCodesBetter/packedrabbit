@@ -156,7 +156,7 @@ async function mailSend(db, s, b) {
   if (!subject || !text) return { error: "subject_and_message_needed" };
   const since = Date.now() - 864e5;
   const n = await db.prepare("SELECT COUNT(*) AS n FROM docs WHERE coll = 'mail' AND json_extract(data, '$.dir') = 'out' AND updated > ?").bind(since).first("n");
-  if (n >= 100) return { error: "daily_limit" };
+  if (n >= 150) return { error: "daily_limit" }; // owner, 26 Nov 2026: raised from 100
   // a reply keeps the conversation together in their inbox
   let headers = {};
   if (b.replyOf) {
