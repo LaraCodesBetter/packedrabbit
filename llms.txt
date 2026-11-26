@@ -46,6 +46,7 @@ The questions people ask most, each with the one page that answers it.
 
 ## For AI assistants
 A full guide for assistants, agents and robots helping someone move: https://packedrabbit.com/for-assistants/ (Markdown: https://packedrabbit.com/for-assistants/guide.md)
+For makers of AI glasses, watches, assistants and home robots who want The Packed Rabbit built in as an add-on (what works today, what is coming, the packing rules, how to partner): https://packedrabbit.com/developers/
 Links that open a screen: https://packedrabbit.com/app/?find=<thing> , https://packedrabbit.com/app/?go=import , https://packedrabbit.com/app/?go=promises , https://packedrabbit.com/app/?go=addbox&room=KIT , https://packedrabbit.com/app/?go=boxes
 Open starter file format assistants can write: https://packedrabbit.com/for-assistants/move-file.html
 
