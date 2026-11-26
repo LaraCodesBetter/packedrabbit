@@ -301,6 +301,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
 /* panel, 14 Nov: Skip is a real button, not small text on the pattern */
 .pskip{min-height:44px;min-width:44px;padding:0 22px;border:1.5px solid rgba(242,232,213,.6);border-radius:999px;background:rgba(10,40,24,.55);color:#FFFDF8;font:600 16px/1 "Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,-apple-system,sans-serif;cursor:pointer}
 .pskip:focus-visible{outline:3px solid #F2E8D5;outline-offset:2px}
+.phead{position:absolute;left:0;right:0;top:82px;z-index:4;margin:0;padding:0 22px;text-align:center;color:#F2E8D5;font:800 27px/1.15 "Atkinson Hyperlegible Next","Atkinson Hyperlegible",system-ui,-apple-system,sans-serif;text-shadow:0 1px 10px rgba(10,40,24,.6)}
+.phead span{display:block;margin:8px auto 0;max-width:30ch;font-size:16.5px;font-weight:600;line-height:1.35;color:#E6EFE4}
 /* panel (accessibility lead), 17 Nov 2026: the plum ring was too faint on the dark green (2.31 and 1.76 to 1); cream there */
 .prof :focus-visible,.phone.lit .stop.last :focus-visible,.phone.lit .foot :focus-visible{outline:3px solid #F2E8D5!important;outline-offset:3px}
 .go2{display:block;margin:6px auto 0;min-height:44px;color:var(--ink);font-weight:700;text-decoration:underline;text-underline-offset:4px} /* panel note: it read faint */
@@ -326,9 +328,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
     <p class="pq" id="pq" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6.5"/><path d="M15 15l5.5 5.5"/></svg><span id="pqt"></span></p>
     <!-- owner, 14 Nov: the signature at the top of the room, where card one's wordmark sits, so it stays put through the dissolve; its ears wiggle as he bows -->
     <div class="brand pbrand" aria-hidden="true"><img id="pwm" src="wordmark-ears-cream.png" alt="" width="168" height="44"></div>
-    <div class="pbtns"><button class="cta" id="pfirst" type="button">Pack my first box</button><button class="pskip" id="pskip" type="button">Skip intro</button></div>
+    <!-- panel, 25 Nov 2026: on a phone the first screen never said what the app does; the headline is there from the first frame -->
+    <p class="phead" id="phead">Don't get scammed on your move.<span>Check a mover's quote for the warning signs before you pay a deposit. Then find any box in seconds.</span></p>
+    <div class="pbtns"><button class="cta" id="pfirst" type="button">Pack my first box</button><button class="pskip" id="pskip" type="button">Show me around</button></div>
   </div>
-  <script>try{ if(localStorage.getItem('pr-prof')!=='1'){ document.getElementById('prof').hidden=false; document.querySelector('.phone').classList.add('opening'); } }catch(e){}</script>
+  <script>/* owner, 25 Nov 2026: "the rabbit film can just be an ad for us. It doesn't have to be the entrance to the app." It plays only when asked for (?film) */try{ if(/[?&]film\b/.test(location.search)){ document.getElementById('prof').hidden=false; document.querySelector('.phone').classList.add('opening'); } }catch(e){}</script>
   <div class="street" id="street" tabindex="0" aria-label="Welcome screens, swipe or use arrow keys">
 
     <!-- stop 1: packing at home -->
@@ -768,7 +772,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   const hasMove=()=>db().then(d=>new Promise(res=>{ const q=d.transaction('kv','readonly').objectStore('kv').get('moving-command-center-v1'); q.onsuccess=()=>{ let st=null; try{ st=JSON.parse(q.result||'null'); }catch(e){} const se=(st&&st.settings)||{}; res(!!(se.skipIntro||(st&&st.profile&&st.profile.done))); }; q.onerror=()=>res(false); })).catch(()=>false);
   const msheet=document.getElementById('msheet'), mbtn=document.getElementById('member');
   if(window.__APP) hasMove().then(h=>{ if(h) mbtn.innerHTML='<b>Open my move</b>'; });
-  mbtn.addEventListener('click',async()=>{ if(window.__APP && await hasMove()) return home(); msheet.hidden=false; document.getElementById('msh').focus(); });
+  mbtn.addEventListener('click',async()=>{ if(window.__introEnd&&Date.now()-window.__introEnd<1200) return; /* panel, 25 Nov 2026: it appeared under a thumb that had just tapped the intro's button */ if(window.__APP && await hasMove()) return home(); msheet.hidden=false; document.getElementById('msh').focus(); });
   document.getElementById('mclose').addEventListener('click',()=>{ msheet.hidden=true; mbtn.focus(); });
   document.getElementById('mrestore').addEventListener('click',()=>{ msheet.hidden=true; document.getElementById('restore').click(); });
   document.getElementById('mgo').addEventListener('click',async()=>{ const c=document.getElementById('mcode').value.toUpperCase().replace(/[^A-Z0-9]/g,''), err=document.getElementById('merr');
@@ -792,7 +796,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
 (function(){
   var P=document.getElementById('prof'); if(!P) return;
   var seen=false; try{ seen=localStorage.getItem('pr-prof')==='1'; }catch(e){}
-  if(seen) return;
+  if(!/[?&]film\b/.test(location.search)) return; /* owner, 25 Nov 2026: the film plays only when asked for, as often as asked */
   var RM=false; try{ RM=matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
   var phl=document.getElementById('phl'), V=document.getElementById('pvid'), cloud=document.getElementById('pcloud'), pq=document.getElementById('pq'), pqt=document.getElementById('pqt');
   var items=[].slice.call(document.querySelectorAll('#plist .psl')), L=items.map(function(li){ return li.textContent; });
@@ -866,7 +870,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16
   function outro(){ if(done) return;
     later(function(){ say("Let me show you."); },RM?0:500);
     later(function(){ finish(false); },RM?0:2900); }
-  function finish(go){ if(done) return; done=true; under.forEach(function(el){ el.inert=false; }); setTimeout(function(){ document.querySelector('.phone').classList.remove('opening'); },go||RM?0:430); T.forEach(clearTimeout); clearTimeout(waiting); try{ localStorage.setItem('pr-prof','1'); }catch(e){}
+  function finish(go){ if(done) return; done=true; window.__introEnd=Date.now(); under.forEach(function(el){ el.inert=false; }); setTimeout(function(){ document.querySelector('.phone').classList.remove('opening'); },go||RM?0:430); T.forEach(clearTimeout); clearTimeout(waiting); try{ localStorage.setItem('pr-prof','1'); }catch(e){}
     try{ V.pause(); }catch(e){}
     /* card one's words and drawing are hidden at once (no fade-out), so they only ever come in after the room has gone */
     var s1=document.querySelector('.stop'); if(s1){ s1.classList.add('pnoanim','pre'); void s1.offsetWidth; s1.classList.remove('pnoanim'); }

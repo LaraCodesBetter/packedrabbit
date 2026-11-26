@@ -205,7 +205,7 @@
 "for-assistants": "9eabaa66bf",
 "for-assistants-move-file": "8d23f382f3",
 "holiday-storage": "bbde3bcf1c",
-"home": "93b4d7d1e8",
+"home": "cc20ffe12d",
 "home-inventory": "7266423d68",
 "homes": "5145ae2c67",
 "mattress": "09da48f9f9",
@@ -235,9 +235,9 @@
 "new-state": "f81f4cb87a",
 "notice": "27704aeef3",
 "packing-schedule": "bbe9d87eac",
+"pcs-weight": "9c8338401c",
 "price": "c9a43a571d",
 "privacy": "ffca1e86a5",
-"pcs-weight": "9c8338401c",
 "prorated-rent": "4398a7009b",
 "quote-check": "f9b43904bd",
 "send": "4fb8c2fc0f",
@@ -304,5 +304,6 @@
 "utilities": "c8639b774c",
 "videos": "cef31a6bfc",
 "weight": "e6d2becc78",
+"why": "c9b35f68ff",
 "wont-move": "d85973af19"
 }
