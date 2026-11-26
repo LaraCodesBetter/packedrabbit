@@ -90,7 +90,8 @@
       (q ? (hits.length ? hits.map(function (b) {
         return '<div class="hit" role="status"><div class="code">' + esc(b.c) + '</div>' +
           '<div class="where">' + esc(b.s || b.d || b.r || "") + '</div>' +
-          (b.i && b.i.length ? '<div class="what">' + esc(b.i.slice(0, 6).join(", ")) + '</div>' : "") + '</div>';
+          (b.i && b.i.length ? '<div class="what">' + esc(b.i.slice(0, 6).join(", ")) + '</div>' : "") +
+          (b.g ? '<div class="what">Goes: ' + esc(b.g) + '</div>' : "") + '</div>';
       }).join("") : '<p class="where" role="status">No box with "' + esc(q) + '" in it.</p>') :
         '<p class="note">' + list.b.length + ' boxes, from ' + new Date(list.t).toLocaleDateString(undefined, { month: "short", day: "numeric" }) + '. Make a new link on your phone after you add boxes.</p>') +
       '<button id="forget">Forget this list</button>';
