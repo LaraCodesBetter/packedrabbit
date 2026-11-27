@@ -124,7 +124,7 @@ async function loadColl(c){
   else S[c]=L;
 }
 async function loadTeam(){ try{ const [m,u]=await Promise.all([api("me"),api("users")]); S.me=m.user||null; S.users=u.users||[]; }catch(e){ if(e instanceof SignedOut) throw e; } }
-async function loadAll(){ await Promise.all([...["contacts","campaigns","social","posts","products","tasks","log","projects","mail","mailtpl","mailrules","drips"].map(loadColl),loadTeam()]); S.ready=true; }
+async function loadAll(){ await Promise.all([...["contacts","campaigns","social","posts","products","tasks","log","projects","mail","mailtpl","mailrules","drips"].map(c=>loadColl(c).catch(e=>{ if(e instanceof SignedOut) throw e; console.warn("load "+c,e); setTimeout(()=>toast("Couldn't load "+c+". Pull to refresh in a minute."),500); })),loadTeam()]); S.ready=true; }
 async function loadEvents(cid){ const L=await list("contacts/"+cid+"/events"); if(S.sel!==cid) return; S.events=L.sort((a,b)=>(b.at||0)-(a.at||0)).slice(0,200); render(); }
 
 /* ---------- sign-in ---------- */
