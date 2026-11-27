@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How much renters insurance do I need? Coverage calculator, free</title>
+<meta name="description" content="Add up what it would cost to replace your things, room by room, and see how much personal property coverage to ask for, what replacement cost and actual cash value would each pay, and which items need extra coverage. Free, no signup.">
+<link rel="canonical" href="https://packedrabbit.com/renters-insurance/">
+<meta name="theme-color" content="#1C3224">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Packed Rabbit">
+<meta property="og:title" content="How much renters insurance do I need?">
+<meta property="og:description" content="What your things would cost to replace, room by room, in; the coverage to ask for, and what each kind of policy pays, out.">
+<meta property="og:url" content="https://packedrabbit.com/renters-insurance/">
+<meta property="og:image" content="https://packedrabbit.com/cards/renters-insurance.jpg">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+<link rel="icon" href="../app/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../app/icon-180.png">
+<link rel="stylesheet" href="../site.css">
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add("embed")</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Renters insurance coverage calculator by The Packed Rabbit",
+  "url": "https://packedrabbit.com/renters-insurance/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any web browser",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "Adds up what it would cost to replace your belongings today, room by room, to show how much personal property coverage to ask for on a renters policy. Compares what a replacement cost policy and an actual cash value policy would each pay after the deductible, checks a quote's limit against your total, and flags jewelry, art and collections, which are covered on a limited basis only. Based on state insurance department and NAIC consumer guides. Runs on the device; nothing typed is sent anywhere."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much renters insurance do I need?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Enough personal property coverage to replace everything you own. Go room by room and write down what each thing would cost to buy again today: furniture, clothes, the kitchen, electronics, bedding, books, tools and anything in storage. The total is the amount to ask for. State insurance departments suggest keeping that list, with photos, receipts and serial numbers, and updating it once a year."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between replacement cost and actual cash value?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Actual cash value is the replacement cost minus depreciation. The Wisconsin insurance commissioner's example: furniture that cost $500 and lasts 20 years, destroyed after 10 years, pays $250. Replacement cost pays what it costs to buy the item new, usually after you buy it and send the receipt. It costs more but pays more. Both pay after your deductible."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does renters insurance cover jewelry?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Only up to a limit. Jewelry, cash, guns and stamp and coin collections are usually covered on a limited basis, and art and antiques should be listed separately. Ask what your policy's limit is, and about a rider or floater for anything worth more."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does my landlord's insurance cover my things?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. A landlord's or property manager's policy covers the building, not your belongings. Your things are covered only by your own renters policy."
+      }
+    }
+  ]
+}
+</script>
+<style>
+  .tp { max-width: 640px; margin: 0 auto; padding: 4px 16px 64px; }
+  .tp h1 { font-size: clamp(2.1rem, 8vw, 3.3rem); margin: 12px 0 10px; }
+  .lbl { display: block; font-weight: 800; margin: 22px 0 8px; font-size: 1.1rem; }
+  .lbl small { display: block; font-weight: 500; color: var(--ink2); font-size: .9rem; margin-top: 2px; }
+  .fld { width: 100%; box-sizing: border-box; min-height: 54px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 700; font-size: 1.1rem; padding: 8px 14px; }
+  .fld:focus { outline: 3px solid var(--blue); outline-offset: 1px; border-color: var(--blue); }
+  select.fld { appearance: auto; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0 0 6px; }
+  .seg button { min-height: 52px; border-radius: 14px; border: 2px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-weight: 800; font-size: .95rem; cursor: pointer; padding: 6px 8px; line-height: 1.2; }
+  .seg button.on { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .stage { background: #172F20; border-radius: 22px; overflow: hidden; box-shadow: var(--lift2); margin: 14px 0; }
+  .stage svg { display: block; width: 100%; height: auto; }
+  .say { padding: 14px 18px 4px; color: #fff; }
+  .say .k { color: rgba(255,255,255,.72); font-weight: 700; font-size: .95rem; margin: 0; }
+  .say .big { font-family: var(--display); font-size: clamp(1.6rem, 6.6vw, 2.3rem); font-weight: 850; letter-spacing: -.02em; line-height: 1.08; color: #F2E8D5; margin-top: 2px; }
+  .say p { color: rgba(255,255,255,.84); margin: 6px 0 0; font-size: 1rem; }
+  .two { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 10px; align-items: end; }
+  .two > div { min-width: 0; }
+  .two .lbl { margin-top: 14px; }
+  .money { position: relative; }
+  .money span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-weight: 800; color: var(--ink2); pointer-events: none; }
+  .money .fld { padding-left: 28px; }
+  .facts { list-style: none; margin: 20px 0 0; padding: 0; background: var(--panel); border-radius: 18px; box-shadow: var(--lift1); }
+  .facts li { padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .facts li:last-child { border-bottom: 0; }
+  .facts b { display: block; font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink2); margin-bottom: 2px; }
+  .hint { font-size: .95rem; color: var(--ink2); margin: 8px 2px 0; }
+  .acts { display: grid; gap: 10px; margin: 20px 0 6px; }
+  .acts .btn { width: 100%; }
+  .how { margin-top: 34px; } .how h2 { font-size: 1.5rem; }
+  .aside { font-size: .95rem; color: var(--ink2); }
+  .src { font-size: .9rem; color: var(--ink2); border-top: 1px solid var(--line); padding-top: 12px; margin-top: 22px; }
+  .src a { color: var(--ink2); overflow-wrap: anywhere; }
+  .part { font-size: 1.35rem; margin: 30px 0 0; }
+  [hidden] { display: none !important; }
+  @media (max-width: 370px) { .seg button { font-size: .88rem; } .two { grid-template-columns: 1fr; } }
+</style>
+<link rel="stylesheet" href="../art.css">
+<meta property="og:image:alt" content="How much renters insurance do I need? A line drawing from The Packed Rabbit.">
+<meta name="twitter:image:alt" content="How much renters insurance do I need? A line drawing from The Packed Rabbit.">
+<style id="skipcss">.skip{position:absolute;left:-9999px;top:8px;z-index:9999;background:#14281B;color:#fff;padding:12px 18px;border-radius:10px;font-weight:700;text-decoration:none}.skip:focus{left:8px}</style>
+<script type="application/ld+json" id="pr-page">{"@context":"https://schema.org","@type":"WebPage","@id":"https://packedrabbit.com/renters-insurance/#webpage","url":"https://packedrabbit.com/renters-insurance/","name":"How much renters insurance do I need? Coverage calculator, free","description":"Add up what it would cost to replace your things, room by room, and see how much personal property coverage to ask for, what replacement cost and actual cash value would each pay, and which items need extra coverage. Free, no signup.","inLanguage":"en-US","dateModified":"2026-11-27T16:26:04Z","keywords":"how much renters insurance do i need, box inventory app, moving box inventory, find my box, find my stuff, which box is it in, what's in my boxes, where did i put it, home inventory, storage bin inventory, storage unit inventory, moving and storage app, moving management, storage management, storage unit management, garage organization, attic storage, basement storage, holiday decoration storage, how to store christmas decorations, how to keep track of moving boxes, how to label moving boxes, how to organize a storage unit, what size storage unit do i need, home inventory for insurance, inventory for a pcs move, packing and unpacking, moving checklist, find things without opening every box, no account, we don't sell your data","isPartOf":{"@type":"WebSite","@id":"https://packedrabbit.com/#site","name":"The Packed Rabbit","url":"https://packedrabbit.com/"},"publisher":{"@id":"https://packedrabbit.com/#org"},"about":{"@id":"https://packedrabbit.com/#app"}}</script>
+<script type="application/ld+json" id="pr-org">{"@context":"https://schema.org","@type":"Organization","@id":"https://packedrabbit.com/#org","name":"The Packed Rabbit","url":"https://packedrabbit.com/","logo":"https://packedrabbit.com/app/icon-512.png","email":"hello@packedrabbit.com","sameAs":["https://www.facebook.com/1403706312824938","https://www.instagram.com/thepackedrabbit/","https://www.tiktok.com/@thepackedrabbit","https://www.youtube.com/@thepackedrabbit"]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+
+<header class="wrap top">
+  <a class="brand" href="../" aria-label="The Packed Rabbit, home"><img class="wm wm-l" src="../img/wordmark.png" alt="The Packed Rabbit" width="150" height="39"><img class="wm wm-d" src="../img/wordmark-cream.png" alt="" width="150" height="39"></a>
+</header>
+
+<main id="main" class="tp">
+<!--pr-art--><figure class="pr-art" aria-hidden="true"><svg viewBox="0 0 360 200" focusable="false"><g class="bk"><path class="nf" d="M0 180 H360"/><rect class="f1" x="262" y="30" width="72" height="60" rx="1"/><path class="nf" d="M298.0 30 v60 M262 60.0 h72"/><rect class="f2" x="259" y="90" width="78" height="4" rx="1"/><path class="f2" d="M254 26 q9 34 0 72 h10 q-5 -36 0 -72 z M342 26 q-9 34 0 72 h-10 q5 -36 0 -72 z"/><rect class="f2" x="126" y="64" width="70" height="4" rx="1"/><rect class="f1" x="132" y="42" width="8" height="22"/><rect class="f2" x="141" y="38" width="9" height="26"/><rect class="f1" x="151" y="46" width="7" height="18"/><path class="f3" d="M160 64 l6 -18 l7 2 l-6 16"/><path class="f1" d="M178 64 l2 -10 h12 l2 10 z"/></g><rect class="gnd" x="0" y="192" width="360" height="8"/><path class="nf" d="M0 192 H360"/><path class="f2" d="M28 192 v-30 q0 -8 8 -8 h70 q8 0 8 8 v30 z"/><rect class="f1" x="36" y="138" width="62" height="18" rx="6"/><rect class="f2" x="22" y="160" width="14" height="32" rx="4"/><rect class="f2" x="106" y="160" width="14" height="32" rx="4"/><rect class="f1" x="54.0" y="118" width="34" height="14" rx="2"/><text class="t9" x="71" y="128" text-anchor="middle">$900</text><rect class="f2" x="136" y="128" width="64" height="40" rx="3"/><rect class="f1" x="141" y="133" width="54" height="30" rx="2"/><path class="f2" d="M168 168 v10 M154 178 h28 v14 h-28 z"/><rect class="f1" x="151.0" y="108" width="34" height="14" rx="2"/><text class="t9" x="168" y="118" text-anchor="middle">$600</text><path class="f2" d="M220 192 v-62 M210 130 l10 -26 l10 26 z"/><rect class="f1" x="207.0" y="90" width="26" height="13" rx="2"/><text class="t8" x="220" y="99" text-anchor="middle">$80</text><rect class="f2" x="238" y="160" width="40" height="32" rx="2"/><path class="nf" d="M238 166.4 h40"/><rect class="tape" x="254.8" y="160" width="6.4" height="6.4"/><rect class="f1" x="244.0" y="173.4" width="28" height="14" rx="2"/><text class="t9" x="258.0" y="183.4" text-anchor="middle">LIV</text><rect class="f1" x="292" y="92" width="54" height="100" rx="4"/><rect class="f3" x="306" y="86" width="26" height="11" rx="3"/><path class="nf" d="M300 114 h38 M300 128 h38 M300 142 h38 M300 156 h28"/><path class="nf" d="M300 168 h38"/><text class="t8" x="319" y="182" text-anchor="middle">TOTAL</text><path class="tape" d="M96 70 q76 -52 152 0 q-19 -10 -38 0 q-19 -10 -38 0 q-19 -10 -38 0 q-19 -10 -38 0 z"/><path class="nf" d="M172 44 v-6 M172 70 v28 q0 6 -5 6"/></svg></figure><!--/pr-art-->
+
+  <h1>How much renters insurance do I need?</h1>
+  <p class="lede">Go room by room and put in what it would cost to buy your things again today. See how much coverage to ask for, and what each kind of policy would really pay.</p>
+
+  <div class="stage">
+    <div class="say" aria-live="polite"><p class="k" id="kick"></p><div class="big" id="big"></div><p id="small"></p></div>
+    <svg id="svg" viewBox="0 0 500 16" role="img" aria-label="What your things would cost to replace, room by room"></svg>
+  </div>
+
+  <h2 class="part">What it would cost to replace, room by room</h2>
+  <p class="hint">Your best guess at today's prices is fine. Leave a room empty if you don't have it.</p>
+  <label class="lbl" for="r1">Living room<small>Sofa, tables, rugs, lamps</small></label>
+  <div class="money"><span>$</span><input class="fld" id="r1" type="text" inputmode="numeric" autocomplete="off" maxlength="7"></div>
+  <label class="lbl" for="r2">Kitchen and dining<small>Dishes, pans, small appliances, table</small></label>
+  <div class="money"><span>$</span><input class="fld" id="r2" type="text" inputmode="numeric" autocomplete="off" maxlength="7"></div>
+  <label class="lbl" for="r3">Bedrooms<small>Beds, mattresses, dressers, bedding</small></label>
+  <div class="money"><span>$</span><input class="fld" id="r3" type="text" inputmode="numeric" autocomplete="off" maxlength="7"></div>
+  <label class="lbl" for="r4">Clothes and shoes<small>Everyone's, coats included</small></label>
+  <div class="money"><span>$</span><input class="fld" id="r4" type="text" inputmode="numeric" autocomplete="off" maxlength="7"></div>
+  <label class="lbl" for="r5">Electronics<small>TV, computers, phones, games</small></label>
+  <div class="money"><span>$</span><input class="fld" id="r5" type="text" inputmode="numeric" autocomplete="off" maxlength="7"></div>
+  <label class="lbl" for="r6">Bathroom and linens<small>Towels, toiletries, hair tools</small></label>
+  <div class="money"><span>$</span><input class="fld" id="r6" type="text" inputmode="numeric" autocomplete="off" maxlength="7"></div>
+  <label class="lbl" for="r7">Office and books<small>Desk, chair, books, supplies</small></label>
+  <div class="money"><span>$</span><input class="fld" id="r7" type="text" inputmode="numeric" autocomplete="off" maxlength="7"></div>
+  <label class="lbl" for="r8">Tools, sports and outdoors<small>Bikes, tools, gear, decorations</small></label>
+  <div class="money"><span>$</span><input class="fld" id="r8" type="text" inputmode="numeric" autocomplete="off" maxlength="7"></div>
+  <label class="lbl" for="r9">In storage or kept somewhere else<small>A storage unit, a garage, a relative's basement</small></label>
+  <div class="money"><span>$</span><input class="fld" id="r9" type="text" inputmode="numeric" autocomplete="off" maxlength="7"></div>
+
+  <h2 class="part">Things worth a lot on their own</h2>
+  <p class="hint">These are counted in the total, and also shown on their own, because policies cover them only up to a limit.</p>
+  <label class="lbl" for="j">Jewelry and watches</label>
+  <div class="money"><span>$</span><input class="fld" id="j" type="text" inputmode="numeric" autocomplete="off" maxlength="7"></div>
+  <label class="lbl" for="x">Art, antiques and collections<small>Coins, stamps, instruments</small></label>
+  <div class="money"><span>$</span><input class="fld" id="x" type="text" inputmode="numeric" autocomplete="off" maxlength="7"></div>
+
+  <h2 class="part">The policy</h2>
+  <span class="lbl" id="pl">How it pays for your things<small>Ask the insurer if you're not sure. It's on the quote.</small></span>
+  <div class="seg" role="group" aria-labelledby="pl">
+    <button type="button" data-c="r">Replacement cost</button>
+    <button type="button" data-c="a">Actual cash value</button>
+  </div>
+  <p class="hint" id="chint"></p>
+  <div class="two">
+    <div><label class="lbl" for="ag">Their age<small>On average</small></label>
+      <select class="fld" id="ag"><option value="0">Nearly new</option><option value="1">About 1 year</option><option value="2">About 2 years</option><option value="3">About 3 years</option><option value="5">About 5 years</option><option value="7">About 7 years</option><option value="10">About 10 years</option><option value="15">15 years or more</option></select></div>
+    <div><label class="lbl" for="lf">How long they last<small>On average</small></label>
+      <select class="fld" id="lf"><option value="5">About 5 years</option><option value="8">About 8 years</option><option value="10">About 10 years</option><option value="15">About 15 years</option><option value="20">About 20 years</option></select></div>
+  </div>
+  <label class="lbl" for="dd">Deductible<small>From the quote</small></label>
+  <div class="money"><span>$</span><input class="fld" id="dd" type="text" inputmode="numeric" autocomplete="off" maxlength="6"></div>
+  <label class="lbl" for="q">Personal property coverage on the quote<small>Optional</small></label>
+  <div class="money"><span>$</span><input class="fld" id="q" type="text" inputmode="numeric" autocomplete="off" maxlength="7"></div>
+
+  <ul class="facts" id="facts">
+    <li id="f-a" hidden><b></b><span></span></li>
+    <li id="f-b" hidden><b></b><span></span></li>
+    <li id="f-c" hidden><b></b><span></span></li>
+    <li id="f-d" hidden><b></b><span></span></li>
+    <li id="f-e" hidden><b></b><span></span></li>
+  </ul>
+
+  <div class="acts">
+    <button class="btn tape" id="share" type="button">Share this answer</button>
+    <a class="btn ghost" href="../app/">Keep the photos and the list in the app</a>
+  </div>
+  <p class="aside">The app keeps a photo of every box and room with what's in it, which is the list an insurer asks for if you ever make a claim. It stays on your phone.</p>
+
+  <section class="how">
+    <h2>How this works</h2>
+    <p><strong>The total.</strong> Personal property coverage pays to repair or replace your things if they're damaged, destroyed or stolen. So the amount to ask for is what it would cost to replace everything you own. This page adds up what you type and rounds it up to the next $1,000, our own round number.</p>
+    <p><strong>Replacement cost or actual cash value.</strong> Actual cash value is the replacement cost minus depreciation. The Wisconsin insurance commissioner's example: furniture that cost $500 and lasts 20 years, destroyed after 10, pays $250. This page works out the same share for everything at once from the two averages you pick, so it's only a rough guide: an insurer goes item by item. Replacement cost pays the new price, usually once you've bought the item and sent the receipt. It costs more, and pays more. Both pay after the deductible, and a higher deductible usually means a lower premium, so pick one you could pay.</p>
+    <p><strong>Jewelry, art and collections.</strong> Jewelry, cash, guns and stamp and coin collections are usually covered on a limited basis only, and art and antiques should be listed separately. Ask what the policy's limit is, and about a rider or floater for anything above it.</p>
+    <p><strong>The other parts of a policy.</strong> Liability pays if someone is hurt in your home or you damage someone else's property, and many policies pay extra living costs if your home can't be lived in. Ask what each one pays; they aren't part of this total. Most renters policies don't cover floods: see <a href="../answers/flood-insurance.html">does renters insurance cover floods</a>.</p>
+    <p><strong>Moving?</strong> The landlord's insurance covers the building, not your things. Belongings are covered away from home when the cause is one the policy covers, so ask whether that includes a moving truck and a storage unit, and what the mover's own protection pays: see <a href="../coverage/">what your mover pays if something breaks</a>. Have the policy start the day you get the keys.</p>
+    <p><strong>Keep the list.</strong> State insurance departments suggest a list by room with photos or video, receipts, model and serial numbers, with a copy kept online or somewhere safe, and updated once a year. These are estimates, not quotes; prices and policies vary by state and insurer.</p>
+    <p class="aside">More for renters: <a href="../move-in-checklist/">the move-in checklist</a>, <a href="../move-in-cost/">how much money you need to move in</a> and <a href="../deposit/">when your deposit is due back</a>.</p>
+  </section>
+
+  <p class="src">Sources: National Association of Insurance Commissioners, <a href="https://content.naic.org/article/consumer-insight-rent-protecting-your-belongings-renters-insurance">For Rent: Protecting Your Belongings With Renters Insurance</a> and <a href="https://content.naic.org/article/consumer-insight-renters-insurance-purchase-or-not-purchase">Renters Insurance: To Purchase or Not to Purchase</a>; Wisconsin Office of the Commissioner of Insurance, <a href="https://oci.wi.gov/Pages/Consumers/PI-017.aspx">A Brief Guide to Renter's Insurance</a> (updated September 3, 2026); Massachusetts Division of Insurance, <a href="https://www.mass.gov/info-details/protecting-your-belongings-with-renters-insurance">Protecting Your Belongings with Renters Insurance</a>; Illinois Department of Insurance, <a href="https://idoi.illinois.gov/consumers/consumerinsurance/homeownerrenter/renter-s-insurance.html">Renter's Insurance</a>. Rounding to $1,000 and the depreciation shortcut are our own. Checked November 2026.</p>
+  <p class="maker">Nothing you type here is sent anywhere. It stays on this page.</p>
+</main>
+
+<script>
+/* Nothing typed here is sent anywhere. The amounts go in the address only so a
+   shared link opens showing the same answer. */
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  var ROOMS = [["r1", "Living room"], ["r2", "Kitchen"], ["r3", "Bedrooms"], ["r4", "Clothes"], ["r5", "Electronics"], ["r6", "Bathroom"], ["r7", "Office"], ["r8", "Tools, sports"], ["r9", "Storage"], ["j", "Jewelry"], ["x", "Art, collections"]];
+  var MONEY = ROOMS.map(function (r) { return r[0]; }).concat(["dd", "q"]);
+  function $(id) { return document.getElementById(id); }
+  function el(tag, a, p) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; }
+  function num(v, max) { var n = parseFloat(String(v == null ? "" : v).replace(/[^0-9.]/g, "")); return isFinite(n) && n > 0 ? Math.min(n, max || 9999999) : 0; }
+  function whole(n) { return "$" + Math.round(n).toLocaleString("en-US"); }
+
+  var S = { c: "r", ag: 3, lf: 10 };
+  var q = new URLSearchParams(location.search);
+  MONEY.forEach(function (k) { S[k] = num(q.get(k), k === "dd" ? 999999 : 9999999); });
+  if (/^[ra]$/.test(q.get("c") || "")) S.c = q.get("c");
+  if (["0","1","2","3","5","7","10","15"].indexOf(q.get("ag")) >= 0) S.ag = +q.get("ag");
+  if (["5","8","10","15","20"].indexOf(q.get("lf")) >= 0) S.lf = +q.get("lf");
+
+  MONEY.forEach(function (k) {
+    var f = $(k); f.value = S[k] ? String(S[k]) : "";
+    f.addEventListener("input", function () { S[k] = num(f.value, k === "dd" ? 999999 : 9999999); draw(); });
+  });
+  $("ag").value = String(S.ag); $("lf").value = String(S.lf);
+  $("ag").addEventListener("change", function () { S.ag = +this.value; draw(); });
+  $("lf").addEventListener("change", function () { S.lf = +this.value; draw(); });
+  [].forEach.call(document.querySelectorAll("[data-c]"), function (b) {
+    b.onclick = function () { S.c = b.getAttribute("data-c"); mark(); draw(); };
+  });
+  function mark() {
+    [].forEach.call(document.querySelectorAll("[data-c]"), function (b) {
+      var on = b.getAttribute("data-c") === S.c; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+    $("chint").textContent = S.c === "r" ? "Pays what it costs to buy the thing new. Costs more, pays more." :
+      "Pays what the thing was worth when it was lost: the new price minus its wear and age.";
+  }
+  mark();
+
+  function fact(id, head, text) { var li = $(id); li.hidden = !text; li.querySelector("b").textContent = head || ""; li.querySelector("span").textContent = text || ""; }
+
+  var last = {};
+  function draw() {
+    var total = 0, rows = [];
+    ROOMS.forEach(function (r) { total += S[r[0]]; if (S[r[0]]) rows.push({ n: r[1], v: S[r[0]] }); });
+    var ask = total > 0 ? Math.ceil(total / 1000) * 1000 : 0;
+    var share = Math.max(0, 1 - Math.min(S.ag, S.lf) / S.lf);        /* the Wisconsin example's straight line: age over life */
+    var acv = total * share;
+    var rc = Math.max(0, total - S.dd), ac = Math.max(0, acv - S.dd);
+    var kick = "", big = "", small = "";
+    ["f-a", "f-b", "f-c", "f-d", "f-e"].forEach(function (i) { fact(i); });
+
+    if (!total) {
+      big = "Start with one room";
+      small = "Type what it would cost to replace what's in it, and the total shows here.";
+    } else {
+      kick = "Ask for personal property coverage of about";
+      big = whole(ask);
+      small = "That's what it would cost to buy everything you listed again today" + (rows.length > 1 ? ", across " + rows.length + " groups." : ".");
+      fact("f-a", "If everything were lost", S.c === "r" ?
+        "Replacement cost would pay about " + whole(rc) + (S.dd ? " after the " + whole(S.dd) + " deductible" : "") + ", once you've bought things again. Actual cash value would pay about " + whole(ac) + " for the same things." :
+        "Actual cash value would pay about " + whole(ac) + (S.dd ? " after the " + whole(S.dd) + " deductible" : "") + ", since things " + (S.ag ? "about " + S.ag + " year" + (S.ag > 1 ? "s" : "") + " old" : "nearly new") + " that last about " + S.lf + " years are worth about " + Math.round(share * 100) + "% of new. Replacement cost would pay about " + whole(rc) + ".");
+      if (S.q) {
+        var gap = S.q - total;
+        fact("f-b", "The quote you have", gap >= 0 ? "Its " + whole(S.q) + " covers your total, with " + whole(gap) + " to spare." :
+          "Its " + whole(S.q) + " is about " + whole(-gap) + " short of what you listed. Ask for a higher limit, or you'd pay the difference yourself after a total loss.");
+      }
+      var sp = S.j + S.x;
+      if (sp) fact("f-c", "Covered only up to a limit", whole(sp) + " of it is " + (S.j && S.x ? "jewelry, art or collections" : S.j ? "jewelry and watches" : "art, antiques or collections") + ". Policies usually cover these on a limited basis only. Ask what the limit is, and about a rider or floater for the rest.");
+      if (S.r9) fact("f-d", "Kept somewhere else", whole(S.r9) + " is in storage or away from home. Ask whether the policy covers it there, and for how much.");
+      if (S.dd && S.dd >= total) fact("f-e", "The deductible", "Your " + whole(S.dd) + " deductible is as much as everything you listed, so a claim wouldn't pay anything. A lower deductible may be worth asking about.");
+      else if (S.dd) fact("f-e", "The deductible", "A small claim pays only what's above " + whole(S.dd) + ". A higher deductible usually lowers the premium, so pick one you could pay.");
+    }
+    $("kick").textContent = kick; $("big").textContent = big; $("small").textContent = small;
+    rows.sort(function (a, b) { return b.v - a.v; });
+    paint(rows);
+    last = { kick: kick, big: big, small: small };
+    var p = new URLSearchParams();
+    MONEY.forEach(function (k) { if (S[k]) p.set(k, String(S[k])); });
+    p.set("c", S.c); p.set("ag", String(S.ag)); p.set("lf", String(S.lf));
+    try { history.replaceState(null, "", total || S.dd || S.q ? "?" + p.toString() : location.pathname); } catch (e) {}
+  }
+
+  function paint(rows) {
+    var s = $("svg"); s.textContent = "";
+    if (!rows.length) { s.setAttribute("viewBox", "0 0 500 16"); return; }
+    var H = 34;
+    s.setAttribute("viewBox", "0 0 500 " + (14 + rows.length * H));
+    var max = Math.max.apply(null, rows.map(function (r) { return r.v; }));
+    rows.forEach(function (r, i) {
+      var y = 6 + i * H;
+      var t = el("text", { x: 20, y: y + 18, fill: "#FFFFFF", "font-size": 17, "font-weight": 700, "font-family": "system-ui,sans-serif" }, s); t.textContent = r.n;
+      el("rect", { x: 190, y: y + 6, width: 200, height: 16, rx: 8, fill: "#1E412B" }, s);
+      el("rect", { x: 190, y: y + 6, width: Math.max(6, r.v / max * 200), height: 16, rx: 8, fill: "#52B978" }, s);
+      var v = el("text", { x: 480, y: y + 19, fill: "#F2E8D5", "text-anchor": "end", "font-size": 17, "font-weight": 800, "font-family": "ui-rounded,system-ui,sans-serif" }, s); v.textContent = whole(r.v);
+    });
+  }
+  draw();
+
+  function wrap(g, text, x, y, max, lh) {
+    var words = text.split(" "), line = "";
+    words.forEach(function (w) { var t = line ? line + " " + w : w; if (g.measureText(t).width > max && line) { g.fillText(line, x, y); y += lh; line = w; } else line = t; });
+    if (line) g.fillText(line, x, y); return y + lh;
+  }
+  function picture() {
+    var cv = document.createElement("canvas"), Z = 1080; cv.width = Z; cv.height = Z;
+    var g = cv.getContext("2d"), FN = '-apple-system,"SF Pro Rounded","Segoe UI",system-ui,sans-serif';
+    g.fillStyle = "#172F20"; g.fillRect(0, 0, Z, Z);
+    g.fillStyle = "#EADFC9"; g.save(); g.translate(0, 70); g.rotate(-0.025); g.fillRect(-20, 0, Z + 40, 34); g.restore();
+    g.textAlign = "center";
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "700 42px " + FN; g.fillText("How much renters insurance do I need?", Z / 2, 230);
+    g.fillStyle = "rgba(255,255,255,.75)"; g.font = "600 36px " + FN;
+    var y = wrap(g, last.kick || "", Z / 2, 320, 920, 48);
+    g.fillStyle = "#F2E8D5"; g.font = "850 92px " + FN;
+    y = wrap(g, last.big || "", Z / 2, y + 60, 960, 104);
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 34px " + FN;
+    wrap(g, last.small || "", Z / 2, y + 20, 900, 48);
+    g.fillStyle = "rgba(255,255,255,.85)"; g.font = "600 32px " + FN; g.fillText("Work out yours, free:", Z / 2, 940);
+    g.fillStyle = "#fff"; g.font = "800 40px " + FN; g.fillText("packedrabbit.com/renters-insurance", Z / 2, 995);
+    return cv;
+  }
+  $("share").addEventListener("click", function () {
+    var url = location.origin + location.pathname + location.search, text = (last.kick ? last.kick + " " + last.big + "." : "How much renters insurance do I need?") + " Work out yours, free:";
+    var cv = picture(); if (window.prBrand) cv = prBrand(cv);
+    cv.toBlob(function (blob) {
+      var file = blob && typeof File !== "undefined" ? new File([blob], "renters-insurance.png", { type: "image/png" }) : null;
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], text: text + " " + url }).catch(function () {});
+      else if (navigator.share) navigator.share({ title: "How much renters insurance do I need?", text: text, url: url }).catch(function () {});
+      else if (blob) { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "renters-insurance.png"; document.body.appendChild(a); a.click(); a.remove(); }
+    }, "image/png");
+  });
+})();
+</script>
+<script>
+/* Embedded on someone else's page: no site header or footer, links open in a
+   new tab, a credit line at the end, and the height told to the host page. */
+(function () {
+  if (!document.documentElement.classList.contains("embed")) return;
+  document.querySelectorAll("a[href]").forEach(function (a) { a.target = "_blank"; a.rel = "noopener"; });
+  var m = document.querySelector("main") || document.body;
+  var c = document.createElement("a");
+  c.className = "embed-credit"; c.target = "_blank"; c.rel = "noopener";
+  c.href = "https://packedrabbit.com" + location.pathname;
+  c.textContent = "Free tool by The Packed Rabbit";
+  if (!/[?&]hub\b/.test(location.search)) m.appendChild(c);
+  function tell() { try { parent.postMessage({ prEmbedHeight: Math.ceil(document.documentElement.scrollHeight) }, "*"); } catch (e) {} }
+  tell(); addEventListener("load", tell); addEventListener("resize", tell);
+  if (window.ResizeObserver) new ResizeObserver(tell).observe(document.body);
+})();
+</script>
+<script src="../brand.js"></script>
+<script src="../nav.js" defer></script>
+
+<section class="last" id="last" aria-label="Contact and links">
+  <img src="../img/wordmark-cream.png" alt="The Packed Rabbit" width="190" height="50" loading="lazy">
+  <h2>Questions? Write to us.</h2>
+  <a class="mail" href="mailto:hello@packedrabbit.com">hello@packedrabbit.com</a>
+  <nav aria-label="More from The Packed Rabbit">
+    <a href="../tools/">Free moving tools</a><a href="../answers/">Straight answers</a>
+    <a href="../business/">For businesses</a><a href="../price.html">Price</a>
+    <a href="../privacy.html">Privacy</a><a href="../terms.html">Terms and refunds</a>
+  </nav>
+  <div class="soc" aria-label="Follow The Packed Rabbit">
+    <a href="https://www.facebook.com/1403706312824938" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 21v-7.5h2.6l.4-3H14V8.6c0-.9.3-1.5 1.6-1.5H17V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8.3v3H11V21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></a>
+    <a href="https://www.instagram.com/thepackedrabbit/" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor"/></svg></a>
+    <a href="https://www.tiktok.com/@thepackedrabbit" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5M14 3c.5 2.8 2.4 4.6 5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a href="https://www.youtube.com/@thepackedrabbit" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 9.3v5.4l4.6-2.7z" fill="currentColor"/></svg></a>
+  </div>
+  <p class="lead">Made by someone who was moving, not by a moving company. We don't sell your number, we don't take a cut from movers, and your list stays on your phone.</p>
+  <small>&copy; 2026 The Packed Rabbit</small>
+</section>
+</body>
+</html>
