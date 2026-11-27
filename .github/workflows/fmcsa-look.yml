@@ -8,18 +8,23 @@ jobs:
   look:
     runs-on: ubuntu-latest
     steps:
-      - name: Read one mover's record
+      - name: Find one mover with complaints
         run: |
-          UA="Mozilla/5.0 (compatible; PackedRabbitResearch/1.0; +https://packedrabbit.com/)"
-          curl -sSL -A "$UA" --max-time 90 -o one.html "https://ai.fmcsa.dot.gov/hhg/SearchDetails.asp?ads=a&id=30004355&id2=31666141"
-          echo "bytes $(wc -c < one.html)"
           python3 - <<'P'
-          import re,html
-          s=open('one.html',encoding='latin-1').read()
-          t=re.sub(r'<script.*?</script>|<style.*?</style>','',s,flags=re.S)
-          t=html.unescape(re.sub(r'<[^>]+>','|',t)); t=re.sub(r'[ \t\r\n|]*\|[ \t\r\n|]*','|',t)
-          a=t.find('Active Household Goods Authority'); b=t.find('Freedom'); print(t[a:b].replace('|','\n'))
+          import re,html,time,urllib.request
+          UA="Mozilla/5.0 (compatible; PackedRabbitResearch/1.0; +https://packedrabbit.com/)"
+          def get(u):
+              return urllib.request.urlopen(urllib.request.Request(u,headers={"User-Agent":UA}),timeout=90).read().decode('latin-1')
+          lst=get("https://ai.fmcsa.dot.gov/hhg/SearchResults.asp?ads=a&search=5&state=FL")
+          ids=re.findall(r'SearchDetails\.asp\?ads=a&id=(\d+)&id2=(\d+)',lst)
+          print("FL movers listed:",len(ids))
+          for a,b in ids[:60]:
+              time.sleep(1.2)
+              s=get(f"https://ai.fmcsa.dot.gov/hhg/SearchDetails.asp?ads=a&id={a}&id2={b}")
+              t=re.sub(r'<script.*?</script>|<style.*?</style>','',s,flags=re.S)
+              t=html.unescape(re.sub(r'<[^>]+>','|',t)); t=re.sub(r'[ \t\r\n|]*\|[ \t\r\n|]*','|',t)
+              i=t.find('Household Goods Complaint History'); seg=t[i:i+2500]
+              if 'No complaints' in seg[:200]: continue
+              print(seg.replace('|','\n')); 
+              j=s.find('Household Goods Complaint History'); print("RAW:",s[j:j+3500]); break
           P
-          mkdir -p out; cp one.html out/
-      - uses: actions/upload-artifact@v4
-        with: { name: fmcsa-look, path: out }
