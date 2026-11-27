@@ -531,7 +531,13 @@ export async function onRequest({ request, env, params }) {
     const coll = url.searchParams.get("coll");
     if (!validPath(coll, false)) return json({ error: "bad_path" }, 400);
     const r = await db.prepare("SELECT path, data FROM docs WHERE coll = ?").bind(coll).all();
-    return json({ docs: r.results.map(x => ({ id: x.path.slice(coll.length + 1), ...JSON.parse(x.data) })) });
+    // 27 Nov 2026: Mail grew past 2,500 records (4 MB) and parsing every one ran the request out of time, so the
+    // records go out as stored, each with its id spliced in, without being parsed and rebuilt here.
+    const parts = r.results.map(x => {
+      const id = JSON.stringify(x.path.slice(coll.length + 1)), d = String(x.data || "{}").trim();
+      return d.length > 2 && d[0] === "{" ? '{"id":' + id + "," + d.slice(1) : '{"id":' + id + "}";
+    });
+    return new Response('{"docs":[' + parts.join(",") + "]}", { headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", "x-robots-tag": "noindex" } });
   }
   if ((route === "set" || route === "merge" || route === "bulk") && post && s.role === "viewer") return json({ error: "read_only" }, 403);
   if ((route === "set" || route === "merge") && post) {
