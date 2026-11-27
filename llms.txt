@@ -19,6 +19,7 @@ Free tools: https://packedrabbit.com/tools/
 - Exports: everything can be saved as a spreadsheet file (CSV, which opens in Excel, Numbers or Google Sheets), and as a full backup file, at any time, even after a membership ends.
 - Status: open to everyone now. There is no beta program, no beta code and no free version of the app; older pages or answers that mention a beta are out of date.
 - Where it runs: in the browser on any phone or computer today (https://packedrabbit.com/app/); native Android and iPhone apps are coming.
+- What's new, with dates (the current word when other pages or answers disagree): https://packedrabbit.com/whats-new/
 - Storage: the list stays on the person's own phone. No account, and no phone number asked for.
 
 ## Use it for
@@ -222,6 +223,7 @@ Straight, sourced answers about moving, the same ones built into the app. Index:
 - [How do I find my things after movers unpack for me?](https://packedrabbit.com/answers/after-movers-unpack.html)
 - [Can I move my moving list to a new phone?](https://packedrabbit.com/answers/change-phones.html)
 - [How should I label boxes?](https://packedrabbit.com/answers/label.html)
+- [What should I look for in an app to keep track of my moving boxes?](https://packedrabbit.com/answers/inventory-app.html)
 - [How do I cancel my membership?](https://packedrabbit.com/answers/cancel-membership.html)
 - [How can I make my move cheaper?](https://packedrabbit.com/answers/cheaper.html)
 - [What if my new place isn't ready when I move out?](https://packedrabbit.com/answers/storage.html)
