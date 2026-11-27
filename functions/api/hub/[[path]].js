@@ -272,6 +272,14 @@ async function dripTick(db, max) {
     dayLeft = cap.perDay - (cap.count || 0);
     if (dayLeft <= 0) return { ok: true, sent: 0, more: false, waiting: "daily_cap" };
   }
+  // owner, 27 Nov 2026, evening: "change my email send and receive to 100 a day but we're only gonna be sending 50
+  // outreach ... That way my email isn't held up". cap.totalPerDay counts every email the hub sent in the last 24 hours
+  // (replies, unlock codes, outreach). Outreach stops short of it; a person's own send is never held back.
+  if (cap && cap.totalPerDay) {
+    const sent24 = (await db.prepare("SELECT COUNT(*) AS n FROM docs WHERE coll = 'mail' AND json_extract(data, '$.dir') = 'out' AND json_extract(data, '$.at') > ?").bind(Date.now() - 864e5).first("n")) || 0;
+    dayLeft = Math.min(dayLeft, cap.totalPerDay - sent24);
+    if (dayLeft <= 0) return { ok: true, sent: 0, more: false, waiting: "total_cap" };
+  }
   const rows = (await db.prepare("SELECT path, data FROM docs WHERE coll = 'drips' ORDER BY path").all()).results;
   let sent = 0, stopped = "", more = false;
   for (const r of rows) {
