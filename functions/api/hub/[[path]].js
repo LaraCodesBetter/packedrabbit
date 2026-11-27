@@ -134,7 +134,7 @@ async function mailSync(db) {
   return added;
 }
 const escH = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-async function mailSend(db, s, b) {
+async function mailSend(db, s, b, reqUrl = "https://packedrabbit.com/") {
   const box = String(b.from || "").toLowerCase();
   if (!FROMS[box]) return { error: "bad_from" };
   if (box === "larac" && s.role !== "owner") return { error: "owner_only" };
@@ -179,13 +179,37 @@ async function mailSend(db, s, b) {
   const designed = typeof b.html === "string" && b.html.trim() && (s.role === "owner" || s.role === "admin") ? b.html.slice(0, 500000).split("{unsubscribe}").join(escH(unsubPage)) : "";
   const html = designed ? (/unsubscribe/i.test(designed) && (!postal || designed.includes(postal.split(",").slice(-2)[0].trim())) ? designed : designed + `<div style="font-family:Arial,Helvetica,sans-serif;padding:0 10px">${foot}</div>`)
     : `<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;color:#1d2a20">${escH(text).replace(/\n/g, "<br>")}<br><br>${escH(sig).replace(/\n/g, "<br>")}<p style="font-size:11px;line-height:1.4;color:#6b7a6f;margin:18px 0 0">${escH(legal)}</p>${foot}</div>`;
+  // owner, 27 Nov 2026: a draft may carry files (pricing for a business goes in writing, never published). A file's
+  // record is files/<id> {filename, type, size, sealed, key, iv}: the file itself sits on the site only sealed
+  // (AES-GCM, at /f/<sealed>.bin), and its key lives only in the hub, so nobody can read it without the hub.
+  const files = [];
+  for (const f of (Array.isArray(b.files) ? b.files : []).slice(0, 5)) {
+    const fid = safeId(f && f.id); if (!fid) continue;
+    const metaTxt = await db.prepare("SELECT data FROM docs WHERE path = ?").bind("files/" + fid).first("data");
+    if (!metaTxt) return { error: "attachment_missing", who: fid };
+    const meta = JSON.parse(metaTxt);
+    let content = "";
+    try {
+      const sealed = String(meta.sealed || "").replace(/[^a-f0-9]/g, "");
+      const r0 = await fetch(new URL("/f/" + sealed + ".bin", reqUrl));
+      if (!r0.ok) throw new Error("fetch " + r0.status);
+      const unb = t => Uint8Array.from(atob(t), c => c.charCodeAt(0));
+      const k = await crypto.subtle.importKey("raw", unb(meta.key), "AES-GCM", false, ["decrypt"]);
+      const plain = new Uint8Array(await crypto.subtle.decrypt({ name: "AES-GCM", iv: unb(meta.iv) }, k, await r0.arrayBuffer()));
+      let bin = ""; for (let i = 0; i < plain.length; i += 0x8000) bin += String.fromCharCode.apply(null, plain.subarray(i, i + 0x8000));
+      content = btoa(bin);
+    } catch (e) { content = ""; }
+    if (!content) return { error: "attachment_missing", who: meta.filename || fid };
+    files.push({ content, filename: String(meta.filename || "attachment.pdf").replace(/[\\/:*?"<>|]/g, "").slice(0, 120), type: String(meta.type || "application/pdf"), disposition: "attachment" });
+  }
+  if (files.reduce((n, f) => n + f.content.length, 0) > 15e6) return { error: "attachments_too_large" };
   const cf = await cfSecrets(db);
   let r, via;
   if (cf) {
-    r = await cfSend(cf, { from: { address: box + "@packedrabbit.com", name: name.replace(/[<>"]/g, "") }, to, cc: cc.length ? cc : undefined, reply_to: box + "@packedrabbit.com", subject, text: full, html, headers: Object.keys(headers).length ? headers : undefined });
+    r = await cfSend(cf, { from: { address: box + "@packedrabbit.com", name: name.replace(/[<>"]/g, "") }, to, cc: cc.length ? cc : undefined, reply_to: box + "@packedrabbit.com", subject, text: full, html, headers: Object.keys(headers).length ? headers : undefined, attachments: files.length ? files : undefined });
     via = "cloudflare";
   } else {
-    r = await resend(db, "/emails", { method: "POST", body: JSON.stringify({ from: `${name.replace(/[<>"]/g, "")} <${box}@packedrabbit.com>`, to, cc: cc.length ? cc : undefined, reply_to: `${box}@packedrabbit.com`, subject, text: full, html, headers }) });
+    r = await resend(db, "/emails", { method: "POST", body: JSON.stringify({ from: `${name.replace(/[<>"]/g, "")} <${box}@packedrabbit.com>`, to, cc: cc.length ? cc : undefined, reply_to: `${box}@packedrabbit.com`, subject, text: full, html, headers, attachments: files.length ? files.map(f => ({ filename: f.filename, content: f.content })) : undefined }) });
     via = "resend";
   }
   const id = "s" + safeId(r.id || hex(crypto.getRandomValues(new Uint8Array(8))));
@@ -193,7 +217,8 @@ async function mailSend(db, s, b) {
   await db.batch([
     db.prepare("INSERT OR REPLACE INTO docs (path, coll, data, updated) VALUES (?, 'mail', ?, ?)").bind("mail/" + id, JSON.stringify({ dir: "out", from: box + "@packedrabbit.com", to, cc, subject, at, read: true, by: s.name, via, replyOf: b.replyOf || "", snippet: text.replace(/\s+/g, " ").slice(0, 160),
       // owner, 21 Nov 2026: each send says which campaign and which day's batch it belongs to, so Sent can be read by batch
-      campaign: String(b.campaign || "").slice(0, 80), batch: String(b.batch || "").slice(0, 80) }), at),
+      campaign: String(b.campaign || "").slice(0, 80), batch: String(b.batch || "").slice(0, 80),
+      attachments: files.map(f => ({ name: f.filename, size: Math.floor(f.content.length * 3 / 4) })), files: files.length ? b.files.slice(0, 5).map(f => ({ id: safeId(f && f.id) })) : undefined }), at),
     db.prepare("INSERT OR REPLACE INTO docs (path, coll, data, updated) VALUES (?, ?, ?, ?)").bind("mail/" + id + "/parts/body", "mail/" + id + "/parts", JSON.stringify({ text: full, html }), at),
   ]);
   if (b.replyOf) await db.prepare("UPDATE docs SET data = json_set(data, '$.answered', ?) WHERE path = ?").bind(at, "mail/" + safeId(b.replyOf)).run();
@@ -465,7 +490,7 @@ export async function onRequest({ request, env, params }) {
   }
   if (route === "mail/send" && post) {
     if (s.role === "viewer") return json({ error: "read_only" }, 403);
-    try { const r = await mailSend(db, s, body); return json(r, r.error ? 400 : 200); } catch (e) {
+    try { const r = await mailSend(db, s, body, request.url); return json(r, r.error ? 400 : 200); } catch (e) {
       // keep the exact reason in the hub's log so Claude can read it
       try { const now = Date.now(); await db.prepare("INSERT INTO docs (path, coll, data, updated) VALUES (?, 'log', ?, ?)").bind("log/lsendfail" + now, JSON.stringify({ at: now, area: "email", title: "A send from Mail failed", details: String(e.message || "") + (e.cf ? " | " + e.cf : ""), by: s.name }), now).run(); } catch (x) {}
       return json({ error: e.message }, (e.code >= 400 && e.code < 600) ? e.code : 500); }
