@@ -1,0 +1,24 @@
+# Owner, 27 Nov 2026: "send them in a batch of 50 ... 50 every hour".
+# Each hour this asks the hub to send the next emails of any batch the owner set to "Send 50 an hour".
+# The hub itself counts and never sends more than 50 in a clock hour, so an extra or late run changes nothing.
+name: Mail, 50 an hour
+on:
+  schedule:
+    - cron: "3 * * * *"
+  workflow_dispatch:
+permissions: {}
+concurrency:
+  group: mail-drip
+  cancel-in-progress: false
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Send this hour's emails
+        run: |
+          for i in $(seq 1 25); do
+            r=$(curl -s -m 60 -X POST https://packedrabbit.com/api/hub/mail/drip-tick -H 'x-hub: 1' -H 'content-type: application/json' -d '{}' || true)
+            echo "$r"
+            echo "$r" | grep -q '"more":true' || break
+          done

@@ -216,6 +216,70 @@ async function mailSend(db, s, b) {
   return { ok: true, id };
 }
 
+// owner, 27 Nov 2026: "send them in a batch of 50 ... 50 every hour". A drip sends one draft batch a little at a time,
+// as the person who started it, up to perHour each clock hour. GitHub Actions calls mail/drip-tick at the top of each
+// hour; the hub's own button sends the first hour at once.
+const DRIP_ART = { "cid:att0": "https://packedrabbit.com/email/hero.jpg", "cid:att1": "https://packedrabbit.com/email/rabbit.png" };
+function designHtml(camp, d) {
+  // the same as the hub's designFor(): the campaign's designed letter with this draft's paragraphs in place
+  const h = camp && camp.html; if (!h) return "";
+  const a = h.indexOf('<p style="margin:0 0 14px">Dear'), z = h.indexOf('<p style="margin:0 0 2px">Warmly,'); if (a < 0 || z < a) return "";
+  const paras = String(d.text || "").split(/\n\s*\n/).map(p => p.trim()).filter(p => p && !/^Warmly,?$/.test(p) && !/^Open the sneak peek:/.test(p));
+  let out = h.slice(0, a) + paras.map(p => `<p style="margin:0 0 14px">${escH(p).replace(/\n/g, "<br>")}</p>`).join("\n") + "\n" + h.slice(z);
+  Object.entries(DRIP_ART).forEach(([k, v]) => { out = out.split(k).join(v); });
+  return out.split("{email}").join(encodeURIComponent(String(d.to || "").toLowerCase()));
+}
+async function dripTick(db, max) {
+  const hour = Math.floor(Date.now() / 3600e3);
+  const rows = (await db.prepare("SELECT path, data FROM docs WHERE coll = 'drips'").all()).results;
+  let sent = 0, stopped = "", more = false;
+  for (const r of rows) {
+    if (!JSON.parse(r.data).active) continue;
+    // one run at a time per drip, so the hourly count can't be passed by two calls at once
+    const now = Date.now();
+    const lk = await db.prepare("UPDATE docs SET data = json_set(data, '$.lock', ?) WHERE path = ? AND coalesce(json_extract(data, '$.lock'), 0) < ?").bind(now + 90e3, r.path, now).run();
+    if (!lk.meta || !lk.meta.changes) continue;
+    const dp = JSON.parse(await db.prepare("SELECT data FROM docs WHERE path = ?").bind(r.path).first("data"));
+    dp.lock = 0;
+    if (dp.hour !== hour) { dp.hour = hour; dp.thisHour = 0; }
+    const room = Math.min(max - sent, (dp.perHour || 50) - (dp.thisHour || 0));
+    if (room > 0) {
+      const D = (await db.prepare("SELECT path, data FROM docs WHERE coll = 'mail' AND json_extract(data, '$.dir') = 'draft' AND json_extract(data, '$.campaign') = ? AND json_extract(data, '$.batch') = ? AND coalesce(json_extract(data, '$.gone'), 0) = 0 AND coalesce(json_extract(data, '$.dripSkip'), 0) = 0 ORDER BY json_extract(data, '$.at') LIMIT ?").bind(dp.campaign, dp.batch, room).all()).results;
+      const campRow = dp.art ? await db.prepare("SELECT data FROM docs WHERE path = ?").bind("campaigns/" + safeId(dp.campaign)).first("data") : null;
+      const camp = campRow ? JSON.parse(campRow) : null;
+      const who = { id: dp.byId || "owner", role: dp.byRole || "owner", name: dp.by || "Owner" };
+      for (const x of D) {
+        // claim the draft first, so two runs can never send it twice
+        const c = await db.prepare("UPDATE docs SET data = json_set(data, '$.gone', 1, '$.dripAt', ?) WHERE path = ? AND coalesce(json_extract(data, '$.gone'), 0) = 0").bind(Date.now(), x.path).run();
+        if (!c.meta || !c.meta.changes) continue;
+        const m = JSON.parse(x.data);
+        let res;
+        try {
+          const html = camp ? designHtml(camp, m) : "";
+          res = await mailSend(db, who, { from: m.from || "hello", to: m.to, cc: m.cc || "", subject: m.subject || "", text: m.text || "", replyOf: m.replyOf || "", campaign: m.campaign, batch: m.batch, contact: m.contact || "", ...(html ? { html } : {}) });
+        } catch (e) {
+          // the mail service refused or failed: put the draft back and try again next hour
+          await db.prepare("UPDATE docs SET data = json_set(data, '$.gone', 0, '$.dripErr', ?) WHERE path = ?").bind(String(e.message || "error").slice(0, 200), x.path).run();
+          stopped = String(e.message || "error"); break;
+        }
+        if (res && res.error) {
+          await db.prepare("UPDATE docs SET data = json_set(data, '$.gone', 0, '$.dripSkip', 1, '$.dripErr', ?) WHERE path = ?").bind(res.error, x.path).run();
+          dp.skipped = (dp.skipped || 0) + 1; continue;
+        }
+        sent++; dp.thisHour = (dp.thisHour || 0) + 1; dp.sent = (dp.sent || 0) + 1;
+      }
+      const left = await db.prepare("SELECT COUNT(*) AS n FROM docs WHERE coll = 'mail' AND json_extract(data, '$.dir') = 'draft' AND json_extract(data, '$.campaign') = ? AND json_extract(data, '$.batch') = ? AND coalesce(json_extract(data, '$.gone'), 0) = 0 AND coalesce(json_extract(data, '$.dripSkip'), 0) = 0").bind(dp.campaign, dp.batch).first("n");
+      dp.left = left;
+      if (!left) { dp.active = 0; dp.finished = Date.now(); }
+      else if ((dp.thisHour || 0) < (dp.perHour || 50)) more = true;
+    }
+    dp.lastTick = Date.now(); if (stopped) dp.lastError = stopped;
+    await db.prepare("UPDATE docs SET data = ?, updated = ? WHERE path = ?").bind(JSON.stringify(dp), Date.now(), r.path).run();
+    if (stopped || sent >= max) break;
+  }
+  return { ok: true, sent, more: more && !stopped, error: stopped || undefined };
+}
+
 export async function onRequest({ request, env, params }) {
   const db = env.HUB;
   if (!db) return json({ error: "storage_not_connected" }, 503);
@@ -245,6 +309,11 @@ export async function onRequest({ request, env, params }) {
     return json({ ok: true }, 200, { "set-cookie": `${COOKIE}=${tok}; Path=/api/hub; Max-Age=${SESSION_DAYS * 86400}; HttpOnly; Secure; SameSite=Strict` });
   }
 
+  if (route === "mail/drip-tick" && post) {
+    // No key needed: a tick can only send drafts the owner already started dripping, and never more than perHour
+    // in a clock hour (counted in the drip itself), so an early or extra call changes nothing. Counts only come back.
+    try { const r = await dripTick(db, 4); return json({ sent: r.sent, more: r.more }); } catch (e) { return json({ error: "tick_failed" }, 500); }
+  }
   const s = await session(request, db);
   if (!s) return json({ error: "signed_out" }, 401);
 
@@ -364,6 +433,21 @@ export async function onRequest({ request, env, params }) {
       db.prepare("INSERT INTO docs (path, coll, data, updated) VALUES (?, 'log', ?, ?)").bind("log/lai" + now, JSON.stringify({ at: now, area: "ai", title: "Reading photos switched on (Claude key saved)", details: "", by: s.name }), now),
     ]);
     return json({ ok: true, on: true });
+  }
+  if ((route === "mail/drip" || route === "mail/drip-run") && post) {
+    if (s.role !== "owner" && s.role !== "admin") return json({ error: "owner_only" }, 403);
+    if (route === "mail/drip") {
+      const campaign = String(body.campaign || "").slice(0, 80), batch = String(body.batch || "").slice(0, 80);
+      const key = safeId((campaign + "-" + batch).replace(/[^A-Za-z0-9_-]/g, "-"));
+      if (!key) return json({ error: "bad_batch" }, 400);
+      const first = await db.prepare("SELECT json_extract(data, '$.from') AS f FROM docs WHERE coll = 'mail' AND json_extract(data, '$.dir') = 'draft' AND json_extract(data, '$.campaign') = ? AND json_extract(data, '$.batch') = ? LIMIT 1").bind(campaign, batch).first();
+      if (first && String(first.f || "") === "larac" && s.role !== "owner") return json({ error: "owner_only" }, 403);
+      const old = await db.prepare("SELECT data FROM docs WHERE path = ?").bind("drips/" + key).first("data");
+      const dp = { ...(old ? JSON.parse(old) : {}), campaign, batch, perHour: Math.max(1, Math.min(10000, parseInt(body.perHour, 10) || 50)), art: body.art !== false, by: s.name, byId: s.id, byRole: s.role, active: body.stop ? 0 : 1, [body.stop ? "stopped" : "started"]: Date.now() };
+      await db.prepare("INSERT OR REPLACE INTO docs (path, coll, data, updated) VALUES (?, 'drips', ?, ?)").bind("drips/" + key, JSON.stringify(dp), Date.now()).run();
+      return json({ ok: true, id: key, active: dp.active });
+    }
+    try { return json(await dripTick(db, 4)); } catch (e) { return json({ error: e.message }, 500); }
   }
   if (route === "mail/send" && post) {
     if (s.role === "viewer") return json({ error: "read_only" }, 403);
