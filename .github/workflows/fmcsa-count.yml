@@ -1,0 +1,36 @@
+name: Count FMCSA's public moving complaints by state
+# One-time research for packedrabbit.com's complaints-by-state page. Reads FMCSA's public
+# Protect Your Move lookup politely (one page every 1.5 seconds, three states at a time)
+# and keeps totals only. Public repo, Linux runners: no cost to the Actions budget.
+on:
+  push:
+    branches: [data-fmcsa]
+permissions:
+  contents: write
+jobs:
+  state:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        st: [AL,AK,AZ,AR,CA,CO,CT,DE,DC,FL,GA,HI,ID,IL,IN,IA,KS,KY,LA,ME,MD,MA,MI,MN,MS,MO,MT,NE,NV,NH,NJ,NM,NY,NC,ND,OH,OK,OR,PA,RI,SC,SD,TN,TX,UT,VT,VA,WA,WV,WI,WY]
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/fmcsa_state.py ${{ matrix.st }} ${{ matrix.st }}.json
+      - uses: actions/upload-artifact@v4
+        with: { name: "st-${{ matrix.st }}", path: "${{ matrix.st }}.json" }
+  merge:
+    needs: state
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { path: parts, pattern: "st-*", merge-multiple: true }
+      - run: |
+          mkdir -p data
+          python3 -c "import json,glob; d={json.load(open(f))['state']:json.load(open(f)) for f in sorted(glob.glob('parts/*.json'))}; json.dump(d,open('data/fmcsa-complaints-by-state.json','w'),indent=1); print(len(d),'states')"
+          git config user.name "github-actions"; git config user.email "actions@github.com"
+          git add data/fmcsa-complaints-by-state.json && git commit -m "FMCSA complaint totals by state" && git push origin HEAD:data-fmcsa
