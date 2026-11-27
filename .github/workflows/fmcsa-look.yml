@@ -8,18 +8,14 @@ jobs:
   look:
     runs-on: ubuntu-latest
     steps:
-      - name: Fetch one state and one mover
+      - name: Read one state's list
         run: |
           UA="Mozilla/5.0 (compatible; PackedRabbitResearch/1.0; +https://packedrabbit.com/)"
           curl -sSL -A "$UA" --max-time 90 -o wy.html "https://ai.fmcsa.dot.gov/hhg/SearchResults.asp?ads=a&search=5&state=WY"
-          echo "WY page bytes: $(wc -c < wy.html)"
-          grep -oiE 'href="[^"]*"' wy.html | sort | uniq -c | sort -rn | head -25
-          echo ---ROWS; grep -iE '<tr|<td' wy.html | head -40 | cut -c1-300
-          L=$(grep -oiE 'href="[^"]*(Company|Carrier|DOT)[^"]*"' wy.html | head -1 | sed 's/href="//; s/"$//')
-          echo "first link: $L"; sleep 2
-          case "$L" in http*) U="$L";; /*) U="https://ai.fmcsa.dot.gov$L";; *) U="https://ai.fmcsa.dot.gov/hhg/$L";; esac
-          curl -sSL -A "$UA" --max-time 90 -o one.html "$U"; echo "mover page bytes: $(wc -c < one.html)"
-          sed 's/<[^>]*>/ /g' one.html | tr -s ' \t\r' ' ' | grep -v '^ *$' | head -120 | cut -c1-200
-          mkdir -p out; cp wy.html one.html out/
+          python3 - <<'P'
+          s=open('wy.html',encoding='latin-1').read()
+          i=s.find('sort=0a'); print(s[i-200:i+4500])
+          P
+          mkdir -p out; cp wy.html out/
       - uses: actions/upload-artifact@v4
         with: { name: fmcsa-look, path: out }
