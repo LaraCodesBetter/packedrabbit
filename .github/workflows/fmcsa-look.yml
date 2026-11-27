@@ -8,15 +8,18 @@ jobs:
   look:
     runs-on: ubuntu-latest
     steps:
-      - name: Fetch the search pages
+      - name: Fetch one state and one mover
         run: |
-          mkdir out; cd out
           UA="Mozilla/5.0 (compatible; PackedRabbitResearch/1.0; +https://packedrabbit.com/)"
-          get() { curl -sSL -A "$UA" --max-time 60 -o "$1" "$2"; echo "$1 $(wc -c < "$1")"; sleep 2; }
-          get search.html "https://ai.fmcsa.dot.gov/hhg/Search.asp"
-          get state.html "https://ai.fmcsa.dot.gov/hhg/Search.asp?ads=a"
-          get cats.html "https://ai.fmcsa.dot.gov/hhg/complaint_category.asp"
-          grep -oiE '<form[^>]*>|<(input|select)[^>]*name="[^"]*"[^>]*>' state.html search.html | head -40 > forms.txt || true
-          cat forms.txt
+          curl -sSL -A "$UA" --max-time 90 -o wy.html "https://ai.fmcsa.dot.gov/hhg/SearchResults.asp?ads=a&search=5&state=WY"
+          echo "WY page bytes: $(wc -c < wy.html)"
+          grep -oiE 'href="[^"]*"' wy.html | sort | uniq -c | sort -rn | head -25
+          echo ---ROWS; grep -iE '<tr|<td' wy.html | head -40 | cut -c1-300
+          L=$(grep -oiE 'href="[^"]*(Company|Carrier|DOT)[^"]*"' wy.html | head -1 | sed 's/href="//; s/"$//')
+          echo "first link: $L"; sleep 2
+          case "$L" in http*) U="$L";; /*) U="https://ai.fmcsa.dot.gov$L";; *) U="https://ai.fmcsa.dot.gov/hhg/$L";; esac
+          curl -sSL -A "$UA" --max-time 90 -o one.html "$U"; echo "mover page bytes: $(wc -c < one.html)"
+          sed 's/<[^>]*>/ /g' one.html | tr -s ' \t\r' ' ' | grep -v '^ *$' | head -120 | cut -c1-200
+          mkdir -p out; cp wy.html one.html out/
       - uses: actions/upload-artifact@v4
         with: { name: fmcsa-look, path: out }
