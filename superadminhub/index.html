@@ -427,7 +427,7 @@ function mailCompose(){ const c=S.compose, owner=S.me&&S.me.role==="owner";
   <label for="mc_cc">Cc (optional)</label><input id="mc_cc" type="email" multiple autocomplete="off" value="${esc(c.cc||"")}">
   <label for="mc_subj">Subject</label><input id="mc_subj" value="${esc(c.subject||"")}">
   <label for="mc_text">Message</label><textarea id="mc_text" style="min-height:220px">${esc(c.text||"")}</textarea>
-  ${(c.files||[]).length?`<p style="margin:8px 0 0"><b>Attached:</b> ${c.files.map((f,i)=>`${esc(f.filename||"file")}${f.size?` (${Math.max(1,Math.round(f.size/1024))} KB)`:""} <button class="btn s" data-unattach="${i}">Take off</button>`).join(" ")}</p>`:""}
+  ${(c.files||[]).length?`<p style="margin:8px 0 0"><b>Attached:</b> ${c.files.map((f,i)=>`${esc(f.filename||"file")}${f.size?` (${Math.max(1,Math.round(f.size/1024))} KB)`:""} <button class="btn s" data-openfile="${esc(f.id)}">Open</button> <button class="btn s" data-unattach="${i}">Take off</button>`).join(" ")}</p>`:""}
   ${(S.mailtpl||[]).length?`<label for="mc_tpl">Insert a saved reply</label><select id="mc_tpl"><option value="">Choose one</option>${S.mailtpl.map(t=>`<option value="${esc(t.id)}">${esc(t.name)}</option>`).join("")}</select>`:""}
   <p class="muted">The signature for that address and the confidentiality line are added for you. Replies come back here. ${S.draftSaved?"Draft saved.":"Your draft saves itself as you type."}</p>
   <div class="row"><button class="btn p" id="mSend" ${S.mSending?"disabled":""}>${S.mSending?"Sending...":"Send"}</button><button class="btn" id="mCancel2">Close</button><button class="btn s" id="mSaveTpl">Save as a saved reply</button></div></div>`; }
@@ -506,6 +506,7 @@ function wireMail(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
   const keep=()=>{ const c=S.compose; if(!c||!$("#mc_from")) return; c.from=$("#mc_from").value; c.to=$("#mc_to").value; c.cc=$("#mc_cc").value; c.subject=$("#mc_subj").value; c.text=$("#mc_text").value;
     clearTimeout(S.draftT); S.draftSaved=false; S.draftT=setTimeout(saveDraft,2000); };
   ["#mc_from","#mc_to","#mc_cc","#mc_subj","#mc_text"].forEach(sel=>on(sel,"oninput",keep));
+  document.querySelectorAll("[data-openfile]").forEach(el=>el.onclick=async()=>{ const w=window.open("","_blank"); try{ const r=await api("files/open",{id:el.dataset.openfile}); const bin=atob(r.b64), u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i); const url=URL.createObjectURL(new Blob([u],{type:r.type})); if(w) w.location=url; else location.href=url; }catch(e){ if(w) w.close(); if(!(e instanceof SignedOut)) toast("Couldn't open it: "+(e.code||e.message)); } });
   document.querySelectorAll("[data-unattach]").forEach(el=>el.onclick=()=>{ const c=S.compose; if(!c) return; keep(); c.files=(c.files||[]).filter((f,i)=>i!==+el.dataset.unattach); saveDraft(); render(); });
   const cancel=async()=>{ clearTimeout(S.draftT); if(S.compose&&((S.compose.text||"").trim()||(S.compose.subject||"").trim())){ await saveDraft(); toast("Kept in Drafts"); } S.compose=null; await loadColl("mail").catch(()=>{}); render(); };
   on("#mCancel","onclick",cancel); on("#mCancel2","onclick",cancel);
