@@ -208,12 +208,24 @@ async function mailSend(db, s, b, reqUrl = "https://packedrabbit.com/") {
   if (files.reduce((n, f) => n + f.content.length, 0) > 15e6) return { error: "attachments_too_large" };
   const cf = await cfSecrets(db);
   let r, via;
+  // owner, 27 Nov 2026, evening: Cloudflare throttled the account (429) and her own mail couldn't go out. Her one-time
+  // choice: "Resend for today". Until meta/mail-fallback.resendUntil, a throttled send goes through Resend instead,
+  // still from the same packedrabbit.com address. After that, Cloudflare only again (the 20 Nov rule).
+  let fallback = false;
   if (cf) {
-    r = await cfSend(cf, { from: { address: box + "@packedrabbit.com", name: name.replace(/[<>"]/g, "") }, to, cc: cc.length ? cc : undefined, reply_to: box + "@packedrabbit.com", subject, text: full, html, headers: Object.keys(headers).length ? headers : undefined, attachments: files.length ? files : undefined });
-    via = "cloudflare";
-  } else {
+    try {
+      r = await cfSend(cf, { from: { address: box + "@packedrabbit.com", name: name.replace(/[<>"]/g, "") }, to, cc: cc.length ? cc : undefined, reply_to: box + "@packedrabbit.com", subject, text: full, html, headers: Object.keys(headers).length ? headers : undefined, attachments: files.length ? files : undefined });
+      via = "cloudflare";
+    } catch (e) {
+      const fb = await db.prepare("SELECT data FROM docs WHERE path = 'meta/mail-fallback'").first("data");
+      const until = fb ? (JSON.parse(fb).resendUntil || 0) : 0;
+      if (!/throttled|\(429/.test(String(e.message || "")) || Date.now() >= until) throw e;
+      fallback = true;
+    }
+  }
+  if (!cf || fallback) {
     r = await resend(db, "/emails", { method: "POST", body: JSON.stringify({ from: `${name.replace(/[<>"]/g, "")} <${box}@packedrabbit.com>`, to, cc: cc.length ? cc : undefined, reply_to: `${box}@packedrabbit.com`, subject, text: full, html, headers, attachments: files.length ? files.map(f => ({ filename: f.filename, content: f.content })) : undefined }) });
-    via = "resend";
+    via = fallback ? "resend (Cloudflare throttled)" : "resend";
   }
   const id = "s" + safeId(r.id || hex(crypto.getRandomValues(new Uint8Array(8))));
   const at = Date.now();
