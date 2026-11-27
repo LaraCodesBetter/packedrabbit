@@ -229,9 +229,22 @@ function designHtml(camp, d) {
   Object.entries(DRIP_ART).forEach(([k, v]) => { out = out.split(k).join(v); });
   return out.split("{email}").join(encodeURIComponent(String(d.to || "").toLowerCase()));
 }
+// owner, 27 Nov 2026, 2:11 pm: "go back to 50 per day". meta/drip-cap {perDay, startHour} caps every drip together
+// per Eastern day, starting at startHour (Eastern); each drip's perHour spreads the day's sends over a few hours.
+const etNow = () => { const p = new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", hour12: false }).formatToParts(new Date()); const g = t => (p.find(x => x.type === t) || {}).value; return { day: `${g("year")}-${g("month")}-${g("day")}`, hour: parseInt(g("hour"), 10) % 24 }; };
 async function dripTick(db, max) {
   const hour = Math.floor(Date.now() / 3600e3);
-  const rows = (await db.prepare("SELECT path, data FROM docs WHERE coll = 'drips'").all()).results;
+  const capTxt = await db.prepare("SELECT data FROM docs WHERE path = 'meta/drip-cap'").first("data");
+  const cap = capTxt ? JSON.parse(capTxt) : null;
+  let dayLeft = Infinity;
+  if (cap && cap.perDay) {
+    const et = etNow();
+    if (et.hour < (cap.startHour == null ? 9 : cap.startHour)) return { ok: true, sent: 0, more: false, waiting: "start_hour" };
+    if (cap.day !== et.day) { cap.day = et.day; cap.count = 0; }
+    dayLeft = cap.perDay - (cap.count || 0);
+    if (dayLeft <= 0) return { ok: true, sent: 0, more: false, waiting: "daily_cap" };
+  }
+  const rows = (await db.prepare("SELECT path, data FROM docs WHERE coll = 'drips' ORDER BY path").all()).results;
   let sent = 0, stopped = "", more = false;
   for (const r of rows) {
     if (!JSON.parse(r.data).active) continue;
@@ -242,7 +255,7 @@ async function dripTick(db, max) {
     const dp = JSON.parse(await db.prepare("SELECT data FROM docs WHERE path = ?").bind(r.path).first("data"));
     dp.lock = 0;
     if (dp.hour !== hour) { dp.hour = hour; dp.thisHour = 0; }
-    const room = Math.min(max - sent, (dp.perHour || 50) - (dp.thisHour || 0));
+    const room = Math.min(max - sent, (dp.perHour || 50) - (dp.thisHour || 0), dayLeft - sent);
     if (room > 0) {
       const D = (await db.prepare("SELECT path, data FROM docs WHERE coll = 'mail' AND json_extract(data, '$.dir') = 'draft' AND json_extract(data, '$.campaign') = ? AND json_extract(data, '$.batch') = ? AND coalesce(json_extract(data, '$.gone'), 0) = 0 AND coalesce(json_extract(data, '$.dripSkip'), 0) = 0 ORDER BY json_extract(data, '$.at') LIMIT ?").bind(dp.campaign, dp.batch, room).all()).results;
       const campRow = dp.art ? await db.prepare("SELECT data FROM docs WHERE path = ?").bind("campaigns/" + safeId(dp.campaign)).first("data") : null;
@@ -277,7 +290,8 @@ async function dripTick(db, max) {
     await db.prepare("UPDATE docs SET data = ?, updated = ? WHERE path = ?").bind(JSON.stringify(dp), Date.now(), r.path).run();
     if (stopped || sent >= max) break;
   }
-  return { ok: true, sent, more: more && !stopped, error: stopped || undefined };
+  if (cap && cap.perDay && sent) { cap.count = (cap.count || 0) + sent; await db.prepare("UPDATE docs SET data = ?, updated = ? WHERE path = 'meta/drip-cap'").bind(JSON.stringify(cap), Date.now()).run(); }
+  return { ok: true, sent, more: more && !stopped && sent < dayLeft, error: stopped || undefined };
 }
 
 export async function onRequest({ request, env, params }) {
@@ -443,7 +457,7 @@ export async function onRequest({ request, env, params }) {
       const first = await db.prepare("SELECT json_extract(data, '$.from') AS f FROM docs WHERE coll = 'mail' AND json_extract(data, '$.dir') = 'draft' AND json_extract(data, '$.campaign') = ? AND json_extract(data, '$.batch') = ? LIMIT 1").bind(campaign, batch).first();
       if (first && String(first.f || "") === "larac" && s.role !== "owner") return json({ error: "owner_only" }, 403);
       const old = await db.prepare("SELECT data FROM docs WHERE path = ?").bind("drips/" + key).first("data");
-      const dp = { ...(old ? JSON.parse(old) : {}), campaign, batch, perHour: Math.max(1, Math.min(10000, parseInt(body.perHour, 10) || 50)), art: body.art !== false, by: s.name, byId: s.id, byRole: s.role, active: body.stop ? 0 : 1, [body.stop ? "stopped" : "started"]: Date.now() };
+      const dp = { ...(old ? JSON.parse(old) : {}), campaign, batch, perHour: Math.max(1, Math.min(10000, parseInt(body.perHour, 10) || 10)), art: body.art !== false, by: s.name, byId: s.id, byRole: s.role, active: body.stop ? 0 : 1, [body.stop ? "stopped" : "started"]: Date.now() };
       await db.prepare("INSERT OR REPLACE INTO docs (path, coll, data, updated) VALUES (?, 'drips', ?, ?)").bind("drips/" + key, JSON.stringify(dp), Date.now()).run();
       return json({ ok: true, id: key, active: dp.active });
     }
