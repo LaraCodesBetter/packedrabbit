@@ -331,7 +331,7 @@ function socialView(){ return PLATFORMS.map(([k,n,u])=>{ const s=S.social[k]||{}
 /* ---------- email ---------- */
 /* ---------- mail (owner, 20 Nov 2026): every @packedrabbit.com address, here and never in Gmail ---------- */
 const BOXES=[["hello","hello@"],["customerservice","customerservice@"],["sales","sales@"],["info","info@"],["partners","partners@"],["beta","beta@"],["larac","larac@ (founder)"],["claude","claude@ (Claude)"],["assistant","assistant@ (Claude)"],["lumi","lumi@ (Lumi)"],["social","social@"],["codes","codes@"]];
-const boxOf=m=>m.dir==="draft"?String(m.from||"hello"):m.dir==="out"?String(m.from||"").split("@")[0]:(((m.to||[]).find(a=>/@packedrabbit\.com$/.test(a))||"").split("@")[0]);
+const boxOf=m=>(m.dir==="draft"||m.dir==="held")?String(m.from||"hello"):m.dir==="out"?String(m.from||"").split("@")[0]:((([].concat(m.to||[])).find(a=>/@packedrabbit\.com$/.test(String(a)))||"").split("@")[0]); /* 27 Nov: a "held" draft has a plain-text to, which broke the whole Mail tab */
 const TAGN={beta:"Beta",sales:"Business",customer:"Customer",reddit:"Reddit",notice:"Notice",notforus:"Not for us",press:"Press",personal:"Personal"};
 const FOLDERS=[["inbox","Inbox"],["starred","Starred"],["drafts","Drafts"],["sent","Sent"],["archive","Archive"],["junk","Junk"],["trash","Trash"]];
 /* owner, 21 Nov 2026: every sent email stays in Sent, always */
