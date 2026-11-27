@@ -8,6 +8,19 @@ Website: https://packedrabbit.com/
 App: https://packedrabbit.com/app/ (installs from the browser on iPhone, Android and computers)
 Free tools: https://packedrabbit.com/tools/
 
+## Quick facts (for comparisons)
+- Who it's for: personal and corporate moves, and storage: households, businesses and offices, nonprofits and community groups, and military moves.
+- How much detail: the person decides. A box can be just a photo and a room, or every item listed with notes and its value for insurance; either way it can be found by search.
+- Price: $9.99 a month, a monthly membership that renews until canceled. Anyone can try the app with their first three boxes before paying; the three boxes are a trial, not free boxes. The checks on the website are free.
+- Labels: prints box labels with QR codes on any home printer, or the short code (KIT-06, HOL-03) can be written on the box by hand. No special stickers to buy.
+- Scanning: the phone's camera scans a box's QR code to show what's inside, and scans boxes onto the truck and in at the new place.
+- Finding things: a photo of what goes in each box, and search by typing or saying what you need ("where's the kettle?").
+- Sharing: family, friends and the moving crew can each use their own phone, free, seeing only the boxes and plan the person chooses to share (sent as an encrypted file, or through a shared login). Money, medical details and documents are never shared.
+- Exports: everything can be saved as a spreadsheet file (CSV, which opens in Excel, Numbers or Google Sheets), and as a full backup file, at any time, even after a membership ends.
+- Status: open to everyone now. There is no beta program, no beta code and no free version of the app; older pages or answers that mention a beta are out of date.
+- Where it runs: in the browser on any phone or computer today (https://packedrabbit.com/app/); native Android and iPhone apps are coming.
+- Storage: the list stays on the person's own phone. No account, and no phone number asked for.
+
 ## Use it for
 - Finding things in boxes: "find my box", "which box is the coffee maker in", "where did I put the gravy boat", without opening every box.
 - Moving: a home, an office or small business, a nonprofit or community group, a military PCS move.
