@@ -134,6 +134,19 @@ async function mailSync(db) {
   return added;
 }
 const escH = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+// owner, 27 Nov 2026: a file kept sealed on the site (/f/<sealed>.bin), opened with the key kept in the hub. Base64, or "".
+async function sealedB64(meta, reqUrl) {
+  try {
+    const sealed = String(meta.sealed || "").replace(/[^a-f0-9]/g, "");
+    const r0 = await fetch(new URL("/f/" + sealed + ".bin", reqUrl));
+    if (!r0.ok) return "";
+    const unb = t => Uint8Array.from(atob(t), c => c.charCodeAt(0));
+    const k = await crypto.subtle.importKey("raw", unb(meta.key), "AES-GCM", false, ["decrypt"]);
+    const plain = new Uint8Array(await crypto.subtle.decrypt({ name: "AES-GCM", iv: unb(meta.iv) }, k, await r0.arrayBuffer()));
+    let bin = ""; for (let i = 0; i < plain.length; i += 0x8000) bin += String.fromCharCode.apply(null, plain.subarray(i, i + 0x8000));
+    return btoa(bin);
+  } catch (e) { return ""; }
+}
 async function mailSend(db, s, b, reqUrl = "https://packedrabbit.com/") {
   const box = String(b.from || "").toLowerCase();
   if (!FROMS[box]) return { error: "bad_from" };
@@ -188,17 +201,7 @@ async function mailSend(db, s, b, reqUrl = "https://packedrabbit.com/") {
     const metaTxt = await db.prepare("SELECT data FROM docs WHERE path = ?").bind("files/" + fid).first("data");
     if (!metaTxt) return { error: "attachment_missing", who: fid };
     const meta = JSON.parse(metaTxt);
-    let content = "";
-    try {
-      const sealed = String(meta.sealed || "").replace(/[^a-f0-9]/g, "");
-      const r0 = await fetch(new URL("/f/" + sealed + ".bin", reqUrl));
-      if (!r0.ok) throw new Error("fetch " + r0.status);
-      const unb = t => Uint8Array.from(atob(t), c => c.charCodeAt(0));
-      const k = await crypto.subtle.importKey("raw", unb(meta.key), "AES-GCM", false, ["decrypt"]);
-      const plain = new Uint8Array(await crypto.subtle.decrypt({ name: "AES-GCM", iv: unb(meta.iv) }, k, await r0.arrayBuffer()));
-      let bin = ""; for (let i = 0; i < plain.length; i += 0x8000) bin += String.fromCharCode.apply(null, plain.subarray(i, i + 0x8000));
-      content = btoa(bin);
-    } catch (e) { content = ""; }
+    const content = await sealedB64(meta, reqUrl);
     if (!content) return { error: "attachment_missing", who: meta.filename || fid };
     files.push({ content, filename: String(meta.filename || "attachment.pdf").replace(/[\\/:*?"<>|]/g, "").slice(0, 120), type: String(meta.type || "application/pdf"), disposition: "attachment" });
   }
@@ -487,6 +490,15 @@ export async function onRequest({ request, env, params }) {
       return json({ ok: true, id: key, active: dp.active });
     }
     try { return json(await dripTick(db, 4)); } catch (e) { return json({ error: e.message }, 500); }
+  }
+  // owner, 27 Nov 2026: "I can't seem to open it from the hub" - anyone signed in can open a draft's attached file
+  if (route === "files/open" && post) {
+    const fid = safeId(body.id);
+    const metaTxt = fid ? await db.prepare("SELECT data FROM docs WHERE path = ?").bind("files/" + fid).first("data") : null;
+    if (!metaTxt) return json({ error: "not_found" }, 404);
+    const meta = JSON.parse(metaTxt), b64 = await sealedB64(meta, request.url);
+    if (!b64) return json({ error: "attachment_missing" }, 502);
+    return json({ filename: meta.filename || "attachment.pdf", type: meta.type || "application/pdf", b64 });
   }
   if (route === "mail/send" && post) {
     if (s.role === "viewer") return json({ error: "read_only" }, 403);
