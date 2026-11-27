@@ -143,20 +143,17 @@ async function mailSend(db, s, b) {
   if (s.role === "member") { const own = String(s.email || "").toLowerCase(); if (own !== box + "@packedrabbit.com") return { error: "own_address_only" }; }
   const to = addrs(b.to), cc = addrs(b.cc);
   if (!to.length || [...to, ...cc].some(a => !EMAIL_RE.test(a))) return { error: "bad_address" };
-  if (to.length + cc.length > 10) return { error: "too_many_recipients" };
-  // never write to anyone who unsubscribed, is marked do not contact, or is held for re-checking
+  // never write to anyone who unsubscribed or is marked do not contact (CAN-SPAM; owner, 27 Nov 2026: every other block removed)
   for (const a of [...to, ...cc]) {
     const e = String(a).toLowerCase();
     const key = hex(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(e))).slice(0, 32);
     if (await db.prepare("SELECT 1 FROM docs WHERE path = ?").bind("unsubs/" + key).first()) return { error: "unsubscribed", who: e };
-    const c = await db.prepare("SELECT json_extract(data, '$.status') AS st FROM docs WHERE coll = 'contacts' AND lower(json_extract(data, '$.email')) = ? AND (lower(json_extract(data, '$.status')) LIKE 'do not contact%' OR lower(json_extract(data, '$.status')) LIKE 'hold%') LIMIT 1").bind(e).first();
-    if (c) return { error: /^hold/i.test(c.st || "") ? "held" : "unsubscribed", who: e };
+    const c = await db.prepare("SELECT json_extract(data, '$.status') AS st FROM docs WHERE coll = 'contacts' AND lower(json_extract(data, '$.email')) = ? AND lower(json_extract(data, '$.status')) LIKE 'do not contact%' LIMIT 1").bind(e).first();
+    if (c) return { error: "unsubscribed", who: e };
   }
-  const subject = String(b.subject || "").trim().slice(0, 250), text = String(b.text || "").trim().slice(0, 20000);
+  const subject = String(b.subject || "").trim().slice(0, 250), text = String(b.text || "").trim().slice(0, 200000);
   if (!subject || !text) return { error: "subject_and_message_needed" };
-  const since = Date.now() - 864e5;
-  const n = await db.prepare("SELECT COUNT(*) AS n FROM docs WHERE coll = 'mail' AND json_extract(data, '$.dir') = 'out' AND updated > ?").bind(since).first("n");
-  if (n >= 150) return { error: "daily_limit" }; // owner, 26 Nov 2026: raised from 100
+  // owner, 27 Nov 2026: no daily cap on outgoing mail
   // a reply keeps the conversation together in their inbox
   let headers = {};
   if (b.replyOf) {
@@ -179,7 +176,7 @@ async function mailSend(db, s, b) {
   const full = text + "\n\n" + sig + "\n\n" + legal + (postal ? "\n" + postal : "") + "\nUnsubscribe: " + unsubPage;
   const foot = `${postal ? `<p style="font-size:9px;line-height:1.3;color:#8a968d;margin:6px 0 0">${escH(postal)}</p>` : ""}<p style="font-size:9px;line-height:1.3;margin:2px 0 0"><a href="${escH(unsubPage)}" style="color:#8a968d">Unsubscribe</a></p>`;
   // A designed email (an approved campaign) may bring its own HTML; owner and admins only. Its {unsubscribe} becomes the link.
-  const designed = typeof b.html === "string" && b.html.trim() && (s.role === "owner" || s.role === "admin") ? b.html.slice(0, 90000).split("{unsubscribe}").join(escH(unsubPage)) : "";
+  const designed = typeof b.html === "string" && b.html.trim() && (s.role === "owner" || s.role === "admin") ? b.html.slice(0, 500000).split("{unsubscribe}").join(escH(unsubPage)) : "";
   const html = designed ? (/unsubscribe/i.test(designed) && (!postal || designed.includes(postal.split(",").slice(-2)[0].trim())) ? designed : designed + `<div style="font-family:Arial,Helvetica,sans-serif;padding:0 10px">${foot}</div>`)
     : `<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;color:#1d2a20">${escH(text).replace(/\n/g, "<br>")}<br><br>${escH(sig).replace(/\n/g, "<br>")}<p style="font-size:11px;line-height:1.4;color:#6b7a6f;margin:18px 0 0">${escH(legal)}</p>${foot}</div>`;
   const cf = await cfSecrets(db);
