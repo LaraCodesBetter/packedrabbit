@@ -124,7 +124,7 @@ async function loadColl(c){
   else S[c]=L;
 }
 async function loadTeam(){ try{ const [m,u]=await Promise.all([api("me"),api("users")]); S.me=m.user||null; S.users=u.users||[]; }catch(e){ if(e instanceof SignedOut) throw e; } }
-async function loadAll(){ await Promise.all([...["contacts","campaigns","social","posts","products","tasks","log","projects","mail","mailtpl","mailrules"].map(loadColl),loadTeam()]); S.ready=true; }
+async function loadAll(){ await Promise.all([...["contacts","campaigns","social","posts","products","tasks","log","projects","mail","mailtpl","mailrules","drips"].map(loadColl),loadTeam()]); S.ready=true; }
 async function loadEvents(cid){ const L=await list("contacts/"+cid+"/events"); if(S.sel!==cid) return; S.events=L.sort((a,b)=>(b.at||0)-(a.at||0)).slice(0,200); render(); }
 
 /* ---------- sign-in ---------- */
@@ -356,7 +356,10 @@ const batchCard=(k,n)=>{ const D=batchDrafts(k), d=D[0], tpl=batchTpl(d), art=d?
   :`<div style="white-space:pre-wrap;margin-top:6px">${esc(d?d.text:"")}</div><p class="muted">To change one letter, open it in the list below.</p>`}</details>
   ${art?`<details><summary style="min-height:44px;cursor:pointer;font-weight:700;color:var(--g)">The artwork (as ${esc(d.company||d.to)} will see it)</summary><iframe title="Designed letter preview" data-bart="${esc(k)}" style="width:100%;height:640px;border:1px solid var(--line);border-radius:12px;background:#fff" sandbox=""></iframe></details>
   <label style="display:flex;gap:10px;align-items:center;justify-content:flex-start;min-height:44px;margin:6px 0"><input type="checkbox" style="width:22px;height:22px;flex:none;margin:0" data-bartok="${esc(k)}" ${art1?"checked":""}><span>Send with the artwork</span></label>`:""}
-  <button class="btn p" data-sendall="${esc(k)}" ${S.bulkSending?"disabled":""}>${S.bulkSending===k?esc(S.bulkMsg||"Sending..."):`Send all ${n}`}</button></div>`; };
+  ${(()=>{ const dp=dripOf(k); if(dp) return `<p style="margin:6px 0"><b>Sending ${dp.perHour||50} an hour.</b> ${dp.sent||0} sent so far${dp.left!=null?`, ${dp.left} to go`:""}. The rest go on their own each hour, even with the hub closed.${dp.lastError?` Last try didn't go through (${esc(dp.lastError)}); it tries again next hour.`:""}</p><button class="btn" data-dripstop="${esc(k)}">Stop sending</button>`;
+    return `<div class="row" style="gap:10px;flex-wrap:wrap"><button class="btn p" data-drip="${esc(k)}" ${S.bulkSending?"disabled":""}>${S.bulkSending===k?esc(S.bulkMsg||"Sending..."):`Send 50 an hour`}</button><button class="btn" data-sendall="${esc(k)}" ${S.bulkSending?"disabled":""}>Send all ${n} now</button></div>`; })()}</div>`; };
+/* owner, 27 Nov 2026: "send them in a batch of 50 ... 50 every hour" */
+const dripOf=k=>{const [c,b]=k.split("|"); const id=(c+"-"+b).replace(/[^A-Za-z0-9_-]/g,"-").slice(0,70); return (S.drips||[]).find(x=>x.id===id&&x.active);};
 const batchName=(k,n)=>{const [c,b]=k.split("|"); return [c?campName(c):"",b?batchDay(b)+" batch":""].filter(Boolean).join(", ")+(n?` (${n})`:"");};
 const inFolder=(m,F)=>F==="starred"?(m.star&&folderOf(m)!=="trash"&&folderOf(m)!=="gone"):folderOf(m)===F;
 const subjKey=t=>String(t||"").replace(/^\s*((re|fwd?|fw)\s*:\s*)+/i,"").trim().toLowerCase();
@@ -484,6 +487,15 @@ function wireMail(){ const on=(s,e,f)=>{const n=$(s); if(n) n[e]=f;};
       catch(e){ if(e instanceof SignedOut) break; skipped.push((m.company||m.to)+" ("+(({unsubscribed:"unsubscribed",held:"on hold",bad_address:"bad address",owner_only:"only the founder sends from larac@"})[e.code]||e.code||"error")+")"); if(["daily_limit","mail_not_connected","read_only","owner_only"].includes(e.code)) break; } }
     S.bulkSending=null; S.bulkMsg=""; await loadColl("mail").catch(()=>{}); render();
     toast(`Sent ${sent} of ${D.length}.`+(skipped.length?` Not sent: ${skipped.join(", ")}. They stay in Drafts.`:"")); });
+  document.querySelectorAll("[data-drip]").forEach(el=>el.onclick=async()=>{ if(S.bulkSending) return; const k=el.dataset.drip, [c,b]=k.split("|"); const D=batchDrafts(k); const withArt=(S.bulkArt||{})[k]!==false;
+    if(!D.length||!confirm(`Send these ${D.length} emails 50 an hour${withArt&&designFor(D[0])?", with the artwork":""}? The first 50 go now. The rest go on their own at the top of each hour, even with the hub closed, until the batch is done or you tap Stop.`)) return;
+    S.bulkSending=k; let n=0;
+    try{ await api("mail/drip",{campaign:c,batch:b,perHour:50,art:withArt});
+      for(let i=0;i<20;i++){ S.bulkMsg=`Sending the first 50: ${n} sent...`; render(); const r=await api("mail/drip-run",{}); n+=r.sent||0; if(r.error){ toast("The mail service stopped: "+r.error+". It tries again next hour."); break; } if(!r.more) break; } }
+    catch(e){ if(e instanceof SignedOut) return; toast("Couldn't start: "+(e.code||e.message)); }
+    S.bulkSending=null; S.bulkMsg=""; await Promise.all([loadColl("mail"),loadColl("drips")]).catch(()=>{}); render(); if(n) toast(`${n} sent now. The rest go 50 an hour.`); });
+  document.querySelectorAll("[data-dripstop]").forEach(el=>el.onclick=async()=>{ const [c,b]=el.dataset.dripstop.split("|");
+    try{ await api("mail/drip",{campaign:c,batch:b,stop:1}); await loadColl("drips"); render(); toast("Stopped. The rest stay in Drafts."); }catch(e){ if(!(e instanceof SignedOut)) toast("Couldn't stop: "+(e.code||e.message)); } });
   on("#mNew","onclick",()=>{S.compose={from:S.mbox&&!["social","codes"].includes(S.mbox)?S.mbox:"hello"};render();});
   document.querySelectorAll("[data-mail]").forEach(el=>el.onclick=()=>{ const m=(S.mail||[]).find(x=>x.id===el.dataset.mail); if(m&&m.dir==="draft"){ S.compose={draftId:m.id,from:m.from||"hello",to:m.to||"",cc:m.cc||"",subject:m.subject||"",text:m.text||"",replyOf:m.replyOf||"",campaign:m.campaign||"",batch:m.batch||"",contact:m.contact||""}; render(); return; } openMail(el.dataset.mail); });
   on("#mBack","onclick",()=>{S.mopen=null;render();});
