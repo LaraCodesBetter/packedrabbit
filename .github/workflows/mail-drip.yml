@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Send this hour's emails
         run: |
-          for i in $(seq 1 25); do
+          for i in $(seq 1 60); do
             r=$(curl -s -m 60 -X POST https://packedrabbit.com/api/hub/mail/drip-tick -H 'x-hub: 1' -H 'content-type: application/json' -d '{}' || true)
             echo "$r"
             echo "$r" | grep -q '"more":true' || break
