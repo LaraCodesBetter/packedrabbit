@@ -1,0 +1,4862 @@
+{
+ "AK": {
+  "state": "AK",
+  "listed": 51,
+  "read": 51,
+  "failed": 0,
+  "authorized": 25,
+  "broker": 1,
+  "carrier": 18,
+  "with_complaints": 4,
+  "by_year": {
+   "2026": 2,
+   "2025": 1,
+   "2023": 1
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 1
+   },
+   "Insurance": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 0
+   },
+   "Shipment Documents": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 0
+   },
+   "Estimates/Final Charges": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 0
+   },
+   "Weighing": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 0
+   },
+   "Hostage Goods": {
+    "2026": 1,
+    "2025": 0,
+    "2023": 0
+   },
+   "Pickup and Delivery": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 0
+   },
+   "Loss and Damage": {
+    "2026": 0,
+    "2025": 1,
+    "2023": 1
+   },
+   "Claim Settlement": {
+    "2026": 1,
+    "2025": 0,
+    "2023": 1
+   },
+   "Other Commercial Complaints": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 1
+   },
+   "Whistleblower Complaint": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 0
+   }
+  },
+  "by_year_authorized": {
+   "2026": 2,
+   "2025": 1,
+   "2023": 1
+  },
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "AL": {
+  "state": "AL",
+  "listed": 297,
+  "read": 297,
+  "failed": 0,
+  "authorized": 77,
+  "broker": 6,
+  "carrier": 67,
+  "with_complaints": 11,
+  "by_year": {
+   "2026": 44,
+   "2023": 32,
+   "2024": 24,
+   "2025": 21
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2026": 2,
+    "2023": 5,
+    "2024": 2,
+    "2025": 0
+   },
+   "Insurance": {
+    "2026": 1,
+    "2023": 0,
+    "2024": 0,
+    "2025": 1
+   },
+   "Shipment Documents": {
+    "2026": 3,
+    "2023": 13,
+    "2024": 13,
+    "2025": 9
+   },
+   "Estimates/Final Charges": {
+    "2026": 18,
+    "2023": 20,
+    "2024": 12,
+    "2025": 8
+   },
+   "Weighing": {
+    "2026": 1,
+    "2023": 8,
+    "2024": 6,
+    "2025": 4
+   },
+   "Hostage Goods": {
+    "2026": 4,
+    "2023": 9,
+    "2024": 1,
+    "2025": 2
+   },
+   "Pickup and Delivery": {
+    "2026": 10,
+    "2023": 13,
+    "2024": 6,
+    "2025": 4
+   },
+   "Loss and Damage": {
+    "2026": 8,
+    "2023": 11,
+    "2024": 13,
+    "2025": 9
+   },
+   "Claim Settlement": {
+    "2026": 8,
+    "2023": 8,
+    "2024": 11,
+    "2025": 9
+   },
+   "Other Commercial Complaints": {
+    "2026": 0,
+    "2023": 1,
+    "2024": 2,
+    "2025": 2
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2026": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 1
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2026": 8,
+    "2023": 19,
+    "2024": 12,
+    "2025": 4
+   },
+   "Whistleblower Complaint": {
+    "2026": 0,
+    "2023": 1,
+    "2024": 1,
+    "2025": 3
+   }
+  },
+  "by_year_authorized": {
+   "2026": 43,
+   "2023": 15,
+   "2024": 15,
+   "2025": 20
+  },
+  "by_year_broker": {
+   "2026": 2,
+   "2023": 1,
+   "2024": 1,
+   "2025": 1
+  },
+  "data_date": "10/30/2026"
+ },
+ "AR": {
+  "state": "AR",
+  "listed": 117,
+  "read": 117,
+  "failed": 0,
+  "authorized": 35,
+  "broker": 4,
+  "carrier": 31,
+  "with_complaints": 4,
+  "by_year": {
+   "2023": 1,
+   "2025": 2,
+   "2024": 1
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2023": 0,
+    "2025": 0,
+    "2024": 1
+   },
+   "Insurance": {
+    "2023": 0,
+    "2025": 0,
+    "2024": 0
+   },
+   "Shipment Documents": {
+    "2023": 1,
+    "2025": 0,
+    "2024": 0
+   },
+   "Estimates/Final Charges": {
+    "2023": 1,
+    "2025": 0,
+    "2024": 0
+   },
+   "Weighing": {
+    "2023": 0,
+    "2025": 0,
+    "2024": 0
+   },
+   "Hostage Goods": {
+    "2023": 1,
+    "2025": 0,
+    "2024": 0
+   },
+   "Pickup and Delivery": {
+    "2023": 0,
+    "2025": 1,
+    "2024": 0
+   },
+   "Loss and Damage": {
+    "2023": 0,
+    "2025": 0,
+    "2024": 1
+   },
+   "Claim Settlement": {
+    "2023": 0,
+    "2025": 0,
+    "2024": 0
+   },
+   "Other Commercial Complaints": {
+    "2023": 0,
+    "2025": 1,
+    "2024": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2023": 0,
+    "2025": 0,
+    "2024": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2023": 1,
+    "2025": 0,
+    "2024": 0
+   },
+   "Whistleblower Complaint": {
+    "2023": 0,
+    "2025": 0,
+    "2024": 0
+   }
+  },
+  "by_year_authorized": {
+   "2023": 1,
+   "2025": 2
+  },
+  "by_year_broker": {
+   "2023": 1,
+   "2025": 1
+  },
+  "data_date": "10/30/2026"
+ },
+ "AZ": {
+  "state": "AZ",
+  "listed": 404,
+  "read": 404,
+  "failed": 0,
+  "authorized": 89,
+  "broker": 9,
+  "carrier": 83,
+  "with_complaints": 32,
+  "by_year": {
+   "2023": 21,
+   "2024": 29,
+   "2025": 40,
+   "2026": 67
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2023": 4,
+    "2024": 5,
+    "2025": 6,
+    "2026": 3
+   },
+   "Insurance": {
+    "2023": 3,
+    "2024": 1,
+    "2025": 2,
+    "2026": 0
+   },
+   "Shipment Documents": {
+    "2023": 8,
+    "2024": 18,
+    "2025": 10,
+    "2026": 2
+   },
+   "Estimates/Final Charges": {
+    "2023": 17,
+    "2024": 18,
+    "2025": 24,
+    "2026": 16
+   },
+   "Weighing": {
+    "2023": 7,
+    "2024": 6,
+    "2025": 7,
+    "2026": 0
+   },
+   "Hostage Goods": {
+    "2023": 7,
+    "2024": 6,
+    "2025": 8,
+    "2026": 11
+   },
+   "Pickup and Delivery": {
+    "2023": 7,
+    "2024": 18,
+    "2025": 15,
+    "2026": 21
+   },
+   "Loss and Damage": {
+    "2023": 13,
+    "2024": 10,
+    "2025": 15,
+    "2026": 18
+   },
+   "Claim Settlement": {
+    "2023": 12,
+    "2024": 13,
+    "2025": 17,
+    "2026": 15
+   },
+   "Other Commercial Complaints": {
+    "2023": 6,
+    "2024": 1,
+    "2025": 2,
+    "2026": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2023": 3,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2023": 11,
+    "2024": 21,
+    "2025": 19,
+    "2026": 7
+   },
+   "Whistleblower Complaint": {
+    "2023": 2,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0
+   }
+  },
+  "by_year_authorized": {
+   "2023": 17,
+   "2025": 27,
+   "2026": 53,
+   "2024": 12
+  },
+  "by_year_broker": {
+   "2024": 2,
+   "2025": 7,
+   "2026": 9
+  },
+  "data_date": "10/30/2026"
+ },
+ "CA": {
+  "state": "CA",
+  "listed": 2046,
+  "read": 2046,
+  "failed": 0,
+  "authorized": 469,
+  "broker": 80,
+  "carrier": 366,
+  "with_complaints": 161,
+  "by_year": {
+   "2023": 198,
+   "2024": 216,
+   "2025": 251,
+   "2026": 601
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2023": 27,
+    "2024": 33,
+    "2025": 24,
+    "2026": 6
+   },
+   "Insurance": {
+    "2023": 17,
+    "2024": 8,
+    "2025": 9,
+    "2026": 1
+   },
+   "Shipment Documents": {
+    "2023": 112,
+    "2024": 118,
+    "2025": 109,
+    "2026": 44
+   },
+   "Estimates/Final Charges": {
+    "2023": 142,
+    "2024": 167,
+    "2025": 177,
+    "2026": 231
+   },
+   "Weighing": {
+    "2023": 66,
+    "2024": 67,
+    "2025": 68,
+    "2026": 3
+   },
+   "Hostage Goods": {
+    "2023": 58,
+    "2024": 49,
+    "2025": 50,
+    "2026": 169
+   },
+   "Pickup and Delivery": {
+    "2023": 73,
+    "2024": 94,
+    "2025": 87,
+    "2026": 132
+   },
+   "Loss and Damage": {
+    "2023": 96,
+    "2024": 94,
+    "2025": 98,
+    "2026": 108
+   },
+   "Claim Settlement": {
+    "2023": 94,
+    "2024": 98,
+    "2025": 93,
+    "2026": 66
+   },
+   "Other Commercial Complaints": {
+    "2023": 5,
+    "2024": 11,
+    "2025": 5,
+    "2026": 1
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2023": 0,
+    "2024": 0,
+    "2025": 1,
+    "2026": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2023": 116,
+    "2024": 131,
+    "2025": 124,
+    "2026": 71
+   },
+   "Whistleblower Complaint": {
+    "2023": 1,
+    "2024": 3,
+    "2025": 3,
+    "2026": 0
+   }
+  },
+  "by_year_authorized": {
+   "2023": 98,
+   "2024": 138,
+   "2025": 161,
+   "2026": 557
+  },
+  "by_year_broker": {
+   "2026": 16,
+   "2024": 5,
+   "2023": 8,
+   "2025": 4
+  },
+  "data_date": "10/30/2026"
+ },
+ "CO": {
+  "state": "CO",
+  "listed": 511,
+  "read": 511,
+  "failed": 0,
+  "authorized": 124,
+  "broker": 12,
+  "carrier": 117,
+  "with_complaints": 43,
+  "by_year": {
+   "2023": 21,
+   "2024": 61,
+   "2025": 57,
+   "2026": 126
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2023": 2,
+    "2024": 10,
+    "2025": 6,
+    "2026": 2
+   },
+   "Insurance": {
+    "2023": 1,
+    "2024": 4,
+    "2025": 2,
+    "2026": 0
+   },
+   "Shipment Documents": {
+    "2023": 14,
+    "2024": 30,
+    "2025": 27,
+    "2026": 7
+   },
+   "Estimates/Final Charges": {
+    "2023": 16,
+    "2024": 55,
+    "2025": 41,
+    "2026": 29
+   },
+   "Weighing": {
+    "2023": 11,
+    "2024": 23,
+    "2025": 20,
+    "2026": 2
+   },
+   "Hostage Goods": {
+    "2023": 7,
+    "2024": 14,
+    "2025": 15,
+    "2026": 26
+   },
+   "Pickup and Delivery": {
+    "2023": 7,
+    "2024": 34,
+    "2025": 22,
+    "2026": 35
+   },
+   "Loss and Damage": {
+    "2023": 8,
+    "2024": 30,
+    "2025": 26,
+    "2026": 31
+   },
+   "Claim Settlement": {
+    "2023": 9,
+    "2024": 37,
+    "2025": 13,
+    "2026": 16
+   },
+   "Other Commercial Complaints": {
+    "2023": 1,
+    "2024": 2,
+    "2025": 2,
+    "2026": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2023": 16,
+    "2024": 43,
+    "2025": 28,
+    "2026": 8
+   },
+   "Whistleblower Complaint": {
+    "2023": 0,
+    "2024": 0,
+    "2025": 1,
+    "2026": 0
+   }
+  },
+  "by_year_authorized": {
+   "2023": 15,
+   "2024": 29,
+   "2025": 34,
+   "2026": 106
+  },
+  "by_year_broker": {
+   "2024": 3,
+   "2025": 1
+  },
+  "data_date": "10/30/2026"
+ },
+ "CT": {
+  "state": "CT",
+  "listed": 344,
+  "read": 344,
+  "failed": 0,
+  "authorized": 82,
+  "broker": 6,
+  "carrier": 77,
+  "with_complaints": 13,
+  "by_year": {
+   "2024": 5,
+   "2023": 5,
+   "2025": 5,
+   "2026": 3
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2024": 1,
+    "2023": 0,
+    "2025": 0,
+    "2026": 0
+   },
+   "Insurance": {
+    "2024": 0,
+    "2023": 1,
+    "2025": 0,
+    "2026": 0
+   },
+   "Shipment Documents": {
+    "2024": 2,
+    "2023": 2,
+    "2025": 2,
+    "2026": 1
+   },
+   "Estimates/Final Charges": {
+    "2024": 2,
+    "2023": 1,
+    "2025": 1,
+    "2026": 0
+   },
+   "Weighing": {
+    "2024": 2,
+    "2023": 1,
+    "2025": 1,
+    "2026": 0
+   },
+   "Hostage Goods": {
+    "2024": 1,
+    "2023": 0,
+    "2025": 0,
+    "2026": 1
+   },
+   "Pickup and Delivery": {
+    "2024": 0,
+    "2023": 1,
+    "2025": 1,
+    "2026": 0
+   },
+   "Loss and Damage": {
+    "2024": 4,
+    "2023": 3,
+    "2025": 3,
+    "2026": 1
+   },
+   "Claim Settlement": {
+    "2024": 3,
+    "2023": 4,
+    "2025": 2,
+    "2026": 0
+   },
+   "Other Commercial Complaints": {
+    "2024": 0,
+    "2023": 0,
+    "2025": 0,
+    "2026": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2024": 0,
+    "2023": 0,
+    "2025": 0,
+    "2026": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2024": 1,
+    "2023": 0,
+    "2025": 2,
+    "2026": 0
+   },
+   "Whistleblower Complaint": {
+    "2024": 0,
+    "2023": 0,
+    "2025": 0,
+    "2026": 0
+   }
+  },
+  "by_year_authorized": {
+   "2024": 4,
+   "2023": 5,
+   "2025": 5,
+   "2026": 3
+  },
+  "by_year_broker": {
+   "2023": 2,
+   "2025": 1,
+   "2024": 1,
+   "2026": 2
+  },
+  "data_date": "10/30/2026"
+ },
+ "DC": {
+  "state": "DC",
+  "listed": 20,
+  "read": 20,
+  "failed": 0,
+  "authorized": 3,
+  "broker": 1,
+  "carrier": 2,
+  "with_complaints": 0,
+  "by_year": {},
+  "by_category": {},
+  "by_year_authorized": {},
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "DE": {
+  "state": "DE",
+  "listed": 119,
+  "read": 119,
+  "failed": 0,
+  "authorized": 17,
+  "broker": 3,
+  "carrier": 14,
+  "with_complaints": 8,
+  "by_year": {
+   "2026": 29,
+   "2025": 22,
+   "2023": 5,
+   "2024": 4
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2026": 0,
+    "2025": 1,
+    "2023": 2,
+    "2024": 1
+   },
+   "Insurance": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 0,
+    "2024": 0
+   },
+   "Shipment Documents": {
+    "2026": 3,
+    "2025": 6,
+    "2023": 5,
+    "2024": 3
+   },
+   "Estimates/Final Charges": {
+    "2026": 11,
+    "2025": 14,
+    "2023": 5,
+    "2024": 4
+   },
+   "Weighing": {
+    "2026": 0,
+    "2025": 5,
+    "2023": 2,
+    "2024": 0
+   },
+   "Hostage Goods": {
+    "2026": 5,
+    "2025": 2,
+    "2023": 1,
+    "2024": 1
+   },
+   "Pickup and Delivery": {
+    "2026": 6,
+    "2025": 10,
+    "2023": 3,
+    "2024": 2
+   },
+   "Loss and Damage": {
+    "2026": 3,
+    "2025": 9,
+    "2023": 3,
+    "2024": 1
+   },
+   "Claim Settlement": {
+    "2026": 3,
+    "2025": 10,
+    "2023": 4,
+    "2024": 2
+   },
+   "Other Commercial Complaints": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 0,
+    "2024": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 0,
+    "2024": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2026": 11,
+    "2025": 14,
+    "2023": 4,
+    "2024": 2
+   },
+   "Whistleblower Complaint": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 0,
+    "2024": 0
+   }
+  },
+  "by_year_authorized": {
+   "2025": 19,
+   "2026": 27,
+   "2023": 2,
+   "2024": 1
+  },
+  "by_year_broker": {
+   "2025": 18,
+   "2026": 26,
+   "2024": 1
+  },
+  "data_date": "10/30/2026"
+ },
+ "GA": {
+  "state": "GA",
+  "listed": 1234,
+  "read": 1234,
+  "failed": 0,
+  "authorized": 190,
+  "broker": 18,
+  "carrier": 175,
+  "with_complaints": 58,
+  "by_year": {
+   "2025": 157,
+   "2026": 209,
+   "2023": 97,
+   "2024": 113
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2025": 20,
+    "2026": 8,
+    "2023": 10,
+    "2024": 17
+   },
+   "Insurance": {
+    "2025": 6,
+    "2026": 2,
+    "2023": 5,
+    "2024": 1
+   },
+   "Shipment Documents": {
+    "2025": 55,
+    "2026": 15,
+    "2023": 54,
+    "2024": 67
+   },
+   "Estimates/Final Charges": {
+    "2025": 86,
+    "2026": 67,
+    "2023": 71,
+    "2024": 87
+   },
+   "Weighing": {
+    "2025": 28,
+    "2026": 2,
+    "2023": 31,
+    "2024": 34
+   },
+   "Hostage Goods": {
+    "2025": 43,
+    "2026": 76,
+    "2023": 31,
+    "2024": 30
+   },
+   "Pickup and Delivery": {
+    "2025": 60,
+    "2026": 51,
+    "2023": 30,
+    "2024": 52
+   },
+   "Loss and Damage": {
+    "2025": 55,
+    "2026": 25,
+    "2023": 42,
+    "2024": 51
+   },
+   "Claim Settlement": {
+    "2025": 60,
+    "2026": 30,
+    "2023": 41,
+    "2024": 61
+   },
+   "Other Commercial Complaints": {
+    "2025": 3,
+    "2026": 0,
+    "2023": 3,
+    "2024": 4
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2025": 1,
+    "2026": 0,
+    "2023": 1,
+    "2024": 2
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2025": 64,
+    "2026": 40,
+    "2023": 64,
+    "2024": 71
+   },
+   "Whistleblower Complaint": {
+    "2025": 2,
+    "2026": 0,
+    "2023": 1,
+    "2024": 2
+   }
+  },
+  "by_year_authorized": {
+   "2024": 43,
+   "2026": 102,
+   "2025": 54,
+   "2023": 19
+  },
+  "by_year_broker": {
+   "2023": 2,
+   "2024": 20,
+   "2025": 26,
+   "2026": 3
+  },
+  "data_date": "10/30/2026"
+ },
+ "HI": {
+  "state": "HI",
+  "listed": 83,
+  "read": 83,
+  "failed": 0,
+  "authorized": 24,
+  "broker": 2,
+  "carrier": 19,
+  "with_complaints": 4,
+  "by_year": {
+   "2026": 2,
+   "2023": 1,
+   "2024": 1,
+   "2025": 1
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2026": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Insurance": {
+    "2026": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Shipment Documents": {
+    "2026": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Estimates/Final Charges": {
+    "2026": 1,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Weighing": {
+    "2026": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Hostage Goods": {
+    "2026": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 1
+   },
+   "Pickup and Delivery": {
+    "2026": 1,
+    "2023": 1,
+    "2024": 0,
+    "2025": 0
+   },
+   "Loss and Damage": {
+    "2026": 0,
+    "2023": 1,
+    "2024": 0,
+    "2025": 0
+   },
+   "Claim Settlement": {
+    "2026": 1,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Other Commercial Complaints": {
+    "2026": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2026": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2026": 0,
+    "2023": 1,
+    "2024": 1,
+    "2025": 0
+   },
+   "Whistleblower Complaint": {
+    "2026": 0,
+    "2023": 0,
+    "2024": 0,
+    "2025": 0
+   }
+  },
+  "by_year_authorized": {
+   "2026": 1,
+   "2023": 1,
+   "2024": 1,
+   "2025": 1
+  },
+  "by_year_broker": {
+   "2023": 1,
+   "2024": 1
+  },
+  "data_date": "10/30/2026"
+ },
+ "IA": {
+  "state": "IA",
+  "listed": 127,
+  "read": 127,
+  "failed": 0,
+  "authorized": 41,
+  "broker": 1,
+  "carrier": 40,
+  "with_complaints": 3,
+  "by_year": {
+   "2026": 1,
+   "2023": 1,
+   "2025": 2
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2026": 0,
+    "2023": 0,
+    "2025": 0
+   },
+   "Insurance": {
+    "2026": 0,
+    "2023": 0,
+    "2025": 0
+   },
+   "Shipment Documents": {
+    "2026": 0,
+    "2023": 0,
+    "2025": 1
+   },
+   "Estimates/Final Charges": {
+    "2026": 1,
+    "2023": 1,
+    "2025": 1
+   },
+   "Weighing": {
+    "2026": 0,
+    "2023": 0,
+    "2025": 1
+   },
+   "Hostage Goods": {
+    "2026": 0,
+    "2023": 0,
+    "2025": 0
+   },
+   "Pickup and Delivery": {
+    "2026": 0,
+    "2023": 0,
+    "2025": 1
+   },
+   "Loss and Damage": {
+    "2026": 0,
+    "2023": 0,
+    "2025": 2
+   },
+   "Claim Settlement": {
+    "2026": 0,
+    "2023": 0,
+    "2025": 2
+   },
+   "Other Commercial Complaints": {
+    "2026": 0,
+    "2023": 0,
+    "2025": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2026": 0,
+    "2023": 0,
+    "2025": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2026": 0,
+    "2023": 1,
+    "2025": 1
+   },
+   "Whistleblower Complaint": {
+    "2026": 0,
+    "2023": 0,
+    "2025": 0
+   }
+  },
+  "by_year_authorized": {
+   "2026": 1,
+   "2023": 1,
+   "2025": 2
+  },
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "ID": {
+  "state": "ID",
+  "listed": 102,
+  "read": 102,
+  "failed": 0,
+  "authorized": 33,
+  "broker": 1,
+  "carrier": 32,
+  "with_complaints": 6,
+  "by_year": {
+   "2024": 1,
+   "2023": 3,
+   "2026": 3
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2024": 0,
+    "2023": 1,
+    "2026": 1
+   },
+   "Insurance": {
+    "2024": 0,
+    "2023": 1,
+    "2026": 0
+   },
+   "Shipment Documents": {
+    "2024": 0,
+    "2023": 0,
+    "2026": 1
+   },
+   "Estimates/Final Charges": {
+    "2024": 0,
+    "2023": 0,
+    "2026": 1
+   },
+   "Weighing": {
+    "2024": 0,
+    "2023": 0,
+    "2026": 0
+   },
+   "Hostage Goods": {
+    "2024": 0,
+    "2023": 0,
+    "2026": 1
+   },
+   "Pickup and Delivery": {
+    "2024": 0,
+    "2023": 2,
+    "2026": 0
+   },
+   "Loss and Damage": {
+    "2024": 1,
+    "2023": 0,
+    "2026": 1
+   },
+   "Claim Settlement": {
+    "2024": 1,
+    "2023": 0,
+    "2026": 0
+   },
+   "Other Commercial Complaints": {
+    "2024": 0,
+    "2023": 1,
+    "2026": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2024": 0,
+    "2023": 0,
+    "2026": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2024": 0,
+    "2023": 0,
+    "2026": 0
+   },
+   "Whistleblower Complaint": {
+    "2024": 0,
+    "2023": 1,
+    "2026": 0
+   }
+  },
+  "by_year_authorized": {
+   "2024": 1,
+   "2023": 1,
+   "2026": 2
+  },
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "IL": {
+  "state": "IL",
+  "listed": 838,
+  "read": 838,
+  "failed": 0,
+  "authorized": 246,
+  "broker": 48,
+  "carrier": 195,
+  "with_complaints": 88,
+  "by_year": {
+   "2024": 122,
+   "2023": 119,
+   "2025": 193,
+   "2026": 346
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2024": 13,
+    "2023": 19,
+    "2025": 13,
+    "2026": 4
+   },
+   "Insurance": {
+    "2024": 6,
+    "2023": 8,
+    "2025": 5,
+    "2026": 1
+   },
+   "Shipment Documents": {
+    "2024": 63,
+    "2023": 53,
+    "2025": 66,
+    "2026": 14
+   },
+   "Estimates/Final Charges": {
+    "2024": 80,
+    "2023": 80,
+    "2025": 92,
+    "2026": 104
+   },
+   "Weighing": {
+    "2024": 40,
+    "2023": 44,
+    "2025": 31,
+    "2026": 3
+   },
+   "Hostage Goods": {
+    "2024": 31,
+    "2023": 34,
+    "2025": 42,
+    "2026": 94
+   },
+   "Pickup and Delivery": {
+    "2024": 50,
+    "2023": 47,
+    "2025": 79,
+    "2026": 95
+   },
+   "Loss and Damage": {
+    "2024": 62,
+    "2023": 60,
+    "2025": 86,
+    "2026": 60
+   },
+   "Claim Settlement": {
+    "2024": 60,
+    "2023": 53,
+    "2025": 72,
+    "2026": 51
+   },
+   "Other Commercial Complaints": {
+    "2024": 6,
+    "2023": 3,
+    "2025": 5,
+    "2026": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2024": 2,
+    "2023": 2,
+    "2025": 1,
+    "2026": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2024": 72,
+    "2023": 71,
+    "2025": 77,
+    "2026": 46
+   },
+   "Whistleblower Complaint": {
+    "2024": 3,
+    "2023": 5,
+    "2025": 1,
+    "2026": 0
+   }
+  },
+  "by_year_authorized": {
+   "2024": 61,
+   "2023": 67,
+   "2025": 126,
+   "2026": 297
+  },
+  "by_year_broker": {
+   "2023": 6,
+   "2024": 8,
+   "2025": 11,
+   "2026": 15
+  },
+  "data_date": "10/30/2026"
+ },
+ "IN": {
+  "state": "IN",
+  "listed": 424,
+  "read": 424,
+  "failed": 0,
+  "authorized": 135,
+  "broker": 31,
+  "carrier": 90,
+  "with_complaints": 40,
+  "by_year": {
+   "2025": 113,
+   "2026": 217,
+   "2023": 125,
+   "2024": 75
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2025": 9,
+    "2026": 2,
+    "2023": 12,
+    "2024": 4
+   },
+   "Insurance": {
+    "2025": 4,
+    "2026": 0,
+    "2023": 5,
+    "2024": 2
+   },
+   "Shipment Documents": {
+    "2025": 27,
+    "2026": 7,
+    "2023": 60,
+    "2024": 28
+   },
+   "Estimates/Final Charges": {
+    "2025": 38,
+    "2026": 43,
+    "2023": 76,
+    "2024": 29
+   },
+   "Weighing": {
+    "2025": 14,
+    "2026": 2,
+    "2023": 32,
+    "2024": 15
+   },
+   "Hostage Goods": {
+    "2025": 9,
+    "2026": 27,
+    "2023": 26,
+    "2024": 6
+   },
+   "Pickup and Delivery": {
+    "2025": 30,
+    "2026": 53,
+    "2023": 42,
+    "2024": 25
+   },
+   "Loss and Damage": {
+    "2025": 50,
+    "2026": 59,
+    "2023": 68,
+    "2024": 46
+   },
+   "Claim Settlement": {
+    "2025": 42,
+    "2026": 55,
+    "2023": 54,
+    "2024": 40
+   },
+   "Other Commercial Complaints": {
+    "2025": 2,
+    "2026": 1,
+    "2023": 0,
+    "2024": 1
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2025": 0,
+    "2026": 0,
+    "2023": 0,
+    "2024": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2025": 28,
+    "2026": 16,
+    "2023": 56,
+    "2024": 29
+   },
+   "Whistleblower Complaint": {
+    "2025": 1,
+    "2026": 0,
+    "2023": 0,
+    "2024": 1
+   }
+  },
+  "by_year_authorized": {
+   "2025": 97,
+   "2023": 79,
+   "2024": 69,
+   "2026": 203
+  },
+  "by_year_broker": {
+   "2025": 33,
+   "2023": 26,
+   "2024": 28,
+   "2026": 74
+  },
+  "data_date": "10/30/2026"
+ },
+ "KS": {
+  "state": "KS",
+  "listed": 147,
+  "read": 147,
+  "failed": 0,
+  "authorized": 42,
+  "broker": 4,
+  "carrier": 40,
+  "with_complaints": 9,
+  "by_year": {
+   "2026": 3,
+   "2025": 3,
+   "2024": 3
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2026": 0,
+    "2025": 1,
+    "2024": 0
+   },
+   "Insurance": {
+    "2026": 0,
+    "2025": 0,
+    "2024": 0
+   },
+   "Shipment Documents": {
+    "2026": 0,
+    "2025": 1,
+    "2024": 0
+   },
+   "Estimates/Final Charges": {
+    "2026": 1,
+    "2025": 1,
+    "2024": 2
+   },
+   "Weighing": {
+    "2026": 0,
+    "2025": 0,
+    "2024": 0
+   },
+   "Hostage Goods": {
+    "2026": 1,
+    "2025": 0,
+    "2024": 0
+   },
+   "Pickup and Delivery": {
+    "2026": 0,
+    "2025": 1,
+    "2024": 1
+   },
+   "Loss and Damage": {
+    "2026": 0,
+    "2025": 2,
+    "2024": 1
+   },
+   "Claim Settlement": {
+    "2026": 1,
+    "2025": 3,
+    "2024": 1
+   },
+   "Other Commercial Complaints": {
+    "2026": 1,
+    "2025": 0,
+    "2024": 1
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2026": 0,
+    "2025": 0,
+    "2024": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2026": 0,
+    "2025": 1,
+    "2024": 1
+   },
+   "Whistleblower Complaint": {
+    "2026": 0,
+    "2025": 0,
+    "2024": 0
+   }
+  },
+  "by_year_authorized": {
+   "2026": 3,
+   "2025": 2,
+   "2024": 3
+  },
+  "by_year_broker": {
+   "2024": 2
+  },
+  "data_date": "10/30/2026"
+ },
+ "KY": {
+  "state": "KY",
+  "listed": 233,
+  "read": 233,
+  "failed": 0,
+  "authorized": 48,
+  "broker": 2,
+  "carrier": 47,
+  "with_complaints": 5,
+  "by_year": {
+   "2023": 3,
+   "2024": 1,
+   "2025": 3,
+   "2026": 2
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2023": 1,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0
+   },
+   "Insurance": {
+    "2023": 1,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0
+   },
+   "Shipment Documents": {
+    "2023": 1,
+    "2024": 1,
+    "2025": 2,
+    "2026": 0
+   },
+   "Estimates/Final Charges": {
+    "2023": 2,
+    "2024": 1,
+    "2025": 3,
+    "2026": 0
+   },
+   "Weighing": {
+    "2023": 0,
+    "2024": 0,
+    "2025": 2,
+    "2026": 0
+   },
+   "Hostage Goods": {
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 1
+   },
+   "Pickup and Delivery": {
+    "2023": 1,
+    "2024": 0,
+    "2025": 2,
+    "2026": 0
+   },
+   "Loss and Damage": {
+    "2023": 3,
+    "2024": 0,
+    "2025": 1,
+    "2026": 0
+   },
+   "Claim Settlement": {
+    "2023": 2,
+    "2024": 0,
+    "2025": 2,
+    "2026": 0
+   },
+   "Other Commercial Complaints": {
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2023": 3,
+    "2024": 1,
+    "2025": 3,
+    "2026": 1
+   },
+   "Whistleblower Complaint": {
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0
+   }
+  },
+  "by_year_authorized": {
+   "2023": 2,
+   "2026": 2
+  },
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "LA": {
+  "state": "LA",
+  "listed": 180,
+  "read": 180,
+  "failed": 0,
+  "authorized": 36,
+  "broker": 4,
+  "carrier": 28,
+  "with_complaints": 3,
+  "by_year": {
+   "2025": 3,
+   "2026": 1
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2025": 1,
+    "2026": 0
+   },
+   "Insurance": {
+    "2025": 0,
+    "2026": 0
+   },
+   "Shipment Documents": {
+    "2025": 2,
+    "2026": 0
+   },
+   "Estimates/Final Charges": {
+    "2025": 2,
+    "2026": 1
+   },
+   "Weighing": {
+    "2025": 1,
+    "2026": 0
+   },
+   "Hostage Goods": {
+    "2025": 0,
+    "2026": 1
+   },
+   "Pickup and Delivery": {
+    "2025": 0,
+    "2026": 1
+   },
+   "Loss and Damage": {
+    "2025": 3,
+    "2026": 0
+   },
+   "Claim Settlement": {
+    "2025": 2,
+    "2026": 0
+   },
+   "Other Commercial Complaints": {
+    "2025": 0,
+    "2026": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2025": 0,
+    "2026": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2025": 2,
+    "2026": 0
+   },
+   "Whistleblower Complaint": {
+    "2025": 0,
+    "2026": 0
+   }
+  },
+  "by_year_authorized": {
+   "2026": 1
+  },
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "MA": {
+  "state": "MA",
+  "listed": 760,
+  "read": 760,
+  "failed": 0,
+  "authorized": 200,
+  "broker": 3,
+  "carrier": 196,
+  "with_complaints": 26,
+  "by_year": {
+   "2025": 11,
+   "2026": 25,
+   "2024": 11,
+   "2023": 9
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2025": 1,
+    "2026": 0,
+    "2024": 0,
+    "2023": 2
+   },
+   "Insurance": {
+    "2025": 1,
+    "2026": 0,
+    "2024": 0,
+    "2023": 1
+   },
+   "Shipment Documents": {
+    "2025": 4,
+    "2026": 2,
+    "2024": 6,
+    "2023": 6
+   },
+   "Estimates/Final Charges": {
+    "2025": 7,
+    "2026": 6,
+    "2024": 6,
+    "2023": 4
+   },
+   "Weighing": {
+    "2025": 3,
+    "2026": 1,
+    "2024": 3,
+    "2023": 3
+   },
+   "Hostage Goods": {
+    "2025": 2,
+    "2026": 8,
+    "2024": 3,
+    "2023": 0
+   },
+   "Pickup and Delivery": {
+    "2025": 4,
+    "2026": 3,
+    "2024": 2,
+    "2023": 3
+   },
+   "Loss and Damage": {
+    "2025": 3,
+    "2026": 6,
+    "2024": 5,
+    "2023": 4
+   },
+   "Claim Settlement": {
+    "2025": 7,
+    "2026": 5,
+    "2024": 6,
+    "2023": 4
+   },
+   "Other Commercial Complaints": {
+    "2025": 0,
+    "2026": 0,
+    "2024": 0,
+    "2023": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2025": 0,
+    "2026": 0,
+    "2024": 0,
+    "2023": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2025": 5,
+    "2026": 3,
+    "2024": 3,
+    "2023": 4
+   },
+   "Whistleblower Complaint": {
+    "2025": 0,
+    "2026": 0,
+    "2024": 0,
+    "2023": 1
+   }
+  },
+  "by_year_authorized": {
+   "2025": 11,
+   "2026": 23,
+   "2024": 8,
+   "2023": 7
+  },
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "MD": {
+  "state": "MD",
+  "listed": 766,
+  "read": 766,
+  "failed": 0,
+  "authorized": 205,
+  "broker": 10,
+  "carrier": 196,
+  "with_complaints": 52,
+  "by_year": {
+   "2025": 30,
+   "2024": 25,
+   "2026": 104,
+   "2023": 49
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2025": 2,
+    "2024": 7,
+    "2026": 1,
+    "2023": 7
+   },
+   "Insurance": {
+    "2025": 2,
+    "2024": 3,
+    "2026": 0,
+    "2023": 3
+   },
+   "Shipment Documents": {
+    "2025": 12,
+    "2024": 13,
+    "2026": 9,
+    "2023": 26
+   },
+   "Estimates/Final Charges": {
+    "2025": 19,
+    "2024": 20,
+    "2026": 34,
+    "2023": 33
+   },
+   "Weighing": {
+    "2025": 7,
+    "2024": 12,
+    "2026": 1,
+    "2023": 20
+   },
+   "Hostage Goods": {
+    "2025": 4,
+    "2024": 5,
+    "2026": 24,
+    "2023": 12
+   },
+   "Pickup and Delivery": {
+    "2025": 13,
+    "2024": 7,
+    "2026": 33,
+    "2023": 14
+   },
+   "Loss and Damage": {
+    "2025": 13,
+    "2024": 8,
+    "2026": 20,
+    "2023": 24
+   },
+   "Claim Settlement": {
+    "2025": 13,
+    "2024": 9,
+    "2026": 11,
+    "2023": 25
+   },
+   "Other Commercial Complaints": {
+    "2025": 0,
+    "2024": 0,
+    "2026": 1,
+    "2023": 4
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2025": 0,
+    "2024": 0,
+    "2026": 0,
+    "2023": 1
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2025": 10,
+    "2024": 17,
+    "2026": 15,
+    "2023": 21
+   },
+   "Whistleblower Complaint": {
+    "2025": 0,
+    "2024": 0,
+    "2026": 0,
+    "2023": 1
+   }
+  },
+  "by_year_authorized": {
+   "2024": 22,
+   "2025": 22,
+   "2026": 97,
+   "2023": 33
+  },
+  "by_year_broker": {
+   "2023": 1,
+   "2026": 1
+  },
+  "data_date": "10/30/2026"
+ },
+ "ME": {
+  "state": "ME",
+  "listed": 62,
+  "read": 62,
+  "failed": 0,
+  "authorized": 15,
+  "broker": 0,
+  "carrier": 15,
+  "with_complaints": 1,
+  "by_year": {
+   "2026": 3
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2026": 0
+   },
+   "Insurance": {
+    "2026": 0
+   },
+   "Shipment Documents": {
+    "2026": 0
+   },
+   "Estimates/Final Charges": {
+    "2026": 1
+   },
+   "Weighing": {
+    "2026": 0
+   },
+   "Hostage Goods": {
+    "2026": 0
+   },
+   "Pickup and Delivery": {
+    "2026": 1
+   },
+   "Loss and Damage": {
+    "2026": 0
+   },
+   "Claim Settlement": {
+    "2026": 1
+   },
+   "Other Commercial Complaints": {
+    "2026": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2026": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2026": 0
+   },
+   "Whistleblower Complaint": {
+    "2026": 0
+   }
+  },
+  "by_year_authorized": {
+   "2026": 3
+  },
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "MI": {
+  "state": "MI",
+  "listed": 486,
+  "read": 486,
+  "failed": 0,
+  "authorized": 97,
+  "broker": 11,
+  "carrier": 85,
+  "with_complaints": 8,
+  "by_year": {
+   "2026": 6,
+   "2024": 4,
+   "2025": 3
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2026": 1,
+    "2024": 0,
+    "2025": 0
+   },
+   "Insurance": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Shipment Documents": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Estimates/Final Charges": {
+    "2026": 2,
+    "2024": 2,
+    "2025": 0
+   },
+   "Weighing": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Hostage Goods": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Pickup and Delivery": {
+    "2026": 0,
+    "2024": 1,
+    "2025": 0
+   },
+   "Loss and Damage": {
+    "2026": 2,
+    "2024": 1,
+    "2025": 1
+   },
+   "Claim Settlement": {
+    "2026": 2,
+    "2024": 2,
+    "2025": 1
+   },
+   "Other Commercial Complaints": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2026": 0,
+    "2024": 2,
+    "2025": 1
+   },
+   "Whistleblower Complaint": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 0
+   }
+  },
+  "by_year_authorized": {
+   "2026": 5,
+   "2024": 4,
+   "2025": 2
+  },
+  "by_year_broker": {
+   "2026": 3,
+   "2024": 2,
+   "2025": 2
+  },
+  "data_date": "10/30/2026"
+ },
+ "MN": {
+  "state": "MN",
+  "listed": 412,
+  "read": 412,
+  "failed": 0,
+  "authorized": 72,
+  "broker": 11,
+  "carrier": 61,
+  "with_complaints": 8,
+  "by_year": {
+   "2025": 10,
+   "2023": 4,
+   "2026": 19,
+   "2024": 2
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2025": 0,
+    "2023": 0,
+    "2026": 0,
+    "2024": 0
+   },
+   "Insurance": {
+    "2025": 0,
+    "2023": 0,
+    "2026": 1,
+    "2024": 0
+   },
+   "Shipment Documents": {
+    "2025": 2,
+    "2023": 1,
+    "2026": 0,
+    "2024": 1
+   },
+   "Estimates/Final Charges": {
+    "2025": 1,
+    "2023": 1,
+    "2026": 2,
+    "2024": 2
+   },
+   "Weighing": {
+    "2025": 1,
+    "2023": 1,
+    "2026": 0,
+    "2024": 2
+   },
+   "Hostage Goods": {
+    "2025": 2,
+    "2023": 0,
+    "2026": 4,
+    "2024": 1
+   },
+   "Pickup and Delivery": {
+    "2025": 3,
+    "2023": 1,
+    "2026": 4,
+    "2024": 2
+   },
+   "Loss and Damage": {
+    "2025": 4,
+    "2023": 2,
+    "2026": 6,
+    "2024": 2
+   },
+   "Claim Settlement": {
+    "2025": 4,
+    "2023": 2,
+    "2026": 2,
+    "2024": 2
+   },
+   "Other Commercial Complaints": {
+    "2025": 1,
+    "2023": 2,
+    "2026": 0,
+    "2024": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2025": 0,
+    "2023": 0,
+    "2026": 0,
+    "2024": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2025": 2,
+    "2023": 1,
+    "2026": 2,
+    "2024": 2
+   },
+   "Whistleblower Complaint": {
+    "2025": 0,
+    "2023": 0,
+    "2026": 0,
+    "2024": 0
+   }
+  },
+  "by_year_authorized": {
+   "2025": 4,
+   "2023": 4,
+   "2026": 10,
+   "2024": 2
+  },
+  "by_year_broker": {
+   "2023": 2,
+   "2025": 1,
+   "2026": 1
+  },
+  "data_date": "10/30/2026"
+ },
+ "MO": {
+  "state": "MO",
+  "listed": 424,
+  "read": 424,
+  "failed": 0,
+  "authorized": 156,
+  "broker": 13,
+  "carrier": 135,
+  "with_complaints": 34,
+  "by_year": {
+   "2025": 96,
+   "2026": 131,
+   "2023": 66,
+   "2024": 93
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2025": 11,
+    "2026": 0,
+    "2023": 8,
+    "2024": 16
+   },
+   "Insurance": {
+    "2025": 3,
+    "2026": 0,
+    "2023": 2,
+    "2024": 7
+   },
+   "Shipment Documents": {
+    "2025": 41,
+    "2026": 6,
+    "2023": 33,
+    "2024": 50
+   },
+   "Estimates/Final Charges": {
+    "2025": 45,
+    "2026": 24,
+    "2023": 39,
+    "2024": 62
+   },
+   "Weighing": {
+    "2025": 26,
+    "2026": 2,
+    "2023": 25,
+    "2024": 27
+   },
+   "Hostage Goods": {
+    "2025": 22,
+    "2026": 23,
+    "2023": 20,
+    "2024": 26
+   },
+   "Pickup and Delivery": {
+    "2025": 39,
+    "2026": 29,
+    "2023": 29,
+    "2024": 38
+   },
+   "Loss and Damage": {
+    "2025": 46,
+    "2026": 39,
+    "2023": 32,
+    "2024": 47
+   },
+   "Claim Settlement": {
+    "2025": 44,
+    "2026": 34,
+    "2023": 28,
+    "2024": 45
+   },
+   "Other Commercial Complaints": {
+    "2025": 2,
+    "2026": 0,
+    "2023": 0,
+    "2024": 3
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2025": 1,
+    "2026": 0,
+    "2023": 0,
+    "2024": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2025": 37,
+    "2026": 12,
+    "2023": 37,
+    "2024": 53
+   },
+   "Whistleblower Complaint": {
+    "2025": 2,
+    "2026": 0,
+    "2023": 0,
+    "2024": 1
+   }
+  },
+  "by_year_authorized": {
+   "2026": 125,
+   "2023": 41,
+   "2024": 44,
+   "2025": 63
+  },
+  "by_year_broker": {
+   "2023": 11,
+   "2024": 7,
+   "2025": 14,
+   "2026": 29
+  },
+  "data_date": "10/30/2026"
+ },
+ "MS": {
+  "state": "MS",
+  "listed": 151,
+  "read": 151,
+  "failed": 0,
+  "authorized": 29,
+  "broker": 3,
+  "carrier": 23,
+  "with_complaints": 4,
+  "by_year": {
+   "2025": 15,
+   "2026": 28
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2025": 2,
+    "2026": 0
+   },
+   "Insurance": {
+    "2025": 0,
+    "2026": 0
+   },
+   "Shipment Documents": {
+    "2025": 7,
+    "2026": 2
+   },
+   "Estimates/Final Charges": {
+    "2025": 8,
+    "2026": 8
+   },
+   "Weighing": {
+    "2025": 5,
+    "2026": 1
+   },
+   "Hostage Goods": {
+    "2025": 4,
+    "2026": 10
+   },
+   "Pickup and Delivery": {
+    "2025": 7,
+    "2026": 11
+   },
+   "Loss and Damage": {
+    "2025": 6,
+    "2026": 3
+   },
+   "Claim Settlement": {
+    "2025": 5,
+    "2026": 3
+   },
+   "Other Commercial Complaints": {
+    "2025": 0,
+    "2026": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2025": 0,
+    "2026": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2025": 7,
+    "2026": 8
+   },
+   "Whistleblower Complaint": {
+    "2025": 0,
+    "2026": 0
+   }
+  },
+  "by_year_authorized": {
+   "2025": 15,
+   "2026": 28
+  },
+  "by_year_broker": {
+   "2026": 2
+  },
+  "data_date": "10/30/2026"
+ },
+ "MT": {
+  "state": "MT",
+  "listed": 61,
+  "read": 61,
+  "failed": 0,
+  "authorized": 31,
+  "broker": 1,
+  "carrier": 29,
+  "with_complaints": 3,
+  "by_year": {
+   "2026": 13,
+   "2025": 2,
+   "2023": 2,
+   "2024": 1
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 0,
+    "2024": 0
+   },
+   "Insurance": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 0,
+    "2024": 0
+   },
+   "Shipment Documents": {
+    "2026": 1,
+    "2025": 0,
+    "2023": 2,
+    "2024": 0
+   },
+   "Estimates/Final Charges": {
+    "2026": 4,
+    "2025": 0,
+    "2023": 2,
+    "2024": 1
+   },
+   "Weighing": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 2,
+    "2024": 0
+   },
+   "Hostage Goods": {
+    "2026": 2,
+    "2025": 1,
+    "2023": 0,
+    "2024": 0
+   },
+   "Pickup and Delivery": {
+    "2026": 5,
+    "2025": 1,
+    "2023": 1,
+    "2024": 0
+   },
+   "Loss and Damage": {
+    "2026": 3,
+    "2025": 0,
+    "2023": 1,
+    "2024": 0
+   },
+   "Claim Settlement": {
+    "2026": 3,
+    "2025": 1,
+    "2023": 1,
+    "2024": 0
+   },
+   "Other Commercial Complaints": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 0,
+    "2024": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 0,
+    "2024": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2026": 2,
+    "2025": 0,
+    "2023": 1,
+    "2024": 0
+   },
+   "Whistleblower Complaint": {
+    "2026": 0,
+    "2025": 0,
+    "2023": 0,
+    "2024": 0
+   }
+  },
+  "by_year_authorized": {
+   "2025": 1,
+   "2026": 4
+  },
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "NC": {
+  "state": "NC",
+  "listed": 822,
+  "read": 822,
+  "failed": 0,
+  "authorized": 213,
+  "broker": 10,
+  "carrier": 206,
+  "with_complaints": 77,
+  "by_year": {
+   "2023": 47,
+   "2026": 249,
+   "2024": 79,
+   "2025": 116
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2023": 3,
+    "2026": 5,
+    "2024": 10,
+    "2025": 9
+   },
+   "Insurance": {
+    "2023": 2,
+    "2026": 2,
+    "2024": 6,
+    "2025": 2
+   },
+   "Shipment Documents": {
+    "2023": 22,
+    "2026": 11,
+    "2024": 38,
+    "2025": 44
+   },
+   "Estimates/Final Charges": {
+    "2023": 23,
+    "2026": 64,
+    "2024": 50,
+    "2025": 56
+   },
+   "Weighing": {
+    "2023": 11,
+    "2026": 1,
+    "2024": 26,
+    "2025": 20
+   },
+   "Hostage Goods": {
+    "2023": 14,
+    "2026": 56,
+    "2024": 13,
+    "2025": 23
+   },
+   "Pickup and Delivery": {
+    "2023": 20,
+    "2026": 90,
+    "2024": 37,
+    "2025": 50
+   },
+   "Loss and Damage": {
+    "2023": 25,
+    "2026": 27,
+    "2024": 33,
+    "2025": 45
+   },
+   "Claim Settlement": {
+    "2023": 19,
+    "2026": 33,
+    "2024": 35,
+    "2025": 41
+   },
+   "Other Commercial Complaints": {
+    "2023": 1,
+    "2026": 3,
+    "2024": 3,
+    "2025": 3
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2023": 0,
+    "2026": 0,
+    "2024": 1,
+    "2025": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2023": 29,
+    "2026": 33,
+    "2024": 53,
+    "2025": 46
+   },
+   "Whistleblower Complaint": {
+    "2023": 0,
+    "2026": 0,
+    "2024": 1,
+    "2025": 2
+   }
+  },
+  "by_year_authorized": {
+   "2023": 23,
+   "2026": 234,
+   "2024": 55,
+   "2025": 101
+  },
+  "by_year_broker": {
+   "2025": 2,
+   "2026": 4
+  },
+  "data_date": "10/30/2026"
+ },
+ "ND": {
+  "state": "ND",
+  "listed": 56,
+  "read": 56,
+  "failed": 0,
+  "authorized": 17,
+  "broker": 3,
+  "carrier": 15,
+  "with_complaints": 2,
+  "by_year": {
+   "2023": 1,
+   "2026": 1
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2023": 0,
+    "2026": 0
+   },
+   "Insurance": {
+    "2023": 0,
+    "2026": 0
+   },
+   "Shipment Documents": {
+    "2023": 0,
+    "2026": 0
+   },
+   "Estimates/Final Charges": {
+    "2023": 0,
+    "2026": 0
+   },
+   "Weighing": {
+    "2023": 0,
+    "2026": 0
+   },
+   "Hostage Goods": {
+    "2023": 0,
+    "2026": 0
+   },
+   "Pickup and Delivery": {
+    "2023": 0,
+    "2026": 0
+   },
+   "Loss and Damage": {
+    "2023": 0,
+    "2026": 1
+   },
+   "Claim Settlement": {
+    "2023": 1,
+    "2026": 0
+   },
+   "Other Commercial Complaints": {
+    "2023": 0,
+    "2026": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2023": 0,
+    "2026": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2023": 0,
+    "2026": 0
+   },
+   "Whistleblower Complaint": {
+    "2023": 0,
+    "2026": 0
+   }
+  },
+  "by_year_authorized": {},
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "NE": {
+  "state": "NE",
+  "listed": 117,
+  "read": 117,
+  "failed": 0,
+  "authorized": 29,
+  "broker": 1,
+  "carrier": 25,
+  "with_complaints": 4,
+  "by_year": {
+   "2025": 1,
+   "2026": 3
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2025": 0,
+    "2026": 1
+   },
+   "Insurance": {
+    "2025": 0,
+    "2026": 0
+   },
+   "Shipment Documents": {
+    "2025": 0,
+    "2026": 0
+   },
+   "Estimates/Final Charges": {
+    "2025": 0,
+    "2026": 1
+   },
+   "Weighing": {
+    "2025": 0,
+    "2026": 0
+   },
+   "Hostage Goods": {
+    "2025": 0,
+    "2026": 0
+   },
+   "Pickup and Delivery": {
+    "2025": 0,
+    "2026": 0
+   },
+   "Loss and Damage": {
+    "2025": 0,
+    "2026": 1
+   },
+   "Claim Settlement": {
+    "2025": 1,
+    "2026": 0
+   },
+   "Other Commercial Complaints": {
+    "2025": 0,
+    "2026": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2025": 0,
+    "2026": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2025": 0,
+    "2026": 0
+   },
+   "Whistleblower Complaint": {
+    "2025": 0,
+    "2026": 0
+   }
+  },
+  "by_year_authorized": {
+   "2025": 1,
+   "2026": 3
+  },
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "NH": {
+  "state": "NH",
+  "listed": 95,
+  "read": 95,
+  "failed": 0,
+  "authorized": 45,
+  "broker": 0,
+  "carrier": 45,
+  "with_complaints": 4,
+  "by_year": {
+   "2024": 1,
+   "2023": 3,
+   "2025": 1,
+   "2026": 2
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2024": 0,
+    "2023": 0,
+    "2025": 0,
+    "2026": 0
+   },
+   "Insurance": {
+    "2024": 0,
+    "2023": 0,
+    "2025": 0,
+    "2026": 0
+   },
+   "Shipment Documents": {
+    "2024": 0,
+    "2023": 2,
+    "2025": 0,
+    "2026": 0
+   },
+   "Estimates/Final Charges": {
+    "2024": 0,
+    "2023": 1,
+    "2025": 0,
+    "2026": 1
+   },
+   "Weighing": {
+    "2024": 0,
+    "2023": 1,
+    "2025": 0,
+    "2026": 0
+   },
+   "Hostage Goods": {
+    "2024": 0,
+    "2023": 0,
+    "2025": 1,
+    "2026": 0
+   },
+   "Pickup and Delivery": {
+    "2024": 0,
+    "2023": 1,
+    "2025": 0,
+    "2026": 0
+   },
+   "Loss and Damage": {
+    "2024": 1,
+    "2023": 2,
+    "2025": 0,
+    "2026": 1
+   },
+   "Claim Settlement": {
+    "2024": 1,
+    "2023": 2,
+    "2025": 0,
+    "2026": 0
+   },
+   "Other Commercial Complaints": {
+    "2024": 0,
+    "2023": 0,
+    "2025": 0,
+    "2026": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2024": 0,
+    "2023": 0,
+    "2025": 0,
+    "2026": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2024": 0,
+    "2023": 2,
+    "2025": 0,
+    "2026": 0
+   },
+   "Whistleblower Complaint": {
+    "2024": 0,
+    "2023": 0,
+    "2025": 0,
+    "2026": 0
+   }
+  },
+  "by_year_authorized": {
+   "2024": 1,
+   "2023": 3,
+   "2025": 1,
+   "2026": 2
+  },
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "NJ": {
+  "state": "NJ",
+  "listed": 1260,
+  "read": 1260,
+  "failed": 0,
+  "authorized": 368,
+  "broker": 33,
+  "carrier": 341,
+  "with_complaints": 211,
+  "by_year": {
+   "2023": 294,
+   "2024": 309,
+   "2026": 1507,
+   "2025": 613
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2023": 25,
+    "2024": 44,
+    "2026": 27,
+    "2025": 49
+   },
+   "Insurance": {
+    "2023": 13,
+    "2024": 15,
+    "2026": 3,
+    "2025": 20
+   },
+   "Shipment Documents": {
+    "2023": 159,
+    "2024": 163,
+    "2026": 97,
+    "2025": 235
+   },
+   "Estimates/Final Charges": {
+    "2023": 214,
+    "2024": 245,
+    "2026": 594,
+    "2025": 405
+   },
+   "Weighing": {
+    "2023": 108,
+    "2024": 87,
+    "2026": 13,
+    "2025": 125
+   },
+   "Hostage Goods": {
+    "2023": 85,
+    "2024": 71,
+    "2026": 372,
+    "2025": 147
+   },
+   "Pickup and Delivery": {
+    "2023": 123,
+    "2024": 120,
+    "2026": 382,
+    "2025": 244
+   },
+   "Loss and Damage": {
+    "2023": 137,
+    "2024": 138,
+    "2026": 244,
+    "2025": 208
+   },
+   "Claim Settlement": {
+    "2023": 124,
+    "2024": 144,
+    "2026": 214,
+    "2025": 214
+   },
+   "Other Commercial Complaints": {
+    "2023": 2,
+    "2024": 10,
+    "2026": 2,
+    "2025": 7
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2023": 0,
+    "2024": 0,
+    "2026": 0,
+    "2025": 3
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2023": 195,
+    "2024": 196,
+    "2026": 244,
+    "2025": 307
+   },
+   "Whistleblower Complaint": {
+    "2023": 1,
+    "2024": 6,
+    "2026": 0,
+    "2025": 5
+   }
+  },
+  "by_year_authorized": {
+   "2026": 1393,
+   "2024": 186,
+   "2023": 135,
+   "2025": 453
+  },
+  "by_year_broker": {
+   "2023": 9,
+   "2024": 13,
+   "2025": 34,
+   "2026": 77
+  },
+  "data_date": "10/30/2026"
+ },
+ "NM": {
+  "state": "NM",
+  "listed": 78,
+  "read": 78,
+  "failed": 0,
+  "authorized": 27,
+  "broker": 2,
+  "carrier": 25,
+  "with_complaints": 3,
+  "by_year": {
+   "2025": 3,
+   "2026": 6,
+   "2023": 2,
+   "2024": 1
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2025": 0,
+    "2026": 0,
+    "2023": 0,
+    "2024": 0
+   },
+   "Insurance": {
+    "2025": 0,
+    "2026": 0,
+    "2023": 0,
+    "2024": 0
+   },
+   "Shipment Documents": {
+    "2025": 1,
+    "2026": 1,
+    "2023": 1,
+    "2024": 0
+   },
+   "Estimates/Final Charges": {
+    "2025": 2,
+    "2026": 1,
+    "2023": 1,
+    "2024": 0
+   },
+   "Weighing": {
+    "2025": 1,
+    "2026": 0,
+    "2023": 0,
+    "2024": 0
+   },
+   "Hostage Goods": {
+    "2025": 0,
+    "2026": 1,
+    "2023": 0,
+    "2024": 0
+   },
+   "Pickup and Delivery": {
+    "2025": 1,
+    "2026": 1,
+    "2023": 0,
+    "2024": 0
+   },
+   "Loss and Damage": {
+    "2025": 2,
+    "2026": 3,
+    "2023": 1,
+    "2024": 1
+   },
+   "Claim Settlement": {
+    "2025": 2,
+    "2026": 2,
+    "2023": 2,
+    "2024": 1
+   },
+   "Other Commercial Complaints": {
+    "2025": 0,
+    "2026": 0,
+    "2023": 1,
+    "2024": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2025": 0,
+    "2026": 0,
+    "2023": 0,
+    "2024": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2025": 1,
+    "2026": 0,
+    "2023": 1,
+    "2024": 1
+   },
+   "Whistleblower Complaint": {
+    "2025": 0,
+    "2026": 0,
+    "2023": 1,
+    "2024": 0
+   }
+  },
+  "by_year_authorized": {
+   "2025": 3,
+   "2026": 6,
+   "2023": 2,
+   "2024": 1
+  },
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "NV": {
+  "state": "NV",
+  "listed": 254,
+  "read": 254,
+  "failed": 0,
+  "authorized": 66,
+  "broker": 10,
+  "carrier": 57,
+  "with_complaints": 45,
+  "by_year": {
+   "2023": 76,
+   "2024": 102,
+   "2025": 96,
+   "2026": 142
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2023": 2,
+    "2024": 9,
+    "2025": 5,
+    "2026": 0
+   },
+   "Insurance": {
+    "2023": 2,
+    "2024": 7,
+    "2025": 4,
+    "2026": 0
+   },
+   "Shipment Documents": {
+    "2023": 45,
+    "2024": 54,
+    "2025": 25,
+    "2026": 6
+   },
+   "Estimates/Final Charges": {
+    "2023": 57,
+    "2024": 73,
+    "2025": 48,
+    "2026": 56
+   },
+   "Weighing": {
+    "2023": 24,
+    "2024": 25,
+    "2025": 17,
+    "2026": 2
+   },
+   "Hostage Goods": {
+    "2023": 25,
+    "2024": 17,
+    "2025": 18,
+    "2026": 29
+   },
+   "Pickup and Delivery": {
+    "2023": 31,
+    "2024": 41,
+    "2025": 32,
+    "2026": 35
+   },
+   "Loss and Damage": {
+    "2023": 32,
+    "2024": 51,
+    "2025": 35,
+    "2026": 35
+   },
+   "Claim Settlement": {
+    "2023": 33,
+    "2024": 46,
+    "2025": 24,
+    "2026": 18
+   },
+   "Other Commercial Complaints": {
+    "2023": 3,
+    "2024": 5,
+    "2025": 0,
+    "2026": 1
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2023": 48,
+    "2024": 59,
+    "2025": 43,
+    "2026": 19
+   },
+   "Whistleblower Complaint": {
+    "2023": 0,
+    "2024": 2,
+    "2025": 0,
+    "2026": 0
+   }
+  },
+  "by_year_authorized": {
+   "2023": 45,
+   "2024": 65,
+   "2025": 72,
+   "2026": 135
+  },
+  "by_year_broker": {
+   "2023": 19,
+   "2024": 26,
+   "2025": 24,
+   "2026": 36
+  },
+  "data_date": "10/30/2026"
+ },
+ "NY": {
+  "state": "NY",
+  "listed": 1402,
+  "read": 1402,
+  "failed": 0,
+  "authorized": 321,
+  "broker": 29,
+  "carrier": 293,
+  "with_complaints": 78,
+  "by_year": {
+   "2024": 41,
+   "2025": 86,
+   "2026": 141,
+   "2023": 57
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2024": 7,
+    "2025": 7,
+    "2026": 3,
+    "2023": 10
+   },
+   "Insurance": {
+    "2024": 2,
+    "2025": 4,
+    "2026": 0,
+    "2023": 7
+   },
+   "Shipment Documents": {
+    "2024": 20,
+    "2025": 28,
+    "2026": 14,
+    "2023": 27
+   },
+   "Estimates/Final Charges": {
+    "2024": 23,
+    "2025": 44,
+    "2026": 48,
+    "2023": 37
+   },
+   "Weighing": {
+    "2024": 13,
+    "2025": 17,
+    "2026": 1,
+    "2023": 24
+   },
+   "Hostage Goods": {
+    "2024": 14,
+    "2025": 16,
+    "2026": 35,
+    "2023": 16
+   },
+   "Pickup and Delivery": {
+    "2024": 9,
+    "2025": 31,
+    "2026": 29,
+    "2023": 21
+   },
+   "Loss and Damage": {
+    "2024": 23,
+    "2025": 29,
+    "2026": 29,
+    "2023": 26
+   },
+   "Claim Settlement": {
+    "2024": 28,
+    "2025": 28,
+    "2026": 22,
+    "2023": 28
+   },
+   "Other Commercial Complaints": {
+    "2024": 2,
+    "2025": 3,
+    "2026": 1,
+    "2023": 1
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2024": 1,
+    "2025": 0,
+    "2026": 0,
+    "2023": 1
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2024": 21,
+    "2025": 39,
+    "2026": 17,
+    "2023": 30
+   },
+   "Whistleblower Complaint": {
+    "2024": 1,
+    "2025": 3,
+    "2026": 0,
+    "2023": 0
+   }
+  },
+  "by_year_authorized": {
+   "2024": 26,
+   "2025": 64,
+   "2026": 111,
+   "2023": 30
+  },
+  "by_year_broker": {
+   "2024": 4,
+   "2025": 32,
+   "2023": 7,
+   "2026": 26
+  },
+  "data_date": "10/30/2026"
+ },
+ "OH": {
+  "state": "OH",
+  "listed": 681,
+  "read": 681,
+  "failed": 0,
+  "authorized": 156,
+  "broker": 12,
+  "carrier": 148,
+  "with_complaints": 40,
+  "by_year": {
+   "2026": 65,
+   "2023": 33,
+   "2025": 27,
+   "2024": 17
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2026": 9,
+    "2023": 2,
+    "2025": 2,
+    "2024": 3
+   },
+   "Insurance": {
+    "2026": 6,
+    "2023": 0,
+    "2025": 0,
+    "2024": 1
+   },
+   "Shipment Documents": {
+    "2026": 2,
+    "2023": 20,
+    "2025": 6,
+    "2024": 10
+   },
+   "Estimates/Final Charges": {
+    "2026": 20,
+    "2023": 27,
+    "2025": 15,
+    "2024": 10
+   },
+   "Weighing": {
+    "2026": 0,
+    "2023": 18,
+    "2025": 4,
+    "2024": 5
+   },
+   "Hostage Goods": {
+    "2026": 18,
+    "2023": 12,
+    "2025": 5,
+    "2024": 2
+   },
+   "Pickup and Delivery": {
+    "2026": 12,
+    "2023": 14,
+    "2025": 11,
+    "2024": 5
+   },
+   "Loss and Damage": {
+    "2026": 10,
+    "2023": 15,
+    "2025": 13,
+    "2024": 11
+   },
+   "Claim Settlement": {
+    "2026": 6,
+    "2023": 18,
+    "2025": 12,
+    "2024": 11
+   },
+   "Other Commercial Complaints": {
+    "2026": 1,
+    "2023": 2,
+    "2025": 2,
+    "2024": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2026": 0,
+    "2023": 2,
+    "2025": 0,
+    "2024": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2026": 8,
+    "2023": 16,
+    "2025": 15,
+    "2024": 8
+   },
+   "Whistleblower Complaint": {
+    "2026": 0,
+    "2023": 1,
+    "2025": 0,
+    "2024": 1
+   }
+  },
+  "by_year_authorized": {
+   "2026": 51,
+   "2023": 5,
+   "2025": 3,
+   "2024": 5
+  },
+  "by_year_broker": {
+   "2023": 1
+  },
+  "data_date": "10/30/2026"
+ },
+ "OK": {
+  "state": "OK",
+  "listed": 164,
+  "read": 164,
+  "failed": 0,
+  "authorized": 47,
+  "broker": 3,
+  "carrier": 36,
+  "with_complaints": 8,
+  "by_year": {
+   "2026": 9,
+   "2025": 4,
+   "2024": 2,
+   "2023": 1
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2026": 0,
+    "2025": 3,
+    "2024": 0,
+    "2023": 0
+   },
+   "Insurance": {
+    "2026": 0,
+    "2025": 3,
+    "2024": 0,
+    "2023": 0
+   },
+   "Shipment Documents": {
+    "2026": 0,
+    "2025": 0,
+    "2024": 0,
+    "2023": 1
+   },
+   "Estimates/Final Charges": {
+    "2026": 0,
+    "2025": 0,
+    "2024": 0,
+    "2023": 1
+   },
+   "Weighing": {
+    "2026": 0,
+    "2025": 0,
+    "2024": 0,
+    "2023": 0
+   },
+   "Hostage Goods": {
+    "2026": 1,
+    "2025": 1,
+    "2024": 0,
+    "2023": 0
+   },
+   "Pickup and Delivery": {
+    "2026": 6,
+    "2025": 1,
+    "2024": 0,
+    "2023": 0
+   },
+   "Loss and Damage": {
+    "2026": 2,
+    "2025": 2,
+    "2024": 1,
+    "2023": 1
+   },
+   "Claim Settlement": {
+    "2026": 0,
+    "2025": 2,
+    "2024": 1,
+    "2023": 1
+   },
+   "Other Commercial Complaints": {
+    "2026": 0,
+    "2025": 0,
+    "2024": 0,
+    "2023": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2026": 0,
+    "2025": 0,
+    "2024": 0,
+    "2023": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2026": 3,
+    "2025": 1,
+    "2024": 1,
+    "2023": 1
+   },
+   "Whistleblower Complaint": {
+    "2026": 0,
+    "2025": 1,
+    "2024": 0,
+    "2023": 0
+   }
+  },
+  "by_year_authorized": {
+   "2026": 9,
+   "2024": 2,
+   "2025": 3,
+   "2023": 1
+  },
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "OR": {
+  "state": "OR",
+  "listed": 232,
+  "read": 232,
+  "failed": 0,
+  "authorized": 70,
+  "broker": 8,
+  "carrier": 65,
+  "with_complaints": 15,
+  "by_year": {
+   "2025": 40,
+   "2023": 12,
+   "2024": 12,
+   "2026": 33
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2025": 2,
+    "2023": 1,
+    "2024": 2,
+    "2026": 2
+   },
+   "Insurance": {
+    "2025": 0,
+    "2023": 1,
+    "2024": 1,
+    "2026": 1
+   },
+   "Shipment Documents": {
+    "2025": 16,
+    "2023": 5,
+    "2024": 7,
+    "2026": 2
+   },
+   "Estimates/Final Charges": {
+    "2025": 25,
+    "2023": 9,
+    "2024": 7,
+    "2026": 7
+   },
+   "Weighing": {
+    "2025": 9,
+    "2023": 6,
+    "2024": 5,
+    "2026": 1
+   },
+   "Hostage Goods": {
+    "2025": 13,
+    "2023": 5,
+    "2024": 5,
+    "2026": 11
+   },
+   "Pickup and Delivery": {
+    "2025": 21,
+    "2023": 6,
+    "2024": 7,
+    "2026": 5
+   },
+   "Loss and Damage": {
+    "2025": 13,
+    "2023": 7,
+    "2024": 6,
+    "2026": 6
+   },
+   "Claim Settlement": {
+    "2025": 11,
+    "2023": 7,
+    "2024": 9,
+    "2026": 8
+   },
+   "Other Commercial Complaints": {
+    "2025": 1,
+    "2023": 1,
+    "2024": 1,
+    "2026": 1
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2025": 0,
+    "2023": 0,
+    "2024": 0,
+    "2026": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2025": 14,
+    "2023": 6,
+    "2024": 7,
+    "2026": 2
+   },
+   "Whistleblower Complaint": {
+    "2025": 1,
+    "2023": 1,
+    "2024": 0,
+    "2026": 0
+   }
+  },
+  "by_year_authorized": {
+   "2023": 3,
+   "2025": 5,
+   "2026": 8,
+   "2024": 1
+  },
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "PA": {
+  "state": "PA",
+  "listed": 821,
+  "read": 821,
+  "failed": 0,
+  "authorized": 209,
+  "broker": 17,
+  "carrier": 191,
+  "with_complaints": 29,
+  "by_year": {
+   "2026": 62,
+   "2024": 29,
+   "2025": 20,
+   "2023": 29
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2026": 1,
+    "2024": 1,
+    "2025": 0,
+    "2023": 6
+   },
+   "Insurance": {
+    "2026": 1,
+    "2024": 3,
+    "2025": 0,
+    "2023": 2
+   },
+   "Shipment Documents": {
+    "2026": 1,
+    "2024": 13,
+    "2025": 7,
+    "2023": 13
+   },
+   "Estimates/Final Charges": {
+    "2026": 19,
+    "2024": 18,
+    "2025": 11,
+    "2023": 18
+   },
+   "Weighing": {
+    "2026": 0,
+    "2024": 4,
+    "2025": 4,
+    "2023": 11
+   },
+   "Hostage Goods": {
+    "2026": 16,
+    "2024": 6,
+    "2025": 2,
+    "2023": 10
+   },
+   "Pickup and Delivery": {
+    "2026": 21,
+    "2024": 15,
+    "2025": 12,
+    "2023": 18
+   },
+   "Loss and Damage": {
+    "2026": 10,
+    "2024": 10,
+    "2025": 11,
+    "2023": 10
+   },
+   "Claim Settlement": {
+    "2026": 9,
+    "2024": 15,
+    "2025": 5,
+    "2023": 16
+   },
+   "Other Commercial Complaints": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 1,
+    "2023": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 0,
+    "2023": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2026": 3,
+    "2024": 21,
+    "2025": 6,
+    "2023": 14
+   },
+   "Whistleblower Complaint": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 0,
+    "2023": 0
+   }
+  },
+  "by_year_authorized": {
+   "2023": 15,
+   "2026": 54,
+   "2025": 13,
+   "2024": 19
+  },
+  "by_year_broker": {
+   "2026": 31,
+   "2025": 10,
+   "2023": 12,
+   "2024": 18
+  },
+  "data_date": "10/30/2026"
+ },
+ "RI": {
+  "state": "RI",
+  "listed": 104,
+  "read": 104,
+  "failed": 0,
+  "authorized": 27,
+  "broker": 2,
+  "carrier": 14,
+  "with_complaints": 3,
+  "by_year": {
+   "2024": 3,
+   "2025": 3,
+   "2023": 1
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2024": 0,
+    "2025": 1,
+    "2023": 0
+   },
+   "Insurance": {
+    "2024": 0,
+    "2025": 1,
+    "2023": 0
+   },
+   "Shipment Documents": {
+    "2024": 2,
+    "2025": 1,
+    "2023": 0
+   },
+   "Estimates/Final Charges": {
+    "2024": 1,
+    "2025": 1,
+    "2023": 1
+   },
+   "Weighing": {
+    "2024": 0,
+    "2025": 0,
+    "2023": 0
+   },
+   "Hostage Goods": {
+    "2024": 0,
+    "2025": 0,
+    "2023": 0
+   },
+   "Pickup and Delivery": {
+    "2024": 0,
+    "2025": 0,
+    "2023": 0
+   },
+   "Loss and Damage": {
+    "2024": 3,
+    "2025": 1,
+    "2023": 1
+   },
+   "Claim Settlement": {
+    "2024": 2,
+    "2025": 1,
+    "2023": 1
+   },
+   "Other Commercial Complaints": {
+    "2024": 0,
+    "2025": 0,
+    "2023": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2024": 0,
+    "2025": 0,
+    "2023": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2024": 1,
+    "2025": 0,
+    "2023": 0
+   },
+   "Whistleblower Complaint": {
+    "2024": 0,
+    "2025": 1,
+    "2023": 0
+   }
+  },
+  "by_year_authorized": {
+   "2023": 1,
+   "2024": 2
+  },
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "SC": {
+  "state": "SC",
+  "listed": 350,
+  "read": 350,
+  "failed": 0,
+  "authorized": 65,
+  "broker": 4,
+  "carrier": 61,
+  "with_complaints": 16,
+  "by_year": {
+   "2025": 12,
+   "2026": 22,
+   "2023": 1,
+   "2024": 7
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2025": 0,
+    "2026": 0,
+    "2023": 0,
+    "2024": 2
+   },
+   "Insurance": {
+    "2025": 0,
+    "2026": 0,
+    "2023": 0,
+    "2024": 1
+   },
+   "Shipment Documents": {
+    "2025": 3,
+    "2026": 0,
+    "2023": 1,
+    "2024": 2
+   },
+   "Estimates/Final Charges": {
+    "2025": 5,
+    "2026": 9,
+    "2023": 0,
+    "2024": 4
+   },
+   "Weighing": {
+    "2025": 2,
+    "2026": 0,
+    "2023": 0,
+    "2024": 2
+   },
+   "Hostage Goods": {
+    "2025": 1,
+    "2026": 2,
+    "2023": 0,
+    "2024": 0
+   },
+   "Pickup and Delivery": {
+    "2025": 5,
+    "2026": 0,
+    "2023": 0,
+    "2024": 2
+   },
+   "Loss and Damage": {
+    "2025": 2,
+    "2026": 7,
+    "2023": 1,
+    "2024": 4
+   },
+   "Claim Settlement": {
+    "2025": 3,
+    "2026": 6,
+    "2023": 0,
+    "2024": 3
+   },
+   "Other Commercial Complaints": {
+    "2025": 0,
+    "2026": 0,
+    "2023": 0,
+    "2024": 1
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2025": 0,
+    "2026": 0,
+    "2023": 0,
+    "2024": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2025": 5,
+    "2026": 2,
+    "2023": 0,
+    "2024": 5
+   },
+   "Whistleblower Complaint": {
+    "2025": 0,
+    "2026": 0,
+    "2023": 0,
+    "2024": 0
+   }
+  },
+  "by_year_authorized": {
+   "2023": 1,
+   "2026": 15,
+   "2024": 4,
+   "2025": 5
+  },
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "SD": {
+  "state": "SD",
+  "listed": 36,
+  "read": 36,
+  "failed": 0,
+  "authorized": 20,
+  "broker": 2,
+  "carrier": 19,
+  "with_complaints": 3,
+  "by_year": {
+   "2026": 2,
+   "2024": 1,
+   "2025": 1
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2026": 0,
+    "2024": 1,
+    "2025": 0
+   },
+   "Insurance": {
+    "2026": 0,
+    "2024": 1,
+    "2025": 0
+   },
+   "Shipment Documents": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Estimates/Final Charges": {
+    "2026": 1,
+    "2024": 0,
+    "2025": 0
+   },
+   "Weighing": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Hostage Goods": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Pickup and Delivery": {
+    "2026": 1,
+    "2024": 0,
+    "2025": 0
+   },
+   "Loss and Damage": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 1
+   },
+   "Claim Settlement": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Other Commercial Complaints": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Whistleblower Complaint": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 0
+   }
+  },
+  "by_year_authorized": {
+   "2026": 1,
+   "2025": 1
+  },
+  "by_year_broker": {
+   "2025": 1
+  },
+  "data_date": "10/30/2026"
+ },
+ "TN": {
+  "state": "TN",
+  "listed": 429,
+  "read": 429,
+  "failed": 0,
+  "authorized": 119,
+  "broker": 14,
+  "carrier": 106,
+  "with_complaints": 28,
+  "by_year": {
+   "2023": 25,
+   "2026": 60,
+   "2024": 20,
+   "2025": 40
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2023": 2,
+    "2026": 0,
+    "2024": 3,
+    "2025": 3
+   },
+   "Insurance": {
+    "2023": 0,
+    "2026": 0,
+    "2024": 1,
+    "2025": 1
+   },
+   "Shipment Documents": {
+    "2023": 8,
+    "2026": 5,
+    "2024": 8,
+    "2025": 12
+   },
+   "Estimates/Final Charges": {
+    "2023": 14,
+    "2026": 21,
+    "2024": 13,
+    "2025": 19
+   },
+   "Weighing": {
+    "2023": 4,
+    "2026": 1,
+    "2024": 5,
+    "2025": 7
+   },
+   "Hostage Goods": {
+    "2023": 7,
+    "2026": 15,
+    "2024": 4,
+    "2025": 5
+   },
+   "Pickup and Delivery": {
+    "2023": 7,
+    "2026": 10,
+    "2024": 8,
+    "2025": 8
+   },
+   "Loss and Damage": {
+    "2023": 13,
+    "2026": 11,
+    "2024": 11,
+    "2025": 17
+   },
+   "Claim Settlement": {
+    "2023": 8,
+    "2026": 12,
+    "2024": 9,
+    "2025": 12
+   },
+   "Other Commercial Complaints": {
+    "2023": 0,
+    "2026": 0,
+    "2024": 1,
+    "2025": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2023": 0,
+    "2026": 0,
+    "2024": 0,
+    "2025": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2023": 15,
+    "2026": 9,
+    "2024": 14,
+    "2025": 15
+   },
+   "Whistleblower Complaint": {
+    "2023": 0,
+    "2026": 1,
+    "2024": 0,
+    "2025": 1
+   }
+  },
+  "by_year_authorized": {
+   "2026": 49,
+   "2025": 40,
+   "2023": 17,
+   "2024": 18
+  },
+  "by_year_broker": {
+   "2026": 18,
+   "2025": 9
+  },
+  "data_date": "10/30/2026"
+ },
+ "TX": {
+  "state": "TX",
+  "listed": 1992,
+  "read": 1992,
+  "failed": 0,
+  "authorized": 394,
+  "broker": 64,
+  "carrier": 337,
+  "with_complaints": 124,
+  "by_year": {
+   "2024": 156,
+   "2025": 222,
+   "2023": 127,
+   "2026": 268
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2024": 22,
+    "2025": 17,
+    "2023": 8,
+    "2026": 4
+   },
+   "Insurance": {
+    "2024": 10,
+    "2025": 14,
+    "2023": 7,
+    "2026": 1
+   },
+   "Shipment Documents": {
+    "2024": 88,
+    "2025": 88,
+    "2023": 66,
+    "2026": 12
+   },
+   "Estimates/Final Charges": {
+    "2024": 103,
+    "2025": 129,
+    "2023": 94,
+    "2026": 103
+   },
+   "Weighing": {
+    "2024": 45,
+    "2025": 51,
+    "2023": 48,
+    "2026": 2
+   },
+   "Hostage Goods": {
+    "2024": 29,
+    "2025": 46,
+    "2023": 26,
+    "2026": 45
+   },
+   "Pickup and Delivery": {
+    "2024": 73,
+    "2025": 99,
+    "2023": 55,
+    "2026": 51
+   },
+   "Loss and Damage": {
+    "2024": 73,
+    "2025": 95,
+    "2023": 80,
+    "2026": 67
+   },
+   "Claim Settlement": {
+    "2024": 70,
+    "2025": 87,
+    "2023": 58,
+    "2026": 33
+   },
+   "Other Commercial Complaints": {
+    "2024": 3,
+    "2025": 5,
+    "2023": 5,
+    "2026": 1
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2024": 0,
+    "2025": 0,
+    "2023": 2,
+    "2026": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2024": 93,
+    "2025": 94,
+    "2023": 69,
+    "2026": 32
+   },
+   "Whistleblower Complaint": {
+    "2024": 3,
+    "2025": 2,
+    "2023": 2,
+    "2026": 0
+   }
+  },
+  "by_year_authorized": {
+   "2023": 77,
+   "2024": 77,
+   "2025": 142,
+   "2026": 201
+  },
+  "by_year_broker": {
+   "2026": 10,
+   "2023": 6,
+   "2024": 6,
+   "2025": 6
+  },
+  "data_date": "10/30/2026"
+ },
+ "UT": {
+  "state": "UT",
+  "listed": 208,
+  "read": 208,
+  "failed": 0,
+  "authorized": 34,
+  "broker": 4,
+  "carrier": 33,
+  "with_complaints": 10,
+  "by_year": {
+   "2024": 2,
+   "2026": 51,
+   "2025": 19
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2024": 0,
+    "2026": 2,
+    "2025": 2
+   },
+   "Insurance": {
+    "2024": 0,
+    "2026": 0,
+    "2025": 0
+   },
+   "Shipment Documents": {
+    "2024": 1,
+    "2026": 6,
+    "2025": 9
+   },
+   "Estimates/Final Charges": {
+    "2024": 1,
+    "2026": 3,
+    "2025": 11
+   },
+   "Weighing": {
+    "2024": 1,
+    "2026": 0,
+    "2025": 5
+   },
+   "Hostage Goods": {
+    "2024": 0,
+    "2026": 21,
+    "2025": 9
+   },
+   "Pickup and Delivery": {
+    "2024": 0,
+    "2026": 21,
+    "2025": 14
+   },
+   "Loss and Damage": {
+    "2024": 2,
+    "2026": 4,
+    "2025": 6
+   },
+   "Claim Settlement": {
+    "2024": 2,
+    "2026": 4,
+    "2025": 8
+   },
+   "Other Commercial Complaints": {
+    "2024": 0,
+    "2026": 0,
+    "2025": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2024": 0,
+    "2026": 0,
+    "2025": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2024": 1,
+    "2026": 9,
+    "2025": 7
+   },
+   "Whistleblower Complaint": {
+    "2024": 0,
+    "2026": 0,
+    "2025": 0
+   }
+  },
+  "by_year_authorized": {
+   "2024": 2,
+   "2026": 10,
+   "2025": 1
+  },
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "VA": {
+  "state": "VA",
+  "listed": 732,
+  "read": 732,
+  "failed": 0,
+  "authorized": 247,
+  "broker": 27,
+  "carrier": 218,
+  "with_complaints": 53,
+  "by_year": {
+   "2026": 42,
+   "2024": 24,
+   "2023": 29,
+   "2025": 38
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2026": 1,
+    "2024": 0,
+    "2023": 4,
+    "2025": 3
+   },
+   "Insurance": {
+    "2026": 0,
+    "2024": 0,
+    "2023": 2,
+    "2025": 3
+   },
+   "Shipment Documents": {
+    "2026": 2,
+    "2024": 11,
+    "2023": 14,
+    "2025": 21
+   },
+   "Estimates/Final Charges": {
+    "2026": 14,
+    "2024": 14,
+    "2023": 19,
+    "2025": 21
+   },
+   "Weighing": {
+    "2026": 0,
+    "2024": 4,
+    "2023": 13,
+    "2025": 8
+   },
+   "Hostage Goods": {
+    "2026": 8,
+    "2024": 2,
+    "2023": 6,
+    "2025": 5
+   },
+   "Pickup and Delivery": {
+    "2026": 2,
+    "2024": 7,
+    "2023": 11,
+    "2025": 14
+   },
+   "Loss and Damage": {
+    "2026": 9,
+    "2024": 13,
+    "2023": 20,
+    "2025": 17
+   },
+   "Claim Settlement": {
+    "2026": 11,
+    "2024": 10,
+    "2023": 15,
+    "2025": 20
+   },
+   "Other Commercial Complaints": {
+    "2026": 0,
+    "2024": 1,
+    "2023": 1,
+    "2025": 3
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2026": 0,
+    "2024": 0,
+    "2023": 0,
+    "2025": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2026": 6,
+    "2024": 8,
+    "2023": 16,
+    "2025": 19
+   },
+   "Whistleblower Complaint": {
+    "2026": 0,
+    "2024": 0,
+    "2023": 0,
+    "2025": 1
+   }
+  },
+  "by_year_authorized": {
+   "2026": 35,
+   "2024": 21,
+   "2023": 17,
+   "2025": 31
+  },
+  "by_year_broker": {
+   "2025": 22,
+   "2024": 4,
+   "2026": 8,
+   "2023": 3
+  },
+  "data_date": "10/30/2026"
+ },
+ "VT": {
+  "state": "VT",
+  "listed": 31,
+  "read": 31,
+  "failed": 0,
+  "authorized": 13,
+  "broker": 0,
+  "carrier": 13,
+  "with_complaints": 1,
+  "by_year": {
+   "2023": 1
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2023": 0
+   },
+   "Insurance": {
+    "2023": 0
+   },
+   "Shipment Documents": {
+    "2023": 0
+   },
+   "Estimates/Final Charges": {
+    "2023": 0
+   },
+   "Weighing": {
+    "2023": 0
+   },
+   "Hostage Goods": {
+    "2023": 0
+   },
+   "Pickup and Delivery": {
+    "2023": 0
+   },
+   "Loss and Damage": {
+    "2023": 1
+   },
+   "Claim Settlement": {
+    "2023": 0
+   },
+   "Other Commercial Complaints": {
+    "2023": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2023": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2023": 0
+   },
+   "Whistleblower Complaint": {
+    "2023": 0
+   }
+  },
+  "by_year_authorized": {
+   "2023": 1
+  },
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "WA": {
+  "state": "WA",
+  "listed": 511,
+  "read": 511,
+  "failed": 0,
+  "authorized": 151,
+  "broker": 11,
+  "carrier": 134,
+  "with_complaints": 41,
+  "by_year": {
+   "2024": 17,
+   "2025": 31,
+   "2026": 61,
+   "2023": 17
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2024": 7,
+    "2025": 3,
+    "2026": 1,
+    "2023": 3
+   },
+   "Insurance": {
+    "2024": 3,
+    "2025": 2,
+    "2026": 1,
+    "2023": 2
+   },
+   "Shipment Documents": {
+    "2024": 8,
+    "2025": 19,
+    "2026": 5,
+    "2023": 7
+   },
+   "Estimates/Final Charges": {
+    "2024": 12,
+    "2025": 18,
+    "2026": 20,
+    "2023": 9
+   },
+   "Weighing": {
+    "2024": 6,
+    "2025": 10,
+    "2026": 0,
+    "2023": 6
+   },
+   "Hostage Goods": {
+    "2024": 6,
+    "2025": 5,
+    "2026": 18,
+    "2023": 6
+   },
+   "Pickup and Delivery": {
+    "2024": 7,
+    "2025": 19,
+    "2026": 10,
+    "2023": 4
+   },
+   "Loss and Damage": {
+    "2024": 5,
+    "2025": 10,
+    "2026": 11,
+    "2023": 8
+   },
+   "Claim Settlement": {
+    "2024": 6,
+    "2025": 12,
+    "2026": 12,
+    "2023": 8
+   },
+   "Other Commercial Complaints": {
+    "2024": 0,
+    "2025": 0,
+    "2026": 1,
+    "2023": 1
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2024": 0,
+    "2025": 0,
+    "2026": 0,
+    "2023": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2024": 8,
+    "2025": 16,
+    "2026": 9,
+    "2023": 11
+   },
+   "Whistleblower Complaint": {
+    "2024": 0,
+    "2025": 0,
+    "2026": 0,
+    "2023": 0
+   }
+  },
+  "by_year_authorized": {
+   "2024": 11,
+   "2025": 18,
+   "2026": 52,
+   "2023": 6
+  },
+  "by_year_broker": {
+   "2023": 1,
+   "2024": 1,
+   "2026": 2
+  },
+  "data_date": "10/30/2026"
+ },
+ "WI": {
+  "state": "WI",
+  "listed": 311,
+  "read": 311,
+  "failed": 0,
+  "authorized": 64,
+  "broker": 4,
+  "carrier": 61,
+  "with_complaints": 9,
+  "by_year": {
+   "2026": 16,
+   "2024": 15,
+   "2025": 25,
+   "2023": 2
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2026": 0,
+    "2024": 1,
+    "2025": 1,
+    "2023": 0
+   },
+   "Insurance": {
+    "2026": 0,
+    "2024": 1,
+    "2025": 0,
+    "2023": 0
+   },
+   "Shipment Documents": {
+    "2026": 0,
+    "2024": 9,
+    "2025": 9,
+    "2023": 1
+   },
+   "Estimates/Final Charges": {
+    "2026": 8,
+    "2024": 12,
+    "2025": 14,
+    "2023": 1
+   },
+   "Weighing": {
+    "2026": 0,
+    "2024": 5,
+    "2025": 7,
+    "2023": 0
+   },
+   "Hostage Goods": {
+    "2026": 5,
+    "2024": 2,
+    "2025": 6,
+    "2023": 0
+   },
+   "Pickup and Delivery": {
+    "2026": 3,
+    "2024": 6,
+    "2025": 8,
+    "2023": 0
+   },
+   "Loss and Damage": {
+    "2026": 3,
+    "2024": 8,
+    "2025": 9,
+    "2023": 1
+   },
+   "Claim Settlement": {
+    "2026": 0,
+    "2024": 7,
+    "2025": 9,
+    "2023": 0
+   },
+   "Other Commercial Complaints": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 0,
+    "2023": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2026": 0,
+    "2024": 1,
+    "2025": 0,
+    "2023": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2026": 0,
+    "2024": 9,
+    "2025": 15,
+    "2023": 2
+   },
+   "Whistleblower Complaint": {
+    "2026": 0,
+    "2024": 0,
+    "2025": 0,
+    "2023": 0
+   }
+  },
+  "by_year_authorized": {
+   "2024": 11,
+   "2025": 24,
+   "2026": 15,
+   "2023": 2
+  },
+  "by_year_broker": {},
+  "data_date": "10/30/2026"
+ },
+ "WV": {
+  "state": "WV",
+  "listed": 60,
+  "read": 60,
+  "failed": 0,
+  "authorized": 11,
+  "broker": 1,
+  "carrier": 6,
+  "with_complaints": 3,
+  "by_year": {
+   "2026": 3,
+   "2023": 3,
+   "2024": 3
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2026": 1,
+    "2023": 0,
+    "2024": 3
+   },
+   "Insurance": {
+    "2026": 0,
+    "2023": 0,
+    "2024": 0
+   },
+   "Shipment Documents": {
+    "2026": 0,
+    "2023": 0,
+    "2024": 1
+   },
+   "Estimates/Final Charges": {
+    "2026": 0,
+    "2023": 0,
+    "2024": 1
+   },
+   "Weighing": {
+    "2026": 0,
+    "2023": 0,
+    "2024": 1
+   },
+   "Hostage Goods": {
+    "2026": 0,
+    "2023": 1,
+    "2024": 0
+   },
+   "Pickup and Delivery": {
+    "2026": 2,
+    "2023": 0,
+    "2024": 0
+   },
+   "Loss and Damage": {
+    "2026": 0,
+    "2023": 2,
+    "2024": 3
+   },
+   "Claim Settlement": {
+    "2026": 0,
+    "2023": 2,
+    "2024": 3
+   },
+   "Other Commercial Complaints": {
+    "2026": 0,
+    "2023": 0,
+    "2024": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2026": 0,
+    "2023": 0,
+    "2024": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2026": 0,
+    "2023": 0,
+    "2024": 0
+   },
+   "Whistleblower Complaint": {
+    "2026": 0,
+    "2023": 0,
+    "2024": 0
+   }
+  },
+  "by_year_authorized": {
+   "2023": 2,
+   "2024": 2,
+   "2026": 1
+  },
+  "by_year_broker": {
+   "2023": 2,
+   "2024": 2,
+   "2026": 1
+  },
+  "data_date": "10/30/2026"
+ },
+ "WY": {
+  "state": "WY",
+  "listed": 60,
+  "read": 60,
+  "failed": 0,
+  "authorized": 16,
+  "broker": 3,
+  "carrier": 13,
+  "with_complaints": 6,
+  "by_year": {
+   "2023": 29,
+   "2024": 28,
+   "2025": 8,
+   "2026": 28
+  },
+  "by_category": {
+   "Operating Authority": {
+    "2023": 7,
+    "2024": 5,
+    "2025": 2,
+    "2026": 0
+   },
+   "Insurance": {
+    "2023": 4,
+    "2024": 2,
+    "2025": 1,
+    "2026": 0
+   },
+   "Shipment Documents": {
+    "2023": 12,
+    "2024": 12,
+    "2025": 3,
+    "2026": 1
+   },
+   "Estimates/Final Charges": {
+    "2023": 23,
+    "2024": 21,
+    "2025": 3,
+    "2026": 13
+   },
+   "Weighing": {
+    "2023": 9,
+    "2024": 5,
+    "2025": 0,
+    "2026": 0
+   },
+   "Hostage Goods": {
+    "2023": 4,
+    "2024": 3,
+    "2025": 1,
+    "2026": 3
+   },
+   "Pickup and Delivery": {
+    "2023": 8,
+    "2024": 9,
+    "2025": 2,
+    "2026": 5
+   },
+   "Loss and Damage": {
+    "2023": 5,
+    "2024": 5,
+    "2025": 1,
+    "2026": 3
+   },
+   "Claim Settlement": {
+    "2023": 6,
+    "2024": 10,
+    "2025": 2,
+    "2026": 0
+   },
+   "Other Commercial Complaints": {
+    "2023": 1,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0
+   },
+   "Owner Operator \u0096 Leasing Violations": {
+    "2023": 0,
+    "2024": 0,
+    "2025": 0,
+    "2026": 0
+   },
+   "Consumer Complaint(Deceptive Business Practices)": {
+    "2023": 23,
+    "2024": 23,
+    "2025": 7,
+    "2026": 6
+   },
+   "Whistleblower Complaint": {
+    "2023": 0,
+    "2024": 2,
+    "2025": 0,
+    "2026": 0
+   }
+  },
+  "by_year_authorized": {
+   "2023": 27,
+   "2024": 28,
+   "2025": 7,
+   "2026": 12
+  },
+  "by_year_broker": {
+   "2023": 27,
+   "2024": 28,
+   "2025": 7,
+   "2026": 12
+  },
+  "data_date": "10/30/2026"
+ }
+}
